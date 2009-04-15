@@ -1,0 +1,41 @@
+#summary Previews, order generation and management
+#labels Phase-Requirements
+
+= Previews, order generation and management =
+
+Magento shows ZP UI for personalising products and uses an API call to finalize orders. ZP is not concerned with order parameters such as prices, quantities, shipping, etc as it is all handled by Magento.
+
+== Previews: IFRAME ==
+1. Have a registered user ID ready
+2. Know the template ID of the selected product
+3. Craft a URL containing user identity and template ID to use as iframe src attribute
+4. When the user is finished with modifying the design ZP returns the user to a specified Magento page along with the ID of the saved design (saved order)
+5. Send a request to ZP to get order details: only URLs of the preview images are of interest at this stage. Images can stay where they are. No need to download them to Magento.
+6. Add the personalised product to shopping cart.
+
+The iframe shows only the preview page contents, no menus, no headers or footers. This is done by passing RetE=1 param. See http://www.zetaprints.com/help/user-pass-through-api/ for more info on showing an IFRAME. A sample page is here: http://www.zetaprints.com/help/samples/embedded-image-generator.html
+
+Magento should retain the following order details:
+1. Saved order ID
+2. URLs to all preview files
+
+== Previews: flash plugin ==
+ZP interface can be shown as an embedded flash plugin. The project is hosted here: http://code.google.com/p/e-cards-plugin/
+A demo page for the plugin is here: http://www.zetaprints.ru/ecard
+The plugin is still in development, but it should not affect this project.
+
+== Order generation ==
+Magento should request final order generation from ZP on any of these events:
+a) the product was paid
+b) the payment was waved
+
+The call is HTTP GET with saved order ID. ZP replies with new order details and new order ID. Magento should retrieve and store the following data from the response:
+1. New order ID that replaces the saved order ID
+2. URLs of the generated files: PDF, JPG, GIF, PNG
+It is possible the call may fail. The call can be repeated or abandoned depending on the error code.
+URLs of images for the modified design remain the same.
+
+More on this: http://www.zetaprints.com/help/orders-api/ (scroll down to Saved order completion).
+
+
+
