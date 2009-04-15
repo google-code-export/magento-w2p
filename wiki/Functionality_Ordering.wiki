@@ -9,11 +9,13 @@ Magento shows ZP UI for personalising products and uses an API call to finalize 
 1. Have a registered user ID ready
 2. Know the template ID of the selected product
 3. Craft a URL containing user identity and template ID to use as iframe src attribute
-4. When the user is finished with modifying the design ZP returns the user to a specified Magento page along with the ID of the saved design (saved order)
+4. When the user is finished with modifying the design ZP returns the user to a specified Magento page along with the ID of the saved design (saved order).
 5. Send a request to ZP to get order details: only URLs of the preview images are of interest at this stage. Images can stay where they are. No need to download them to Magento.
 6. Add the personalised product to shopping cart.
 
 The iframe shows only the preview page contents, no menus, no headers or footers. This is done by passing RetE=1 param. See http://www.zetaprints.com/help/user-pass-through-api/ for more info on showing an IFRAME. A sample page is here: http://www.zetaprints.com/help/samples/embedded-image-generator.html
+
+Order details should be requested from ZP via an HTTP GET with the saved order ID. More here: http://www.zetaprints.com/help/orders-api/ (scroll to Order details section).
 
 Magento should retain the following order details:
 1. Saved order ID
@@ -37,5 +39,7 @@ URLs of images for the modified design remain the same.
 
 More on this: http://www.zetaprints.com/help/orders-api/ (scroll down to Saved order completion).
 
+== Order presentation ==
+*Product images in the shopping cart* should show the personalized design (come with saved order details). There can be one or more pages. All of them should be shown. The exact presentation is up to the used theme.
 
-
+*Order details* should contain links to generated files (PDF, JPG, GIF, PNG) for the store owner. The links may be shown to the user if configured in Magento. E.i. some products may come as download only, some as print and download, some as print only. 
