@@ -30,7 +30,16 @@ Scroll to Template details feed (password-protected)
 The extension should match ZP template details to M product fields and copy all relevant information into M. 
 Existing templates are matched by their ID. Catalog ID is secondary. It may change in ZP and has no bearing on how products are presented in M. CatalogID is just another property needed to use ZP API. 
 
-
+== List of fields per template ==
+The following fields should be copied into Magento:
+  * links to images
+  * product name (only when a new product is created)
+  * product description (only when a new product is created)
+  * template ID
+  * created date time 
+  * modified date time
+  * links to large product images
+  * links to small product images
 
 
 
