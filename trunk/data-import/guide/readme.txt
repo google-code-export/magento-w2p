@@ -13,4 +13,12 @@
 				<var name="key">612eca11-48fd-4df7-bff5-3d493919283e</var>
 				<var name="debug">1</var>
 			</action> 
-4. Run Profile
+4. Add Attribute to Default Product
+	+ w2p_link				Template Url
+	+ w2p_image				image link ** to view in Category page
+	+ w2p_image_links		links to images
+	+ w2p_created			created date time
+	+ w2p_modified			modified date time
+	+ w2p_image_large		links to large product images
+	+ w2p_image_small		links to small product images
+5. Run Profile
