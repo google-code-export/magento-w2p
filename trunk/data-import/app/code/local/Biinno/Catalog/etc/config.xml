@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+  <global>
+        <models>
+            <catalog>
+				<rewrite>
+                    <convert_adapter_category_w2p>Biinno_Catalog_Model_Convert_Adapter_Category</convert_adapter_category_w2p>
+					<convert_adapter_category>Biinno_Catalog_Model_Convert_Adapter_Category</convert_adapter_category>
+                </rewrite>
+            </catalog>
+			
+        </models>
+  </global>
+</config>
