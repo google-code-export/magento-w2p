@@ -3,6 +3,7 @@
   * Author	Pham Tri Cong <phtcong@gmail.com>
   * Data import from W2P 
   * To run this batch, you have to add the properties to the Product.
+  *	w2p_link			Template Url
   *	w2p_image			image link ** to view in Category page
   *	w2p_image_links		links to images
   *	w2p_created		created date time
