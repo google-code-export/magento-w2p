@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Magento_WebToPrint</name>
+ <channel>connect.magentocommerce.com/community</channel>
+ <summary>Magento extension for ZetaPrints web-to-print API</summary>
+ <description>Magento is an open source e-commerce platform. It can be used as an online shop for selling personalized products and designs using ZetaPrints? web-to-print and image generation API. The extension syncs the data between the two apps in a way that all processes are hosted within Magento interface, even if they are executed by ZetaPrints</description>
+ <lead>
+  <name>Pham Tri Cong</name>
+  <user>phtcong</user>
+  <email>phtcong@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-05-05</date>
+ <time>05:02:40</time>
+ <version>
+  <release>0.1</release>
+  <api>0.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+ <notes>Developing</notes>
+ <contents>
+  <dir name="/">
+   <dir name="Biinno">
+    <dir name="Catalog">
+     <dir name="etc">
+      <file md5sum="26cc237fbd5b1c2955220c3cbb187f51" name="config.xml" role="magelocal" />
+     </dir> <!-- /Biinno/Catalog/etc -->
+     <dir name="Model">
+      <dir name="Convert">
+       <dir name="Adapter">
+        <file md5sum="5b46494935980d3a95e7632ff0c52c27" name="Category.php" role="magelocal" />
+       </dir> <!-- /Biinno/Catalog/Model/Convert/Adapter -->
+      </dir> <!-- /Biinno/Catalog/Model/Convert -->
+     </dir> <!-- /Biinno/Catalog/Model -->
+    </dir> <!-- /Biinno/Catalog -->
+   </dir> <!-- /Biinno -->
+   <dir name="modules">
+    <file md5sum="75a3a81c30dbe636a4e849f6e43a586f" name="Biinno_All.xml" role="mageetc" />
+   </dir> <!-- /modules -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+    <max>6.0.0</max>
+   </php>
+   <pearinstaller>
+    <min>1.6.2</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>
