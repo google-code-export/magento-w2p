@@ -1,3 +1,4 @@
+0. Install magento 1.3 
 I. Import Data
 1. Add Attribute to Default Attributes Set
 	+ w2p_link				Template Url
@@ -9,7 +10,6 @@ I. Import Data
 	+ w2p_image_small		links to small product images
 2. Copy code
 	+ Copy code in the app/code folder in to app of magento
-	+ Update theme to view Product (folder app/design)
 3. Config file
 	+ app/etc
 4. Add Advance profile 
