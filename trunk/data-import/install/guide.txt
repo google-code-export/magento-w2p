@@ -1,3 +1,4 @@
+I. Import Data
 1. Add Attribute to Default Attributes Set
 	+ w2p_link				Template Url
 	+ w2p_image				image link ** to view in Category page
@@ -21,5 +22,12 @@
 				<var name="key">612eca11-48fd-4df7-bff5-3d493919283e</var>
 				<var name="store">default</var>
 				<var name="debug">1</var>
+				<var name="refresh">0</var>
 			</action> 
 5. Run Profile Import Product and category form w2p
+
+II. Register User and show iframe
+1. Add Customer Fields:w2p_user and w2p_pass
+	+ Copy code of Add_Customer_Field.txt file to block and run it
+2. Copy all code of app folder to your magento.
+

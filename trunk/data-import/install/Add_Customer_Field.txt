@@ -1,0 +1,15 @@
+	$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+
+    $setup->addAttribute('customer', 'w2p_user', array(
+	    'type' => 'text',
+        'label'    => 'W2P UserID',
+        'visible'  => true,
+        'required' => false,
+        'position'     => 1,
+    ));
+	$setup->addAttribute('customer', 'w2p_pass', array(	    
+        'label'    => 'W2P Password',
+        'visible'  => true,
+        'required' => false,
+        'position'     => 1,
+    ));
