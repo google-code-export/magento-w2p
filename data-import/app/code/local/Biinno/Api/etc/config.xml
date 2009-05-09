@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Biinno_Api>
+			<version>0.1.0</version>
+		</Biinno_Api>
+	</modules>
+	<global>
+		<blocks>
+			<api>
+				<rewrite>
+					<w2puser>Biinno_Api_Block_W2pUser</w2puser>
+				</rewrite>				
+			</api>
+		</blocks>
+		<models>
+            <api>
+                <class>Biinno_Api_Model</class>
+            </api>
+        </models>
+	</global>
+</config>
