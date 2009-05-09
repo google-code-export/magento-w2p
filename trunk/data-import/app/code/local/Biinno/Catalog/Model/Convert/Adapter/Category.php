@@ -1,7 +1,8 @@
 <?php
 /**
+  * Project	magento-w2p
   * Author	Pham Tri Cong <phtcong@gmail.com>
-  * Data import from W2P 
+  * Issue 1 : Data import from W2P 
   * To run this batch, you have to add the properties to the Product.
   *	w2p_link			Template Url
   *	w2p_image			image link ** to view in Category page
@@ -24,7 +25,10 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 	protected $debug = 0;   
 	protected $base = "";   
 	protected $key = "";   
-	
+	protected $last = "";
+	protected $store = "default";
+	protected $products = null;
+	protected $pids = "";
 	/**
 	  * Parser feed of all category and product
 	  */
@@ -34,8 +38,48 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
         $this->base = $this->getVar('url', '');
 		$this->key = $this->getVar('key', '');
 		$this->debug = $this->getVar('debug', "0");
-		$this->saveList($this->base, $this->key);        
+		$this->store = $this->getVar('store', "default");
+		$this->refresh = $this->getVar('refresh', "1");
+		//echo $this->strToDate("2009-05-07T10:02:47");return;
+		$path = "w2p_last_update";
+		$val = $this->getDate();
+		//$val = "2009-05-05 10:02:47";
+		$config = $this->getConfig($path);
+		$this->last = null;
+		if (!$this->refresh){		
+			if ($config->getData("config_id")){
+				$this->last = $config->getData("value");
+			}
+		}
+		$this->products = array();
+		$this->pids[] = "0";
+		$this->saveList($this->base, $this->key);   
+		//delete all 
+		$this->removeRec();return;
+		//save config
+		$this->saveConfig($path, $val);
+		$this->saveConfig("w2p_key", $this->key);
+		$this->saveConfig("w2p_url", $this->base);
     }
+	function strToDate($val){
+		if (!$val) return $this->getDate();
+		return $this->getDate(strtotime($val));
+	}
+	function getDate($time = null){
+		if (!$time) return date("Y-m-d h:i:s");
+		return date("Y-m-d h:i:s", $time);
+	}
+	function saveConfig($name, $val){
+		$config = Biinno_Catalog_Model_Convert_Adapter_Category::getConfig($name);
+		$config->setData("value", $val);
+		$config->setData("path", $name);
+		$config->save();
+	}
+	function getConfig($name){
+		$config = Mage::getModel('core/config_data');
+		$config->load($name, "path");
+		return $config;
+	}
 	/**
 	  * Save List Category with product of user
 	  * param	domain	url of site
@@ -45,6 +89,7 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		$this->infoMess("**BEGIN**");
 		$this->infoMess("**import data from url=[$domain]");
 		$this->infoMess("**import data from key=[$key]");
+		$this->infoMess("**last update =[$this->last]");
 		
 		//Create url of categories
 		$url = $this->getListCategoryUrl($domain, $key);
@@ -67,7 +112,11 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		//Parser Categories
 		$count = 0;
 		foreach ($items as $item){
-			$cate['store'] = "default";
+			if (!$this->isPublic($item)) {
+				$this->hiddenCategory($domain,$item['id'], $key);
+				continue;
+			}
+			$cate['store'] = $this->store;
 			$cate['categories'] = str_replace('/','-',$item['title']);
 			$cid = $this->saveCategoryData($cate);
 			$data['list'] = $this->saveCategory($domain,$item['id'], $key, $cid);
@@ -84,6 +133,86 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		$this->infoMess("**END**");
 		return $ret;
 		
+	}
+	function isPublic($cate){
+		if (!isset($cate['access']) || !$cate['access']) return false;
+		$access = trim($cate['access']);
+		if ($access == "public" || $access== "public-rego") return true;
+		return false;
+	}
+	/**
+	  * Products in Magento DB with a link to ZP that exist in ZP, but are no longer publicly
+	  * accessible should change to out of stock items.
+	  * param	domain	url of site
+	  * param	id		id of category
+	  * param	key		ApiKey
+	  **/
+	function hiddenCategory($domain, $id,$key){
+		$url = $this->getCategoryUrl($domain, $id,$key);
+		$this->debugMess(sprintf("****BEGIN:Hidden Products Of Category:id=[%s]",$id));
+		$datas = $this->xml2array($url);
+		if (
+		!$datas 
+		|| !isset($datas['rss'])
+		|| !isset($datas['rss']['channel'])
+		|| !isset($datas['rss']['channel']['item'])
+		|| (count($datas['rss']['channel']['item']) < 1)
+		){
+			return 0;
+		}
+		$ret = array();
+		$products = $datas['rss']['channel']['item'];
+		foreach ($products as $data){
+			if (!isset($data['id'])) continue;
+			$this->debugMess(sprintf("******Hidden Products pid=[%s]",$data['id']));			
+			$product = Mage::getModel('catalog/product');		
+			$old = $product->getIdBySku($data['id']);
+			if($old)
+			{
+				//$this->products[$data['id']] = 1;
+				$this->pids[] = $data['id'];
+				$product->load($old);
+				$product->setData("status", 2);
+				$product->save();			
+			}		
+			//break;
+		}
+		//print_r($ret);
+		$this->debugMess(sprintf("****END:Hidden Products Of Category:id=[%s]",$id));		
+		return $ret;
+	}
+	/**
+	  * Products in Magento DB with a link to ZP that no longer exist in ZP should be removed from Magento DB permanently.
+	  * return 	number of deleted product
+	  **/
+	function removeRec(){
+		if (!$this->last) return;
+		$this->debugMess("****BEGIN:DELETE");
+		//$this->pids[] = "0";
+		//$this->pids[] = "FE77E012-0246-40DB-8C06-D7C89A868398";
+		$condPids = array('nin'=>$this->pids);
+		$condZp = array('neq'=>null);
+		$collection = Mage::getResourceModel('catalog/product_collection')
+            ->addFieldToFilter('sku', $condPids)
+            ->addAttributeToSelect('w2p_image', 'left')
+			->addFieldToFilter('w2p_image', $condZp);
+			
+        $count = 0;  
+		if (!$collection || count ($collection) < 1) {
+			$this->debugMess(sprintf("****END:DELETE TOTAL=[%s]",$count));
+			return null;
+		}
+		$this->debugMess(sprintf("****SELECT TOTAL=[%s]",count($collection)));
+		foreach ($collection as $item){
+			//print_r($item); //return;
+			if ($item->getData("w2p_image")){
+				$product->delete();
+				//print_r($item);
+				$count++;
+			}
+		}
+		$this->debugMess(sprintf("****END:DELETE TOTAL=[%s]",$count));
+		return $count;
 	}
 	/**
 	  * Save Product of category
@@ -105,9 +234,17 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		){
 			return 0;
 		}
+		$ret = array();
 		$products = $datas['rss']['channel']['item'];
 		foreach ($products as $product){
 			if (!isset($product['id'])) continue;
+			$this->pids[] = $product['id'];
+			$created = $this->strToDate($product["lastModified"]);
+			if ($this->last > $created) {
+				$this->infoMess("****TID=[". $product['id'] . "]- NO UPDATE - ". $this->last . " > $created");
+				continue;
+			}
+			$this->infoMess("****TID=[". $product['id'] . "]- UPDATE - " .$this->last . " < $created");
 			$data = $this->getProduct($domain,$product['id'],$key);
 			$data['title'] = $product['title'];
 			$data['enclosure'] = $product['enclosure'];
@@ -140,7 +277,7 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		if (isset($datas['TemplateDetails_attr'])){
 			$ret['access_url'] = $datas['TemplateDetails_attr']['AccessURL'];
 			$ret['reference'] = $datas['TemplateDetails_attr']['ProductReference'];
-			$ret['created'] = $datas['TemplateDetails_attr']['Created'];
+			$ret['created'] = $this->strToDate($datas['TemplateDetails_attr']['Created']);
 		}
 		if (isset($datas['TemplateDetails']['Pages'])){
 			foreach ($datas['TemplateDetails']['Pages'] as $page){
@@ -189,7 +326,12 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 	  * return 	Text Content of url
 	  */
 	function getHttp($url){
-		return file_get_contents($url);
+		try{
+			$ret = file_get_contents($url);
+			return $ret;
+		}catch(Exception $e){
+			return "";
+		}
 	}
 	/**
 	  * Get content of url then parse to array
@@ -338,6 +480,7 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 			return ;
 		}
 		$product = Mage::getModel('catalog/product');    
+		//$this->products[$data['id']] = 1;
 		
 		$old = $product->getIdBySku($data['id']);
 		if($old)
@@ -356,7 +499,7 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 				$links = "";
 				$comma = "";
 				foreach($data['pages'] as $page){
-					$links .= $this->base ."/". $comma . $page['image'];
+					$links .= $comma . $this->base ."/" . $page['image'];
 					$comma = ",";
 				}
 				$product->setData("w2p_image_links",$links);
