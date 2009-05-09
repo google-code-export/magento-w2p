@@ -5,5 +5,9 @@
             <active>true</active>
             <codePool>local</codePool>
         </Biinno_Catalog>
+		<Biinno_Api>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Biinno_Api>
     </modules>
 </config>
