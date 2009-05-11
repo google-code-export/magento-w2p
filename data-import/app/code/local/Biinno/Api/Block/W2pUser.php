@@ -20,6 +20,10 @@ class Biinno_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
 		$ret = $this->logic->autoRegister() ;
 		return "<br/>ret[$ret],IP=[" . $_SERVER["REMOTE_ADDR"] . "],UserId=[" . $this->getW2pUserId() ."],Pass=[" . $this->getW2pPass() ."],Role=[" . $this->getRole() . "],Register=[" . $this->getW2pState() . "]";
 	}
+	function order($id){
+		$this->logic = Mage::getModel('api/w2puser'); 
+		return $this->logic->order($id);
+	}
 	function getW2pUserId(){
 		return Mage::getModel('api/w2puser')->getW2pUserId();
 	}
@@ -35,7 +39,7 @@ class Biinno_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
 	function getHash(){
 		if ((strpos($_SERVER["REMOTE_ADDR"],"192") !== false)
 		||(strpos($_SERVER["REMOTE_ADDR"],"127") !== false)){
-			return md5($this->getW2pPass() . "58.187.137.135");
+			return md5($this->getW2pPass() . "113.22.19.194");
 		}
 		return md5($this->getW2pPass() . $_SERVER["REMOTE_ADDR"]);
 		//return md5($this->getW2pPass() . "118.71.147.202");
