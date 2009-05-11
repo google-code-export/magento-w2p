@@ -24,11 +24,71 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$this->key = $this->getConfigValue("w2p_key");
 		$this->base = $this->getConfigValue("w2p_url");
     }
+	function order($id){
+		$url = $this->getOrderUrl($id);
+		$tool = Mage::getModel('api/common');
+		
+		$datas = $tool->xml2array($url);
+		$ret = 1;
+		//print_r($datas);
+		$product = array();
+		if (!isset($datas['OrderDetails'])
+			|| !isset($datas['OrderDetails_attr'])
+			|| !isset($datas['OrderDetails_attr']['Created'])
+			|| !isset($datas['OrderDetails_attr']['ProductName'])
+			|| !isset($datas['OrderDetails']['Pages'])
+			|| !isset($datas['OrderDetails']['Pages']['Page'])
+			
+		){
+			return -1;
+		}
+		
+		$product['created'] = $tool->strToDate($datas['OrderDetails_attr']['Created']);
+		$product['title'] = $datas['OrderDetails_attr']['ProductName'];
+		$product['id'] = $id;
+		$product['description'] = $datas['OrderDetails_attr']['ProductName'];
+		$product['price'] = $datas['OrderDetails_attr']['ProductPrice'] 
+		? $datas['OrderDetails_attr']['ProductPrice'] : 0;
+		$product['cids'] = 0;
+		
+		
+		$links = "";
+		$comma = "";
+		if (isset($datas['OrderDetails']['Pages']['Page_attr'])){
+			$pages[] = $datas['OrderDetails']['Pages']['Page_attr'];
+		}else{
+			$pages = $datas['OrderDetails']['Pages']['Page'];
+		}
+		foreach($pages as $page){
+			if (isset($page['PreviewImage'])){
+				$links .= $comma . $this->base ."/" .$page['PreviewImage'];
+				$comma = ",";
+				if (!isset($product['image'])){
+					$product['image'] = $this->base ."/" .$page['PreviewImage'];
+					$product['thumbnail'] = $this->base ."/" .$page['PreviewImage'];
+				} 
+			}
+		}
+		$product['access_url'] = $_SERVER['REQUEST_URI'];
+		$product['w2p_image_links'] = $links;
+		$data = $tool->saveProduct($product);
+		//print_r($data);return 1;
+		return $data->getId();
+	}
 	function getBase(){
 		return $this->base;
 	}
     function getUserRegisterUrl($url,$key){
 		return "$url/API.aspx?page=api-user-new";
+	}
+	/**
+	  * Order Detail's Feed URL
+	  * param 	id	order id
+	  */
+	function getOrderUrl($id){
+		$url = $this->base;
+		$key = $this->key;
+		return "$url/api.aspx?page=api-order;ApiKey=$key;OrderID=$id";
 	}
 	function generateW2pUserId(){
 		return strtoupper($this->uuid());
