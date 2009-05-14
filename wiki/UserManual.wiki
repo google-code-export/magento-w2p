@@ -1,9 +1,9 @@
 #labels UserManualofExtension
 <h2>Installation</h2>
 <ul>
-<li>Install magento 1.3<li>
-<li>Add Attribute to Default Attributes Set<li>
-<li>Install extendtion from magento site<li>
-<li>Add Advance profile<li>
+<li>Install magento 1.3</li>
+<li>Add Attribute to Default Attributes Set</li>
+<li>Install extendtion from magento site</li>
+<li>Add Advance profile</li>
 </ul>
 <h2>User Guide</h2>
