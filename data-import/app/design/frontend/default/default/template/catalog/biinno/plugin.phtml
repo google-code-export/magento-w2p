@@ -1,22 +1,30 @@
 <?php
 $_product = $this->getProduct();
 $is_preview = isset($_REQUEST['preview']);
-if ($is_preview){
+$order = isset($_REQUEST['order']) ? $_REQUEST['order']:"";
+$ret = "";
+if ($order){
+	$ret = $this->order($order);
+}else if ($is_preview){
 	if (!$_product->isSaleable() ) return;
 	$init = $this->init();
 	$id = trim($_product->getSku());
-	//$id = "23EFEE1C-32C9-470F-92BC-1D0ACA25B8F2";
 	$hash = $this->getHash();
 	$uid = $this->getW2pUserId();
 	$url = Mage::getModel('api/w2puser')->getBase() . "/?page=template;TemplateID=$id;RetT=id;RetO=Save;RetE=1;ID=$uid;Hash=$hash";
-	//$url = "http://realestate.zetaprints.com/?page=template;TemplateID=23EFEE1C-32C9-470F-92BC-1D0ACA25B8F2;RetT=id;RetE=1;ID=2F184A87-C281-0CB4-4D6E-9D7AB83AC76D;Hash=8163e33dad5f9d5ea259c0e3111448b8";
 	echo "<br/>$init<br/>$url<br/>";
 }else{
 	if (!$_product->isSaleable() ) return;
 	$preview = $_SERVER['REQUEST_URI'];
-	echo  '<button type="button" class="form-button" onclick="document.location=\'' . $preview . '?preview=1\';return false;"><span>PERSONALIZE</span></button>';
+	echo  '<button type="button" class="form-button" onclick="document.location=\'' . $preview . '?preview=1&order=\';return false;"><span>PERSONALIZE</span></button>';
 	return ;
 }
-
 ?>
+<?php if (!$order) :?>
 <iframe src="<?php echo $url;?>" width="100%" height="600px"></iframe>
+<?php else : echo $ret;?>
+<script type="text/javascript">
+	parent.document.location="<?php echo $this->getUrl('checkout/cart/add') . '?&qty=1&product=' . $ret;?>";
+	//parent.document.location="<?php echo $this->getUrl('checkout/cart/');?>";
+</script>
+<?php endif;?>
