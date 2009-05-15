@@ -18,5 +18,47 @@
                 <class>Biinno_Api_Model</class>
             </api>
         </models>
+		<helpers>
+			<api>
+			   <class>Biinno_Api_Helper</class>
+		    </api>
+		</helpers>
+		<events>
+			<checkout_type_onepage_save_order_after>
+			<!--checkout_onepage_controller_success_action-->
+				<observers>
+					<biinno_api_observer>
+						<type>model</type>
+						<class>api/observer</class>
+						<method>exportOnOrderEvent</method>
+					</biinno_api_observer>
+				</observers>
+			<!--/checkout_onepage_controller_success_action-->
+			</checkout_type_onepage_save_order_after>
+		</events>
 	</global>
+	<adminhtml>
+			<menu></menu>
+			<events></events>
+			<translate></translate>
+			<acl>
+				<resources>
+					<admin>
+						<children>
+							<system>
+								<children>
+									<config>
+										<children>
+											<api>
+												<title>W2p Integration</title>
+											</api>
+										</children>
+									</config>
+								</children>
+							</system>
+						</children>
+					</admin>
+				</resources>
+			</acl>
+	</adminhtml>
 </config>

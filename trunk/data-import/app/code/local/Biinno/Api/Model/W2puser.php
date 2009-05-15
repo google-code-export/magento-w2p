@@ -24,6 +24,10 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$this->key = $this->getConfigValue("w2p_key");
 		$this->base = $this->getConfigValue("w2p_url");
     }
+	/**
+	  * Process saved order  to magento db
+	  * param 	id	order id
+	  */
 	function order($id){
 		$url = $this->getOrderUrl($id);
 		$tool = Mage::getModel('api/common');
@@ -72,14 +76,65 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$product['access_url'] = $_SERVER['REQUEST_URI'];
 		$product['w2p_image_links'] = $links;
 		$data = $tool->saveProduct($product);
+		//TODO
+		//$this->saveOrder($id);exit();
 		//print_r($data);return 1;
 		return $data->getId();
 	}
+	
+	/**
+	  * Save order  to ZP
+	  * param 	id	order id
+	  * return array
+	  *		ret['pdf'] 	pdf url
+	  *		ret['jpg'] 	jpg url
+	  *		ret['gif'] 	gif url
+	  *		ret['png '] 	png  url
+	  *		ret['cdr'] 	cdr url
+	  *		
+	  */
+	function saveOrder($id){
+		$url = $this->getSaveOrderUrl($id);
+		$tool = Mage::getModel('api/common');
+		//echo $url;
+		// Send the order id to ZP via HTTP GET
+		// If the result is error "ReTry" or communication error repeat the request 2 more times.
+		for($i = 0; $i<2; $i++){
+			$datas = $tool->xml2array($url);
+			if (isset($datas['OrderDetails'])) break;
+		}
+		$ret = array("pdf"=>""
+					,"jpg"=>""
+					,"gif"=>""
+					,"png"=>""
+					,"cdr"=>"");
+		if (isset($datas['OrderDetails_attr'])){
+			foreach ($ret as $key => $val){
+				if (isset($datas['OrderDetails_attr'][strtoupper($key)])){
+					$ret[$key] = $this->base . "/" . $datas['OrderDetails_attr'][strtoupper($key)];
+				}
+			}
+		}else{
+			Mage::getSingleton('checkout/session')->addError("CAN'T CHANGE STATUS OF $id" );
+		}
+		Mage::getSingleton('checkout/session')->addError("CHANGE STATUS OF $id :DONE!!!" );
+		return $ret;
+	}
+	
 	function getBase(){
 		return $this->base;
 	}
     function getUserRegisterUrl($url,$key){
 		return "$url/API.aspx?page=api-user-new";
+	}
+	/**
+	  * Saved order completion's Feed URL
+	  * param 	id	order id
+	  */
+	function getSaveOrderUrl($id){
+		$url = $this->base;
+		$key = $this->key;
+		return "$url/api.aspx?page=api-order-complete;ApiKey=$key;OrderID=$id";
 	}
 	/**
 	  * Order Detail's Feed URL
@@ -90,18 +145,34 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$key = $this->key;
 		return "$url/api.aspx?page=api-order;ApiKey=$key;OrderID=$id";
 	}
+	/**
+	  * generate w2p user id
+	  */
 	function generateW2pUserId(){
 		return strtoupper($this->uuid());
 	}
+	/**
+	  * generate w2p pass word
+	  */
 	function generateW2pPassword(){
 		return strtoupper(substr(md5(time()),0,6));
 	}
+	/**
+	  * get config value from config_data table
+	  * param	 name		name of config data
+	  * return	value of the config
+	  */
 	function getConfigValue($name){
 		$config = Mage::getModel('core/config_data');
 		$config->load($name, "path");
 		
 		return $config->getData("config_id")?$config->getValue() : "";
 	}
+	/**
+	  * auto registe user
+	  * check if is not registed, this will create new GUID and Pas then registe new user
+	  * 
+	  */
 	function autoRegister(){
 		//Mage::getSingleton('core/session')->unsW2puser();
 		//Mage::getSingleton('core/session')->unsW2ppass();
@@ -157,7 +228,16 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		//Mage::getSingleton('core/session')->unsW2ppass();
 		return $login;
 	}
-	
+	/**
+	  * register user to w2p
+	  * param 	user
+	  * param 	pass
+	  * param 	base
+	  * param	key
+	  * return 	1 : registe new ok
+	  *		0: user is registed
+	  *		-1: registe new error
+	  */
 	function registerW2pUser($user, $pass, $base, $key){		
 		$path = "/API.aspx?page=api-user-new";
 		$data = array();
@@ -168,21 +248,31 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		list($header, $content) = $this->PostRequest($base, $path, $data);
 		return $this->xmlParser($content);
 	}
+	/**
+	  * get magneto's role of the user from session
+	  */
 	function getRole(){
 		$cus = Mage::getSingleton('customer/session')->getCustomer();
 		return $cus->getData('email')?$cus->getData('email') : "guest";
 	}
+	/**
+	  * get w2p's state of the user from session
+	  */
 	function getW2pState(){
 		return Mage::getSingleton('core/session')->getState();
 	}
+	/**
+	  * get w2p's userId of the user from session
+	  */
 	function getW2pUserId(){
 		$cus = Mage::getSingleton('customer/session')->getCustomer();
-		//return Mage::getSingleton('core/session')->getW2puser();
 		return $cus->getData('entity_id')? $cus->getData('w2p_user') : Mage::getSingleton('core/session')->getW2puser();
 	}
+	/**
+	  * get w2p's pass of the user from session
+	  */
 	function getW2pPass(){
 		$cus = Mage::getSingleton('customer/session')->getCustomer();
-		//return Mage::getSingleton('core/session')->getW2ppass();
 		return $cus->getData('entity_id') ? $cus->getData('w2p_pass') : Mage::getSingleton('core/session')->getW2ppass();
 	}
 	/**
