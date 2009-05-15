@@ -39,7 +39,7 @@ class Biinno_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
 	function getHash(){
 		if ((strpos($_SERVER["REMOTE_ADDR"],"192") !== false)
 		||(strpos($_SERVER["REMOTE_ADDR"],"127") !== false)){
-			return md5($this->getW2pPass() . "113.22.19.194");
+			return md5($this->getW2pPass() . "113.22.17.21");
 		}
 		return md5($this->getW2pPass() . $_SERVER["REMOTE_ADDR"]);
 		//return md5($this->getW2pPass() . "118.71.147.202");
