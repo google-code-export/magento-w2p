@@ -1,0 +1,17 @@
+This text explain directory structure of data-import
+
+ROOT - is http://code.google.com/p/magento-w2p/source/browse/trunk/data-import/
+
++ ROOT 
+	+ app/code			code of Magento
+		+ core			code of Magento's core which have to change to run extension or to display ZP data
+		+ local			code of new Extension, Magento-W2p
+	+ app/etc			file config(xml) of new Extension
+		+ modules/Biinno_All.txt	Config for Magento-W2p extension.
+	+ app/design		Theme of Magento, which is for Magento-W2P
+	+ guide				not use
+	+ install			Extension Install File
+		+ guide.txt		Guide to install all extention
+		+ Add_Customer_Field.txt	Script to add 2 fields to customer infomation (W2P UserID and W2P Pass)
+	
+
