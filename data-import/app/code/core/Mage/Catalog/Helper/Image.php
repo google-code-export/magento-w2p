@@ -217,9 +217,11 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 				$img = $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) ;
                 $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
 				//echo $this->getProduct()->getData("w2p_image");//exit();
+				// To view ZP Image
 				if ($this->getProduct()->getData("w2p_image")){
 					return $this->getProduct()->getData("w2p_image");
 				}
+				// End To view ZP Image
             }
 			//print_r($this->getProduct());exit();
 
