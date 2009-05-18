@@ -219,7 +219,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
          */
         $product->setFinalPrice(null);
         $product->setCustomOptions($this->_optionsByCode);
-		// MAGENTO-ZP To view ZP Image on shopping cart
+		/* Add By Pham Tri Cong <phtcong@gmail.com>
+		  * get w2p_image information(To view ZP Image - MAGENTO-ZP).
+		  */
 		if (!$product->getData("w2p_image")){
 			$new = Mage::getModel('catalog/product')
                 ->setStoreId($this->getQuote()->getStoreId())
@@ -229,7 +231,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 				$this->setProduct($product);
 			}			
 		}
-		// End MAGENTO-ZP To view ZP Image
+		// End add By Pham Tri Cong <phtcong@gmail.com> MAGENTO-ZP
         return $product;
     }
 

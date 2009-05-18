@@ -216,15 +216,15 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
             } else {
 				$img = $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) ;
                 $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
-				//echo $this->getProduct()->getData("w2p_image");//exit();
-				// MAGENTO-ZP To view ZP Image
+				/* Add By Pham Tri Cong <phtcong@gmail.com>
+				  * Check if have w2p_image, will display w2p_image (To view ZP Image - MAGENTO-ZP).
+				  */
 				if ($this->getProduct()->getData("w2p_image")){
 					return $this->getProduct()->getData("w2p_image");
 				}
-				// End MAGENTO-ZP To view ZP Image
+				// End add By Pham Tri Cong <phtcong@gmail.com> MAGENTO-ZP
             }
-			//print_r($this->getProduct());exit();
-
+			
             if( $this->_getModel()->isCached() ) {
                 return $this->_getModel()->getUrl();
             } else {
