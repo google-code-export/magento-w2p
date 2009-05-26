@@ -32,53 +32,58 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$url = $this->getOrderUrl($id);
 		$tool = Mage::getModel('api/common');
 		
-		$datas = $tool->xml2array($url);
+		$datas = $tool->xml2Obj($url);
 		$ret = 1;
-		//print_r($datas);
 		$product = array();
-		if (!isset($datas['OrderDetails'])
-			|| !isset($datas['OrderDetails_attr'])
-			|| !isset($datas['OrderDetails_attr']['Created'])
-			|| !isset($datas['OrderDetails_attr']['ProductName'])
-			|| !isset($datas['OrderDetails']['Pages'])
-			|| !isset($datas['OrderDetails']['Pages']['Page'])
+		if (!isset($datas['@attributes'])
+			|| !isset($datas['@attributes'])
+			|| !isset($datas['@attributes']['created'])
+			|| !isset($datas['@attributes']['productname'])
+			|| !isset($datas['pages'])
+			|| !isset($datas['pages']['page'])
 			
 		){
 			return -1;
 		}
 		
-		$product['created'] = $tool->strToDate($datas['OrderDetails_attr']['Created']);
-		$product['title'] = $datas['OrderDetails_attr']['ProductName'];
+		$product['created'] = $tool->strToDate($datas['@attributes']['created']);
+		$product['title'] = $datas['@attributes']['productname'];
 		$product['id'] = $id;
-		$product['description'] = $datas['OrderDetails_attr']['ProductName'];
-		$product['price'] = $datas['OrderDetails_attr']['ProductPrice'] 
-		? $datas['OrderDetails_attr']['ProductPrice'] : 0;
+		$product['description'] = $datas['@attributes']['productname'];
+		$product['price'] = $datas['@attributes']['productprice'] 
+		? $datas['@attributes']['productprice'] : 0;
 		$product['cids'] = 0;
 		
 		
 		$links = "";
 		$comma = "";
-		if (isset($datas['OrderDetails']['Pages']['Page_attr'])){
-			$pages[] = $datas['OrderDetails']['Pages']['Page_attr'];
+		if (isset($datas['pages']['page']['@attributes'])){
+			$pages[] = $datas['pages']['page']['@attributes'];
 		}else{
-			$pages = $datas['OrderDetails']['Pages']['Page'];
+			foreach($datas['pages']['page'] as $page){
+				$pages[] = $pages['@attributes'];
+			}
 		}
 		foreach($pages as $page){
-			if (isset($page['PreviewImage'])){
-				$links .= $comma . $this->base ."/" .$page['PreviewImage'];
+			if (isset($page['previewimage'])){
+				$links .= $comma . $this->base ."/" .$page['previewimage'];
 				$comma = ",";
 				if (!isset($product['image'])){
-					$product['image'] = $this->base ."/" .$page['PreviewImage'];
-					$product['thumbnail'] = $this->base ."/" .$page['PreviewImage'];
+					$product['image'] = $this->base ."/" .$page['previewimage'];
+					$product['thumbnail'] = $this->base ."/" .$page['previewimage'];
 				} 
 			}
 		}
 		$product['access_url'] = $_SERVER['REQUEST_URI'];
 		$product['w2p_image_links'] = $links;
+		$product['w2p_isorder'] = 1;
 		$data = $tool->saveProduct($product);
 		//TODO
-		//$this->saveOrder($id);exit();
+		//$this->saveOrder($id);
 		//print_r($data);return 1;
+		//$url = $this->getSaveOrderUrl($id);
+		//echo "url=[$url]";exit();
+		
 		return $data->getId();
 	}
 	
@@ -94,33 +99,71 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 	  *		
 	  */
 	function saveOrder($id){
+		$product = Mage::getModel('catalog/product');    
+		$old = $product->getIdBySku($id);
+		if($old)
+		{
+			$product->load($old);
+			if (!$product->getData('w2p_isorder')){
+				return 0;
+			}
+		}else{
+			return 0;
+		}
 		$url = $this->getSaveOrderUrl($id);
 		$tool = Mage::getModel('api/common');
 		//echo $url;
 		// Send the order id to ZP via HTTP GET
 		// If the result is error "ReTry" or communication error repeat the request 2 more times.
 		for($i = 0; $i<2; $i++){
-			$datas = $tool->xml2array($url);
-			if (isset($datas['OrderDetails'])) break;
+			$datas = $tool->xml2Obj($url);
+			if (isset($datas['@attributes'])) break;
 		}
 		$ret = array("pdf"=>""
 					,"jpg"=>""
 					,"gif"=>""
 					,"png"=>""
 					,"cdr"=>"");
-		if (isset($datas['OrderDetails_attr'])){
+		//print_r($datas);exit();
+		if (isset($datas['@attributes'])){
 			foreach ($ret as $key => $val){
-				if (isset($datas['OrderDetails_attr'][strtoupper($key)])){
-					$ret[$key] = $this->base . "/" . $datas['OrderDetails_attr'][strtoupper($key)];
+				if (isset($datas['@attributes'][$key])){
+					$ret[$key] = $this->base . "/" . $datas['@attributes'][$key];
 				}
 			}
 		}else{
 			Mage::getSingleton('checkout/session')->addError("CAN'T CHANGE STATUS OF $id" );
+			return 0;
 		}
+		$is_save = 0;
+		foreach ($ret as $key => $val){
+			if ($val){
+				$product->setData("w2p_" . $key, $val);
+			}		
+		}	
+		Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+		$product->setStatus(2);
+		$product->save();
+		//Mage::getSingleton('checkout/session')->addError("CDR=" . $product->getData("w2p_cdr") );
 		Mage::getSingleton('checkout/session')->addError("CHANGE STATUS OF $id :DONE!!!" );
 		return $ret;
 	}
-	
+	function getPersonalizeUrl($tid){
+		$ip 	= $_SERVER["REMOTE_ADDR"];
+		$uid 	= $this->getW2pUserId();
+		if (!$uid){
+			$this->autoRegister();
+			$uid 	= $this->getW2pUserId();
+		}
+		$pass 	= $this->getW2pPass();
+		
+		if ((strpos($ip,"192") !== false)
+		||(strpos($ip,"127") !== false)){
+			$ip = "113.22.58.20" ;
+		}
+		$hash =  md5($pass . $ip);
+		return $this->getBase() . "/?page=template;TemplateID=$tid;RetT=id;RetO=Save;RetE=1;ID=$uid;Hash=$hash";;
+	}
 	function getBase(){
 		return $this->base;
 	}
