@@ -45,6 +45,10 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		$val = $this->getDate();
 		//$val = "2009-05-05 10:02:47";
 		$config = $this->getConfig($path);
+		//NEW, create user attribute
+		if (!$config->getData("config_id")){
+			$this->initSetup();
+		}
 		$this->last = null;
 		if (!$this->refresh){		
 			if ($config->getData("config_id")){
@@ -676,6 +680,22 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 	protected function errorMess($mess){
 		$message = Mage::helper('dataflow')->__($mess);
 		$this->addException($message);
+	}
+	protected function initSetup(){
+		$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+	    $setup->addAttribute('customer', 'w2p_user', array(
+		    'type' => 'text',
+	        'label'    => 'W2P UserID',
+	        'visible'  => true,
+	        'required' => false,
+	        'position'     => 1,
+	    ));
+		$setup->addAttribute('customer', 'w2p_pass', array(	    
+	        'label'    => 'W2P Password',
+	        'visible'  => true,
+	        'required' => false,
+	        'position'     => 1,
+	    ));
 	}
 }
 
