@@ -45,137 +45,46 @@ class Biinno_Api_Model_Common
 	  * param	url	Url of ZentaPrints site
 	  * return	Array
 	  */
-	function xml2array($url, $get_attributes = 1, $priority = 'tag')
+	function xml2Obj($url)
 	{
-	    $contents = "";
-	    if (!function_exists('xml_parser_create'))
-	    {
-	        return array ();
-	    }
-	    $parser = xml_parser_create('');
-	    
-	    $contents = $this->getHttp($url);
-	    xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
-	    xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
-	    xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
-	    xml_parse_into_struct($parser, trim($contents), $xml_values);
-	    xml_parser_free($parser);
-	    if (!$xml_values)
-	        return; //Hmm...
-	    $xml_array = array ();
-	    $parents = array ();
-	    $opened_tags = array ();
-	    $arr = array ();
-	    $current = & $xml_array;
-	    $repeated_tag_index = array ();
-	    foreach ($xml_values as $data)
-	    {
-	        unset ($attributes, $value);
-	        extract($data);
-	        $result = array ();
-	        $attributes_data = array ();
-	        if (isset ($value))
-	        {
-	            if ($priority == 'tag')
-	                $result = $value;
-	            else
-	                $result['value'] = $value;
-	        }
-	        if (isset ($attributes) and $get_attributes)
-	        {
-	            foreach ($attributes as $attr => $val)
-	            {
-	                if ($priority == 'tag')
-	                    $attributes_data[$attr] = $val;
-	                else
-	                    $result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
-	            }
-	        }
-	        if ($type == "open")
-	        {
-	            $parent[$level -1] = & $current;
-	            if (!is_array($current) or (!in_array($tag, array_keys($current))))
-	            {
-	                $current[$tag] = $result;
-	                if ($attributes_data)
-	                    $current[$tag . '_attr'] = $attributes_data;
-	                $repeated_tag_index[$tag . '_' . $level] = 1;
-	                $current = & $current[$tag];
-	            }
-	            else
-	            {
-	                if (isset ($current[$tag][0]))
-	                {
-	                    $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-	                    $repeated_tag_index[$tag . '_' . $level]++;
-	                }
-	                else
-	                {
-	                    $current[$tag] = array (
-	                        $current[$tag],
-	                        $result
-	                    );
-	                    $repeated_tag_index[$tag . '_' . $level] = 2;
-	                    if (isset ($current[$tag . '_attr']))
-	                    {
-	                        $current[$tag]['0_attr'] = $current[$tag . '_attr'];
-	                        unset ($current[$tag . '_attr']);
-	                    }
-	                }
-	                $last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
-	                $current = & $current[$tag][$last_item_index];
-	            }
-	        }
-	        elseif ($type == "complete")
-	        {
-	            if (!isset ($current[$tag]))
-	            {
-	                $current[$tag] = $result;
-	                $repeated_tag_index[$tag . '_' . $level] = 1;
-	                if ($priority == 'tag' and $attributes_data)
-	                    $current[$tag . '_attr'] = $attributes_data;
-	            }
-	            else
-	            {
-	                if (isset ($current[$tag][0]) and is_array($current[$tag]))
-	                {
-	                    $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-	                    if ($priority == 'tag' and $get_attributes and $attributes_data)
-	                    {
-	                        $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
-	                    }
-	                    $repeated_tag_index[$tag . '_' . $level]++;
-	                }
-	                else
-	                {
-	                    $current[$tag] = array (
-	                        $current[$tag],
-	                        $result
-	                    );
-	                    $repeated_tag_index[$tag . '_' . $level] = 1;
-	                    if ($priority == 'tag' and $get_attributes)
-	                    {
-	                        if (isset ($current[$tag . '_attr']))
-	                        {
-	                            $current[$tag]['0_attr'] = $current[$tag . '_attr'];
-	                            unset ($current[$tag . '_attr']);
-	                        }
-	                        if ($attributes_data)
-	                        {
-	                            $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
-	                        }
-	                    }
-	                    $repeated_tag_index[$tag . '_' . $level]++; //0 and 1 index is already taken
-	                }
-	            }
-	        }
-	        elseif ($type == 'close')
-	        {
-	            $current = & $parent[$level -1];
-	        }
-	    }
-	    return ($xml_array);
+		$obj = null;
+		try{
+			$obj = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
+			if (!$obj) {
+				//echo "can not get data from [$url] ";
+				//exit ();
+				return null;
+			}			
+		}catch(Exception $e){
+			//echo "can not get data from [$url] e=" . $e;
+			//	exit ();
+			return null;
+		}
+		$obj = $this->object2array($obj);
+		//print_r($obj);exit();  
+	    return ($obj);
 	}
+	function object2array($object)
+	{
+		$return = NULL;
+
+		if(is_array($object))
+		{
+			foreach($object as $key => $value)
+				$return[strtolower($key)] = $this->object2array($value);
+		}
+		else
+		{
+			$var = get_object_vars($object);
+			if($var)
+			{
+				foreach($var as $key => $value)
+				$return[strtolower($key)] = ($key && !$value) ? NULL : $this->object2array($value);
+			}
+			else return $object;
+		}
+		return $return;
+	} 
 	/**
 	  * Save Product data to magento db. this function use core catalog product model class of magento
 	  * param	data	product information which is get from Template Detail Feed of ZentaPrints
@@ -183,25 +92,30 @@ class Biinno_Api_Model_Common
 	  */
 	function saveProduct($data){	
 		if (!$data['id'] || !$data['title'] || !isset($data['cids']) || !isset($data['created'])){
+			echo sprintf("******DATA ERROR:Product:id=[%s],title=[%s],cids=[%s],created=[%s]",$data['id'],$data['title'],$data['cids'],isset($data['created'])?$data['created'] : '0');
 			return null;
 		}
+		$baseProduct = Mage::registry('product');
+		//echo $base->getSku();exit();
+		
+		//if (!$base) return 0;
 		$product = Mage::getModel('catalog/product');    
 		$old = $product->getIdBySku($data['id']);
 		if($old)
 		{
 			$product->load($old);
+			Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID); 
 			$product->setData("w2p_image",$data['image']);
 			$product->setData("w2p_image_large",$data['image']);
 			$product->setData("w2p_image_small",$data['thumbnail']);
 			$product->setData("w2p_modified",$data['created']);
 			$product->setData("w2p_link", $data['access_url']);
+			$product->setData("w2p_isorder", $data['w2p_isorder']);
 			$product->setData("w2p_image_links",$this->getImageLinks($data));
 			$product->save();
 			return $product;
-			
-			
 		}
-		$product->setWebsiteIds(array('1'));
+		/*$product->setWebsiteIds(array('1'));
 		$product->setAttributeSetId(4);
 		$product->setSku($data['id']);
 		$product->setTypeId('simple'); 
@@ -215,6 +129,7 @@ class Biinno_Api_Model_Common
 		$product->setData("w2p_created",$data['created']);
 		$product->setData("w2p_modified",$data['created']);
 		$product->setData("w2p_image_links",$this->getImageLinks($data));
+		$product->setData("w2p_isorder", $data['w2p_isorder']);
 		$product->setData("w2p_link", $data['access_url']);
 		$product->setWeight(0);
 		//$product->setQty(1);
@@ -223,7 +138,27 @@ class Biinno_Api_Model_Common
 		$product->setStatus(1);
 		$product->setTaxClassId(2);
 		$product->setCategoryIds(array($data['cids'] =>$data['cids']));
-		$product->setVisibility(4);		
+		$product->setVisibility(4);
+		*/
+		Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID); 
+		$product  = $baseProduct;
+		$product->setId(null);
+		$product->setSku($data['id']);
+		$product->setData("w2p_image",$data['image']);
+		$product->setData("w2p_image_large",$data['image']);
+		$product->setData("w2p_image_small",$data['thumbnail']);
+		$product->setData("w2p_created",$data['created']);
+		$product->setData("w2p_modified",$data['created']);
+		$product->setData("w2p_image_links",$this->getImageLinks($data));
+		$product->setData("w2p_isorder", $data['w2p_isorder']);
+		$product->setData("w2p_link", $data['access_url']);
+		
+		$product->setData("inventory_manage_stock_default",1);
+		$product->setData("inventory_qty",10000);
+		$product->setStatus(1);
+		$product->setVisibility(4);
+		$product->setCategoryIds(array($data['cids'] =>$data['cids']));
+		$product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID);
 		$product->save();
 		/* Stock Item */
 		
@@ -231,7 +166,7 @@ class Biinno_Api_Model_Common
 		$stockItem->setData('use_config_manage_stock', 1);
 		$stockItem->setData('is_in_stock', 1);		
 		$stockItem->setData('stock_id', 1);
-		$stockItem->setData('qty', 1);
+		$stockItem->setData('qty', 10000);
 		$stockItem->setProduct($product);
 		$stockItem->save();
 		
