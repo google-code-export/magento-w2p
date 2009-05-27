@@ -1,21 +1,47 @@
-0. Install magento 1.3 
-I. Import Data
-1. Add Attribute to Default Attributes Set
+I. Install magento 1.3 
+II. Install Import Data Extension
+2.1. Add Attributes of product information
+2.1.1. Add Attributes
+	
 	+ w2p_link				Template Url
-	+ w2p_image				image link ** to view in Category page
+	+ w2p_image				image link be used on category page
+							**Note that this field has below properties
+								[Used in product listing] = Yes
 	+ w2p_image_links		links to images
 	+ w2p_created			created date time
 	+ w2p_modified			modified date time
 	+ w2p_image_large		links to large product images
 	+ w2p_image_small		links to small product images
-2. Copy code
-	+ Copy code in the app/code folder in to app of magento
-3. Config file
+	
+	+ w2p_isorder			Template is order or not
+							**Note that this field has below properties
+								[Catalog Input Type for Store Owner] = Yes/No
+								[Used in product listing] = Yes
+	+ w2p_cdr				Corel draw file address of Order information
+	+ w2p_jpg				JPG file address of Order information
+	+ w2p_png				PNG file address of Order information
+	+ w2p_gif				GIF draw file address of Order information
+	+ w2p_pdf				PDF draw file address of Order information
+2.1.2. Edit Attribute Set
+	+ Edit Default Attribute Set 
+	+ Add 
+2.2. Copy source code and config file
+2.2.1. Code
+	+ app/code
+	-> Copy code in the app/code folder in to app of magento
+	
+2.2.2. Config file
 	+ app/etc
-4. Add Advance profile 
+	-> Copy code in the app/etc folder in to app of magento
+	
+2.2.3. Overide default theme
+	+ app/design
+	-> Copy code in the app/design folder in to app of magento
+	
+III. Run Import data
 	+ Login as admin
 	+ System -> Import/Export -> Advanced Profiles -> Add New Profile
-		- Name : Import Product and category form w2p
+		- Name : Import Product and category form ZetaPrints
 		- Action XML :
 			<action type="catalog/convert_adapter_category" method="parse">
 				<var name="url">http://realestate.zetaprints.com</var>
@@ -24,10 +50,6 @@ I. Import Data
 				<var name="debug">1</var>
 				<var name="refresh">0</var>
 			</action> 
-5. Run Profile Import Product and category form w2p
+5. Run Import Product and category form ZetaPrints
 
-II. Register User and show iframe
-1. Add Customer Fields:w2p_user and w2p_pass
-	+ Copy code of Add_Customer_Field.txt file to block and run it
-2. Copy all code of app folder to your magento.
 
