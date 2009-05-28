@@ -120,7 +120,7 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 			if (isset($datas['@attributes'])) break;
 		}
 		$ret = array("pdf"=>""
-					,"jpg"=>""
+					,"jpeg"=>""
 					,"gif"=>""
 					,"png"=>""
 					,"cdr"=>"");
@@ -138,6 +138,7 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$is_save = 0;
 		foreach ($ret as $key => $val){
 			if ($val){
+				if ($key == "jpeg") $key = "jpg";
 				$product->setData("w2p_" . $key, $val);
 			}		
 		}	
