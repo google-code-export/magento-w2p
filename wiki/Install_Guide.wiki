@@ -1,7 +1,10 @@
 #labels Install
 I. Install magento 1.3 
+
 II. Install Import Data Extension
+
 2.1. Add Attributes of product information
+
 2.1.1. Add Attributes
 	
 	+ w2p_link				Template Url
@@ -23,10 +26,13 @@ II. Install Import Data Extension
 	+ w2p_png				PNG file address of Order information
 	+ w2p_gif				GIF draw file address of Order information
 	+ w2p_pdf				PDF draw file address of Order information
+
 2.1.2. Edit Attribute Set
 	+ Edit Default Attribute Set 
 	+ Add 
+
 2.2. Copy source code and config file
+
 2.2.1. Code
 	+ app/code
 	-> Copy code in the app/code folder in to app of magento
@@ -44,11 +50,13 @@ III. Run Import data
 	+ System -> Import/Export -> Advanced Profiles -> Add New Profile
 		- Name : Import Product and category form ZetaPrints
 		- Action XML :
-			<action type="catalog/convert_adapter_category" method="parse">
+{{{			<action type="catalog/convert_adapter_category" method="parse">
 				<var name="url">http://realestate.zetaprints.com</var>
 				<var name="key">612eca11-48fd-4df7-bff5-3d493919283e</var>
 				<var name="store">default</var>
 				<var name="debug">1</var>
 				<var name="refresh">0</var>
 			</action> 
+}}}
+
 5. Run Import Product and category form ZetaPrints
