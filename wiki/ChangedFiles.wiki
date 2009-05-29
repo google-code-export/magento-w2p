@@ -1,0 +1,7 @@
+#summary Describes changes in Magento files
+= File changes =
+
+=== app\code\core\Mage\Catalog\Helper\Image.php ===
+  * Check if attribute w2p_image is present it displays w2p_image with ZP Image.
+
+
