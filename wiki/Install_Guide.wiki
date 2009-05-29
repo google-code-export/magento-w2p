@@ -7,8 +7,8 @@ II. Install Import Data Extension
 
 2.1.1. Add Attributes
 	
-	+ w2p_link				Template Url
-	+ w2p_image				image link be used on category page
+  * w2p_link  Template  Url
+  * w2p_image				image link be used on category page
 							**Note that this field has below properties
 								[Used in product listing] = Yes
 	+ w2p_image_links		links to images
