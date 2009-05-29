@@ -57,11 +57,16 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		
 		$links = "";
 		$comma = "";
+		$pages = array();
 		if (isset($datas['pages']['page']['@attributes'])){
 			$pages[] = $datas['pages']['page']['@attributes'];
 		}else{
-			foreach($datas['pages']['page'] as $page){
-				$pages[] = $pages['@attributes'];
+			if (isset($datas['pages']['page'])){
+				foreach($datas['pages']['page'] as $page){
+					if (isset($page['@attributes'])){
+						$pages[] = $page['@attributes'];
+					}
+				}
 			}
 		}
 		foreach($pages as $page){
