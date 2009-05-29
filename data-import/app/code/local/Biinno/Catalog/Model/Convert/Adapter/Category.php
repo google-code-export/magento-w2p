@@ -57,6 +57,11 @@ class Biinno_Catalog_Model_Convert_Adapter_Category
 		}
 		$this->products = array();
 		$this->pids[] = "0";
+		//save config
+		$this->saveConfig($path, $val);
+		$this->saveConfig("w2p_key", $this->key);
+		$this->saveConfig("w2p_url", $this->base);
+		
 		$this->saveList($this->base, $this->key);   
 		//delete all 
 		$this->removeRec();return;
