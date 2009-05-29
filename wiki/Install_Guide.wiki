@@ -64,7 +64,15 @@ Link to the template's images on ZetaPrints.
 	+ app/design
 	-> Copy code in the app/design folder in to app of magento
 	
-III. Run Import data
+== Clear cache ==
+Magento requires cache clearing after installing an extension. Go to _Configuration/Cache mangement_ and clear the cache.
+
+  # All Cache: select _Refresh_ from the dropdown.
+  # Click _Save cache settings_.
+  # Catalog Rewrites: click on _Refresh_ button.
+
+
+== Run Import data ==
 	+ Login as admin
 	+ System -> Import/Export -> Advanced Profiles -> Add New Profile
 		- Name : Import Product and category form ZetaPrints
