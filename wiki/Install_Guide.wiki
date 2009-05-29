@@ -5,14 +5,32 @@ You are expected to have an existing Magento installation, be able to install it
 ==Install ZetaPrints extension==
 
 ===Add Magento attributes==
+Attributes are added via admin UI. Log in as an administrator and navigate to Catalog/Attributes/Manage Attributes. Click on Add attribute button.
 
+http://www.zetaprints.ru/magento/guide/Attribute_add_search.jpg
 
+Leave all attribute properties at default values unless stated otherwise here.
+None of these attributes should exist, unless this extension has already been installed.
+
+Adding an attribute takes you through 2 screens. Enter values provided here. Fields _Admin_ and _Default Store View_ sit on the second screen.
 	
-  * w2p_link  Template  Url
-  * w2p_image				image link be used on category page
-							**Note that this field has below properties
-								[Used in product listing] = Yes
-	+ w2p_image_links		links to images
+====Template URL====
+Link to the template page on ZetaPrints.
+  * Attribute Code: w2p_link
+  * Admin/Default Store View: Template URL
+
+====Template thumb====
+Link to the template's image on ZetaPrints to show on category page.
+  * Attribute Code: w2p_image
+  * Used in product listing: yes
+  * Admin/Default Store View: Template thumb
+
+====Template image links====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_image_links
+  * Admin/Default Store View: Template images
+
+
 	+ w2p_created			created date time
 	+ w2p_modified			modified date time
 	+ w2p_image_large		links to large product images
