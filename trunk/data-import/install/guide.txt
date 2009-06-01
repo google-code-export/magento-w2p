@@ -45,7 +45,7 @@ III. Run Import data
 		- Action XML :
 			<action type="catalog/convert_adapter_category" method="parse">
 				<var name="url">http://realestate.zetaprints.com</var>
-				<var name="key">612eca11-48fd-4df7-bff5-3d493919283e</var>
+				<var name="key"></var>
 				<var name="store">default</var>
 				<var name="debug">1</var>
 				<var name="refresh">0</var>
