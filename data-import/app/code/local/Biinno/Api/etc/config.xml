@@ -10,13 +10,16 @@
 			<api>
 				<rewrite>
 					<w2puser>Biinno_Api_Block_W2pUser</w2puser>
-				</rewrite>				
+				</rewrite>
 			</api>
 		</blocks>
 		<models>
             <api>
                 <class>Biinno_Api_Model</class>
-            </api>
+				<rewrite>
+					<importzp>Biinno_Api_Model_Importer</importzp>
+				</rewrite>
+            </api>			
         </models>
 		<helpers>
 			<api>
