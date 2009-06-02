@@ -128,7 +128,7 @@ class Biinno_Api_Model_Importer
 			$count += $ctotal;
 			$this->infoMess("****Number of products:[$ctotal]");
 			//TODO
-			break;
+			//break;
 		}
 		//print_r($ret);
 		$this->infoMess(sprintf("**Number of categories:[%s]",count($datas)));
@@ -235,7 +235,7 @@ class Biinno_Api_Model_Importer
 			$product['cid'] = $cid;
 			$this->importProduct($product);
 			//TODO
-			break;
+			//break;
 		}
 		$this->debugMess(sprintf("****END:Save Products Of Category:id=[%s]",$cdata['id']));
 		return count($datas);
