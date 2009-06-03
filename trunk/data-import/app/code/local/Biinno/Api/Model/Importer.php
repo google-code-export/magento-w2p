@@ -33,7 +33,7 @@ class Biinno_Api_Model_Importer
 	protected $products = null;
 	protected $pids = "";
 	/**
-	  * Parser feed of all category and product
+	  * Parser feed of all category and product 
 	  */
     public function parse()
     {	
@@ -44,9 +44,10 @@ class Biinno_Api_Model_Importer
 		$this->store 	= Mage::getStoreConfig('api/settings/w2p_store');
 		$this->refresh 	= Mage::getStoreConfig('api/settings/w2p_refresh');
 		if (!$this->base || !$this->key || !$this->store){
-			$this->errorMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints tab");
+			$this->errorMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints Sync tab");
 			return ;
 		}
+		$this->infoMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints Sync tab");
 		$path 	= "w2p_last_update";
 		$val 	= $this->getDate();
 		
