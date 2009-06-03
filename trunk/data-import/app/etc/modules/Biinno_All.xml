@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Biinno_Catalog>
-            <active>true</active>
-            <codePool>local</codePool>
-        </Biinno_Catalog>
-		<Biinno_Api>
+        <Biinno_Api>
             <active>true</active>
             <codePool>local</codePool>
         </Biinno_Api>
