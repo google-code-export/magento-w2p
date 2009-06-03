@@ -199,6 +199,10 @@ function zp_api_template_iframe_url($tid, $uid, $pass, $key = null, $url = null)
 		return null;
 	}
 	$ip 	= $_SERVER["REMOTE_ADDR"];
+	if ((strpos($ip,"192") !== false)
+		||(strpos($ip,"127") !== false)){
+		$ip = "113.22.120.143" ;
+	}
 	$hash =  md5($pass . $ip);
 	return "$zp_api_url/?page=template;TemplateID=$tid;RetT=id;RetO=Save;RetE=1;ID=$uid;Hash=$hash";;
 }
@@ -226,7 +230,7 @@ function zp_api_user_register($user, $pass, $key = null, $url = null){
 	}
 	global $zp_api_key;
 	global $zp_api_url;
-	zp_api_log_debug("zp_api_user_register:start tid=[$tid],url=[$zp_api_url],key=[$zp_api_key]");
+	zp_api_log_debug("zp_api_user_register:start url=[$zp_api_url],key=[$zp_api_key]");
 	if (!$zp_api_key || !$zp_api_url){
 		zp_api_log_error("zp_api_user_register:error, null param url=[$zp_api_url],key=[$zp_api_key]");
 		return -1;
@@ -387,7 +391,6 @@ function zp_api_order_fetch($ret, $zp_api_url){
 		$data['thumbs'] = $thumbs;
 		$data['previews'] = $previews;
 	}
-	zp_api_log_debug("zp_api_order_save:end order id=[$id], url=[$zp_api_url],key=[$zp_api_key]");
 	return $data;
 }
 
@@ -406,7 +409,7 @@ function zp_api_order_fetch($ret, $zp_api_url){
 function zp_api_log($mess){
 	error_log( date('d.m.Y h:i:s') . "[zp_api_log] $mess \n", 3, "zp_api_log.log");
 }
-function zp_api_log_err($mess){
+function zp_api_log_error($mess){
 	zp_api_log("[error] $mess");
 }
 function zp_api_log_info($mess){
