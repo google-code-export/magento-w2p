@@ -17,6 +17,10 @@
 	
 	//user register
 	/*
+	$ret = zp_api_user_register("423BC9F1-BCAF-4FD9-AEAD-C0310DA19594","pass");
+	echo "regiter=[$ret]";
+	*/
+	/*
 	//Order 
 	$id = "FB70B451-A132-461A-A859-C936A3846724";
 	//$id = "7278EDC8-FA79-43D1-B2B2-B70845E857D4";
