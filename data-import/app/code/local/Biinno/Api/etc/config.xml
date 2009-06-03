@@ -6,13 +6,6 @@
 		</Biinno_Api>
 	</modules>
 	<global>
-		<blocks>
-			<api>
-				<rewrite>
-					<w2puser>Biinno_Api_Block_W2pUser</w2puser>
-				</rewrite>
-			</api>
-		</blocks>
 		<models>
             <api>
                 <class>Biinno_Api_Model</class>
