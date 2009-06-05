@@ -1,0 +1,25 @@
+#user guide of zetaprint api funtions
+
+= Introduction =
+ZP API Functions :
+	0. set api key and api url 
+	1. Catalogs API
+		1.1. Get list of catalogs for the domain from ZP
+		1.2. Get list of templates of catalog
+	2. Template API
+		2.1. Get details of template
+		2.2. Show previews of template in IFRAME
+	3. User API
+		3.1. Regiser new User
+	4. Order API
+		4.1. Get Order details
+		4.2. Saved order completion
+		4.3. Change Order status
+
+
+= Details =
+include ("api/zp_api.php");
+	/* api key and url */
+	/* to use api function, we have init api key and api url by call zp_api_init as below */
+	zp_api_init("612eca11-48fd-4df7-bff5-3d493919283e" , "http://realestate.zetaprints.com");
+	
