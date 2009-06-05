@@ -1,5 +1,5 @@
-User guide of zetaprint api functions
-ZP API Functions :
+User guide of zetaprint api functions.
+===ZP API Functions ===: 
 	# Set api key and api url 
 	# Catalogs API
 		# Get list of catalogs for the domain from ZP
