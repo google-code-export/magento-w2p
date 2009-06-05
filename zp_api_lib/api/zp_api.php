@@ -2,13 +2,32 @@
 /**
   * Project	zeta prints api
   * Author	Pham Tri Cong <phtcong@gmail.com>
-  *
+  * ZetaPrints provides direct connection to its back-end via web-to-print API. 
+  * Web to print API can only be accessed through your custom domain name, not through zetaprints.com. 
+  * There must be a match between your domain name and your API key.
+  * ZP API have :
+  *	1. Catalogs API
+  * 		1.1. Get list of catalogs for the domain from ZP
+  *		1.2. Get list of templates of catalog
+  *	2. Template API
+  *		2.1. Get details of template
+  *		2.2. Show previews of template in IFRAME
+  *	3. User API
+  *		3.1. Regiser new User
+  *	4. Order API
+  *		4.1. Get Order details
+  *		4.2. Saved order completion
+  *		4.3. Change Order status
   */
 define("ZP_API_VER",'1.0');
 global $zp_api_key;
 global $zp_api_url;
 
 /**
+  * Web to print API can only be accessed through your custom domain name, not through zetaprints.com. 
+  * There must be a match between your domain name and your API key.
+  *
+  * This function will set api key and api url for all call of zp api.
   * Init api key and api url
   */
 function zp_api_init($key, $url){
@@ -24,7 +43,7 @@ function zp_api_init($key, $url){
   *	catalog functions		*
   ***************************/
 /**
-  * Get list of catalogs for the domain from ZP
+  * 1.1. Get list of catalogs for the domain from ZP
   * @param	api_key
   * @param	api_url
   * @return	Array
@@ -57,11 +76,11 @@ function zp_api_catalog_list($key = null, $url = null){
 
 
 /**
-  * Get List Template of Category's Feed URL Of User
-  * @param	cid	Category Id
+  * 1.2. Get list of templates of catalog
+  * @param	cid	catalog Id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
-  * @return  list template of category
+  * @return  list templates of catalog
   */
 function zp_api_catalog_detail($cid, $key = null, $url = null){
 	if ($key){
@@ -103,7 +122,7 @@ function zp_api_catalog_check_public($cate){
   *	template functions	*
   ***************************/
 /**
-  * Get Template  detail from ZP
+  * 2.1. Get details of template
   * @param	tid	Template Id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -179,7 +198,8 @@ function zp_api_template_detail($tid, $key = null, $url = null){
 	return $data;
 }
 /**
-  * Get iframe url of Template
+  * 2.2. Get iframe url of Template to Show previews of template in IFRAME
+  *
   * @param	tid	Template Id
   * @param	uid	User Id
   * @param	pass	PassWord
@@ -215,7 +235,7 @@ function zp_api_template_iframe_url($tid, $uid, $pass, $key = null, $url = null)
   *	user functions		*
   ***************************/
 /**
-  * register user to w2p
+  * 3.1. Regiser new User
   * @param 	user
   * @param 	pass
   * @param 	key	ApiKey
@@ -256,7 +276,7 @@ function zp_api_user_register($user, $pass, $key = null, $url = null){
   *	order functions		*
   ***************************/
 /**
-  * Get Order Detail From ZP
+  *  4.1. Get Order details
   * @param 	id	order id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -282,7 +302,8 @@ function zp_api_order_detail($id, $key = null, $url = null){
 	return zp_api_order_fetch($ret, $zp_api_url);
 }
 /**
-  * Save Order To ZP
+  *
+  * 4.2. Saved order completion
   * @param 	id	order id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -307,7 +328,7 @@ function zp_api_order_save($id, $key = null, $url = null){
 	return zp_api_order_fetch($ret, $zp_api_url);
 }
 /**
-  * Change Order Status To ZP
+  * 4.3. Change Order status
   * @param 	id	order id
   * @param	fstatus	new status
   * @param	tstatus	old status
