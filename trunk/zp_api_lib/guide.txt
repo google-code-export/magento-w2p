@@ -1,0 +1,1 @@
+Please look zp.test.php as example of use zp_api
