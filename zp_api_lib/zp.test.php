@@ -22,7 +22,7 @@
 	include ("api/zp_api.php");
 	/* api key and url */
 	/* to use api function, we have init api key and api url by call zp_api_init as below */
-	zp_api_init("612eca11-48fd-4df7-bff5-3d493919283e" , "http://realestate.zetaprints.com");
+	zp_api_init("key" , "url");
 	
 	/*************** 1. Catalogs API ***********/
 	//1.1. Get list of catalogs for the domain from ZP sample
