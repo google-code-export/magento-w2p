@@ -1,4 +1,7 @@
 User guide of zetaprint api functions.
+
+The source code is located under [http://code.google.com/p/magento-w2p/source/browse/#svn/trunk/zp_api_lib svn/trunk/zp_api_lib].
+
 ===ZP API Functions: === 
 	# Set api key and api url 
 	# Catalogs API
