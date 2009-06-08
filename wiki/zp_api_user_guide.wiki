@@ -22,16 +22,19 @@ The source code for PHP wrappers is located under [http://code.google.com/p/mage
 		# Change Order status ([http://www.zetaprints.com/help/orders-api-status-change/ Order status API])
 
 == Include API And Set api key and api url ==
-==== Include API ====
+==== Include file ====
+The only file needed to utilize the wrappers is api/zp_api.php
 {{{
 include ("api/zp_api.php");
 }}}
 ==== Set api key and api url ====
+There are 2 main parameters needed for the wrappers to function: [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] and the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
 {{{
 /* api key and url */
 /* to use api function, we have init api key and api url by call zp_api_init as below */
 zp_api_init("key" , "url");
 }}}
+where "key" comes in form of a GUID, e.g. 
 == Catalogs API ==
 ==== Get list of catalogs for the domain from ZP ====
 {{{
