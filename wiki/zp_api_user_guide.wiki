@@ -32,7 +32,7 @@ There are 2 main parameters needed for the wrappers to function: [http://www.zet
 {{{
 /* api key and url */
 /* to use api function, we have init api key and api url by call zp_api_init as below */
-zp_api_init("key" , "url");
+zp_api_init("_key_" , "_url_");
 }}}
   * "key" comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436",
   * "url" is a fully qualified domain name including http:// prefix
@@ -56,7 +56,7 @@ foreach ($list as $cdata){
 You need a Catalog ID as a parameter to call this function. The parameter is a GUID, e.g. "0187C932-6EB2-4DFF-B90E-3B3BB33E9279".
 {{{
 //1.2. Get list of templates of catalog
-$list_template = zp_api_catalog_detail("CatalogID");
+$list_template = zp_api_catalog_detail("_CatalogID_");
 print_r($list_template);
 /*
 foreach ($list_template as $template){
@@ -66,40 +66,45 @@ foreach ($list_template as $template){
 }}}
 
 
-== Template API ==
-==== Get details of template ====
+== Get template details ==
+Once you have a list of templates from the previous calls you can request template details, one by one. You need a template ID as a parameter. It comes in a form of GUID, e.g. "7AFB079C-BB16-4856-89FF-2E69B5BE303E".
+
 {{{
-//2.1. Get details of template
-$template = zp_api_template_detail("7AFB079C-BB16-4856-89FF-2E69B5BE303E");
+//2.1. Get template details
+$template = zp_api_template_detail("_TemplateID_");
 print_r($template);
 /*
 //process here
 */
 }}}
-==== Show previews of template in IFRAME ====
-{{{
-//3.1. Regiser new User and  2.2. Show previews of template in IFRAME
-//create user and pass if not have
-$user = zp_api_common_uuid();
-$pass = zp_api_common_pass();
-//3.1. Regiser new User 
-$ret = zp_api_user_register($user, $pass);
-echo "regiter=[$ret]";
-//2.2. Show previews of template in IFRAME
-$iframe = zp_api_template_iframe_url ("7AFB079C-BB16-4856-89FF-2E69B5BE303E",$user,$pass);
-echo "iframe=[$iframe]";
-}}}
 
-== User API ==
-==== Regiser new User ====
+== Register new user ==
+One of the requirements to use the preview and order generation functions is having a valid user ID registered in ZetaPrints with access rights to the template. This set of functions works only with public templates.
+
+You must implement user management where a user is identified even before registering, this identification persists between visits, where possible and is synchronized with ZetaPrints User ID at all times.
+
+ZetaPrints caches all user input, including text and uploaded images. If ZetaPrints user id changes then anything the user entered or uploaded before becomes unavailable. Read more in [http://www.zetaprints.com/help/user-registration-api/ User registration API]
+
 {{{
-//create user and pass if not have
-$user = zp_api_common_uuid();
-$pass = zp_api_common_pass();
-//3.1. Regiser new User 
-$ret = zp_api_user_register($user, $pass);
+// Prepare new user id and password
+$user = zp_api_common_uuid(); // generate new user ID in ZP format (GUID)
+$pass = zp_api_common_pass(); // generate an obscure password
+$ret = zp_api_user_register($user, $pass); // Register a new user with ZetaPrints 
 echo "regiter=[$ret]";;
 }}}
+
+_zp_api_user_register($user, $pass)_ function return *???* in case of success or any other value in case of failure. Registering a new user with _UserID_ and _Password_ matching an existing user returns _OK_.
+
+==== Show previews of template in IFRAME ====
+There is number of options how your website may present templates. One of the options is to show ZetaPrints interface in an IFRAME. Note, that you have to have a registered user ID to use this function. 
+
+{{{
+//Show previews of template in IFRAME
+$iframe = zp_api_template_iframe_url ("_Template ID_",$user,$pass);
+echo "iframe=[$iframe]";
+}}}
+where _Template ID_ is a GUID of a template in question.
+
 
 == Order API ==
 ==== Get Order details ====
