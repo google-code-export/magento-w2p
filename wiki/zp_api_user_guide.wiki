@@ -34,11 +34,16 @@ There are 2 main parameters needed for the wrappers to function: [http://www.zet
 /* to use api function, we have init api key and api url by call zp_api_init as below */
 zp_api_init("key" , "url");
 }}}
-where "key" comes in form of a GUID, e.g. 
+  * "key" comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436",
+  * "url" is a fully qualified domain name including http:// prefix
+
 == Catalogs API ==
+ZetaPrints has a 3-level structure: *portal* ^1^-->^*^ *catalog* ^1^-->^*^ *template*. You need to obtain the list of catalogs and then request a list of templates for each of the catalogs. You may want to check access control attribute before requesting a list of template if your site should only show public templates.
+
+
 ==== Get list of catalogs for the domain from ZP ====
 {{{
-//1.1. Get list of catalogs for the domain from ZP sample
+//1.1. Get list of catalogs for the domain
 $list = zp_api_catalog_list();
 print_r($list);//process result here
 /*
@@ -48,9 +53,10 @@ foreach ($list as $cdata){
 */
 }}}
 ==== Get list of templates of catalog ====
+You need a Catalog ID as a parameter to call this function. The parameter is a GUID, e.g. "0187C932-6EB2-4DFF-B90E-3B3BB33E9279".
 {{{
 //1.2. Get list of templates of catalog
-$list_template = zp_api_catalog_detail("0187C932-6EB2-4DFF-B90E-3B3BB33E9279");
+$list_template = zp_api_catalog_detail("CatalogID");
 print_r($list_template);
 /*
 foreach ($list_template as $template){
