@@ -111,6 +111,8 @@ One of the options is to show ZetaPrints interface in an IFRAME. Note, that you 
 The function crafts a special URL for the FRAME SRC attribute that includes the following parameters: 
 
   * RetT=???
+  * Ret ???
+  * what parameters are set ?
 
 {{{
 //Show previews of template in IFRAME
@@ -121,31 +123,43 @@ where _Template ID_ is a GUID of a template in question.
 The function returns ???
 
 == Order API ==
+ZetaPrints Order API allows some manipulation of orders and retrieval of order details. 
+
 ==== Get Order details ====
+This function returns order details as XML. You need to provide a valid ZetaPrints order ID in GUID format. You may already have the Order ID stored in a database or it may be returned as a parameter after personalizing a design in a FRAME or e-cards widget.
+
 {{{
-//4.1. Get Order details
-$id = "FB70B451-A132-461A-A859-C936A3846724";
+//Get order details
+$id = "_ZetaPrints order ID_";
 $order = zp_api_order_detail($id);
 print_r($order);
 /*
 //process here
 */
 }}}
+
 ==== Saved order completion ====
+When a design is personalized using ZetaPrints in a FRAME or e-cards widget it is saved as a temporary order. No output files are generated at that stage and it is not [http://www.zetaprints.com/help/billing-rules/ billable]. The status of such orders is _Saved_.
+You can request ZetaPrints to generate output files for _saved_ orders at any time, for example when a payment was received. Note that the saved order will be removed, a new order is created with all the files generated. Such orders are [http://www.zetaprints.com/help/billing-rules/ billable].
+
 {{{
-//4.2. Saved order completion
-$id = "FB70B451-A132-461A-A859-C936A3846724";
+//Saved order completion
+$id = "_ZetaPrints saved order ID_";
 $order = zp_api_order_save($id);
 print_r($order);
 /*
 //process here
 */
 }}}
+
 ==== Change Order status ====
+As an order is progressing to shipping and other stages you may need to update the status in ZetaPrints database. It is a good idea to mark past orders as deleted. They won't be [http://www.zetaprints.com/help/order-retention/ physically deleted] straight away.
+You need to supply a valid order ID, current status and the new status as parameters. The status will be changed only if the current status you provide matches the status in ZetaPrints database.
+
 {{{
-//4.3. Change Order status
-$id = "FB70B451-A132-461A-A859-C936A3846724";
-$order = zp_api_order_change($id, "deleted", "saved");
+//Change order status
+$id = "_ZetaPrints order ID_";
+$order = zp_api_order_change($id, "_new status_", "_current status_");
 print_r($order);
 /*
 //process here
