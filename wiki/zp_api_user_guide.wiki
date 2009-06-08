@@ -28,10 +28,11 @@ The only file needed to utilize the wrappers is api/zp_api.php
 include ("api/zp_api.php");
 }}}
 ==== Set api key and api url ====
+This function must be called before any other API wrapper functions to initialize some global variables.
+
 There are 2 main parameters needed for the wrappers to function: [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] and the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
 {{{
-/* api key and url */
-/* to use api function, we have init api key and api url by call zp_api_init as below */
+/* Initialize API key and url */
 zp_api_init("_key_" , "_url_");
 }}}
   * "key" comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436",
