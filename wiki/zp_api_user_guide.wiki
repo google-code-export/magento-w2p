@@ -9,17 +9,17 @@ The source code for PHP wrappers is located under [http://code.google.com/p/mage
 ==ZP API Functions Overview ==
 	# Set api key and api url 
 	# Catalogs API
-		# Get list of catalogs for the domain from ZP [http://www.zetaprints.com/help/catalogs-api/ Catalogs API]
-		# Get list of templates of catalog [http://www.zetaprints.com/help/template-details-api/ Templates API]
+		# Get list of catalogs for the domain from ZP ([http://www.zetaprints.com/help/catalogs-api/ Catalogs API])
+		# Get list of templates of catalog ([http://www.zetaprints.com/help/template-details-api/ Templates API])
 	# Template API
-		# Get details of template [http://www.zetaprints.com/help/template-details-api/ Templates API]
-		# Show previews of template in IFRAME [http://www.zetaprints.com/help/user-pass-through-api/ User pass-through API]
+		# Get details of template ([http://www.zetaprints.com/help/template-details-api/ Templates API])
+		# Show previews of template in IFRAME ([http://www.zetaprints.com/help/user-pass-through-api/ User pass-through API])
 	# User API
-		# Regiser new User [http://www.zetaprints.com/help/user-registration-api/ User rego API]
+		# Regiser new User ([http://www.zetaprints.com/help/user-registration-api/ User rego API])
 	# Order API
-		# Get Order details [http://www.zetaprints.com/help/orders-api-order-details/ Order Details API]
-		# Saved order completion [http://www.zetaprints.com/help/orders-api-generate-output-files/ Order files generation API]
-		# Change Order status [http://www.zetaprints.com/help/orders-api-status-change/ Order status API]
+		# Get Order details ([http://www.zetaprints.com/help/orders-api-order-details/ Order Details API])
+		# Saved order completion ([http://www.zetaprints.com/help/orders-api-generate-output-files/ Order files generation API])
+		# Change Order status ([http://www.zetaprints.com/help/orders-api-status-change/ Order status API])
 
 == Include API And Set api key and api url ==
 ==== Include API ====
