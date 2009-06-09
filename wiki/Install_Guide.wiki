@@ -11,31 +11,40 @@ This document describes steps necessary to install ZetaPrints extension to Magen
 You are expected to have an existing Magento installation, be able to install it yourself or get help with the installation. It's quite possible there will be problems during installation of this extension or Magento itself. Most often they are limited to missing or disabled PHP/MySQL features and components, file and folder security setting other little annoying things specific to your hosting environment.
 
 
-===Add Magento attributes==
-Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on Add attribute button.
+==Add Magento attributes==
+Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on _Add attribute_ button.
 
 http://www.zetaprints.ru/magento/guide/Attribute_add_search.jpg
 
 Leave all attribute properties at default values unless stated otherwise here.
-None of these attributes should exist, unless this extension has already been installed.
+None of these attributes should exist, unless this extension has already been installed. If an attribute already exists and you are not sure how it was configured, delete it and create again as per this manual.
 
-Adding an attribute takes you through 2 screens. Enter values provided here. Fields _Admin_ and _Default Store View_ sit on the second screen.
-	
-====Template URL====
+Adding an attribute takes you through 2 screens. 
+
+==== Properties screen ====
+Most values are entered into this screen.
+http://www.zetaprints.ru/magento/guide/Attribute_add_form.jpg
+
+==== Label / Options screen ====
+Fields _Admin_ and _Default Store View_ sit on the second screen. The screen appears automatically when you click _Save_ or you can activate the screen by clicking on _Manage Labels/Options_ in the menu on the left.
+http://www.zetaprints.ru/magento/guide/Attribute_add_form_2.jpg
+
+====Attribute for template URL====
 Link to the template page on ZetaPrints.
   * Attribute Code: w2p_link
   * Admin/Default Store View: Template URL
 
-====Template thumb====
+====Attribute for template thumb====
 Link to the template's image on ZetaPrints to show on category page.
   * Attribute Code: w2p_image
   * Used in product listing: yes
   * Admin/Default Store View: Template thumb
 
-====Template image links====
+====Attribute for template image links====
 Link to the template's images on ZetaPrints.
   * Attribute Code: w2p_image_links
   * Admin/Default Store View: Template images
+
 
 
 	+ w2p_created			created date time
