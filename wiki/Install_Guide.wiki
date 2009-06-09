@@ -46,12 +46,12 @@ Link to the template's images on ZetaPrints.
   * Admin/Default Store View: Template images
 
 ====Attribute for template created timestamp ====
-Link to the template's images on ZetaPrints.
+Date and time when the template was created in ZetaPrints. Used for data matching.
   * Attribute Code: w2p_created
   * Admin/Default Store View: Template created
 
 ====Attribute for template modified timestamp ====
-Link to the template's images on ZetaPrints.
+Date and time when the template was last modified in ZetaPrints. Used for data matching.
   * Attribute Code: w2p_modified
   * Admin/Default Store View: Template modified 
 
@@ -65,21 +65,39 @@ Link to the template's images on ZetaPrints.
   * Attribute Code: w2p_image_small
   * Admin/Default Store View: Template thumbs
 
-====Attribute for template previews (thumbs) ====
-Link to the template's images on ZetaPrints.
-  * Attribute Code: w2p_image_small
-  * Admin/Default Store View: Template thumbs
+====Attribute for template order flag ====
+????????????????????????????
+  * Attribute Code: w2p_isorder
+  * Catalog Input Type for Store Owner: Yes/No
+  * Used in product listing: Yes
+  * Admin/Default Store View: Template thumbs	
 
-	
-	+ w2p_isorder			Template is order or not
-							**Note that this field has below properties
-								[Catalog Input Type for Store Owner] = Yes/No
-								[Used in product listing] = Yes
-	+ w2p_cdr				Corel draw file address of Order information
-	+ w2p_jpg				JPG file address of Order information
-	+ w2p_png				PNG file address of Order information
-	+ w2p_gif				GIF draw file address of Order information
-	+ w2p_pdf				PDF draw file address of Order information
+====Attribute for order CDR file ====
+Link to CDR file generated with the order. A completed order always has a CDR file.
+  * Attribute Code: w2p_cdr
+  * Admin/Default Store View: Order CDR	
+
+====Attribute for order JPG file ====
+Link to JPG file generated with the order, if such file is generated. See template config in ZetaPrints.
+  * Attribute Code: w2p_jpg
+  * Admin/Default Store View: Order JPG	
+
+====Attribute for order PNG file ====
+Link to PNG file generated with the order, if such file is generated. See template config in ZetaPrints.
+  * Attribute Code: w2p_png
+  * Admin/Default Store View: Order PNG
+
+====Attribute for order GIF file ====
+Link to GIF file generated with the order, if such file is generated. See template config in ZetaPrints.
+  * Attribute Code: w2p_gif
+  * Admin/Default Store View: Order GIF
+
+====Attribute for order PDF file ====
+Link to PDF file generated with the order, if such file is generated. See template config in ZetaPrints.
+  * Attribute Code: w2p_pdf
+  * Admin/Default Store View: Order PDF
+
+
 
 2.1.2. Edit Attribute Set
 	+ Edit Default Attribute Set 
