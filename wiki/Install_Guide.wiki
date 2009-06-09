@@ -1,11 +1,18 @@
+#summary Extension installation and configuration guide
 #labels Install
-==Install magento 1.3==
-You are expected to have an existing Magento installation, be able to install it yourself or get help with the installation.
+This document describes steps necessary to install ZetaPrints extension to Magento:
+  * Configure Magento attributes
+  * Copy code into Magento folders from SVN
+  * Clear Magento cache
+  * Run data import utility
+  * Install and configure a custom theme
 
-==Install ZetaPrints extension==
+== Requirements ==
+You are expected to have an existing Magento installation, be able to install it yourself or get help with the installation. It's quite possible there will be problems during installation of this extension or Magento itself. Most often they are limited to missing or disabled PHP/MySQL features and components, file and folder security setting other little annoying things specific to your hosting environment.
+
 
 ===Add Magento attributes==
-Attributes are added via admin UI. Log in as an administrator and navigate to Catalog/Attributes/Manage Attributes. Click on Add attribute button.
+Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on Add attribute button.
 
 http://www.zetaprints.ru/magento/guide/Attribute_add_search.jpg
 
