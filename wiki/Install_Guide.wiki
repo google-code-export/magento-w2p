@@ -147,4 +147,4 @@ You need to provide ZetaPrints API Key and URL of your web-to-print portal. Read
 ==== Run data import ====
 Complete data import configuration and navigate to _System / Import/Export / Advanced Profiles_. Select _ZetaPrints data import_ profile and click on _Run Profile_ tab on the left. Click _Run Profile in Popup_ button.
 
-
+Re-run the data import the same way every time you add new templates or change existing ones. Data import does not delete templates from Magento even if they were removed from ZetaPrints.
