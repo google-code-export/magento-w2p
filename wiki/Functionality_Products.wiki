@@ -1,5 +1,5 @@
 #summary Sync of products databases
-#labels Phase-Requirements
+#labels Phase-Requirements,Deprecated
 = Products =
 This extension syncs products information between M and ZP. 
 
@@ -40,8 +40,6 @@ The following fields should be copied into Magento:
   * modified date time
   * links to large product images
   * links to small product images
-
-
 
 
 
