@@ -1,5 +1,5 @@
 #summary Extension installation and configuration guide
-#labels Install
+#labels Featured,Phase-Deploy
 This document describes steps necessary to install ZetaPrints extension to Magento:
   * Configure Magento attributes
   * Copy code into Magento folders from SVN
@@ -10,6 +10,8 @@ This document describes steps necessary to install ZetaPrints extension to Magen
 == Requirements ==
 You are expected to have an existing Magento installation, be able to install it yourself or get help with the installation. It's quite possible there will be problems during installation of this extension or Magento itself. Most often they are limited to missing or disabled PHP/MySQL features and components, file and folder security setting other little annoying things specific to your hosting environment.
 
+== Back up ==
+Your Magento set up may stop working after making changes and adding the extension. It's a good idea to make a back up of the code and the DB first. Back up. Takes 5 mins - saves days.
 
 ==Add Magento attributes==
 Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on _Add attribute_ button.
@@ -99,23 +101,26 @@ Link to PDF file generated with the order, if such file is generated. See templa
 
 
 
-2.1.2. Edit Attribute Set
-	+ Edit Default Attribute Set 
-	+ Add 
+== Edit attribute set ==
+Navigate to _Catalog / Attribute Sets / Manage Attribute Sets_ in the top admin menu. Select _Default_ attribute set.
 
-2.2. Copy source code and config file
+You will see 2 columns of attributes: Groups and _Unassigned Attributes_. The newly added attributes (w2p_...) should be in _Unassigned Attributes_ column. Drag them one by one into _General_ group of attributes.
 
-2.2.1. Code
-	+ app/code
-	-> Copy code in the app/code folder in to app of magento
-	
-2.2.2. Config file
-	+ app/etc
-	-> Copy code in the app/etc folder in to app of magento
-	
-2.2.3. Overide default theme
-	+ app/design
-	-> Copy code in the app/design folder in to app of magento
+http://www.zetaprints.ru/magento/guide/Attribute_set_form.jpg
+
+
+== Copy source code and config file ==
+
+The source code is located in [http://code.google.com/p/magento-w2p/source/browse/#svn/trunk/data-import SVN code repository]. Files can be downloaded one by one or using an SVN client. The SVN location offers the latest version of the code. The last stable version is packaged in [http://code.google.com/p/magento-w2p/downloads/list Downloads section].
+
+Core Magento files: copy everything from _app/code_ folder into _app/code_ folder in Magento. 
+
+Config files: copy everything from _app/etc_ folder into _app/etc_ folder in Magento. 
+
+Default theme: copy everything from _app/design_ folder into _app/design_ folder in Magento. 
+
+*WARNING:* you may want to [http://code.google.com/p/magento-w2p/wiki/ChangedFiles modify your current theme] instead of replacing it with our default theme.
+
 	
 == Clear cache ==
 Magento requires cache clearing after installing an extension. Go to _Configuration/Cache mangement_ and clear the cache.
