@@ -45,12 +45,31 @@ Link to the template's images on ZetaPrints.
   * Attribute Code: w2p_image_links
   * Admin/Default Store View: Template images
 
+====Attribute for template created timestamp ====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_created
+  * Admin/Default Store View: Template created
 
+====Attribute for template modified timestamp ====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_modified
+  * Admin/Default Store View: Template modified 
 
-	+ w2p_created			created date time
-	+ w2p_modified			modified date time
-	+ w2p_image_large		links to large product images
-	+ w2p_image_small		links to small product images
+====Attribute for template previews (large) ====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_image_large
+  * Admin/Default Store View: Template previews
+
+====Attribute for template previews (thumbs) ====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_image_small
+  * Admin/Default Store View: Template thumbs
+
+====Attribute for template previews (thumbs) ====
+Link to the template's images on ZetaPrints.
+  * Attribute Code: w2p_image_small
+  * Admin/Default Store View: Template thumbs
+
 	
 	+ w2p_isorder			Template is order or not
 							**Note that this field has below properties
