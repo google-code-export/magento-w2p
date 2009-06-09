@@ -32,11 +32,13 @@ This function must be called before any other API wrapper functions to initializ
 
 There are 2 main parameters needed for the wrappers to function: [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] and the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
 {{{
-/* Initialize API key and url */
-zp_api_init("_key_" , "_url_");
+function zp_api_init($key, $url){}
+
+/**
+  * @param	key, comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436"
+  * @param	url, a fully qualified domain name including http:// prefix
+  */
 }}}
-  * "key" comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436",
-  * "url" is a fully qualified domain name including http:// prefix
 
 == Catalogs API ==
 ZetaPrints has a 3-level structure: *portal* ^1^-->^*^ *catalog* ^1^-->^*^ *template*. You need to obtain the list of catalogs and then request a list of templates for each of the catalogs. You may want to check access control attribute before requesting a list of template if your site should only show public templates.
