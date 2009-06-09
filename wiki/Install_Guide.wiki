@@ -68,11 +68,11 @@ Link to the template's images on ZetaPrints.
   * Admin/Default Store View: Template thumbs
 
 ====Attribute for template order flag ====
-????????????????????????????
+This attribute indicates that the product is actually a customized instance of a template and should not be shown in the store.
   * Attribute Code: w2p_isorder
   * Catalog Input Type for Store Owner: Yes/No
   * Used in product listing: Yes
-  * Admin/Default Store View: Template thumbs	
+  * Admin/Default Store View: Personalized product	
 
 ====Attribute for order CDR file ====
 Link to CDR file generated with the order. A completed order always has a CDR file.
@@ -127,22 +127,24 @@ Magento requires cache clearing after installing an extension. Go to _Configurat
 
   # All Cache: select _Refresh_ from the dropdown.
   # Click _Save cache settings_.
-  # Catalog Rewrites: click on _Refresh_ button.
+  # Click on _Refresh_ button in Catalog Rewrites row,
 
 
-== Run Import data ==
-	+ Login as admin
-	+ System -> Import/Export -> Advanced Profiles -> Add New Profile
-		- Name : Import Product and category form ZetaPrints
-		- Action XML :
+== Import data ==
+Once the extension is installed and configured you can import the data from your ZetaPrings portal. All your catalogs and templates are imported initially and only new and updated templates on subsequent runs. Data import needs to be initiated manually.
+
+==== Add new profile ====
+You need to create a new "profile" for data import navigate to _System / Import/Export / Advanced Profiles / Add New Profile_ and create the following profile.
+  * Name: ZetaPrints data import
+  * Action XML : copy and paste the XML code below into Action XML text box
 {{{
-                       <action type="catalog/convert_adapter_category" method="parse">
-				<var name="url">http://realestate.zetaprints.com</var>
-				<var name="key">612eca11-48fd-4df7-bff5-3d493919283e</var>
-				<var name="store">default</var>
-				<var name="debug">1</var>
-				<var name="refresh">0</var>
-			</action>
+<action type="catalog/convert_adapter_category" method="parse" />
 }}}
 
-5. Run Import Product and category form ZetaPrints
+==== Configure data import ====
+You need to provide ZetaPrints API Key and URL of your web-to-print portal. Read more in ZetaPrints_Sync_Settings article.
+
+==== Run data import ====
+Complete data import configuration and navigate to _System / Import/Export / Advanced Profiles_. Select _ZetaPrints data import_ profile and click on _Run Profile_ tab on the left. Click _Run Profile in Popup_ button.
+
+
