@@ -3,5 +3,17 @@
 
 === app\code\core\Mage\Catalog\Helper\Image.php ===
   * Check if attribute w2p_image is present it displays w2p_image with ZP Image.
-
-
+=== app\code\core\Mage\Sales\Model\Quote\Item.php ===
+  * Check if attribute w2p_image is present it displays w2p_image with ZP Image on Shopping cart.
+=== app\design\adminhtml\default\default\template\sales\items\column\name.php ===
+  * Check if attribute w2p_order is present it displays zp order information on order detail page.
+=== app\design\frontend\default\default\template\catalog\product\list.phtml ===
+  * Change to displays list zp products of category.
+=== app\design\frontend\default\default\template\catalog\product\view.phtml ===
+  * Change to displays zp product detail.
+=== app\design\frontend\default\default\template\catalog\product\view\media.phtml ===
+  * Change to displays ZP Image(w2p_image) on product detail page.
+=== app\design\frontend\default\default\template\catalog\product\view.phtml ===
+  * Change to displays Personalize Button on product detail page.
+=== app\design\frontend\default\default\template\page\2columns-right.phtml ===
+  * Change to display iframe of product.
