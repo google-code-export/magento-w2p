@@ -1,4 +1,5 @@
 #summary Explains plugin configuration and parameters
+#labels Phase-Design
 
 = Plugin configuration=
 
