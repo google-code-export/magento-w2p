@@ -2,32 +2,14 @@
 /**
   * Project	zeta prints api
   * Author	Pham Tri Cong <phtcong@gmail.com>
-  * ZetaPrints provides direct connection to its back-end via web-to-print API. 
-  * Web to print API can only be accessed through your custom domain name, not through zetaprints.com. 
-  * There must be a match between your domain name and your API key.
-  * ZP API have :
-  *	1. Catalogs API
-  * 		1.1. Get list of catalogs for the domain from ZP
-  *		1.2. Get list of templates of catalog
-  *	2. Template API
-  *		2.1. Get details of template
-  *		2.2. Show previews of template in IFRAME
-  *	3. User API
-  *		3.1. Regiser new User
-  *	4. Order API
-  *		4.1. Get Order details
-  *		4.2. Saved order completion
-  *		4.3. Change Order status
+  *
   */
 define("ZP_API_VER",'1.0');
+define("ZP_API_HTTP_CACHE",'zp_cache');
 global $zp_api_key;
 global $zp_api_url;
 
 /**
-  * Web to print API can only be accessed through your custom domain name, not through zetaprints.com. 
-  * There must be a match between your domain name and your API key.
-  *
-  * This function will set api key and api url for all call of zp api.
   * Init api key and api url
   */
 function zp_api_init($key, $url){
@@ -43,7 +25,7 @@ function zp_api_init($key, $url){
   *	catalog functions		*
   ***************************/
 /**
-  * 1.1. Get list of catalogs for the domain from ZP
+  * Get list of catalogs for the domain from ZP
   * @param	api_key
   * @param	api_url
   * @return	Array
@@ -76,11 +58,11 @@ function zp_api_catalog_list($key = null, $url = null){
 
 
 /**
-  * 1.2. Get list of templates of catalog
-  * @param	cid	catalog Id
+  * Get List Template of Category's Feed URL Of User
+  * @param	cid	Category Id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
-  * @return  list templates of catalog
+  * @return  list template of category
   */
 function zp_api_catalog_detail($cid, $key = null, $url = null){
 	if ($key){
@@ -122,7 +104,7 @@ function zp_api_catalog_check_public($cate){
   *	template functions	*
   ***************************/
 /**
-  * 2.1. Get details of template
+  * Get Template  detail from ZP
   * @param	tid	Template Id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -198,8 +180,7 @@ function zp_api_template_detail($tid, $key = null, $url = null){
 	return $data;
 }
 /**
-  * 2.2. Get iframe url of Template to Show previews of template in IFRAME
-  *
+  * Get iframe url of Template
   * @param	tid	Template Id
   * @param	uid	User Id
   * @param	pass	PassWord
@@ -235,7 +216,7 @@ function zp_api_template_iframe_url($tid, $uid, $pass, $key = null, $url = null)
   *	user functions		*
   ***************************/
 /**
-  * 3.1. Regiser new User
+  * register user to w2p
   * @param 	user
   * @param 	pass
   * @param 	key	ApiKey
@@ -276,7 +257,7 @@ function zp_api_user_register($user, $pass, $key = null, $url = null){
   *	order functions		*
   ***************************/
 /**
-  *  4.1. Get Order details
+  * Get Order Detail From ZP
   * @param 	id	order id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -302,8 +283,7 @@ function zp_api_order_detail($id, $key = null, $url = null){
 	return zp_api_order_fetch($ret, $zp_api_url);
 }
 /**
-  *
-  * 4.2. Saved order completion
+  * Save Order To ZP
   * @param 	id	order id
   * @param 	key	ApiKey
   * @param	url	Url of ZentaPrints site
@@ -328,7 +308,7 @@ function zp_api_order_save($id, $key = null, $url = null){
 	return zp_api_order_fetch($ret, $zp_api_url);
 }
 /**
-  * 4.3. Change Order status
+  * Change Order Status To ZP
   * @param 	id	order id
   * @param	fstatus	new status
   * @param	tstatus	old status
@@ -449,24 +429,46 @@ function zp_api_common_feed2array($url)
 {
 	zp_api_log_debug("zp_api_common_feed2array:start url=[$url]");
 	$obj = null;
-	try{
-		try{
-			$obj = @simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
-			if (!$obj) {
-				zp_api_log_debug("zp_api_common_feed2array:feed null");
-				return null;
-			}	
-		}catch(Warning $e){
-			zp_api_log_error("zp_api_common_feed2array:exception=[$e]");
-		}
-	}catch(Exception $e){
-		//error
-		zp_api_log_error("zp_api_common_feed2array:exception=[$e]");
-		return null;
-	}
+	$str = zp_api_get_http_cache($url);
+	if (!$str) return null;
+	
+	$obj = @simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$obj = zp_api_common_object2array($obj);
 	zp_api_log_debug("zp_api_common_feed2array:end url=[$url]");
 	return ($obj);
+}
+function zp_api_get_http($url){
+	for($i = 0; $i < 3 ; $i++){
+		try{
+			$str = @file_get_contents($url);
+			if ($str){
+				return $str;
+			}
+		}catch(Exception $e){
+			rss_api_log_error("zp_api_get_http:exception=[$e]");
+		}
+	}
+	return $str;
+}
+function zp_api_get_http_cache($url){	
+	if (!ZP_API_HTTP_CACHE) return zp_api_get_http($url);
+	zp_api_log_debug("zp_api_get_http_cache:start url=[$url]");
+	global $zp_cache_time;
+	if (!$zp_cache_time) $zp_cache_time = "NO";
+	$fname = ZP_API_HTTP_CACHE . "/" . md5($url . $zp_cache_time);
+	if (file_exists($fname)){
+		return @file_get_contents($fname);
+	}
+	//get data from http
+	$str = zp_api_get_http($url);
+	//save to cache
+	if (!file_exists(ZP_API_HTTP_CACHE)){
+		mkdir(ZP_API_HTTP_CACHE,0755,true);
+	}
+	$fp = @fopen($fname, 'w');
+	@fwrite($fp, $str);
+	@fclose($fp);
+	return $str;
 }
 /**
   * Convert  simplexml obj to array
