@@ -37,7 +37,7 @@ class Biinno_Api_Model_Importer
 	  */
     public function parse()
     {	
-		$batchModel 	= Mage::getSingleton('dataflow/batch');
+		//$batchModel 	= Mage::getSingleton('dataflow/batch');
         $this->base 	= Mage::getStoreConfig('api/settings/w2p_url');
 		$this->key 		= Mage::getStoreConfig('api/settings/w2p_key');
 		$this->debug 	= Mage::getStoreConfig('api/settings/w2p_debug');
@@ -55,9 +55,13 @@ class Biinno_Api_Model_Importer
 		zp_api_init($this->key,$this->base);
 		//$val = "2009-05-05 10:02:47";
 		$config = $this->getConfig($path);
+		global $zp_cache_time;
 		//NEW, create user attribute
 		if (!$config->getData("config_id")){
 			$this->initSetup();
+			$zp_cache_time = "NO";
+		}else{
+			$zp_cache_time = $config->getData("value");
 		}
 		$this->last = null;
 		if (!$this->refresh){		
@@ -181,6 +185,10 @@ class Biinno_Api_Model_Importer
 	function removeRec($cid=0){
 		//if (!$this->last) return;
 		$this->debugMess("****BEGIN:DELETE");
+		if (count($this->pids) < 2){
+			$this->debugMess("****END:DELETE TOTAL=[0]");
+			return 0;
+		}
 		$condPids = array('nin'=>$this->pids);
 		$condZp = array('neq'=>"");
 		$collection = array();
@@ -230,7 +238,7 @@ class Biinno_Api_Model_Importer
 		$cid = $this->saveCategoryData($cate);
 		
 		$products = $datas;
-		
+		zp_api_log_debug(sprintf("number of product[]=[%s]",count($datas)));
 		foreach ($products as $product){
 			if (!isset($product['id'])) continue;
 			$product['cid'] = $cid;
@@ -244,7 +252,7 @@ class Biinno_Api_Model_Importer
 	}
 	function importProduct($product){
 		$this->infoMess("****TID=[". $product['id'] . "]");
-		
+		$this->pids[] = $product['id'];
 		if (!isset($product['id']) 
 		|| !isset($product['title'])
 		|| !isset($product['lastmodified'])

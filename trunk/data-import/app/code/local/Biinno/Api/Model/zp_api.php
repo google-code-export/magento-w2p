@@ -5,6 +5,7 @@
   *
   */
 define("ZP_API_VER",'1.0');
+define("ZP_API_HTTP_CACHE",'zp_cache');
 global $zp_api_key;
 global $zp_api_url;
 
@@ -428,24 +429,46 @@ function zp_api_common_feed2array($url)
 {
 	zp_api_log_debug("zp_api_common_feed2array:start url=[$url]");
 	$obj = null;
-	try{
-		try{
-			$obj = @simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
-			if (!$obj) {
-				zp_api_log_debug("zp_api_common_feed2array:feed null");
-				return null;
-			}	
-		}catch(Warning $e){
-			zp_api_log_error("zp_api_common_feed2array:exception=[$e]");
-		}
-	}catch(Exception $e){
-		//error
-		zp_api_log_error("zp_api_common_feed2array:exception=[$e]");
-		return null;
-	}
+	$str = zp_api_get_http_cache($url);
+	if (!$str) return null;
+	
+	$obj = @simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$obj = zp_api_common_object2array($obj);
 	zp_api_log_debug("zp_api_common_feed2array:end url=[$url]");
 	return ($obj);
+}
+function zp_api_get_http($url){
+	for($i = 0; $i < 3 ; $i++){
+		try{
+			$str = @file_get_contents($url);
+			if ($str){
+				return $str;
+			}
+		}catch(Exception $e){
+			rss_api_log_error("zp_api_get_http:exception=[$e]");
+		}
+	}
+	return $str;
+}
+function zp_api_get_http_cache($url){	
+	if (!ZP_API_HTTP_CACHE) return zp_api_get_http($url);
+	zp_api_log_debug("zp_api_get_http_cache:start url=[$url]");
+	global $zp_cache_time;
+	if (!$zp_cache_time) $zp_cache_time = "NO";
+	$fname = ZP_API_HTTP_CACHE . "/" . md5($url . $zp_cache_time);
+	if (file_exists($fname)){
+		return @file_get_contents($fname);
+	}
+	//get data from http
+	$str = zp_api_get_http($url);
+	//save to cache
+	if (!file_exists(ZP_API_HTTP_CACHE)){
+		mkdir(ZP_API_HTTP_CACHE,0755,true);
+	}
+	$fp = @fopen($fname, 'w');
+	@fwrite($fp, $str);
+	@fclose($fp);
+	return $str;
 }
 /**
   * Convert  simplexml obj to array
