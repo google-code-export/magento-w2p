@@ -56,6 +56,12 @@ foreach ($list as $cdata){
 }
 */
 }}}
+
+_zp_api_catalog_list()_ function returns 
+  * Array of catalogs for the domain which is initted at function zp_api_init($key, $url)
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal,
+  * null - if couldn't find xml tag <channel><item></item></channel> in the rss feed.
+  
 ==== Get list of templates of catalog ====
 You need a Catalog ID as a parameter to call this function. The parameter is a GUID, e.g. "0187C932-6EB2-4DFF-B90E-3B3BB33E9279".
 {{{
