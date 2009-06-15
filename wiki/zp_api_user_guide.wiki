@@ -78,7 +78,7 @@ foreach ($list_template as $template){
 */
 }}}
 
-zp_api_catalog_detail("_CatalogID_")_ function returns 
+_zp_api_catalog_detail("_CatalogID_")_ function returns 
   * Array of templates of catalog which has id = _CatalogID_.
   * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal,
   * null - if couldn't find below xml tag in the rss feed.
