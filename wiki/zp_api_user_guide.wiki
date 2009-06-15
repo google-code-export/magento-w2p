@@ -98,6 +98,10 @@ print_r($template);
 */
 }}}
 
+_zp_api_template_detail("_TemplateID_")_ function returns 
+  * Data Detail (type is array) of Template which has id = _TemplateID_.
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
+
 == Register new user ==
 One of the requirements to use the preview and order generation functions is having a valid user ID registered in ZetaPrints with access rights to the template. This set of functions works only with public templates.
 
