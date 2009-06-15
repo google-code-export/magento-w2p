@@ -37,6 +37,7 @@ function zp_api_init($key, $url){}
 /**
   * @param	key, comes in form of a GUID, e.g. "1CFFC003-C369-43A2-AFC4-E0AA292F4436"
   * @param	url, a fully qualified domain name including http:// prefix
+  * @return	none
   */
 }}}
 
