@@ -137,8 +137,8 @@ The function crafts a special URL for the FRAME SRC attribute that includes the 
   * RetO=Save
   * RetE=1
   * TemplateID=Template ID
-  * ID=[http://www.zetaprints.com/help/user-registration-api/ _UserID_]
-  * Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ _MD5 hash for authentication_]
+  * ID=[http://www.zetaprints.com/help/user-registration-api/ UserID]
+  * Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ MD5 hash for authentication]
 
 {{{
 //Show previews of template in IFRAME
@@ -147,7 +147,7 @@ echo "iframe=[$iframe]";
 }}}
 where _Template ID_ is a GUID of a template in question.
 _zp_api_template_iframe_url("_Template ID_","_UserID_","_Password_")_ function returns 
-  * iframe src : http://order.example.com/?page=template;TemplateID=_Template ID_;RetT=id;RetO=Save;RetE=1;ID=[http://www.zetaprints.com/help/user-registration-api/ _UserID_];Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ _MD5 hash for authentication_]
+  * iframe src : http://order.example.com/?page=template;TemplateID=Template ID;RetT=id;RetO=Save;RetE=1;ID=[http://www.zetaprints.com/help/user-registration-api/ UserID];Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ MD5 hash for authentication]
 
 == Order API ==
 ZetaPrints Order API allows some manipulation of orders and retrieval of order details. 
@@ -165,6 +165,10 @@ print_r($order);
 */
 }}}
 
+_zp_api_order_detail("_ZetaPrints order ID_")_ function returns 
+  * Data Detail (data type is array) of ZetaPrints Order which has id = _ZetaPrints order ID_.
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
+
 ==== Saved order completion ====
 When a design is personalized using ZetaPrints in a FRAME or e-cards widget it is saved as a temporary order. No output files are generated at that stage and it is not [http://www.zetaprints.com/help/billing-rules/ billable]. The status of such orders is _Saved_.
 You can request ZetaPrints to generate output files for _saved_ orders at any time, for example when a payment was received. Note that the saved order will be removed, a new order is created with all the files generated. Such orders are [http://www.zetaprints.com/help/billing-rules/ billable].
@@ -179,6 +183,10 @@ print_r($order);
 */
 }}}
 
+_zp_api_order_save("_ZetaPrints order ID_")_ function returns 
+  * Data Detail (data type is array) of New ZetaPrints Order.
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
+
 ==== Change Order status ====
 As an order is progressing to shipping and other stages you may need to update the status in ZetaPrints database. It is a good idea to mark past orders as deleted. They won't be [http://www.zetaprints.com/help/order-retention/ physically deleted] straight away.
 You need to supply a valid order ID, current status and the new status as parameters. The status will be changed only if the current status you provide matches the status in ZetaPrints database.
@@ -192,3 +200,6 @@ print_r($order);
 //process here
 */
 }}}
+_zp_api_order_change("_ZetaPrints order ID_", "_new status_", "_current status_")_ function returns 
+  * Data Detail (data type is array) of New ZetaPrints Order.
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
