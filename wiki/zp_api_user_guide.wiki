@@ -78,6 +78,13 @@ foreach ($list_template as $template){
 */
 }}}
 
+zp_api_catalog_detail("_CatalogID_")_ function returns 
+  * Array of templates of catalog which has id = _CatalogID_.
+  * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal,
+  * null - if couldn't find below xml tag in the rss feed.
+{{{
+<channel><item></item></channel>
+}}} 
 
 == Get template details ==
 Once you have a list of templates from the previous calls you can request template details, one by one. You need a template ID as a parameter. It comes in a form of GUID, e.g. "7AFB079C-BB16-4856-89FF-2E69B5BE303E".
