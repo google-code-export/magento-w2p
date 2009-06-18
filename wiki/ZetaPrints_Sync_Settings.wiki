@@ -25,12 +25,10 @@ You may have more than one store in your Magento. Choose the store you need to s
 Set to _Yes_ if you want additional info on the synchronization. It may help you identify any possible problems. However, it does show more info to users as well. They may get confused. You can change this parameter to _Yes_ before running a synchronization and then return it back to _No_.
 
 === Refresh All ===
-Set this parameter to _No_. It will update only templates that have changed since the last time.
+*Set this parameter to _No_.* It will update only templates that have changed since the last time.
 
 Setting it to _Yes_ will instruct the synch to download all templates. It is a bit dangerous because:
   * your ZetaPrints account may be blocked automatically if you do it too often
   * your Magento hosting may be suspended if you take too many resources for too long on a shared computer
   * the process may time out if there are too many templates to import
-
-
 
