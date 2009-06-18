@@ -6,7 +6,7 @@ Your Magento store needs to be synchronized with your ZetaPrints web-to-print po
 
 Log in to Magento as a store administrator and navigate to _System/Configuration_ in the top menu and click on ZetaPrints Sync tab in the menu on the left.
 
-http://www.zetaprints.ru/public_html/magento/guide/ZetaPrints_Sync.gif
+http://www.zetaprints.ru/magento/guide/ZetaPrints_Sync.gif
 
 === ZetaPrints URL ===
 URL to the home page of your ZetaPrints web-to-print portal, e.g. _http://orders.example.com_
@@ -31,8 +31,6 @@ Setting it to _Yes_ will instruct the synch to download all templates. It is a b
   * your ZetaPrints account may be blocked automatically if you do it too often
   * your Magento hosting may be suspended if you take too many resources for too long on a shared computer
   * the process may time out if there are too many templates to import
-
-
 
 
 
