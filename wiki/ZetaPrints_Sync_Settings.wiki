@@ -1,13 +1,40 @@
 #summary About ZetaPrints Synchronization settings in Magento
 
-= Introduction =
+= ZetaPrints Synchronization settings=
 
-Add your content here.
+Your Magento store needs to be synchronized with your ZetaPrints web-to-print portal.
+
+Log in to Magento as a store administrator and navigate to _System/Configuration_ in the top menu and click on ZetaPrints Sync tab in the menu on the left.
+
+www.zetaprints.ru/public_html/magento/guide/ZetaPrints_Sync.gif
+
+=== ZetaPrints URL ===
+URL to the home page of your ZetaPrints web-to-print portal, e.g. _http://orders.example.com_
+
+Do not include any page names. Must have _http://_ part in it.
+
+=== ZetaPrints API Key ===
+This is a key that allows access to your data via ZetaPrints API. Go to your ZetaPrints portal, log in and navigate to API page. Grab the key from there. 
+
+Keep the key secret. It is the same as your login and password.
+
+=== Store ===
+You may have more than one store in your Magento. Choose the store you need to sync or enter _default_ otherwise.
+
+=== Logging ===
+Set to _Yes_ if you want additional info on the synchronization. It may help you identify any possible problems. However, it does show more info to users as well. They may get confused. You can change this parameter to _Yes_ before running a synchronization and then return it back to _No_.
+
+=== Refresh All ===
+Set this parameter to _No_. It will update only templates that have changed since the last time.
+
+Setting it to _Yes_ will instruct the synch to download all templates. It is a bit dangerous because:
+  * your ZetaPrints account may be blocked automatically if you do it too often
+  * your Magento hosting may be suspended if you take too many resources for too long on a shared computer
+  * the process may time out if there are too many templates to import
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
+
+
+
