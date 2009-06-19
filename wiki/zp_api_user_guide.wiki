@@ -4,7 +4,10 @@
 ZetaPrints [http://www.zetaprints.com web-to-print and image generation system] provides a [http://www.zetaprints.com/help/category/api/ simple web-to-print API] with various functions to create users, control access, generate previews and place orders. 
 All the functions are called via HTTP GET/POST. We created a set of PHP wrappers to simplify the programming task.
 
-The source code for PHP wrappers is located under [http://code.google.com/p/magento-w2p/source/browse/#svn/trunk/zp_api_lib svn/trunk/zp_api_lib] and example of use zp_api [http://code.google.com/p/magento-w2p/source/browse/trunk/zp_api_lib/zp.test.php here].
+==ZP API Code And Example ==
+	# The source code for PHP wrappers is located under [http://code.google.com/p/magento-w2p/source/browse/#svn/trunk/zp_api_lib svn/trunk/zp_api_lib] .
+	# Example of use zp_api [http://code.google.com/p/magento-w2p/source/browse/trunk/zp_api_lib/zp.test.php here] .
+	# Log file after run test or program [http://code.google.com/p/magento-w2p/source/browse/trunk/zp_api_lib/zp_api_log.log here].
 
 ==ZP API Functions Overview ==
 	# Set api key and api url 
