@@ -123,6 +123,11 @@ The source code is located in [http://code.google.com/p/magento-w2p/source/brows
 
 *WARNING:* you may want to [http://code.google.com/p/magento-w2p/wiki/ChangedFiles modify your current theme] instead of replacing it with our default theme.
 
+== Configure default ZetaPrints theme ==
+A theme cannot be modified automatically during the install. Use the theme provided with the package as the first step and then modify your default theme to work with design personalization.
+
+Navigate to _System/Configuration_ and choose _Design_ tab.
+http://www.zetaprints.ru/magento/guide/config_zptheme.jpg
 	
 == Clear cache ==
 Magento requires its cache to be cleared after installing an extension. Go to _System/Cache management_ and clear the cache.
