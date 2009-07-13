@@ -140,7 +140,7 @@ You need to create a new "profile" for data import. Navigate to _System / Import
   * *Name*: ZetaPrints data import
   * *Action XML*: copy and paste the XML code below into Action XML text box
 {{{
-<action type="catalog/convert_adapter_category" method="parse" />
+<action type="api/importzp" method="parse"></action>
 }}}
 
 ==== Configure data import ====
