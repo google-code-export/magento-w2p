@@ -5,7 +5,8 @@
   *
   */
 define("ZP_API_VER",'1.0');
-define("ZP_API_HTTP_CACHE",'zp_cache');
+//define("ZP_API_HTTP_CACHE",'zp_cache');
+define("ZP_API_HTTP_CACHE",'');
 global $zp_api_key;
 global $zp_api_url;
 
