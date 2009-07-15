@@ -438,10 +438,24 @@ function zp_api_common_feed2array($url)
 	zp_api_log_debug("zp_api_common_feed2array:end url=[$url]");
 	return ($obj);
 }
+function zp_api_get_context_curl($_url){
+	$ch = curl_init();
+	$timeout = 10; // set to zero for no timeout
+	curl_setopt ($ch, CURLOPT_URL, $_url);
+	curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	$file_contents = curl_exec($ch);
+	curl_close($ch);
+	return $file_contents ;
+}
 function zp_api_get_http($url){
 	for($i = 0; $i < 3 ; $i++){
 		try{
-			$str = @file_get_contents($url);
+			if (extension_loaded('curl')) {
+				$str = @zp_api_get_context_curl($url);
+			}else{
+				$str = @file_get_contents($url);
+			}
 			if ($str){
 				return $str;
 			}
