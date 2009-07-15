@@ -7,7 +7,8 @@ You need to make sure that your server is properly configured. Most servers will
 
 
 == URL File Access ==
-# php.ini
+For data import from ZetaPrints into Magento you need to either have [http://curl.haxx.se cURL] library installed (most hosts have it) or alternatively make this change in _php.ini_
 {{{
 allow_url_fopen = On
 }}}
+Note: _allow_url_fopen = On_ may be a security risk, so you'd better install [http://curl.haxx.se cURL].
