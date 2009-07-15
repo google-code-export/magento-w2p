@@ -11,4 +11,4 @@ For data import from ZetaPrints into Magento you need to either have [http://cur
 {{{
 allow_url_fopen = On
 }}}
-Note: _allow_url_fopen = On_ may be a security risk, so you'd better install [http://curl.haxx.se cURL].
+*Note:* _allow_url_fopen = On_ may be a security risk, so you'd better install [http://curl.haxx.se cURL].
