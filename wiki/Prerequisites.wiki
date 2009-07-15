@@ -1,0 +1,11 @@
+#summary Server configuration for the extension to work
+#labels Phase-Deploy
+
+= Prerequisites =
+
+You need to make sure that your server is properly configured. Most servers will work out of the box. Some will need to be adjusted.
+
+
+== URL File Access ==
+
+Write down what needs to be changed and where to allow URL file access.
