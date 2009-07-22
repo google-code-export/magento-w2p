@@ -51,7 +51,11 @@ function zp_api_catalog_list($key = null, $url = null){
 	if (   isset($ret['channel']) 
 		&& isset($ret['channel']['item']) 
 	){
-		$list = $ret['channel']['item'];
+		if (isset($ret['channel']['item']['title'])){
+			$list[] = $ret['channel']['item'];
+		}else{
+			$list = $ret['channel']['item'];
+		}
 	}
 	zp_api_log_debug("zp_api_catalog_list:end url=[$zp_api_url],key=[$zp_api_key],num cate=" . count($list));
 	return $list;
@@ -85,7 +89,12 @@ function zp_api_catalog_detail($cid, $key = null, $url = null){
 	if (   isset($ret['channel']) 
 		&& isset($ret['channel']['item']) 
 	){
-		$list = $ret['channel']['item'];
+		//$list = $ret['channel']['item'];
+		if (isset($ret['channel']['item']['title'])){
+			$list[] = $ret['channel']['item'];
+		}else{
+			$list = $ret['channel']['item'];
+		}
 	}
 	zp_api_log_debug("zp_api_catalog_detail:end cid=[$cid], url=[$zp_api_url],key=[$zp_api_key],num cate=" . count($list));
 	return $list;
