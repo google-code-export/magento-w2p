@@ -18,6 +18,16 @@
   */
 if (!defined('ZP_API_VER')){
 	include('zp_api.php');
+	// PRODUCT EXIST
+	define('IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE','private_exist_invisible');
+	define('IMPORT_PRIVATE_PRODUCT_EXIST_VISIBLE','private_exist_visible');
+	define('IMPORT_PRIVATE_PRODUCT_EXIST_IGNORE','private_exist_ignore');
+	define('IMPORT_PRIVATE_PRODUCT_EXIST_IMPORT','private_exist_import');
+	define('IMPORT_PRIVATE_PRODUCT_EXIST_DELETE','private_exist_delete');
+	// PRODUCT NOT EXIST
+	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_INVISIBLE','private_not_exist_invisible');
+	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_VISIBLE','private_not_exist_visible');
+	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_IGNORE','private_not_exist_ignore');
 }
 class Biinno_Api_Model_Importer
     extends Mage_Eav_Model_Convert_Adapter_Entity
@@ -32,6 +42,7 @@ class Biinno_Api_Model_Importer
 	protected $store = "default";
 	protected $products = null;
 	protected $pids = "";
+	protected $is_public = 1;
 	/**
 	  * Parser feed of all category and product 
 	  */
@@ -43,6 +54,14 @@ class Biinno_Api_Model_Importer
 		$this->debug 	= Mage::getStoreConfig('api/settings/w2p_debug');
 		$this->store 	= Mage::getStoreConfig('api/settings/w2p_store');
 		$this->refresh 	= Mage::getStoreConfig('api/settings/w2p_refresh');
+		
+		$this->oppexist 	= Mage::getStoreConfig('api/settings/w2p_private_product_exist');
+		$this->oppnotexist 	= Mage::getStoreConfig('api/settings/w2p_private_product_not_exist');
+		
+		$opstore = Mage::getModel('api/opstore')->toArray();
+		$oppexist = Mage::getModel('api/oppexist')->toArray();
+		$oppnotexist = Mage::getModel('api/oppnotexist')->toArray();
+		
 		if (!$this->base || !$this->key || !$this->store){
 			$this->errorMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints Sync tab");
 			return ;
@@ -50,6 +69,12 @@ class Biinno_Api_Model_Importer
 		$this->infoMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints Sync tab");
 		$path 	= "w2p_last_update";
 		$val 	= $this->getDate();
+		
+		$this->infoMess("==============Setting information==============");
+		$this->infoMess("==============Store=[" . $opstore[$this->store] . "]==============");
+		$this->infoMess("==============Refresh All=[" . $this->refresh . "]==============");
+		$this->infoMess("==============If Product DOES NOT EXIST=[" . $oppnotexist[$this->oppnotexist] . "]==============");
+		$this->infoMess("==============If Product DOES EXIST=[" . $oppexist[$this->oppexist] . "]==============");
 		
 		
 		zp_api_init($this->key,$this->base);
@@ -125,10 +150,11 @@ class Biinno_Api_Model_Importer
 		//Parser Categories
 		$count = 0;
 		foreach ($datas as $cdata){
-			if (!zp_api_catalog_check_public($cdata)) {
+			/*if (!zp_api_catalog_check_public($cdata)) {
 				$this->hiddenCategory($cdata);
 				continue;
-			}
+			}*/
+			$this->is_public = zp_api_catalog_check_public($cdata);
 			$ctotal = $this->importCategory($cdata);
 			$count += $ctotal;
 			$this->infoMess("****Number of products:[$ctotal]");
@@ -169,14 +195,20 @@ class Biinno_Api_Model_Importer
 			{
 				$this->pids[] = $data['id'];
 				$product->load($old);
-				if ($product->getData("status") != 2){
-					$product->setData("status", 2);
-					$product->save();
-				}
+				hiddenProduct($product);
 			}
 		}
 		$this->debugMess(sprintf("****END:Hidden Products Of Category:id=[%s]",$cdata['id']));		
 		return 0;
+	}
+	function hiddenProduct($product){
+		if ($product->getData("status") != Mage_Catalog_Model_Product_Status::STATUS_DISABLED){
+			$product->setData("status", Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+			$product->save();
+		}
+	}
+	function deleteProduct($product){
+		$product->delete();
 	}
 	/**
 	  * Products in Magento DB with a link to ZP that no longer exist in ZP should be removed from Magento DB permanently.
@@ -184,9 +216,9 @@ class Biinno_Api_Model_Importer
 	  **/
 	function removeRec($cid=0){
 		//if (!$this->last) return;
-		$this->debugMess("****BEGIN:DELETE");
+		$this->debugMess("****BEGIN:HIDDEN");
 		if (count($this->pids) < 2){
-			$this->debugMess("****END:DELETE TOTAL=[0]");
+			$this->debugMess("****END:HIDDEN TOTAL=[0]");
 			return 0;
 		}
 		$condPids = array('nin'=>$this->pids);
@@ -200,19 +232,18 @@ class Biinno_Api_Model_Importer
 			
         $count = 0;  
 		if (!$collection || count ($collection) < 1) {
-			$this->debugMess(sprintf("****END:DELETE TOTAL=[%s]",$count));
+			$this->debugMess(sprintf("****END:HIDDEN TOTAL=[%s]",$count));
 			return 0;
 		}
 		$this->debugMess(sprintf("****SELECT TOTAL=[%s]",count($collection)));
 		foreach ($collection as $item){
 			if ($item->getData("w2p_image") && !$item->getData("w2p_isorder")){
-				$this->debugMess(sprintf("****DELETE SKU=[%s],order=[%s]",$item->getSku(),$item->getData("w2p_isorder")));
-				//TODO
-				$item->delete();
+				$this->debugMess(sprintf("****HIDDEN SKU=[%s],order=[%s]",$item->getSku(),$item->getData("w2p_isorder")));
+				hiddenProduct($item);
 				$count++;
 			}
 		}
-		$this->debugMess(sprintf("****END:DELETE TOTAL=[%s]",$count));
+		$this->debugMess(sprintf("****END:HIDDEN TOTAL=[%s]",$count));
 		return $count;
 	}
 	/**
@@ -252,21 +283,94 @@ class Biinno_Api_Model_Importer
 	}
 	function importProduct($product){
 		$this->infoMess("****TID=[". $product['id'] . "]");
-		$this->pids[] = $product['id'];
+		$this->pids[] = $product['id'];	
+		
 		if (!isset($product['id']) 
 		|| !isset($product['title'])
 		|| !isset($product['lastmodified'])
 		){
 			return 0;
 		}
+		//check last update
+		$mproduct = Mage::getModel('catalog/product'); 
 		$created = zp_api_common_str2date($product["lastmodified"]);
-		if ($this->last > $created) {
+		/*if ($this->last > $created) {
 			$this->infoMess("****TID=[". $product['id'] . "]- NO UPDATE - ". $this->last . " > $created");
 			return 0;
+		}*/
+		$old = $mproduct->getIdBySku($product['id']);
+		
+		if($old)
+		{
+			$this->debugMess(sprintf("****EXIST TID=[%s]",$product['id']));
+			//Product exit
+			$mproduct->load($old);			
+			if (!$this->is_public){
+				//Private Product - Exit Product
+				if ($this->oppexist == IMPORT_PRIVATE_PRODUCT_EXIST_DELETE ){
+					$this->debugMess(sprintf("****DELETE TID=[%s]",$product['id']));
+					$mproduct->delete();
+					return 0;
+				}else if ($this->oppexist == IMPORT_PRIVATE_PRODUCT_EXIST_IGNORE ){
+					$this->debugMess(sprintf("****IGNORE TID=[%s]",$product['id']));
+					return 0;
+				}else if ($this->oppexist == IMPORT_PRIVATE_PRODUCT_EXIST_VISIBLE ){
+					$this->debugMess(sprintf("****CHANGE VISIBLE TID=[%s]",$product['id']));
+					$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+				}else if ($this->oppexist == IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE ){
+					$this->debugMess(sprintf("****CHANGE INVISIBLE TID=[%s]",$product['id']));
+					$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+				}else if ($this->oppexist == IMPORT_PRIVATE_PRODUCT_EXIST_IMPORT ){
+					$this->debugMess(sprintf("****NOT CHANGE STATUS, IMPORT ONLY TID=[%s]",$product['id']));
+				}
+				if ($mproduct->getData("w2p_modified") < $created) {
+					//DATA WAS CHANGED
+					//WILL IMPORT NEW DATA
+					$this->debugMess(sprintf("****DATA CHANGED TID=[%s]",$product['id']));
+				}else{
+					//DATA WAS NOT CHANGED
+					$this->debugMess(sprintf("****DATA NOT CHANGED TID=[%s]",$product['id']));
+					$mproduct->save();
+					return 0;
+				}
+			}else{
+				//Public Product
+				if ($mproduct->getData("w2p_modified") < $created) {
+					//DATA WAS CHANGED
+					//WILL IMPORT NEW DATA WITH SATUS IS VISIBLE
+					$this->debugMess(sprintf("****DATA CHANGED TID=[%s]",$product['id']));
+					//$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+				}else{
+					//DATA WAS NOT CHANGED
+					$this->debugMess(sprintf("****DATA NOT CHANGED TID=[%s]",$product['id']));
+					return 0;
+				}
+			}			
+		}else{
+			$this->debugMess(sprintf("****NEWS TID=[%s]",$product['id']));
+			//Product not exit
+			if (!$this->is_public){
+				//Private Product - not Exit Product
+				if ($this->oppnotexist == IMPORT_PRIVATE_PRODUCT_NOT_EXIST_IGNORE ){
+					$this->debugMess(sprintf("****IGNORE TID=[%s]",$product['id']));
+					return 0;
+				}else if ($this->oppnotexist == IMPORT_PRIVATE_PRODUCT_NOT_EXIST_VISIBLE ){
+					$this->debugMess(sprintf("****MAKE INVISIBLE TID=[%s]",$product['id']));
+					$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+				}else if ($this->oppnotexist == IMPORT_PRIVATE_PRODUCT_NOT_EXIST_INVISIBLE ){
+					$this->debugMess(sprintf("****MAKE VISIBLE TID=[%s]",$product['id']));
+					$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+				}
+			}else{
+				//Public Product
+				$this->debugMess(sprintf("****PUBLIC VISIBLE TID=[%s]",$product['id']));
+				$mproduct->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+			}
 		}
+		
+		//import
 		$data = zp_api_template_detail($product['id']);
 		if (!isset($data['created']) 
-		|| !isset($data['previewimage']) 
 		|| !isset($data['previewimage']) 
 		|| !isset($data['accessurl'])){
 			$this->infoMess("****TID=[". $product['id'] . "]- DATA ERROR ");
@@ -282,8 +386,9 @@ class Biinno_Api_Model_Importer
 		
 		$data['description']	= $data['comments'];		
 		$data['created']	= zp_api_common_str2date($data['created']);
+		$data['lastmodified']	= zp_api_common_str2date($product['lastmodified']);
 		
-		$this->saveProduct($data);
+		$this->saveProduct($data,$mproduct);
 		return 0;
 	}
 	/**
@@ -291,25 +396,26 @@ class Biinno_Api_Model_Importer
 	  * param	data	product information which is get from Template Detail Feed of ZentaPrints
 	  * return	nothing
 	  */
-	function saveProduct($data){
+	function saveProduct($data,$product){
 		if (!$data['id'] || !$data['title'] || !$data['cids'] || !isset($data['created'])){
 			return 0;
 		}
 		$this->debugMess(sprintf("******BEGIN:Save Product:id=[%s]title=[%s]",$data['id'],$data['title']));
-		$product = Mage::getModel('catalog/product');    
+		//$product = Mage::getModel('catalog/product');    
 		$this->pids[] = $data['id'];
-		$old = $product->getIdBySku($data['id']);
-		if($old)
+		//$old = $product->getIdBySku($data['id']);
+		if($product->getId())
 		{
-			$product->load($old);
+			//$product->load($old);
+			$product->setName($data['title']);
 			$product->setData("w2p_image",$data['previewimage']);
 			$product->setData("w2p_image_large",$data['previewimage']);
 			$product->setData("w2p_image_small",$data['thumbimage']);
-			$product->setData("w2p_modified",$data['created']);
+			$product->setData("w2p_modified",$data['lastmodified']);
 			$product->setData("w2p_image_links",$data['previews']);			
 			$product->setData("w2p_link", $data['accessurl']);
 			$product->save();
-			return $old;
+			return $product->getId();
 		}
 		$product->setWebsiteIds(array('1'));
 		$product->setAttributeSetId(4);
@@ -325,14 +431,15 @@ class Biinno_Api_Model_Importer
 		$product->setData("w2p_image_links",$data['previews']);			
 		$product->setData("w2p_link", $data['accessurl']);
 		$product->setData("w2p_created",$data['created']);
-		$product->setData("w2p_modified",$data['created']);
+		$product->setData("w2p_modified",$data['lastmodified']);
 		$product->setWeight(0);
-		$product->setStatus(1);
+		//$product->setStatus(1);
 		$product->setTaxClassId(2);
 		$product->setCategoryIds(array($data['cids'] =>$data['cids']));
 		$product->setVisibility(4);
 		$product->save();
 		$this->debugMess(sprintf("******End:Save Product:title=[%s]",$data['title']));
+		return $product->getId();
 	}
 	/**
 	  * Save Category data to magento db. this function use core catalog category model class of magento

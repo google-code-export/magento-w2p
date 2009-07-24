@@ -12,6 +12,15 @@
 				<rewrite>
 					<importzp>Biinno_Api_Model_Importer</importzp>
 				</rewrite>
+				<rewrite>
+					<oppnotexist>Biinno_Api_Model_Optionproductnotexist</oppnotexist>
+				</rewrite>
+				<rewrite>
+					<oppexist>Biinno_Api_Model_Optionproductexist</oppexist>
+				</rewrite>
+				<rewrite>
+					<opstore>Biinno_Api_Model_Optionstore</opstore>
+				</rewrite>
             </api>			
         </models>
 		<helpers>
