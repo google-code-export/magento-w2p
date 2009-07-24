@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Biinno_Catalog>
+			<version>0.1.0</version>
+		</Biinno_Catalog>
+	</modules>
+	<global>
+		<helpers>  
+			<catalog>  
+				<rewrite>  
+					<image>Biinno_Catalog_Helper_Image</image>  
+				</rewrite>  
+			</catalog>  
+		</helpers>
+	</global>
+</config>
