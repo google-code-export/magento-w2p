@@ -212,7 +212,7 @@ function zp_api_template_iframe_url($tid, $uid, $pass, $key = null, $url = null)
 	$ip 	= $_SERVER["REMOTE_ADDR"];
 	if ((strpos($ip,"192") !== false)
 		||(strpos($ip,"127") !== false)){
-		$ip = "113.22.120.143" ;
+		$ip = "113.22.60.28" ;
 	}
 	$hash =  md5($pass . $ip);
 	return "$zp_api_url/?page=template;TemplateID=$tid;RetT=id;RetO=Save;RetE=1;ID=$uid;Hash=$hash";;
