@@ -80,11 +80,11 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$product->setData("w2p_image_links",$data['previews']);
 		$product->setData("w2p_isorder", 1);
 		$product->setData("w2p_link", "");
-		
+		$product->setData("url_key",$id);
 		$product->setData("inventory_manage_stock_default",1);
 		$product->setData("inventory_qty",10000);
-		$product->setStatus(1);
-		$product->setVisibility(4);
+		$product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+		$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG);
 		$product->setCategoryIds(array(0=>0));
 		$product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID);
 		$product->save();

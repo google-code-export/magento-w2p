@@ -18,6 +18,8 @@
   */
 if (!defined('ZP_API_VER')){
 	include('zp_api.php');
+}
+if (!defined('IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE')){
 	// PRODUCT EXIST
 	define('IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE','private_exist_invisible');
 	define('IMPORT_PRIVATE_PRODUCT_EXIST_VISIBLE','private_exist_visible');
@@ -436,7 +438,7 @@ class Biinno_Api_Model_Importer
 		//$product->setStatus(1);
 		$product->setTaxClassId(2);
 		$product->setCategoryIds(array($data['cids'] =>$data['cids']));
-		$product->setVisibility(4);
+		$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
 		$product->save();
 		$this->debugMess(sprintf("******End:Save Product:title=[%s]",$data['title']));
 		return $product->getId();
