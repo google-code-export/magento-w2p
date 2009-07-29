@@ -16,7 +16,7 @@ Your Magento set up may stop working after making changes and adding this extens
 ==Add Magento attributes==
 Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on _Add attribute_ button.
 
-http://www.zetaprints.ru/magento/guide/Attribute_add_search.jpg
+http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_search.jpg
 
 Leave all attribute properties at default values unless stated otherwise here.
 None of these attributes should exist, unless this extension has already been installed. If an attribute already exists and you are not sure how it was configured, delete it and create again as per this manual.
@@ -26,12 +26,12 @@ Adding an attribute takes you through 2 screens.
 ==== Properties screen ====
 Most values are entered into this screen.
 
-http://www.zetaprints.ru/magento/guide/Attribute_add_form.jpg
+http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_form.jpg
 
 ==== Label / Options screen ====
 Fields _Admin_ and _Default Store View_ sit on the second screen. The screen appears automatically when you click _Save_ or you can activate the screen by clicking on _Manage Labels/Options_ in the menu on the left.
 
-http://www.zetaprints.ru/magento/guide/Attribute_add_form_2.jpg
+http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_form_2.jpg
 
 ====Attribute for template URL====
 Link to the template page on ZetaPrints.
@@ -108,7 +108,7 @@ Navigate to _Catalog / Attribute Sets / Manage Attribute Sets_ in the top admin 
 
 You will see 2 columns of attributes: _Groups_ and _Unassigned Attributes_. The newly added attributes (w2p_xxx) should be in _Unassigned Attributes_ column. Drag them one by one into _General_ group of attributes.
 
-http://www.zetaprints.ru/magento/guide/Attribute_set_form.jpg
+http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_set_form.jpg
 
 
 == Copy source code and config file ==
@@ -127,7 +127,7 @@ The source code is located in [http://code.google.com/p/magento-w2p/source/brows
 A theme cannot be modified automatically during the install. Use the theme provided with the package as the first step and then modify your default theme to work with design personalization.
 
 Navigate to _System/Configuration_ and choose _Design_ tab.
-http://www.zetaprints.ru/magento/guide/config_zptheme.jpg
+http://www.zetaprints.com/help/img/magento_w2p_images/config_zptheme.jpg
 	
 == Clear cache ==
 Magento requires its cache to be cleared after installing an extension. Go to _System/Cache management_ and clear the cache.
