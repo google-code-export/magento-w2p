@@ -1,21 +1,18 @@
 #summary Extension installation guide
 #labels Featured,Phase-Deploy
-This document describes steps necessary to install ZetaPrints extension to Magento:
-  * Copy code into Magento folders from SVN
-  * Clear Magento cache
-  * Install and configure a custom theme
-
 
 *Your Magento website can install the extension automatically using a key from [http://www.magentocommerce.com/extension/1586 web-to-print store extension page]. This is the recommended method. Use manual install only if you want to make changes to the code.*
 
+This document describes steps necessary to *manually* install ZetaPrints extension to Magento:
+  * Copy code into Magento folders from SVN
+  * Clear Magento cache
+  * Install and configure a custom theme
 
 == Requirements ==
 You are expected to have a functioning Magento installation before installing this extension. This guide requires a certain level of knowledge about Magento and website hosting. Ask someone qualified to help you.
 
 == Back up ==
 Your Magento set up may stop working after making changes and adding this extension. It's a good idea to make a back up of the code, your current theme and the DB first. Back it up. Takes 5 mins - saves days.
-
-
 
 == Copy source code and config file ==
 
@@ -42,22 +39,5 @@ Magento requires its cache to be cleared after installing an extension. Go to _S
   # Click _Save cache settings_.
   # Click on _Refresh_ button in Catalog Rewrites row,
 
-
-== Import data ==
-Once the extension is installed and configured you can import the data from your ZetaPrints portal. All your catalogs and templates are imported initially and only new and updated templates on subsequent runs. Data import needs to be initiated manually.
-
-==== Add new profile ====
-You need to create a new "profile" for data import. Navigate to _System / Import/Export / Advanced Profiles / Add New Profile_ and create the following profile.
-  * *Name*: ZetaPrints data import
-  * *Action XML*: copy and paste the XML code below into Action XML text box
-{{{
-<action type="api/importzp" method="parse"></action>
-}}}
-
-==== Configure data import ====
-You need to provide [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] and [http://www.zetaprints.com/help/category/access-url/ URL of your web-to-print portal]. Read more in ZetaPrints_Sync_Settings article.
-
-==== Run data import ====
-Complete data import configuration and navigate to _System / Import/Export / Advanced Profiles_. Select _ZetaPrints data import_ profile and click on _Run Profile_ tab on the left. Click _Run Profile in Popup_ button. It will initiate a data importing process which may take several minutes.
-
-Re-run the data import the same way every time you add new templates or change existing ones in ZetaPrints. Data import does not delete templates from Magento even if they were removed from ZetaPrints.
+== Configure the extension ==
+Some more steps are required before the extension is operational. Read the [http://code.google.com/p/magento-w2p/wiki/Configuration Configuration guide].
