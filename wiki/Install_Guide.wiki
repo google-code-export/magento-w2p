@@ -1,7 +1,7 @@
 #summary Extension installation guide
 #labels Featured,Phase-Deploy
 
-*Your Magento website can install the extension automatically using a key from [http://www.magentocommerce.com/extension/1586 web-to-print store extension page]. This is the recommended method. Use manual install only if you want to make changes to the code.*
+*Your Magento website can install the extension automatically using a key from [http://www.magentocommerce.com/extension/1586 web-to-print store extension page], but needs to be [http://code.google.com/p/magento-w2p/wiki/Configuration configured manually].
 
 This document describes steps necessary to *manually* install ZetaPrints extension to Magento:
   * Copy code into Magento folders from SVN
