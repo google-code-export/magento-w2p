@@ -1,4 +1,5 @@
 #summary Extension configuration guide
+#labels Featured,Phase-Deploy
 This document describes steps necessary to configure ZetaPrints extension to Magento:
   * Configure Magento attributes
   * Clear Magento cache
