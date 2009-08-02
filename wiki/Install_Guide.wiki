@@ -1,11 +1,13 @@
-#summary Extension installation and configuration guide
+#summary Extension installation guide
 #labels Featured,Phase-Deploy
 This document describes steps necessary to install ZetaPrints extension to Magento:
-  * Configure Magento attributes
   * Copy code into Magento folders from SVN
   * Clear Magento cache
-  * Run data import utility
   * Install and configure a custom theme
+
+
+*Your Magento website can install the extension automatically using a key from [http://www.magentocommerce.com/extension/1586 web-to-print store extension page]. This is the recommended method. Use manual install only if you want to make changes to the code.*
+
 
 == Requirements ==
 You are expected to have a functioning Magento installation before installing this extension. This guide requires a certain level of knowledge about Magento and website hosting. Ask someone qualified to help you.
@@ -13,102 +15,6 @@ You are expected to have a functioning Magento installation before installing th
 == Back up ==
 Your Magento set up may stop working after making changes and adding this extension. It's a good idea to make a back up of the code, your current theme and the DB first. Back it up. Takes 5 mins - saves days.
 
-==Add Magento attributes==
-Attributes are added via Magento admin UI. Log in as an administrator and navigate to _Catalog/Attributes/Manage Attributes_. Click on _Add attribute_ button.
-
-http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_search.jpg
-
-Leave all attribute properties at default values unless stated otherwise here.
-None of these attributes should exist, unless this extension has already been installed. If an attribute already exists and you are not sure how it was configured, delete it and create again as per this manual.
-
-Adding an attribute takes you through 2 screens. 
-
-==== Properties screen ====
-Most values are entered into this screen.
-
-http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_form.jpg
-
-==== Label / Options screen ====
-Fields _Admin_ and _Default Store View_ sit on the second screen. The screen appears automatically when you click _Save_ or you can activate the screen by clicking on _Manage Labels/Options_ in the menu on the left.
-
-http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_add_form_2.jpg
-
-====Attribute for template URL====
-Link to the template page on ZetaPrints.
-  * Attribute Code: *w2p_link*
-  * Admin/Default Store View: *Template URL*
-
-====Attribute for template thumb====
-Link to the template's image on ZetaPrints to show on category page.
-  * Attribute Code: *w2p_image*
-  * Used in product listing: yes
-  * Admin/Default Store View: *Template thumb*
-
-====Attribute for template image links====
-Link to the template's images on ZetaPrints.
-  * Attribute Code: *w2p_image_links*
-  * Admin/Default Store View: *Template images*
-
-====Attribute for template created timestamp ====
-Date and time when the template was created in ZetaPrints. Used for data matching.
-  * Attribute Code: *w2p_created*
-  * Admin/Default Store View: *Template created*
-
-====Attribute for template modified timestamp ====
-Date and time when the template was last modified in ZetaPrints. Used for data matching.
-  * Attribute Code: *w2p_modified*
-  * Admin/Default Store View: *Template modified*
-
-====Attribute for template previews (large) ====
-Link to the template's images on ZetaPrints.
-  * Attribute Code: *w2p_image_large*
-  * Admin/Default Store View: *Template previews*
-
-====Attribute for template previews (thumbs) ====
-Link to the template's images on ZetaPrints.
-  * Attribute Code: *w2p_image_small*
-  * Admin/Default Store View: *Template thumbs*
-
-====Attribute for template order flag ====
-This attribute indicates that the product is actually a customized instance of a template and should not be shown in the store.
-  * Attribute Code: *w2p_isorder*
-  * Catalog Input Type for Store Owner: Yes/No
-  * Used in product listing: Yes
-  * Admin/Default Store View: *Personalized product*
-
-====Attribute for order CDR file ====
-Link to CDR file generated with the order. A completed order always has a CDR file.
-  * Attribute Code: *w2p_cdr*
-  * Admin/Default Store View: *Order CDR*	
-
-====Attribute for order JPG file ====
-Link to JPG file generated with the order, if such file is generated. See template config in ZetaPrints.
-  * Attribute Code: w2p_jpg
-  * Admin/Default Store View: *Order JPG*
-
-====Attribute for order PNG file ====
-Link to PNG file generated with the order, if such file is generated. See template config in ZetaPrints.
-  * Attribute Code: *w2p_png*
-  * Admin/Default Store View: *Order PNG*
-
-====Attribute for order GIF file ====
-Link to GIF file generated with the order, if such file is generated. See template config in ZetaPrints.
-  * Attribute Code: *w2p_gif*
-  * Admin/Default Store View: *Order GIF*
-
-====Attribute for order PDF file ====
-Link to PDF file generated with the order, if such file is generated. See template config in ZetaPrints.
-  * Attribute Code: *w2p_pdf*
-  * Admin/Default Store View: *Order PDF*
-
-
-
-== Edit attribute set ==
-Navigate to _Catalog / Attribute Sets / Manage Attribute Sets_ in the top admin menu. Select _Default_ attribute set.
-
-You will see 2 columns of attributes: _Groups_ and _Unassigned Attributes_. The newly added attributes (w2p_xxx) should be in _Unassigned Attributes_ column. Drag them one by one into _General_ group of attributes.
-
-http://www.zetaprints.com/help/img/magento_w2p_images/Attribute_set_form.jpg
 
 
 == Copy source code and config file ==
