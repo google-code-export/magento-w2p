@@ -1,14 +1,14 @@
 = Introduction =
 
-You have to edit several files in your custom magento theme to integrate this extension.
+This document explains changes you need to make to a custom magento theme to enable our web-to-print extension.
 
 = Files in `app/design/frontend/default/<your_theme_name>/` =
 
-Here we will modify files which represent user interface in your magento shop.
+Modify files behind the user interface.
 
 ===template/catalog/product/list.phtml===
 
-  * Replace line 63:
+  * Replace line 63 (add to cart button):
 {{{
 <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
 }}}
@@ -23,6 +23,7 @@ Here we will modify files which represent user interface in your magento shop.
   <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
 <?php endif; ?>
 }}}
+The new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
 
   * Replace line 108:
 {{{
