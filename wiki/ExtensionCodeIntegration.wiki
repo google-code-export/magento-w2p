@@ -141,6 +141,8 @@ if ($img && $is_preview) {
 <?php $is_preview = isset($_REQUEST['preview']); ?>
 }}}
 
+  Checking if _Personalize_ button is clicked.
+
   * After line 36:
 {{{
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
@@ -150,6 +152,8 @@ if ($img && $is_preview) {
 {{{
 <?php if (!$is_preview): ?>
 }}}
+
+  If _Personalize_ button isn't clicked show normal page.
 
   * After line 81:
 {{{
@@ -173,3 +177,5 @@ if ($img && $is_preview) {
   </div>
 <?php endif; ?>
 }}}
+
+  If _Personalize_ button is clicked show page without content. It'll be filled with iframe content.
