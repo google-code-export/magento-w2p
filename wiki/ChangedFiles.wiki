@@ -5,7 +5,7 @@
 === app\code\core\Mage\Catalog\Helper\Image.php ===
   * Checks if attribute w2p_image is present in the product it displays w2p_image with ZP Image.
 === app\code\core\Mage\Sales\Model\Quote\Item.php ===
-  * Check if product is Personalised (attribute w2p_order = true and attribute w2p_image is present) it displays w2p_image with Personalized ZP Image on Shopping cart.
+  * Check if product is Personalized (attribute w2p_order = true and attribute w2p_image is present) it displays w2p_image with Personalized ZP Image on Shopping cart.
 === app\design\adminhtml\default\default\template\sales\items\column\name.php ===
   * Check if attribute w2p_order = true it displays zp order information on order detail page.
 
