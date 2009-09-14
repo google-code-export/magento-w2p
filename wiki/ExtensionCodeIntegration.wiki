@@ -46,7 +46,7 @@ Modify files behind the user interface.
 
 ==template/catalog/product/view/addtocart.phtml==
 
-Replace line 31:
+Replace lines 31-38 (add to cart button with wrapper html):
 
 {{{
 <fieldset class="add-to-cart-box">
@@ -78,11 +78,11 @@ with following code:
 <?php endif; ?>
 }}}
 
-  Added code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button.
+  This new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
 
 ==template/catalog/product/view.phtml==
 
-After line 36:
+After line 36 (getting current product object):
 
 `$_product = $this->getProduct();`
 
@@ -126,6 +126,8 @@ if ($img && $is_preview) {
   return;
 }
 }}}
+
+  This new code checks what user is doing with product: making order or personalizing it. In case of order it shows ordering page otherwise it embeds personalizing page.
 
 ==template/page/2columns-right.phtml==
 
