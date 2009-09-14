@@ -1,11 +1,10 @@
-#summary One-sentence summary of this page.
-
 = Introduction =
 
-Add your content here.
+You have to edit several files in your custom magento theme to integrate this extension.
 
+= Files in `app/design/frontend/default/<your_theme_name>/` =
 
-= Details =
+Here we will modify files which represent user interface in your magento shop.
 
 ===template/catalog/product/list.phtml===
 
