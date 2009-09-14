@@ -6,7 +6,7 @@ This document explains changes you need to make to a custom magento theme to ena
 
 Modify files behind the user interface.
 
-===template/catalog/product/list.phtml===
+==template/catalog/product/list.phtml==
 
   * Replace line 63 (add to cart button):
 {{{
@@ -23,9 +23,10 @@ Modify files behind the user interface.
   <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
 <?php endif; ?>
 }}}
-The new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
 
-  * Replace line 108:
+  The new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
+
+  * Replace line 108 (add to cart button):
 {{{
 <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
 }}}
@@ -41,13 +42,24 @@ The new code checks if the product has web-to-print features and is not an alrea
 <?php endif; ?>
 }}}
 
-===template/catalog/product/view/addtocart.phtml===
+  The new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
 
-After line 30:
+==template/catalog/product/view/addtocart.phtml==
 
-`<?php if($_product->isSaleable()): ?>`
+Replace line 31:
 
-insert following code:
+{{{
+<fieldset class="add-to-cart-box">
+  <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+  <?php if(!$_product->isGrouped()): ?>
+    <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+  <?php endif; ?>
+  <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+</fieldset>
+}}}
+
+with following code:
 
 {{{
 <?php if($_product->getData("w2p_image")): ?>
@@ -55,9 +67,20 @@ insert following code:
     <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
   <?php endif; ?>
 <?php else: ?>
+  <fieldset class="add-to-cart-box">
+    <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+    <?php if(!$_product->isGrouped()): ?>
+      <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+      <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+     <?php endif; ?>
+     <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+  </fieldset>
+<?php endif; ?>
 }}}
 
-===template/catalog/product/view.phtml===
+  Added code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button.
+
+==template/catalog/product/view.phtml==
 
 After line 36:
 
@@ -104,7 +127,7 @@ if ($img && $is_preview) {
 }
 }}}
 
-===template/page/2columns-right.phtml===
+==template/page/2columns-right.phtml==
 
   * Before line 31:
 {{{
