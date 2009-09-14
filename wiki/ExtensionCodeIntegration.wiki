@@ -1,3 +1,4 @@
+#summary How to integrate ZP into a custom theme
 = Introduction =
 
 This document explains changes you need to make to a custom magento theme to enable our web-to-print extension.
@@ -127,7 +128,7 @@ if ($img && $is_preview) {
 }
 }}}
 
-  This new code checks what user is doing with product: making order or personalizing it. In case of order it shows ordering page otherwise it embeds personalizing page.
+  This new code checks what user is doing with product: making an order or personalizing it. In case of order it shows ordering page otherwise it shows an IFRAME with contents from ZP.
 
 ==template/page/2columns-right.phtml==
 
