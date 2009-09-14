@@ -1,0 +1,150 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+===template/catalog/product/list.phtml===
+
+  * Replace line 63:
+{{{
+<button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+}}}
+
+  with following code:
+{{{
+<?php if($_product->getData("w2p_image")): ?>
+  <?php if(!$_product->getData("w2p_isorder")): ?>
+    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+  <?php endif; ?>
+<?php else: ?>
+  <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+<?php endif; ?>
+}}}
+
+  * Replace line 108:
+{{{
+<button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+}}}
+
+  with following code:
+{{{
+<?php if($_product->getData("w2p_image")): ?>
+  <?php if(!$_product->getData("w2p_isorder")): ?>
+    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+  <?php endif; ?>
+<?php else: ?>
+  <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+<?php endif; ?>
+}}}
+
+===template/catalog/product/view/addtocart.phtml===
+
+After line 30:
+
+`<?php if($_product->isSaleable()): ?>`
+
+insert following code:
+
+{{{
+<?php if($_product->getData("w2p_image")): ?>
+  <?php if(!$_product->getData("w2p_isorder")): ?>
+    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+  <?php endif; ?>
+<?php else: ?>
+}}}
+
+===template/catalog/product/view.phtml===
+
+After line 36:
+
+`$_product = $this->getProduct();`
+
+insert following code:
+
+{{{
+$button = "";
+$img = $_product->getData("w2p_image");
+
+if ($img && !$_product->getData("w2p_isorder")) {
+  $button = '<input type="button" name="sosanh" value="PERSONALIZE" class="Personallize" onclick="document.location=\'' . $_product->getProductUrl() . '?preview=1&order=\';return false;"/>';
+}
+
+$is_preview = isset($_REQUEST['preview']);
+$order = isset($_REQUEST['order']) ? $_REQUEST['order'] : "";
+
+if (isset($_REQUEST['order']) && $_REQUEST['order']) {
+  $is_preview = 0;
+}
+
+if ($order){
+  $logic = Mage::getModel('api/w2puser');
+  $ret = $logic->order($order);
+
+  if ($ret > 0) {
+    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart/add') . '?&qty=1&product=' . $ret .'";</script>';
+  } else {
+    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart') .'";</script>';
+  }
+
+  return;
+}
+
+if ($img && $is_preview) {
+  $logic = Mage::getModel('api/w2puser');
+  $id = trim($_product->getSku());
+  $w2p_url = $logic->getPersonalizeUrl($id);
+
+  echo '<iframe src="' . $w2p_url .'" width="100%" height="1800px"></iframe>';
+
+  return;
+}
+}}}
+
+===template/page/2columns-right.phtml===
+
+  * Before line 31:
+{{{
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+}}}
+
+  insert code:
+{{{
+<?php $is_preview = isset($_REQUEST['preview']); ?>
+}}}
+
+  * After line 36:
+{{{
+<body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
+}}}
+
+  insert code:
+{{{
+<?php if (!$is_preview): ?>
+}}}
+
+  * After line 81:
+{{{
+<?php echo $this->getAbsoluteFooter() ?>
+}}}
+
+  insert code:
+{{{
+<?php else: ?>
+  <div class="wrapper">
+    <div class="header">
+      <?php echo $this->getChildHtml('header') ?>
+    </div>
+  </div>
+
+  <?php echo $this->getChildHtml('content') ?>
+  <div class="wrapper">
+    <div class="footer">
+      <?php echo $this->getChildHtml('footer') ?>
+    </div>
+  </div>
+<?php endif; ?>
+}}}
