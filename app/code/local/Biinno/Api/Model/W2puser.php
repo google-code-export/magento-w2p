@@ -259,4 +259,17 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User
 		$cus = Mage::getSingleton('customer/session')->getCustomer();
 		return $cus->getData('entity_id') ? $cus->getData('w2p_pass') : Mage::getSingleton('core/session')->getW2ppass();
 	}
+
+	function get_credentials () {
+	  $id = $this->getW2pUserId();
+
+	  if (!$id) {
+	    $this->autoRegister();
+	    $id = $this->getW2pUserId();
+	  }
+
+	  $password = $this->getW2pPass();
+
+          return array('id' => $id, 'password' => $password);
+	}
 }

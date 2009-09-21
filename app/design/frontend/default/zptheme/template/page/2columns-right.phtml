@@ -27,19 +27,80 @@
 /**
  * Template for Mage_Page_Block_Html
  */
-/* add by Pham Tri Cong <phtcong@gmail.com>  */
-$is_preview = isset($_REQUEST['preview']);
-/* end add by Pham Tri Cong <phtcong@gmail.com>  */
+?>
+<?php
+if (isset($_REQUEST['zetaprints-TemplateID'])) {
+  $params = array();
+  while (list($key, $value) = each($_REQUEST)) {
+    if (strpos($key, 'zetaprints-') !== false) {
+      $_key = substr($key, 11);
+      $_key = substr($_key, 0, 1).str_replace('_', '%20', substr($_key, 1));
+      $params[$_key] = $value;
+    }
+  }
+
+  if (!defined('ZP_API_VER')) {
+    $zetaprints_api_file = Mage::getRoot().'/code/local/Biinno/Api/Model/zp_api.php';
+
+    if (file_exists($zetaprints_api_file)) {
+      require $zetaprints_api_file;
+    }
+  }
+
+  $w2p_user = Mage::getModel('api/w2puser');
+
+  $params['ApiKey'] = $w2p_user->key;
+
+  $user_credentials = $w2p_user->get_credentials();
+  $params['ID'] = $user_credentials['id'];
+  $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
+
+  if (isset($_REQUEST['save-order'])) {
+    list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-order-save', $params);
+
+    list(, $order_id) = explode("\r\n", $content);
+    if (preg_match('/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/', $order_id)) {
+      echo $w2p_user->order($order_id);
+    } else {
+      echo '0';
+    }
+
+    return;
+  }
+
+  list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-preview', $params);
+
+  list(, $url) = explode("\r\n", $content);
+  echo $url;
+
+  return;
+}
+
+if (isset($_REQUEST['save-order'])) {
+
+}
+
+$is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/w2p_using_iframe') == 'show_iframe_always');
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
     <?php echo $this->getChildHtml('head') ?>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/colorpicker.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-qtip-1.0.0-rc3.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.dd.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.vchecks.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/colorpicker.css'); ?>"  />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/dd.css'); ?>"  />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/checks.css'); ?>"  />
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/zp-style.css'); ?>"  />
 </head>
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
-<!-- add by Pham Tri Cong <phtcong@gmail.com>  -->
-<?php if (!$is_preview) :?>
-<!-- end add by Pham Tri Cong <phtcong@gmail.com>  -->
+
+<?php if (!$is_iframe): ?>
 
 <div class="wrapper">
 <?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p> */ ?>
@@ -86,20 +147,20 @@ $is_preview = isset($_REQUEST['preview']);
 <?php echo $this->getChildHtml('before_body_end') ?>
 </div>
 <?php echo $this->getAbsoluteFooter() ?>
-<!-- add by Pham Tri Cong <phtcong@gmail.com>  -->
-<?php else :?>
-	<div class="wrapper">
-        <div class="header">
-            <?php echo $this->getChildHtml('header') ?>
-        </div>
-	</div>
-	<?php echo $this->getChildHtml('content') ?>
-	<div class="wrapper">
-        <div class="footer">
-            <?php echo $this->getChildHtml('footer') ?>
-        </div>
-	</div>
+
+<?php else: ?>
+  <div class="wrapper">
+    <div class="header">
+      <?php echo $this->getChildHtml('header') ?>
+    </div>
+  </div>
+  <?php echo $this->getChildHtml('content') ?>
+  <div class="wrapper">
+    <div class="footer">
+      <?php echo $this->getChildHtml('footer') ?>
+    </div>
+  </div>
 <?php endif;?>
-<!-- end add by Pham Tri Cong <phtcong@gmail.com>  -->
+
 </body>
 </html>
