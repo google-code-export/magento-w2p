@@ -21,6 +21,9 @@
 				<rewrite>
 					<opstore>Biinno_Api_Model_Optionstore</opstore>
 				</rewrite>
+                                <rewrite>
+					<showiframe>Biinno_Api_Model_Showiframe</showiframe>
+				</rewrite>
             </api>			
         </models>
 		<helpers>

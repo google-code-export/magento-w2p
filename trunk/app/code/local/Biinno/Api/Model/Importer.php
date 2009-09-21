@@ -420,7 +420,7 @@ class Biinno_Api_Model_Importer
 			return $product->getId();
 		}
 		$product->setWebsiteIds(array('1'));
-		$product->setAttributeSetId(4);
+		$product->setAttributeSetId($product->getDefaultAttributeSetId());
 		$product->setSku($data['id']);
 		$product->setTypeId('simple'); 
 		$product->setName($data['title']);

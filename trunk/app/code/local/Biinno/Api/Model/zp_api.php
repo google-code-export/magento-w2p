@@ -7,6 +7,7 @@
 define("ZP_API_VER",'1.0');
 //define("ZP_API_HTTP_CACHE",'zp_cache');
 define("ZP_API_HTTP_CACHE",'');
+
 global $zp_api_key;
 global $zp_api_url;
 
@@ -113,6 +114,26 @@ function zp_api_catalog_check_public($cate){
 /***************************
   *	template functions	*
   ***************************/
+
+function zetaprints_get_template_details_as_xml ($template_id, $api_key = null, $api_url = null) {
+  if ($api_key) {
+    zp_api_init($api_key, $api_url);
+  }
+
+  global $zp_api_key;
+  global $zp_api_url;
+
+  zp_api_log_debug("zetaprints_template_get_details_as_xml: template_id=$template_id, url=$zp_api_url, key=$zp_api_key");
+
+  if (!$zp_api_key || !$zp_api_url) {
+    zp_api_log_error("zetaprints_template_get_details_as_xml:error:, null param template_id=$template_id, url=$zp_api_url, key=$zp_api_key");
+    return null;
+  }
+
+  $url = "$zp_api_url/API.aspx?page=api-template;TemplateID=$template_id;ApiKey=$zp_api_key";
+  return zetaprints_get_xml_from_url($url);
+}
+
 /**
   * Get Template  detail from ZP
   * @param	tid	Template Id
@@ -430,6 +451,15 @@ function zp_api_log_debug($mess){
 	zp_api_log("[debug] $mess");
 }
 
+function zetaprints_get_xml_from_url ($url) {
+  zp_api_log_debug("zetaprints_get_xml_from_url: url=$url");
+  $xml = zp_api_get_http_cache($url);
+
+  if (!$xml) return null;
+
+  return $xml;
+}
+
 /**
   * Get content of url then parse to array
   * @param	url	Url of ZentaPrints site
@@ -572,10 +602,10 @@ function zp_api_common_pass () {
   */
 function zp_api_common_post_request($url, $path, $_data) {
 
-	zp_api_log_debug("zp_api_common_post_request:start url=[$url]");
+	zp_api_log_debug("zp_api_common_post_request:start url=[$url], path=[$path]");
 
 	$referer = $url;
-	$data = array();	
+	$data = array();
 	
 	while(list($n,$v) = each($_data)){
 		$data[] = "$n=$v";
@@ -598,15 +628,18 @@ function zp_api_common_post_request($url, $path, $_data) {
 		fputs($fp, $data);		 
 		$result = ''; 
 		while(!feof($fp)) {
-			$result .= fgets($fp, 128);
+			$result .= fgets($fp, 1024);
 		}
 
 		fclose($fp);
+
+		zp_api_log_debug("Post request response: $result");
 
 		$result = explode("\r\n\r\n", $result, 2);
 
 		$header = isset($result[0]) ? $result[0] : '';
 		$content = isset($result[1]) ? $result[1] : '';
+		zp_api_log_debug("zp_api_common_post_request: content: $content");
 		zp_api_log_debug("zp_api_common_post_request:end url=[$url]");
 		return array($header, $content);
 	}catch(Exception $e){
@@ -630,6 +663,45 @@ function zp_api_common_xml_user_register_result($content){
 	if ($ret == "ok" ) return 1;
 	return -1;
 }
+
+/**
+ * Generate md5 hash from user's password and server ip address.
+ *
+ * Param password - user's password
+ * Returns string contains hash
+ */
+function zetaprints_generate_user_password_hash ($password) {
+  $ip = $_SERVER["REMOTE_ADDR"];
+
+  //Enter here your outside ip address
+  //if it's not matching your machine address
+  //$ip = 'a.b.c.d';
+
+  return md5($password.$ip);
+}
+
+/**
+ * Transform template details xml to html form.
+ *
+ * Param template_xml - string contains template details xml
+ * Returns string contains html form
+ */
+function zetaprints_get_preview_html_from_template_details ($template_xml) {
+  $xml_dom = new DOMDocument();
+  $xml_dom->loadXML($template_xml);
+
+  $xslt_dom = new DOMDocument();
+  $xslt_dom->load(dirname(__FILE__).'/template_details_to_preview_html.xslt');
+
+  $proc = new XSLTProcessor();
+  $proc->importStylesheet($xslt_dom);
+
+  global $zp_api_url;
+
+  $proc->setParameter('', 'zetaprints-api-url', $zp_api_url.'/');
+  return $proc->transformToXML($xml_dom);
+}
+
 /***************************
   *	end common functions	*
   ***************************/

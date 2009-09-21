@@ -31,47 +31,70 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
+
 <?php
-    $_helper = $this->helper('catalog/output');
-    $_product = $this->getProduct();
-	/* add by Pham Tri Cong <phtcong@gmail.com>  */
-	$button = "";
-	$img = $_product->getData("w2p_image");
-	if ($img && !$_product->getData("w2p_isorder")){
-		$button = '<input type="button" name="sosanh" value="PERSONALIZE" class="Personallize" onclick="document.location=\'' . $_product->getProductUrl() . '?preview=1&order=\';return false;"/>';
-	}
-	$is_preview = isset($_REQUEST['preview']);
-	$order = isset($_REQUEST['order']) ? $_REQUEST['order']:"";
-	if (isset($_REQUEST['order']) && $_REQUEST['order']){
-		$is_preview = 0;
-	}
-	if ($order){
-		$logic = Mage::getModel('api/w2puser'); 
-		$ret = $logic->order($order);
-		if ($ret > 0){
-			echo '<script type="text/javascript">
-			parent.document.location="' . $this->getUrl('checkout/cart/add') . '?&qty=1&product=' . $ret .'";</script>';
-		}else{
-			echo '<script type="text/javascript">
-			parent.document.location="' . $this->getUrl('checkout/cart') .'";</script>';
-		}
-		return;
-	}
-	if ($img && $is_preview){
-		$logic = Mage::getModel('api/w2puser'); 
-		$id = trim($_product->getSku());
-		$w2p_url = $logic->getPersonalizeUrl($id);
-		echo '<iframe src="' . $w2p_url .'" width="100%" height="1800px"></iframe>';
-		return; 
-	}
-	/* end add by Pham Tri Cong <phtcong@gmail.com>  */
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct();
+
+$button = "";
+$img = $_product->getData("w2p_image");
+
+if ($img && !$_product->getData("w2p_isorder")) {
+  $button = '<input type="button" name="sosanh" value="PERSONALIZE" class="Personallize" onclick="document.location=\'' . $_product->getProductUrl() . '?preview=1&order=\';return false;"/>';
+}
+
+$is_preview = isset($_REQUEST['preview']);
+$order = isset($_REQUEST['order']) ? $_REQUEST['order'] : "";
+
+if (isset($_REQUEST['order']) && $_REQUEST['order']) {
+  $is_preview = 0;
+}
+
+if ($order) {
+  $logic = Mage::getModel('api/w2puser');
+  $ret = $logic->order($order);
+
+  if ($ret > 0) {
+    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart/add') . '?&qty=1&product=' . $ret .'";</script>';
+  } else {
+    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart') .'";</script>';
+  }
+
+  return;
+}
+
+if ($img && $is_preview) {
+  $logic = Mage::getModel('api/w2puser');
+  $template_id = trim($_product->getSku());
+
+  if (Mage::getStoreConfig('api/settings/w2p_using_iframe') == 'show_iframe_always') {
+    $w2p_url = $logic->getPersonalizeUrl($template_id);
+    echo '<iframe src="' . $w2p_url .'" width="100%" height="1800px"></iframe>';
+    return;
+  }
+
+  $xml = zetaprints_get_template_details_as_xml($template_id);
+
+  if ($xml) {
+    $preview_html =  zetaprints_get_preview_html_from_template_details($xml);
+  } else {
+    $preview_html = "<h1>Oops</h1>";
+  }
+}
 ?>
+
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
+
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
 <div class="product-info-box">
     <div class="product-essential">
+
+    <?php if ($img && $is_preview): ?>
+      <?php echo $preview_html ?></div>
+    <?php else: ?>
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <div class="product-img-box">
@@ -139,8 +162,10 @@
                     }
             }.bind(productAddToCartForm);
     </script>
-    </div>
+ 
+    <?php endif; ?>
 
+    </div>
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
             <div class="collateral-box">
@@ -162,3 +187,132 @@
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
+
+<script type="text/javascript">
+  function update_preview (page) {
+    jQuery('#ajax-loader').show(1);
+    new Ajax.Request('<?php echo $_product->getProductUrl() ?>', {
+      method: 'post',
+      onSuccess: function (transport) {
+        var response = transport.responseText;
+        $$('form#' + page + ' div.product-img-box img')[0].writeAttribute('src', value = response);
+        jQuery('<input type="hidden" name="previews" />').attr('value', response.split('/preview/')[1]).appendTo(jQuery('form#' + page));
+        jQuery('form.zetaprints-template-page input.save-order').show();
+        jQuery('#ajax-loader').hide(1); },
+      onFailure: function () {
+        jQuery('#ajax-loader').hide(1);
+	alert('Can\'t get preview image.'); },
+      parameters: $(page).serialize(true)
+    });
+  }
+
+  jQuery(document).ready(function($) {
+      var template_id = $('form.zetaprints-template-page input[name=zetaprints-TemplateID]').attr('value');
+
+      $('form.zetaprints-template-page input.save-order').click(function () {
+        $('#ajax-loader').show(1);
+
+        var previews = '';
+
+        $('form.zetaprints-template-page input[name=previews]').each(function () {
+	  previews += $(this).attr('value') + ',';
+        });
+
+        previews = previews.substring(0, previews.length - 1);
+
+        $.ajax({
+	  url: '<?php echo $_product->getProductUrl() ?>/?save-order',
+	  type: 'POST',
+	  data: 'zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
+	  dataType: 'text',
+	  error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    $('#ajax-loader').hide(1);
+	    alert('Can\'t save order'); },
+	  success: function (data, textStatus) {
+            if (parseInt(data) > 0) {
+              parent.document.location = '<?php echo $this->getUrl('checkout/cart/add'); ?>?qty=1&product=' + data;
+            } else {
+              parent.document.location = '<?php echo $this->getUrl('checkout/cart'); ?>';
+            }}
+	});
+      });
+
+    $('form.zetaprints-template-page ul.colors-selector li').each(function () {
+      var color_sample = $('div.color-sample', this);
+      var color_input = $('input.color', this);
+
+      $(color_sample).ColorPicker({
+        color: '#804080',
+	onBeforeShow: function (colpkr) {
+          $(colpkr).draggable();
+	  return false;
+	},
+        onShow: function (colpkr) {
+          $(colpkr).fadeIn(500);
+	  return false;
+        },
+        onHide: function (colpkr) {
+	  $(colpkr).fadeOut(500);
+	  return false;
+        },
+	onSubmit: function (hsb, hex, rgb, el) {
+          $(color_sample).css('backgroundColor', '#' + hex);
+          $(color_input).val('#' + hex).attr('checked', true).change();
+          $(el).ColorPickerHide();
+        }
+      });
+    });
+
+    $('form.zetaprints-template-page div.product-img-box img[rel="preview"]').each(function () {
+      var image = this;
+      $(image).qtip({
+        content: {
+        title: { text: 'Full size image', button: 'Close' },
+	text: '<img src="' + $(image).attr('src') + '" />' },
+        position: { target: $(document.body), corner: 'center' },
+        show: { when: 'click', solo: true },
+        hide: false,
+	style: { width: 'auto', border: { width: 3, radius: 3 } },
+        api: {
+          beforeShow: function() {
+	    $('img', this.elements.content).attr('src', $(image).attr('src'));
+            $('#qtip-blanket').fadeIn(this.options.show.effect.length);},
+          beforeHide: function() { $('#qtip-blanket').fadeOut(this.options.hide.effect.length); }
+        }
+      });
+    });
+
+    $('<div id="qtip-blanket">').css({
+      position: 'absolute',
+      top: $(document).scrollTop(),
+      left: 0,
+      height: $(document).height(),
+      width: '100%',
+      opacity: 0.7,
+      backgroundColor: 'black',
+      zIndex: 5000 }).appendTo(document.body).hide();
+
+    $('form.zetaprints-template-page input[title], form.zetaprints-template-page textarea[title]').qtip({
+      position: { corner: { target: 'bottomLeft' } },
+	  show: { delay: 1, solo: true, when: { event: 'focus' } },
+	  hide: { when: { event: 'unfocus' } }
+    });
+
+    $('form.zetaprints-template-page select[title]').qtip({
+      position: { corner: { target: 'topLeft' }, adjust: { y: -30 } },
+	  show: { delay: 1, solo: true, when: { event: 'focus' } },
+	  hide: { when: { event: 'unfocus' } }
+    });
+
+    $('form.zetaprints-template-page select.stock-images-selector').msDropDown();
+
+    $('form.zetaprints-template-page ul.colors-selector').vchecks();
+
+    var height
+    $('<img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" id="ajax-loader" />').css({
+      position: 'absolute',
+	  right: 0,
+          top: 0,
+          zIndex: 1000 }).appendTo('form.zetaprints-template-page div.product-shop').hide();
+  });
+</script>
