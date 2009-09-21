@@ -81,7 +81,7 @@ Link to CDR file generated with the order. A completed order always has a CDR fi
 
 ====Attribute for order JPG file ====
 Link to JPG file generated with the order, if such file is generated. See template config in ZetaPrints.
-  * Attribute Code: w2p_jpg
+  * Attribute Code: *w2p_jpg*
   * Admin/Default Store View: *Order JPG*
 
 ====Attribute for order PNG file ====
