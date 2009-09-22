@@ -22,7 +22,7 @@
 					<opstore>Biinno_Api_Model_Optionstore</opstore>
 				</rewrite>
                                 <rewrite>
-					<showiframe>Biinno_Api_Model_Showiframe</showiframe>
+					<show-previews-in-option>Biinno_Api_Model_ShowPreviewsInOption</show-previews-in-option>
 				</rewrite>
             </api>			
         </models>

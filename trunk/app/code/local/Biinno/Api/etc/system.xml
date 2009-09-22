@@ -111,15 +111,16 @@
 							<comment><![CDATA[If Product <b>DOES EXIST</b> in Magento.                                
                             ]]></comment>
                         </w2p_private_product_exist>
-                        <w2p_using_iframe translate="label">
-                            <label><![CDATA[Using IFrame]]></label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>api/showiframe</source_model>
-                            <sort_order>9</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </w2p_using_iframe>
+                        <zetaprints-show-previews-in-option translate="label">
+                          <label><![CDATA[Show previews in]]></label>
+                          <frontend_type>select</frontend_type>
+                          <source_model>api/show-previews-in-option</source_model>
+                          <sort_order>9</sort_order>
+                          <show_in_default>1</show_in_default>
+                          <show_in_website>1</show_in_website>
+                          <show_in_store>0</show_in_store>
+                          <comment><![CDATA[<b>Note:</b> Magento form is replaced with IFrame for multipage templates]]></comment>
+                        </zetaprints-show-previews-in-option>
 			         </fields>
                             </settings>
 			</groups>
