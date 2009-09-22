@@ -100,7 +100,7 @@ if (isset($_REQUEST['save-order'])) {
 /* ZP-CODE:2 */
  
 //Checking if 'Personilize' button was pressed and option 'Show IFRAME always' was selected
-$is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/w2p_using_iframe') == 'show_iframe_always');
+$is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/zetaprints-show-previews-in-option') == 'zetaprints-iframe');
 
 /* ZP-CODE:2 End */
 
@@ -133,7 +133,7 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
 
 <?php if (!$is_iframe): ?>
 
-<?php /* ZP-CODE:4 End */ ?>
+<?php /* ZP-CODE:4 End*/ ?>
 
 <div class="wrapper">
 <?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p> */ ?>
