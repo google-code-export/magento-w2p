@@ -67,15 +67,18 @@ if ($img && $is_preview) {
   $logic = Mage::getModel('api/w2puser');
   $template_id = trim($_product->getSku());
 
+  //Show zetapritn's page in iframe if 'Show IFRAME always' option is selected
   if (Mage::getStoreConfig('api/settings/w2p_using_iframe') == 'show_iframe_always') {
     $w2p_url = $logic->getPersonalizeUrl($template_id);
     echo '<iframe src="' . $w2p_url .'" width="100%" height="1800px"></iframe>';
     return;
   }
 
+  //Getting template details
   $xml = zetaprints_get_template_details_as_xml($template_id);
 
   if ($xml) {
+    //Converting template details xml to html form 
     $preview_html =  zetaprints_get_preview_html_from_template_details($xml);
   } else {
     $preview_html = "<h1>Oops</h1>";
@@ -92,9 +95,11 @@ if ($img && $is_preview) {
 <div class="product-info-box">
     <div class="product-essential">
 
-    <?php if ($img && $is_preview): ?>
+    <?php /* Checking if 'Personilize' button was pressed */
+    if ($img && $is_preview): ?>
       <?php echo $preview_html ?></div>
     <?php else: ?>
+
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <div class="product-img-box">
@@ -187,6 +192,8 @@ if ($img && $is_preview) {
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
+
+<!-- start javascript for personilizing form -->
 
 <script type="text/javascript">
   function update_preview (page) {
@@ -316,3 +323,5 @@ if ($img && $is_preview) {
           zIndex: 1000 }).appendTo('form.zetaprints-template-page div.product-shop').hide();
   });
 </script>
+
+<!-- end javascript for personilizing form -->

@@ -29,8 +29,14 @@
  */
 ?>
 <?php
+
+/* Processing AJAX requests */
+
+//Checking for personilizing ajax request
 if (isset($_REQUEST['zetaprints-TemplateID'])) {
   $params = array();
+
+  //Preparing params for image generating request to zetaprints
   while (list($key, $value) = each($_REQUEST)) {
     if (strpos($key, 'zetaprints-') !== false) {
       $_key = substr($key, 11);
@@ -55,11 +61,16 @@ if (isset($_REQUEST['zetaprints-TemplateID'])) {
   $params['ID'] = $user_credentials['id'];
   $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
+  //Checking if 'Add to card' button was pressed
   if (isset($_REQUEST['save-order'])) {
+    //Saving order in zetaprints for futher processing
     list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-order-save', $params);
 
     list(, $order_id) = explode("\r\n", $content);
+
+    //Validating order id
     if (preg_match('/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/', $order_id)) {
+      //Adding order to magento if its id is valid.
       echo $w2p_user->order($order_id);
     } else {
       echo '0';
@@ -68,18 +79,25 @@ if (isset($_REQUEST['zetaprints-TemplateID'])) {
     return;
   }
 
+  //Sending image generating request to zetaprints
   list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-preview', $params);
 
+  //BUG. Getting strange numbers in the content
   list(, $url) = explode("\r\n", $content);
+
+  //Returning an url to generated image
   echo $url;
 
   return;
 }
 
+/* End processing AJAX requests */
+
 if (isset($_REQUEST['save-order'])) {
 
 }
 
+//Checking if 'Personilize' button was pressed and option 'Show IFRAME always' was selected
 $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/w2p_using_iframe') == 'show_iframe_always');
 
 ?>
@@ -87,6 +105,8 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
     <?php echo $this->getChildHtml('head') ?>
+
+    <!-- start resources for embedded personilizing form -->
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/colorpicker.js'); ?>"></script>
@@ -97,6 +117,8 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
     <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/dd.css'); ?>"  />
     <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/checks.css'); ?>"  />
     <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/zp-style.css'); ?>"  />
+    <!-- end resources -->
+
 </head>
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 
