@@ -671,7 +671,7 @@ function zp_api_common_xml_user_register_result($content){
  * Returns string contains hash
  */
 function zetaprints_generate_user_password_hash ($password) {
-  $ip = $_SERVER["REMOTE_ADDR"];
+  $ip = $_SERVER["SERVER_ADDR"];
 
   //Enter here your outside ip address
   //if it's not matching your machine address
