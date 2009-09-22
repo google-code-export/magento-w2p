@@ -140,3 +140,27 @@ You need to provide [http://www.zetaprints.com/help/about-web-to-print-api/ Zeta
 Complete data import configuration and navigate to _System / Import/Export / Advanced Profiles_. Select _ZetaPrints data import_ profile and click on _Run Profile_ tab on the left. Click _Run Profile in Popup_ button. It will initiate a data importing process which may take several minutes.
 
 Re-run the data import the same way every time you add new templates or change existing ones in ZetaPrints. Data import does not delete templates from Magento even if they were removed from ZetaPrints.
+
+== Setting your outside server ip address ==
+You need to set outside server ip address only when you are planning to use Magento personalization form and this ip address doesn't match your server address.
+
+This can happen in several situations, for example, your server is behind a NAT.
+
+In such situation you need to hardcode outside server ip address in `<your_magento_installation>/app/code/local/Biinno/Api/Model/zp_api.php` file.
+Open this file, find following lines (it's somewhere at the end of the file):
+
+{{{
+//Enter here your outside ip address
+//if it's not matching your machine address
+//$ip = 'a.b.c.d';
+}}}
+
+Uncomment third line and replace _a.b.c.d_ with outside server ip address.
+
+For example:
+
+{{{
+//Enter here your outside ip address
+//if it doesn't match your server address
+$ip = '87.110.2.45';
+}}}
