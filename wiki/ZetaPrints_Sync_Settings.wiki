@@ -35,4 +35,8 @@ Setting it to _Yes_ will instruct the synch to download all templates. It is a b
 === Show previews in ===
 Set to _ZetaPrints IFrame_ if you want to use IFRAME for every template.
 
+The IFRAME will consistently show all templates and present all features available on ZP preview pages, including file uploading. The actual content of the IFRAME comes directly from ZP.
+
+An alternative to the IFRAME is to use a native Magento form that talks to ZP and does asynchronous (AJAX) preview updates. This option is limited to single page templates and has no file uploading yet. We are working on expanding the functionality to match ZP IFAME.
+
 *Note:* Magento form is replaced with IFRAME for multipage templates
