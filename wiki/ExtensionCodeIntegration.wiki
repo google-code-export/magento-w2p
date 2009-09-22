@@ -79,10 +79,15 @@ with following code:
 <?php endif; ?>
 }}}
 
-  This new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
+This new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
 
 ==template/catalog/product/view.phtml==
 
+Before making changes you need to decide how to organize template personalization process: using ZetaPrints IFrame or Magento personalization form.
+
+*Note:* Magento personalization form is replaced with ZetaPrints IFrame for multipage templates.
+
+===ZetaPrints IFrame===
 After line 36 (getting current product object):
 
 `$_product = $this->getProduct();`
@@ -128,7 +133,21 @@ if ($img && $is_preview) {
 }
 }}}
 
-  This new code checks what user is doing with product: making an order or personalizing it. In case of order it shows ordering page otherwise it shows an IFRAME with contents from ZP.
+This new code checks what user is doing with product: making an order or personalizing it. In case of order it shows ordering page otherwise it shows an IFRAME with contents from ZP.
+
+===Magento personalization form===
+
+You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/view.phtml_ file.
+
+This code is divided in four blocks. Each block enclosed with comments look like in the following example:
+
+{{{
+/****** ZP-CODE:1 Short description of code in the block ******/
+
+some code
+
+/****** ZP-CODE:1 End ******/
+}}}
 
 ==template/page/2columns-right.phtml==
 
