@@ -31,3 +31,6 @@ Setting it to _Yes_ will instruct the synch to download all templates. It is a b
   * your ZetaPrints account may be blocked automatically if you do it too often
   * your Magento hosting may be suspended if you take too many resources for too long on a shared computer
   * the process may time out if there are too many templates to import
+
+=== Using IFrame ===
+Set to _Only on multi-page templates_ if you want to use personalizing form for single-page templates and IFRAME for multi-page templates, otherwise IFRAME will be used for every template.
