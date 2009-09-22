@@ -39,4 +39,4 @@ The IFRAME will consistently show all templates and present all features availab
 
 An alternative to the IFRAME is to use a native Magento form that talks to ZP and does asynchronous (AJAX) preview updates. This option is limited to single page templates and has no file uploading yet. We are working on expanding the functionality to match ZP IFRAME.
 
-*Note:* Magento form is replaced with IFRAME for multipage templates
+*Note:* Magento personalization form is replaced with IFRAME for multipage templates.
