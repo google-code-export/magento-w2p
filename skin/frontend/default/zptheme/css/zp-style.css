@@ -1,3 +1,21 @@
+form.zetaprints-template-page div.product-img-box img {
+  max-width: 250px;
+  cursor: pointer;
+}
+
+form.zetaprints-template-page div.product-shop {
+  position: relative;
+}
+
+form.zetaprints-template-page div.clear {
+  clear: both;
+}
+
+form.zetaprints-template-page input.save-order {
+  display: none;
+  margin-left: 6px;
+}
+
 div.color-sample {
   position: absolute;
   height: 18px;

@@ -21,10 +21,10 @@
         <input type="hidden" name="zetaprints-TemplateID" value="{/TemplateDetails/@TemplateID}" />
 
         <div class="product-img-box">
-          <img rel="preview" width="250" style="cursor: pointer;" title="Click to view in large size" src="{concat($zetaprints-api-url,@PreviewImage)}" />
+          <img rel="preview" title="Click to view in large size" src="{concat($zetaprints-api-url,@PreviewImage)}" />
         </div>
 
-        <div style="position: relative" class="product-shop">
+        <div class="product-shop">
           <p><xsl:value-of select="@Name" /></p>
 
           <xsl:call-template name="fields-for-page">
@@ -40,10 +40,10 @@
           </xsl:call-template>
         </div>
 
-        <div style="clear: both;" class="clear" />
+        <div class="clear" />
 
         <input type="button" value="Update preview" class="update-preview form-button" onclick="update_preview('{$page-id}');" />
-        <input type="button" value="Add to cart" class="save-order form-button" style="display: none; margin-left: 6px;" />
+        <input type="button" value="Add to cart" class="save-order form-button" />
       </form>
     </xsl:for-each>
   </xsl:template>
