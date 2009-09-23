@@ -25,7 +25,7 @@
         </div>
 
         <div class="product-shop">
-          <p><xsl:value-of select="@Name" /></p>
+          <h3 class="product-name"><xsl:value-of select="@Name" /></h3>
 
           <xsl:call-template name="fields-for-page">
             <xsl:with-param name="page" select="$page-number" />
@@ -40,10 +40,10 @@
           </xsl:call-template>
         </div>
 
-        <div class="clear" />
-
-        <input type="button" value="Update preview" class="update-preview form-button" onclick="update_preview('{$page-id}');" />
-        <input type="button" value="Add to cart" class="save-order form-button" />
+        <div class="clear">
+          <input type="button" value="Update preview" class="update-preview form-button" onclick="update_preview('{$page-id}');" />
+          <input type="button" value="Add to cart" class="save-order form-button" />
+        </div>
       </form>
     </xsl:for-each>
   </xsl:template>
