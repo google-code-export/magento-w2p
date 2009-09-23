@@ -19,6 +19,7 @@
       <form id="{$page-id}" class="zetaprints-template-page">
         <input type="hidden" name="zetaprints-From" value="{$page-number}" />
         <input type="hidden" name="zetaprints-TemplateID" value="{/TemplateDetails/@TemplateID}" />
+        <input type="hidden" name="preview" />
 
         <div class="product-img-box">
           <img rel="preview" title="Click to view in large size" src="{concat($zetaprints-api-url,@PreviewImage)}" />
@@ -41,7 +42,7 @@
         </div>
 
         <div class="clear">
-          <input type="button" value="Update preview" class="update-preview form-button" onclick="update_preview('{$page-id}');" />
+          <input type="button" value="Update preview" class="update-preview form-button" />
           <input type="button" value="Add to cart" class="save-order form-button" />
         </div>
       </form>
@@ -108,7 +109,7 @@
         </label>
       </dt>
       <dd>
-        <select id="stock-images-page-{$page}" class="stock-images-selector" name="{concat('zetaprints-%23',//Images/Image[@Page=$page]/@Name)}">
+        <select id="stock-images-page-{$page}" class="stock-images-selector" name="{concat('zetaprints-#',//Images/Image[@Page=$page]/@Name)}">
           <xsl:for-each select="//Images/Image[@Page=$page]/StockImage">
             <option value="{@FileID}" title="{concat($zetaprints-api-url,'photothumbs/',concat(substring-before(@Thumb,'.'),'_0x100.',substring-after(@Thumb,'.')))}" />
           </xsl:for-each>
@@ -130,7 +131,7 @@
           <ul class="colors-selector">
             <xsl:for-each select="//Images/Image[@Page=$page and @ColourPicker='RGB']">
               <li>
-                <input class="color" type="checkbox" id="{concat('color-',position())}" name="{concat('zetaprints-%23',@Name)}" checked="1" />
+                <input class="color" type="checkbox" id="{concat('color-',position())}" name="{concat('zetaprints-#',@Name)}" checked="1" />
                 <div class="color-sample"><label for="{concat('color-',position())}"><xsl:value-of select="@Name"/></label></div>
                 <span><xsl:value-of select="@Name"/></span>
               </li>
