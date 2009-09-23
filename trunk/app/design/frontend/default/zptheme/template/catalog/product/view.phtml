@@ -34,7 +34,7 @@
 
 <?php
 
-/* ZP-CODE:1 Handling IFRAME order requests */
+/****** ZP-CODE:1 Handling IFRAME order requests ******/
 
 $_helper = $this->helper('catalog/output');
 $_product = $this->getProduct();
@@ -88,7 +88,7 @@ if ($img && $is_preview) {
   }
 }
 
-/* ZP-CODE:1 End */
+/****** ZP-CODE:1 End ******/
 
 ?>
 
@@ -101,13 +101,17 @@ if ($img && $is_preview) {
 <div class="product-info-box">
     <div class="product-essential">
 
-    <?php /* ZP-CODE:2 Checking if 'Personilize' button was pressed to show Magento form*/ ?>
+    <?php /****** ZP-CODE:2 Checking if 'Personilize' button was pressed to show Magento form ******/ ?>
 
     <?php if ($img && $is_preview): ?>
-      <?php echo $preview_html ?></div>
-    <?php else: ?>
 
-    <?php /* ZP-CODE:2 End */ ?>
+      <?php //Showing magento personalization form
+      echo $preview_html ?></div>
+
+    <?php //Or default magento product page
+    else: ?>
+
+    <?php /****** ZP-CODE:2 End ******/ ?>
 
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
@@ -177,11 +181,11 @@ if ($img && $is_preview) {
             }.bind(productAddToCartForm);
     </script>
  
-    <?php /* ZP-CODE:3 */ ?>
+    <?php /****** ZP-CODE:3 Closing 'if' block There's none in the original code ******/ ?>
  
     <?php endif; ?>
 
-    <?php /* ZP-CODE:3 End */ ?>
+    <?php /****** ZP-CODE:3 End ******/ ?>
 
     </div>
     <div class="product-collateral">
@@ -206,7 +210,7 @@ if ($img && $is_preview) {
     </div>
 </div>
 
-<!-- ZP-CODE:4 Javascript for Magento form -->
+<!-- /****** ZP-CODE:4 JavaScript for magento personalization form ******/ -->
 
 <script type="text/javascript">
   function update_preview (page) {
@@ -337,4 +341,4 @@ if ($img && $is_preview) {
   });
 </script>
 
-<!-- ZP-CODE:4 End -->
+<!-- /****** ZP-CODE:4 End ******/ -->
