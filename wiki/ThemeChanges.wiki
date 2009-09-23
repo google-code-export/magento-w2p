@@ -83,9 +83,9 @@ This new code checks if the product has web-to-print features and is not an alre
 
 ==template/catalog/product/view.phtml==
 
-Before making changes you need to decide how to organize template personalization process: using ZetaPrints IFrame or Magento personalization form.
+Before making changes you need to decide how to organize templates personalization process: using ZetaPrints IFrame or Magento personalization form.
 
-*Note:* Magento personalization form is replaced with ZetaPrints IFrame for multipage templates.
+*Note:* Magento personalization form is replaced automatically with ZetaPrints IFrame for multipage templates.
 
 ===ZetaPrints IFrame===
 
@@ -152,9 +152,9 @@ some code
 
 ==template/page/2columns-right.phtml==
 
-Before making changes you need to decide how to organize template personalization process: using ZetaPrints IFrame or Magento personalization form.
+Before making changes you need to decide how to organize templates personalization process: using ZetaPrints IFrame or Magento personalization form.
 
-*Note:* Magento personalization form is replaced with ZetaPrints IFrame for multipage templates.
+*Note:* Magento personalization form is replaced automatically with ZetaPrints IFrame for multipage templates.
 
 ===ZetaPrints IFrame===
 
