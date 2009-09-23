@@ -209,53 +209,61 @@ if ($img && $is_preview) {
 <!-- ZP-CODE:4 Javascript for Magento form -->
 
 <script type="text/javascript">
-  function update_preview (page) {
-    jQuery('#ajax-loader').show(1);
-    new Ajax.Request('<?php echo $_product->getProductUrl() ?>', {
-      method: 'post',
-      onSuccess: function (transport) {
-        var response = transport.responseText;
-        $$('form#' + page + ' div.product-img-box img')[0].writeAttribute('src', value = response);
-        jQuery('<input type="hidden" name="previews" />').attr('value', response.split('/preview/')[1]).appendTo(jQuery('form#' + page));
-        jQuery('form.zetaprints-template-page input.save-order').show();
-        jQuery('#ajax-loader').hide(1); },
-      onFailure: function () {
-        jQuery('#ajax-loader').hide(1);
-	alert('Can\'t get preview image.'); },
-      parameters: $(page).serialize(true)
-    });
-  }
-
   jQuery(document).ready(function($) {
-      var template_id = $('form.zetaprints-template-page input[name=zetaprints-TemplateID]').attr('value');
+    template_id = $('form.zetaprints-template-page input[name=zetaprints-TemplateID]').attr('value');
+    number_of_pages = $('form.zetaprints-template-page').length;
 
-      $('form.zetaprints-template-page input.save-order').click(function () {
-        $('#ajax-loader').show(1);
+    $('form.zetaprints-template-page input.save-order').click(function () {
+      $('#ajax-loader').show(1);
 
-        var previews = '';
+      previews = '';
 
-        $('form.zetaprints-template-page input[name=previews]').each(function () {
-	  previews += $(this).attr('value') + ',';
-        });
+      $('form.zetaprints-template-page input[name=preview]').each(function () {
+        previews += $(this).attr('value') + ',';
+      });
 
-        previews = previews.substring(0, previews.length - 1);
+      previews = previews.substring(0, previews.length - 1);
 
-        $.ajax({
-	  url: '<?php echo $_product->getProductUrl() ?>/?save-order',
-	  type: 'POST',
-	  data: 'zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
-	  dataType: 'text',
-	  error: function (XMLHttpRequest, textStatus, errorThrown) {
-	    $('#ajax-loader').hide(1);
-	    alert('Can\'t save order'); },
-	  success: function (data, textStatus) {
-            if (parseInt(data) > 0) {
-              parent.document.location = '<?php echo $this->getUrl('checkout/cart/add'); ?>?qty=1&product=' + data;
-            } else {
-              parent.document.location = '<?php echo $this->getUrl('checkout/cart'); ?>';
-            }}
+      $.ajax({
+        url: '<?php echo $_product->getProductUrl() ?>/?save-order',
+	type: 'POST',
+	data: 'zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
+	dataType: 'text',
+	error: function (XMLHttpRequest, textStatus, errorThrown) {
+	  $('#ajax-loader').hide(1);
+	  alert('Can\'t save order'); },
+	success: function (data, textStatus) {
+          if (parseInt(data) > 0) {
+            parent.document.location = '<?php echo $this->getUrl('checkout/cart/add'); ?>?qty=1&product=' + data;
+          } else {
+            parent.document.location = '<?php echo $this->getUrl('checkout/cart'); ?>';
+          }}
 	});
       });
+
+    $('form.zetaprints-template-page input.update-preview').each(function () {
+      $(this).click(function () {
+        $('#ajax-loader').show(1);
+        form = $(this).parent().parent();
+
+        $.ajax({
+          url: '<?php echo $_product->getProductUrl() ?>',
+          type: 'POST',
+	  data: $(form).serialize(),
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $('#ajax-loader').hide(1);
+	    alert('Can\'t get preview image'); },
+          success: function (data, textStatus) {
+            $('div.product-img-box img', form).attr('src', data);
+            $('input[name=preview]', form).attr('value', data.split('/preview/')[1]);
+
+            if ($('form.zetaprints-template-page input[name=preview][value]').length == number_of_pages)
+              $('form.zetaprints-template-page input.save-order').show();
+
+            $('#ajax-loader').hide(1); }
+	});
+      });
+    });
 
     $('form.zetaprints-template-page ul.colors-selector li').each(function () {
       var color_sample = $('div.color-sample', this);
