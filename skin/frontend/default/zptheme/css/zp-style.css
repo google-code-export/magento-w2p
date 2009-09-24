@@ -1,10 +1,13 @@
+div.product-essential {
+  border-bottom: 1px solid #C4C6C8;
+}
+
 form.zetaprints-template-page {
   display: block;
-  margin-bottom: 25px;
 }
 
 form.zetaprints-template-page div.product-img-box {
-  margin-bottom: 25px;
+  width: 50%;
 }
 
 form.zetaprints-template-page div.product-img-box img {
@@ -14,19 +17,43 @@ form.zetaprints-template-page div.product-img-box img {
 
 form.zetaprints-template-page div.product-shop {
   position: relative;
+  width: 50%;
 }
 
 form.zetaprints-template-page div.product-shop dl {
   margin-bottom: 5px;
 }
 
-form.zetaprints-template-page div.clear {
-  clear: both;
+form.zetaprints-template-page div.update-preview {
+  float: left;
+  margin-top: 25px;
 }
 
-form.zetaprints-template-page input.save-order {
+form.zetaprints-template-page img.ajax-loader {
+  vertical-align: middle;
+  margin-left: 10px;
   display: none;
-  margin-left: 6px;
+}
+
+div.save-order {
+  background: none;
+}
+
+div.save-order div.inner {
+  float: right;
+}
+
+div.save-order input.disable {
+  background-color: #aaaaaa;
+  color: #eee;
+  border-color: #999999;
+  cursor: default;
+}
+
+div.save-order img.ajax-loader {
+  vertical-align: middle;
+  margin-right: 10px;
+  display: none;
 }
 
 div.color-sample {
