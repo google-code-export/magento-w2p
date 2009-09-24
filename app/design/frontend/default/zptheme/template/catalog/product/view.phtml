@@ -253,7 +253,7 @@ if ($img && $is_preview) {
           type: 'POST',
 	  data: $(form).serialize(),
           error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $('#ajax-loader').hide(1);
+            $('img.ajax-loader', form).css('display', 'none');
 	    alert('Can\'t get preview image'); },
           success: function (data, textStatus) {
             $('div.product-img-box img', form).attr('src', data);
