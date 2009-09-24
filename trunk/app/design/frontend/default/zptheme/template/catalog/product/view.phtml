@@ -99,7 +99,6 @@ if ($img && $is_preview) {
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 
 <div class="product-info-box">
-    <div class="product-essential">
 
     <?php /****** ZP-CODE:2 Checking if 'Personilize' button was pressed to show Magento form ******/ ?>
 
@@ -112,7 +111,7 @@ if ($img && $is_preview) {
     else: ?>
 
     <?php /****** ZP-CODE:2 End ******/ ?>
-
+    <div class="product-essential">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <div class="product-img-box">
@@ -180,14 +179,13 @@ if ($img && $is_preview) {
                     }
             }.bind(productAddToCartForm);
     </script>
- 
+    </div>
     <?php /****** ZP-CODE:3 Closing 'if' block There's none in the original code ******/ ?>
  
     <?php endif; ?>
 
     <?php /****** ZP-CODE:3 End ******/ ?>
 
-    </div>
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
             <div class="collateral-box">
@@ -217,12 +215,12 @@ if ($img && $is_preview) {
     template_id = $('form.zetaprints-template-page input[name=zetaprints-TemplateID]').attr('value');
     number_of_pages = $('form.zetaprints-template-page').length;
 
-    $('form.zetaprints-template-page input.save-order').click(function () {
-      $('#ajax-loader').show(1);
+    function save_order_request () {
+      $('div.save-order img.ajax-loader').css('display', 'inline');
 
       previews = '';
 
-      $('form.zetaprints-template-page input[name=preview]').each(function () {
+      $('form.zetaprints-template-page input[name=preview][value]').each(function () {
         previews += $(this).attr('value') + ',';
       });
 
@@ -234,21 +232,21 @@ if ($img && $is_preview) {
 	data: 'zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
 	dataType: 'text',
 	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	  $('#ajax-loader').hide(1);
+	  $('div.save-order img.ajax-loader').css('display', 'none');
 	  alert('Can\'t save order'); },
 	success: function (data, textStatus) {
           if (parseInt(data) > 0) {
             parent.document.location = '<?php echo $this->getUrl('checkout/cart/add'); ?>?qty=1&product=' + data;
           } else {
             parent.document.location = '<?php echo $this->getUrl('checkout/cart'); ?>';
-          }}
-	});
+        }}
       });
+    };
 
     $('form.zetaprints-template-page input.update-preview').each(function () {
       $(this).click(function () {
-        $('#ajax-loader').show(1);
         form = $(this).parent().parent();
+        $('img.ajax-loader', form).css('display', 'inline');
 
         $.ajax({
           url: '<?php echo $_product->getProductUrl() ?>',
@@ -261,10 +259,12 @@ if ($img && $is_preview) {
             $('div.product-img-box img', form).attr('src', data);
             $('input[name=preview]', form).attr('value', data.split('/preview/')[1]);
 
-            if ($('form.zetaprints-template-page input[name=preview][value]').length == number_of_pages)
-              $('form.zetaprints-template-page input.save-order').show();
+            if ($('form.zetaprints-template-page input[name=preview][value]').length == number_of_pages) {
+              $('div.save-order input').removeClass('disable');
+	      $('div.save-order input').bind('click', save_order_request);
+	    }
 
-            $('#ajax-loader').hide(1); }
+            $('img.ajax-loader', form).css('display', 'none'); }
 	});
       });
     });
@@ -340,12 +340,10 @@ if ($img && $is_preview) {
 
     $('form.zetaprints-template-page ul.colors-selector').vchecks();
 
-    var height
-    $('<img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" id="ajax-loader" />').css({
-      position: 'absolute',
-	  right: 0,
-          top: 0,
-          zIndex: 1000 }).appendTo('form.zetaprints-template-page div.product-shop').hide();
+    $('<img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>"  class="ajax-loader"/>')
+      .prependTo('div.save-order div.inner')
+      .clone()
+      .appendTo('form.zetaprints-template-page div.update-preview')
   });
 </script>
 

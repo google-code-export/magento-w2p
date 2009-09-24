@@ -15,7 +15,7 @@
     <xsl:for-each select="Page">
       <xsl:variable name="page-number" select="position()" />
       <xsl:variable name="page-id" select="concat('page-',$page-number)" />
-
+      <div class="product-essential">
       <form id="{$page-id}" class="zetaprints-template-page">
         <input type="hidden" name="zetaprints-From" value="{$page-number}" />
         <input type="hidden" name="zetaprints-TemplateID" value="{/TemplateDetails/@TemplateID}" />
@@ -41,12 +41,19 @@
           </xsl:call-template>
         </div>
 
-        <div class="clear">
+        <div class="update-preview">
           <input type="button" value="Update preview" class="update-preview form-button" />
-          <input type="button" value="Add to cart" class="save-order form-button" />
         </div>
       </form>
+      </div>
+      
     </xsl:for-each>
+
+    <div class="save-order product-essential">
+      <div class="inner">
+        <input type="button" value="Add to cart" class="disable save-order form-button" />
+      </div>
+    </div>
   </xsl:template>
 
   <xsl:template name="fields-for-page">
