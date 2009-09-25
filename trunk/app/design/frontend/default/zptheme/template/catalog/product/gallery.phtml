@@ -36,7 +36,25 @@
     <?php endif; ?>
   </div>
   <div class="a-left"><?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?></div>
-  <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+
+    <?php /****** ZP-CODE:1 Checking if product is web-to-print image and using proper image url ******/ ?>
+
+    <?php if ($this->getProduct()->hasData('w2p_image')): ?>
+
+      <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->getImageUrl(); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+
+    <?php else: ?>
+
+    <?php /****** ZP-CODE:1 End ******/ ?>
+
+      <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+
+    <?php /****** ZP-CODE:2 'endif' for 'if' opened in ZP-CODE:1 ******/ ?>
+
+    <?php endif; ?>
+
+    <?php /****** ZP-CODE:2 End ******/ ?>
+
   <div class="a-center">
     <?php if($_prevUrl = $this->getPreviusImageUrl()): ?>
     <a href="<?php echo $_prevUrl ?>" class="product-gallery-nav"><strong>&laquo; <?php echo $this->__('Prev') ?></strong></a>
