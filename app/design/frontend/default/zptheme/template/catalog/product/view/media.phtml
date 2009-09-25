@@ -67,11 +67,33 @@
 <div class="more-views">
     <h4><?php echo $this->__('More Views') ?></h4>
     <ul>
-    <?php foreach ($this->getGalleryImages() as $_image): ?>
-        <li>
-            <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
-        </li>
-    <?php endforeach; ?>
+
+    <?php /****** ZP-CODE:1 Checking if product is web-to-print image and using proper image url ******/ ?>
+
+    <?php if ($_product->hasData('w2p_image')): ?>
+
+        <?php foreach ($this->getGalleryImages() as $_image): ?>
+            <li>
+                <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $_image['url']?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
+            </li>
+        <?php endforeach; ?>
+
+    <?php else: ?>
+
+    <?php /****** ZP-CODE:1 End ******/ ?>
+
+        <?php foreach ($this->getGalleryImages() as $_image): ?>
+            <li>
+                <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
+            </li>
+        <?php endforeach; ?>
+
+    <?php /****** ZP-CODE:2 'endif' for 'if' opened in ZP-CODE:1 ******/ ?>
+
+    <?php endif; ?>
+
+    <?php /****** ZP-CODE:2 End ******/ ?>
+
     </ul>
 </div>
 <?php endif; ?>

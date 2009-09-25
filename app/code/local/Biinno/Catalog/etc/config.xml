@@ -7,6 +7,14 @@
   </modules>
 
   <global>
+    <models>
+      <catalog>
+        <rewrite>
+          <product>Biinno_Catalog_Model_Product</product>
+        </rewrite>
+      </catalog>
+    </models>
+
     <helpers>
       <catalog>
         <rewrite>
