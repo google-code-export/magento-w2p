@@ -24,7 +24,7 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
     $this->base = Mage::getStoreConfig('api/settings/w2p_url');
     $this->key = Mage::getStoreConfig('api/settings/w2p_key');
 
-    zp_api_init($this->key,$this->base);
+    zp_api_init($this->key, $this->base);
   }
 
   /**
@@ -166,7 +166,7 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
     $product->setStatus(2);
     $product->save();
 
-    Mage::getSingleton('checkout/session')->addError("CHANGE STATUS OF $id :DONE!!!" );
+    Mage::getSingleton('checkout/session')->addError("CHANGE STATUS OF $id :DONE!!!");
 
     return 1;
   }
@@ -228,8 +228,8 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
 
         if ($cus->getData('entity_id')) {
           //Save to db
-          $cus->setData('w2p_user',$this->user);
-          $cus->setData('w2p_pass',$this->pass);
+          $cus->setData('w2p_user', $this->user);
+          $cus->setData('w2p_pass', $this->pass);
           $cus->save();
           $this->state = "ok-m";
         } else {
