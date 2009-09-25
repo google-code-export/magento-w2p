@@ -59,7 +59,7 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
     $baseProduct = Mage::registry('product');
     Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 
-    $product = $baseProductж
+    $product = $baseProduct;
 
     //custom option
     $newOptionsArray = array();
