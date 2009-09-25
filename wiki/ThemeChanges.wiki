@@ -150,6 +150,34 @@ some code
 /****** ZP-CODE:1 End ******/
 }}}
 
+==template/catalog/product/gallery.phtml==
+
+You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/gallery.phtml_ file.
+
+This code is divided in two blocks. Each block enclosed with comments look like in the following example:
+
+{{{
+/****** ZP-CODE:1 Short description of code in the block ******/
+
+some code
+
+/****** ZP-CODE:1 End ******/
+}}}
+
+==template/catalog/product/view/media.phtml==
+
+You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/view/media.phtml_ file.
+
+This code is divided in two blocks. Each block enclosed with comments look like in the following example:
+
+{{{
+/****** ZP-CODE:1 Short description of code in the block ******/
+
+some code
+
+/****** ZP-CODE:1 End ******/
+}}}
+
 ==template/page/2columns-right.phtml==
 
 Before making changes you need to decide how to organize templates personalization process: using ZetaPrints IFrame or Magento personalization form.
