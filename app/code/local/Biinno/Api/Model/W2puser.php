@@ -47,10 +47,10 @@ class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
 
       Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 
-      $product->setData("w2p_image",$data['previewimage']);
-      $product->setData("w2p_modified",$data['created']);
+      $product->setData("w2p_image", $data['previewimage']);
+      $product->setData("w2p_modified", $data['created']);
       $product->setData("w2p_isorder", 1);
-      $product->setData("w2p_image_links",$data['previews']);
+      $product->setData("w2p_image_links", $data['previews']);
       $product->save();
 
       return $old;
