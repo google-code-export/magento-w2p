@@ -7,34 +7,78 @@ div.product-essential {
   border-bottom: 1px solid #C4C6C8;
 }
 
-form.zetaprints-template-page {
+div.product-essential div.image-tabs {
+  overflow: auto;
+}
+
+div.product-essential div.image-tabs ul {
+  overflow:hidden;
+  margin-bottom: 5px;
+}
+
+div.product-essential div.image-tabs ul li {
+  width: 100px;
+  float: left;
+  margin-right: 15px;
+  border: 1px solid transparent;
+  padding: 9px;
+  cursor: pointer;
+  text-align: center;
+  min-height: 100px;
+}
+
+div.product-essential div.image-tabs ul li.selected {
+  border-color: #F18200 !important;
+  cursor: default;
+}
+
+div.product-essential div.image-tabs ul li:hover {
+  border-color: #C4C6C8;
+}
+
+div.product-essential div.image-tabs ul li img {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+div.zetaprints-template-page {
+  display: none;
+}
+
+div.zetaprints-template-page form {
   display: block;
 }
 
-form.zetaprints-template-page div.product-img-box {
+div.zetaprints-template-page div.product-img-box {
   width: 50%;
 }
 
-form.zetaprints-template-page div.product-img-box img {
+div.zetaprints-template-page div.product-img-box img {
   max-width: 250px;
   cursor: pointer;
 }
 
-form.zetaprints-template-page div.product-shop {
+div.zetaprints-template-page div.product-shop {
   position: relative;
   width: 50%;
 }
 
-form.zetaprints-template-page div.product-shop dl {
+div.zetaprints-template-page div.product-shop dl {
   margin-bottom: 5px;
 }
 
-form.zetaprints-template-page div.update-preview {
+div.zetaprints-template-page div.update-preview {
   float: left;
   margin-top: 25px;
 }
 
-form.zetaprints-template-page img.ajax-loader {
+div.zetaprints-template-page div.update-preview span {
+  display: none;
+  margin-left: 10px;
+  font-size: 85%;
+}
+
+div.zetaprints-template-page img.ajax-loader {
   vertical-align: middle;
   margin-left: 10px;
   display: none;
@@ -48,11 +92,15 @@ div.save-order div.inner {
   float: right;
 }
 
-div.save-order input.disable {
-  background-color: #aaaaaa;
-  color: #eee;
-  border-color: #999999;
+div.product-essential input.disable {
+  background-color: rgb(187, 187, 187);
+  border-color: rgb(187, 187, 187);
   cursor: default;
+}
+
+div.save-order span {
+  margin-right: 10px;
+  font-size: 85%;
 }
 
 div.save-order img.ajax-loader {

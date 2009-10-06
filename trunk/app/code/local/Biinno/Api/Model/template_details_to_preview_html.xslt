@@ -12,11 +12,16 @@
   </xsl:template>
 
   <xsl:template match="Pages">
+
+    <xsl:if  test="not (count(Page) = 1)">
+      <xsl:call-template name="image-tabs-for-pages" />
+    </xsl:if>
+
     <xsl:for-each select="Page">
       <xsl:variable name="page-number" select="position()" />
       <xsl:variable name="page-id" select="concat('page-',$page-number)" />
-      <div class="product-essential">
-      <form id="{$page-id}" class="zetaprints-template-page">
+      <div class="product-essential zetaprints-template-page">
+      <form id="{$page-id}">
         <input type="hidden" name="zetaprints-From" value="{$page-number}" />
         <input type="hidden" name="zetaprints-TemplateID" value="{/TemplateDetails/@TemplateID}" />
         <input type="hidden" name="preview" />
@@ -43,6 +48,7 @@
 
         <div class="update-preview">
           <input type="button" value="Update preview" class="update-preview form-button" />
+          <span>Another page is being updated ...</span>
         </div>
       </form>
       </div>
@@ -51,7 +57,25 @@
 
     <div class="save-order product-essential">
       <div class="inner">
+        <span>Update all pages to enable:</span>
         <input type="button" value="Add to cart" class="disable save-order form-button" />
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="image-tabs-for-pages">
+    <div class="product-essential">
+      <div class="image-tabs">
+        <ul style="width: {count(Page) * 135}px;">
+          <xsl:for-each select="Page">
+            <xsl:variable name="image-name" select="substring-after(@PreviewImage, '/')" />
+            <li title="Click to show page">
+              <img rel="{concat('page-', position())}" src="{$zetaprints-api-url}thumb/{substring-before($image-name, '.')}_100x100.{substring-after($image-name, '.')}" />
+              <br />
+              <span><xsl:value-of select="@Name" /></span>
+            </li>
+          </xsl:for-each>
+        </ul>
       </div>
     </div>
   </xsl:template>
