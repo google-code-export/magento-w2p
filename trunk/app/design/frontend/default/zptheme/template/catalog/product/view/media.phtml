@@ -59,7 +59,7 @@
 </script>
 <?php else: ?>
     <?php
-        $_img = '<img width="250px" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
         echo $_helper->productAttribute($_product, $_img, 'image')
     ?>
 <?php endif; ?>

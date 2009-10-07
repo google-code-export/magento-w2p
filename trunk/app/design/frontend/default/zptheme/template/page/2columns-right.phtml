@@ -138,7 +138,7 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
 <?php /****** ZP-CODE:4 End ******/ ?>
 
 <div class="wrapper">
-<?php /*<p class="demo-notice"><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p> */ ?>
+    <?php echo $this->getChildHtml('global_notices') ?>
         <!-- start header -->
         <div class="header">
             <?php echo $this->getChildHtml('header') ?>
