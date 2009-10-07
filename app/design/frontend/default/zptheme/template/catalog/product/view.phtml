@@ -276,6 +276,7 @@ if ($img && $is_preview) {
           $(update_preview_buttons).bind('click', update_preview).removeClass('disable');
 	  alert('Can\'t get preview image'); },
         success: function (data, textStatus) {
+          $('div.product-img-box a', form).attr('href', data);
           $('div.product-img-box img', form).attr('src', data);
 
           image_name = data.split('/preview/')[1]
@@ -324,7 +325,16 @@ if ($img && $is_preview) {
       });
     });
 
-    $('div.zetaprints-template-page div.product-img-box img[rel="preview"]').each(function () {
+    $('div.zetaprints-template-page div.product-img-box a').fancybox({
+      'zoomOpacity': true,
+      'overlayShow': false,
+      'centerOnScroll': false,
+      'zoomSpeedChange': 200,
+      'zoomSpeedIn': 500,
+      'zoomSpeedOut' : 500,
+      'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+
+    /*$('div.zetaprints-template-page div.product-img-box img[rel="preview"]').each(function () {
       var image = this;
       $(image).qtip({
         content: {
@@ -341,9 +351,9 @@ if ($img && $is_preview) {
           beforeHide: function() { $('#qtip-blanket').fadeOut(this.options.hide.effect.length); }
         }
       });
-    });
+    });*/
 
-    $('<div id="qtip-blanket">').css({
+/*$('<div id="qtip-blanket">').css({
       position: 'absolute',
       top: $(document).scrollTop(),
       left: 0,
@@ -351,7 +361,7 @@ if ($img && $is_preview) {
       width: '100%',
       opacity: 0.7,
       backgroundColor: 'black',
-      zIndex: 5000 }).appendTo(document.body).hide();
+      zIndex: 5000 }).appendTo(document.body).hide();*/
 
     $('div.zetaprints-template-page input[title], div.zetaprints-template-page textarea[title]').qtip({
       position: { corner: { target: 'bottomLeft' } },
