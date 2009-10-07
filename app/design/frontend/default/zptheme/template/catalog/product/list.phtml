@@ -88,7 +88,7 @@
 
               <?php /****** ZP-CODE:3 End ******/ ?>
 
-	        <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+	    <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
 
               <?php /****** ZP-CODE:4 Closing 'if' from ZP-CODE:3 ******/ ?>
 
@@ -136,7 +136,7 @@
 
                         <?php if($_product->hasData('w2p_image')): ?>
                           <img style="max-width: 135px;" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
-	                <?php else: ?>
+                        <?php else: ?>
 
                         <?php /****** ZP-CODE:5 End ******/ ?>
 
