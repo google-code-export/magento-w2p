@@ -8,6 +8,21 @@ This document explains changes you need to make to a custom magento theme to ena
 Modify files behind the user interface.
 
 ==template/catalog/product/list.phtml==
+  * Replace line 51 (image for a product):
+{{{
+<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+}}}
+
+  with following code:
+{{{
+<?php if($_product->hasData('w2p_image')): ?>
+  <img style="max-width: 135px;" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+<?php else: ?>
+  <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+<?php endif; ?>
+}}}
+
+  The new code disables image resizing for products with web-to-print feature.
 
   * Replace line 63 (add to cart button):
 {{{
@@ -18,7 +33,7 @@ Modify files behind the user interface.
 {{{
 <?php if($_product->getData("w2p_image")): ?>
   <?php if(!$_product->getData("w2p_isorder")): ?>
-    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+    <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
   <?php endif; ?>
 <?php else: ?>
   <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
@@ -26,6 +41,22 @@ Modify files behind the user interface.
 }}}
 
   The new code checks if the product has web-to-print features and is not an already customized product (an order). In this case it shows a _Personalize_ button instead of _Add to Cart_.
+
+  * Replace line 99 (image for a product):
+{{{
+<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+}}}
+
+  with following code:
+{{{
+<?php if($_product->hasData('w2p_image')): ?>
+  <img style="max-width: 135px;" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+<?php else: ?>
+  <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
+<?php endif; ?>
+}}}
+
+  The new code disables image resizing for products with web-to-print feature.
 
   * Replace line 108 (add to cart button):
 {{{
@@ -36,10 +67,10 @@ Modify files behind the user interface.
 {{{
 <?php if($_product->getData("w2p_image")): ?>
   <?php if(!$_product->getData("w2p_isorder")): ?>
-    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+    <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
   <?php endif; ?>
 <?php else: ?>
-  <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+  <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') 
 <?php endif; ?>
 }}}
 
