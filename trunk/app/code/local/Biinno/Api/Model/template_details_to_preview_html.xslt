@@ -27,7 +27,7 @@
         <input type="hidden" name="preview" />
 
         <div class="product-img-box">
-          <img rel="preview" title="Click to view in large size" src="{concat($zetaprints-api-url,@PreviewImage)}" />
+          <a href="{concat($zetaprints-api-url,@PreviewImage)}"><img title="Click to view in large size" src="{concat($zetaprints-api-url,@PreviewImage)}" /></a>
         </div>
 
         <div class="product-shop">
