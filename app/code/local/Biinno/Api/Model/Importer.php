@@ -197,7 +197,7 @@ class Biinno_Api_Model_Importer
 			{
 				$this->pids[] = $data['id'];
 				$product->load($old);
-				hiddenProduct($product);
+				$this->hiddenProduct($product);
 			}
 		}
 		$this->debugMess(sprintf("****END:Hidden Products Of Category:id=[%s]",$cdata['id']));		
@@ -241,7 +241,7 @@ class Biinno_Api_Model_Importer
 		foreach ($collection as $item){
 			if ($item->getData("w2p_image") && !$item->getData("w2p_isorder")){
 				$this->debugMess(sprintf("****HIDDEN SKU=[%s],order=[%s]",$item->getSku(),$item->getData("w2p_isorder")));
-				hiddenProduct($item);
+				$this->hiddenProduct($item);
 				$count++;
 			}
 		}
