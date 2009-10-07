@@ -28,12 +28,18 @@
 <?php $_product = $this->getProduct() ?>
 
 <?php if($_product->isSaleable()): ?>
-	<!-- add by Pham Tri Cong <phtcong@gmail.com>  -->
-	<?php if($_product->getData("w2p_image")): ?>
-		<?php if(!$_product->getData("w2p_isorder")): ?>
-		<input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
-		<?php endif; ?>
-	<?php else: ?>
+
+    <?php /****** ZP-CODE:1 Show 'Personalize' buttom instead 'Add to cart' in case a product
+                                      has web-to-print feature and it is not already customized ******/ ?>
+
+    <?php if($_product->hasData('w2p_image')): ?>
+      <?php if(!$_product->hasData('w2p_isorder')): ?>
+        <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
+      <?php endif; ?>
+    <? else: ?>
+
+    <?php /****** ZP-CODE:1 End ******/ ?>
+
     <fieldset class="add-to-cart-box">
         <legend><?php echo $this->__('Add Items to Cart') ?></legend>
         <?php if(!$_product->isGrouped()): ?>
@@ -42,6 +48,11 @@
         <?php endif; ?>
         <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
     </fieldset>
-	<?php endif; ?>
-	<!-- end add by Pham Tri Cong <phtcong@gmail.com>  -->
+
+    <?php /****** ZP-CODE:2 Close 'if' from ZP-CODE:1 ******/ ?>
+
+    <?php endif; ?>
+
+    <?php /****** ZP-CODE:2 End ******/ ?>
+
 <?php endif; ?>
