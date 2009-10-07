@@ -119,7 +119,6 @@
                           <show_in_default>1</show_in_default>
                           <show_in_website>1</show_in_website>
                           <show_in_store>0</show_in_store>
-                          <comment><![CDATA[<b>Note:</b> Magento form is replaced with IFrame for multipage templates]]></comment>
                         </zetaprints-show-previews-in-option>
 			         </fields>
                             </settings>
