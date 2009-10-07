@@ -199,7 +199,7 @@ some code
 
 You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/view/media.phtml_ file.
 
-This code is divided in two blocks. Each block enclosed with comments look like in the following example:
+This code is divided in four blocks. Each block enclosed with comments look like in the following example:
 
 {{{
 /****** ZP-CODE:1 Short description of code in the block ******/
