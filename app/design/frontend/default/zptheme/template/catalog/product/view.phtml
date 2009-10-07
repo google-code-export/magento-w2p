@@ -33,11 +33,10 @@
 ?>
 
 <?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct();
 
 /****** ZP-CODE:1 Generating magento personalization form, handling ZetaPrints IFrame order requests ******/
-
-$_helper = $this->helper('catalog/output');
-$_product = $this->getProduct();
 
 $button = "";
 $img = $_product->getData("w2p_image");
@@ -91,13 +90,10 @@ if ($img && $is_preview) {
 /****** ZP-CODE:1 End ******/
 
 ?>
-
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-
 <div class="product-info-box">
 
     <?php /****** ZP-CODE:2 Checking if 'Personilize' button was pressed to show Magento form ******/ ?>
