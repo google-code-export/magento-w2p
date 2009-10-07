@@ -59,7 +59,23 @@
 </script>
 <?php else: ?>
     <?php
+
+        /****** ZP-CODE:1 Disable image resizing for products with web-to-print feature ******/
+
+        if ($_product->hasData('w2p_image')) {
+          $_img = '<img style="max-width: 265px" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+        } else {
+
+        /****** ZP-CODE:1 End ******/
+
         $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
+
+        /****** ZP-CODE:2 Close 'else' bracket from ZP-CODE:1 ******/
+
+        }
+
+        /****** ZP-CODE:2 End ******/
+
         echo $_helper->productAttribute($_product, $_img, 'image')
     ?>
 <?php endif; ?>
@@ -68,7 +84,7 @@
     <h4><?php echo $this->__('More Views') ?></h4>
     <ul>
 
-    <?php /****** ZP-CODE:1 Checking if product is web-to-print image and using proper image url ******/ ?>
+    <?php /****** ZP-CODE:3 Checking if product is web-to-print image and using proper image url ******/ ?>
 
     <?php if ($_product->hasData('w2p_image')): ?>
 
@@ -80,7 +96,7 @@
 
     <?php else: ?>
 
-    <?php /****** ZP-CODE:1 End ******/ ?>
+    <?php /****** ZP-CODE:3 End ******/ ?>
 
         <?php foreach ($this->getGalleryImages() as $_image): ?>
             <li>
@@ -88,11 +104,11 @@
             </li>
         <?php endforeach; ?>
 
-    <?php /****** ZP-CODE:2 'endif' for 'if' opened in ZP-CODE:1 ******/ ?>
+    <?php /****** ZP-CODE:4 'endif' for 'if' opened in ZP-CODE:3 ******/ ?>
 
     <?php endif; ?>
 
-    <?php /****** ZP-CODE:2 End ******/ ?>
+    <?php /****** ZP-CODE:4 End ******/ ?>
 
     </ul>
 </div>
