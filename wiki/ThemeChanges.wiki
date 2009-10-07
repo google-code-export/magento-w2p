@@ -257,4 +257,5 @@ Resource files description:
   * `js/jquery-qtip-1.0.0-rc3.min.js` - QTip jQuery plugin
   * `js/jquery.dd.js`, `css/dd.css` - Enhanced dropdown component plugin for jQuery
   * `js/jquery.vchecks.js`, `css/checks.css` - Enhanced checkbox component plugin for jQuery
+  * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
   * `css/zp-style.css` - Additional styles for magento personalization form
