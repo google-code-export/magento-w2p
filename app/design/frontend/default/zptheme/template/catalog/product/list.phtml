@@ -82,7 +82,7 @@
 
 	      <?php if($_product->hasData("w2p_image")): ?>
                 <?php if(!$_product->hasData("w2p_isorder")): ?>
-                  <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1'; return false;"/>
+                  <button class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
                 <?php endif; ?>
               <?php else: ?>
 
@@ -162,7 +162,7 @@
 
                   <?php if($_product->hasData("w2p_image")): ?>
                     <?php if(!$_product->hasData("w2p_isorder")): ?>
-                      <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1'; return false;"/>
+                      <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
                     <?php endif; ?>
                   <?php else: ?>
 
