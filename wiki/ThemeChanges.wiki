@@ -84,8 +84,8 @@ Replace lines 31-38 (add to cart button with wrapper html):
 <fieldset class="add-to-cart-box">
   <legend><?php echo $this->__('Add Items to Cart') ?></legend>
   <?php if(!$_product->isGrouped()): ?>
-    <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
-    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+  <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+  <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
   <?php endif; ?>
   <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
 </fieldset>
@@ -94,16 +94,16 @@ Replace lines 31-38 (add to cart button with wrapper html):
 with following code:
 
 {{{
-<?php if($_product->getData("w2p_image")): ?>
-  <?php if(!$_product->getData("w2p_isorder")): ?>
-    <input type="button" name="sosanh" value="PERSONALIZE" class="form-button" onclick="document.location='<?php echo $_product->getProductUrl() ?>?preview=1&order=';return false;"/>
+<?php if($_product->hasData('w2p_image')): ?>
+  <?php if(!$_product->hasData('w2p_isorder')): ?>
+    <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
   <?php endif; ?>
 <?php else: ?>
   <fieldset class="add-to-cart-box">
     <legend><?php echo $this->__('Add Items to Cart') ?></legend>
     <?php if(!$_product->isGrouped()): ?>
-      <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
-      <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+    <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
+    <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
      <?php endif; ?>
      <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
   </fieldset>
