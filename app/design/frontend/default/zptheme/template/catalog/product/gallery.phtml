@@ -41,7 +41,7 @@
 
     <?php if ($this->getProduct()->hasData('w2p_image')): ?>
 
-      <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->getImageUrl(); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+      <img src="<?php echo $this->getImageUrl(); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
 
     <?php else: ?>
 
