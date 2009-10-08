@@ -37,7 +37,7 @@
   </div>
   <div class="a-left"><?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?></div>
 
-    <?php /****** ZP-CODE:1 Checking if product is web-to-print image and using proper image url ******/ ?>
+    <?php /****** ZP-CODE:1 Checking if the product has web-to-print feature and using proper image url ******/ ?>
 
     <?php if ($this->getProduct()->hasData('w2p_image')): ?>
 
@@ -47,7 +47,7 @@
 
     <?php /****** ZP-CODE:1 End ******/ ?>
 
-      <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+  <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
 
     <?php /****** ZP-CODE:2 'endif' for 'if' opened in ZP-CODE:1 ******/ ?>
 
