@@ -232,13 +232,6 @@ if ($_product->hasData('w2p_image')) {
   This new code disables image resizing for products with web-to-print feature.
 
 ==template/page/2columns-right.phtml==
-
-Before making changes you need to decide how to organize templates personalization process: using ZetaPrints IFrame or Magento personalization form.
-
-*Note:* Magento personalization form is replaced automatically with ZetaPrints IFrame for multipage templates.
-
-===ZetaPrints IFrame===
-
   * Before line 31:
 {{{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -287,28 +280,3 @@ Before making changes you need to decide how to organize templates personalizati
 }}}
 
   If _Personalize_ button is clicked show page without content. It'll be filled with iframe content.
-
-===Magento personalization form===
-
-You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/page/2columns-right.phtml_ file.
-
-This code is divided in five blocks. Each block enclosed with comments look like in the following example:
-
-{{{
-/****** ZP-CODE:1 Short description of code in the block ******/
-
-some code
-
-/****** ZP-CODE:1 End ******/
-}}}
-
-*Note on ZP-CODE:3 block*: you can get this files from our svn repository or from our web-to-print extension. See `skin/frontend/default/zptheme/` directory. Copy this resource files from _css, images, js_ directories into `<magento_installation>/skin/frontend/default/<your_theme_name>/(css, images, js)` directories of your custom theme, accordingly.
-
-Resource files description:
-  * `js/jquery-1.3.2.min.js`, `js/jquery-ui-1.7.2.custom.min.js` - jQuery and jQuery UI libs
-  * `js/colorpicker.js`, `css/colorpicker.css` - Colorpicker jQuery plugin
-  * `js/jquery-qtip-1.0.0-rc3.min.js` - QTip jQuery plugin
-  * `js/jquery.dd.js`, `css/dd.css` - Enhanced dropdown component plugin for jQuery
-  * `js/jquery.vchecks.js`, `css/checks.css` - Enhanced checkbox component plugin for jQuery
-  * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
-  * `css/zp-style.css` - Additional styles for magento personalization form
