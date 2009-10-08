@@ -1,4 +1,4 @@
-#summary How to integrate ZP into a custom theme
+#summary How to integrate ZP IFrame into a custom theme
 = Introduction =
 
 This document explains changes you need to make to a custom magento theme to enable our web-to-print extension.
@@ -114,12 +114,6 @@ This new code checks if the product has web-to-print features and is not an alre
 
 ==template/catalog/product/view.phtml==
 
-Before making changes you need to decide how to organize templates personalization process: using ZetaPrints IFrame or Magento personalization form.
-
-*Note:* Magento personalization form is replaced automatically with ZetaPrints IFrame for multipage templates.
-
-===ZetaPrints IFrame===
-
 After line 36 (getting current product object):
 
 `$_product = $this->getProduct();`
@@ -167,33 +161,25 @@ if ($img && $is_preview) {
 
 This new code checks what user is doing with product: making an order or personalizing it. In case of order it shows ordering page otherwise it shows an IFRAME with contents from ZP.
 
-===Magento personalization form===
-
-You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/view.phtml_ file.
-
-This code is divided in four blocks. Each block enclosed with comments look like in the following example:
-
-{{{
-/****** ZP-CODE:1 Short description of code in the block ******/
-
-some code
-
-/****** ZP-CODE:1 End ******/
-}}}
-
 ==template/catalog/product/gallery.phtml==
 
-You can get new code for this file from our svn repository or from our web-to-print extension. See _app/design/frontend/default/zptheme/templates/catalog/product/gallery.phtml_ file.
-
-This code is divided in two blocks. Each block enclosed with comments look like in the following example:
+  Replace line 39 (image from the gallery):
 
 {{{
-/****** ZP-CODE:1 Short description of code in the block ******/
-
-some code
-
-/****** ZP-CODE:1 End ******/
+<img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
 }}}
+
+  with following code:
+
+{{{
+<?php if ($this->getProduct()->hasData('w2p_image')): ?>
+  <img src="<?php echo $this->getImageUrl(); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+<?php else: ?>
+  <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
+<?php endif; ?>
+}}}
+
+  This new code gets right urls of preview images for multipage templates if a product has web-to-print features.
 
 ==template/catalog/product/view/media.phtml==
 
