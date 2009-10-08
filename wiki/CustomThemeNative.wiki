@@ -1,0 +1,81 @@
+#summary How to integrate Magento personalization form into a custom theme.
+
+= Introduction =
+
+This document explains changes you need to make to a custom magento theme to enable our web-to-print extension.
+
+All files mentioned on this page you can find in [http://code.google.com/p/magento-w2p/downloads/list package], [http://www.magentocommerce.com/extension/1586 extension] or [http://code.google.com/p/magento-w2p/source/checkout svn repository].
+
+In every file new code is divided into several sections. Every section has its sequence number (ZP-CODE:1, for example) and is enclosed with comments look like in following example:
+
+{{{
+/****** ZP-CODE:1 Short description of code in the block ******/
+
+some code
+
+/****** ZP-CODE:1 End ******/
+}}}
+
+= Files in `app/design/frontend/default/<your_theme_name>/` =
+
+Modify files behind the user interface.
+
+==template/catalog/product/list.phtml==
+The purpose of the code in this file is to show products from some category in grid or in list layouts.
+
+The purpose of new code is to replace _Add to cart_ button with _Personalize_ button and disable product image resizing. The code is divided into 8 section.
+
+*Sections 1-2 (list layout) and 5-6 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+
+*Sections 3-4 (list layout) and 7-8 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
+
+==template/catalog/product/view/addtocart.phtml==
+The purpose of the code in this file is to show _Add to cart_ button and additional html on product page if the product is saleable.
+
+The purpose of new code is to replace _Add to cart_ button with _Personalize_ button. The code is divided into 2 section.
+
+*Sections 1-2*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
+
+==template/catalog/product/view.phtml==
+The purpose of the code in this file is to show form for ordering on product page. This form contains product images, product name, product description, product price, etc.
+
+One of the purposes of new code is to check for personalization phase of the product. In this case it shows our form produced directly from template's xml. This form has additional features such as ajax image preview, colour picker, stock images chooser and support for multipage templates.
+
+Also this code has support for ZetaPrints IFrame mode logic.
+
+The code is divided into 4 sections.
+
+*Section 1*: checking if the product has web-to-print features, checking for personalization phase. If both checks are true then it generates personalization form from template's xml.
+
+*Sections 2-3*: checking if the product has web-to-print features, checking for personalization phase. If both checks are true then it shows generated personalization form.
+
+*Section 4*: javascript code for personalization form.
+
+==template/catalog/product/gallery.phtml==
+The purpose of the code in this file is to show gallery of product additional images (in original size) in a separate window.
+
+The purpose of new code is to use proper methods to get correct image urls for the product with web-to-print features. The code is divided into 2 sections.
+
+*Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+
+==template/catalog/product/view/media.phtml==
+The purpose of the code in this file is to show preview image on product page. Also if the product has additional images it shows thumbs of them.
+
+The purpose of new code is to disable product image resizing and to use proper method to get correct image urls for the product with web-to-print features. The code is divided into 4 sections.
+
+*Sections 1-2*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+
+*Sections 3-4*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+
+==template/page/2columns-right.phtml==
+The purpose of the code in this file is to form skeleton of the 2 columns page with sidebar on the right side. It shows header, body wrapper, footer, etc.
+
+The purpose of new code is to decide which extension mode is enabled: ZetaPrints IFrame or Magento personalization form. Also it contains ajax requests logic for personalization form. The code is divided into 5 sections.
+
+*Section 1*: ajax requests logic for personalization form. Checking and parsing POST request's parameters. Checking for order or image generations ajax requests and then sending appropriate requests to ZetaPrints. Returning response to ajax caller.
+
+*Section 2*: checking for personalization phase and checking for current extension mode.
+
+*Section 3*: including javascript ans css files for magento personalization form.
+
+*Section 4-5*: checking for ZetaPrints IFrame extension mode and if it's true then showing minimal page skeleton for embedding ZetaPrint IFrame, otherwise it show standard page skeleton from Magento theme.
