@@ -79,3 +79,14 @@ The purpose of new code is to decide which extension mode is enabled: ZetaPrints
 *Section 3*: including javascript ans css files for magento personalization form.
 
 *Section 4-5*: checking for ZetaPrints IFrame extension mode and if it's true then showing minimal page skeleton for embedding ZetaPrint IFrame, otherwise it show standard page skeleton from Magento theme.
+
+= Files from `skin/frontend/default/zptheme/` =
+
+  * `js/jquery-1.3.2.min.js`, `js/jquery-ui-1.7.2.custom.min.js` - jQuery and jQuery UI libs
+  * `js/colorpicker.js`, `css/colorpicker.css` - Colorpicker jQuery plugin
+  * `js/jquery-qtip-1.0.0-rc3.min.js` - QTip jQuery plugin
+  * `js/jquery.dd.js`, `css/dd.css` - Enhanced dropdown component plugin for jQuery
+  * `js/jquery.vchecks.js`, `css/checks.css` - Enhanced checkbox component plugin for jQuery
+  * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
+  * `css/zp-style.css` - Additional styles for Magento personalization form
+    * Here you can adjust maximum width of preview image (see `'div.zetaprints-template-page div.product-img-box img'` selector)
