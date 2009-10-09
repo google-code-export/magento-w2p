@@ -1,13 +1,5 @@
 #summary How to figure out why your code doesn't work.
 
-= Introduction =
+= Logging interaction with ZetaPrints =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+To see interaction logs between your Magento installation and ZetaPrints services you need to open `zp_api_log.log` file, which is places in a root of your Magento installation.
