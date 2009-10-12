@@ -1,5 +1,5 @@
 <?php
-class Biinno_Catalog_Model_Product extends Mage_Catalog_Model_Product {
+class Biinno_WebToPrint_Model_Product extends Mage_Catalog_Model_Product {
 
   public function getMediaGalleryImages() {
     if (!$this->hasData('w2p_image')) return parent::getMediaGalleryImages();
