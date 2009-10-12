@@ -40,8 +40,8 @@ if (isset($_REQUEST['zetaprints-TemplateID'])) {
   while (list($key, $value) = each($_REQUEST)) {
     if (strpos($key, 'zetaprints-') !== false) {
       $_key = substr($key, 11);
-      $_key = substr($_key, 0, 1).str_replace('_', '%20', substr($_key, 1));
-      $params[$_key] = $value;
+      $_key = substr($_key, 0, 1).str_replace('_', ' ', substr($_key, 1));
+      $params[$_key] = str_replace("\n", "\r\n", $value);
     }
   }
 
