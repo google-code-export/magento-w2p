@@ -607,7 +607,10 @@ function zp_api_common_post_request ($url, $path, $_data) {
   $data = array();
 
   while (list($n,$v) = each($_data)) {
-    $data[] = "$n=$v";
+    $n = urlencode($n);
+    $v = urlencode($v);
+
+    $data[] = ("$n=$v");
   }
 
   $data = implode('&', $data);
