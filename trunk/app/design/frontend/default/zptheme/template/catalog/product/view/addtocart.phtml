@@ -33,7 +33,7 @@
                                       has web-to-print feature and it is not already customized ******/ ?>
 
     <?php if($_product->hasData('w2p_image')): ?>
-      <?php if(!$_product->hasData('w2p_isorder')): ?>
+      <?php if(!$_product->getData('w2p_isorder')): ?>
         <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
       <?php endif; ?>
     <?php else: ?>
