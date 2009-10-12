@@ -1,5 +1,5 @@
 <?php
-class Biinno_Catalog_Helper_Image extends Mage_Catalog_Helper_Image
+class Biinno_WebToPrint_Helper_Image extends Mage_Catalog_Helper_Image
 {
     public function __toString()
     {

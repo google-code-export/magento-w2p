@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <config>
   <modules>
-    <Biinno_Catalog>
+    <Biinno_WebToPrint>
       <version>0.1.0</version>
-    </Biinno_Catalog>
+    </Biinno_WebToPrint>
   </modules>
 
   <global>
     <models>
       <catalog>
         <rewrite>
-          <product>Biinno_Catalog_Model_Product</product>
+          <product>Biinno_WebToPrint_Model_Product</product>
         </rewrite>
       </catalog>
     </models>
@@ -18,7 +18,7 @@
     <helpers>
       <catalog>
         <rewrite>
-          <image>Biinno_Catalog_Helper_Image</image>
+          <image>Biinno_WebToPrint_Helper_Image</image>
         </rewrite>
       </catalog>
     </helpers>
