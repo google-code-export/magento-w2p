@@ -600,53 +600,60 @@ function zp_api_common_pass () {
   * param	_data		request data
   * return	list(header, content)
   */
-function zp_api_common_post_request($url, $path, $_data) {
+function zp_api_common_post_request ($url, $path, $_data) {
+  zp_api_log_debug("zp_api_common_post_request:start url=[$url], path=[$path]");
 
-	zp_api_log_debug("zp_api_common_post_request:start url=[$url], path=[$path]");
+  $referer = $url;
+  $data = array();
 
-	$referer = $url;
-	$data = array();
-	
-	while(list($n,$v) = each($_data)){
-		$data[] = "$n=$v";
-	}	
-	$data = implode('&', $data);
-	$url = parse_url($url);
-	if ($url['scheme'] != 'http') { 
-		die('Only HTTP request are supported !');
-	} 
-	$host = $url['host'];
-	zp_api_log_debug("zp_api_common_post_request:data=[$data]");
-	try{
-		$fp = fsockopen($host, 80);			
-		fputs($fp, "POST $path HTTP/1.1\r\n");
-		fputs($fp, "Host: $host\r\n");
-		fputs($fp, "Referer: $referer\r\n");
-		fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-		fputs($fp, "Content-length: ". strlen($data) ."\r\n");
-		fputs($fp, "Connection: close\r\n\r\n");
-		fputs($fp, $data);		 
-		$result = ''; 
-		while(!feof($fp)) {
-			$result .= fgets($fp, 1024);
-		}
+  while (list($n,$v) = each($_data)) {
+    $data[] = "$n=$v";
+  }
 
-		fclose($fp);
+  $data = implode('&', $data);
+  $url = parse_url($url);
 
-		zp_api_log_debug("Post request response: $result");
+  if ($url['scheme'] != 'http')
+    die('Only HTTP request are supported !');
 
-		$result = explode("\r\n\r\n", $result, 2);
+  $host = $url['host'];
 
-		$header = isset($result[0]) ? $result[0] : '';
-		$content = isset($result[1]) ? $result[1] : '';
-		zp_api_log_debug("zp_api_common_post_request: content: $content");
-		zp_api_log_debug("zp_api_common_post_request:end url=[$url]");
-		return array($header, $content);
-	}catch(Exception $e){
-		zp_api_log_error("zp_api_common_post_request:end, error url=[$url]");
-		return array("ERROR", "<error/>");
-	}
+  zp_api_log_debug("zp_api_common_post_request:data=[$data]");
+
+  try {
+    $fp = fsockopen($host, 80);
+    fputs($fp, "POST $path HTTP/1.1\r\n");
+    fputs($fp, "Host: $host\r\n");
+    fputs($fp, "Referer: $referer\r\n");
+    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+    fputs($fp, "Content-length: ". strlen($data) ."\r\n");
+    fputs($fp, "Connection: close\r\n\r\n");
+    fputs($fp, $data);
+
+    $result = '';
+
+    while (!feof($fp))
+      $result .= fgets($fp, 1024);
+
+    fclose($fp);
+
+    zp_api_log_debug("Post request response: $result");
+
+    $result = explode("\r\n\r\n", $result, 2);
+
+    $header = isset($result[0]) ? $result[0] : '';
+    $content = isset($result[1]) ? $result[1] : '';
+
+    zp_api_log_debug("zp_api_common_post_request: content: $content");
+    zp_api_log_debug("zp_api_common_post_request:end url=[$url]");
+
+    return array($header, $content);
+  } catch (Exception $e) {
+    zp_api_log_error("zp_api_common_post_request:end, error url=[$url]");
+    return array("ERROR", "<error/>");
+  }
 }
+
 /**
   * Parser Register User Result ' s XML
   * param 	content	XML data
