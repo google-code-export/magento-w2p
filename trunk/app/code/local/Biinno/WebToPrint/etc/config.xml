@@ -23,4 +23,16 @@
       </catalog>
     </helpers>
   </global>
+
+  <frontend>
+    <routers>
+      <Biinno_WebToPrint>
+        <use>standard</use>
+        <args>
+          <module>Biinno_WebToPrint</module>
+          <frontName>web-to-print</frontName>
+        </args>
+      </Biinno_WebToPrint>
+    </routers>
+  </frontend>
 </config>
