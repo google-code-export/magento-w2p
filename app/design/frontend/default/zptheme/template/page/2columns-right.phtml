@@ -30,76 +30,12 @@
 ?>
 <?php
 
-/****** ZP-CODE:1 Handling AJAX requests (preview image requests, save order requests) ******/
-
-//Checking for personalizing ajax request
-if (isset($_REQUEST['zetaprints-TemplateID'])) {
-  $params = array();
-
-  //Preparing params for image generating request to zetaprints
-  while (list($key, $value) = each($_REQUEST)) {
-    if (strpos($key, 'zetaprints-') !== false) {
-      $_key = substr($key, 11);
-      $_key = substr($_key, 0, 1).str_replace('_', ' ', substr($_key, 1));
-      $params[$_key] = str_replace("\n", "\r\n", $value);
-    }
-  }
-
-  if (!defined('ZP_API_VER')) {
-    $zetaprints_api_file = Mage::getRoot().'/code/local/Biinno/Api/Model/zp_api.php';
-
-    if (file_exists($zetaprints_api_file)) {
-      require $zetaprints_api_file;
-    }
-  }
-
-  $w2p_user = Mage::getModel('api/w2puser');
-
-  $params['ApiKey'] = $w2p_user->key;
-
-  $user_credentials = $w2p_user->get_credentials();
-  $params['ID'] = $user_credentials['id'];
-  $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
-
-  //Checking if 'Add to card' button was pressed
-  if (isset($_REQUEST['save-order'])) {
-    //Saving order in zetaprints for futher processing
-    list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-order-save', $params);
-
-    list(, $order_id) = explode("\r\n", $content);
-
-    //Validating order id
-    if (preg_match('/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/', $order_id)) {
-      //Adding order to magento if its id is valid.
-      echo $w2p_user->order($order_id);
-    } else {
-      echo '0';
-    }
-
-    return;
-  }
-
-  //Sending image generating request to zetaprints
-  list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-preview', $params);
-
-  //BUG. Getting strange numbers in the content
-  list(, $url) = explode("\r\n", $content);
-
-  //Returning an url to generated image
-  echo $url;
-
-  return;
-}
-
-/****** ZP-CODE:1 End ******/
-
-
-/****** ZP-CODE:2 ******/
+/****** ZP-CODE:1 ******/
  
 //Checking if 'Personilize' button was pressed and option 'ZetaPrints IFrame' is selected
 $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/zetaprints-show-previews-in-option') == 'zetaprints-iframe');
 
-/****** ZP-CODE:2 End ******/
+/****** ZP-CODE:1 End ******/
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -108,7 +44,7 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
     <?php echo $this->getChildHtml('head') ?>
 
     
-    <!-- /****** ZP-CODE:3 Resources for magento personalization form *****/ -->
+    <!-- /****** ZP-CODE:2 Resources for magento personalization form *****/ -->
 
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
@@ -123,16 +59,16 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
     <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/jquery.fancybox.css'); ?>"  />
     <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/zp-style.css'); ?>"  />
 
-    <!-- /****** ZP-CODE:3 End ******/ -->
+    <!-- /****** ZP-CODE:2 End ******/ -->
 
 </head>
 <body <?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
 
-<?php /****** ZP-CODE:4 ******/ ?>
+<?php /****** ZP-CODE:3 ******/ ?>
 
 <?php if (!$is_iframe): ?>
 
-<?php /****** ZP-CODE:4 End ******/ ?>
+<?php /****** ZP-CODE:3 End ******/ ?>
 
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>
@@ -180,7 +116,7 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
 </div>
 <?php echo $this->getAbsoluteFooter() ?>
 
-<?php /****** ZP-CODE:5 Minimal html code for page with ZetaPrints IFrame ******/ ?>
+<?php /****** ZP-CODE:4 Minimal html code for page with ZetaPrints IFrame ******/ ?>
 
 <?php else: ?>
   <div class="wrapper">
@@ -196,7 +132,7 @@ $is_iframe = isset($_REQUEST['preview']) && (Mage::getStoreConfig('api/settings/
   </div>
 <?php endif;?>
 
-<?php /****** ZP-CODE:5 End ******/ ?>
+<?php /****** ZP-CODE:4 End ******/ ?>
 
 </body>
 </html>

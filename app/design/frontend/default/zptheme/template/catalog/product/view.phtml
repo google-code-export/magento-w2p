@@ -234,9 +234,9 @@ if ($img && $is_preview) {
       previews = previews.substring(0, previews.length - 1);
 
       $.ajax({
-        url: '<?php echo $_product->getProductUrl() ?>/?save-order',
+        url: '<?php echo $this->getUrl('web-to-print/order'); ?>',
 	type: 'POST',
-	data: 'zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
+	data: 'id=<?php echo $_product->getId(); ?>&zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
 	dataType: 'text',
 	error: function (XMLHttpRequest, textStatus, errorThrown) {
           $(update_preview_buttons).bind('click', update_preview).removeClass('disable');
@@ -263,7 +263,7 @@ if ($img && $is_preview) {
       update_preview_buttons = $('input.update-preview').unbind('click').addClass('disable');
 
       $.ajax({
-        url: '<?php echo $_product->getProductUrl() ?>',
+        url: '<?php echo $this->getUrl('web-to-print/preview'); ?>',
         type: 'POST',
 	data: $(form).serialize(),
         error: function (XMLHttpRequest, textStatus, errorThrown) {
