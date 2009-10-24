@@ -31,84 +31,23 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
-
 <?php
     $_helper = $this->helper('catalog/output');
     $_product = $this->getProduct();
-
-/****** ZP-CODE:1 Generating magento personalization form, handling ZetaPrints IFrame order requests ******/
-
-$button = "";
-$img = $_product->getData("w2p_image");
-
-if ($img && !$_product->getData("w2p_isorder")) {
-  $button = '<input type="button" name="sosanh" value="PERSONALIZE" class="Personallize" onclick="document.location=\'' . $_product->getProductUrl() . '?preview=1&order=\';return false;"/>';
-}
-
-$is_preview = isset($_REQUEST['preview']);
-$order = isset($_REQUEST['order']) ? $_REQUEST['order'] : "";
-
-if (isset($_REQUEST['order']) && $_REQUEST['order']) {
-  $is_preview = 0;
-}
-
-if ($order) {
-  $logic = Mage::getModel('api/w2puser');
-  $ret = $logic->order($order);
-
-  if ($ret > 0) {
-    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart/add') . '?&qty=1&product=' . $ret .'";</script>';
-  } else {
-    echo '<script type="text/javascript">parent.document.location="' . $this->getUrl('checkout/cart') .'";</script>';
-  }
-
-  return;
-}
-
-if ($img && $is_preview) {
-  $logic = Mage::getModel('api/w2puser');
-  $template_id = trim($_product->getSku());
-
-  //Show zetaprint's page in iframe if 'Show IFRAME always' option is selected
-  if (Mage::getStoreConfig('api/settings/zetaprints-show-previews-in-option') == 'zetaprints-iframe') {
-    $w2p_url = $logic->getPersonalizeUrl($template_id);
-    echo '<iframe src="' . $w2p_url .'" width="100%" height="1800px"></iframe>';
-    return;
-  }
-
-  //Getting template details
-  $xml = zetaprints_get_template_details_as_xml($template_id);
-
-  if ($xml) {
-    //Converting template details xml to html form 
-    $preview_html =  zetaprints_get_preview_html_from_template_details($xml);
-  } else {
-    $preview_html = "<h1>Oops</h1>";
-  }
-}
-
-/****** ZP-CODE:1 End ******/
-
 ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-info-box">
-
-    <?php /****** ZP-CODE:2 Checking if 'Personilize' button was pressed to show Magento form ******/ ?>
-
-    <?php if ($img && $is_preview): ?>
-
-      <?php //Showing magento personalization form
-      echo $preview_html ?>
-
-    <?php //Or default magento product page
-    else: ?>
-
-    <?php /****** ZP-CODE:2 End ******/ ?>
     <div class="product-essential">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+
+        <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
+
+        <?php echo $this->getChildHtml('personalize-form-page-tabs'); ?>
+
+        <!-- /****** ZP-CODE:1 End ******/ -->
 
         <div class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
@@ -150,6 +89,17 @@ if ($img && $is_preview) {
 
             <div class="divider"></div>
 
+            <!-- /****** ZP-CODE:2 Printing input fields, stock images choosers and color pickers for products
+                         with web-to-print feature ******/ -->
+
+            <?php echo $this->getChildHtml('personalize-form-input-fields'); ?>
+            <?php echo $this->getChildHtml('personalize-form-stock-images'); ?>
+            <?php echo $this->getChildHtml('personalize-form-color-pickers'); ?>
+
+            <!-- /****** ZP-CODE:2 End ******/ -->
+
+            <div class="divider"></div>
+
             <?php if ($_product->getShortDescription()):?>
                 <h4><?php echo $this->__('Quick Overview') ?></h4>
                 <div class="short-description"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
@@ -162,6 +112,13 @@ if ($img && $is_preview) {
             <?php endif;?>
 
         </div>
+
+        <!-- /****** ZP-CODE:3 Printing preview button for products with web-to-print feature ******/ -->
+
+        <?php echo $this->getChildHtml('personalize-form-preview-button'); ?>
+
+        <!-- /****** ZP-CODE:3 End ******/ -->
+
         <div class="clear"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
@@ -176,11 +133,6 @@ if ($img && $is_preview) {
             }.bind(productAddToCartForm);
     </script>
     </div>
-    <?php /****** ZP-CODE:3 Closing 'if' block There's none in the original code ******/ ?>
- 
-    <?php endif; ?>
-
-    <?php /****** ZP-CODE:3 End ******/ ?>
 
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
@@ -204,153 +156,8 @@ if ($img && $is_preview) {
     </div>
 </div>
 
-<!-- /****** ZP-CODE:4 JavaScript for magento personalization form ******/ -->
+<!-- /****** ZP-CODE:4 Printing JavaScript for magento personalization form ******/ -->
 
-<script type="text/javascript">
-  jQuery(document).ready(function($) {
-    $('div.zetaprints-template-page:first').css('display', 'block');
-    $('div.image-tabs li:first').addClass('selected');
-
-    template_id = $('div.zetaprints-template-page input[name=zetaprints-TemplateID]').attr('value');
-    number_of_pages = $('div.zetaprints-template-page').length;
-
-    $('div.image-tabs li').click(function () {
-      $('div.image-tabs li').removeClass('selected');
-      $('div.zetaprints-template-page:visible').css('display', 'none');
-      $(this).addClass('selected');
-      $('#' + $('img', this).attr('rel')).parent().css('display', 'block');
-    });
-
-    function save_order_request () {
-      update_preview_buttons = $('input.update-preview').unbind('click').addClass('disable');
-      $('div.save-order img.ajax-loader').css('display', 'inline');
-
-      previews = '';
-
-      $('div.zetaprints-template-page input[name=preview][value]').each(function () {
-        previews += $(this).attr('value') + ',';
-      });
-
-      previews = previews.substring(0, previews.length - 1);
-
-      $.ajax({
-        url: '<?php echo $this->getUrl('web-to-print/order'); ?>',
-	type: 'POST',
-	data: 'id=<?php echo $_product->getId(); ?>&zetaprints-TemplateID=' + template_id + '&zetaprints-Previews=' + previews,
-	dataType: 'text',
-	error: function (XMLHttpRequest, textStatus, errorThrown) {
-          $(update_preview_buttons).bind('click', update_preview).removeClass('disable');
-	  $('div.save-order img.ajax-loader').css('display', 'none');
-	  alert('Can\'t save order'); },
-	success: function (data, textStatus) {
-          if (parseInt(data) > 0) {
-            parent.document.location = '<?php echo $this->getUrl('checkout/cart/add'); ?>?qty=1&product=' + data;
-          } else {
-            parent.document.location = '<?php echo $this->getUrl('checkout/cart'); ?>';
-        }}
-      });
-    };
-
-    function update_preview () {
-      form = $(this).parent().parent();
-
-      $('div.zetaprints-template-page div.update-preview span').css('display', 'inline');
-      $('div.update-preview span', form).css('display', 'none');
-
-      $('img.ajax-loader', form).css('display', 'inline');
-
-      
-      update_preview_buttons = $('input.update-preview').unbind('click').addClass('disable');
-
-      $.ajax({
-        url: '<?php echo $this->getUrl('web-to-print/preview'); ?>',
-        type: 'POST',
-	data: $(form).serialize(),
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          $('div.zetaprints-template-page div.update-preview span').css('display', 'none');
-          $('img.ajax-loader', form).css('display', 'none');
-          $(update_preview_buttons).bind('click', update_preview).removeClass('disable');
-	  alert('Can\'t get preview image'); },
-        success: function (data, textStatus) {
-          $('div.product-img-box a', form).attr('href', data);
-          $('div.product-img-box img', form).attr('src', data);
-
-          image_name = data.split('/preview/')[1]
-          $('input[name=preview]', form).attr('value', image_name);
-
-	  thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
-          $('div.image-tabs img[rel=' + $(form).attr('id')  + ']').attr('src', thumb_url);
-
-          if ($('div.zetaprints-template-page input[name=preview][value]').length == number_of_pages) {
-            $('div.save-order input').removeClass('disable');
-            $('div.save-order span').css('display', 'none');
-	    $('div.save-order input').bind('click', save_order_request);
-	  }
-
-          $('div.zetaprints-template-page div.update-preview span').css('display', 'none');
-          $('img.ajax-loader', form).css('display', 'none');
-          $(update_preview_buttons).bind('click', update_preview).removeClass('disable'); }
-      });
-    }
-
-    $('div.zetaprints-template-page input.update-preview').click(update_preview);
-
-    $('div.zetaprints-template-page ul.colors-selector li').each(function () {
-      var color_sample = $('div.color-sample', this);
-      var color_input = $('input.color', this);
-
-      $(color_sample).ColorPicker({
-        color: '#804080',
-	onBeforeShow: function (colpkr) {
-          $(colpkr).draggable();
-	  return false;
-	},
-        onShow: function (colpkr) {
-          $(colpkr).fadeIn(500);
-	  return false;
-        },
-        onHide: function (colpkr) {
-	  $(colpkr).fadeOut(500);
-	  return false;
-        },
-	onSubmit: function (hsb, hex, rgb, el) {
-          $(color_sample).css('backgroundColor', '#' + hex);
-          $(color_input).val('#' + hex).attr('checked', true).change();
-          $(el).ColorPickerHide();
-        }
-      });
-    });
-
-    $('div.zetaprints-template-page div.product-img-box a').fancybox({
-      'zoomOpacity': true,
-      'overlayShow': false,
-      'centerOnScroll': false,
-      'zoomSpeedChange': 200,
-      'zoomSpeedIn': 500,
-      'zoomSpeedOut' : 500,
-      'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
-
-    $('div.zetaprints-template-page input[title], div.zetaprints-template-page textarea[title]').qtip({
-      position: { corner: { target: 'bottomLeft' } },
-	  show: { delay: 1, solo: true, when: { event: 'focus' } },
-	  hide: { when: { event: 'unfocus' } }
-    });
-
-    $('div.zetaprints-template-page select[title]').qtip({
-      position: { corner: { target: 'topLeft' }, adjust: { y: -30 } },
-	  show: { delay: 1, solo: true, when: { event: 'focus' } },
-	  hide: { when: { event: 'unfocus' } }
-    });
-
-    $('div.zetaprints-template-page select.stock-images-selector').msDropDown();
-
-    $('div.zetaprints-template-page ul.colors-selector').vchecks();
-
-    $('<img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>"  class="ajax-loader"/>')
-      .prependTo('div.save-order div.inner')
-      .clone()
-      .appendTo('div.zetaprints-template-page div.update-preview')
-  });
-</script>
+<?php echo $this->getChildHtml('personalize-form-js'); ?>
 
 <!-- /****** ZP-CODE:4 End ******/ -->
