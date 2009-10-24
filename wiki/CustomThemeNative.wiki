@@ -23,11 +23,11 @@ Modify files behind the user interface.
 ==template/catalog/product/list.phtml==
 The purpose of the code in this file is to show products from some category on grid or on list layouts.
 
-The purpose of new code is to replace _Add to cart_ button with _Personalize_ button and disable product image resizing. The code is divided into 8 section.
+The purpose of new code is to replace _Add to cart_ button with _Personalize_ button and disable product image resizing. The code is divided into 4 section.
 
-*Sections 1-2 (list layout) and 5-6 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+*Sections 1 (list layout) and 3 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
 
-*Sections 3-4 (list layout) and 7-8 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
+*Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
 
 ==template/catalog/product/view.phtml==
 The purpose of the code in this file is to show form for ordering on product page. This form contains product images, product name, product description, product price, etc.
