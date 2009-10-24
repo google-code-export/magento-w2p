@@ -63,9 +63,9 @@ The purpose of the code in this file is to show preview image on product page. A
 
 The purpose of new code is to disable product image resizing and to use proper method to get correct image urls for the product with web-to-print features. The code is divided into 4 sections.
 
-*Sections 1-2*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+*Sections 1*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
 
-*Sections 3-4*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+*Sections 2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
 
 ==template/page/2columns-right.phtml==
 The purpose of the code in this file is to form skeleton of the 2 columns page with sidebar on the right side. It shows header, body wrapper, footer, etc.
