@@ -29,13 +29,6 @@ The purpose of new code is to replace _Add to cart_ button with _Personalize_ bu
 
 *Sections 3-4 (list layout) and 7-8 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
 
-==template/catalog/product/view/addtocart.phtml==
-The purpose of the code in this file is to show _Add to cart_ button and additional html on product page if the product is saleable.
-
-The purpose of new code is to replace _Add to cart_ button with _Personalize_ button. The code is divided into 2 section.
-
-*Sections 1-2*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
-
 ==template/catalog/product/view.phtml==
 The purpose of the code in this file is to show form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
@@ -63,9 +56,9 @@ The purpose of the code in this file is to show preview image on product page. A
 
 The purpose of new code is to disable product image resizing and to use proper method to get correct image urls for the product with web-to-print features. The code is divided into 4 sections.
 
-*Sections 1*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+*Section 1*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
 
-*Sections 2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+*Section 2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
 
 ==template/page/2columns-right.phtml==
 The purpose of the code in this file is to form skeleton of the 2 columns page with sidebar on the right side. It shows header, body wrapper, footer, etc.
