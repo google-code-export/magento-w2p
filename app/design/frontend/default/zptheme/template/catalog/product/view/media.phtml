@@ -59,57 +59,34 @@
 </script>
 <?php else: ?>
     <?php
+        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
 
         /****** ZP-CODE:1 Disable image resizing for products with web-to-print feature ******/
 
-        if ($_product->hasData('w2p_image')) {
-          $_img = '<img style="max-width: 265px" src="'.$this->helper('catalog/image')->init($_product, 'image').'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
-        } else {
+        if (!$this->helper('webtoprint/personalization-form')->init($_product)->get_preview_images())
+            echo $_helper->productAttribute($_product, $_img, 'image');
 
         /****** ZP-CODE:1 End ******/
 
-        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($_product->getImageLabel()).'" />';
-
-        /****** ZP-CODE:2 Close 'else' bracket from ZP-CODE:1 ******/
-
-        }
-
-        /****** ZP-CODE:2 End ******/
-
-        echo $_helper->productAttribute($_product, $_img, 'image')
     ?>
 <?php endif; ?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
     <h4><?php echo $this->__('More Views') ?></h4>
     <ul>
+    <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
 
-    <?php /****** ZP-CODE:3 Checking if product is web-to-print image and using proper image url ******/ ?>
+            <?php /****** ZP-CODE:2 Checking if product has web-to-print features and getting proper image,
+                          otherwise print default magento image *******/ ?>
 
-    <?php if ($_product->hasData('w2p_image')): ?>
+            <?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_image ($this, $_product, $_image)): ?>
+                <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>                <?php endif; ?>
 
-        <?php foreach ($this->getGalleryImages() as $_image): ?>
-            <li>
-                <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $_image['url']?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
-            </li>
-        <?php endforeach; ?>
+            <?php /****** ZP-CODE:2 End ******/ ?>
 
-    <?php else: ?>
-
-    <?php /****** ZP-CODE:3 End ******/ ?>
-
-        <?php foreach ($this->getGalleryImages() as $_image): ?>
-            <li>
-                <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
-            </li>
-        <?php endforeach; ?>
-
-    <?php /****** ZP-CODE:4 'endif' for 'if' opened in ZP-CODE:3 ******/ ?>
-
-    <?php endif; ?>
-
-    <?php /****** ZP-CODE:4 End ******/ ?>
-
+        </li>
+    <?php endforeach; ?>
     </ul>
 </div>
 <?php endif; ?>
