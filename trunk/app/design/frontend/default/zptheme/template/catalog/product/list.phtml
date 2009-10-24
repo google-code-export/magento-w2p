@@ -51,19 +51,11 @@
 
             <?php /****** ZP-CODE:1 Disable image resizing for products with web-to-print features ******/ ?>
 
-            <?php if($_product->hasData('w2p_image')): ?>
-              <img style="max-width: 135px;" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
-            <?php else: ?>
-
-            <?php /****** ZP-CODE:1 End ******/ ?>
-
-            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
-
-            <?php /****** ZP-CODE:2 Closing 'if' from ZP-CODE:1 ******/ ?>
-
+            <?php if (!$this->helper('webtoprint/personalization-form')->get_product_image($this, $_product)): ?>
+              <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
             <?php endif; ?>
 
-            <?php /****** ZP-CODE:2 End ******/ ?>
+            <?php /****** ZP-CODE:1 End ******/ ?>
 
             </a>
         </div>
@@ -77,24 +69,14 @@
             <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
 
-              <?php /****** ZP-CODE:3 Show 'Personilize' buttom instead 'Add to cart' in case product
-                                      has web-to-print feature and it is not already customized ******/ ?>
+                  <?php /****** ZP-CODE:2 Show 'Personilize' buttom instead 'Add to cart' in case product
+                                has web-to-print feature and it is not already customized ******/ ?>
 
-	      <?php if($_product->hasData("w2p_image")): ?>
-                <?php if(!$_product->getData("w2p_isorder")): ?>
-                  <button class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
-                <?php endif; ?>
-              <?php else: ?>
+                  <?php if(!$this->helper('webtoprint/personalization-form')->get_personalize_button($this, $_product)): ?>
+                    <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                  <?php endif; ?>
 
-              <?php /****** ZP-CODE:3 End ******/ ?>
-
-	    <button class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
-
-              <?php /****** ZP-CODE:4 Closing 'if' from ZP-CODE:3 ******/ ?>
-
-	      <?php endif; ?>
-
-              <?php /****** ZP-CODE:4 End ******/ ?>
+                  <?php /****** ZP-CODE:2 End ******/ ?>
 
             <?php else: ?>
             <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
@@ -132,21 +114,13 @@
                 <p class="product-image">
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>">
 
-                        <?php /****** ZP-CODE:5 Disable image resizing for products with web-to-print features ******/ ?>
+                        <?php /****** ZP-CODE:3 Disable image resizing for products with web-to-print features ******/ ?>
 
-                        <?php if($_product->hasData('w2p_image')): ?>
-                          <img style="max-width: 135px;" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
-                        <?php else: ?>
-
-                        <?php /****** ZP-CODE:5 End ******/ ?>
-
-                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
-
-                        <?php /****** ZP-CODE:6 Closing 'if' from ZP-CODE:5 ******/ ?>
-
+                        <?php if (!$this->helper('webtoprint/personalization-form')->get_product_image($this, $_product)): ?>
+                          <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
                         <?php endif; ?>
 
-                        <?php /****** ZP-CODE:6 End ******/ ?>
+                        <?php /****** ZP-CODE:3 End ******/ ?>
 
                     </a>
                 </p>
@@ -157,24 +131,14 @@
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <?php if($_product->isSaleable()): ?>
 
-                  <?php /****** ZP-CODE:7 Show 'Personilize' buttom instead 'Add to cart' in case product
+                  <?php /****** ZP-CODE:4 Show 'Personilize' buttom instead 'Add to cart' in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
-                  <?php if($_product->hasData("w2p_image")): ?>
-                    <?php if(!$_product->getData("w2p_isorder")): ?>
-                      <button type="button" class="form-button" onclick="setLocation('<?php echo $_product->getProductUrl() ?>?preview=1')"><span><?php echo $this->__('Personalize') ?></span></button>
-                    <?php endif; ?>
-                  <?php else: ?>
-
-                  <?php /****** ZP-CODE:7 End ******/ ?>
-
-		    <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
-
-                  <?php /****** ZP-CODE:8 Closing 'if' from ZP-CODE:7 ******/ ?>
-
+                  <?php if(!$this->helper('webtoprint/personalization-form')->get_personalize_button($this, $_product)): ?>
+                    <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
                   <?php endif; ?>
 
-                  <?php /****** ZP-CODE:8 End ******/ ?>
+                  <?php /****** ZP-CODE:4 End ******/ ?>
 
                 <?php else: ?>
                 <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
