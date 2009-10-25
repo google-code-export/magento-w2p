@@ -18,13 +18,6 @@ class Biinno_WebToPrint_OrderController extends Mage_Catalog_ProductController {
     if(count($params) == 0)
       return;
 
-    if (!defined('ZP_API_VER')) {
-      $zetaprints_api_file = Mage::getRoot().'/code/local/Biinno/Api/Model/zp_api.php';
-
-      if (file_exists($zetaprints_api_file))
-        require $zetaprints_api_file;
-    }
-
     $w2p_user = Mage::getModel('api/w2puser');
 
     $params['ApiKey'] = $w2p_user->key;
