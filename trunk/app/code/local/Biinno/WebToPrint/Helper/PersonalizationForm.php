@@ -98,7 +98,7 @@ class Biinno_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abst
 ?>
     <div class="zetaprints-preview-button">
       <input type="button" value="Update preview" class="update-preview form-button" />
-      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/ajax-loader.gif'); ?>" class="ajax-loader"/>
+      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
       <span>Updating preview image&hellip;</span>
     </div>
 <?php
