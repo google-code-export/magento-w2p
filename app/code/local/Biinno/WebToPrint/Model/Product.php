@@ -1,7 +1,7 @@
 <?php
 class Biinno_WebToPrint_Model_Product extends Mage_Catalog_Model_Product {
 
-  public function getMediaGalleryImages() {
+  public function getMediaGalleryImages () {
     if (!$this->hasData('w2p_image')) return parent::getMediaGalleryImages();
 
     if (!$this->hasData('media_gallery_images') && $this->hasData('w2p_image_links')) {
@@ -26,5 +26,9 @@ class Biinno_WebToPrint_Model_Product extends Mage_Catalog_Model_Product {
     }
 
     return $this->getData('media_gallery_images');
+  }
+
+  public function isPersonalizable () {
+    return $this->getData('w2p_image') && !((int)$this->getData('w2p_isorder'));
   }
 }
