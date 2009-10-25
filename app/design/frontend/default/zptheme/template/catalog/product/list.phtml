@@ -69,7 +69,7 @@
             <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
 
-                  <?php /****** ZP-CODE:2 Show 'Personilize' buttom instead 'Add to cart' in case product
+                  <?php /****** ZP-CODE:2 Hide'Add to cart' button in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
                   <?php if(!$_product->isPersonalizable()): ?>
@@ -131,7 +131,7 @@
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <?php if($_product->isSaleable()): ?>
 
-                  <?php /****** ZP-CODE:4 Show 'Personilize' buttom instead 'Add to cart' in case product
+                  <?php /****** ZP-CODE:4 Hide 'Add to cart' button in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
                   <?php if(!$_product->isPersonalizable()): ?>
