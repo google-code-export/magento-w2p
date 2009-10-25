@@ -14,14 +14,7 @@ class Biinno_WebToPrint_PreviewController extends Mage_Core_Controller_Front_Act
     }
 
     if(count($params) == 0)
-      echo 'qwer';
-
-    if (!defined('ZP_API_VER')) {
-      $zetaprints_api_file = Mage::getRoot().'/code/local/Biinno/Api/Model/zp_api.php';
-
-      if (file_exists($zetaprints_api_file))
-        require $zetaprints_api_file;
-    }
+      return;
 
     $w2p_user = Mage::getModel('api/w2puser');
 
