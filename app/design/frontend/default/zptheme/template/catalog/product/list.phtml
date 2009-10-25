@@ -72,7 +72,7 @@
                   <?php /****** ZP-CODE:2 Show 'Personilize' buttom instead 'Add to cart' in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
-                  <?php if(!$this->helper('webtoprint/personalization-form')->get_personalize_button($this, $_product)): ?>
+                  <?php if(!$_product->isPersonalizable()): ?>
                     <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
                   <?php endif; ?>
 
@@ -134,7 +134,7 @@
                   <?php /****** ZP-CODE:4 Show 'Personilize' buttom instead 'Add to cart' in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
-                  <?php if(!$this->helper('webtoprint/personalization-form')->get_personalize_button($this, $_product)): ?>
+                  <?php if(!$_product->isPersonalizable()): ?>
                     <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
                   <?php endif; ?>
 
