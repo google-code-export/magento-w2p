@@ -45,7 +45,7 @@
 
         <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
 
-        <?php echo $this->getChildHtml('personalize-form-page-tabs'); ?>
+        <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_page_tabs(); ?>
 
         <!-- /****** ZP-CODE:1 End ******/ -->
 
@@ -92,9 +92,8 @@
             <!-- /****** ZP-CODE:2 Printing input fields, stock images choosers and color pickers for products
                          with web-to-print feature ******/ -->
 
-            <?php echo $this->getChildHtml('personalize-form-input-fields'); ?>
-            <?php echo $this->getChildHtml('personalize-form-stock-images'); ?>
-            <?php echo $this->getChildHtml('personalize-form-color-pickers'); ?>
+            <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_input_fields(); ?>
+            <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_images(); ?>
 
             <!-- /****** ZP-CODE:2 End ******/ -->
 
@@ -115,7 +114,7 @@
 
         <!-- /****** ZP-CODE:3 Printing preview button for products with web-to-print feature ******/ -->
 
-        <?php echo $this->getChildHtml('personalize-form-preview-button'); ?>
+        <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
 
         <!-- /****** ZP-CODE:3 End ******/ -->
 
@@ -158,6 +157,6 @@
 
 <!-- /****** ZP-CODE:4 Printing JavaScript for magento personalization form ******/ -->
 
-<?php echo $this->getChildHtml('personalize-form-js'); ?>
+<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
 <!-- /****** ZP-CODE:4 End ******/ -->
