@@ -39,21 +39,11 @@
 
     <?php /****** ZP-CODE:1 Checking if the product has web-to-print feature and using proper image url ******/ ?>
 
-    <?php if ($this->getProduct()->hasData('w2p_image')): ?>
-
-      <img src="<?php echo $this->getImageUrl(); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
-
-    <?php else: ?>
-
-    <?php /****** ZP-CODE:1 End ******/ ?>
-
-  <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
-
-    <?php /****** ZP-CODE:2 'endif' for 'if' opened in ZP-CODE:1 ******/ ?>
-
+    <?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_image($this)): ?>
+        <img<?php if($_width): ?> width="<?php echo $_width ?>"<?php endif; ?> src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $this->getImageFile()); ?>" alt="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" title="<?php echo $this->htmlEscape($this->getCurrentImage()->getLabel()) ?>" id="product-gallery-image" style="display:block;" />
     <?php endif; ?>
 
-    <?php /****** ZP-CODE:2 End ******/ ?>
+    <?php /****** ZP-CODE:1 End ******/ ?>
 
   <div class="a-center">
     <?php if($_prevUrl = $this->getPreviusImageUrl()): ?>
