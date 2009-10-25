@@ -21,6 +21,14 @@
           <image>Biinno_WebToPrint_Helper_Image</image>
         </rewrite>
       </catalog>
+
+      <webtoprint>
+        <class>Biinno_WebToPrint_Helper</class>
+
+        <rewrite>
+          <personalization-form>Biinno_WebToPrint_Helper_PersonalizationForm</personalization-form>
+        </rewrite>
+      </webtoprint>
     </helpers>
   </global>
 
