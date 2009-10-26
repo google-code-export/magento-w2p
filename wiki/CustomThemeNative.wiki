@@ -51,28 +51,6 @@ The purpose of new code is to use proper methods to get correct image urls for t
 
 *Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
 
-==template/catalog/product/view/media.phtml==
-The purpose of the code in this file is to show preview image on product page. Also if the product has additional images it shows thumbs of them.
-
-The purpose of new code is to disable product image resizing and to use proper method to get correct image urls for the product with web-to-print features. The code is divided into 4 sections.
-
-*Section 1*: checking if the product has web-to-print features and if it's true then prepare slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
-
-*Section 2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
-
-==template/page/2columns-right.phtml==
-The purpose of the code in this file is to form skeleton of the 2 columns page with sidebar on the right side. It shows header, body wrapper, footer, etc.
-
-The purpose of new code is to decide which extension mode is enabled: ZetaPrints IFrame or Magento personalization form. Also it contains ajax requests logic for personalization form. The code is divided into 5 sections.
-
-*Section 1*: ajax requests logic for personalization form. Checking and parsing POST request's parameters. Checking for order or image generations ajax requests and then sending appropriate requests to ZetaPrints. Returning response to ajax caller.
-
-*Section 2*: checking for personalization phase and checking for current extension mode.
-
-*Section 3*: including javascript ans css files for magento personalization form.
-
-*Section 4-5*: checking for ZetaPrints IFrame extension mode and if it's true then showing minimal page skeleton for embedding ZetaPrint IFrame, otherwise it show standard page skeleton from Magento theme.
-
 = Files from `skin/frontend/default/zptheme/` =
 
   * `js/jquery-1.3.2.min.js`, `js/jquery-ui-1.7.2.custom.min.js` - jQuery and jQuery UI libs
