@@ -30,19 +30,19 @@ The new code removes _Add to cart_ button and disables product image resizing. T
 *Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case removing _Add to cart_ button.
 
 ==template/catalog/product/view.phtml==
-The purpose of the code in this file is to show form for ordering on product page. This form contains product images, product name, product description, product price, etc.
+This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
-One of the purposes of new code is to check for personalization phase of the product. In this case it shows our form produced directly from template's xml. This form has additional features such as ajax image preview, colour picker, stock images chooser and support for multipage templates.
-
-Also this code has support for ZetaPrints IFrame mode logic.
+New code checks for web-to-print features in a product. In this case it adds additional options (ajax image preview, colour picker, stock images chooser and support for multipage templates) for the product which are produced from template's xml.
 
 The code is divided into 4 sections.
 
-*Section 1*: checking if the product has web-to-print features, checking for personalization phase. If both checks are true then it generates personalization form from template's xml.
+*Section 1*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
 
-*Sections 2-3*: checking if the product has web-to-print features, checking for personalization phase. If both checks are true then it shows generated personalization form.
+*Section 2*: checking if s product has web-to-print features then printing text fields, stock images choosers, color pickers.
 
-*Section 4*: javascript code for personalization form.
+*Section 3*: checking if a product has web-to-print features then printing _Update preview_ button.
+
+*Section 4*: printing javascript code for a product with web-to-print features.
 
 ==template/catalog/product/gallery.phtml==
 The purpose of the code in this file is to show gallery of product additional images (in original size) in a separate window.
@@ -53,7 +53,12 @@ The purpose of new code is to use proper methods to get correct image urls for t
 
 = Functions =
 
-  * `get_product_image($context, $product)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
+  * `get_product_image ($context, $product)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
+  * `get_page_tabs ()` - outputs image tabs for multipage templates.
+  * `get_text_fields ()` - outputs input fields for products with web-to-print features.
+  * `get_image_fields ()` - outputs stock images choosers and color pickers for products with web-to-print features.
+  * `get_preview_button ()` - outputs _Update preview_ button for products with web-to-print features.
+  * `get_js ($context)` - outputs javascript code for products with web-to-print features.
 
 = Files from `skin/frontend/default/zptheme/` =
 
