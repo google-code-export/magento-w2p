@@ -23,11 +23,11 @@ You need to modify some files behind the user interface.
 ==template/catalog/product/list.phtml==
 This file shows products from some category in a grid or list layout.
 
-The new code replaces _Add to cart_ button with _Personalize_ button and disables product image resizing. The code is divided into 4 section.
+The new code removes _Add to cart_ button and disables product image resizing. The code is divided into 4 section.
 
 *Sections 1 (list layout) and 3 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
 
-*Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case showing _Personalize_ button instead of _Add to cart_ one.
+*Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case removing _Add to cart_ button.
 
 ==template/catalog/product/view.phtml==
 The purpose of the code in this file is to show form for ordering on product page. This form contains product images, product name, product description, product price, etc.
@@ -50,6 +50,10 @@ The purpose of the code in this file is to show gallery of product additional im
 The purpose of new code is to use proper methods to get correct image urls for the product with web-to-print features. The code is divided into 2 sections.
 
 *Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+
+= Functions =
+
+  * `get_product_image($context, $product)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
 
 = Files from `skin/frontend/default/zptheme/` =
 
