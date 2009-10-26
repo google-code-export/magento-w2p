@@ -82,11 +82,11 @@ class Biinno_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abst
     return $this->get_form_part_html('preview-images');
   }
 
-  public function get_input_fields () {
+  public function get_text_fields () {
     return $this->get_form_part_html('input-fields');
   }
 
-  public function get_images () {
+  public function get_image_fields () {
     return $this->get_form_part_html('stock-images') . '\n'. $this->get_form_part_html('color-pickers');
   }
 
@@ -133,7 +133,7 @@ jQuery(document).ready(function($) {
   $('#color-pickers-page-1').css('display', 'block');
 
   $('div.image-tabs li:first').addClass('selected');
-  $('div.add-to-holder button.form-button').attr('onclick', null).addClass('disable');
+  $('fieldset.add-to-cart-box button.form-button').attr('onclick', null).addClass('disable');
 
   previews = [];
   template_id = '<?php echo $context->getProduct()->getSku(); ?>';
@@ -207,7 +207,7 @@ jQuery(document).ready(function($) {
         $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
         if (previews.length == number_of_pages) {
-          $('div.add-to-holder button.form-button').bind('click', save_order_request).removeClass('disable');
+          $('fieldset.add-to-cart-box button.form-button').bind('click', save_order_request).removeClass('disable');
           $('div.save-order span').css('display', 'none');
         }
 
