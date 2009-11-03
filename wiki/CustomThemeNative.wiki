@@ -59,6 +59,10 @@ The purpose of new code is to use proper methods to get correct image urls for t
   * `get_image_fields ()` - outputs stock images choosers and color pickers for products with web-to-print features.
   * `get_preview_button ()` - outputs _Update preview_ button for products with web-to-print features.
   * `get_js ($context)` - outputs javascript code for products with web-to-print features.
+  * `get_js_css_includes ()` - outputs html tags for including javascript and css external files.
+  * `get_preview_images` - outputs product preview images.
+  * `get_gallery_thumb ($context, $_image)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
+  * `get_gallery_image ($context)` - outputs slightly modified image tag in gallery popup to prevent image resizing and returns _true_ for products with web-to-print features.
 
 = Files from `skin/frontend/default/zptheme/` =
 
