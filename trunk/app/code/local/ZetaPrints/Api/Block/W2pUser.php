@@ -13,7 +13,7 @@
   *	UserID, the hash and URL of the page the user will be returned to from ZP
   *	3. Show the IFRAME
   */
-class Biinno_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
+class ZetaPrints_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
 {
 	function init(){
 		$this->logic = Mage::getModel('api/w2puser'); 

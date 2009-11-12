@@ -1,5 +1,5 @@
 <?php
-class Biinno_Api_Model_Optionstore
+class ZetaPrints_Api_Model_Optionstore
 {
 	protected $_options;
 	protected $_arr;

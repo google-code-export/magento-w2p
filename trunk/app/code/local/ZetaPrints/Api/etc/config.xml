@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
 <config>
 	<modules>
-		<Biinno_Api>
+		<ZetaPrints_Api>
 			<version>0.1.0</version>
-		</Biinno_Api>
+		</Zetaprints_Api>
 	</modules>
 	<global>
 		<models>
             <api>
-                <class>Biinno_Api_Model</class>
+                <class>ZetaPrints_Api_Model</class>
 				<rewrite>
-					<importzp>Biinno_Api_Model_Importer</importzp>
+					<importzp>ZetaPrints_Api_Model_Importer</importzp>
 				</rewrite>
 				<rewrite>
-					<oppnotexist>Biinno_Api_Model_Optionproductnotexist</oppnotexist>
+					<oppnotexist>ZetaPrints_Api_Model_Optionproductnotexist</oppnotexist>
 				</rewrite>
 				<rewrite>
-					<oppexist>Biinno_Api_Model_Optionproductexist</oppexist>
+					<oppexist>ZetaPrints_Api_Model_Optionproductexist</oppexist>
 				</rewrite>
 				<rewrite>
-					<opstore>Biinno_Api_Model_Optionstore</opstore>
+					<opstore>ZetaPrints_Api_Model_Optionstore</opstore>
 				</rewrite>
                                 <rewrite>
-					<show-previews-in-option>Biinno_Api_Model_ShowPreviewsInOption</show-previews-in-option>
+					<show-previews-in-option>ZetaPrints_Api_Model_ShowPreviewsInOption</show-previews-in-option>
 				</rewrite>
             </api>			
         </models>
 		<helpers>
 			<api>
-			   <class>Biinno_Api_Helper</class>
+			   <class>ZetaPrints_Api_Helper</class>
 		    </api>
 		</helpers>
 		<events>

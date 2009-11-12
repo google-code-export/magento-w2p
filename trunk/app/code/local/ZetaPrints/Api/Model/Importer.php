@@ -31,7 +31,7 @@ if (!defined('IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE')){
 	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_VISIBLE','private_not_exist_visible');
 	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_IGNORE','private_not_exist_ignore');
 }
-class Biinno_Api_Model_Importer
+class ZetaPrints_Api_Model_Importer
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
     protected $_categoryCache = array();

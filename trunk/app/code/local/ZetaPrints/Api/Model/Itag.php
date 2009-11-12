@@ -4,7 +4,7 @@
   * Author	Pham Tri Cong <phtcong@gmail.com>
   * Issue 1 : Data import from W2P 
   */
-class Biinno_Api_Model_ITag
+class ZetaPrints_Api_Model_ITag
     extends Mage_Core_Model_Abstract
 {
 	function getInvitationTags($id){

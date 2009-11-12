@@ -1,5 +1,5 @@
 <?php
-class Biinno_Api_Model_ShowPreviewsInOption
+class ZetaPrints_Api_Model_ShowPreviewsInOption
 {
   protected $_arr;
 

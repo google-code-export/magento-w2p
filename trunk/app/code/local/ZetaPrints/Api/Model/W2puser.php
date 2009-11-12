@@ -16,7 +16,7 @@
 
 if (!defined('ZP_API_VER')) include('zp_api.php');
 
-class Biinno_Api_Model_W2pUser extends Mage_Api_Model_User {
+class ZetaPrints_Api_Model_W2pUser extends Mage_Api_Model_User {
 
   protected function _construct () {
     parent::_construct();
