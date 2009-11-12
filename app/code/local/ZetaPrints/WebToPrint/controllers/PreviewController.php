@@ -1,5 +1,5 @@
 <?php
-class Biinno_WebToPrint_PreviewController extends Mage_Core_Controller_Front_Action {
+class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front_Action {
 
   public function indexAction () {
     $params = array();
