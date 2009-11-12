@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <config>
   <modules>
-    <Biinno_Api>
+    <ZetaPrints_Api>
       <active>true</active>
       <codePool>local</codePool>
-    </Biinno_Api>
+    </ZetaPrints_Api>
 
-    <Biinno_WebToPrint>
+    <ZetaPrints_WebToPrint>
       <active>true</active>
       <codePool>local</codePool>
-    </Biinno_WebToPrint>
+    </ZetaPrints_WebToPrint>
   </modules>
 </config>
