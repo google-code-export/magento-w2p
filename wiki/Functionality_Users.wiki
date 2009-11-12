@@ -16,4 +16,10 @@ Magento should store the GUID and password in a user profile or a session so tha
 When the user is presented with a ZP preview page or flash plugin they should already have user identity information. The call to ZP should contain the user ID and a hash of the user's IP at the moment and the password (http://www.zetaprints.com/help/md5-hash-for-authentication/). This needs to be done only once per session, but it will be more reliable if the info is passed onto ZP every time the user is referred there.
 More on the auto-login is here: http://www.zetaprints.com/help/automatic-user-logon/
 
+== Code ==
+User management code is placed in _app/code/local/ZetaPrints/Api/Model/W2puser.php_
 
+  * autoRegister() - Registers Magento user in ZetaPrints if he has not already registered.
+  * getW2pState() - Returns status of magento user.
+  * getW2pUserId() - Returns ZetaPrints' GUID for the registered Magento user.
+  * getW2pPass() - Returns ZetaPrints' password for the registered Magento user.
