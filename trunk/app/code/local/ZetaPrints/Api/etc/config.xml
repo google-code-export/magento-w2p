@@ -3,7 +3,7 @@
 	<modules>
 		<ZetaPrints_Api>
 			<version>0.1.0</version>
-		</Zetaprints_Api>
+		</ZetaPrints_Api>
 	</modules>
 	<global>
 		<models>
