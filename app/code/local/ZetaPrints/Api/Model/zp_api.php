@@ -134,6 +134,11 @@ function zetaprints_get_template_details_as_xml ($template_id, $api_key = null, 
   return zetaprints_get_xml_from_url($url);
 }
 
+function zetaprints_get_template_details ($api_url, $template_id) {
+  $url = "$api_url/?page=template-xml;TemplateID=$template_id";
+  return zetaprints_get_xml_from_url($url);
+}
+
 /**
   * Get Template  detail from ZP
   * @param	tid	Template Id
@@ -696,19 +701,17 @@ function zetaprints_generate_user_password_hash ($password) {
  * Param template_xml - string contains template details xml
  * Returns string contains html form
  */
-function zetaprints_get_preview_html_from_template_details ($template_xml) {
+function zetaprints_get_html_from_xml ($xml, $xslt, $api_url) {
   $xml_dom = new DOMDocument();
-  $xml_dom->loadXML($template_xml);
+  $xml_dom->loadXML($xml);
 
   $xslt_dom = new DOMDocument();
-  $xslt_dom->load(dirname(__FILE__).'/template_details_to_preview_html.xslt');
+  $xslt_dom->load(dirname(__FILE__).'/' . $xslt . '-html.xslt');
 
   $proc = new XSLTProcessor();
   $proc->importStylesheet($xslt_dom);
 
-  global $zp_api_url;
-
-  $proc->setParameter('', 'zetaprints-api-url', $zp_api_url.'/');
+  $proc->setParameter('', 'zetaprints-api-url', $api_url.'/');
   return $proc->transformToXML($xml_dom);
 }
 

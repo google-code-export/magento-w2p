@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/Biinno/Api/Model/zp_api.php';
+  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Api/Model/zp_api.php';
 
   if (file_exists($zetaprints_api_file))
     require $zetaprints_api_file;
@@ -30,8 +30,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
   private function get_form_part_html ($form_part = null) {
     if ($this->xml && $this->personalizable_product) {
+      global $zp_api_url;
       //Converting template details xml to html form
-      echo zetaprints_get_personalize_form_part_html($this->xml, $form_part);
+      echo zetaprints_get_html_from_xml($this->xml, $form_part, $zp_api_url);
       return true;
     }
 
