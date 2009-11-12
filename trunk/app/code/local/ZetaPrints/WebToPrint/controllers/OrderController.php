@@ -1,7 +1,7 @@
 <?php
 require_once 'Mage/Catalog/controllers/ProductController.php';
 
-class Biinno_WebToPrint_OrderController extends Mage_Catalog_ProductController {
+class ZetaPrints_WebToPrint_OrderController extends Mage_Catalog_ProductController {
 
   public function indexAction () {
     $params = array();

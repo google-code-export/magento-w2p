@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <config>
   <modules>
-    <Biinno_WebToPrint>
+    <ZetaPrints_WebToPrint>
       <version>0.1.0</version>
-    </Biinno_WebToPrint>
+    </ZetaPrints_WebToPrint>
   </modules>
 
   <global>
     <models>
       <catalog>
         <rewrite>
-          <product>Biinno_WebToPrint_Model_Product</product>
+          <product>ZetaPrints_WebToPrint_Model_Product</product>
         </rewrite>
       </catalog>
     </models>
@@ -18,15 +18,15 @@
     <helpers>
       <catalog>
         <rewrite>
-          <image>Biinno_WebToPrint_Helper_Image</image>
+          <image>ZetaPrints_WebToPrint_Helper_Image</image>
         </rewrite>
       </catalog>
 
       <webtoprint>
-        <class>Biinno_WebToPrint_Helper</class>
+        <class>ZetaPrints_WebToPrint_Helper</class>
 
         <rewrite>
-          <personalization-form>Biinno_WebToPrint_Helper_PersonalizationForm</personalization-form>
+          <personalization-form>ZetaPrints_WebToPrint_Helper_PersonalizationForm</personalization-form>
         </rewrite>
       </webtoprint>
     </helpers>
@@ -34,13 +34,13 @@
 
   <frontend>
     <routers>
-      <Biinno_WebToPrint>
+      <ZetaPrints_WebToPrint>
         <use>standard</use>
         <args>
-          <module>Biinno_WebToPrint</module>
+          <module>ZetaPrints_WebToPrint</module>
           <frontName>web-to-print</frontName>
         </args>
-      </Biinno_WebToPrint>
+      </ZetaPrints_WebToPrint>
     </routers>
   </frontend>
 </config>

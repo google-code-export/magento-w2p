@@ -7,7 +7,7 @@ if (!defined('ZP_API_VER')) {
     require $zetaprints_api_file;
 }
 
-class Biinno_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abstract {
+class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abstract {
 
   private $xml;
   private $personalizable_product = false;
