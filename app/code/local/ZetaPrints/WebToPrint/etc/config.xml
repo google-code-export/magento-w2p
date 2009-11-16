@@ -2,12 +2,27 @@
 <config>
   <modules>
     <ZetaPrints_WebToPrint>
-      <version>0.1.0</version>
+      <version>1</version>
     </ZetaPrints_WebToPrint>
   </modules>
 
   <global>
     <models>
+      <webtoprint>
+        <class>ZetaPrints_WebToPrint_Model</class>
+        <resourceModel>webtoprint_mysql4</resourceModel>
+      </webtoprint>
+
+      <webtoprint_mysql4>
+        <class>ZetaPrints_WebToPrint_Model_Mysql4</class>
+
+        <entities>
+          <template>
+            <table>zetaprints_templates</table>
+          </template>
+        </entities>
+      </webtoprint_mysql4>
+
       <catalog>
         <rewrite>
           <product>ZetaPrints_WebToPrint_Model_Product</product>
@@ -30,6 +45,30 @@
         </rewrite>
       </webtoprint>
     </helpers>
+
+    <resources>
+      <webtoprint_setup>
+        <setup>
+          <module>ZetaPrints_WebToPrint</module>
+          <class>ZetaPrints_WebToPrint_Model_Resource_Mysql4_Setup</class>
+        </setup>
+        <connection>
+          <use>core_setup</use>
+        </connection>
+      </webtoprint_setup>
+
+      <webtoprint_write>
+        <connection>
+          <use>core_write</use>
+        </connection>
+      </webtoprint_write>
+
+      <webtoprint_read>
+        <connection>
+          <use>core_read</use>
+        </connection>
+      </webtoprint_read>
+    </resources>
   </global>
 
   <frontend>
