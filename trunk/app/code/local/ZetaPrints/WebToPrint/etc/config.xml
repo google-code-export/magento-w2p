@@ -11,6 +11,10 @@
       <webtoprint>
         <class>ZetaPrints_WebToPrint_Model</class>
         <resourceModel>webtoprint_mysql4</resourceModel>
+
+        <rewrite>
+          <import-templates>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</import-templates>
+        </rewrite>
       </webtoprint>
 
       <webtoprint_mysql4>

@@ -11,9 +11,10 @@ $installer->run("
     `title` text,
     `link` text,
     `description` text,
-    `thumbnail_url` text,
-    `image_url` text,
-    `date` datetime,
+    `thumbnail` text,
+    `image` text,
+    `date` timestamp,
+    `public` bool,
     `xml` text,
     PRIMARY KEY  (`template_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
