@@ -13,7 +13,8 @@
         <resourceModel>webtoprint_mysql4</resourceModel>
 
         <rewrite>
-          <import-templates>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</import-templates>
+          <templates-synchronization>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</templates-synchronization>
+          <products-creation>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product</products-creation>
         </rewrite>
       </webtoprint>
 
