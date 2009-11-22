@@ -19,7 +19,26 @@ $installer->run("
     PRIMARY KEY  (`template_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 
-$installer->endSetup();
+/*$installer->addAttribute('catalog_product', 'webtoprint_template',
+  array(
+    'type'              => 'varchar',
+    'backend'           => '',
+    'frontend'          => '',
+    //'label'             => '',
+    'input'             => '',
+    'class'             => '',
+    'source'            => '',
+    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'visible'           => false,
+    'required'          => false,
+    'user_defined'      => false,
+    'default'           => '',
+    'searchable'        => false,
+    'filterable'        => false,
+    'comparable'        => false,
+    'visible_on_front'  => false,
+    'unique'            => true ));*/
 
+$installer->endSetup();
 
 ?>
