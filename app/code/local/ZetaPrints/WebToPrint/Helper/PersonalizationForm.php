@@ -9,43 +9,37 @@ if (!defined('ZP_API_VER')) {
 
 class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abstract {
 
-  private $xml;
-  private $personalizable_product = false;
+  public function get_template_id ($product) {
+    $template_guid = $product->getSku();
 
-  public function init ($product) {
-    if ($product->isPersonalizable()) {
-      $url = Mage::getStoreConfig('api/settings/w2p_url');
-      $key = Mage::getStoreConfig('api/settings/w2p_key');
-
-      zp_api_init($key, $url);
-
-      $template_id = trim($product->getSku());
-      $this->xml = zetaprints_get_template_details_as_xml($template_id);
-      $this->personalizable_product = true;
-    } else
-      $this->personalizable_product = false;
-
-    return $this;
-  }
-
-  private function get_form_part_html ($form_part = null) {
-    if ($this->xml && $this->personalizable_product) {
-      global $zp_api_url;
-      //Converting template details xml to html form
-      echo zetaprints_get_html_from_xml($this->xml, $form_part, $zp_api_url);
-      return true;
-    }
-
-    return false;
-  }
-
-  public function get_product_image ($context, $_product) {
-    if (!$_product->getData('w2p_image'))
+    if (strlen($template_guid) != 36)
       return false;
 
-    $src = $context->helper('catalog/image')->init($_product, 'small_image');
-    $alt = $context->htmlEscape($context->getImageLabel($_product, 'small_image'));
-    $title = $context->htmlEscape($context->getImageLabel($_product, 'small_image'));
+    return Mage::getModel('webtoprint/template')->getResource()->getIdByGuid($template_guid);
+  }
+
+  private function get_form_part_html ($form_part = null, $product) {
+    $template_id = $this->get_template_id ($product);
+
+    if (!$template_id)
+      return false;
+
+    $template = Mage::getModel('webtoprint/template')->load($template_id);
+
+    if (!$template->getId())
+      return false;
+
+    echo zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('api/settings/w2p_url'));
+    return true;
+  }
+
+  public function get_product_image ($context, $product) {
+    if (!$this->get_template_id ($product))
+      return false;
+
+    $src = $context->helper('catalog/image')->init($product, 'small_image');
+    $alt = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
+    $title = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
 
     echo "<img style=\"max-width: 135px;\" src=\"$src\" alt=\"$alt\" title=\"$title\" />";
 
@@ -53,7 +47,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_gallery_image ($context) {
-    if (!$context->getProduct()->hasData('w2p_image'))
+    if (!$this->get_template_id ($context->getProduct()))
       return false;
 
     $src = $context->getImageUrl();
@@ -65,10 +59,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return true;
   }
 
-  public function get_gallery_thumb ($context, $_image) {
-    if (!$context->getProduct()->hasData('w2p_image'))
+  public function get_gallery_thumb ($context, $product, $_image) {
+    if (!$this->get_template_id ($product))
       return false;
-    
+
     $gallery_url = $context->getGalleryUrl($_image);
     $src = $_image['url'];
     $alt = $context->htmlEscape($_image->getLabel());
@@ -79,23 +73,25 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return true;
   }
 
-  public function get_preview_images () {
-    return $this->get_form_part_html('preview-images');
+  public function get_preview_images ($context) {
+    return $this->get_form_part_html('preview-images', $context->getProduct());
   }
 
-  public function get_text_fields () {
-    return $this->get_form_part_html('input-fields');
+  public function get_text_fields ($context) {
+    return $this->get_form_part_html('input-fields', $context->getProduct());
   }
 
-  public function get_image_fields () {
-    return $this->get_form_part_html('stock-images') . '\n'. $this->get_form_part_html('color-pickers');
+  public function get_image_fields ($context) {
+    return $this->get_form_part_html('stock-images', $context->getProduct()) . '\n'. $this->get_form_part_html('color-pickers', $context->getProduct());
   }
 
-  public function get_page_tabs () {
-    return $this->get_form_part_html('page-tabs');
+  public function get_page_tabs ($context) {
+    return $this->get_form_part_html('page-tabs', $context->getProduct());
   }
 
-  public function get_preview_button ($context = null) {
+  public function get_preview_button ($context) {
+    if (!$this->get_template_id($context->getProduct()))
+      return false;
 ?>
     <div class="zetaprints-preview-button">
       <input type="button" value="Update preview" class="update-preview form-button" />
@@ -105,7 +101,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 <?php
   }
 
-  public function get_js_css_includes ($context = null) {
+  public function get_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
@@ -124,6 +120,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_js ($context) {
+    if (!$this->get_template_id($context->getProduct()))
+      return false;
 ?>
 <script type="text/javascript">
 //<![CDATA[
