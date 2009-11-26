@@ -72,7 +72,7 @@
                   <?php /****** ZP-CODE:2 Hide'Add to cart' button in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
 
-                  <?php if(!$_product->isPersonalizable()): ?>
+                  <?php if(!$this->helper('webtoprint/personalization-form')->get_template_id($_product)): ?>
                     <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
                   <?php endif; ?>
 
@@ -133,8 +133,8 @@
 
                   <?php /****** ZP-CODE:4 Hide 'Add to cart' button in case product
                                 has web-to-print feature and it is not already customized ******/ ?>
-
-                  <?php if(!$_product->isPersonalizable()): ?>
+                  <?php Mage::log($_product->getSku()) ?>
+                  <?php if(!$this->helper('webtoprint/personalization-form')->get_template_id($_product)): ?>
                     <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
                   <?php endif; ?>
 

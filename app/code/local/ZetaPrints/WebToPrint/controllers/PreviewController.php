@@ -18,20 +18,11 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
 
     $w2p_user = Mage::getModel('api/w2puser');
 
-    $params['ApiKey'] = $w2p_user->key;
-
     $user_credentials = $w2p_user->get_credentials();
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    //Sending image generating request to zetaprints
-    list($header, $content) = zp_api_common_post_request(Mage::getStoreConfig('api/settings/w2p_url'), '/api.aspx?page=api-preview', $params);
-
-    //BUG. Getting strange numbers in the content
-    list(, $url) = explode("\r\n", $content);
-
-    //Returning an url to generated image
-    echo $url;
+    echo zetaprints_get_preview_image_url(Mage::getStoreConfig('api/settings/w2p_url'), $w2p_user->key, $params);
   }
 }
 ?>

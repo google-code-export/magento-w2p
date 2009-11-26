@@ -771,6 +771,36 @@ function zetaprints_get_order_id ($url, $key, $data) {
   return $content['body'];
 }
 
+function zetaprints_complete_order ($url, $key, $order_guid) {
+  $content = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-complete;ApiKey=$key;OrderID=$order_guid");
+
+  if (!$content)
+    return null;
+
+  $xml = new SimpleXMLElement($content['body']);
+
+  $files = array();
+
+  if (isset($xml['PDF']))
+    $files['pdf'] = (string) $xml['PDF'];
+
+  if (isset($xml['GIF']))
+    $files['gif'] = (string) $xml['GIF'];
+
+  if (isset($xml['PNG']))
+    $files['png'] = (string) $xml['PNG'];
+
+  if (isset($xml['JPEG']))
+    $files['jpeg'] = (string) $xml['JPEG'];
+
+  if (isset($xml['CDR']))
+    $files['cdr'] = (string) $xml['CDR'];
+
+  Mage::log($files);
+
+  return $files;
+}
+
 function zetaprints_get_content_from_url ($url, $data = null) {
   $options = array(CURLOPT_URL => $url,
                    CURLOPT_HEADER => true,
@@ -781,9 +811,9 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     $data_encoded = array();
 
     while (list($key, $value) = each($data))
-      $data_encoded[urlencode($key)] = urlencode($value);
+      $data_encoded[] = urlencode($key).'='.urlencode($value);
 
-    $options[CURLOPT_POSTFIELDS] = $data_encoded;
+    $options[CURLOPT_POSTFIELDS] = implode('&', $data_encoded);
   }
 
   $curl = curl_init();
