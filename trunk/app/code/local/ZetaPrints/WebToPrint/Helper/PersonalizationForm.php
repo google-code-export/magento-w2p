@@ -46,6 +46,22 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return true;
   }
 
+  public function get_cart_image ($context) {
+    $options = unserialize($context->getItem()->getOptionByCode('info_buyRequest')->getValue());
+
+    if (!isset($options['zetaprints-previews']))
+      return false;
+
+    $images = explode(',', $options['zetaprints-previews']);
+
+    $src = Mage::getStoreConfig('api/settings/w2p_url') . "/preview/$images[0]";
+    $alt = $context->htmlEscape($context->getProductName());
+
+    echo "<img src=\"$src\" alt=\"$alt\" style=\"max-width: 75px;\" />";
+
+    return true;
+  }
+
   public function get_gallery_image ($context) {
     if (!$this->get_template_id ($context->getProduct()))
       return false;
@@ -165,14 +181,13 @@ jQuery(document).ready(function($) {
         $('div.save-order img.ajax-loader').css('display', 'none');
         alert('Can\'t prepare product for ordering: ' + textStatus); },
       success: function (data, textStatus) {
-        if (parseInt(data) > 0) {
-          var url_array = $('#product_addtocart_form').attr('action').split('/');
-          url_array[url_array.length - 2] = data;
-          $('#product_addtocart_form').attr('action', url_array.join('/'));
-          productAddToCartForm.submit();
-        } else {
-          alert('Can\'t prepare product for ordering: ' + textStatus);
-        } }
+        //var url_array = $('#product_addtocart_form').attr('action').split('/');
+        //url_array[url_array.length - 2] = data;
+        //$('#product_addtocart_form').attr('action', url_array.join('/'));
+        $('<input type="hidden" name="zetaprints-order-id" value="' + data + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+        $('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+        productAddToCartForm.submit();
+      }
     } );
   };
 

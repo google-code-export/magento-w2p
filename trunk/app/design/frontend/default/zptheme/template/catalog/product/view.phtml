@@ -45,7 +45,7 @@
 
         <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
 
-        <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_page_tabs(); ?>
+        <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
 
         <!-- /****** ZP-CODE:1 End ******/ -->
 
@@ -92,8 +92,8 @@
             <!-- /****** ZP-CODE:2 Printing input fields, stock images choosers and color pickers for products
                          with web-to-print feature ******/ -->
 
-            <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_text_fields(); ?>
-            <?php $this->helper('webtoprint/personalization-form')->init($this->getProduct())->get_image_fields(); ?>
+            <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
+            <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
 
             <!-- /****** ZP-CODE:2 End ******/ -->
 
@@ -114,7 +114,7 @@
 
         <!-- /****** ZP-CODE:3 Printing preview button for products with web-to-print feature ******/ -->
 
-        <?php $this->helper('webtoprint/personalization-form')->get_preview_button(); ?>
+        <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
 
         <!-- /****** ZP-CODE:3 End ******/ -->
 
