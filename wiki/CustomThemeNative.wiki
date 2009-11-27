@@ -2,7 +2,14 @@
 
 = Introduction =
 
-This document explains changes you need to make to a custom magento theme to enable our web-to-print extension.
+The web-to-print extension comes with a default theme modified to include all the necessary code from the extension. A Magento website can use a different theme modified to include the code as explained in this manual.
+
+  # Read this manual
+  # Study the default theme files
+  # Transfer the code from the default theme to your custom theme
+  # Test on w2p and non-w2p products
+
+*Disclaimer*: theme modifications require a certain level of programming skill. 
 
 All files listed here can be found in [http://code.google.com/p/magento-w2p/downloads/list an installation package], [http://www.magentocommerce.com/extension/1586 extension] on Magento-Connect or in the [http://code.google.com/p/magento-w2p/source/checkout svn repository].
 
