@@ -23,26 +23,34 @@ You need to modify some files behind the user interface.
 ==template/catalog/product/list.phtml==
 This file shows products from some category in a grid or list layout.
 
-The new code removes _Add to cart_ button and disables product image resizing. The code is divided into 4 section.
+The new code removes _Add to cart_ button and disables product image resizing. Our code is a repetition of this line in 4 paces:
+`<?php if (!$this->helper('webtoprint/personalization-form')->get_product_image($this, $_product)): ?>`
+You can use the same condition check to remove any other parts of the page if the product can/cannot be personalized.
 
-*Sections 1 (list layout) and 3 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image throw 'max-width' css rule.
+*Sections 1 (list layout) and 3 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image using 'max-width' css rule.
 
 *Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case removing _Add to cart_ button.
+
 
 ==template/catalog/product/view.phtml==
 This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
-New code checks for web-to-print features in a product. In this case it adds additional options (ajax image preview, colour picker, stock images chooser and support for multipage templates) for the product which are produced from template's xml.
+New code checks for web-to-print features in a product and adds additional options (ajax image preview, colour picker, stock images chooser and support for multipage templates).
 
 The code is divided into 4 sections.
 
 *Section 1*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
+`<?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>`
 
 *Section 2*: checking if s product has web-to-print features then printing text fields, stock images choosers, color pickers.
+`<?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>`
+`<?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>`
 
 *Section 3*: checking if a product has web-to-print features then printing _Update preview_ button.
+`<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>`
 
 *Section 4*: printing javascript code for a product with web-to-print features.
+`<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>`
 
 ==template/catalog/product/gallery.phtml==
 The purpose of the code in this file is to show gallery of product additional images (in original size) in a separate window.
@@ -50,19 +58,21 @@ The purpose of the code in this file is to show gallery of product additional im
 The purpose of new code is to use proper methods to get correct image urls for the product with web-to-print features. The code is divided into 2 sections.
 
 *Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
+`<?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_image($this)): ?>`
 
 = Functions =
+Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
-  * `get_product_image ($context, $product)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
-  * `get_page_tabs ($context)` - outputs image tabs for multipage templates.
-  * `get_text_fields ($context)` - outputs input fields for products with web-to-print features.
-  * `get_image_fields ($context)` - outputs stock images choosers and color pickers for products with web-to-print features.
-  * `get_preview_button ($context)` - outputs _Update preview_ button for products with web-to-print features.
-  * `get_js ($context)` - outputs javascript code for products with web-to-print features.
-  * `get_js_css_includes ($context)` - outputs html tags for including javascript and css external files.
-  * `get_preview_images ($context)` - outputs product preview images.
-  * `get_gallery_thumb ($context, $product, $image)` - outputs slightly modified image tag to prevent image resizing and returns _true_ for products with web-to-print features.
-  * `get_gallery_image ($context)` - outputs slightly modified image tag in gallery popup to prevent image resizing and returns _true_ for products with web-to-print features.
+  * `get_product_image ($context, $product)` - outputs a slightly modified `<img>` tag to prevent image resizing and returns _true_ for products with web-to-print features
+  * `get_page_tabs ($context)` - outputs image tabs for multipage templates
+  * `get_text_fields ($context)` - outputs text fields for products with web-to-print features
+  * `get_image_fields ($context)` - outputs image fields (stock images, color picker) for products with web-to-print features
+  * `get_preview_button ($context)` - outputs _Update preview_ button for products with web-to-print features
+  * `get_js ($context)` - outputs javascript code for products with web-to-print features
+  * `get_js_css_includes ($context)` - outputs html tags for including external javascript and css files
+  * `get_preview_images ($context)` - outputs product preview images
+  * `get_gallery_thumb ($context, $product, $image)` - outputs a slightly modified `<img>` tag to prevent image resizing and returns _true_ for products with web-to-print features
+  * `get_gallery_image ($context)` - outputs a slightly modified `<img>` tag in gallery popup to prevent image resizing and returns _true_ for products with web-to-print features.
 
 = Files from `skin/frontend/default/zptheme/` =
 
