@@ -26,6 +26,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         ->setSku($template->getGuid())
         ->setTypeId('simple')
         ->setName($template->getTitle())
+        ->setDescription($template->getDescription())
         ->setShortDescription($template->getDescription())
         ->setVisibility(0)
         ->save();
