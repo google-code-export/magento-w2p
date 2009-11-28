@@ -1,7 +1,7 @@
 div.product-img-box div.more-views li a img {
   width: 56px;
   height: 56px;
-} 
+}
 
 div.product-essential {
   border-bottom: 1px solid #C4C6C8;
@@ -10,6 +10,7 @@ div.product-essential {
 /**/
 div.image-tabs {
   overflow: auto;
+  margin-bottom: 20px;
 }
 
 /**/
