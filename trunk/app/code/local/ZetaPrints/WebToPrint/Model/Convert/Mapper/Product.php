@@ -15,7 +15,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         continue;
       }
 
-      $this->debug("Product {$template->getGuid()} doesn\'t exists, create it.");
+      $this->debug("Product {$template->getGuid()} doesn't exist, create it.");
 
       if (Mage::app()->isSingleStoreMode())
         $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
