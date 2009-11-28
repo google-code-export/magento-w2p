@@ -32,31 +32,14 @@
 
 <?php if ($_item = $this->getItem()): ?>
 
-<!-- /****** ZP-CODE:1 Prepare links for web-to-print generated files ******/ -->
-
-<?php
-  $options = $_item->getProductOptionByCode('info_buyRequest');
-
-  $webtoprint_links = "";
-
-  $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
-  foreach ($types as $type)
-    if (isset($options['zetaprints-file-'.$type])) {
-      $title = strtoupper($type);
-      $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
-    }
-?>
-
-<!-- /****** ZP-CODE:1 End ******/ -->
-
     <h5 class="title"><?php echo $_item->getName() ?></h5>
     <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->getSku())); ?><br />
 
-    <!-- /****** ZP-CODE:2  Inserting links to web-to-print generated files *****/ -->
+    <!-- /****** ZP-CODE:1  Inserting links to web-to-print generated files *****/ -->
 
-    <?php echo $webtoprint_links; ?>
+    <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this); ?>
 
-    <!-- /****** ZP-CODE:2 End ******/ -->
+    <!-- /****** ZP-CODE:1 End ******/ -->
 
     </div>
     <?php if ($this->getOrderOptions()): ?>

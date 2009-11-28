@@ -140,6 +140,21 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 <?php
   }
 
+  public function get_order_webtoprint_links ($context) {
+    $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+
+    $webtoprint_links = "";
+
+    $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
+    foreach ($types as $type)
+      if (isset($options['zetaprints-file-'.$type])) {
+        $title = strtoupper($type);
+        $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
+      }
+
+    return $webtoprint_links;
+  }
+
   public function get_js ($context) {
     if (!$this->get_template_id($context->getProduct()))
       return false;
