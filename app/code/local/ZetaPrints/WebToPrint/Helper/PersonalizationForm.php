@@ -34,10 +34,15 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_product_image ($context, $product) {
-    if (!$this->get_template_id ($product))
+    if (! $template_id = $this->get_template_id ($product))
       return false;
 
-    $src = $context->helper('catalog/image')->init($product, 'small_image');
+    $template = Mage::getModel('webtoprint/template')->load($template_id);
+
+    if (!$template->getId())
+      return false;
+
+    $src = $template->getThumbnail();
     $alt = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
     $title = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
 
