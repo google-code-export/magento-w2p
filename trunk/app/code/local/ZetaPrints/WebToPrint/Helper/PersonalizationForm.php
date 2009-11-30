@@ -168,7 +168,7 @@ jQuery(document).ready(function($) {
   $('#color-pickers-page-1').css('display', 'block');
 
   $('div.image-tabs li:first').addClass('selected');
-  $('fieldset.add-to-cart-box button.form-button').attr('onclick', null).addClass('disable');
+  $('fieldset.add-to-cart-box button.form-button').attr('onclick', null);
 
   previews = [];
   template_id = '<?php echo $context->getProduct()->getSku(); ?>';
@@ -241,7 +241,7 @@ jQuery(document).ready(function($) {
         $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
         if (previews.length == number_of_pages) {
-          $('fieldset.add-to-cart-box button.form-button').bind('click', save_order_request).removeClass('disable');
+          $('fieldset.add-to-cart-box button.form-button').bind('click', save_order_request).show();
           $('div.save-order span').css('display', 'none');
         }
 
