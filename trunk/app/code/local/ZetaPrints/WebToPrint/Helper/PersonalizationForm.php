@@ -155,6 +155,20 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return $webtoprint_links;
   }
 
+  public function get_order_preview_images ($context) {
+    $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+
+    $previews = explode(',', $options['zetaprints-previews']);
+
+    $url = Mage::getStoreConfig('api/settings/w2p_url');
+
+    $html = '<ul>';
+    foreach ($previews as $preview)
+      $html .= "<li><a href=\"$url/preview/$preview\"><img src=\"$url/thumb/$preview\" /></a></li>";
+
+    return $html . '</ul>';
+  }
+
   public function get_js ($context) {
     if (!$this->get_template_id($context->getProduct()))
       return false;
