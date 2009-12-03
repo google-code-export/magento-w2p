@@ -59,7 +59,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $images = explode(',', $options['zetaprints-previews']);
 
-    $src = Mage::getStoreConfig('api/settings/w2p_url') . "/preview/$images[0]";
+    $src = Mage::getStoreConfig('api/settings/w2p_url') . "/thumb/$images[0]";
     $alt = $context->htmlEscape($context->getProductName());
 
     echo "<img src=\"$src\" alt=\"$alt\" style=\"max-width: 75px;\" />";
