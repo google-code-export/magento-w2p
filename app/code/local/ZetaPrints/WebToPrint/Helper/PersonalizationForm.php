@@ -143,6 +143,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   public function get_order_webtoprint_links ($context) {
     $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
+    if (!isset($options['zetaprints-order-id']))
+      return;
+
     $webtoprint_links = "";
 
     $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
@@ -157,6 +160,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
   public function get_order_preview_images ($context) {
     $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+
+    if (!isset($options['zetaprints-previews']))
+      return;
 
     $previews = explode(',', $options['zetaprints-previews']);
 
