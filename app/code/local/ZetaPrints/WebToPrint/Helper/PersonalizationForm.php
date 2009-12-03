@@ -182,7 +182,7 @@ jQuery(document).ready(function($) {
   $('#color-pickers-page-1').css('display', 'block');
 
   $('div.image-tabs li:first').addClass('selected');
-  $('fieldset.add-to-cart-box button.form-button').attr('onclick', null);
+  $('fieldset.add-to-cart-box button.form-button').attr('onclick', null).css('display', 'none');
 
   previews = [];
   template_id = '<?php echo $context->getProduct()->getSku(); ?>';
