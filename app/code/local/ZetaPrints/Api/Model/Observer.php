@@ -18,6 +18,9 @@ class ZetaPrints_Api_Model_Observer
     foreach ($order->getAllItems() as $item) {
       $options = $item->getProductOptions();
 
+      if (!isset($options['info_buyRequest']['zetaprints-order-id']))
+        continue;
+
       $files = zetaprints_complete_order(Mage::getStoreConfig('api/settings/w2p_url'), Mage::getStoreConfig('api/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
 
       foreach ($files as $type => $path)
