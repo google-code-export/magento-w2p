@@ -206,16 +206,25 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $previews_array = null;
     $previews = null;
+    $user_input = null;
 
     if ($session->hasData('zetaprints-previews')) {
       $previews = $session->getData('zetaprints-previews');
       $previews_array = '\'' . str_replace(',', '\',\'', $previews) . '\'';
+      $user_input = unserialize($session->getData('zetaprints-user-input'));
       $session->unsetData('zetaprints-previews');
     }
 ?>
 <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
+  <?php
+  Mage::log($user_input);
+  if ($user_input)
+    foreach ($user_input as $key => $value)
+      echo "$('[name=$key]').val('$value');\n";
+  ?>
+
   $('#preview-image-page-1').css('display', 'block');
   $('#input-fields-page-1').css('display', 'block');
   $('#stock-images-page-1').css('display', 'block');
