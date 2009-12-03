@@ -74,6 +74,18 @@
         </connection>
       </webtoprint_read>
     </resources>
+
+    <events>
+      <checkout_cart_product_add_after>
+        <observers>
+          <webtoprint-order-creation-observer>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>create_zetaprints_order</method>
+          </webtoprint-order-creation-observer>
+        </observers>
+      </checkout_cart_product_add_after>
+    </events>
   </global>
 
   <frontend>
