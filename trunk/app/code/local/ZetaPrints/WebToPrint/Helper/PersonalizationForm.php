@@ -95,7 +95,30 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_preview_images ($context) {
-    return $this->get_form_part_html('preview-images', $context->getProduct());
+    $session = Mage::getSingleton('core/session');
+
+    if (!$session->hasData('zetaprints-previews'))
+      return $this->get_form_part_html('preview-images', $context->getProduct());
+
+    if (!$this->get_template_id ($context->getProduct()))
+      return false;
+
+    $previews = explode(',', $session->getData('zetaprints-previews'));
+
+    $url = Mage::getStoreConfig('api/settings/w2p_url');
+    $html = '<div class="zetaprints-template-preview-images">';
+
+    foreach ($previews as $position => $preview) {
+      $position += 1;
+      $html .= "<div id=\"preview-image-page-$position\" class=\"zetaprints-template-preview\">";
+      $html .= "<a href=\"$url/preview/$preview\">";
+      $html .= "<img title=\"Click to view in large size\" src=\"$url/preview/$preview\" />";
+      $html .= '</a></div>';
+    }
+
+    echo $html . '</div>';
+
+    return true;
   }
 
   public function get_text_fields ($context) {
@@ -178,6 +201,17 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   public function get_js ($context) {
     if (!$this->get_template_id($context->getProduct()))
       return false;
+
+    $session = Mage::getSingleton('core/session');
+
+    $previews_array = null;
+    $previews = null;
+
+    if ($session->hasData('zetaprints-previews')) {
+      $previews = $session->getData('zetaprints-previews');
+      $previews_array = '\'' . str_replace(',', '\',\'', $previews) . '\'';
+      $session->unsetData('zetaprints-previews');
+    }
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -188,11 +222,26 @@ jQuery(document).ready(function($) {
   $('#color-pickers-page-1').css('display', 'block');
 
   $('div.image-tabs li:first').addClass('selected');
-  $('fieldset.add-to-cart-box button.form-button').css('display', 'none');
 
-  previews = [];
+  previews = [<?php echo $previews_array; ?>];
   template_id = '<?php echo $context->getProduct()->getSku(); ?>';
   number_of_pages = $('div.zetaprints-template-preview').length;
+
+  <?php if ($previews): ?>
+  $('div.image-tabs img').each(function () {
+    var src = $(this).attr('src').split('thumb');
+    var id = src[1].split('_');
+    var n = id[0].substring(38, id[0].length);
+
+    var new_id = previews[n].split('.');
+    $(this).attr('src', src[0] + 'thumb/' + new_id[0] + '_100x100.' + new_id[1]);
+  });
+
+  $('<input type="hidden" name="zetaprints-previews" value="<?php echo $previews; ?>" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+  <?php else : ?>
+  $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+  $('fieldset.add-to-cart-box button.form-button').css('display', 'none');
+  <? endif; ?>
 
   $('<input type="hidden" name="zetaprints-TemplateID" value="' + template_id +'" />').appendTo('#product_addtocart_form');
 
@@ -237,7 +286,8 @@ jQuery(document).ready(function($) {
         $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
         if (previews.length == number_of_pages) {
-          $('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+          //$('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+          $('input[name=zetaprints-previews]').val(previews.join(','));
           $('fieldset.add-to-cart-box button.form-button').show();
           $('div.save-order span').css('display', 'none');
         }

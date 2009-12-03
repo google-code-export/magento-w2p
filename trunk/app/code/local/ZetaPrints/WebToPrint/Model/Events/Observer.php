@@ -32,6 +32,17 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
     $options['zetaprints-order-id'] = $order_id;
     $option_model->setValue(serialize($options));
+
+    Mage::getSingleton('core/session')->unsetData('zetaprints-previews');
+  }
+
+  public function store_template_values ($observer) {
+    $request = $observer->getEvent()->getControllerAction()->getRequest();
+
+    if (!$request->has('zetaprints-previews'))
+      return;
+
+    Mage::getSingleton('core/session')->setData('zetaprints-previews', $request->getParam('zetaprints-previews'));
   }
 }
 
