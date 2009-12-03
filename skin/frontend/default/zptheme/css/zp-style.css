@@ -74,6 +74,11 @@ div.zetaprints-page-input-fields {
 }
 
 /**/
+div.zetaprints-page-input-fields input.input-text, div.zetaprints-page-input-fields textarea {
+  width: 100%;
+}
+
+/**/
 div.zetaprints-page-color-pickers {
   display: none;
 }
@@ -146,8 +151,4 @@ div.color-sample {
 
 div.color-sample label {
   display: none;
-}
-
-input.input-text, textarea {
-  width:100%;
 }
