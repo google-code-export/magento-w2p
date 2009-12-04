@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package version="2.0"
+  xmlns="http://pear.php.net/dtd/package-2.0"
+  xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd" >
+
+  <name>web_to_print_store_incl_theme</name>
+  <channel>connect.magentocommerce.com/community</channel>
+
+  <summary>Magento extension for ZetaPrints web-to-print API And Theme</summary>
+  <description>Add web-to-print and image personalization to your merchandize.
+
+Add design personalization to your products if you sell items such as cards, invitations, t-shirts, business cards, posters, banners, anything else where users may need to change text and upload their own photos in design templates.
+
+This extension uses ZetaPrints API to generate preview images and PDF files.
+
+
+Demo site: http://www.zetaprints.com/magento/
+
+
+Help and manuals: http://www.zetaprints.com/help/category/magento/
+
+Source code: http://code.google.com/p/magento-w2p/
+
+Technical support: admin@zetaprints.com
+Extension developed by http://www.zetaprints.com/
+  </description>
+
+  <lead>
+    <name>Anatoly A. Kazantsev</name>
+    <user>anatoly.kazantsev</user>
+    <email>anatoly.kazantsev@gmail.com</email>
+    <active>yes</active>
+  </lead>
+
+  <date>2009-12-05</date>
+
+  <version>
+    <release>1.4.0</release>
+    <api>1.4.0</api>
+  </version>
+
+  <stability>
+    <release>stable</release>
+    <api>stable</api>
+  </stability>
+
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+  <notes>
+* Most of the code were rewritten.
+* Added model for web-to-print templates (now products links to corresponding templates)
+* No more duplicate products
+* All web-to-print changes in templates were wrapped with function and were moved into
+  'personalization-form' helper.
+* Bug fixies, usability improvemnets.
+  </notes>
+
+  <contents>
+
+    <dir name="/">
+
+      <dir name="modules">
+        <file name="ZetaPrints_All.xml" role="mageetc" />
+      </dir>
+
+      <dir name="ZetaPrints">
+        <dir name="WebToPrint">
+
+          <dir name="controllers">
+            <file name="PreviewController.php" role="magelocal" />
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" role="magelocal" />
+            <file name="convert.xml" role="magelocal" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Image.php" role="magelocal" />
+            <file name="PersonalizationForm.php" role="magelocal" />
+          </dir>
+
+          <dir name="Model">
+            <dir name="Convert">
+
+              <dir name="Mapper">
+                <file name="Product.php" role="magelocal" />
+              </dir>
+
+              <dir name="Parser">
+                <file name="Template.php" role="magelocal" />
+              </dir>
+
+            </dir>
+
+            <dir name="Events">
+              <file name="Observer.php" role="magelocal" />
+            </dir>
+
+            <dir name="Mysql4">
+
+              <dir name="Template">
+                <file name="Collection.php" role="magelocal" />
+              </dir>
+
+              <file name="Template.php" role="magelocal" />
+
+            </dir>
+
+            <dir name="Resource">
+
+              <dir name="Mysql4">
+                <file name="Setup.php" role="magelocal" />
+              </dir>
+
+            </dir>
+
+            <file name="Product.php" role="magelocal" />
+            <file name="Template.php" role="magelocal" />
+          </dir>
+
+          <dir name="sql">
+
+            <dir name="webtoprint_setup">
+              <file name="mysql4-install-1.php" role="magelocal" />
+            </dir>
+
+          </dir>
+        </dir>
+
+        <dir name="Zpapi">
+
+          <dir name="Block">
+            <file name="W2pUser.php" role="magelocal" />
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" role="magelocal" />
+            <file name="system.xml" role="magelocal" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Data.php" role="magelocal" />
+          </dir>
+
+          <dir name="Model">
+            <file name="color-pickers-html.xslt" role="magelocal" />
+            <file name="common-templates.xslt" role="magelocal" />
+            <file name="Importer.php" role="magelocal" />
+            <file name="input-fields-html.xslt" role="magelocal" />
+            <file name="Itag.php" role="magelocal" />
+            <file name="Observer.php" role="magelocal" />
+            <file name="Optionproductexist.php" role="magelocal" />
+            <file name="Optionproductnotexist.php" role="magelocal" />
+            <file name="Optionstore.php" role="magelocal" />
+            <file name="page-tabs-html.xslt" role="magelocal" />
+            <file name="preview-images-html.xslt" role="magelocal" />
+            <file name="stock-images-html.xslt" role="magelocal" />
+            <file name="template-details-to-preview-html.xslt" role="magelocal" />
+            <file name="template_details_to_preview_html.xslt" role="magelocal" />
+            <file name="W2puser.php" role="magelocal" />
+            <file name="zp_api.php" role="magelocal" />
+          </dir>
+
+        </dir>
+      </dir>
+
+      <dir name="adminhtml">
+        <dir name="default">
+          <dir name="default">
+            <dir name="template">
+              <dir name="sales">
+                <dir name="items">
+
+                  <dir name="column">
+                    <file name="name.phtml" role="magedesign" />
+                  </dir>
+
+                </dir>
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+      </dir>
+
+      <dir name="frontend">
+        <dir name="default">
+          <dir name="zptheme">
+
+            <dir name="css">
+              <file name="checks.css" role="mageskin" />
+              <file name="colorpicker.css" role="mageskin" />
+              <file name="dd.css" role="mageskin" />
+              <file name="dd_arrow.gif" role="mageskin" />
+              <file name="jquery.fancybox.css" role="mageskin" />
+              <file name="zp-style.css" role="mageskin" />
+            </dir>
+
+            <dir name="images">
+
+              <dir name="colorpicker">
+                <file name="blank.gif" role="mageskin" />
+                <file name="colorpicker_background.png" role="mageskin" />
+                <file name="colorpicker_hex.png" role="mageskin" />
+                <file name="colorpicker_hsb_b.png" role="mageskin" />
+                <file name="colorpicker_hsb_h.png" role="mageskin" />
+                <file name="colorpicker_hsb_s.png" role="mageskin" />
+                <file name="colorpicker_indic.gif" role="mageskin" />
+                <file name="colorpicker_overlay.png" role="mageskin" />
+                <file name="colorpicker_rgb_b.png" role="mageskin" />
+                <file name="colorpicker_rgb_g.png" role="mageskin" />
+                <file name="colorpicker_rgb_r.png" role="mageskin" />
+                <file name="colorpicker_select.gif" role="mageskin" />
+                <file name="colorpicker_submit.png" role="mageskin" />
+                <file name="custom_background.png" role="mageskin" />
+                <file name="custom_hex.png" role="mageskin" />
+                <file name="custom_hsb_b.png" role="mageskin" />
+                <file name="custom_hsb_h.png" role="mageskin" />
+                <file name="custom_hsb_s.png" role="mageskin" />
+                <file name="custom_indic.gif" role="mageskin" />
+                <file name="custom_rgb_b.png" role="mageskin" />
+                <file name="custom_rgb_g.png" role="mageskin" />
+                <file name="custom_rgb_r.png" role="mageskin" />
+                <file name="custom_submit.png" role="mageskin" />
+                <file name="select.png" role="mageskin" />
+                <file name="select2.png" role="mageskin" />
+                <file name="slider.png" role="mageskin" />
+              </dir>
+
+              <dir name="fancybox">
+                <file name="fancy_closebox.png" role="mageskin" />
+                <file name="fancy_left.png" role="mageskin" />
+                <file name="fancy_progress.png" role="mageskin" />
+                <file name="fancy_right.png" role="mageskin" />
+                <file name="fancy_shadow_e.png" role="mageskin" />
+                <file name="fancy_shadow_n.png" role="mageskin" />
+                <file name="fancy_shadow_ne.png" role="mageskin" />
+                <file name="fancy_shadow_nw.png" role="mageskin" />
+                <file name="fancy_shadow_s.png" role="mageskin" />
+                <file name="fancy_shadow_se.png" role="mageskin" />
+                <file name="fancy_shadow_sw.png" role="mageskin" />
+                <file name="fancy_shadow_w.png" role="mageskin" />
+                <file name="fancy_title_left.png" role="mageskin" />
+                <file name="fancy_title_main.png" role="mageskin" />
+                <file name="fancy_title_right.png" role="mageskin" />
+              </dir>
+
+              <dir name="media">
+                <file name="download-webtoprint-extension.jpg" role="mageskin" />
+              </dir>
+
+              <dir name="vchecks">
+                <file name="bottom_button_bg.gif" role="mageskin" />
+                <file name="bottom_button_bg_hover.gif" role="mageskin" />
+                <file name="bottom_button_left.gif" role="mageskin" />
+                <file name="bottom_button_left_hover.gif" role="mageskin" />
+                <file name="button_bg.gif" role="mageskin" />
+                <file name="button_bg_hover.gif" role="mageskin" />
+                <file name="button_left.gif" role="mageskin" />
+                <file name="button_left_hover.gif" role="mageskin" />
+                <file name="cross.png" role="mageskin" />
+                <file name="tick.png" role="mageskin" />
+                <file name="top_button_bg.gif" role="mageskin" />
+                <file name="top_button_bg_hover.gif" role="mageskin" />
+                <file name="top_button_left.gif" role="mageskin" />
+                <file name="top_button_left_hover.gif" role="mageskin" />
+              </dir>
+
+            </dir>
+
+            <dir name="js">
+              <file name="colorpicker.js" role="mageskin" />
+              <file name="jquery-1.3.2.min.js" role="mageskin" />
+              <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
+              <file name="jquery-ui-1.7.2.custom.min.js" role="mageskin" />
+              <file name="jquery.dd.js" role="mageskin" />
+              <file name="jquery.fancybox-1.2.1.pack.js" role="mageskin" />
+              <file name="jquery.vchecks.js" role="mageskin" />
+              <file name="uncompressed.jquery.dd.js" role="mageskin" />
+            </dir>
+
+            <dir name="template">
+
+              <dir name="callouts">
+                <file name="right_col.phtml" role="magedesign" />
+              </dir>
+
+              <dir name="catalog">
+                <dir name="product">
+
+                  <dir name="view">
+                    <file name="media.phtml" role="magedesign" />
+                  </dir>
+
+                  <file name="gallery.phtml" role="magedesign" />
+                  <file name="list.phtml" role="magedesign" />
+                  <file name="view.phtml" role="magedesign" />
+
+                </dir>
+              </dir>
+
+              <dir name="checkout">
+                <dir name="cart">
+
+                  <dir name="item">
+                    <file name="default.phtml" role="magedesign" />
+                  </dir>
+
+                </dir>
+              </dir>
+
+              <dir name="page">
+
+                <dir name="html">
+                  <file name="head.phtml" role="magedesign" />
+                </dir>
+
+              </dir>
+
+              <dir name="sales">
+                <dir name="order">
+                  <dir name="items">
+
+                    <dir name="renderer">
+                      <file name="default.phtml" role="magedesign" />
+                    </dir>
+
+                  </dir>
+                </dir>
+              </dir>
+
+            </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
+    </dir>
+
+  </contents>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <pearinstaller>
+        <min>1.6.2</min>
+      </pearinstaller>
+
+    </required>
+  </dependencies>
+
+  <phprelease />
+
+</package>
