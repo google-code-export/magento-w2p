@@ -15,7 +15,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         continue;
       }
 
-      $this->debug("Product {$template->getGuid()} doesn't exist, create it.");
+      $this->debug("Product {$template->getGuid()} was created.");
 
       if (Mage::app()->isSingleStoreMode())
         $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
@@ -36,10 +36,16 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         ->setProduct($product_model)
         ->save();
     }
+
+    $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
   }
 
   private function notice ($message) {
     $this->addException($message, Mage_Dataflow_Model_Convert_Exception::NOTICE);
+  }
+
+  private function warning ($message) {
+    $this->addException($message, Mage_Dataflow_Model_Convert_Exception::WARNING);
   }
 
   private function debug ($message) {
