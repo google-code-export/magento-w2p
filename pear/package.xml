@@ -33,7 +33,7 @@ Extension developed by http://www.zetaprints.com/
 
   <lead>
     <name>Anatoly A. Kazantsev</name>
-    <user>anatoly.kazantsev</user>
+    <user>jimcrow</user>
     <email>anatoly.kazantsev@gmail.com</email>
     <active>yes</active>
   </lead>
@@ -41,8 +41,8 @@ Extension developed by http://www.zetaprints.com/
   <date>2009-12-05</date>
 
   <version>
-    <release>1.4.0</release>
-    <api>1.4.0</api>
+    <release>1.4.0.1</release>
+    <api>1.4.0.1</api>
   </version>
 
   <stability>
@@ -173,7 +173,7 @@ Extension developed by http://www.zetaprints.com/
 
       <dir name="adminhtml">
         <dir name="default">
-          <dir name="default">
+          <dir name="zptheme">
             <dir name="template">
               <dir name="sales">
                 <dir name="items">

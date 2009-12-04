@@ -109,4 +109,18 @@
       </ZetaPrints_WebToPrint>
     </routers>
   </frontend>
+
+  <stores>
+    <admin>
+      <design>
+        <package>
+          <name>default</name>
+        </package>
+        <theme>
+          <default>zptheme</default>
+        </theme>
+      </design>
+    </admin>
+  </stores>
+
 </config>
