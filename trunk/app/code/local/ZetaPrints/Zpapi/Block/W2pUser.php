@@ -13,28 +13,28 @@
   *	UserID, the hash and URL of the page the user will be returned to from ZP
   *	3. Show the IFRAME
   */
-class ZetaPrints_Api_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
+class ZetaPrints_Zpapi_Block_W2pUser extends Mage_Catalog_Block_Product_Abstract
 {
 	function init(){
-		$this->logic = Mage::getModel('api/w2puser'); 
+		$this->logic = Mage::getModel('zpapi/w2puser'); 
 		$ret = $this->logic->autoRegister() ;
 		return "<br/>ret[$ret],IP=[" . $_SERVER["REMOTE_ADDR"] . "],UserId=[" . $this->getW2pUserId() ."],Pass=[" . $this->getW2pPass() ."],Role=[" . $this->getRole() . "],Register=[" . $this->getW2pState() . "]";
 	}
 	function order($id){
-		$this->logic = Mage::getModel('api/w2puser'); 
+		$this->logic = Mage::getModel('zpapi/w2puser'); 
 		return $this->logic->order($id);
 	}
 	function getW2pUserId(){
-		return Mage::getModel('api/w2puser')->getW2pUserId();
+		return Mage::getModel('zpapi/w2puser')->getW2pUserId();
 	}
 	function getW2pPass(){
-		return Mage::getModel('api/w2puser')->getW2pPass();
+		return Mage::getModel('zpapi/w2puser')->getW2pPass();
 	}
 	function getW2pState(){
-		return Mage::getModel('api/w2puser')->getW2pState();
+		return Mage::getModel('zpapi/w2puser')->getW2pState();
 	}
 	function getRole(){
-		return Mage::getModel('api/w2puser')->getRole();
+		return Mage::getModel('zpapi/w2puser')->getRole();
 	}
 	function getHash(){
 		if ((strpos($_SERVER["REMOTE_ADDR"],"192") !== false)

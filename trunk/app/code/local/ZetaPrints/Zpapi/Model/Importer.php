@@ -31,7 +31,7 @@ if (!defined('IMPORT_PRIVATE_PRODUCT_EXIST_INVISIBLE')){
 	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_VISIBLE','private_not_exist_visible');
 	define('IMPORT_PRIVATE_PRODUCT_NOT_EXIST_IGNORE','private_not_exist_ignore');
 }
-class ZetaPrints_Api_Model_Importer
+class ZetaPrints_Zpapi_Model_Importer
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
     protected $_categoryCache = array();
@@ -51,18 +51,18 @@ class ZetaPrints_Api_Model_Importer
     public function parse()
     {	
 		//$batchModel 	= Mage::getSingleton('dataflow/batch');
-        $this->base 	= Mage::getStoreConfig('api/settings/w2p_url');
-		$this->key 		= Mage::getStoreConfig('api/settings/w2p_key');
-		$this->debug 	= Mage::getStoreConfig('api/settings/w2p_debug');
-		$this->store 	= Mage::getStoreConfig('api/settings/w2p_store');
-		$this->refresh 	= Mage::getStoreConfig('api/settings/w2p_refresh');
+        $this->base 	= Mage::getStoreConfig('zpapi/settings/w2p_url');
+		$this->key 		= Mage::getStoreConfig('zpapi/settings/w2p_key');
+		$this->debug 	= Mage::getStoreConfig('zpapi/settings/w2p_debug');
+		$this->store 	= Mage::getStoreConfig('zpapi/settings/w2p_store');
+		$this->refresh 	= Mage::getStoreConfig('zpapi/settings/w2p_refresh');
 		
-		$this->oppexist 	= Mage::getStoreConfig('api/settings/w2p_private_product_exist');
-		$this->oppnotexist 	= Mage::getStoreConfig('api/settings/w2p_private_product_not_exist');
+		$this->oppexist 	= Mage::getStoreConfig('zpapi/settings/w2p_private_product_exist');
+		$this->oppnotexist 	= Mage::getStoreConfig('zpapi/settings/w2p_private_product_not_exist');
 		
-		$opstore = Mage::getModel('api/opstore')->toArray();
-		$oppexist = Mage::getModel('api/oppexist')->toArray();
-		$oppnotexist = Mage::getModel('api/oppnotexist')->toArray();
+		$opstore = Mage::getModel('zpapi/opstore')->toArray();
+		$oppexist = Mage::getModel('zpapi/oppexist')->toArray();
+		$oppnotexist = Mage::getModel('zpapi/oppnotexist')->toArray();
 		
 		if (!$this->base || !$this->key || !$this->store){
 			$this->errorMess("Please setting ZetaPrints Api at Admin->System->Configuration->ZetaPrints Sync tab");

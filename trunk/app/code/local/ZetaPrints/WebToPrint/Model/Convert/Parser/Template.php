@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Api/Model/zp_api.php';
+  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
 
   if (file_exists($zetaprints_api_file))
     require $zetaprints_api_file;
@@ -10,12 +10,12 @@ if (!defined('ZP_API_VER')) {
 class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow_Model_Convert_Parser_Abstract {
 
   public function parse() {
-    $url = Mage::getStoreConfig('api/settings/w2p_url');
-    $key = Mage::getStoreConfig('api/settings/w2p_key');
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
-    $this->debug = (bool)Mage::getStoreConfig('api/settings/w2p_debug');
+    $this->debug = (bool)Mage::getStoreConfig('zpapi/settings/w2p_debug');
 
-    $refresh_templates = (bool)(int)Mage::getStoreConfig('api/settings/w2p_refresh');
+    $refresh_templates = (bool)(int)Mage::getStoreConfig('zpapi/settings/w2p_refresh');
     if ($refresh_templates)
       $this->notice('Refresh all templates');
 

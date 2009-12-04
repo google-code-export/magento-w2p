@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config>
   <modules>
-    <ZetaPrints_Api>
+    <ZetaPrints_Zpapi>
       <active>true</active>
       <codePool>local</codePool>
-    </ZetaPrints_Api>
+    </ZetaPrints_Zpapi>
 
     <ZetaPrints_WebToPrint>
       <active>true</active>

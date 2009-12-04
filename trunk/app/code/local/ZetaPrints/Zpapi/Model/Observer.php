@@ -2,7 +2,7 @@
 
 if (!defined('ZP_API_VER')) include('zp_api.php');
 
-class ZetaPrints_Api_Model_Observer
+class ZetaPrints_Zpapi_Model_Observer
     extends Mage_Core_Model_Abstract
 {
   /**
@@ -21,10 +21,10 @@ class ZetaPrints_Api_Model_Observer
       if (!isset($options['info_buyRequest']['zetaprints-order-id']))
         continue;
 
-      $files = zetaprints_complete_order(Mage::getStoreConfig('api/settings/w2p_url'), Mage::getStoreConfig('api/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
+      $files = zetaprints_complete_order(Mage::getStoreConfig('zpapi/settings/w2p_url'), Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
 
       foreach ($files as $type => $path)
-        $options['info_buyRequest']['zetaprints-file-'.$type] = Mage::getStoreConfig('api/settings/w2p_url').'/'.$path;
+        $options['info_buyRequest']['zetaprints-file-'.$type] = Mage::getStoreConfig('zpapi/settings/w2p_url').'/'.$path;
 
       $item->setProductOptions($options)->save();
     }
@@ -42,7 +42,7 @@ class ZetaPrints_Api_Model_Observer
 
     // Magento required models
     $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
-    $logic = Mage::getModel('api/w2puser');
+    $logic = Mage::getModel('zpapi/w2puser');
     $errors = "";
     // walk the sale order lines
     foreach ($order->getAllItems() as $item)

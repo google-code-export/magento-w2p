@@ -17,7 +17,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $params['TemplateID'] = $options['zetaprints-TemplateID'];
     $params['Previews'] = $options['zetaprints-previews'];
 
-    $w2p_user = Mage::getModel('api/w2puser');
+    $w2p_user = Mage::getModel('zpapi/w2puser');
 
     //$params['ApiKey'] = $w2p_user->key;
 
@@ -25,7 +25,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $order_id = zetaprints_get_order_id (Mage::getStoreConfig('api/settings/w2p_url'), $w2p_user->key, $params);
+    $order_id = zetaprints_get_order_id (Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
 
     if (!preg_match('/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/', $order_id))
       Mage::throwException('ZetaPrints error');

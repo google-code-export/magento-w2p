@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Api/Model/zp_api.php';
+  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
 
   if (file_exists($zetaprints_api_file))
     require $zetaprints_api_file;
@@ -29,7 +29,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$template->getId())
       return false;
 
-    echo zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('api/settings/w2p_url'));
+    echo zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('zpapi/settings/w2p_url'));
     return true;
   }
 
@@ -59,7 +59,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $images = explode(',', $options['zetaprints-previews']);
 
-    $src = Mage::getStoreConfig('api/settings/w2p_url') . "/thumb/$images[0]";
+    $src = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/thumb/$images[0]";
     $alt = $context->htmlEscape($context->getProductName());
 
     echo "<img src=\"$src\" alt=\"$alt\" style=\"max-width: 75px;\" />";
@@ -105,7 +105,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $previews = explode(',', $session->getData('zetaprints-previews'));
 
-    $url = Mage::getStoreConfig('api/settings/w2p_url');
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $html = '<div class="zetaprints-template-preview-images">';
 
     foreach ($previews as $position => $preview) {
@@ -189,7 +189,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $previews = explode(',', $options['zetaprints-previews']);
 
-    $url = Mage::getStoreConfig('api/settings/w2p_url');
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
 
     $html = '<ul>';
     foreach ($previews as $preview)

@@ -1,5 +1,5 @@
 <?php
-class ZetaPrints_Api_Model_Optionproductexist
+class ZetaPrints_Zpapi_Model_Optionproductexist
 {
 	protected $_arr;
     public function toOptionArray()
