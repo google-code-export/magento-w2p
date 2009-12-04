@@ -193,7 +193,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $html = '<ul>';
     foreach ($previews as $preview)
-      $html .= "<li><a href=\"$url/preview/$preview\"><img src=\"$url/thumb/$preview\" /></a></li>";
+      $html .= "<li><a href=\"$url/preview/$preview\" target=\"_blank\"><img src=\"$url/thumb/$preview\" /></a></li>";
 
     return $html . '</ul>';
   }
