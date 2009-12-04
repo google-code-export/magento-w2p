@@ -30,6 +30,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         ->setShortDescription($template->getDescription())
         ->setVisibility(0)
         ->save();
+
+      $stock_item = Mage::getModel('cataloginventory/stock_item');
+      $stock_item->setStockId(1)
+        ->setProduct($product_model)
+        ->save();
     }
   }
 
