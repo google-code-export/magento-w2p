@@ -1,28 +1,28 @@
 <?php
 /**
-  * Project	magento-w2p
-  * Author	Pham Tri Cong <phtcong@gmail.com>
+  * Project magento-w2p
+  * Author  Pham Tri Cong <phtcong@gmail.com>
   * Issue 2: Register a new user
-  * 	+ Update Magento DB: add field for UserID (GUID) and a generated password
-  *	+ Update session parameters to store UserID and password for unregistered users
-  *	+ Send an HTTP GET request to ZP prior to referring the user to any ZP UI.
-  *	+ Store user ID and password in user profile or session.
+  *   + Update Magento DB: add field for UserID (GUID) and a generated password
+  * + Update session parameters to store UserID and password for unregistered users
+  * + Send an HTTP GET request to ZP prior to referring the user to any ZP UI.
+  * + Store user ID and password in user profile or session.
   * Issue 3:
-  *	1. Calculate MD5 hash of user password and current user IP address
-  *	2. Craft the iframe src URL using TemplateID for the selected product,
-  *	UserID, the hash and URL of the page the user will be returned to from ZP
-  *	3. Show the IFRAME
+  * 1. Calculate MD5 hash of user password and current user IP address
+  * 2. Craft the iframe src URL using TemplateID for the selected product,
+  * UserID, the hash and URL of the page the user will be returned to from ZP
+  * 3. Show the IFRAME
   */
 
 if (!defined('ZP_API_VER')) include('zp_api.php');
 
-class ZetaPrints_Api_Model_W2pUser extends Mage_Api_Model_User {
+class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
   protected function _construct () {
     parent::_construct();
 
-    $this->base = Mage::getStoreConfig('api/settings/w2p_url');
-    $this->key = Mage::getStoreConfig('api/settings/w2p_key');
+    $this->base = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $this->key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
     zp_api_init($this->key, $this->base);
   }
@@ -34,7 +34,7 @@ class ZetaPrints_Api_Model_W2pUser extends Mage_Api_Model_User {
   function order ($id) {
     $data = zp_api_order_detail($id);
 
-    if (!$data || !isset($data['orderid']) || !isset($data['productname']) 
+    if (!$data || !isset($data['orderid']) || !isset($data['productname'])
         || !isset($data['created']) || !isset($data['productprice'])
         || !isset($data['previewimage']) || !isset($data['previews'])) return -1;
 
@@ -196,7 +196,7 @@ class ZetaPrints_Api_Model_W2pUser extends Mage_Api_Model_User {
     //Not have UserId
     if (!$this->key || !$this->base) return;
 
-    if (!$this->getW2pUserId()) { 
+    if (!$this->getW2pUserId()) {
       $cus = Mage::getSingleton('customer/session')->getCustomer();
 
       //Check if is created as unregister user

@@ -1,42 +1,42 @@
 <?xml version="1.0"?>
 <config>
   <modules>
-    <ZetaPrints_Api>
+    <ZetaPrints_Zpapi>
       <version>0.1.0</version>
-    </ZetaPrints_Api>
+    </ZetaPrints_Zpapi>
   </modules>
   <global>
     <models>
-            <api>
-                <class>ZetaPrints_Api_Model</class>
+            <zpapi>
+                <class>ZetaPrints_Zpapi_Model</class>
         <rewrite>
-          <importzp>ZetaPrints_Api_Model_Importer</importzp>
+          <importzp>ZetaPrints_Zpapi_Model_Importer</importzp>
         </rewrite>
         <rewrite>
-          <oppnotexist>ZetaPrints_Api_Model_Optionproductnotexist</oppnotexist>
+          <oppnotexist>ZetaPrints_Zpapi_Model_Optionproductnotexist</oppnotexist>
         </rewrite>
         <rewrite>
-          <oppexist>ZetaPrints_Api_Model_Optionproductexist</oppexist>
+          <oppexist>ZetaPrints_Zpapi_Model_Optionproductexist</oppexist>
         </rewrite>
         <rewrite>
-          <opstore>ZetaPrints_Api_Model_Optionstore</opstore>
+          <opstore>ZetaPrints_Zpapi_Model_Optionstore</opstore>
         </rewrite>
-            </api>
+            </zpapi>
         </models>
     <helpers>
-      <api>
-         <class>ZetaPrints_Api_Helper</class>
-        </api>
+      <zpapi>
+         <class>ZetaPrints_Zpapi_Helper</class>
+        </zpapi>
     </helpers>
     <events>
       <checkout_type_onepage_save_order_after>
       <!--checkout_onepage_controller_success_action-->
         <observers>
-          <biinno_api_observer>
+          <biinno_zpapi_observer>
             <type>model</type>
-            <class>api/observer</class>
+            <class>zpapi/observer</class>
             <method>exportOnOrderEvent</method>
-          </biinno_api_observer>
+          </biinno_zpapi_observer>
         </observers>
       <!--/checkout_onepage_controller_success_action-->
       </checkout_type_onepage_save_order_after>
@@ -54,9 +54,9 @@
                 <children>
                   <config>
                     <children>
-                      <api>
+                      <zpapi>
                         <title>W2p Integration</title>
-                      </api>
+                      </zpapi>
                     </children>
                   </config>
                 </children>
