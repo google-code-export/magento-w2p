@@ -10,3 +10,8 @@ Common causes of problems with w2p extension for Magento:
 == Logging of data import ==
 
 Check Logging option ON on ZetaPrints configuration page in Magento. All interactions will be logged into _zp_api_log.log_ file in the root folder of Magento. The file cannot be accessed from outside, unless you explicitly allow so.
+
+== IP restriction ==
+
+Your printer settings may only allow access from a single IP address. The symptom would be an error on data import or no templates are imported when there are definitely new or updated ones.
+Go to your ZetaPrints portal, log in as a printer and navigate to API age. Make sure there is no restriction on the IP address or the IP is correct.
