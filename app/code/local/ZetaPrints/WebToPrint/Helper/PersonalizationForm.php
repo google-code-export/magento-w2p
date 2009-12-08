@@ -116,13 +116,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_preview_images ($context) {
+    if (!$this->get_template_id ($context->getProduct()))
+      return false;
+
     $session = Mage::getSingleton('core/session');
 
     if (!$session->hasData('zetaprints-previews'))
       return $this->get_form_part_html('preview-images', $context->getProduct());
-
-    if (!$this->get_template_id ($context->getProduct()))
-      return false;
 
     $previews = explode(',', $session->getData('zetaprints-previews'));
 
