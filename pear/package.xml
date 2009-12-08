@@ -13,18 +13,17 @@
   <channel>connect.magentocommerce.com/community</channel>
 
   <summary>Magento extension for ZetaPrints web-to-print API And Theme</summary>
-  <description>Add web-to-print and image personalization to your merchandize.
-
-Add design personalization to your products if you sell items such as cards, invitations, t-shirts, business cards, posters, banners, anything else where users may need to change text and upload their own photos in design templates.
+  <description>
+Add web-to-print and image personalization to your merchandize.
+Add design personalization to your products if you sell items such as cards,
+invitations, t-shirts, business cards, posters, banners,
+anything else where users may need to change text and upload their own photos
+in design templates.
 
 This extension uses ZetaPrints API to generate preview images and PDF files.
 
-
 Demo site: http://www.zetaprints.com/magento/
-
-
 Help and manuals: http://www.zetaprints.com/help/category/magento/
-
 Source code: http://code.google.com/p/magento-w2p/
 
 Technical support: admin@zetaprints.com
@@ -41,8 +40,8 @@ Extension developed by http://www.zetaprints.com/
   <date>2009-12-05</date>
 
   <version>
-    <release>1.4.0.1</release>
-    <api>1.4.0.1</api>
+    <release>1.4.1</release>
+    <api>1.4.1</api>
   </version>
 
   <stability>
@@ -53,12 +52,8 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Most of the code were rewritten.
-* Added model for web-to-print templates (now products links to corresponding templates)
-* No more duplicate products
-* All web-to-print changes in templates were wrapped with function and were moved into
-  'personalization-form' helper.
-* Bug fixies, usability improvemnets.
+* Add support for 2 step ordering flow (issue #57)
+* Fix error in personalization-form helper
   </notes>
 
   <contents>
@@ -338,6 +333,23 @@ Extension developed by http://www.zetaprints.com/
             </dir>
 
           </dir>
+
+          <dir name="zp2steptheme">
+            <dir name="template">
+              <dir name="catalog">
+                <dir name="product">
+
+                  <dir name="view">
+                    <file name="addtocart.phtml" role="magedesign" />
+                    <file name="media.phtml" role="magedesign" />
+                  </dir>
+
+                  <file name="view.phtml" role="magedesign" />
+
+                </dir>
+              </dir>
+            </dir>
+          </dir>
         </dir>
       </dir>
 
@@ -362,4 +374,29 @@ Extension developed by http://www.zetaprints.com/
 
   <phprelease />
 
+  <changelog>
+    <release>
+      <version>
+        <release>1.4.0.1</release>
+        <api>1.4.0.1</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2009-12-05</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Most of the code were rewritten.
+* Added model for web-to-print templates (now products links to corresponding templates)
+* No more duplicate products
+* All web-to-print changes in templates were wrapped with function and were moved into
+  'personalization-form' helper.
+* Bug fixes, usability improvements.
+      </notes>
+    </release>
+  </changelog>
 </package>
