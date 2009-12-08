@@ -142,6 +142,22 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return true;
   }
 
+  public function get_preview_image ($context) {
+    if (! $template_id = $this->get_template_id ($context->getProduct()))
+      return false;
+
+    $template = Mage::getModel('webtoprint/template')->load($template_id);
+
+    if (!$template->getId())
+      return false;
+
+    $src = $template->getImage();
+
+    echo "<img style=\"max-width: 265px;\" src=\"$src\" />";
+
+    return true;
+  }
+
   public function get_text_fields ($context) {
     return $this->get_form_part_html('input-fields', $context->getProduct());
   }
