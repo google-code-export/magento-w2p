@@ -15,3 +15,13 @@ Check Logging option ON on ZetaPrints configuration page in Magento. All interac
 
 Your printer settings may only allow access from a single IP address. The symptom would be an error on data import or no templates are imported when there are definitely new or updated ones.
 Go to your ZetaPrints portal, log in as a printer and navigate to API age. Make sure there is no restriction on the IP address or the IP is correct.
+
+== Error on importing ==
+  * Check configuration page for correct API key and domain name.
+  * Check if the profile XML is copied correctly
+  * Read [http://www.zetaprints.com/help/import-web-to-print-data/] for more info.
+
+== Nothing imports ==
+  * Check if you have any templates to import
+  * Check if your settings import hidden templates or just the public ones - there may be nothing to import.
+  * Check if you have an IP restriction (see API page on ZP)
