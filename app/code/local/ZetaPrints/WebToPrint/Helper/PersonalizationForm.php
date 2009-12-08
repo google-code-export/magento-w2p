@@ -33,6 +33,27 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     return true;
   }
 
+  public function is_personalization_step ($context) {
+    return $context->getRequest()->has('personalization') && $context->getRequest()->getParam('personalization') == '1';
+  }
+
+  public function get_next_step_url ($context) {
+    if (!$this->is_personalization_step($context)) {
+      echo $context->getProduct()->getProductUrl() . '?personalization=1';
+      return true;
+    }
+    else
+      return false;
+  }
+
+  public function get_params_from_previous_step ($context) {
+    if (!$this->is_personalization_step($context))
+      return;
+
+    foreach ($context->getRequest()->getParams() as $key => $value)
+      echo "<input type=\"hidden\" name=\"$key\" value=\"$value\" />";
+  }
+
   public function get_product_image ($context, $product) {
     if (! $template_id = $this->get_template_id ($product))
       return false;
