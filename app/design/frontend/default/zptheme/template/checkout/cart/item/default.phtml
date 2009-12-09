@@ -29,7 +29,9 @@
     <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="16" height="16" alt="<?php $this->__('Remove item')?>" /></a></td>
     <td><a href="<?php echo $this->getProductUrl() ?>">
 
-    <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
+    <!-- /****** ZP-CODE:1 Outputs a slightly modified <img> tag to prevent image resizing
+                           with correct image url and returns true for products
+                           with web-to-print features ******/ -->
 
     <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
       <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" />
