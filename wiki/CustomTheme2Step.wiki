@@ -1,0 +1,24 @@
+#summary Theme modifications for 1- or 2-Step personalization process.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml
+
+http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml
+
+http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml
+
+
+function is_personalization_step ($context)
+function get_params_from_previous_step ($context)
+function get_next_step_url ($context)
+
