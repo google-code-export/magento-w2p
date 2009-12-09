@@ -90,6 +90,13 @@ New code adds resources (css and js files) for web-to-print personalization form
 
 *Section 1*: printing `<link>` tags for every css and js files from web-to-print personalization form resorces. `<?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>`
 
+== template/sales/order/items/renderer/default.phtml ==
+This file show various information for order item on user orders page.
+
+New code checks for web-to-print in a product and shows preview images for order
+
+*Section 1*: checking if product has web-to-print features and then printing previews images for order. `<?php echo $this->helper('webtoprint/personalization-form')->get_order_preview_images($this); ?>`
+
 = Functions =
 Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
@@ -104,6 +111,7 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `get_gallery_thumb ($context, $product, $image)` - outputs a slightly modified `<img>` tag to prevent image resizing and returns _true_ for products with web-to-print features
   * `get_gallery_image ($context)` - outputs a slightly modified `<img>` tag in gallery popup to prevent image resizing and returns _true_ for products with web-to-print features.
   * `get_cart_image ($context)` - outputs a slightly modified `<img>` tag to prevent image resizing with correct image url and returns _true_ for products with web-to-print features
+  * `get_order_preview_images ($context)` - outputs previews images for order.
 
 = Files from `skin/frontend/default/zptheme/` =
 
