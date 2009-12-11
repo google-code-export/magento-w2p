@@ -27,7 +27,7 @@ some code
 
 You need to modify some files behind the user interface.
 
-== template/catalog/product/list.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/list.phtml template/catalog/product/list.phtml] ==
 This file shows products from some category in a grid or list layout.
 
 The new code removes _Add to cart_ button and disables product image resizing. Our code is a repetition of this line in 4 paces:
@@ -39,7 +39,7 @@ You can use the same condition check to remove any other parts of the page if th
 *Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case removing _Add to cart_ button.
 
 
-== template/catalog/product/view.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view.phtml template/catalog/product/view.phtml] ==
 This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
 New code checks for web-to-print features in a product and adds additional options (ajax image preview, colour picker, stock images chooser and support for multipage templates).
@@ -59,7 +59,7 @@ The code is divided into 4 sections.
 *Section 4*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
 `<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>`
 
-==template/catalog/product/gallery.phtml==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/gallery.phtml template/catalog/product/gallery.phtml] ==
 The purpose of the code in this file is to show gallery of product additional images (in original size) in a separate window.
 
 The purpose of new code is to use proper methods to get correct image urls for the product with web-to-print features. The code is divided into 2 sections.
@@ -67,7 +67,7 @@ The purpose of new code is to use proper methods to get correct image urls for t
 *Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
 `<?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_image($this)): ?>`
 
-== template/catalog/product/view/media.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml template/catalog/product/view/media.phtml] ==
 This file shows product image, additional images and image zoomer on product page.
 
 New code checks for web-to-print in a product and puts correct images urls for product image and additional images.
@@ -76,21 +76,21 @@ New code checks for web-to-print in a product and puts correct images urls for p
 
 *Section 2*: checking if product has web-to-print features and getting proper image, otherwise print default magento image. `<?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_thumb($this, $_product, $_image)): ?>`
 
-== template/checkout/cart/item/default.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/checkout/cart/item/default.phtml template/checkout/cart/item/default.phtml] ==
 This file shows various information for cart item on shopping cart page.
 
 New code checks for web-to-print in a product and puts correct images urls for cart item.
 
 *Section 1*: checking if product has web-to-print features and then printing `img` tag with correct url. `<?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>`
 
-== template/page/html/head.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/page/html/head.phtml template/page/html/head.phtml] ==
 This file prints content of `<head>` tag for every page.
 
 New code adds resources (css and js files) for web-to-print personalization form.
 
 *Section 1*: printing `<link>` tags for every css and js files from web-to-print personalization form resorces. `<?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>`
 
-== template/sales/order/items/renderer/default.phtml ==
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items/renderer/default.phtml template/sales/order/items/renderer/default.phtml] ==
 This file show various information for order item on user orders page.
 
 New code checks for web-to-print in a product and shows preview images for order
