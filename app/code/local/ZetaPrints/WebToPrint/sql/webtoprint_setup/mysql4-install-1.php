@@ -4,6 +4,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
+  DROP TABLE IF EXISTS `{$installer->getTable('webtoprint/template')}`;
   CREATE TABLE `{$installer->getTable('webtoprint/template')}` (
     `template_id` int(11) NOT NULL auto_increment,
     `guid` varchar(36),
@@ -18,26 +19,6 @@ $installer->run("
     `xml` text,
     PRIMARY KEY  (`template_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
-
-/*$installer->addAttribute('catalog_product', 'webtoprint_template',
-  array(
-    'type'              => 'varchar',
-    'backend'           => '',
-    'frontend'          => '',
-    //'label'             => '',
-    'input'             => '',
-    'class'             => '',
-    'source'            => '',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'visible'           => false,
-    'required'          => false,
-    'user_defined'      => false,
-    'default'           => '',
-    'searchable'        => false,
-    'filterable'        => false,
-    'comparable'        => false,
-    'visible_on_front'  => false,
-    'unique'            => true ));*/
 
 $installer->endSetup();
 
