@@ -52,7 +52,7 @@ This file show _Add to cart_ button, qty input fields and some other information
 
 *Section 2*: printing "Add to cart" button if current step is _step 2_ (personalization). 
 
-=== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml zp2steptheme/template/catalog/product/view/media.phtml]] ===
+=== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml zp2steptheme/template/catalog/product/view/media.phtml] ===
 This file shows product image, additional images and image zoomer on product page.
 
 *Section 1*: checking for personalization step and disabling image resizing for products with web-to-print feature.
