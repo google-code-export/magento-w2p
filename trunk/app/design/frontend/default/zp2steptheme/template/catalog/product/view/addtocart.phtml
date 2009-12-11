@@ -29,8 +29,8 @@
 
 <?php if($_product->isSaleable()): ?>
 
-    <!-- /****** ZP-CODE:1 Check if personalization step then show "Personalize" button... ******/
-                 otherwise show "Add to cart" button ******/ -->
+    <!-- /****** ZP-CODE:1 Check if current step is step 1 (options)
+                 then show "Personalize" button... ******/ -->
 
     <?php if(!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
 
