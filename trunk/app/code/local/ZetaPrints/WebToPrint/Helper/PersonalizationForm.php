@@ -9,13 +9,22 @@ if (!defined('ZP_API_VER')) {
 
 class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abstract {
 
-  public function get_template_id ($product) {
-    $template_guid = $product->getSku();
+  private function get_template_guid_from_product ($product) {
+
+    //Get template GUID from webtoprint_template attribute if such attribute exist
+    //and contains value, otherwise use product SKU as template GUID
+    if (!($product->hasWebtoprintTemplate() && $template_guid = $product->getWebtoprintTemplate()))
+      $template_guid = $product->getSku();
 
     if (strlen($template_guid) != 36)
       return false;
 
-    return Mage::getModel('webtoprint/template')->getResource()->getIdByGuid($template_guid);
+    return $template_guid;
+  }
+
+  public function get_template_id ($product) {
+    if ($template_guid = $this->get_template_guid_from_product ($product))
+      return Mage::getModel('webtoprint/template')->getResource()->getIdByGuid($template_guid);
   }
 
   private function get_form_part_html ($form_part = null, $product) {
@@ -50,8 +59,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$this->is_personalization_step($context))
       return;
 
-    foreach ($context->getRequest()->getParams() as $key => $value)
-      echo "<input type=\"hidden\" name=\"$key\" value=\"$value\" />";
+    foreach ($context->getRequest()->getParams() as $key => $value) {
+      if (is_array($value))
+        foreach ($value as $option_key => $option_value)
+          echo "<input type=\"hidden\" name=\"{$key}[{$option_key}]\" value=\"$option_value\" />";
+      else
+        echo "<input type=\"hidden\" name=\"$key\" value=\"$value\" />";
+    }
   }
 
   public function get_product_image ($context, $product) {
@@ -270,7 +284,7 @@ jQuery(document).ready(function($) {
   $('div.image-tabs li:first').addClass('selected');
 
   previews = [<?php echo $previews_array; ?>];
-  template_id = '<?php echo $context->getProduct()->getSku(); ?>';
+  template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   number_of_pages = $('div.zetaprints-template-preview').length;
 
   <?php if ($previews): ?>
