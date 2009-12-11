@@ -124,6 +124,7 @@ Extension developed by http://www.zetaprints.com/
 
             <dir name="webtoprint_setup">
               <file name="mysql4-install-1.php" role="magelocal" />
+              <file name="mysql4-upgrade-1-2.php" role="magelocal" />
             </dir>
 
           </dir>
