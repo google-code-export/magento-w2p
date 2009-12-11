@@ -56,7 +56,7 @@ The code is divided into 4 sections.
 *Section 3*: checking if a product has web-to-print features then printing _Update preview_ button.
 `<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>`
 
-*Section 4*: printing javascript code for a product with web-to-print features.
+*Section 4*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
 `<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>`
 
 ==template/catalog/product/gallery.phtml==
