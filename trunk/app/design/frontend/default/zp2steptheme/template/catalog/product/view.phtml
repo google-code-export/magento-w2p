@@ -137,41 +137,47 @@
             <fieldset class="no-display">
               <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
               <input type="hidden" name="related_product" id="related-products-field" value="" />
+
+              <!-- /****** ZP-CODE:5 Printing list <input> tags for params from step 1 (options)  ******/ -->
+
               <?php echo $this->helper('webtoprint/personalization-form')->get_params_from_previous_step($this); ?>
+
+              <!-- /****** ZP-CODE:5 End ******/ -->
+
             </fieldset>
 
             <div class="add-to-holder">
                 <?php echo $this->getChildHtml('addtocart') ?>
             </div>
 
-            <!-- /****** ZP-CODE:5 Printing input fields, stock images choosers and color pickers for products
+            <!-- /****** ZP-CODE:6 Printing input fields, stock images choosers and color pickers for products
                          with web-to-print feature ******/ -->
 
             <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
             <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
 
-            <!-- /****** ZP-CODE:5 End ******/ -->
+            <!-- /****** ZP-CODE:6 End ******/ -->
 
         </div>
 
-        <!-- /****** ZP-CODE:6 Printing preview button for products with web-to-print feature ******/ -->
+        <!-- /****** ZP-CODE:7 Printing preview button for products with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
 
-        <!-- /****** ZP-CODE:6 End ******/ -->
+        <!-- /****** ZP-CODE:7 End ******/ -->
 
 
-        <!-- /****** ZP-CODE:7 Printing JavaScript for magento personalization form ******/ -->
+        <!-- /****** ZP-CODE:8 Printing JavaScript for magento personalization form ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
-        <!-- /****** ZP-CODE:7 End ******/ -->
+        <!-- /****** ZP-CODE:8 End ******/ -->
 
-        <!-- /****** ZP-CODE:8 Close 'if' opened in  ZP-CODE:2 ******/ -->
+        <!-- /****** ZP-CODE:9 Close 'if' opened in  ZP-CODE:2 ******/ -->
 
         <?php endif; ?>
 
-        <!-- /****** ZP-CODE:8 End ******/ -->
+        <!-- /****** ZP-CODE:9 End ******/ -->
 
     </form>
     <script type="text/javascript">
