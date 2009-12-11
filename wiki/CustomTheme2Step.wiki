@@ -2,23 +2,50 @@
 
 = Introduction =
 
-Add your content here.
+Normal products have a one step process: the product details page contains all the product options and the user adds it to cart on the same page.
+
+Products with personalization can be sold in one step or two step process.
+One step: all the options, including the personalization form appear on the same page.
+Two step: the user chooses options and then proceeds to the personalization form.
+
+The two step process uses additional functions from ZetaPrints extension. This document explains how the theme should be constructed.
+
+= Two step process overview =
+
+Both steps (options, personalization) use the same page. The code in the theme must make a choice which part of the page to show, depending on the context. Also, the second step should capture and retain all the parameters submitted from the first step.
+
+== Implementation steps ==
+  # Redirect _Add to cart_ request to product details page
+  # Capture parameters submitted from _step 1_ in _step 2_
+  # Choose if to show _step 1_ (options) or _step 2_ (personalization) form
+  # Include params from _step 1_ into _Add to cart_ request at _step 2_
+
+== Functions ==
+
+==== function is_personalization_step ($context) ====
+Returns _true_ if the product has personalization features.
+
+==== function get_params_from_previous_step ($context) ====
+Does what exactly?
+Where does it get params from?
+Where it puts them?
+
+==== function get_next_step_url ($context) ====
+Does what?
+How the URL is different?
+
+== Affected files ==
+
+_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml_
+This file ... does what?
+
+Insert functions ... here and there ... to ... 
+
+_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml_
+This file ... does what?
+
+_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml_
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml
-
-http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml
-
-http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml
-
-
-function is_personalization_step ($context)
-function get_params_from_previous_step ($context)
-function get_next_step_url ($context)
-
+== Application of 1/2 step process ==
+You can have 2 identical themes with the only difference in 1 or 2 step process. Choose the most commonly used theme as the default and enable the other theme for some products only. 
