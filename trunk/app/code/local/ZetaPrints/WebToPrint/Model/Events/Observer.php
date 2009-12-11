@@ -54,6 +54,27 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
     Mage::getSingleton('core/session')->setData('zetaprints-user-input', serialize($user_input));
   }
+
+  public function set_required_options ($observer) {
+    $product = $observer->getEvent()->getProduct();
+
+    if ($product->hasWebtoprintTemplate() && $product->getWebtoprintTemplate())
+      $product->setRequiredOptions(true);
+  }
+
+  public function specify_option_message ($observer) {
+    $request = Mage::app()->getRequest();
+
+    if ($request->getParam('options')) {
+      $product = $observer->getEvent()->getProduct();
+
+      if ($product->hasWebtoprintTemplate() && $product->getWebtoprintTemplate()) {
+        $notice = $product->getTypeInstance(true)->getSpecifyOptionMessage();
+        Mage::getSingleton('catalog/session')->addNotice($notice . ' and/or personalize it');
+        $request->setParam('options', 0);
+      }
+    }
+  }
 }
 
 ?>
