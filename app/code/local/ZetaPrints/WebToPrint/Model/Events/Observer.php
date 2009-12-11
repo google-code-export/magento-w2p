@@ -3,7 +3,12 @@
 class ZetaPrints_WebToPrint_Model_Events_Observer {
 
   public function create_zetaprints_order ($observer) {
-    $option_model = $observer->getEvent()->getQuoteItem()->getOptionByCode('info_buyRequest');
+    $quote_item = $observer->getEvent()->getQuoteItem();
+
+    if ($quote_item->getParentItem())
+      $quote_item = $quote_item->getParentItem();
+
+    $option_model = $quote_item->getOptionByCode('info_buyRequest');
     $options = unserialize($option_model->getValue());
 
     if (!(isset($options['zetaprints-TemplateID']) || isset($options['zetaprints-previews'])))
