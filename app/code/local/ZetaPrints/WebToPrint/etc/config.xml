@@ -95,6 +95,26 @@
           </webtoprint-template-values-observer>
         </observers>
       </controller_action_predispatch_checkout_cart_add>
+
+      <catalog_product_save_before>
+        <observers>
+          <webtoprint-product-required-options>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>set_required_options</method>
+          </webtoprint-product-required-options>
+        </observers>
+      </catalog_product_save_before>
+
+      <catalog_controller_product_view>
+        <observers>
+          <webtoprint-specify-option-message>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>specify_option_message</method>
+          </webtoprint-specify-option-message>
+        </observers>
+      </catalog_controller_product_view>
     </events>
   </global>
 

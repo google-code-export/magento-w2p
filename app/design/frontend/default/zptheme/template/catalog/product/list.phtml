@@ -68,16 +68,7 @@
             <?php endif; ?>
             <?php echo $this->getPriceHtml($_product, true) ?>
             <?php if($_product->isSaleable()): ?>
-
-                  <?php /****** ZP-CODE:2 Hide'Add to cart' button in case product
-                                has web-to-print feature and it is not already customized ******/ ?>
-
-                  <?php if(!$this->helper('webtoprint/personalization-form')->get_template_id($_product)): ?>
-                    <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
-                  <?php endif; ?>
-
-                  <?php /****** ZP-CODE:2 End ******/ ?>
-
+            <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
             <?php else: ?>
             <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
             <?php endif; ?>
@@ -114,13 +105,13 @@
                 <p class="product-image">
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>">
 
-                        <?php /****** ZP-CODE:3 Disable image resizing for products with web-to-print features ******/ ?>
+                        <?php /****** ZP-CODE:2 Disable image resizing for products with web-to-print features ******/ ?>
 
                         <?php if (!$this->helper('webtoprint/personalization-form')->get_product_image($this, $_product)): ?>
                           <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135, 135); ?>" width="135" height="135" alt="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" />
                         <?php endif; ?>
 
-                        <?php /****** ZP-CODE:3 End ******/ ?>
+                        <?php /****** ZP-CODE:2 End ******/ ?>
 
                     </a>
                 </p>
@@ -130,16 +121,7 @@
                 <?php endif; ?>
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <?php if($_product->isSaleable()): ?>
-
-                  <?php /****** ZP-CODE:4 Hide 'Add to cart' button in case product
-                                has web-to-print feature and it is not already customized ******/ ?>
-                  <?php Mage::log($_product->getSku()) ?>
-                  <?php if(!$this->helper('webtoprint/personalization-form')->get_template_id($_product)): ?>
                     <button type="button" class="form-button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
-                  <?php endif; ?>
-
-                  <?php /****** ZP-CODE:4 End ******/ ?>
-
                 <?php else: ?>
                 <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
                 <?php endif; ?>
