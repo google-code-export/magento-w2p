@@ -21,31 +21,41 @@ Both steps (options, personalization) use the same page. The code in the theme m
   # Include params from _step 1_ into _Add to cart_ request at _step 2_
 
 == Functions ==
-
-==== function is_personalization_step ($context) ====
-Returns _true_ if the product has personalization features.
-
-==== function get_params_from_previous_step ($context) ====
-Does what exactly?
-Where does it get params from?
-Where it puts them?
-
-==== function get_next_step_url ($context) ====
-Does what?
-How the URL is different?
+  * `function is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
+  * `function get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
+  * `function get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
 
 == Affected files ==
+=== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml zp2steptheme/template/catalog/product/view.phtml] ===
+This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
-_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml_
-This file ... does what?
+*Section 1*: checking for current step and printing link for a next step. For _step 2_ (personalization) the link is the product page url with additional _personalization_ param. Otherwise it prints link for _add to cart_ action if the next is not a personalization.
 
-Insert functions ... here and there ... to ... 
+*Section 2*: сhecking if the step is not _step 2_ (personalization) then show standard magento product page, otherwise it jumps into next section.
 
-_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml_
-This file ... does what?
+*Section 3*: showing web-to-print personalization form if current step is _step 2_ (personalization).
 
-_http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml_
+*Section 4*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
 
+*Section 5*: printing list of `input` tags for params from step 1 (options).
+
+*Section 6*: checking if а product has web-to-print features then printing text fields, stock images choosers, color pickers.
+
+*Section 7*: checking if a product has web-to-print features then printing _Update preview_ button.
+
+*Section 8*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+
+=== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml zp2steptheme/template/catalog/product/view/addtocart.phtml] ===
+This file show _Add to cart_ button, qty input fields and some other information.
+
+*Section 1*: checking if current step is _step 1_ (options) then show "Personalize" button, otherwise show "Add to cart" button.
+
+*Section 2*: printing "Add to cart" button if current step is _step 2_ (personalization). 
+
+=== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml zp2steptheme/template/catalog/product/view/media.phtml]] ===
+This file shows product image, additional images and image zoomer on product page.
+
+*Section 1*: checking for personalization step and disabling image resizing for products with web-to-print feature.
 
 == Application of 1/2 step process ==
-You can have 2 identical themes with the only difference in 1 or 2 step process. Choose the most commonly used theme as the default and enable the other theme for some products only. 
+You can have 2 identical themes with the only difference in 1 or 2 step process. Choose the most commonly used theme as the default and enable the other theme for some products only.
