@@ -10,9 +10,33 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
     foreach ($templates as $template) {
       $product_model = Mage::getModel('catalog/product');
 
-      if ($product_model->getIdBySku($template->getGuid())) {
+      if ($product_id = $product_model->getIdBySku($template->getGuid())) {
         $this->debug("Product {$template->getGuid()} already exists");
+
+        $product = $product_model->load($product_id);
+
+        if (!$product->getWebtoprintTemplate()) {
+          $product->setSku("{$template->getGuid()}-rename-me")
+            ->setRequiredOptions(true)
+            ->setWebtoprintTemplate($template->getGuid())
+            ->save();
+          $this->debug("Product {$template->getGuid()} was updated.");
+        }
+
         continue;
+      }
+      else {
+        $products = $product_model->getCollection()->addAttributeToFilter('webtoprint_template', array('eq' => $template->getGuid()))->load();
+
+        if (count($products) === 1) {
+          $this->debug("Product {$template->getGuid()} already exists");
+          continue;
+        }
+
+        if ($number = count($products) > 1) {
+          $this->warning("Template {$template->getGuid()} is used by {$number} products");
+          continue;
+        }
       }
 
       $this->debug("Product {$template->getGuid()} was created.");
