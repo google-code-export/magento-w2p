@@ -94,10 +94,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $images = explode(',', $options['zetaprints-previews']);
 
+    $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/preview/$images[0]";
     $src = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/thumb/$images[0]";
     $alt = $context->htmlEscape($context->getProductName());
 
+    echo "<a href=\"$href\" target=\"_blank\">";
     echo "<img src=\"$src\" alt=\"$alt\" style=\"max-width: 75px;\" />";
+    echo "</a>";
 
     return true;
   }
