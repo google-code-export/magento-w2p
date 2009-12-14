@@ -138,15 +138,57 @@ div.save-order img.ajax-loader {
   display: none;
 }
 
-div.color-sample {
-  position: absolute;
-  height: 18px;
-  width: 30px;
-  top: 3px;
-  left: 10px;
+div.images-scroller {
+  overflow-x: auto;
+}
+
+div.images-scroller ul {
+  display: block;
+  overflow: hidden;
+  width: 2000px;
+  margin: 0px;
+  padding: 0px;
+}
+
+div.images-scroller ul li {
+  display: block;
+  float: left;
+  list-style: none;
+}
+
+div.images-scroller ul li .image {
+  padding: 4px;
+  margin-right: 4px;
+  border: 2px solid  transparent;
   cursor: pointer;
-  border: 1px dotted lightgray;
+}
+div.images-scroller ul li div.image {
+  height: 100px;
+}
+
+div.images-scroller ul li div.color-sample {
+  height: 100%;
   background-color: white;
+  background-image: url('../images/color-picker-icon.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+div.images-scroller ul li div.color-sample span {
+  background-color: white;
+}
+
+div.images-scroller ul li div.image span {
+  display: block;
+}
+
+div.images-scroller ul li .image:hover {
+  border: 2px solid #F18200;
+}
+
+div.images-scroller ul li .image.selected {
+  border: 2px solid #F18200;
+  cursor: default;
 }
 
 div.color-sample label {

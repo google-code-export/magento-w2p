@@ -190,10 +190,7 @@ Extension developed by http://www.zetaprints.com/
           <dir name="zptheme">
 
             <dir name="css">
-              <file name="checks.css" role="mageskin" />
               <file name="colorpicker.css" role="mageskin" />
-              <file name="dd.css" role="mageskin" />
-              <file name="dd_arrow.gif" role="mageskin" />
               <file name="jquery.fancybox.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
             </dir>
@@ -251,22 +248,8 @@ Extension developed by http://www.zetaprints.com/
                 <file name="download-webtoprint-extension.jpg" role="mageskin" />
               </dir>
 
-              <dir name="vchecks">
-                <file name="bottom_button_bg.gif" role="mageskin" />
-                <file name="bottom_button_bg_hover.gif" role="mageskin" />
-                <file name="bottom_button_left.gif" role="mageskin" />
-                <file name="bottom_button_left_hover.gif" role="mageskin" />
-                <file name="button_bg.gif" role="mageskin" />
-                <file name="button_bg_hover.gif" role="mageskin" />
-                <file name="button_left.gif" role="mageskin" />
-                <file name="button_left_hover.gif" role="mageskin" />
-                <file name="cross.png" role="mageskin" />
-                <file name="tick.png" role="mageskin" />
-                <file name="top_button_bg.gif" role="mageskin" />
-                <file name="top_button_bg_hover.gif" role="mageskin" />
-                <file name="top_button_left.gif" role="mageskin" />
-                <file name="top_button_left_hover.gif" role="mageskin" />
-              </dir>
+              <file name="color-picker-icon.png" role="mageskin" />
+              <file name="color-picker-icon.gif" role="mageskin" />
 
             </dir>
 
@@ -275,10 +258,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="jquery-1.3.2.min.js" role="mageskin" />
               <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
               <file name="jquery-ui-1.7.2.custom.min.js" role="mageskin" />
-              <file name="jquery.dd.js" role="mageskin" />
               <file name="jquery.fancybox-1.2.1.pack.js" role="mageskin" />
-              <file name="jquery.vchecks.js" role="mageskin" />
-              <file name="uncompressed.jquery.dd.js" role="mageskin" />
             </dir>
 
             <dir name="template">

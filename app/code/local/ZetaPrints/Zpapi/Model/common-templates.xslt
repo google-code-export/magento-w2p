@@ -51,45 +51,34 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-      <xsl:if test="StockImage">
-        <dl>
+        <dl class="zetaprints-stock-image-selector">
           <dt>
-            <label for="page-{$page}-stock-images-selector-{position()}">
+            <input class="stock-image" type="checkbox" id="page-{$page}-stock-image-{position()}" name="zetaprints-#{@Name}" disabled="true" />
+            <label for="page-{$page}-stock-images-{position()}">
               <xsl:value-of select="@Name" />
               <xsl:text>:</xsl:text>
             </label>
           </dt>
           <dd>
-            <select id="page-{$page}-stock-images-selector-{position()}" class="stock-images-selector" name="zetaprints-#{@Name}">
-              <xsl:for-each select="StockImage">
-                <option value="{@FileID}" title="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
-              </xsl:for-each>
-            </select>
+            <div class="images-scroller">
+              <ul>
+                <xsl:if test="@ColourPicker='RGB'">
+                  <li>
+                    <div class="image">
+                      <div class="color-sample"><span>Choose a color</span></div>
+                    </div>
+                  </li>
+                </xsl:if>
+                <xsl:for-each select="StockImage">
+                  <li>
+                    <img id="{@FileID}" class="image" src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                  </li>
+                </xsl:for-each>
+              </ul>
+            </div>
           </dd>
         </dl>
-      </xsl:if>
     </xsl:for-each>
-  </xsl:template>
-
-  <xsl:template name="color-pickers-for-page">
-    <xsl:param name="page" />
-
-    <dl>
-      <dt>
-        <label>Colors</label>
-       </dt>
-       <dd>
-         <ul class="colors-selector">
-           <xsl:for-each select="//Images/Image[@Page=$page and @ColourPicker='RGB']">
-             <li>
-               <input class="color" type="checkbox" id="page-{$page}-color-{position()}" name="zetaprints-#{@Name}" checked="1" />
-               <div class="color-sample"><label for="page-{$page}-color-{position()}"><xsl:value-of select="@Name"/></label></div>
-               <span><xsl:value-of select="@Name"/></span>
-             </li>
-           </xsl:for-each>
-         </ul>
-       </dd>
-    </dl>
   </xsl:template>
 
   <xsl:template name="image-tabs-for-pages">

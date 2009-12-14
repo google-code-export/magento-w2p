@@ -180,7 +180,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_image_fields ($context) {
-    return $this->get_form_part_html('stock-images', $context->getProduct()) . '\n'. $this->get_form_part_html('color-pickers', $context->getProduct());
+    return $this->get_form_part_html('stock-images', $context->getProduct());
   }
 
   public function get_page_tabs ($context) {
@@ -363,30 +363,58 @@ jQuery(document).ready(function($) {
 
   $('input.update-preview').click(update_preview);
 
-  $('div.zetaprints-page-color-pickers ul.colors-selector li').each(function () {
-    var color_sample = $('div.color-sample', this);
-    var color_input = $('input.color', this);
+  $(window).load(function () {
+    $('.zetaprints-stock-image-selector').each(function () {
+      var top_element = this;
+      var width = 0;
 
-    $(color_sample).ColorPicker({
-      color: '#804080',
-      onBeforeShow: function (colpkr) {
-        $(colpkr).draggable();
-        return false;
-      },
-      onShow: function (colpkr) {
-        $(colpkr).fadeIn(500);
-        return false;
-      },
-      onHide: function (colpkr) {
-        $(colpkr).fadeOut(500);
-        return false;
-      },
-      onSubmit: function (hsb, hex, rgb, el) {
-        $(color_sample).css('backgroundColor', '#' + hex);
-        $(color_input).val('#' + hex).attr('checked', true).change();
-        $(el).ColorPickerHide();
-      }
+      $('div.images-scroller li', this).each(function() {
+        width = width + $(this).width();
+      });
+
+      $('div.images-scroller ul', this).width(width);
+
+      var input = $('input.stock-image', this)[0];
+      var color_sample = $('div.images-scroller .color-sample', this)
+
+      $(input).click(function () {
+        $(this).removeAttr('value').attr('disabled', true);
+        $(color_sample).css('background-color', 'white');
+        $('div.images-scroller .selected').removeClass('selected');
+      });
+
+      $('div.images-scroller img', this).click(function () {
+        $(color_sample).css('background-color', 'white');
+        $(input).val($(this).attr('id')).attr('checked', true).attr('disabled', false);
+      });
+
+      $(color_sample).ColorPicker({
+        color: '#804080',
+        onBeforeShow: function (colpkr) {
+          $(colpkr).draggable();
+          return false;
+        },
+        onShow: function (colpkr) {
+          $(colpkr).fadeIn(500);
+          return false;
+        },
+        onHide: function (colpkr) {
+          $(colpkr).fadeOut(500);
+          return false;
+        },
+        onSubmit: function (hsb, hex, rgb, el) {
+          $('div.images-scroller .image', top_element).removeClass('selected');
+          $(color_sample).css('backgroundColor', '#' + hex).parent().addClass('selected');
+          $(input).val('#' + hex).attr('checked', true).attr('disabled', false);
+          $(el).ColorPickerHide();
+        }
+      });
     });
+  });
+
+  $('div.images-scroller .image').click(function () {
+    $('div.images-scroller .image').removeClass('selected');
+    $(this).addClass('selected');
   });
 
   $('div.zetaprints-template-preview a').fancybox({
@@ -410,9 +438,9 @@ jQuery(document).ready(function($) {
         hide: { when: { event: 'unfocus' } }
   });
 
-  $('div.zetaprints-page-stock-images select.stock-images-selector').msDropDown();
+  //$('div.zetaprints-page-stock-images select.stock-images-selector').msDropDown();
 
-  $('div.zetaprints-page-color-pickers ul.colors-selector').vchecks();
+  //$('div.zetaprints-page-color-pickers ul.colors-selector').vchecks();
 });
 //]]>
 </script>
