@@ -35,6 +35,18 @@
       </catalog>
     </models>
 
+    <blocks>
+      <webtoprint>
+        <class>ZetaPrints_WebToPrint_Block</class>
+      </webtoprint>
+
+      <adminhtml>
+        <rewrite>
+          <catalog_product_edit_tabs>ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
+        </rewrite>
+      </adminhtml>
+    </blocks>
+
     <helpers>
       <catalog>
         <rewrite>

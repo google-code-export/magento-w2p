@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2009-12-05</date>
+  <date>2009-12-21</date>
 
   <version>
-    <release>1.4.1</release>
-    <api>1.4.1</api>
+    <release>1.5.0</release>
+    <api>1.5.0</api>
   </version>
 
   <stability>
@@ -52,8 +52,11 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Add support for 2 step ordering flow (issue #57)
-* Fix error in personalization-form helper
+* Mark web-to-print products to be configured before adding to cart.
+* Add support for configurable products.
+* Add link to full size preview in a cart (issue #69).
+* Rewrite stock images selector and color picker (issue #67).
+* Add "Web-to-print templates" tab to products configuration in admin interface.
   </notes>
 
   <contents>
@@ -67,7 +70,32 @@ Extension developed by http://www.zetaprints.com/
       <dir name="ZetaPrints">
         <dir name="WebToPrint">
 
+          <dir name="Block">
+            <dir name="Catalog">
+              <dir name="Product">
+                <dir name="Edit">
+
+                  <dir name="Tabs">
+
+                    <dir name="Templates">
+                      <file name="Radiobutton.php" role="magelocal" />
+                    </dir>
+
+                    <file name="Templates.php" role="magelocal" />
+                  </dir>
+
+                  <file name="Tabs.php" role="magelocal" />
+                </dir>
+              </dir>
+            </dir>
+          </dir>
+
           <dir name="controllers">
+
+            <dir name="Catalog">
+              <file name="ProductController.php" role="magelocal" />
+            </dir>
+
             <file name="PreviewController.php" role="magelocal" />
           </dir>
 
@@ -171,6 +199,19 @@ Extension developed by http://www.zetaprints.com/
         <dir name="default">
           <dir name="zptheme">
             <dir name="template">
+
+              <dir name="catalog">
+                <dir name="product">
+                  <dir name="tab">
+
+                    <dir name="templates">
+                      <file name="radiobutton.phtml" role="magedesign" />
+                    </dir>
+
+                  </dir>
+                </dir>
+              </dir>
+
               <dir name="sales">
                 <dir name="items">
 
@@ -180,6 +221,7 @@ Extension developed by http://www.zetaprints.com/
 
                 </dir>
               </dir>
+
             </dir>
           </dir>
         </dir>
@@ -356,6 +398,26 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.4.1</release>
+        <api>1.4.1</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2009-12-05</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Add support for 2 step ordering flow (issue #57)
+* Fix error in personalization-form helper
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.4.0.1</release>
