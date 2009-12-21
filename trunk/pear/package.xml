@@ -75,7 +75,7 @@ Extension developed by http://www.zetaprints.com/
               <dir name="Product">
                 <dir name="Edit">
 
-                  <dir name="Tabs">
+                  <dir name="Tab">
 
                     <dir name="Templates">
                       <file name="Radiobutton.php" role="magelocal" />
