@@ -39,6 +39,10 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tab_Templates extends Mag
   private function get_template_guid () {
     return Mage::registry('product')->getWebtoprintTemplate();
   }
+
+  public function getGridUrl() {
+    return $this->getData('grid_url') ? $this->getData('grid_url') : $this->getUrl('*/*/templates', array('_current' => true));
+  }
 }
 
 ?>
