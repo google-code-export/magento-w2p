@@ -28,12 +28,12 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   private function get_form_part_html ($form_part = null, $product) {
-    $template_id = $this->get_template_id ($product);
+    $template_guid = $this->get_template_guid_from_product($product);
 
-    if (!$template_id)
+    if (!$template_guid)
       return false;
 
-    $template = Mage::getModel('webtoprint/template')->load($template_id);
+    $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
     if (!$template->getId())
       return false;

@@ -9,11 +9,11 @@ $installer->addAttribute('catalog_product', 'webtoprint_template',
     'backend'           => '',
     'frontend'          => '',
     'label'             => 'Web-to-print Template',
-    'input'             => 'text',
+    'input'             => '',
     'class'             => '',
     'source'            => '',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-    'visible'           => true,
+    'visible'           => false,
     'required'          => false,
     'user_defined'      => false,
     'default'           => '',
@@ -22,7 +22,7 @@ $installer->addAttribute('catalog_product', 'webtoprint_template',
     'comparable'        => false,
     'visible_on_front'  => false,
     'visible_in_advanced_search' => false,
-    'unique'            => true ));
+    'unique'            => false ));
 
 //$installer->removeAttribute('catalog_product', 'webtoprint_template');
 
