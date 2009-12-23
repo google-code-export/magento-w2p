@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2009-12-21</date>
+  <date>2009-12-23</date>
 
   <version>
-    <release>1.5.0</release>
-    <api>1.5.0</api>
+    <release>1.5.0.1</release>
+    <api>1.5.0.1</api>
   </version>
 
   <stability>
@@ -52,11 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Mark web-to-print products to be configured before adding to cart.
-* Add support for configurable products.
-* Add link to full size preview in a cart (issue #69).
-* Rewrite stock images selector and color picker (issue #67).
-* Add "Web-to-print templates" tab to products configuration in admin interface.
+* Fix error which prevents templates importing.
   </notes>
 
   <contents>
@@ -398,6 +394,29 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.5</release>
+        <api>1.5</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2009-12-21</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Mark web-to-print products to be configured before adding to cart.
+* Add support for configurable products.
+* Add link to full size preview in a cart (issue #69).
+* Rewrite stock images selector and color picker (issue #67).
+* Add "Web-to-print templates" tab to products configuration in admin interface.
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.4.1</release>
