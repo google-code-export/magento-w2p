@@ -69,10 +69,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_product_image ($context, $product) {
-    if (! $template_id = $this->get_template_id ($product))
+    if (! $template_guid = $this->get_template_guid_from_product($product))
       return false;
 
-    $template = Mage::getModel('webtoprint/template')->load($template_id);
+    $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
     if (!$template->getId())
       return false;
@@ -160,10 +160,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_preview_image ($context) {
-    if (! $template_id = $this->get_template_id ($context->getProduct()))
+    if (! $template_guid = $this->get_template_guid_from_product($context->getProduct()))
       return false;
 
-    $template = Mage::getModel('webtoprint/template')->load($template_id);
+    $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
     if (!$template->getId())
       return false;
