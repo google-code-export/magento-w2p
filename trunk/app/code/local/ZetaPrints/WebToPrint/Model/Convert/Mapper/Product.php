@@ -47,7 +47,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
         $this->debug('Not a single store mode');
 
       $product_model->setAttributeSetId($product_model->getDefaultAttributeSetId())
-        ->setSku($template->getGuid())
+        ->setSku("{$template->getGuid()}-rename-me")
         ->setTypeId('simple')
         ->setName($template->getTitle())
         ->setDescription($template->getDescription())
