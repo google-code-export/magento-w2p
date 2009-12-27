@@ -109,7 +109,9 @@ Extension developed by http://www.zetaprints.com/
             <dir name="Convert">
 
               <dir name="Mapper">
-                <file name="Product.php" role="magelocal" />
+                <dir name="Product">
+                  <file name="Creating.php" role="magelocal" />
+                </dir>
               </dir>
 
               <dir name="Parser">
