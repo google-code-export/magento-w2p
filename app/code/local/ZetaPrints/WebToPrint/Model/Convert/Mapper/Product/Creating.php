@@ -1,6 +1,6 @@
 <?php
 
-class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_Model_Convert_Mapper_Abstract {
+class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_Dataflow_Model_Convert_Mapper_Abstract {
 
   public function map () {
     $this->debug = (bool)Mage::getStoreConfig('zpapi/settings/w2p_debug');
@@ -12,17 +12,6 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product extends  Mage_Dataflow_
 
       if ($product_id = $product_model->getIdBySku($template->getGuid())) {
         $this->debug("Product {$template->getGuid()} already exists");
-
-        $product = $product_model->load($product_id);
-
-        if (!$product->getWebtoprintTemplate()) {
-          $product->setSku("{$template->getGuid()}-rename-me")
-            ->setRequiredOptions(true)
-            ->setWebtoprintTemplate($template->getGuid())
-            ->save();
-          $this->debug("Product {$template->getGuid()} was updated.");
-        }
-
         continue;
       }
       else {

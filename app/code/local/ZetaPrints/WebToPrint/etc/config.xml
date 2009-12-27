@@ -14,7 +14,7 @@
 
         <rewrite>
           <templates-synchronization>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</templates-synchronization>
-          <products-creation>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product</products-creation>
+          <products-creation>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating</products-creation>
         </rewrite>
       </webtoprint>
 
