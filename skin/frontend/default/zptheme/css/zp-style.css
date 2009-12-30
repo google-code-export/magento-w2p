@@ -154,43 +154,196 @@ div.images-scroller ul li {
   display: block;
   float: left;
   list-style: none;
+  padding: 0px 10px;
 }
 
-div.images-scroller ul li .image {
-  padding: 4px;
-  margin-right: 4px;
-  border: 2px solid  transparent;
+
+
+div.zetaprints-images-selector {
+  margin-bottom: 5px; /* Same as div.product-shop dl*/
+  border: none;
+}
+
+div.zetaprints-images-selector.expanded {
+  position: relative;
+}
+
+div.zetaprints-images-selector a.image {
+  display: block;
+  text-decoration: none;
+}
+
+div.zetaprints-images-selector div.clear {
+  clear: both;
+}
+
+div.zetaprints-images-selector div.head {
+  border: 1px solid #b6b6b6;
+  margin: 0px;
+  text-align: left;
+  padding: 4px 4px 4px 8px;
   cursor: pointer;
 }
-div.images-scroller ul li div.image {
-  height: 100px;
+
+div.zetaprints-images-selector div.head div.icon {
+  height: 13px;
+  width: 13px;
+  float: left;
+  background: transparent url('../images/images-selector-sprites.png') 0px -19px no-repeat;
+  margin: 1px 9px 0px 0px;
 }
 
-div.images-scroller ul li div.color-sample {
-  height: 100%;
-  background-color: white;
-  background-image: url('../images/color-picker-icon.gif');
-  background-repeat: no-repeat;
-  background-position: center;
+div.zetaprints-images-selector.no-value div.head div.icon {
+  background-position: 0px 0px;
 }
 
-div.images-scroller ul li div.color-sample span {
-  background-color: white;
+div.zetaprints-images-selector div.head div.title {
+  float: left;
 }
 
-div.images-scroller ul li div.image span {
+div.zetaprints-images-selector div.head div.title label {
+  cursor: inherit;
+}
+
+div.zetaprints-images-selector div.head a.image {
+  float: right;
+  background: url('../images/images-selector-sprites.png') no-repeat;
+  margin-left: 6px;
+  margin-top:3px;
+  height: 9px;
+}
+
+div.zetaprints-images-selector div.head a.image span {
+  visibility: hidden;
+}
+
+div.zetaprints-images-selector div.head a.image.up-down {
+  background-position: -76px 2px;
+  width: 15px;
+}
+
+div.zetaprints-images-selector div.head a.image.up-down:hover {
+  background-position: -76px -12px;
+}
+
+div.zetaprints-images-selector.minimized div.head a.image.up-down {
+  background-position: -61px 2px;
+}
+
+div.zetaprints-images-selector.minimized div.head a.image.up-down:hover {
+  background-position: -61px -12px;
+}
+
+div.zetaprints-images-selector div.head a.image.collapse-expand {
+  background-position: -39px 0px;
+  width: 17px;
+}
+
+div.zetaprints-images-selector div.head a.image.collapse-expand:hover {
+  background-position: -39px -16px;
+}
+
+div.zetaprints-images-selector.expanded div.head a.image.collapse-expand {
+  background-position: -18px 0px;
+}
+
+div.zetaprints-images-selector.expanded div.head a.image.collapse-expand:hover {
+  background-position: -18px -16px;
+}
+
+div.zetaprints-images-selector div.selector-content {
+  height: 140px;
+}
+
+div.zetaprints-images-selector.minimized div.selector-content {
+  display: none;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 2px;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons a {
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
   display: block;
 }
 
-div.images-scroller ul li .image:hover {
-  border: 2px solid #F18200;
+div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.stock-images {
+  background: url('../images/images-selector-sprites.png') -90px -33px no-repeat;
 }
 
-div.images-scroller ul li .image.selected {
-  border: 2px solid #F18200;
-  cursor: default;
+div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.color-picker {
+  background: url('../images/images-selector-sprites.png') -90px -55px no-repeat;
 }
 
-div.color-sample label {
+div.zetaprints-images-selector div.selector-content ul.tab-buttons {
+  height: 100%;
+  overflow: hidden;
+  float: left;
+  width: 10em;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons li {
+  border: 1px solid #b6b6b6;
+  border-top: none;
+  padding: 3px 4px 3px 8px;
+  background-color: #f8f9fa;
+  height: 20px;
+  line-height: 20px;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons li.ui-tabs-selected {
+  background-color: transparent;
+  border-right: none;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons li.last {
+  border-bottom: none;
+  border-left: none;
+  height: 100%;
+  background-color: transparent;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons li.last label {
+  font-weight: normal;
+  line-height: 20px;
+  text-align: center;
+  display: block;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper {
+  padding: 0px 2px;
+  height: 100%;
+  border: 1px solid #b6b6b6;
+  border-left: none;
+  border-top: none;
+  margin-left: 10em;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab {
+  padding: 2px 0px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
   display: none;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker {
+  padding-left: 20px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker input {
+  margin-bottom: 10px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker div.color-sample {
+  width: 100px;
+  height: 70px;
+  border: 1px solid #b6b6b6;
+  margin-bottom: 10px;
 }
