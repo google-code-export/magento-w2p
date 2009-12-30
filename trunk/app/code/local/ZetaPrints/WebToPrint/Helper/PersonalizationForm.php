@@ -69,21 +69,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_product_image ($context, $product) {
-    if (! $template_guid = $this->get_template_guid_from_product($product))
-      return false;
-
-    $template = Mage::getModel('webtoprint/template')->load($template_guid);
-
-    if (!$template->getId())
-      return false;
-
-    $src = $template->getThumbnail();
-    $alt = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
-    $title = $context->htmlEscape($context->getImageLabel($product, 'small_image'));
-
-    echo "<img style=\"max-width: 135px;\" src=\"$src\" alt=\"$alt\" title=\"$title\" />";
-
-    return true;
+    return false;
   }
 
   public function get_cart_image ($context) {
@@ -106,30 +92,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_gallery_image ($context) {
-    if (!$this->get_template_id ($context->getProduct()))
-      return false;
-
-    $src = $context->getImageUrl();
-    $alt = $context->htmlEscape($context->getCurrentImage()->getLabel());
-    $title = $context->htmlEscape($context->getCurrentImage()->getLabel());
-
-    echo "<img src=\"$src\" alt=\"$alt\" title=\"$title\" id=\"product-gallery-image\" style=\"display:block;\" />";
-
-    return true;
+    return false;
   }
 
   public function get_gallery_thumb ($context, $product, $_image) {
-    if (!$this->get_template_id ($product))
-      return false;
-
-    $gallery_url = $context->getGalleryUrl($_image);
-    $src = $_image['url'];
-    $alt = $context->htmlEscape($_image->getLabel());
-    $title = $context->htmlEscape($_image->getLabel());
-
-    echo "<a href=\"#\" onclick=\"popWin('$gallery_url', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;\"><img src=\"$src\" alt=\"$alt\" title=\"$title\" /></a>";
-
-    return true;
+    return false;
   }
 
   public function get_preview_images ($context) {
@@ -160,22 +127,18 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_preview_image ($context) {
-    if (! $template_guid = $this->get_template_guid_from_product($context->getProduct()))
+    if (!$context->getProduct()->getSmallImage())
       return false;
 
-    $template = Mage::getModel('webtoprint/template')->load($template_guid);
+    $img = '<img src="' . $context->helper('catalog/image')->init($context->getProduct(), 'small_image')->resize(265) . '" alt="'.$context->htmlEscape($context->getProduct()->getSmallImageLabel()).'" />';
 
-    if (!$template->getId())
-      return false;
-
-    $src = $template->getImage();
-
-    echo "<img style=\"max-width: 265px;\" src=\"$src\" />";
+    echo $context->helper('catalog/output')->productAttribute($context->getProduct(), $img, 'small_image');
 
     return true;
   }
 
   public function get_text_fields ($context) {
+    Mage::log($context->getProduct());
     return $this->get_form_part_html('input-fields', $context->getProduct());
   }
 

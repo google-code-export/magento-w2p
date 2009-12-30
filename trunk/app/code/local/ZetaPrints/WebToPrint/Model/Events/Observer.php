@@ -67,6 +67,100 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       $product->setRequiredOptions(true);
   }
 
+  public function process_images ($observer) {
+    $product = $observer->getEvent()->getProduct();
+
+    if (!$product->hasWebtoprintTemplate()) return;
+
+    $template_guid = $product->getWebtoprintTemplate();
+    $template_guid_orig = $product->getOrigData('webtoprint_template');
+
+    if (($template_guid != $template_guid_orig) || (Mage::registry('webtoprint-template-changed'))) {
+      $media_gallery = $product->getMediaGallery();
+
+      if (is_array($media_gallery)) {
+        foreach ($media_gallery as &$item)
+          if(!is_array($item) && strlen($item) > 0)
+            $item = Zend_Json::decode($item);
+
+        $product->setMediaGallery($media_gallery);
+      } else {
+        $media_gallery = array('images' => array());
+        $product->setMediaGallery($media_gallery);
+      }
+
+      if ($template_guid_orig) {
+        $template = Mage::getModel('webtoprint/template')->load($template_guid_orig);
+
+        if (!$template->getId()) return;
+
+        $xml = new SimpleXMLElement($template->getXml());
+
+        foreach ($xml->Pages[0]->Page as $page)
+          foreach ($media_gallery['images'] as &$image)
+            if ($image['label_default'] == (string)$page['Name']) {
+              $image['removed'] = 1;
+
+              if ($product->getSmallImage() == $image['file'])
+                $product->setSmallImage('no_selection');
+
+              if ($product->getThumbnail() == $image['file'])
+                $product->setThumbnail('no_selection');
+            }
+
+        $product->setMediaGallery($media_gallery);
+      }
+
+      if ($template_guid) {
+        $template = Mage::getModel('webtoprint/template')->load($template_guid);
+
+        if (!$template->getId()) return;
+
+        $xml = new SimpleXMLElement($template->getXml());
+
+        $first_image = true;
+
+        $media_gallery = $product->getMediaGallery();
+
+        if (is_array($media_gallery))
+          foreach ($media_gallery['images'] as &$image)
+            if (!isset($image['removed'])) {
+              $first_image = false;
+              break;
+            };
+
+        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+        $gallery = $attributes['media_gallery'];
+
+        foreach ($xml->Pages[0]->Page as $page) {
+          $client = new Varien_Http_Client(Mage::getStoreConfig('zpapi/settings/w2p_url') . '/' . (string)$page['PreviewImage']);
+          $response = $client->request()->getHeaders();
+
+          $filename = Mage::getBaseDir('var') . '/tmp/' . basename((string)$page['PreviewImage']);
+          file_put_contents($filename, $client->request()->getBody());
+
+          $file = $gallery->getBackend()->addImage($product, $filename, null, true);
+
+          $data = array('label' => (string)$page['Name']);
+
+          if (!$first_image)
+            $data['exclude'] = 0;
+          else {
+            if (!$product->getSmallImage() || $product->getSmallImage() == 'no_selection')
+              $product->setSmallImage($file);
+
+            if (!$product->getThumbnail() || $product->getThumbnail() == 'no_selection')
+              $product->setThumbnail($file);
+
+            $first_image = false;
+          }
+
+          $gallery->getBackend()->updateImage($product, $file, $data);
+        }
+      }
+    }
+  }
+
   public function specify_option_message ($observer) {
     $request = Mage::app()->getRequest();
 
