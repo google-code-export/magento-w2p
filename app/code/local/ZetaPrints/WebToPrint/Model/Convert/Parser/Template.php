@@ -38,9 +38,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
              || (int)$template_model->getPublic() != $template['public']) {
               $this->debug("Template {$template['guid']} is outdated");
 
-              if ($refresh_templates)
-                $template['xml'] = zetaprints_get_template_details_as_xml($url, $key, $template['guid']);
-
+              $template['xml'] = zetaprints_get_template_details_as_xml($url, $key, $template['guid']);
               $template_model->addData($template)->save();
             }
             else
