@@ -101,7 +101,6 @@ Extension developed by http://www.zetaprints.com/
           </dir>
 
           <dir name="Helper">
-            <file name="Image.php" role="magelocal" />
             <file name="PersonalizationForm.php" role="magelocal" />
           </dir>
 
@@ -111,6 +110,7 @@ Extension developed by http://www.zetaprints.com/
               <dir name="Mapper">
                 <dir name="Product">
                   <file name="Creating.php" role="magelocal" />
+                  <file name="Updating.php" role="magelocal" />
                 </dir>
               </dir>
 
@@ -142,7 +142,6 @@ Extension developed by http://www.zetaprints.com/
 
             </dir>
 
-            <file name="Product.php" role="magelocal" />
             <file name="Template.php" role="magelocal" />
           </dir>
 
@@ -313,8 +312,6 @@ Extension developed by http://www.zetaprints.com/
                     <file name="media.phtml" role="magedesign" />
                   </dir>
 
-                  <file name="gallery.phtml" role="magedesign" />
-                  <file name="list.phtml" role="magedesign" />
                   <file name="view.phtml" role="magedesign" />
 
                 </dir>
