@@ -82,12 +82,11 @@ This file shows product image, additional images and image zoomer on product pag
 
 *Section 1*: checking for personalization step and disabling image resizing for products with web-to-print feature.
   {{{
-if ($this->helper('webtoprint/personalization-form')->is_personalization_step($this)) {
-  if (!$this->helper('webtoprint/personalization-form')->get_preview_images($this))
-    echo $_helper->productAttribute($_product, $_img, 'image');
-}
+if ($this->helper('webtoprint/personalization-form')->is_personalization_step($this))
+  $this->helper('webtoprint/personalization-form')->get_preview_images($this);
 else
-  $this->helper('webtoprint/personalization-form')->get_preview_image($this)`
+  if (!$this->helper('webtoprint/personalization-form')->get_preview_image($this))
+    echo $_helper->productAttribute($_product, $_img, 'image');
 }}}
 == Application of 1/2 step process ==
 You can have 2 identical themes with the only difference in 1 or 2 step process. Choose the most commonly used theme as the default and enable the other theme for some products only.
