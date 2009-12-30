@@ -27,18 +27,6 @@ some code
 
 You need to modify some files behind the user interface.
 
-== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/list.phtml template/catalog/product/list.phtml] ==
-This file shows products from some category in a grid or list layout.
-
-The new code removes _Add to cart_ button and disables product image resizing. Our code is a repetition of this line in 4 paces:
-`<?php if (!$this->helper('webtoprint/personalization-form')->get_product_image($this, $_product)): ?>`
-You can use the same condition check to remove any other parts of the page if the product can/cannot be personalized.
-
-*Sections 1 (list layout) and 3 (grid layout)*: checking if the product has web-to-print features and if it's true then output slightly modified image tag to prevent image resizing. Also it sets maximum width for image using 'max-width' css rule.
-
-*Sections 2 (list layout) and 4 (grid layout)*: checking if the product has web-to-print features and it is not an already customized product (an order). In this case removing _Add to cart_ button.
-
-
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view.phtml template/catalog/product/view.phtml] ==
 This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
@@ -67,16 +55,6 @@ The code is divided into 4 sections.
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
 
-== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/gallery.phtml template/catalog/product/gallery.phtml] ==
-The purpose of the code in this file is to show gallery of product additional images (in original size) in a separate window.
-
-The purpose of new code is to use proper methods to get correct image urls for the product with web-to-print features. The code is divided into 2 sections.
-
-*Sections 1-2*: checking if the product has web-to-print features and if it's true then getting image url with proper method.
-  {{{
-<?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_image($this)): ?>
-  }}}
-
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml template/catalog/product/view/media.phtml] ==
 This file shows product image, additional images and image zoomer on product page.
 
@@ -85,11 +63,6 @@ New code checks for web-to-print in a product and puts correct images urls for p
 *Section 1*: disabling image resizing for products with web-to-print feature.
   {{{
 <?php if (!$this->helper('webtoprint/personalization-form')->get_preview_images($this)): ?>
-  }}}
-
-*Section 2*: checking if product has web-to-print features and getting proper image, otherwise print default magento image.
-  {{{
-<?php if (!$this->helper('webtoprint/personalization-form')->get_gallery_thumb($this, $_product, $_image)): ?>
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/checkout/cart/item/default.phtml template/checkout/cart/item/default.phtml] ==
@@ -125,7 +98,7 @@ New code checks for web-to-print in a product and shows preview images for order
 = Functions =
 Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
-  * `get_product_image ($context, $product)` - outputs a slightly modified `<img>` tag to prevent image resizing and returns _true_ for products with web-to-print features
+  * `get_product_image ($context, $product)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_page_tabs ($context)` - outputs image tabs for multipage templates
   * `get_text_fields ($context)` - outputs text fields for products with web-to-print features
   * `get_image_fields ($context)` - outputs image fields (stock images, color picker) for products with web-to-print features
@@ -133,8 +106,8 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `get_js ($context)` - outputs javascript code for products with web-to-print features
   * `get_js_css_includes ($context)` - outputs html tags for including external javascript and css files
   * `get_preview_images ($context)` - outputs product preview images
-  * `get_gallery_thumb ($context, $product, $image)` - outputs a slightly modified `<img>` tag to prevent image resizing and returns _true_ for products with web-to-print features
-  * `get_gallery_image ($context)` - outputs a slightly modified `<img>` tag in gallery popup to prevent image resizing and returns _true_ for products with web-to-print features.
+  * `get_gallery_thumb ($context, $product, $image)` - Outputs nothing, always returns _false_. (*Deprecated*)
+  * `get_gallery_image ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_cart_image ($context)` - outputs a slightly modified `<img>` tag to prevent image resizing with correct image url and returns _true_ for products with web-to-print features
   * `get_order_preview_images ($context)` - outputs previews images for order.
 
