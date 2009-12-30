@@ -51,33 +51,57 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-        <dl class="zetaprints-stock-image-selector">
-          <dt>
-            <input class="stock-image" type="checkbox" id="page-{$page}-stock-image-{position()}" name="zetaprints-#{@Name}" disabled="true" />
-            <label for="page-{$page}-stock-images-{position()}">
-              <xsl:value-of select="@Name" />
-              <xsl:text>:</xsl:text>
-            </label>
-          </dt>
-          <dd>
-            <div class="images-scroller">
+      <div class="zetaprints-images-selector no-value base-mini">
+        <div class="head">
+          <div class="icon"><span /></div>
+          <div class="title">
+            <label><xsl:value-of select="@Name" /></label>
+          </div>
+          <a class="image up-down" href="#"><span>Up/Down</span></a>
+          <a class="image collapse-expand" href="#"><span>Collapse/Expand</span></a>
+        </div>
+        <div id="page-{$page}-tabs-{position()}" class="selector-content">
+          <ul class="tab-buttons">
+            <xsl:if test="StockImage">
+              <li>
+                <div class="icon stock-images"><span /></div>
+                <a href="#page-{$page}-tabs-{position()}-1"><span>Stock images</span></a>
+              </li>
+            </xsl:if>
+            <xsl:if test="@ColourPicker='RGB'">
+              <li>
+                <div class="icon color-picker"><span /></div>
+                <a href="#page-{$page}-tabs-{position()}-2"><span>Color picker</span></a>
+              </li>
+            </xsl:if>
+            <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" /> Leave blank</label></li>
+          </ul>
+          <div class="tabs-wrapper">
+          <xsl:if test="StockImage">
+            <div id="page-{$page}-tabs-{position()}-1" class="tab images-scroller">
               <ul>
-                <xsl:if test="@ColourPicker='RGB'">
-                  <li>
-                    <div class="image">
-                      <div class="color-sample"><span>Choose a color</span></div>
-                    </div>
-                  </li>
-                </xsl:if>
                 <xsl:for-each select="StockImage">
                   <li>
-                    <img id="{@FileID}" class="image" src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}" /><br />
+                    <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
                   </li>
                 </xsl:for-each>
               </ul>
             </div>
-          </dd>
-        </dl>
+          </xsl:if>
+
+          <xsl:if test="@ColourPicker='RGB'">
+            <div id="page-{$page}-tabs-{position()}-2" class="tab color-picker">
+              <input type="radio" name="zetaprints-#{@Name}" disabled="1" value="" />
+              <div class="color-sample"><span /></div>
+              <span><a href="#">Choose a color</a> and click Select to fill the place of the photo.</span>
+            </div>
+          </xsl:if>
+          </div>
+
+          <div class="clear"><span /></div>
+        </div>
+      </div>
     </xsl:for-each>
   </xsl:template>
 

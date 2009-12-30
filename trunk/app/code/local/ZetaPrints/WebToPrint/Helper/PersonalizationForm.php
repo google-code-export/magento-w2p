@@ -327,31 +327,68 @@ jQuery(document).ready(function($) {
   $('input.update-preview').click(update_preview);
 
   $(window).load(function () {
-    $('.zetaprints-stock-image-selector').each(function () {
+    $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
       var width = 0;
 
       $('div.images-scroller li', this).each(function() {
-        width = width + $(this).width();
+        width = width + $(this).outerWidth();
       });
+
+      $(top_element).addClass('minimized');
 
       $('div.images-scroller ul', this).width(width);
 
-      var input = $('input.stock-image', this)[0];
-      var color_sample = $('div.images-scroller .color-sample', this)
-
-      $(input).click(function () {
-        $(this).removeAttr('value').attr('disabled', true);
-        $(color_sample).css('background-color', 'white');
-        $('div.images-scroller .selected').removeClass('selected');
+      var tabs = $('div.selector-content', this).tabs({
+        selected: 0,
+        show: function (event, ui) {
+          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
+            $('div.color-sample', ui.panel).click();
+          }
       });
 
-      $('div.images-scroller img', this).click(function () {
-        $(color_sample).css('background-color', 'white');
-        $(input).val($(this).attr('id')).attr('checked', true).attr('disabled', false);
+      $('input', this).change(function () {
+        $(top_element).removeClass('no-value');
       });
 
-      $(color_sample).ColorPicker({
+      $('div.head', this).click(function () {
+        if ($(top_element).hasClass('minimized')) {
+          $(top_element).removeClass('minimized');
+          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
+          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
+            $('div.color-sample', panel).click();
+          }
+        }
+        else
+          $(top_element).addClass('minimized').removeClass('expanded').css('width', '100%');
+
+        return false;
+      });
+
+      var previews_images = $('div.zetaprints-template-preview-images');
+
+      $('a.image.collapse-expand', this).click(function () {
+        if ($(top_element).hasClass('expanded'))
+          $(top_element).removeClass('expanded').css('width', '100%');
+        else {
+          var position = $(top_element).position().left - $(previews_images).position().left;
+          $(top_element).addClass('expanded')
+            .css({ 'left': -position, 'width': position + $(top_element).outerWidth() })
+            .removeClass('minimized');
+
+          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
+          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
+            $('div.color-sample', panel).click();
+          }
+        }
+
+        return false;
+      });
+
+      var input = $('div.color-picker input', this)[0];
+      var color_sample = $('div.color-sample', this);
+
+      $([color_sample, $('div.color-picker a', this)]).ColorPicker({
         color: '#804080',
         onBeforeShow: function (colpkr) {
           $(colpkr).draggable();
@@ -363,12 +400,13 @@ jQuery(document).ready(function($) {
         },
         onHide: function (colpkr) {
           $(colpkr).fadeOut(500);
+          //$(input).attr('checked', false);
           return false;
         },
         onSubmit: function (hsb, hex, rgb, el) {
-          $('div.images-scroller .image', top_element).removeClass('selected');
-          $(color_sample).css('backgroundColor', '#' + hex).parent().addClass('selected');
-          $(input).val('#' + hex).attr('checked', true).attr('disabled', false);
+          $(top_element).removeClass('no-value');
+          $(color_sample).css('backgroundColor', '#' + hex);
+          $(input).val('#' + hex).attr('checked', 1).attr('disabled', 0);
           $(el).ColorPickerHide();
         }
       });
