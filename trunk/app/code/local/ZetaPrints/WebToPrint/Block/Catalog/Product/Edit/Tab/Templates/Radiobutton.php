@@ -5,6 +5,10 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tab_Templates_Radiobutton
     parent::__construct();
     $this->setTemplate('catalog/product/tab/templates/radiobutton.phtml');
   }
+
+  public function get_product () {
+    return Mage::registry('product');
+  }
 }
 
 ?>
