@@ -15,6 +15,7 @@
         <rewrite>
           <templates-synchronization>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</templates-synchronization>
           <products-creation>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating</products-creation>
+          <products-updating>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating</products-updating>
         </rewrite>
       </webtoprint>
 
@@ -27,12 +28,6 @@
           </template>
         </entities>
       </webtoprint_mysql4>
-
-      <catalog>
-        <rewrite>
-          <product>ZetaPrints_WebToPrint_Model_Product</product>
-        </rewrite>
-      </catalog>
     </models>
 
     <blocks>
@@ -48,12 +43,6 @@
     </blocks>
 
     <helpers>
-      <catalog>
-        <rewrite>
-          <image>ZetaPrints_WebToPrint_Helper_Image</image>
-        </rewrite>
-      </catalog>
-
       <webtoprint>
         <class>ZetaPrints_WebToPrint_Helper</class>
 
@@ -115,6 +104,12 @@
             <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
             <method>set_required_options</method>
           </webtoprint-product-required-options>
+
+          <webtoprint-product-images>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>process_images</method>
+          </webtoprint-product-images>
         </observers>
       </catalog_product_save_before>
 
