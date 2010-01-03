@@ -138,7 +138,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   }
 
   public function get_text_fields ($context) {
-    Mage::log($context->getProduct());
     return $this->get_form_part_html('input-fields', $context->getProduct());
   }
 
@@ -236,7 +235,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 //<![CDATA[
 jQuery(document).ready(function($) {
   <?php
-  Mage::log($user_input);
   if ($user_input)
     foreach ($user_input as $key => $value)
       echo "$('[name=$key]').val('$value');\n";
