@@ -300,20 +300,24 @@ jQuery(document).ready(function($) {
         $(update_preview_button).bind('click', update_preview).show();
         alert('Can\'t get preview image: ' + textStatus); },
       success: function (data, textStatus) {
-        $('#preview-image-' + page + ' a').attr('href', data);
-        $('#preview-image-' + page + ' img').attr('src', data);
+        if (data.substr(0, 7) != 'http://') {
+          alert('There was an error in generating or receiving preview image.\nPlease try again.');
+        } else {
+          $('#preview-image-' + page + ' a').attr('href', data);
+          $('#preview-image-' + page + ' img').attr('src', data);
 
-        var image_name = data.split('/preview/')[1]
-        previews[parseInt(page.split('-')[1]) - 1] = image_name;
+          var image_name = data.split('/preview/')[1]
+          previews[parseInt(page.split('-')[1]) - 1] = image_name;
 
-        var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
-        $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
+          var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
+          $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
-        if (previews.length == number_of_pages) {
-          //$('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
-          $('input[name=zetaprints-previews]').val(previews.join(','));
-          $('fieldset.add-to-cart-box button.form-button').show();
-          $('div.save-order span').css('display', 'none');
+          if (previews.length == number_of_pages) {
+            //$('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+            $('input[name=zetaprints-previews]').val(previews.join(','));
+            $('fieldset.add-to-cart-box button.form-button').show();
+            $('div.save-order span').css('display', 'none');
+          }
         }
 
         $('div.zetaprints-preview-button span').css('display', 'none');

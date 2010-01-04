@@ -187,6 +187,7 @@ Extension developed by http://www.zetaprints.com/
             <file name="template_details_to_preview_html.xslt" role="magelocal" />
             <file name="W2puser.php" role="magelocal" />
             <file name="zp_api.php" role="magelocal" />
+            <file name="mage-logging.php" role="magelocal" />
           </dir>
 
         </dir>

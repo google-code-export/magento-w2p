@@ -8,6 +8,8 @@ define("ZP_API_VER",'1.0');
 //define("ZP_API_HTTP_CACHE",'zp_cache');
 define("ZP_API_HTTP_CACHE",'');
 
+require_once 'mage-logging.php';
+
 global $zp_api_key;
 global $zp_api_url;
 
@@ -697,12 +699,19 @@ function zetaprints_get_html_from_xml ($xml, $xslt, $api_url) {
 }
 
 function zetaprints_get_list_of_catalogs ($url, $key) {
+  zetaprints_debug();
   $content = zetaprints_get_content_from_url("$url/API.aspx?page=api-catalogs;ApiKey=$key");
 
   if (!$content)
     return null;
 
-  $xml = new SimpleXMLElement($content['body']);
+  try {
+    $xml = new SimpleXMLElement($content['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
 
   $catalogs = array();
 
@@ -718,16 +727,25 @@ function zetaprints_get_list_of_catalogs ($url, $key) {
                         'public' => (string)$item->access == 'public' ? true : false,
                         'keywords' => (string)$item->keywords);
 
+  zetaprints_debug(array('catalogs' => $catalogs));
+
   return $catalogs;
 }
 
 function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
+  zetaprints_debug();
+
   $content = zetaprints_get_content_from_url("$url/API.aspx?page=api-templates;CorporateID=$catalog_guid;ApiKey=$key");
 
   if (!$content)
     return null;
 
-  $xml = new SimpleXMLElement($content['body']);
+  try {
+    $xml = new SimpleXMLElement($content['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
 
   $templates = array();
 
@@ -741,10 +759,14 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
                          'thumbnail' => (string)$item->thumbnail,
                          'image' => (string)$item->image);
 
+  zetaprints_debug(array('templates' => $templates));
+
   return $templates;
 }
 
 function zetaprints_get_template_details_as_xml ($url, $key, $template_guid) {
+  zetaprints_debug();
+
   $content = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
 
   if (!$content)
@@ -754,6 +776,8 @@ function zetaprints_get_template_details_as_xml ($url, $key, $template_guid) {
 }
 
 function zetaprints_get_preview_image_url ($url, $key, $data) {
+  zetaprints_debug();
+
   $content = zetaprints_get_content_from_url("$url/API.aspx?page=api-preview;ApiKey=$key", $data);
 
   if (!$content)
@@ -763,6 +787,8 @@ function zetaprints_get_preview_image_url ($url, $key, $data) {
 }
 
 function zetaprints_get_order_id ($url, $key, $data) {
+  zetaprints_debug();
+
   $content = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-save;ApiKey=$key", $data);
 
   if (!$content)
@@ -772,6 +798,8 @@ function zetaprints_get_order_id ($url, $key, $data) {
 }
 
 function zetaprints_complete_order ($url, $key, $order_guid) {
+  zetaprints_debug();
+
   $content = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-complete;ApiKey=$key;OrderID=$order_guid");
 
   if (!$content)
@@ -796,12 +824,14 @@ function zetaprints_complete_order ($url, $key, $order_guid) {
   if (isset($xml['CDR']))
     $files['cdr'] = (string) $xml['CDR'];
 
-  Mage::log($files);
+  zetaprints_debug(array('files' => $files));
 
   return $files;
 }
 
 function zetaprints_get_content_from_url ($url, $data = null) {
+  zetaprints_debug();
+
   $options = array(CURLOPT_URL => $url,
                    CURLOPT_HEADER => true,
                    CURLOPT_CRLF => true,
@@ -816,14 +846,27 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     $options[CURLOPT_POSTFIELDS] = implode('&', $data_encoded);
   }
 
+  zetaprints_debug(array('curl options' => $options));
+
   $curl = curl_init();
-  if (!curl_setopt_array($curl, $options))
+
+  if (!curl_setopt_array($curl, $options)) {
+    zetaprints_debug("Can't set options for curl");
     return null;
+  }
 
   $output = curl_exec($curl);
+  $info = curl_getinfo($curl);
   curl_close($curl);
 
+  if ($output === false || $info['http_code'] != 200) {
+    zetaprints_debug(array('Error' => curl_errno($curl), 'Curl info' => $info, 'Data' => $output));
+    return null;
+  }
+
   $output = explode("\r\n\r\n", $output);
+
+  zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
 
   return array('header' => $output[0], 'body' => $output[1]);
 }

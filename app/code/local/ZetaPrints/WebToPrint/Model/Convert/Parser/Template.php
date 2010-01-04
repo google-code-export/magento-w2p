@@ -21,8 +21,28 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
 
     $catalogs = zetaprints_get_list_of_catalogs($url, $key);
 
+    if (!$catalogs) {
+      $this->notice('Error in receiving list of catalogs');
+      return;
+    }
+
+    if (!count($catalogs)) {
+      $this->notice('No catalogs');
+      return;
+    }
+
     foreach ($catalogs as $catalog) {
       $templates = zetaprints_get_templates_from_catalog($url, $key, $catalog['guid']);
+
+      if (!$templates) {
+        $this->notice("Error in receiving list of templates for catalog {$catalog['title']}");
+        continue;
+      }
+
+      if (!count($templates)) {
+        $this->notice("No templates in catalog {$catalog['title']}");
+        continue;
+      }
 
       foreach ($templates as $template) {
         $template['public'] = $catalog['public'];
@@ -39,12 +59,24 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
               $this->debug("Template {$template['guid']} is outdated");
 
               $template['xml'] = zetaprints_get_template_details_as_xml($url, $key, $template['guid']);
+
+              if (!$template['xml']) {
+                $this->notice("Error in receiving detailes for template {$template['guid']}. Leaving the template unmodified.");
+                continue;
+              }
+
               $template_model->addData($template)->save();
             }
             else
               $this->debug("Template {$template['guid']} is up to date");
         else {
           $template['xml'] = zetaprints_get_template_details_as_xml($url, $key, $template['guid']);
+
+          if (!$template['xml']) {
+            $this->notice("Error in receiving detailes for template {$template['guid']}. Passing the template.");
+            continue;
+          }
+
           $template_model = Mage::getModel('webtoprint/template');
           $template_model->addData($template)->save();
         }
