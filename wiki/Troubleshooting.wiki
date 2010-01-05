@@ -9,7 +9,7 @@ Common causes of problems with w2p extension for Magento:
 
 == Logging of data import ==
 
-Check Logging option ON on ZetaPrints configuration page in Magento. All interactions will be logged into _zp_api_log.log_ file in the root folder of Magento. The file cannot be accessed from outside, unless you explicitly allow so.
+Check Logging option ON on ZetaPrints configuration page in Magento. Also enable logging in Magento at _System/Configuration/Developer/Log Settings_ in admin interface. All interactions will be logged into Magento log file (_system.log_) file in the _var/log_ folder of Magento. The file cannot be accessed from outside, unless you explicitly allow so.
 
 == IP restriction ==
 
