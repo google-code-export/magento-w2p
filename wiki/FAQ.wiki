@@ -1,0 +1,11 @@
+#summary Troubleshooting FAQ.
+
+= Introduction =
+
+Check your problem for a possible solution before sending a request for help to admin@zetaprints.com.
+
+
+= No personalization available = 
+*I installed the extension, imported my templates, but there is no way to personalize the products. I see Add to cart buttons and it adds them directly to the cart if I click on it.*
+
+You are using a custom theme. See CustomThemeNative and CustomTheme2Step pages for customization instructions. Alternatively, use the default ZP theme provided with the plugin. This can be configured on ZP configuration page in Magento.
