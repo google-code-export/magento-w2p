@@ -241,14 +241,14 @@ jQuery(document).ready(function($) {
   $('#stock-images-page-1').css('display', 'block');
   $('#color-pickers-page-1').css('display', 'block');
 
-  $('div.image-tabs li:first').addClass('selected');
+  $('div.zetaprints-image-tabs li:first').addClass('selected');
 
   previews = [<?php echo $previews_array; ?>];
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   number_of_pages = $('div.zetaprints-template-preview').length;
 
   <?php if ($previews): ?>
-  $('div.image-tabs img').each(function () {
+  $('div.zetaprints-image-tabs img').each(function () {
     var src = $(this).attr('src').split('thumb');
     var id = src[1].split('_');
     var n = id[0].substring(38, id[0].length);
@@ -265,8 +265,8 @@ jQuery(document).ready(function($) {
 
   $('<input type="hidden" name="zetaprints-TemplateID" value="' + template_id +'" />').appendTo('#product_addtocart_form');
 
-  $('div.image-tabs li').click(function () {
-    $('div.image-tabs li').removeClass('selected');
+  $('div.zetaprints-image-tabs li').click(function () {
+    $('div.zetaprints-image-tabs li').removeClass('selected');
 
     $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible, div.zetaprints-page-stock-images:visible, zetaprints-page-color-pickers:visible').css('display', 'none');
 
@@ -281,7 +281,7 @@ jQuery(document).ready(function($) {
     $('img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('input.update-preview').unbind('click').hide();
-    var page = '' + $('div.image-tabs li.selected img').attr('rel');
+    var page = '' + $('div.zetaprints-image-tabs li.selected img').attr('rel');
 
     if (page == "undefined")
       page = 'page-1';
@@ -306,7 +306,7 @@ jQuery(document).ready(function($) {
           previews[parseInt(page.split('-')[1]) - 1] = image_name;
 
           var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
-          $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
+          $('div.zetaprints-image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
           if (previews.length == number_of_pages) {
             $('input[name=zetaprints-previews]').val(previews.join(','));
