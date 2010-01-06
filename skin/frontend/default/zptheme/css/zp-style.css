@@ -1,5 +1,6 @@
 /**/
 div.zetaprints-image-tabs {
+  display: none;
   overflow: auto;
   margin-bottom: 20px;
 }
@@ -77,6 +78,7 @@ div.product-shop dl {
 
 /**/
 div.zetaprints-preview-button {
+  display: none;
   float: left;
   margin-top: 25px;
 }

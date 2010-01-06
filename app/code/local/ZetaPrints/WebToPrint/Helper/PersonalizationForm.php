@@ -236,10 +236,7 @@ jQuery(document).ready(function($) {
       echo "$('[name=$key]').val('$value');\n";
   ?>
 
-  $('#preview-image-page-1').css('display', 'block');
-  $('#input-fields-page-1').css('display', 'block');
-  $('#stock-images-page-1').css('display', 'block');
-  $('#color-pickers-page-1').css('display', 'block');
+  $('#preview-image-page-1, #input-fields-page-1, #stock-images-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
 
@@ -268,12 +265,12 @@ jQuery(document).ready(function($) {
   $('div.zetaprints-image-tabs li').click(function () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
-    $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible, div.zetaprints-page-stock-images:visible, zetaprints-page-color-pickers:visible').css('display', 'none');
+    $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible, div.zetaprints-page-stock-images:visible').css('display', 'none');
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
 
-    $('#preview-image-' + page + ', #input-fields-' + page + ', #stock-images-' + page + ', #color-pickers-' + page).css('display', 'block');
+    $('#preview-image-' + page + ', #input-fields-' + page + ', #stock-images-' + page).css('display', 'block');
   });
 
   function update_preview () {
@@ -291,8 +288,7 @@ jQuery(document).ready(function($) {
       type: 'POST',
       data: $('#product_addtocart_form').serialize() + '&zetaprints-From=' + page.split('-')[1],
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        $('div.zetaprints-preview-button span').css('display', 'none');
-        $('img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show();
         alert('Can\'t get preview image: ' + textStatus); },
       success: function (data, textStatus) {
@@ -315,8 +311,7 @@ jQuery(document).ready(function($) {
           }
         }
 
-        $('div.zetaprints-preview-button span').css('display', 'none');
-        $('img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show(); }
     });
   }
