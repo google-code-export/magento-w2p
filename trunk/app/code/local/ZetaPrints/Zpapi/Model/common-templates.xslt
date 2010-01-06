@@ -106,7 +106,7 @@
   </xsl:template>
 
   <xsl:template name="image-tabs-for-pages">
-    <div class="image-tabs">
+    <div class="zetaprints-image-tabs">
       <ul style="width: {count(Page) * 135}px;">
       <xsl:for-each select="Page">
           <li title="Click to show page">
