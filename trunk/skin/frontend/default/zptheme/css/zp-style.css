@@ -8,13 +8,13 @@ div.product-essential {
 }
 
 /**/
-div.image-tabs {
+div.zetaprints-image-tabs {
   overflow: auto;
   margin-bottom: 20px;
 }
 
 /**/
-div.image-tabs ul {
+div.zetaprints-image-tabs ul {
   overflow:hidden;
   margin-bottom: 5px;
 }
