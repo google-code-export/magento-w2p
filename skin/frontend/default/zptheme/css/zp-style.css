@@ -1,12 +1,3 @@
-div.product-img-box div.more-views li a img {
-  width: 56px;
-  height: 56px;
-}
-
-div.product-essential {
-  border-bottom: 1px solid #C4C6C8;
-}
-
 /**/
 div.zetaprints-image-tabs {
   overflow: auto;
@@ -48,10 +39,6 @@ div.zetaprints-image-tabs ul li img {
   max-width: 100px;
 }
 
-div.zetaprints-template-page div.product-img-box {
-  width: 50%;
-}
-
 /**/
 div.zetaprints-template-preview {
   display: none;
@@ -81,11 +68,6 @@ div.zetaprints-page-input-fields input.input-text, div.zetaprints-page-input-fie
 /**/
 div.zetaprints-page-color-pickers {
   display: none;
-}
-
-div.zetaprints-template-page div.product-shop {
-  position: relative;
-  width: 50%;
 }
 
 /**/
