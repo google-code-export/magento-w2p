@@ -404,11 +404,6 @@ jQuery(document).ready(function($) {
     });
   });
 
-  $('div.images-scroller .image').click(function () {
-    $('div.images-scroller .image').removeClass('selected');
-    $(this).addClass('selected');
-  });
-
   $('div.zetaprints-template-preview a').fancybox({
     'zoomOpacity': true,
     'overlayShow': false,
