@@ -309,7 +309,6 @@ jQuery(document).ready(function($) {
           $('div.image-tabs img[rel=' + page + ']').attr('src', thumb_url);
 
           if (previews.length == number_of_pages) {
-            //$('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form fieldset.no-display'));
             $('input[name=zetaprints-previews]').val(previews.join(','));
             $('fieldset.add-to-cart-box button.form-button').show();
             $('div.save-order span').css('display', 'none');
@@ -398,7 +397,6 @@ jQuery(document).ready(function($) {
         },
         onHide: function (colpkr) {
           $(colpkr).fadeOut(500);
-          //$(input).attr('checked', false);
           return false;
         },
         onSubmit: function (hsb, hex, rgb, el) {
@@ -436,10 +434,6 @@ jQuery(document).ready(function($) {
         show: { delay: 1, solo: true, when: { event: 'focus' } },
         hide: { when: { event: 'unfocus' } }
   });
-
-  //$('div.zetaprints-page-stock-images select.stock-images-selector').msDropDown();
-
-  //$('div.zetaprints-page-color-pickers ul.colors-selector').vchecks();
 });
 //]]>
 </script>
