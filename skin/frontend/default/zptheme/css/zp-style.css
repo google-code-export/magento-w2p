@@ -20,7 +20,7 @@ div.image-tabs ul {
 }
 
 /**/
-div.image-tabs ul li {
+div.zetaprints-image-tabs ul li {
   width: 100px;
   float: left;
   margin-right: 15px;
@@ -32,18 +32,18 @@ div.image-tabs ul li {
 }
 
 /**/
-div.image-tabs ul li.selected {
+div.zetaprints-image-tabs ul li.selected {
   border-color: #F18200 !important;
   cursor: default;
 }
 
 /**/
-div.image-tabs ul li:hover {
+div.zetaprints-image-tabs ul li:hover {
   border-color: #C4C6C8;
 }
 
 /**/
-div.image-tabs ul li img {
+div.zetaprints-image-tabs ul li img {
   max-height: 100px;
   max-width: 100px;
 }
