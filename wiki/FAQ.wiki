@@ -18,12 +18,10 @@ You are using a custom theme. See CustomThemeNative and CustomTheme2Step pages f
   * Check that your ZetaPrints profile has no IP address restriction activated.
 
 
-*Error in receiving detailes for template [template_guid]. Leaving the template unmodified.*
+*Error in receiving detailes for template _template_guid_. Leaving the template unmodified.*
 
 Check that the template exists in your ZetaPrints portal.
 
-*Error in receiving list of templates for catalog [catalog_name]*
+*Error in receiving list of templates for catalog _catalog_name_*
 
 Check that the catalog exists in your ZetaPrints portal.
-
-
