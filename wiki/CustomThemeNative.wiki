@@ -119,3 +119,6 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
   * `css/zp-style.css` - Additional styles for Magento personalization form
     * Here you can adjust maximum width of preview image (see `'div.zetaprints-template-page div.product-img-box img'` selector)
+
+= NOSCRIPT =
+Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
