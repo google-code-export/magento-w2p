@@ -3,7 +3,9 @@
 class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_Dataflow_Model_Convert_Mapper_Abstract {
 
   public function map () {
-    $this->debug = (bool)Mage::getStoreConfig('zpapi/settings/w2p_debug');
+
+    //Always print debug information. Issue #80
+    $this->debug = true;
 
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
