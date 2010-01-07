@@ -13,7 +13,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
-    $this->debug = (bool)Mage::getStoreConfig('zpapi/settings/w2p_debug');
+    //Always print debug information. Issue #80
+    $this->debug = true;
 
     $refresh_templates = (bool)(int)Mage::getStoreConfig('zpapi/settings/w2p_refresh');
     if ($refresh_templates)
