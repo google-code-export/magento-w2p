@@ -23,6 +23,9 @@ class ZetaPrints_Zpapi_Model_Observer
 
       $files = zetaprints_complete_order(Mage::getStoreConfig('zpapi/settings/w2p_url'), Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
 
+      if (!is_array($files))
+        continue;
+
       foreach ($files as $type => $path)
         $options['info_buyRequest']['zetaprints-file-'.$type] = Mage::getStoreConfig('zpapi/settings/w2p_url').'/'.$path;
 
