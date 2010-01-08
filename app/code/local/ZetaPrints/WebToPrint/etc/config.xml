@@ -40,6 +40,12 @@
           <catalog_product_edit_tabs>ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
         </rewrite>
       </adminhtml>
+
+      <page>
+        <rewrite>
+          <html_footer>ZetaPrints_WebToPrint_Block_Html_Footer</html_footer>
+        </rewrite>
+      </page>
     </blocks>
 
     <helpers>

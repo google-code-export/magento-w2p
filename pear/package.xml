@@ -67,6 +67,7 @@ Extension developed by http://www.zetaprints.com/
         <dir name="WebToPrint">
 
           <dir name="Block">
+
             <dir name="Catalog">
               <dir name="Product">
                 <dir name="Edit">
@@ -84,6 +85,11 @@ Extension developed by http://www.zetaprints.com/
                 </dir>
               </dir>
             </dir>
+
+            <dir name="Html">
+              <file name="Footer.php" role="magelocal" />
+            </dir>
+
           </dir>
 
           <dir name="controllers">
