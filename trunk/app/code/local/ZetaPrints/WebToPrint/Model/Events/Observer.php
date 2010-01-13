@@ -98,7 +98,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
         foreach ($xml->Pages[0]->Page as $page)
           foreach ($media_gallery['images'] as &$image)
-            if ($image['label_default'] == (string)$page['Name']) {
+            if (isset($image['label_default']) && ($image['label_default'] == (string)$page['Name'])) {
               $image['removed'] = 1;
 
               if ($product->getSmallImage() == $image['file'])
