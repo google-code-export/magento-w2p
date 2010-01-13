@@ -18,21 +18,40 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
         $product = $product_model->load($product_id);
 
         if (!$product->getWebtoprintTemplate()) {
+          $this->debug("Product {$template->getGuid()} doesn't have web-to-print attribute.");
+
+          Mage::register('webtoprint-template-changed', true);
           $product->setSku("{$template->getGuid()}-rename-me")
             ->setRequiredOptions(true)
             ->setWebtoprintTemplate($template->getGuid())
             ->save();
-          $this->debug("Product {$template->getGuid()} was updated.");
+          Mage::unregister('webtoprint-template-changed');
+
+          $this->debug("Web-to-print attribute was added to product {$template->getGuid()}");
         }
-      }
-      else {
+        else {
+          $this->debug("SKU of product {$template->getGuid()} is equal to its web-to-print attribute");
+
+          Mage::register('webtoprint-template-changed', true);
+          $product->setSku("{$template->getGuid()}-rename-me")
+            ->setRequiredOptions(true)
+            ->save();
+          Mage::unregister('webtoprint-template-changed');
+
+          $this->debug("SKU of product {$template->getGuid()} was changed.");
+        }
+      } else {
         $products = $product_model->getCollection()->addAttributeToFilter('webtoprint_template', array('eq' => $template->getGuid()))->load();
 
         foreach ($products as $product)
           if (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate())) {
+            $this->debug("Template for product {$product->getWebtoprintTemplate()} changed");
+
             Mage::register('webtoprint-template-changed', true);
             $product->save();
             Mage::unregister('webtoprint-template-changed');
+
+            $this->debug("Product {$product->getWebtoprintTemplate()} was succesfully updated");
           }
       }
     }
