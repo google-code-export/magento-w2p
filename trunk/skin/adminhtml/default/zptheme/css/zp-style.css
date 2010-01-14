@@ -1,0 +1,19 @@
+div.zetaprints-previews-box {
+ cursor: pointer;
+}
+
+div.zetaprints-previews-box div.title a.show-title {
+  display: none;
+}
+
+div.zetaprints-previews-box.hidden div.content {
+  display: none;
+}
+
+div.zetaprints-previews-box.hidden div.title a.hide-title {
+  display: none;
+}
+
+div.zetaprints-previews-box.hidden div.title a.show-title {
+  display: inline;
+}
