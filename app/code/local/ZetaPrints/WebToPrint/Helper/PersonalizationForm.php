@@ -11,7 +11,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
   private function get_template_guid_from_product ($product) {
 
-    //Get template GUID from webtoprint_template attribute if such attribute exist
+    //Get template GUID from webtoprint_template attribute if such attribute exists
     //and contains value, otherwise use product SKU as template GUID
     if (!($product->hasWebtoprintTemplate() && $template_guid = $product->getWebtoprintTemplate()))
       $template_guid = $product->getSku();
