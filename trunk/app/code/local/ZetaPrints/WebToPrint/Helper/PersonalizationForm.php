@@ -80,14 +80,44 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 
     $images = explode(',', $options['zetaprints-previews']);
 
-    $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/preview/$images[0]";
-    $src = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/thumb/$images[0]";
-    $alt = $context->htmlEscape($context->getProductName());
+    if (count($images) == 1)
+     $message = 'Click to enlarge image';
+    else
+     $message = 'Click to see more images';
 
-    echo "<a href=\"$href\" target=\"_blank\">";
-    echo "<img src=\"$src\" alt=\"$alt\" style=\"max-width: 75px;\" />";
-    echo "</a>";
+    $first_image = true;
 
+    $group = 'group-' . mt_rand();
+
+    foreach ($images as $image) {
+      $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/preview/{$image}";
+      $src = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/thumb/{$image}";
+
+      if ($first_image) {
+        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
+        $first_image = false;
+      } else
+        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
+
+      echo "<img src=\"$src\" style=\"max-width: 75px;\" />";
+      echo "</a>";
+    }
+?>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function($) {
+  $('a.in-dialog').fancybox({
+    'zoomOpacity': true,
+    'overlayShow': false,
+    'centerOnScroll': false,
+    'zoomSpeedChange': 200,
+    'zoomSpeedIn': 500,
+    'zoomSpeedOut' : 500,
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+});
+//]]>
+</script>
+<?php
     return true;
   }
 
@@ -168,9 +198,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/colorpicker.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-qtip-1.0.0-rc3.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.1.pack.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.6.pack.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/colorpicker.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
 <?php
   }
