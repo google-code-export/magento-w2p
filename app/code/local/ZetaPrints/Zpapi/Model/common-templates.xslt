@@ -33,11 +33,18 @@
                   </input>
                 </xsl:when>
                 <xsl:otherwise>
-                  <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
-                    <xsl:for-each select="Value">
-                      <option><xsl:value-of select="." /></option>
-                    </xsl:for-each>
-                  </select>
+                  <xsl:choose>
+                    <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
+                      <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
+                        <xsl:for-each select="Value">
+                          <option><xsl:value-of select="." /></option>
+                        </xsl:for-each>
+                      </select>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:otherwise>
