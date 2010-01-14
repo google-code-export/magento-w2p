@@ -390,8 +390,8 @@ Extension developed by http://www.zetaprints.com/
           <dir name="zptheme">
 
             <dir name="css">
-              <file name="jquery.fancybox-1.2.6.css" role="magedesign" />
-              <file name="zp-style.css" role="magedesign" />
+              <file name="jquery.fancybox-1.2.6.css" role="mageskin" />
+              <file name="zp-style.css" role="mageskin" />
             </dir>
 
             <dir name="images">
@@ -417,8 +417,8 @@ Extension developed by http://www.zetaprints.com/
             </dir>
 
             <dir name="js">
-              <file name="jquery-1.3.2.min.js" role="magedesign" />
-              <file name="jquery.fancybox-1.2.6.pack.js" role="magedesign" />
+              <file name="jquery-1.3.2.min.js" role="mageskin" />
+              <file name="jquery.fancybox-1.2.6.pack.js" role="mageskin" />
             </dir>
 
           </dir>
@@ -440,6 +440,10 @@ Extension developed by http://www.zetaprints.com/
       <pearinstaller>
         <min>1.6.2</min>
       </pearinstaller>
+
+      <extension>
+        <name>xsl</name>
+      </extension>
 
     </required>
   </dependencies>
