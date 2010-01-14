@@ -191,6 +191,16 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function get_admin_js_css_includes ($context=null) {
+    $design = Mage::getDesign();
+?>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.6.pack.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
+<?php
+  }
+
   public function get_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
@@ -232,12 +242,43 @@ jQuery(document).ready(function($) {
     $previews = explode(',', $options['zetaprints-previews']);
 
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+?>
+    <div class="zetaprints-previews-box hidden">
+      <div class="title">
+        <a class="show-title">+&nbsp;Show&nbsp;previews</a>
+        <a class="hide-title">&minus;&nbsp;Hide&nbsp;previews</a>
+      </div>
+      <div class="content">
+        <ul>
+        <?php foreach ($previews as $preview): ?>
+          <li><a class="in-dialog" href="<?php echo "$url/preview/$preview" ?>" target="_blank" rel="group">
+            <img src="<?php echo "$url/thumb/$preview" ?>" /></a></li>
+        <?php endforeach ?>
+        </ul>
+      </div>
+    </div>
 
-    $html = '<ul>';
-    foreach ($previews as $preview)
-      $html .= "<li><a href=\"$url/preview/$preview\" target=\"_blank\"><img src=\"$url/thumb/$preview\" /></a></li>";
+    <script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function($) {
+  $('div.zetaprints-previews-box').toggle(
+    function () { $(this).removeClass('hidden'); },
+    function () { $(this).addClass('hidden'); }
+  );
 
-    return $html . '</ul>';
+  $('a.in-dialog').fancybox({
+    'zoomOpacity': true,
+    'overlayShow': false,
+    'centerOnScroll': false,
+    'zoomSpeedChange': 200,
+    'zoomSpeedIn': 500,
+    'zoomSpeedOut' : 500,
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+});
+//]]>
+    </script>
+
+<?php
   }
 
   public function get_js ($context) {
