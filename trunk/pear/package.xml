@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-01-13</date>
+  <date>2010-01-14</date>
 
   <version>
-    <release>1.6.0.0</release>
-    <api>1.6.0.0</api>
+    <release>1.6.0.1</release>
+    <api>1.6.0.1</api>
   </version>
 
   <stability>
@@ -52,10 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Support for Magento images in web-to-print products
-* Better stock images selector
-* Improved error handling and logging
-* Bug fixies and some cleanups
+* Fix old products updating code.
   </notes>
 
   <contents>
@@ -402,6 +399,28 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.6.0.0</release>
+        <api>1.6.0.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-01-13</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Support for Magento images in web-to-print products
+* Better stock images selector
+* Improved error handling and logging
+* Bug fixies and some cleanups
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.5.0.2</release>
