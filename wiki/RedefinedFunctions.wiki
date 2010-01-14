@@ -5,7 +5,7 @@
 Add your content here.
 
 
-= Class _Mage_Sales_Model_Quote_Item_ =
+= Class _!Mage_Sales_Model_Quote_Item_ =
 The class was redefined by *[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Model/Quote/Item.php ZetaPrints_WebToPrint_Model_Quote_Item]* class.
 
 Redefined functions:
