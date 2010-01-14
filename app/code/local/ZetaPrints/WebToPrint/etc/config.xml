@@ -28,6 +28,12 @@
           </template>
         </entities>
       </webtoprint_mysql4>
+
+      <sales>
+        <rewrite>
+          <quote_item>ZetaPrints_WebToPrint_Model_Quote_Item</quote_item>
+        </rewrite>
+      </sales>
     </models>
 
     <blocks>
