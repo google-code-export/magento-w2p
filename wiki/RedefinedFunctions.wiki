@@ -9,4 +9,4 @@ Add your content here.
 The class was redefined by *[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Model/Quote/Item.php ZetaPrints_WebToPrint_Model_Quote_Item]* class.
 
 Redefined functions:
-  * representProduct ($product) - If product has web-to-print features then return false to force creating new quote item in cart for personalized product.
+  * `representProduct ($product)` - If product has web-to-print features then return false to force creating new quote item in cart for personalized product.
