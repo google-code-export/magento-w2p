@@ -96,9 +96,14 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
         $xml = new SimpleXMLElement($template->getXml());
 
-        foreach ($xml->Pages[0]->Page as $page)
+        Mage::log('Media gallery before: ' . var_export($media_gallery, true));
+
+        foreach ($xml->Pages[0]->Page as $page) {
+          $page_name = (string)$page['Name'];
+
           foreach ($media_gallery['images'] as &$image)
-            if (isset($image['label_default']) && ($image['label_default'] == (string)$page['Name'])) {
+            if (isset($image['label_default']) && ($image['label_default'] == $page_name)) {
+              Mage::log('Removed');
               $image['removed'] = 1;
 
               if ($product->getSmallImage() == $image['file'])
@@ -107,6 +112,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
               if ($product->getThumbnail() == $image['file'])
                 $product->setThumbnail('no_selection');
             }
+        }
 
         $product->setMediaGallery($media_gallery);
       }

@@ -45,13 +45,15 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
 
         foreach ($products as $product)
           if (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate())) {
-            $this->debug("Template for product {$product->getWebtoprintTemplate()} changed");
+            $full_product = $product_model->load($product->getId());
+
+            $this->debug("Template for product {$full_product->getWebtoprintTemplate()} changed");
 
             Mage::register('webtoprint-template-changed', true);
-            $product->save();
+            $full_product->save();
             Mage::unregister('webtoprint-template-changed');
 
-            $this->debug("Product {$product->getWebtoprintTemplate()} was succesfully updated");
+            $this->debug("Product {$full_product->getWebtoprintTemplate()} was succesfully updated");
           }
       }
     }
