@@ -191,6 +191,16 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function get_next_page_button ($context) {
+    if (!$this->get_template_id($context->getProduct()))
+      return false;
+?>
+    <div class="zetaprints-next-page-button">
+      <input type="button" value="Next page" class="next-page form-button disabled" />
+    </div>
+<?php
+  }
+
   public function get_admin_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
@@ -314,6 +324,7 @@ jQuery(document).ready(function($) {
   previews = [<?php echo $previews_array; ?>];
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   number_of_pages = $('div.zetaprints-template-preview').length;
+  changed_pages = new Array(number_of_pages);
 
   <?php if ($previews): ?>
   $('div.zetaprints-image-tabs img').each(function () {
@@ -342,6 +353,12 @@ jQuery(document).ready(function($) {
     var page = $('img', this).attr('rel');
 
     $('#preview-image-' + page + ', #input-fields-' + page + ', #stock-images-' + page).css('display', 'block');
+
+    var page_number = page.split('-')[1] * 1;
+    if (changed_pages[page_number - 1] && page_number < number_of_pages)
+      $('div.zetaprints-next-page-button').show();
+    else
+      $('div.zetaprints-next-page-button').hide();
   });
 
   function update_preview () {
@@ -381,6 +398,14 @@ jQuery(document).ready(function($) {
             $('div.save-order span').css('display', 'none');
           }
         }
+
+        var page_number = page.split('-')[1] * 1;
+        changed_pages[page_number - 1] = true;
+
+        if (page_number < number_of_pages)
+          $('div.zetaprints-next-page-button').show();
+        else
+          $('div.zetaprints-next-page-button').hide();
 
         $('div.zetaprints-preview-button span, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show(); }
@@ -473,6 +498,21 @@ jQuery(document).ready(function($) {
         }
       });
     });
+  });
+
+  $('div.zetaprints-next-page-button').click(function () {
+    var page = '' + $('div.zetaprints-image-tabs li.selected img').attr('rel');
+
+    if (page == "undefined")
+      page = 'page-1';
+
+    var next_page_number = page.substring(5) * 1 + 1;
+
+    $('div.zetaprints-image-tabs li img[rel=page-' + next_page_number +']').parent().click();
+
+    if (next_page_number >= number_of_pages)
+      $(this).hide();
+
   });
 
   $('div.zetaprints-template-preview a').fancybox({

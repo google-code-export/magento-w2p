@@ -90,6 +90,12 @@ div.zetaprints-preview-button span {
   font-size: 85%;
 }
 
+div.zetaprints-next-page-button {
+  display: none;
+  float: left;
+  margin: 25px 0px 0px 10px;
+}
+
 /**/
 img.ajax-loader {
   vertical-align: middle;
