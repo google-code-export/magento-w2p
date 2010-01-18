@@ -24,33 +24,17 @@
  */
 $this->startSetup();
 
-$this->addAttribute('catalog_product', 'groupscatalog_hide_group', array(
-	'group'           => 'General',
-	'type'            => 'varchar',
-	'label'           => 'Hide from customer groups',
-	'input'           => 'multiselect',
-	'source'          => 'groupscatalog/config_source_customergroups_product',
-	'backend'         => 'groupscatalog/entity_attribute_backend_customergroups',
-	'global'          => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-	'required'        => true,
-	'default'         => Netzarbeiter_GroupsCatalog_Helper_Data::USE_DEFAULT,
-	'user_defined'    => 1,
-	//'apply_to'        => 'simple',
-	//'is_configurable' => true
-));
-
-$this->addAttribute('catalog_category', 'groupscatalog_hide_group', array(
-	'type'            => 'varchar',
-	'label'           => 'Hide from customer groups',
-	'input'           => 'multiselect',
-	'source'          => 'groupscatalog/config_source_customergroups_category',
-	'backend'         => 'groupscatalog/entity_attribute_backend_customergroups',
-	'global'          => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-	'required'        => true,
-	'default'         => Netzarbeiter_GroupsCatalog_Helper_Data::USE_DEFAULT,
-	'user_defined'    => 1,
-	//'apply_to'        => 'simple',
-	//'is_configurable' => true
+$this->addAttribute('catalog_category', 'accesscontrol_show_group', array(
+  'type'            => 'varchar',
+  'label'           => 'Show to customer groups',
+  'input'           => 'multiselect',
+  'source'          => 'accesscontrol/config_source_customergroups_category',
+  'backend'         => 'accesscontrolg/entity_attribute_backend_customergroups',
+  'backend_model'   => 'accesscontrol/entity_attribute_backend_customergroups'
+  'global'          => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+  'required'        => true,
+  'default'         => ZetaPrints_AccessControl_Helper_Data::USE_DEFAULT,
+  'user_defined'    => 1,
 ));
 
 $this->endSetup();
