@@ -32,26 +32,24 @@
  * @package    Netzarbeiter_GroupsCatalog
  * @author     Vinai Kopp <vinai@netzarbeiter.com>
  */
-class Netzarbeiter_GroupsCatalog_Block_Navigation extends Mage_Catalog_Block_Navigation
+class ZetaPrints_AccessControl_Block_Navigation extends Mage_Catalog_Block_Navigation
 {
-	/**
-	 * Set the module translation namespace
-	 */
-	public function _construct()
-	{
-		$this->setData('module_name', 'Mage_Catalog');
-	}
-	
-	/**
-	 * Set this so the navigation is cached depending on the customer group.
-	 * Otherwise, the cached navigation could shown a state not matching the current customer group
-	 * 
-	 * @return string
-	 */
-    public function getCacheKey()
-    {
-		$key = parent::getCacheKey();
-		$key .= Mage::helper('groupscatalog')->getCustomerGroupId();
-        return $key;
+  /**
+   * Set the module translation namespace
+   */
+  public function _construct()
+  {
+    $this->setData('module_name', 'Mage_Catalog');
+  }
+
+  /**
+   * Set this so the navigation is cached depending on the customer group.
+   * Otherwise, the cached navigation could shown a state not matching the current customer group
+   *
+   * @return string
+   */
+    public function getCacheKey () {
+      return parent::getCacheKey()
+        . Mage::helper('accesscontrol')->get_current_customer_group();
     }
 }

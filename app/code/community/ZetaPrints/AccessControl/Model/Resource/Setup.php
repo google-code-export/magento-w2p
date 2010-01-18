@@ -25,7 +25,7 @@
  */
 
 
-class Netzarbeiter_GroupsCatalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
-{
-
+class ZetaPrints_AccessControl_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup {
 }
+
+?>

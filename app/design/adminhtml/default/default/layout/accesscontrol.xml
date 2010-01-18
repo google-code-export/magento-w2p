@@ -21,12 +21,13 @@
 -->
 
 <layout>
-    <adminhtml_customer_edit>
-		<reference name="head">
-			<action method="addItem"><type>skin_js</type><name>netzarbeiter/js/groupscatalog.js</name></action>
-		</reference>
-        <reference name="js">
-            <block type="adminhtml/template" template="netzarbeiter/groupscatalog/customer/edit/js.phtml" name="groupscatalog.customer.edit.js" as="groupscatalog_js"></block>
-        </reference>
-    </adminhtml_customer_edit>
+  <adminhtml_customer_edit>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>js/accesscontrol.js</name></action>
+    </reference>
+
+    <reference name="js">
+      <block type="adminhtml/template" template="zetaprints/accesscontrol/customer/edit/js.phtml" name="accesscontrol.customer.edit.js" as="accesscontrol_js"></block>
+    </reference>
+  </adminhtml_customer_edit>
 </layout>

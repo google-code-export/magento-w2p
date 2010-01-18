@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!--
 /**
  * Magento
@@ -19,72 +20,44 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
+
 <config>
-    <sections>
-        <catalog translate="label" module="catalog"> 
-			<show_in_store>1</show_in_store>
-            <groups>
-                <groupscatalog translate="label" module="groupscatalog">
-                    <label>Customer Groups Catalog</label>
-                    <sort_order>765</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <disable_ext translate="label" module="groupscatalog">
-                            <label>Disable CustomerGroups Extension</label>
-                            <frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </disable_ext>
-                        <access_logic translate="label" module="groupscatalog">
-                            <label>Access logic</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>groupscatalog/config_source_accesslogic</source_model>
-                            <sort_order>15</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment><![CDATA[<b>Denied access:</b> products/categories are visible to all and hidden from selected.<br /><b>Granted access:</b> products/categories are hidden from all, except the selected]]>.</comment>
-                        </access_logic>
-                        <default_product_groups translate="label" module="groupscatalog">
-                            <label>Access to products by customer groups</label>
-                            <frontend_type>multiselect</frontend_type>
-                            <source_model>groupscatalog/config_source_customergroups</source_model>
-                            <backend_model>groupscatalog/config_data_customergroups</backend_model>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Selected groups either granted or denied access depending on Access Logic.</comment>
-                        </default_product_groups>
-                        <default_category_groups translate="label" module="groupscatalog">
-                            <label>Access to categories by customer groups</label>
-                            <frontend_type>multiselect</frontend_type>
-                            <source_model>groupscatalog/config_source_customergroups</source_model>
-                            <backend_model>groupscatalog/config_data_customergroups</backend_model>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Selected groups either granted or denied access depending on Access Logic.</comment>
-                        </default_category_groups>
-						<grow_db_field translate="label,comment" module="groupscatalog">
-							<label>Grow DB Field Size if required</label>
-                            <frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-							<comment>Enable if you use more then 22 customer groups with complex permissions.</comment>
-						</grow_db_field>
-                    </fields>
-                </groupscatalog>				
-            </groups>
-        </catalog>
-    </sections>
+  <sections>
+    <catalog translate="label" module="catalog">
+      <show_in_store>1</show_in_store>
+      <groups>
+        <accesscontrol translate="label" module="accesscontrol">
+          <label>Customer Groups Catalog</label>
+          <sort_order>765</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+
+          <fields>
+            <extension_status translate="label" module="accesscontrol">
+              <label>Enable AccessControl Extension</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </extension_status>
+
+            <default_category_groups translate="label" module="accesslogic">
+              <label>Access to categories by customer groups</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>accesscontrol/config_source_customergroups</source_model>
+              <backend_model>accesscontrol/config_data_customergroups</backend_model>
+              <sort_order>30</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <comment></comment>
+            </default_category_groups>
+          </fields>
+        </accesscontrol>
+      </groups>
+    </catalog>
+  </sections>
 </config>
