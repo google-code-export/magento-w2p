@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -24,68 +25,41 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Config data backend model for customer groups selection
  *
  * @category   Netzarbeiter
  * @package    Netzarbeiter_GroupsCatalog
  */
-class Netzarbeiter_GroupsCatalog_Model_Config_Data_Customergroups extends Mage_Core_Model_Config_Data
-{
-	/**
-	 * Input validation for the backend data entry
-	 *
-	 * @return Netzarbeiter_GroupsCatalog_Model_Config_Data_Customergroups
-	 */
-    protected function _beforeSave()
-    {
-        $data = $this->getValue();
-        
-        /**
-         * Default to using the default - don't let the customer select nothing
-         */
-        if (empty($data)) {
-        	$this->setValue(array(Netzarbeiter_GroupsCatalog_Helper_Data::NONE));
+class ZetaPrints_AccessControl_Model_Config_Data_Customergroups
+  extends Mage_Core_Model_Config_Data {
+
+  /**
+   * Input validation for the backend data entry
+   *
+   * @return Netzarbeiter_GroupsCatalog_Model_Config_Data_Customergroups
+   */
+    protected function _beforeSave () {
+      $data = $this->getValue();
+
+      //Default to using the default - don't let the customer select nothing
+      if (empty($data))
+        $this->setValue(array(ZetaPrints_AccessControl_Helper_Data::NONE));
+      elseif (count($data) > 1) {
+        if (in_array(ZetaPrints_AccessControl_Helper_Data::NONE, $data)) {
+          //Remove all groups but the "none" value
+          $data = array(ZetaPrints_AccessControl_Helper_Data::NONE);
+
+          Mage::getSingleton('adminhtml/session')
+              ->addNotice(Mage::helper('adminhtml')
+                ->__('Customer groups besides NONE where removed from the selection.'));
         }
-        elseif (count($data) > 1) {
-        	if (in_array(Netzarbeiter_GroupsCatalog_Helper_Data::NONE, $data))
-       		{
-        		/**
-        		 * remove all groups but the "none" value
-        		 */
-        		$data = array(Netzarbeiter_GroupsCatalog_Helper_Data::NONE);
-        		Mage::getSingleton('adminhtml/session')->addNotice(
-        			Mage::helper('adminhtml')->__('Customer groups besides NONE where removed from the selection.')
-        		);
-        	}
-        	$this->setValue($data);
-        }
-        
 
-	//Renaming label of groups selector on catalog/product settings page.
-	//Looks ugly.
-	$categoryAttribute = Mage::getModel('catalog/category')->getResource()->getAttribute('groupscatalog_hide_group');
-	$categoryData = $categoryAttribute->getData();
+        $this->setValue($data);
+      }
 
-	$productAttribute = Mage::getModel('catalog/product')->getResource()->getAttribute('groupscatalog_hide_group');
-	$productData = $productAttribute->getData();
-
-	if (Mage::helper('groupscatalog/data')->getAccessLogic() == Netzarbeiter_GroupsCatalog_Helper_Data::ACCESS_DENIED) {
-		$categoryData['frontend_label'] = Mage::helper('groupscatalog')->__('Show to customer groups');
-		$productData['frontend_label'] = Mage::helper('groupscatalog')->__('Show to customer groups');
-	} else {
-		$categoryData['frontend_label'] = Mage::helper('groupscatalog')->__('Hide from customer groups');
-		$productData['frontend_label'] = Mage::helper('groupscatalog')->__('Hide from customer groups');
-	}
-
-	$categoryAttribute->setData($categoryData);
-	$categoryAttribute->save();
-
-	$productAttribute->setData($productData);
-	$productAttribute->save();
-
-        return parent::_beforeSave();
-    }
-    
+    return parent::_beforeSave();
+  }
 }
+
+?>

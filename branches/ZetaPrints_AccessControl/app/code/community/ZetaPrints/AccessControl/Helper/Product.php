@@ -26,24 +26,18 @@
  * @package    Netzarbeiter_GroupsCatalog
  * @author     Vinai Kopp <vinai@netzarbeiter.com>
  */
-class Netzarbeiter_GroupsCatalog_Helper_Product extends Mage_Catalog_Helper_Product
-{
-    /**
-     * Check if a product can be shown
-     *
-     * @param  Mage_Catalog_Model_Product|int $product
-     * @return boolean
-     */
-    public function canShow($product, $where = 'catalog')
-    {
-		if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
-        }
-        
-    	if (parent::canShow($product)) {
-    		// if is hidden from customer group return false
-    		return ! Mage::helper('groupscatalog')->isProductHidden($product);
-    	}
-        return false;
-    }
+class ZetaPrints_AccessControl_Helper_Product extends Mage_Catalog_Helper_Product {
+  /**
+   * Check if a product can be shown
+   *
+   * @param  Mage_Catalog_Model_Product|int $product
+   * @return boolean
+   */
+  public function canShow ($product, $where = 'catalog') {
+    if (is_int($product))
+      $product = Mage::getModel('catalog/product')->load($product);
+
+    return parent::canShow($product)
+      && Mage::helper('accesscontrol')->has_customer_group_access_to_product($product);
+  }
 }
