@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -15,22 +14,21 @@
  *
  * @category   Netzarbeiter
  * @package    Netzarbeiter_GroupsCatalog
- * @copyright  Copyright (c) 2008 netzarbeiter Vinai Kopp http://netzarbeiter.com
+ * @copyright  Copyright (c) 2008 Vinai Kopp http://netzarbeiter.com/
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class ZetaPrints_AccessControl_Model_Config_Source_Customergroups_Category
-  extends ZetaPrints_AccessControl_Model_Config_Source_Customergroups {
-
-  public function toOptionArray () {
-    if (!$this->_options) {
-      parent::toOptionArray();
-
-      array_unshift($this->_options,
-        array('value'=> ZetaPrints_AccessControl_Helper_Data::USE_DEFAULT,
-              'label'=> Mage::helper('accesscontrol')->__('USE DEFAULT') ) );
-    }
-
-    return $this->_options;
+class ZetaPrints_AccessControl_Model_CatalogSearch_Layer extends Mage_CatalogSearch_Model_Layer
+{
+  /**
+   * Prepare add groups catalog product filter to a prepared product collection
+   *
+   * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+   * @return Mage_Catalog_Model_Layer
+   */
+  public function prepareProductCollection($collection) {
+    parent::prepareProductCollection($collection);
+    Mage::helper('accesscontrol')->filter_out_products($collection);
+    return $this;
   }
 }

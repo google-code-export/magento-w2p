@@ -29,8 +29,8 @@ $this->addAttribute('catalog_category', 'accesscontrol_show_group', array(
   'label'           => 'Show to customer groups',
   'input'           => 'multiselect',
   'source'          => 'accesscontrol/config_source_customergroups_category',
-  'backend'         => 'accesscontrolg/entity_attribute_backend_customergroups',
-  'backend_model'   => 'accesscontrol/entity_attribute_backend_customergroups'
+  'backend'         => 'accesscontrol/entity_attribute_backend_customergroups',
+  'backend_model'   => 'accesscontrol/entity_attribute_backend_customergroups',
   'global'          => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
   'required'        => true,
   'default'         => ZetaPrints_AccessControl_Helper_Data::USE_DEFAULT,
