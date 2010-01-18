@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -18,20 +19,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+class ZetaPrints_AccessControl_Model_Config_Source_Customergroups_Category
+  extends Netzarbeiter_GroupsCatalog_Model_Config_Source_Customergroups {
 
-class Netzarbeiter_GroupsCatalog_Model_Config_Source_Customergroups_Category
-	extends Netzarbeiter_GroupsCatalog_Model_Config_Source_Customergroups
-{
-    public function toOptionArray()
-    {
-        if (!$this->_options) {
-    		parent::toOptionArray();
-    		
-            array_unshift($this->_options, array(
-            	'value'=> Netzarbeiter_GroupsCatalog_Helper_Data::USE_DEFAULT,
-            	'label'=> Mage::helper('groupscatalog')->__('USE DEFAULT')
-            ));
-        }
-        return $this->_options;
+  public function toOptionArray () {
+    if (!$this->_options) {
+      parent::toOptionArray();
+
+      array_unshift($this->_options,
+        array('value'=> ZetaPrints_AccessControl_Helper_Data::USE_DEFAULT,
+              'label'=> Mage::helper('accesscontrol')->__('USE DEFAULT') ) );
     }
+
+    return $this->_options;
+  }
 }
