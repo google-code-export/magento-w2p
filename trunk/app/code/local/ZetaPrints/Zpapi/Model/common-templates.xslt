@@ -35,6 +35,7 @@
                 <xsl:otherwise>
                   <xsl:choose>
                     <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
+                      <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
                       <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}" />
                     </xsl:when>
                     <xsl:otherwise>
