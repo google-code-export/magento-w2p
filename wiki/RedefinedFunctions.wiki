@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Add your content here.
+This page lists functions from Magento Core re-defined by the extension. It is possible that some other extension will try to re-define them as well leading to conflicts.
 
 
 = Class _!Mage_Sales_Model_Quote_Item_ =
