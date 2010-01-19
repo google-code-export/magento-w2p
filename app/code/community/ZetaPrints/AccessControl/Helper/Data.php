@@ -19,7 +19,7 @@
  */
 
 /**
- * Core helper
+ * Core helper class.
  * Catalog and product access logic.
  *
  * @category   ZetaPrints
@@ -28,26 +28,61 @@
  */
 class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
 
+  /**
+   * The attribute code used for customer groups access to category checking.
+   *
+   * @var string
+   */
   const ACCESS_GROUPS_ATTRIBUTE_ID = 'accesscontrol_show_group';
 
+  /**
+   * The value of the catalog attribute when the global config settings
+   * for customer group access should be used
+   */
   const USE_DEFAULT = '-2';
+
+  /**
+   * The value of the catalog attribute when access to the catalog should be
+   * denied to any customer.
+   */
   const NONE = '-1';
+
+  /**
+   * The value of the catalog attribute when access to the catalog should be
+   * allowed to any registered and logged in customer.
+   */
   const REGISTERED = '-3';
+
+  /**
+   * The value of the catalog attribute when access to the catalog should be
+   * allowed to any customer (logged in or not).
+   */
   const ALL = '-4';
 
+  /**
+   * Checks whether customer's group has access to product or not.
+   *
+   * @param Mage_Catalog_Model_Product $product
+   * @param int $customer_group
+   * @return bool
+   */
   public function has_customer_group_access_to_product ($product, $customer_group = null) {
     $category = $product->getCategory();
 
-    //If current category is know then check access to the category
+    //If current category is know then check access to the category.
     if ($category && $category->getId)
       return $this->has_customer_group_access_to_category($category, $customer_group);
 
+    //If product doesn't belong to any category then deny access to it.
     if (!$category_ids = $product->getCategoryIds())
       return false;
 
+    //Check access to every category which the product belongs to.
     foreach ($category_ids as $category_id) {
       $category = Mage::getModel('catalog/category')->load($category_id);
 
+      //If customer's group has access atleast to one category then allow
+      //access to the product.
       if ($category->getId()
         && $this->has_customer_group_access_to_category($category, $customer_group))
 
@@ -57,73 +92,146 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
     return false;
   }
 
+  /**
+   * Checks whether customer's group has access to catalog or not.
+   *
+   * @param Mage_Catalog_Model_Category $category
+   * @param int $customer_group
+   * @return bool
+   */
   public function has_customer_group_access_to_category ($category, $customer_group = null) {
     if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
       return false;
 
+    //Tries to get current customer's group id if it's not specified
+    //in function params
     if (!isset($customer_group))
       $customer_group = $this->get_current_customer_group();
 
     $access_groups = $this->get_access_groups_for_category($category);
 
-    if (!$this->has_category_custom_access($access_groups)) {
+    //Checks whether the category has custom access or not.
+    if (!$this->has_category_custom_access($access_groups))
+      //If it hasn't custom access then fetching global categories access params
       $access_groups = explode(',', $this->get_store_config_value('default_category_groups'));
-    }
 
     return $this->is_customer_group_in_access_groups($customer_group, $access_groups);
   }
 
+  /**
+   * Filters out categories with denied access from collection.
+   *
+   * @param $collection
+   */
   public function filter_out_categories ($collection) {
     foreach ($collection as $item)
       if (!$this->has_customer_group_access_to_category($item))
         $collection->removeItemByKey($item->getId());
   }
 
+  /**
+   * Filters out products with denied access from collection.
+   *
+   * @param $collection
+   */
   public function filter_out_products ($collection) {
     foreach ($collection as $item)
       if (!$this->has_customer_group_access_to_product($item))
         $collection->removeItemByKey($item->getId());
   }
 
+  /**
+   * Checks whether category has custom access or not.
+   *
+   * @param array $access_groups
+   * @return bool
+   */
   protected function has_category_custom_access ($access_groups) {
     return !(count($access_groups) == 1 && $access_groups[0] == self::USE_DEFAULT);
   }
 
+  /**
+   * Checks if customer group is presents in a list of groups
+   * with allowed access
+   *
+   * @param int $customer_group
+   * @param array $access_groups
+   * @return bool
+   */
   private function is_customer_group_in_access_groups ($customer_group, $access_groups) {
+    //Checks if "All" option was selected and customer belongs to
+    //any group, including "Not logged in" group.
     if ($this->is_all_customers_rule($access_groups) && $customer_group >= 0)
       return true;
 
+    //Checks if "Registered" option was selected and customer belongs to
+    //any group, excluding "Not logged in" group.
     if ($this->is_registered_customers_rule($access_groups) && $customer_group > 0)
       return true;
 
     return in_array($customer_group, $access_groups);
   }
 
+  /*
+   * Checks if "Registered" option were selected in access control
+   *
+   * @return bool
+   */
   private function is_registered_customers_rule ($access_groups) {
     return count($access_groups) == 1 && $access_groups[0] == self::REGISTERED;
   }
 
+  /*
+   * Checks if "All" option were selected in access control
+   *
+   * @return bool
+   */
   private function is_all_customers_rule ($access_groups) {
     return count($access_groups) == 1 && $access_groups[0] == self::ALL;
   }
 
+  /**
+   * Check if the extension is enabled in the system configuration.
+   *
+   * @return boolean
+   */
   public function is_extension_enabled () {
     return (bool) $this->get_store_config_value('extension_status');
   }
 
+  /**
+   * Check if the script is called from the adminhtml interface.
+   *
+   * @return boolean
+   */
   protected function is_in_admin_panel () {
     return Mage::app()->getStore()->isAdmin();
   }
 
+  /**
+   * Returns the specific config value from store for the extension.
+   *
+   * @return string
+   */
   protected function get_store_config_value ($key) {
     return Mage::getStoreConfig("catalog/accesscontrol/{$key}", Mage::app()->getStore());
   }
 
-  //Check for calling number: 1
+  /**
+   * Returns current customer's group id
+   *
+   * @return int
+   */
   protected function get_current_customer_group () {
     return Mage::getSingleton('customer/session')->getCustomerGroupId();
   }
 
+  /**
+   * Retrieves list of groups with allowed access for category
+   *
+   * @param Mage_Catalog_Model_Category $category
+   * @return array
+   */
   public function get_access_groups_for_category ($category) {
     $accessGroups = $category->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
 
@@ -150,63 +258,5 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
 
     return $access_groups;
   }
-
-
-  public function addGroupsFilterToProductCollection(Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection, $customerGroup = null) {
-    if ($this->isExtensionEnabled() && (! $this->isInAdminPanel() || isset($customerGroupId)))
-    {
-      if (! isset($customerGroupId))
-      {
-        $customerGroupId = $this->getCurrentCustomerGroup();
-      }
-
-      $attribute = Mage::getModel('catalog/product')->getResource()->getAttribute(self::ACCESS_GROUPS_ATTRIBUTE_ID);
-
-            $tableAlias = '_' . self::ACCESS_GROUPS_ATTRIBUTE_ID . '_table';
-            $attributeValueCol = 'IFNULL(' . $tableAlias . '.value' . ', ' . $attribute->getDefaultValue() . ')';
-
-            $select = $collection->getSelect();
-
-            $tableCondition = 'e.entity_id='.$tableAlias.'.entity_id AND ' .
-                $tableAlias.'.attribute_id' . '=' .$attribute->getId();
-
-            $select->joinLeft(
-                array($tableAlias => $attribute->getBackend()->getTable()),
-                $tableCondition, 'value'
-            );
-
-            $commonConditionsSql = sprintf(
-                    $attributeValueCol . " = '%1\$s' OR " .
-                    "(" .
-                        $attributeValueCol . " like '%1\$s,%%' OR " .
-                        $attributeValueCol . " like '%%,%1\$s' OR " .
-                        $attributeValueCol . " like '%%,%1\$s,%%'" .
-                    ")",
-                    $customerGroupId
-            );
-
-
-      Mage::log($commonConditionsSql);
-
-            if ($this->isCustomerGroupInAccessGroups($customerGroupId, explode(',', $this->getStoreConfigValue('default_product_groups'))))
-            {
-                $select->where(
-                    $attributeValueCol . " = ? OR ( " .
-                    $commonConditionsSql . ")",
-                    self::USE_DEFAULT
-                );
-            }
-            else
-            {
-        Mage::log('No group access');
-                $select->where(
-                    $attributeValueCol . " != ? AND ( " .
-                    $commonConditionsSql . ")",
-                    self::USE_DEFAULT
-                );
-            }
-    }
-  }
-}
 
 ?>
