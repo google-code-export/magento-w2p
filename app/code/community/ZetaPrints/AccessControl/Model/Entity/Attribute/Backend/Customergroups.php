@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Magento
+ * AccessControl
  *
  * NOTICE OF LICENSE
  *
@@ -13,24 +12,19 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Netzarbeiter
- * @package    Netzarbeiter_GroupsCatalog
- * @copyright  Copyright (c) 2008 Vinai Kopp http://netzarbeiter.com
+ * @category   ZetaPrints
+ * @package    ZetaPrints_AccessControl
+ * @copyright  Copyright (c) 2010 ZetaPrints Ltd. http://www.zetaprints.com/
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Backend model for attribute with multiple values, Netzarbeiter_GroupsCatalog version
+ * Backend model for attribute with multiple values;
+ * with changes for ZetaPrints AccessControl extension.
  *
- * @category   Netzarbeiter
- * @package    Netzarbeiter_GroupsCatalog
- * @author     Vinai Kopp <vinai@netzarbeiter.com>
+ * @category   ZetaPrints
+ * @package    ZetaPrints_AccessControl
+ * @author     Anatoly A. Kazantsev <anatoly.kazantsev@gmail.com>
  */
 class ZetaPrints_AccessControl_Model_Entity_Attribute_Backend_Customergroups
   extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract {
@@ -94,34 +88,6 @@ class ZetaPrints_AccessControl_Model_Entity_Attribute_Backend_Customergroups
     $object->setData($this->getAttribute()->getAttributeCode(), $data);
 
     $this->checkDbFieldLength($object);
-
-    //Check if the groupscatalog config was changed. If yes, clear the layered navigation cache.
-    //This only applies to Magento Version 1.2.0 and above.
-    //if (version_compare(Mage::getVersion(), '1.2', '>=') && $object instanceof Mage_Catalog_Model_Product)
-    //    {
-    //      $_product = Mage::getModel('catalog/product')->setId($object->getId());
-    //      $oldData = $helper->getGroupsCatalogAttributeArray($_product);
-    //      if ($oldData != $data)
-    //      {
-     //       $this->_getAggregator()->clearProductData($object->getId());
-    //      }
-    //    }
-
-        /*
-         * Not needed - layered cache seems to get cleared anyway on category saves
-        elseif ($object instanceof Mage_Catalog_Model_Category)
-        {
-          $_category = Mage::getModel('catalog/category')->setId($object->getId());
-          $oldData = $helper->getGroupsCatalogAttributeArray($_category);
-          if ($oldData != $data)
-          {
-        $tags = array(
-          Mage_Catalog_Model_Category::CACHE_TAG.':'.$category->getPath()
-        );
-        $this->_getAggregator()->clearCacheData($tags);
-          }
-        }
-    */
 
     return parent::beforeSave($object);
   }

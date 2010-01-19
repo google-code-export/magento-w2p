@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento
+ * AccessControl
  *
  * NOTICE OF LICENSE
  *
@@ -18,26 +18,25 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Netzarbeiter
- * @package    Netzarbeiter_GroupsCatalog
- * @copyright  Copyright (c) 2009 Vinai Kopp http://netzarbeiter.com
+ * @category   ZetaPrints
+ * @package    ZetaPrints_AccessControl
+ * @copyright  Copyright (c) 2010 ZetaPrints Ltd. http://www.zetaprints.com/
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Catalog layered navigation view block, extend to change the cache key
  *
- * @category   Netzarbeiter
- * @package    Netzarbeiter_GroupsCatalog
- * @author     Vinai Kopp <vinai@netzarbeiter.com>
+ * @category   ZetaPrints
+ * @package    ZetaPrints_AccessControl
+ * @author     Anatoly A. Kazantsev <anatoly.kazantsev@gmail.com>
  */
-class ZetaPrints_AccessControl_Block_Layer_View extends Mage_Catalog_Block_Layer_View
-{
+class ZetaPrints_AccessControl_Block_Layer_View extends Mage_Catalog_Block_Layer_View {
+
   /**
    * Set the module translaton namespace
    */
-  public function _construct()
-  {
+  public function _construct () {
     $this->setData('module_name', 'Mage_Catalog');
   }
 
@@ -47,8 +46,10 @@ class ZetaPrints_AccessControl_Block_Layer_View extends Mage_Catalog_Block_Layer
    *
    * @return string
    */
-    public function getCacheKey () {
-      return parent::getCacheKey()
-        . Mage::helper('accesscontrol')->get_current_customer_group();
-    }
+  public function getCacheKey () {
+    return parent::getCacheKey()
+      . Mage::helper('accesscontrol')->get_current_customer_group();
+  }
 }
+
+?>
