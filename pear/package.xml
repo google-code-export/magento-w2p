@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-01-14</date>
+  <date>2010-01-19</date>
 
   <version>
-    <release>1.6.0.1</release>
-    <api>1.6.0.1</api>
+    <release>1.6.1.0</release>
+    <api>1.6.1.0</api>
   </version>
 
   <stability>
@@ -52,7 +52,15 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Fix old products updating code.
+* Separate cart items for web-to-print products.
+* Updated jquery fancybox plugin to 1.2.6.
+* Add support for popup slideshow on cart items for multipage products.
+* Add support for checkbox in templates.
+* Show thumbs in order detailes for web-to-print products with popup slideshow
+  for multipage templates.
+* Add xsl extension to package dependencies.
+* Add next page button for multipage templates on personalization form.
+* Bug fixes.
   </notes>
 
   <contents>
@@ -451,6 +459,25 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.6.0.1</release>
+        <api>1.6.0.1</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-01-14</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Fix old products updating code.
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.6.0.0</release>
