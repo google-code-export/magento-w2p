@@ -67,6 +67,9 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
    * @return bool
    */
   public function has_customer_group_access_to_product ($product, $customer_group = null) {
+    if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
+      return true;
+
     $category = $product->getCategory();
 
     //If current category is know then check access to the category.
@@ -101,7 +104,7 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
    */
   public function has_customer_group_access_to_category ($category, $customer_group = null) {
     if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
-      return false;
+      return true;
 
     //Tries to get current customer's group id if it's not specified
     //in function params
@@ -124,6 +127,9 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
    * @param $collection
    */
   public function filter_out_categories ($collection) {
+    if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
+      return true;
+
     foreach ($collection as $item)
       if (!$this->has_customer_group_access_to_category($item))
         $collection->removeItemByKey($item->getId());
@@ -135,6 +141,9 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
    * @param $collection
    */
   public function filter_out_products ($collection) {
+    if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
+      return true;
+
     foreach ($collection as $item)
       if (!$this->has_customer_group_access_to_product($item))
         $collection->removeItemByKey($item->getId());
