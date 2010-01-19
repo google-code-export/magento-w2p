@@ -5,16 +5,29 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
 
   const USE_DEFAULT = '-2';
   const NONE = '-1';
+  const REGISTERED = '-3';
+  const ALL = '-4';
 
   public function has_customer_group_access_to_product ($product, $customer_group = null) {
     $category = $product->getCategory();
 
-    //If product doesn't belong to any category then disable access to it...
-    if (!$category || !$category->getId)
+    //If current category is know then check access to the category
+    if ($category && $category->getId)
+      return $this->has_customer_group_access_to_category($category, $customer_group);
+
+    if (!$category_ids = $product->getCategoryIds())
       return false;
 
-    //... otherwise check access to product's category
-    return has_customer_group_access_to_category($category, $customer_group)
+    foreach ($category_ids as $category_id) {
+      $category = Mage::getModel('catalog/category')->load($category_id);
+
+      if ($category->getId()
+        && $this->has_customer_group_access_to_category($category, $customer_group))
+
+        return true;
+    }
+
+    return false;
   }
 
   public function has_customer_group_access_to_category ($category, $customer_group = null) {
@@ -26,16 +39,12 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
 
     $access_groups = $this->get_access_groups_for_category($category);
 
-    if (!$this->has_category_custom_access($access_groups))
-      $accessGroups = explode(',', $this->get_store_config_value('default_category_groups'));
+    if (!$this->has_category_custom_access($access_groups)) {
+      $access_groups = explode(',', $this->get_store_config_value('default_category_groups'));
+    }
 
     return $this->is_customer_group_in_access_groups($customer_group, $access_groups);
   }
-
-  //Check for calling number: 0
-  //protected function hasCustomerGroupGlobalAccessToCategories ($customerGroup) {
-  //  return $this->isCustomerGroupInAccessGroups($customerGroup, explode(',', $this->getStoreConfigValue('default_category_groups')));
-  //}
 
   public function filter_out_categories ($collection) {
     foreach ($collection as $item)
@@ -43,23 +52,33 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
         $collection->removeItemByKey($item->getId());
   }
 
+  public function filter_out_products ($collection) {
+    foreach ($collection as $item)
+      if (!$this->has_customer_group_access_to_product($item))
+        $collection->removeItemByKey($item->getId());
+  }
 
   protected function has_category_custom_access ($access_groups) {
     return !(count($access_groups) == 1 && $access_groups[0] == self::USE_DEFAULT);
   }
 
   private function is_customer_group_in_access_groups ($customer_group, $access_groups) {
-    return in_array($customerGroup, $accessGroups);
+    if ($this->is_all_customers_rule($access_groups) && $customer_group >= 0)
+      return true;
+
+    if ($this->is_registered_customers_rule($access_groups) && $customer_group > 0)
+      return true;
+
+    return in_array($customer_group, $access_groups);
   }
 
+  private function is_registered_customers_rule ($access_groups) {
+    return count($access_groups) == 1 && $access_groups[0] == self::REGISTERED;
+  }
 
-
-
-
-
-
-
-
+  private function is_all_customers_rule ($access_groups) {
+    return count($access_groups) == 1 && $access_groups[0] == self::ALL;
+  }
 
   public function is_extension_enabled () {
     return (bool) $this->get_store_config_value('extension_status');

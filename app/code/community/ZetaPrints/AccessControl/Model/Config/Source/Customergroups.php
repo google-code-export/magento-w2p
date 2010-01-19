@@ -36,10 +36,14 @@ class ZetaPrints_AccessControl_Model_Config_Source_Customergroups
         ->loadData()
         ->toOptionArray();
 
+      array_shift($this->_options);
       array_unshift($this->_options,
         array('value'=> ZetaPrints_AccessControl_Helper_Data::NONE,
-              'label'=> Mage::helper('accesscontrol')->__('NONE')
-            ));
+              'label'=> Mage::helper('accesscontrol')->__('NONE')),
+        array('value'=> ZetaPrints_AccessControl_Helper_Data::ALL,
+              'label'=> Mage::helper('accesscontrol')->__('ALL')),
+        array('value'=> ZetaPrints_AccessControl_Helper_Data::REGISTERED,
+              'label'=> Mage::helper('accesscontrol')->__('REGISTERED')) );
     }
 
     return $this->_options;
