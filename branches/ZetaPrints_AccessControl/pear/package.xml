@@ -61,7 +61,7 @@
 
           <dir name="etc">
             <file name="config.xml" role="magecommunity" />
-            <file name="convert.xml" role="magecommunity" />
+            <file name="system.xml" role="magecommunity" />
           </dir>
 
           <dir name="Helper">
@@ -84,7 +84,7 @@
 
                 <dir name="Source">
 
-                  <dir name="Source">
+                  <dir name="Customergroups">
                     <file name="Category.php" role="magecommunity" />
                   </dir>
 
