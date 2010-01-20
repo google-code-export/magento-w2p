@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_WebToPrint>
-      <version>2</version>
+      <version>3</version>
     </ZetaPrints_WebToPrint>
   </modules>
 
@@ -28,6 +28,12 @@
           </template>
         </entities>
       </webtoprint_mysql4>
+
+      <dataflow>
+        <rewrite>
+          <profile_history>ZetaPrints_WebToPrint_Model_Profile_History</profile_history>
+        </rewrite>
+      </dataflow>
 
       <sales>
         <rewrite>

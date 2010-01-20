@@ -148,6 +148,10 @@ Extension developed by http://www.zetaprints.com/
 
             </dir>
 
+            <dir name="Profile">
+              <file name="History.php" role="magelocal" />
+            </dir>
+
             <dir name="Quote">
               <file name="Item.php" role="magelocal" />
             </dir>
