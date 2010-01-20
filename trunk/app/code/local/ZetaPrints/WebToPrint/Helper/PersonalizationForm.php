@@ -201,6 +201,28 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function prepare_gallery_images ($context, $check_for_personalization = false) {
+    if (!$this->get_template_id($context->getProduct()))
+      return false;
+
+    if ($check_for_personalization && !$this->is_personalization_step($context))
+      return false;
+
+    $images = $context->getProduct()->getMediaGalleryImages();
+
+    foreach ($images as $image)
+      if(strpos(basename($image['path']), 'zetaprints_') === 0)
+        $images->removeItemByKey($image->getId());
+
+    //$images = $context->getProduct()->getMediaGallery('images');
+
+    //foreach ($images as &$image)
+    //  if(strpos(basename($image['file']), 'zetaprints_') === 0)
+    //    $image['disabled'] = 1;
+
+    //$context->getProduct()->setMediaGallery('images', $images);
+  }
+
   public function get_admin_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
