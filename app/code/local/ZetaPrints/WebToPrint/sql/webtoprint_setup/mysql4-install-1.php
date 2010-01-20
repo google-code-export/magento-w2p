@@ -22,12 +22,4 @@ $installer->run("
 
 $installer->endSetup();
 
-//$profile_model = Mage::getModel('dataflow/profile');
-//$profile_model->setName('Zetaprints templates importing')
-  //->setActionsXml('<action type="webtoprint/products-creation" method="map" />')
-  //->setGuiData(false)
-  //->setDirections('import')
-  //->setDataTransfer('interactive')
-  //->save();
-
 ?>
