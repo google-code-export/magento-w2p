@@ -74,6 +74,14 @@
 
     ?>
 <?php endif; ?>
+
+<!-- /****** ZP-CODE:2 Remove web-to-print images from the gallery
+             on personalization form ******/ -->
+
+<?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this, true) ?>
+
+<!-- /****** ZP-CODE:2 End ******/ -->
+
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
     <h4><?php echo $this->__('More Views') ?></h4>
