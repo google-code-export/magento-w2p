@@ -75,95 +75,110 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $template_guid = $product->getWebtoprintTemplate();
     $template_guid_orig = $product->getOrigData('webtoprint_template');
 
-    if (($template_guid != $template_guid_orig) || (Mage::registry('webtoprint-template-changed'))) {
-      $media_gallery = $product->getMediaGallery();
+    if (($template_guid == $template_guid_orig) && !Mage::registry('webtoprint-template-changed'))
+     return;
 
-      if (is_array($media_gallery)) {
-        foreach ($media_gallery as &$item)
-          if(!is_array($item) && strlen($item) > 0)
-            $item = Zend_Json::decode($item);
+    $media_gallery = $product->getMediaGallery();
 
-        $product->setMediaGallery($media_gallery);
-      } else {
-        $media_gallery = array('images' => array());
-        $product->setMediaGallery($media_gallery);
+    if (is_array($media_gallery))
+      foreach ($media_gallery as &$item)
+        if(!is_array($item) && strlen($item) > 0)
+          $item = Zend_Json::decode($item);
+    else
+      $media_gallery = array('images' => array());
+
+
+    if ($template_guid) {
+      $template = Mage::getModel('webtoprint/template')->load($template_guid);
+
+      if (!$template->getId()) return;
+
+      $xml = new SimpleXMLElement($template->getXml());
+    }
+
+    //Trying to remove images which no longer exist in template
+    foreach ($media_gallery['images'] as &$image) {
+      if (!(isset($image['file'])
+          && strpos(basename($image['file']), 'zetaprints_') === 0)) continue;
+
+      if (!$template_guid) {
+        $image['removed'] = 1;
+
+        if ($product->getSmallImage() == $image['file'])
+          $product->setSmallImage('no_selection');
+
+        if ($product->getThumbnail() == $image['file'])
+          $product->setThumbnail('no_selection');
+
+        continue;
       }
 
-      if ($template_guid_orig) {
-        $template = Mage::getModel('webtoprint/template')->load($template_guid_orig);
+      foreach ($xml->Pages[0]->Page as $page) {
+        $image_id = basename((string)$page['PreviewImage']);
 
-        if (!$template->getId()) return;
+        if (strpos(basename($image['file']), 'zetaprints_' . $image_id))
+          break;
 
-        $xml = new SimpleXMLElement($template->getXml());
+        $image['removed'] = 1;
 
-        Mage::log('Media gallery before: ' . var_export($media_gallery, true));
+        if ($product->getSmallImage() == $image['file'])
+          $product->setSmallImage('no_selection');
 
-        foreach ($xml->Pages[0]->Page as $page) {
-          $page_name = (string)$page['Name'];
+        if ($product->getThumbnail() == $image['file'])
+          $product->setThumbnail('no_selection');
+      }
+    }
 
-          foreach ($media_gallery['images'] as &$image)
-            if (isset($image['label_default']) && ($image['label_default'] == $page_name)) {
-              Mage::log('Removed');
-              $image['removed'] = 1;
+    $product->setMediaGallery($media_gallery);
 
-              if ($product->getSmallImage() == $image['file'])
-                $product->setSmallImage('no_selection');
+    if (!$template_guid) return;
 
-              if ($product->getThumbnail() == $image['file'])
-                $product->setThumbnail('no_selection');
-            }
-        }
+    $first_image = true;
 
-        $product->setMediaGallery($media_gallery);
+    foreach ($media_gallery['images'] as $image)
+      if (!isset($image['removed']) && $image['disabled'] === 1) {
+        $first_image = false;
+        break;
       }
 
-      if ($template_guid) {
-        $template = Mage::getModel('webtoprint/template')->load($template_guid);
+    $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+    $gallery = $attributes['media_gallery'];
 
-        if (!$template->getId()) return;
+    foreach ($xml->Pages[0]->Page as $page) {
+      $image_id = basename((string)$page['PreviewImage']);
 
-        $xml = new SimpleXMLElement($template->getXml());
+      $image_exists = false;
+      if (is_array($media_gallery))
+        foreach ($media_gallery['images'] as &$image)
+          if (!isset($image['removed']) && isset($image['file'])
+              && strpos(basename($image['file']), "zetaprints_{$image_id}") === 0)
 
-        $first_image = true;
+              $image_exists = true;
 
-        $media_gallery = $product->getMediaGallery();
+      if ($image_exists) break;
 
-        if (is_array($media_gallery))
-          foreach ($media_gallery['images'] as &$image)
-            if (!isset($image['removed'])) {
-              $first_image = false;
-              break;
-            };
+      $client = new Varien_Http_Client(Mage::getStoreConfig('zpapi/settings/w2p_url') . '/' . (string)$page['PreviewImage']);
+      $response = $client->request()->getHeaders();
 
-        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-        $gallery = $attributes['media_gallery'];
+      $filename = Mage::getBaseDir('var') . "/tmp/zetaprints_{$image_id}";
+      file_put_contents($filename, $client->request()->getBody());
 
-        foreach ($xml->Pages[0]->Page as $page) {
-          $client = new Varien_Http_Client(Mage::getStoreConfig('zpapi/settings/w2p_url') . '/' . (string)$page['PreviewImage']);
-          $response = $client->request()->getHeaders();
+      $file = $gallery->getBackend()->addImage($product, $filename, null, true);
 
-          $filename = Mage::getBaseDir('var') . '/tmp/' . basename((string)$page['PreviewImage']);
-          file_put_contents($filename, $client->request()->getBody());
+      $data = array('label' => (string)$page['Name']);
 
-          $file = $gallery->getBackend()->addImage($product, $filename, null, true);
+      if ($first_image) {
+        if (!$product->getSmallImage() || $product->getSmallImage() == 'no_selection')
+          $product->setSmallImage($file);
 
-          $data = array('label' => (string)$page['Name']);
+        if (!$product->getThumbnail() || $product->getThumbnail() == 'no_selection')
+          $product->setThumbnail($file);
 
-          if (!$first_image)
-            $data['exclude'] = 0;
-          else {
-            if (!$product->getSmallImage() || $product->getSmallImage() == 'no_selection')
-              $product->setSmallImage($file);
+        $first_image = false;
+      } else
+        $data['exclude'] = 0;
 
-            if (!$product->getThumbnail() || $product->getThumbnail() == 'no_selection')
-              $product->setThumbnail($file);
-
-            $first_image = false;
-          }
-
-          $gallery->getBackend()->updateImage($product, $file, $data);
-        }
-      }
+      $gallery->getBackend()->updateImage($product, $file, $data);
     }
   }
 
