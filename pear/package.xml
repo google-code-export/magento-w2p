@@ -219,6 +219,39 @@ Extension developed by http://www.zetaprints.com/
       <dir name="adminhtml">
         <dir name="default">
           <dir name="zptheme">
+
+            <dir name="css">
+              <file name="jquery.fancybox-1.2.6.css" role="mageskin" />
+              <file name="zp-style.css" role="mageskin" />
+            </dir>
+
+            <dir name="images">
+
+              <dir name="fancybox">
+                <file name="fancy_closebox.png" role="mageskin" />
+                <file name="fancy_left.png" role="mageskin" />
+                <file name="fancy_progress.png" role="mageskin" />
+                <file name="fancy_right.png" role="mageskin" />
+                <file name="fancy_shadow_e.png" role="mageskin" />
+                <file name="fancy_shadow_n.png" role="mageskin" />
+                <file name="fancy_shadow_ne.png" role="mageskin" />
+                <file name="fancy_shadow_nw.png" role="mageskin" />
+                <file name="fancy_shadow_s.png" role="mageskin" />
+                <file name="fancy_shadow_se.png" role="mageskin" />
+                <file name="fancy_shadow_sw.png" role="mageskin" />
+                <file name="fancy_shadow_w.png" role="mageskin" />
+                <file name="fancy_title_left.png" role="mageskin" />
+                <file name="fancy_title_main.png" role="mageskin" />
+                <file name="fancy_title_right.png" role="mageskin" />
+              </dir>
+
+            </dir>
+
+            <dir name="js">
+              <file name="jquery-1.3.2.min.js" role="mageskin" />
+              <file name="jquery.fancybox-1.2.6.pack.js" role="mageskin" />
+            </dir>
+
             <dir name="template">
 
               <dir name="catalog">
@@ -265,6 +298,7 @@ Extension developed by http://www.zetaprints.com/
               </dir>
 
             </dir>
+
           </dir>
         </dir>
       </dir>
@@ -407,46 +441,6 @@ Extension developed by http://www.zetaprints.com/
                 </dir>
               </dir>
             </dir>
-          </dir>
-        </dir>
-      </dir>
-
-      <dir name="adminhtml">
-        <dir name="default">
-          <dir name="zptheme">
-
-            <dir name="css">
-              <file name="jquery.fancybox-1.2.6.css" role="mageskin" />
-              <file name="zp-style.css" role="mageskin" />
-            </dir>
-
-            <dir name="images">
-
-              <dir name="fancybox">
-                <file name="fancy_closebox.png" role="mageskin" />
-                <file name="fancy_left.png" role="mageskin" />
-                <file name="fancy_progress.png" role="mageskin" />
-                <file name="fancy_right.png" role="mageskin" />
-                <file name="fancy_shadow_e.png" role="mageskin" />
-                <file name="fancy_shadow_n.png" role="mageskin" />
-                <file name="fancy_shadow_ne.png" role="mageskin" />
-                <file name="fancy_shadow_nw.png" role="mageskin" />
-                <file name="fancy_shadow_s.png" role="mageskin" />
-                <file name="fancy_shadow_se.png" role="mageskin" />
-                <file name="fancy_shadow_sw.png" role="mageskin" />
-                <file name="fancy_shadow_w.png" role="mageskin" />
-                <file name="fancy_title_left.png" role="mageskin" />
-                <file name="fancy_title_main.png" role="mageskin" />
-                <file name="fancy_title_right.png" role="mageskin" />
-              </dir>
-
-            </dir>
-
-            <dir name="js">
-              <file name="jquery-1.3.2.min.js" role="mageskin" />
-              <file name="jquery.fancybox-1.2.6.pack.js" role="mageskin" />
-            </dir>
-
           </dir>
         </dir>
       </dir>
