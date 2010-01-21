@@ -80,6 +80,16 @@ class ZetaPrints_AccessControl_Model_Entity_Attribute_Backend_Customergroups
 
         Mage::getSingleton('adminhtml/session')->addNotice(
           $helper->__('Customer groups besides NONE where removed from the selection.') );
+      } elseif (in_array(ZetaPrints_AccessControl_Helper_Data::ALL, $data)) {
+        $data = array(ZetaPrints_AccessControl_Helper_Data::ALL);
+
+        Mage::getSingleton('adminhtml/session')->addNotice($helper
+          ->__('Customer groups besides ALL were removed from the selection.') );
+      } elseif (in_array(ZetaPrints_AccessControl_Helper_Data::REGISTERED, $data)) {
+        $data = array(ZetaPrints_AccessControl_Helper_Data::REGISTERED);
+
+        Mage::getSingleton('adminhtml/session')->addNotice($helper
+          ->__('Customer groups besides REGISTERED were removed from the selection.') );
       }
     }
 
