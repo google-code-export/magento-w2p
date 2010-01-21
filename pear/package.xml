@@ -51,8 +51,8 @@ via email with bugs reports and feature requests.
   </version>
 
   <stability>
-    <release>beta2</release>
-    <api>beta2</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
