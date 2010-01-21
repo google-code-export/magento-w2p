@@ -1,9 +1,53 @@
-div.zetaprints-previews-box {
- cursor: pointer;
+a.all-order-previews {
+  float: right;
+}
+
+a.all-order-previews span.show-title {
+  display: none;
+}
+
+a.all-order-previews.hidden span.hide-title {
+  display: none;
+}
+
+a.all-order-previews.hidden span.show-title {
+  display: inline;
+}
+
+.grid tbody.odd tr.border.zetaprints-previews td,
+.grid tbody.even tr.border.zetaprints-previews td {
+  border-bottom-width: 4px;
+}
+
+div.zetaprints-previews-box div.title {
+  margin-bottom: 5px;
+}
+
+div.zetaprints-previews-box div.title a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+div.zetaprints-previews-box div.title a span {
+  text-decoration: underline;
 }
 
 div.zetaprints-previews-box div.title a.show-title {
   display: none;
+}
+
+div.zetaprints-previews-box div.content {
+  overflow: auto;
+  padding: 0;
+}
+
+div.zetaprints-previews-box div.content ul {
+  overflow: hidden;
+}
+
+div.zetaprints-previews-box div.content ul li {
+  float: left;
+  margin-left: 5px;
 }
 
 div.zetaprints-previews-box.hidden div.content {

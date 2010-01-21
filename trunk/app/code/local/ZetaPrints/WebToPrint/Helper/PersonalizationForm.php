@@ -265,38 +265,64 @@ jQuery(document).ready(function($) {
     return $webtoprint_links;
   }
 
-  public function get_order_preview_images ($context) {
-    $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+  public function get_order_preview_images ($context, $item = null) {
+    if ($item)
+      $options = $item->getProductOptionByCode('info_buyRequest');
+    else
+      $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
     if (!isset($options['zetaprints-previews']))
       return;
 
     $previews = explode(',', $options['zetaprints-previews']);
+    $width = count($previews) * 155;
+    $group = 'group-' . mt_rand();
 
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
 ?>
-    <div class="zetaprints-previews-box hidden">
-      <div class="title">
-        <a class="show-title">+&nbsp;Show&nbsp;previews</a>
-        <a class="hide-title">&minus;&nbsp;Hide&nbsp;previews</a>
-      </div>
-      <div class="content">
-        <ul>
-        <?php foreach ($previews as $preview): ?>
-          <li><a class="in-dialog" href="<?php echo "$url/preview/$preview" ?>" target="_blank" rel="group">
-            <img src="<?php echo "$url/thumb/$preview" ?>" /></a></li>
-        <?php endforeach ?>
-        </ul>
-      </div>
-    </div>
+    <tr class="border zetaprints-previews">
+      <td class="last" colspan="<?php echo $item ? 5 : 10; ?>">
+        <div class="zetaprints-previews-box <?php if ($item) echo 'hidden'; ?>">
+          <div class="title">
+            <a class="show-title">+&nbsp;<span>Show&nbsp;previews</span></a>
+            <a class="hide-title">&minus;&nbsp;<span>Hide&nbsp;previews</span></a>
+          </div>
+          <div class="content">
+            <ul style="width: <?php echo $width ?>px;">
+            <?php foreach ($previews as $preview): ?>
+              <li>
+                <a class="in-dialog" href="<?php echo "$url/preview/$preview" ?>" target="_blank" rel="<?php echo $group; ?>">
+                  <img src="<?php echo "$url/thumb/$preview" ?>" title="Click to enlarge"/>
+                </a>
+              </li>
+            <?php endforeach ?>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+<?php
+  }
 
-    <script type="text/javascript">
+  public function get_js_for_order_preview_images ($context) {
+?>
+  <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
-  $('div.zetaprints-previews-box').toggle(
-    function () { $(this).removeClass('hidden'); },
-    function () { $(this).addClass('hidden'); }
-  );
+  $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
+  $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
+
+  $('div.zetaprints-previews-box a.show-title').each(function () {
+    $(this).click(function () {
+      $(this).parents('div.zetaprints-previews-box').removeClass('hidden');
+    });
+  });
+
+  $('div.zetaprints-previews-box a.hide-title').each(function () {
+    $(this).click(function () {
+      $(this).parents('div.zetaprints-previews-box').addClass('hidden');
+    });
+  });
 
   $('a.in-dialog').fancybox({
     'zoomOpacity': true,
@@ -306,6 +332,32 @@ jQuery(document).ready(function($) {
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
     'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+});
+//]]>
+    </script>
+<?php
+  }
+
+  public function show_hide_all_order_previews ($context) {
+?>
+  <a href="#" class="all-order-previews">
+    <span class="show-title">Show all order previews</span>
+    <span class="hide-title">Hide all order previews</span>
+  </a>
+
+  <script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function($) {
+  $('a.all-order-previews').toggle(
+    function () {
+      $(this).addClass('hidden');
+      $('div.zetaprints-previews-box').addClass('hidden');
+    },
+    function () {
+      $(this).removeClass('hidden');
+      $('div.zetaprints-previews-box').removeClass('hidden');
+    }
+  );
 });
 //]]>
     </script>
