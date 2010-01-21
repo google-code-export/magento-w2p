@@ -271,6 +271,7 @@ Extension developed by http://www.zetaprints.com/
               </dir>
 
               <dir name="sales">
+
                 <dir name="items">
 
                   <dir name="column">
@@ -278,10 +279,9 @@ Extension developed by http://www.zetaprints.com/
                   </dir>
 
                 </dir>
-              </dir>
 
-              <dir name="order">
-                <dir name="view">
+                <dir name="order">
+                  <dir name="view">
 
                     <dir name="tab">
                       <file name="info.phtml" role="magedesign" />
@@ -294,7 +294,10 @@ Extension developed by http://www.zetaprints.com/
                       </dir>
 
                     </dir>
+
+                  </dir>
                 </dir>
+
               </dir>
 
             </dir>
