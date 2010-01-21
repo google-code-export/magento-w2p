@@ -247,6 +247,23 @@ Extension developed by http://www.zetaprints.com/
                 </dir>
               </dir>
 
+              <dir name="order">
+                <dir name="view">
+
+                    <dir name="tab">
+                      <file name="info.phtml" role="magedesign" />
+                    </dir>
+
+                    <dir name="items">
+
+                      <dir name="renderer">
+                        <file name="default.phtml" role="magedesign" />
+                      </dir>
+
+                    </dir>
+                </dir>
+              </dir>
+
             </dir>
           </dir>
         </dir>
@@ -364,15 +381,11 @@ Extension developed by http://www.zetaprints.com/
               </dir>
 
               <dir name="sales">
+
                 <dir name="order">
-                  <dir name="items">
-
-                    <dir name="renderer">
-                      <file name="default.phtml" role="magedesign" />
-                    </dir>
-
-                  </dir>
+                  <file name="items.phtml" role="magedesign" />
                 </dir>
+
               </dir>
 
             </dir>
