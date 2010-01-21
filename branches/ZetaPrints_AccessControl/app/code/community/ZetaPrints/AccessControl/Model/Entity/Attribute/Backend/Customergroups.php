@@ -76,7 +76,7 @@ class ZetaPrints_AccessControl_Model_Entity_Attribute_Backend_Customergroups
       if (in_array(ZetaPrints_AccessControl_Helper_Data::NONE, $data)) {
 
         //Remove all groups but the "none" value
-        $data = array(Netzarbeiter_GroupsCatalog_Helper_Data::NONE);
+        $data = array(ZetaPrints_AccessControl_Helper_Data::NONE);
 
         Mage::getSingleton('adminhtml/session')->addNotice(
           $helper->__('Customer groups besides NONE where removed from the selection.') );
