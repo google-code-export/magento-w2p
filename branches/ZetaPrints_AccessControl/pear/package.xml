@@ -12,8 +12,29 @@
   <name>category_access_control</name>
   <channel>connect.magentocommerce.com/community</channel>
 
-  <summary>No summary</summary>
-  <description>No description</description>
+  <summary>Control access to products and categories using user groups.</summary>
+  <description>
+Features:
+
+* allow access to categories for selected user groups only
+* users see products and categories only if allowed
+* default category settings can be changed individually per category or
+  for the whole store
+* built-in groups for ALL (no access control applies), NONE (no access),
+  REGISTERED (any registered user)
+
+It's pretty easy to configure, but if you are looking for serious access control
+you need to use Magento Enterprise Edition.
+
+This extension is based on the excellent work by Vinnai Kung
+(http://www.magentocommerce.com/extension/reviews/module/635).
+We used his code to change the functionality and simplify the interface.
+
+We actively develop and support this extension please, report any bugs here.
+Our existing customers using our web-to-print and dynamic
+imaging extension (http://www.magentocommerce.com/extension/1586) can contact us
+via email with bugs reports and feature requests.
+  </description>
 
   <lead>
     <name>Anatoly A. Kazantsev</name>
@@ -22,21 +43,21 @@
     <active>yes</active>
   </lead>
 
-  <date>2010-01-19</date>
+  <date>2010-01-21</date>
 
   <version>
-    <release>0.1.0.0alpha1</release>
-    <api>0.1.0.0alpha1</api>
+    <release>0.1.0.0beta2</release>
+    <api>0.1.0.0beta2</api>
   </version>
 
   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
+    <release>beta2</release>
+    <api>beta2</api>
   </stability>
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>Alpha 1</notes>
+  <notes>Beta 2</notes>
 
   <contents>
 
