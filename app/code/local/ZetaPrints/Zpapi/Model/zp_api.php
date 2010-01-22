@@ -786,6 +786,44 @@ function zetaprints_get_preview_image_url ($url, $key, $data) {
   return $response['content']['body'];
 }
 
+function zetaprints_get_user_images ($url, $key, $data) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-images;ApiKey=$key", $data);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  $images = array();
+
+  foreach ($xml->Image as $image)
+    $images[] = array('folder' => (string)$image['Folder'],
+                      'guid' => (string)$image['ImageID'],
+                      'created' => zp_api_common_str2date($image['Created']),
+                      'used' => zp_api_common_str2date($image['Used']),
+                      'updated' => zp_api_common_str2date($image['Updated']),
+                      'file_guid' => (string)$image['FileID'],
+                      'mime' => (string)$image['MIME'],
+                      'thumbnail' => (string)$image['Thumb'],
+                      'thumbnail_width' => (int)$image['ThumbWidth'],
+                      'thumbnail_height' => (int)$image['ThumbHeight'],
+                      'width' => (int)$image['ImageWidth'],
+                      'height' => (int)$image['ImageHeight'],
+                      'description' => (string)$image['Description'],
+                      'length' => (int)$image['Length'] );
+
+  zetaprints_debug(array('images' => $images));
+
+  return $images;
+}
+
 function zetaprints_get_order_id ($url, $key, $data) {
   zetaprints_debug();
 
