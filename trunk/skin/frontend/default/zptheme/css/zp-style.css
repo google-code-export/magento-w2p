@@ -263,6 +263,14 @@ div.zetaprints-images-selector div.selector-content ul.tab-buttons a {
   display: block;
 }
 
+div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.upload {
+  background: url('../images/images-selector-sprites.png') -90px 4px no-repeat;
+}
+
+div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.user-images {
+  background: url('../images/images-selector-sprites.png') -90px -15px no-repeat;
+}
+
 div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.stock-images {
   background: url('../images/images-selector-sprites.png') -90px -33px no-repeat;
 }
@@ -336,6 +344,48 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-p
   height: 70px;
   border: 1px solid #b6b6b6;
   margin-bottom: 10px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload {
+  padding-top: 26px;
+  padding-left: 6px;
+}
+
+div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper div.upload {
+  padding-left: 26px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.column {
+  float: left;
+  width: 50%;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload input.file-name {
+  width: 90%;
+  margin-bottom: 5px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload label {
+  font-weight: normal;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button {
+  float: left;
+  margin: 0px 6px 6px 0px;
+  width: 78px;
+  height: 22px;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.choose-file {
+  background: url('../images/images-selector-sprites.png') -115px 0px no-repeat;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.upload-file {
+  background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
+}
+
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.upload-file.disabled {
+  background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
 }
 
 a.all-order-previews {

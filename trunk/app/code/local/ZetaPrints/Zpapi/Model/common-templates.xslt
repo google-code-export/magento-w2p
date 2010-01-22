@@ -70,23 +70,49 @@
         </div>
         <div id="page-{$page}-tabs-{position()}" class="selector-content">
           <ul class="tab-buttons">
+            <li>
+              <div class="icon upload"><span /></div>
+              <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
+            </li>
+            <li>
+              <div class="icon user-images"><span /></div>
+              <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
+            </li>
             <xsl:if test="StockImage">
               <li>
                 <div class="icon stock-images"><span /></div>
-                <a href="#page-{$page}-tabs-{position()}-1"><span>Stock images</span></a>
+                <a href="#page-{$page}-tabs-{position()}-3"><span>Stock images</span></a>
               </li>
             </xsl:if>
             <xsl:if test="@ColourPicker='RGB'">
               <li>
                 <div class="icon color-picker"><span /></div>
-                <a href="#page-{$page}-tabs-{position()}-2"><span>Color picker</span></a>
+                <a href="#page-{$page}-tabs-{position()}-4"><span>Color picker</span></a>
               </li>
             </xsl:if>
             <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" /> Leave blank</label></li>
           </ul>
           <div class="tabs-wrapper">
+            <div id="page-{$page}-tabs-{position()}-1" class="tab upload">
+              <div class="column">
+                <input type="text" class="input-text file-name" />
+                <label>Upload new image from your computer</label>
+              </div>
+
+              <div class="column">
+                <div class="button choose-file"><span /></div>
+                <div class="button upload-file disabled"><span /></div>
+              </div>
+
+              <div class="clear"><span /></div>
+            </div>
+            <div id="page-{$page}-tabs-{position()}-2" class="tab images-scroller">
+              <ul>
+                <replace-with-user-images name="zetaprints-#{@Name}" />
+              </ul>
+            </div>
           <xsl:if test="StockImage">
-            <div id="page-{$page}-tabs-{position()}-1" class="tab images-scroller">
+            <div id="page-{$page}-tabs-{position()}-3" class="tab images-scroller">
               <ul>
                 <xsl:for-each select="StockImage">
                   <li>
@@ -99,7 +125,7 @@
           </xsl:if>
 
           <xsl:if test="@ColourPicker='RGB'">
-            <div id="page-{$page}-tabs-{position()}-2" class="tab color-picker">
+            <div id="page-{$page}-tabs-{position()}-4" class="tab color-picker">
               <input type="radio" name="zetaprints-#{@Name}" disabled="1" value="" />
               <div class="color-sample"><span /></div>
               <span><a href="#">Choose a color</a> and click Select to fill the place of the photo.</span>

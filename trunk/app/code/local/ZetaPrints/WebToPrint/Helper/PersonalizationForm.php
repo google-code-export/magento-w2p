@@ -38,8 +38,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$template->getId())
       return false;
 
-    echo zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('zpapi/settings/w2p_url'));
-    return true;
+    return zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('zpapi/settings/w2p_url'));
   }
 
   public function is_personalization_step ($context) {
@@ -135,8 +134,15 @@ jQuery(document).ready(function($) {
 
     $session = Mage::getSingleton('core/session');
 
-    if (!$session->hasData('zetaprints-previews'))
-      return $this->get_form_part_html('preview-images', $context->getProduct());
+    if (!$session->hasData('zetaprints-previews')) {
+      $html = $this->get_form_part_html('preview-images', $context->getProduct());
+
+      if ($html === false)
+      return false;
+
+      echo $html;
+      return true;
+    }
 
     $previews = explode(',', $session->getData('zetaprints-previews'));
 
@@ -168,15 +174,79 @@ jQuery(document).ready(function($) {
   }
 
   public function get_text_fields ($context) {
-    return $this->get_form_part_html('input-fields', $context->getProduct());
+    $html = $this->get_form_part_html('input-fields', $context->getProduct());
+
+    if ($html === false)
+      return false;
+
+    echo $html;
+    return true;
   }
 
   public function get_image_fields ($context) {
-    return $this->get_form_part_html('stock-images', $context->getProduct());
+    $html = $this->get_form_part_html('stock-images', $context->getProduct());
+    $html = $this->insert_user_images($html);
+
+    if ($html === false)
+      return false;
+
+    echo $html;
+    return true;
+  }
+
+  private function insert_user_images ($html) {
+    $names = array();
+    $start = 0;
+
+    while (true) {
+      $start = strpos($html, 'replace-with-user-images', $start);
+
+      if ($start === false)
+        break;
+
+      $start += 43;
+      $end = strpos($html, '"', $start);
+
+      $name = substr($html, $start, $end - $start);
+      $names[] = $name;
+    }
+
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $w2p_user = Mage::getModel('zpapi/w2puser');
+
+    $user_credentials = $w2p_user->get_credentials();
+
+    $data = array(
+      'ID' => $user_credentials['id'],
+      'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']) );
+
+    $images = zetaprints_get_user_images ($url, $key, $data);
+
+    foreach ($names as $name) {
+      $images_html = '';
+
+      foreach ($images as $image) {
+        $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['file_guid']}\" /><br /><img src=\"{$url}/photothumbs/{$thumbnail}\" /></li>\n";
+      }
+
+      $html = str_replace("<replace-with-user-images name=\"zetaprints-#{$name}\"/>",
+                        $images_html, $html);
+    }
+
+    return $html;
   }
 
   public function get_page_tabs ($context) {
-    return $this->get_form_part_html('page-tabs', $context->getProduct());
+    $html = $this->get_form_part_html('page-tabs', $context->getProduct());
+
+    if ($html === false)
+      return false;
+
+    echo $html;
+    return true;
   }
 
   public function get_preview_button ($context) {
@@ -241,6 +311,7 @@ jQuery(document).ready(function($) {
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/colorpicker.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-qtip-1.0.0-rc3.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.6.pack.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/ajaxupload.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/colorpicker.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
@@ -491,15 +562,18 @@ jQuery(document).ready(function($) {
   $(window).load(function () {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
-      var width = 0;
 
-      $('div.images-scroller li', this).each(function() {
-        width = width + $(this).outerWidth();
+      $('div.images-scroller', this).each(function() {
+        var width = 0;
+
+        $('li', this).each(function() {
+          width = width + $(this).outerWidth();
+        });
+
+        $('ul', this).width(width);
       });
 
       $(top_element).addClass('minimized');
-
-      $('div.images-scroller ul', this).width(width);
 
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
