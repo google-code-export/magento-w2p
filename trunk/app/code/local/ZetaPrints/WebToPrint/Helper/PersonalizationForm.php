@@ -224,6 +224,9 @@ jQuery(document).ready(function($) {
 
     $images = zetaprints_get_user_images ($url, $key, $data);
 
+    if ($images === false)
+      return $html;
+
     foreach ($names as $name) {
       $images_html = '';
 
