@@ -229,7 +229,7 @@ jQuery(document).ready(function($) {
 
       foreach ($images as $image) {
         $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
-        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['file_guid']}\" /><br /><img src=\"{$url}/photothumbs/{$thumbnail}\" /></li>\n";
+        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><img src=\"{$url}/photothumbs/{$thumbnail}\" /></li>\n";
       }
 
       $html = str_replace("<replace-with-user-images name=\"zetaprints-#{$name}\"/>",
