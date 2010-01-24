@@ -70,14 +70,16 @@
         </div>
         <div id="page-{$page}-tabs-{position()}" class="selector-content">
           <ul class="tab-buttons">
-            <li>
-              <div class="icon upload"><span /></div>
-              <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
-            </li>
-            <li>
-              <div class="icon user-images"><span /></div>
-              <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
-            </li>
+            <xsl:if test="@AllowUpload='1'">
+              <li>
+                <div class="icon upload"><span /></div>
+                <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
+              </li>
+              <li>
+                <div class="icon user-images"><span /></div>
+                <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
+              </li>
+            </xsl:if>
             <xsl:if test="StockImage">
               <li>
                 <div class="icon stock-images"><span /></div>
@@ -93,9 +95,10 @@
             <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" /> Leave blank</label></li>
           </ul>
           <div class="tabs-wrapper">
+          <xsl:if test="@AllowUpload='1'">
             <div id="page-{$page}-tabs-{position()}-1" class="tab upload">
               <div class="column">
-                <input type="text" class="input-text file-name" />
+                <input type="text" class="input-text file-name" disabled="true" />
                 <label>Upload new image from your computer</label>
               </div>
 
@@ -106,11 +109,13 @@
 
               <div class="clear"><span /></div>
             </div>
-            <div id="page-{$page}-tabs-{position()}-2" class="tab images-scroller">
+            <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
+              <input type="hidden" name="parameter" value="zetaprints-#{@Name}" />
               <ul>
                 <replace-with-user-images name="zetaprints-#{@Name}" />
               </ul>
             </div>
+          </xsl:if>
           <xsl:if test="StockImage">
             <div id="page-{$page}-tabs-{position()}-3" class="tab images-scroller">
               <ul>
