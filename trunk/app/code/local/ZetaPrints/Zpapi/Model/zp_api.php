@@ -662,6 +662,15 @@ function zp_api_common_xml_user_register_result($content){
   return -1;
 }
 
+function zetaprints_generate_guid () {
+  return strtoupper(sprintf('%04x%04x-%04x-%03x4-%04x-%04x%04x%04x',
+    mt_rand(0, 65535), mt_rand(0, 65535),
+    mt_rand(0, 65535),
+    mt_rand(0, 4095),
+    bindec(substr_replace(sprintf('%016b', mt_rand(0, 65535)), '01', 6, 2)),
+    mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535) ));
+}
+
 /**
  * Generate md5 hash from user's password and server ip address.
  *
@@ -798,6 +807,49 @@ function zetaprints_get_user_images ($url, $key, $data) {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
     zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  $images = array();
+
+  foreach ($xml->Image as $image)
+    $images[] = array('folder' => (string)$image['Folder'],
+                      'guid' => (string)$image['ImageID'],
+                      'created' => zp_api_common_str2date($image['Created']),
+                      'used' => zp_api_common_str2date($image['Used']),
+                      'updated' => zp_api_common_str2date($image['Updated']),
+                      'file_guid' => (string)$image['FileID'],
+                      'mime' => (string)$image['MIME'],
+                      'thumbnail' => (string)$image['Thumb'],
+                      'thumbnail_width' => (int)$image['ThumbWidth'],
+                      'thumbnail_height' => (int)$image['ThumbHeight'],
+                      'width' => (int)$image['ImageWidth'],
+                      'height' => (int)$image['ImageHeight'],
+                      'description' => (string)$image['Description'],
+                      'length' => (int)$image['Length'] );
+
+  zetaprints_debug(array('images' => $images));
+
+  return $images;
+}
+
+function zetaprints_download_customer_image ($url, $key, $data) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-image-new;ApiKey=$key", $data);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  if (count($xml->Image) != 1) {
+    zetaprints_debug('Number of uploaded customer images is ' . count($xml->Image));
     return null;
   }
 

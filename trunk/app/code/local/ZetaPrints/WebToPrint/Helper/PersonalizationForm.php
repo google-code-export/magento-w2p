@@ -224,7 +224,7 @@ jQuery(document).ready(function($) {
 
     $images = zetaprints_get_user_images ($url, $key, $data);
 
-    if ($images === false)
+    if ($images === null)
       return $html;
 
     foreach ($names as $name) {
@@ -562,6 +562,46 @@ jQuery(document).ready(function($) {
 
   $('input.update-preview').click(update_preview);
 
+  $('div.button.choose-file').each(function () {
+    var uploader = new AjaxUpload(this, {
+      name: 'customer-image',
+      action: '<?php echo $context->getUrl('web-to-print/upload'); ?>',
+      autoSubmit: false,
+      onChange: function (file, extension) {
+        var upload_div = $(this._button).parents('div.upload');
+        $('input.file-name', upload_div).val(file);
+        $('div.button.upload-file', upload_div).removeClass('disabled');
+      },
+      onSubmit: function (file, extension) {
+        var upload_div = $(this._button).parents('div.upload');
+        $('div.button.upload-file', upload_div).addClass('disabled');
+      },
+      onComplete: function (file, response) {
+        if (response == 'Error') {
+          alert('Error was occurred while uploading image');
+          return;
+        }
+
+        var upload_div = $(this._button).parents('div.upload');
+        $('input.file-name', upload_div).val('');
+
+        var ul = $('div.user-images ul', $(this._button).parents('div.tabs-wrapper'));
+        var name = $('div.user-images input[name=parameter]', $(this._button).parents('div.tabs-wrapper')).val();
+
+        $(ul).width($(ul).width() + 500);
+
+        response = response.split(';');
+
+        $(ul).prepend('<li><input type="radio" name="' + name + '" value="' + response[0] + '" /><br /><img src="' + response[1] + '" /></li>');
+      }
+    });
+
+    $('div.button.upload-file', $(this).parent()).click(function () {
+      if (!$(this).hasClass('disbaled'))
+        uploader.submit();
+    });
+  })
+
   $(window).load(function () {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
@@ -580,10 +620,17 @@ jQuery(document).ready(function($) {
 
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
-        show: function (event, ui) {
+        select: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
-            $('div.color-sample', ui.panel).click();
-          }
+            $('div.color-sample', ui.panel).click(); },
+        show: function (event, ui) {
+          if ($(ui.panel).hasClass('images-scroller')) {
+            var width = 0;
+
+            $('li', ui.panel).each(function() {
+              width = width + $(this).outerWidth(); });
+
+            $('ul', ui.panel).width(width); } }
       });
 
       $('input', this).change(function () {
