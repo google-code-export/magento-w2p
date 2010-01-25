@@ -24,13 +24,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
           continue;
         }
 
-        if ($number = count($products) > 1) {
+        if (($number = count($products)) > 1) {
           $this->warning("Template {$template->getGuid()} is used by {$number} products");
           continue;
         }
       }
-
-      $this->debug("Product {$template->getGuid()} was created.");
 
       if (Mage::app()->isSingleStoreMode())
         $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
@@ -52,6 +50,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
       $stock_item->setStockId(1)
         ->setProduct($product_model)
         ->save();
+
+      $this->debug("Product {$template->getGuid()} was created.");
     }
 
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
