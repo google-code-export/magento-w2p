@@ -14,9 +14,8 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
 
     $extension = substr($uploaded_file['name'], strrpos($uploaded_file['name'], '.'));
     $file_name = zetaprints_generate_guid() . strtolower($extension);
-    $file_path = $media_config->getTmpMediaPath($file_name);
-
-    Mage::log($file_path);
+    $zp_dir = (string)Mage::getConfig()->getNode('default/zetaprints/webtoprint/uploading/dir');
+    $file_path = $media_config->getTmpMediaPath("{$zp_dir}/{$file_name}");
 
     $result = move_uploaded_file($uploaded_file['tmp_name'], $file_path);
 
@@ -31,7 +30,7 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
     $params = array(
       'ID' => $user_credentials['id'],
       'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']),
-      'URL' => $media_config->getTmpMediaUrl($file_name) );
+      'URL' => $media_config->getTmpMediaUrl({$zp_dir}/{$file_name}) );
 
     $image = zetaprints_download_customer_image($url, $w2p_user->key, $params);
 
