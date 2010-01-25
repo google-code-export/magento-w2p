@@ -7,6 +7,9 @@ if (!defined('ZP_API_VER')) {
     require $zetaprints_api_file;
 }
 
-Mage::getConfig()->saveConfig('zetaprints/webtoprint/uploading/dir', zetaprints_generate_guid());
+$dir_name = zetaprints_generate_guid();
+
+Mage::getConfig()->saveConfig('zetaprints/webtoprint/uploading/dir', $dir_name);
+mkdir(Mage::getModel('catalog/product_media_config')->getTmpMediaPath($dir_name));
 
 ?>
