@@ -81,9 +81,10 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $media_gallery = $product->getMediaGallery();
 
     if (is_array($media_gallery))
-      foreach ($media_gallery as &$item)
+      foreach ($media_gallery as &$item) {
         if(!is_array($item) && strlen($item) > 0)
           $item = Zend_Json::decode($item);
+      }
     else
       $media_gallery = array('images' => array());
 
