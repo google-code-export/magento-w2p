@@ -592,12 +592,14 @@ jQuery(document).ready(function($) {
 
         response = response.split(';');
 
-        $(ul).prepend('<li><input type="radio" name="' + name + '" value="' + response[0] + '" /><br /><img src="' + response[1] + '" /></li>');
+        $(ul).prepend('<li><input type="radio" name="' + name + '" value="' + response[0] + '" /><br /><img src="' + response[1] + '" /></li>')
+          .parents('div.zetaprints-images-selector.no-value').removeClass('no-value');
+        $('input[value=' + response[0] + ']', ul).attr('checked', 1);
       }
     });
 
     $('div.button.upload-file', $(this).parent()).click(function () {
-      if (!$(this).hasClass('disbaled'))
+      if (!$(this).hasClass('disabled'))
         uploader.submit();
     });
   })
@@ -605,18 +607,6 @@ jQuery(document).ready(function($) {
   $(window).load(function () {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
-
-      $('div.images-scroller', this).each(function() {
-        var width = 0;
-
-        $('li', this).each(function() {
-          width = width + $(this).outerWidth();
-        });
-
-        $('ul', this).width(width);
-      });
-
-      $(top_element).addClass('minimized');
 
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
@@ -632,6 +622,8 @@ jQuery(document).ready(function($) {
 
             $('ul', ui.panel).width(width); } }
       });
+
+      $(top_element).addClass('minimized');
 
       $('input', this).change(function () {
         $(top_element).removeClass('no-value');
