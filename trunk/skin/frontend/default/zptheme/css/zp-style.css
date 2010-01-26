@@ -135,7 +135,6 @@ div.images-scroller {
 div.images-scroller ul {
   display: block;
   overflow: hidden;
-  width: 2000px;
   margin: 0px;
   padding: 0px;
 }
@@ -246,7 +245,8 @@ div.zetaprints-images-selector div.selector-content {
 }
 
 div.zetaprints-images-selector.minimized div.selector-content {
-  display: none;
+  position: absolute;
+  left: -10000px;
 }
 
 div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon {
@@ -328,7 +328,8 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab {
 }
 
 div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
-  display: none;
+  position: absolute;
+  left: -10000px;
 }
 
 div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker {

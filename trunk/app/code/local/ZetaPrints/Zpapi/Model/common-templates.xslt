@@ -59,7 +59,7 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-      <div class="zetaprints-images-selector no-value base-mini">
+      <div class="zetaprints-images-selector no-value minimized base-mini">
         <div class="head">
           <div class="icon"><span /></div>
           <div class="title">
