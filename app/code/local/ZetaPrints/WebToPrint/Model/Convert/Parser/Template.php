@@ -18,7 +18,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
 
     $this->notice("ZetaPrints URL: {$url}");
     $this->notice("ZetaPrints API Key: {$key}");
-    $this->warning('Please, make certain that your ZetaPrints url and API key are correct.');
+    $this->warning('Please, make certain the domain name and the API key for your ZetaPrints account are correct');
 
     $refresh_templates = (bool)(int)Mage::getStoreConfig('zpapi/settings/w2p_refresh');
     if ($refresh_templates)
