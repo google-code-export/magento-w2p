@@ -30,7 +30,7 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
     $params = array(
       'ID' => $user_credentials['id'],
       'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']),
-      'URL' => $media_config->getTmpMediaUrl({$zp_dir}/{$file_name}) );
+      'URL' => $media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}") );
 
     $image = zetaprints_download_customer_image($url, $w2p_user->key, $params);
 
