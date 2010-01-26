@@ -38,7 +38,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$template->getId())
       return false;
 
-    return zetaprints_get_html_from_xml($template->getXml(), $form_part, Mage::getStoreConfig('zpapi/settings/w2p_url'));
+    $params = array(
+      'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/'
+    );
+
+    return zetaprints_get_html_from_xml($template->getXml(), $form_part, $params);
   }
 
   public function is_personalization_step ($context) {
