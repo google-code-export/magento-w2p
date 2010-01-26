@@ -111,9 +111,9 @@
               <div class="clear"><span /></div>
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
-              <input type="hidden" name="parameter" value="zetaprints-#{@Name}" />
+              <input type="hidden" name="parameter" value="{@Name}" />
               <ul>
-                <replace-with-user-images name="zetaprints-#{@Name}" />
+                <replace-with-user-images name="{@Name}" />
               </ul>
             </div>
           </xsl:if>
@@ -123,7 +123,9 @@
                 <xsl:for-each select="StockImage">
                   <li>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}" /><br />
-                    <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                    <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" title="Click to enlarge" target="_blank" rel="group-{../@Name}">
+                      <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                    </a>
                   </li>
                 </xsl:for-each>
               </ul>

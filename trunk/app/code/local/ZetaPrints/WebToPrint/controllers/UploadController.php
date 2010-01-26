@@ -45,7 +45,7 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
 
     $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
 
-    echo "{$image['guid']};{$url}/photothumbs/{$thumbnail}";
+    echo "{$image['guid']};{$url}/photothumbs/{$image['thumbnail']};{$url}/photothumbs/{$thumbnail}";
   }
 }
 ?>
