@@ -39,7 +39,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
       return false;
 
     $params = array(
-      'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/'
+      'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
+      'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif')
     );
 
     return zetaprints_get_html_from_xml($template->getXml(), $form_part, $params);
@@ -579,14 +580,17 @@ jQuery(document).ready(function($) {
       onSubmit: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
         $('div.button.upload-file', upload_div).addClass('disabled');
+        $('img.ajax-loader', upload_div).show();
       },
       onComplete: function (file, response) {
+        var upload_div = $(this._button).parents('div.upload');
+        $('img.ajax-loader', upload_div).hide();
+
         if (response == 'Error') {
           alert('Error was occurred while uploading image');
           return;
         }
 
-        var upload_div = $(this._button).parents('div.upload');
         $('input.file-name', upload_div).val('');
 
         var ul = $('div.user-images ul', $(this._button).parents('div.tabs-wrapper'));
