@@ -202,8 +202,6 @@ Extension developed by http://www.zetaprints.com/
             <file name="input-fields-html.xslt" role="magelocal" />
             <file name="Itag.php" role="magelocal" />
             <file name="Observer.php" role="magelocal" />
-            <file name="Optionproductexist.php" role="magelocal" />
-            <file name="Optionproductnotexist.php" role="magelocal" />
             <file name="Optionstore.php" role="magelocal" />
             <file name="page-tabs-html.xslt" role="magelocal" />
             <file name="preview-images-html.xslt" role="magelocal" />
