@@ -105,6 +105,7 @@
               <div class="column">
                 <div class="button choose-file"><span /></div>
                 <div class="button upload-file disabled"><span /></div>
+                <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
               <div class="clear"><span /></div>

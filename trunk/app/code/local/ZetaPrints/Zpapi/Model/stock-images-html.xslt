@@ -4,6 +4,7 @@
   <xsl:include href="common-templates.xslt" />
 
   <xsl:param name="zetaprints-api-url" />
+  <xsl:param name="ajax-loader-image-url" />
 
   <xsl:template match="TemplateDetails">
     <xsl:apply-templates select="Pages" />

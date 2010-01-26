@@ -393,6 +393,10 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload 
   background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
 }
 
+div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
+  margin: 2px 0px 0px 0px;
+}
+
 a.all-order-previews {
   float: right;
   margin-top: -2em;
