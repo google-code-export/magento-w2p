@@ -209,7 +209,7 @@ jQuery(document).ready(function($) {
       if ($start === false)
         break;
 
-      $start += 43;
+      $start += 31;
       $end = strpos($html, '"', $start);
 
       $name = substr($html, $start, $end - $start);
@@ -237,10 +237,10 @@ jQuery(document).ready(function($) {
 
       foreach ($images as $image) {
         $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
-        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><img src=\"{$url}/photothumbs/{$thumbnail}\" /></li>\n";
+        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"in-dialog\" href=\"{$url}/photothumbs/{$image['thumbnail']}\" title=\"Click to enlarge\" target=\"_blank\" rel=\"group-{$name}-my\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /></a></li>\n";
       }
 
-      $html = str_replace("<replace-with-user-images name=\"zetaprints-#{$name}\"/>",
+      $html = str_replace("<replace-with-user-images name=\"{$name}\"/>",
                         $images_html, $html);
     }
 
@@ -598,13 +598,27 @@ jQuery(document).ready(function($) {
 
         response = response.split(';');
 
-        var li_width = $('<li><input type="radio" name="' + name + '" value="'
-                          + response[0] + '" /><br /><img src="' + response[1]
-                          + '" /></li>').prependTo(ul).outerWidth();
+        var li_width = $('<li><input type="radio" name="zetaprints-#' + name
+                          + '" value="' + response[0]
+                          + '" /><br /><a class="in-dialog" href="'
+                          + response[1]
+                          + '" title="Click to enlarge" rel="group-' + name
+                          + '-my"><img src="' + response[2]
+                          + '" /></a></li>').prependTo(ul).outerWidth();
 
         $(ul).width($(ul).width() + li_width)
           .parents('div.zetaprints-images-selector.no-value')
           .removeClass('no-value');
+
+        $('a.in-dialog', ul).fancybox({
+          'zoomOpacity': true,
+          'overlayShow': false,
+          'centerOnScroll': false,
+          'zoomSpeedChange': 200,
+          'zoomSpeedIn': 500,
+          'zoomSpeedOut' : 500,
+          'callbackOnShow': function () {
+              $('img#fancy_img').attr('title', 'Click to close'); } });
 
         $('input[value=' + response[0] + ']', ul).attr('checked', 1);
 
@@ -721,7 +735,7 @@ jQuery(document).ready(function($) {
 
   });
 
-  $('div.zetaprints-template-preview a').fancybox({
+  $('div.zetaprints-template-preview a, a.in-dialog').fancybox({
     'zoomOpacity': true,
     'overlayShow': false,
     'centerOnScroll': false,
