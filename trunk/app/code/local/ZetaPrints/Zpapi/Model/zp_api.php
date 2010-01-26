@@ -693,7 +693,7 @@ function zetaprints_generate_user_password_hash ($password) {
  * Param template_xml - string contains template details xml
  * Returns string contains html form
  */
-function zetaprints_get_html_from_xml ($xml, $xslt, $api_url) {
+function zetaprints_get_html_from_xml ($xml, $xslt, $params) {
   $xml_dom = new DOMDocument();
   $xml_dom->loadXML($xml);
 
@@ -703,7 +703,7 @@ function zetaprints_get_html_from_xml ($xml, $xslt, $api_url) {
   $proc = new XSLTProcessor();
   $proc->importStylesheet($xslt_dom);
 
-  $proc->setParameter('', 'zetaprints-api-url', $api_url.'/');
+  $proc->setParameter('', $params);
   return $proc->transformToXML($xml_dom);
 }
 
