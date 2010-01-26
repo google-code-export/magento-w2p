@@ -584,9 +584,9 @@ jQuery(document).ready(function($) {
       },
       onComplete: function (file, response) {
         var upload_div = $(this._button).parents('div.upload');
-        $('img.ajax-loader', upload_div).hide();
 
         if (response == 'Error') {
+          $('img.ajax-loader', upload_div).hide();
           alert('Error was occurred while uploading image');
           return;
         }
@@ -596,15 +596,20 @@ jQuery(document).ready(function($) {
         var ul = $('div.user-images ul', $(this._button).parents('div.tabs-wrapper'));
         var name = $('div.user-images input[name=parameter]', $(this._button).parents('div.tabs-wrapper')).val();
 
-        $(ul).width($(ul).width() + 500);
-
         response = response.split(';');
 
-        $(ul).prepend('<li><input type="radio" name="' + name + '" value="' + response[0] + '" /><br /><img src="' + response[1] + '" /></li>')
-          .parents('div.zetaprints-images-selector.no-value').removeClass('no-value');
+        var li_width = $('<li><input type="radio" name="' + name + '" value="'
+                          + response[0] + '" /><br /><img src="' + response[1]
+                          + '" /></li>').prependTo(ul).outerWidth();
+
+        $(ul).width($(ul).width() + li_width)
+          .parents('div.zetaprints-images-selector.no-value')
+          .removeClass('no-value');
+
         $('input[value=' + response[0] + ']', ul).attr('checked', 1);
 
-        $(upload_div).parents('div.selector-content').tabs('option', 'selected', 1);
+        $('img.ajax-loader', upload_div).hide();
+        $(upload_div).parents('div.selector-content').tabs('select', 1);
       }
     });
 
@@ -618,22 +623,23 @@ jQuery(document).ready(function($) {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
 
+      var width = 0;
+
+      $('div.images-scroller', this).each(function() {
+        var width = 0;
+
+        $('li', this).each(function() {
+          width = width + $(this).outerWidth(); });
+
+        $('ul', this).width(width);
+      });
+
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
         select: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
-            $('div.color-sample', ui.panel).click(); },
-        show: function (event, ui) {
-          if ($(ui.panel).hasClass('images-scroller')) {
-            var width = 0;
-
-            $('li', ui.panel).each(function() {
-              width = width + $(this).outerWidth(); });
-
-            $('ul', ui.panel).width(width); } }
+            $('div.color-sample', ui.panel).click(); }
       });
-
-      $(top_element).addClass('minimized');
 
       $('input', this).change(function () {
         $(top_element).removeClass('no-value');
