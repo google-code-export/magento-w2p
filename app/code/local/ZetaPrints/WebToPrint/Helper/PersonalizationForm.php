@@ -603,6 +603,8 @@ jQuery(document).ready(function($) {
         $(ul).prepend('<li><input type="radio" name="' + name + '" value="' + response[0] + '" /><br /><img src="' + response[1] + '" /></li>')
           .parents('div.zetaprints-images-selector.no-value').removeClass('no-value');
         $('input[value=' + response[0] + ']', ul).attr('checked', 1);
+
+        $(upload_div).parents('div.selector-content').tabs('option', 'selected', 1);
       }
     });
 
