@@ -13,12 +13,6 @@
           <importzp>ZetaPrints_Zpapi_Model_Importer</importzp>
         </rewrite>
         <rewrite>
-          <oppnotexist>ZetaPrints_Zpapi_Model_Optionproductnotexist</oppnotexist>
-        </rewrite>
-        <rewrite>
-          <oppexist>ZetaPrints_Zpapi_Model_Optionproductexist</oppexist>
-        </rewrite>
-        <rewrite>
           <opstore>ZetaPrints_Zpapi_Model_Optionstore</opstore>
         </rewrite>
             </zpapi>
