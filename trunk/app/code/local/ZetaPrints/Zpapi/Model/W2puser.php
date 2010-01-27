@@ -202,8 +202,8 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
       //Check if is created as unregister user
       if (Mage::getSingleton('core/session')->getW2puser() && $cus->getData('entity_id')) {
         //Save to Magento DB
-        $cus->setData('w2p_user', Mage::getSingleton('core/session')->getW2puser());
-        $cus->setData('w2p_pass', Mage::getSingleton('core/session')->getW2ppass());
+        $cus->setData('zetaprints_user', Mage::getSingleton('core/session')->getW2puser());
+        $cus->setData('zetaprints_password', Mage::getSingleton('core/session')->getW2ppass());
         $cus->save();
 
         $this->state = "registed-u->M";
@@ -228,8 +228,8 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
         if ($cus->getData('entity_id')) {
           //Save to db
-          $cus->setData('w2p_user', $this->user);
-          $cus->setData('w2p_pass', $this->pass);
+          $cus->setData('zetaprints_user', $this->user);
+          $cus->setData('zetaprints_password', $this->pass);
           $cus->save();
           $this->state = "ok-m";
         } else {
@@ -273,7 +273,7 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
    */
   function getW2pUserId () {
     $cus = Mage::getSingleton('customer/session')->getCustomer();
-    return $cus->getData('entity_id') ? $cus->getData('w2p_user') : Mage::getSingleton('core/session')->getW2puser();
+    return $cus->getData('entity_id') ? $cus->getData('zetaprints_user') : Mage::getSingleton('core/session')->getW2puser();
   }
 
   /**
@@ -281,7 +281,7 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
    */
   function getW2pPass () {
     $cus = Mage::getSingleton('customer/session')->getCustomer();
-    return $cus->getData('entity_id') ? $cus->getData('w2p_pass') : Mage::getSingleton('core/session')->getW2ppass();
+    return $cus->getData('entity_id') ? $cus->getData('zetaprints_password') : Mage::getSingleton('core/session')->getW2ppass();
   }
 
   function get_credentials () {
