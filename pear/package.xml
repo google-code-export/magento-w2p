@@ -175,6 +175,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="mysql4-upgrade-1-2.php" role="magelocal" />
               <file name="mysql4-upgrade-2-3.php" role="magelocal" />
               <file name="mysql4-upgrade-3-4.php" role="magelocal" />
+              <file name="mysql4-upgrade-4-5.php" role="magelocal" />
             </dir>
 
           </dir>
