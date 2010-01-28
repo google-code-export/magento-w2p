@@ -798,7 +798,7 @@ function zetaprints_get_preview_image_url ($url, $key, $data) {
 function zetaprints_get_user_images ($url, $key, $data) {
   zetaprints_debug();
 
-  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-img;ApiKey=$key", $data);
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-imgs;ApiKey=$key", $data);
 
   if (zetaprints_has_error($response))
     return null;
