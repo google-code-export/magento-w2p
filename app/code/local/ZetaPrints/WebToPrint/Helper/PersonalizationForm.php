@@ -593,37 +593,47 @@ jQuery(document).ready(function($) {
 
         $('input.file-name', upload_div).val('');
 
-        var ul = $('div.user-images ul', $(this._button).parents('div.tabs-wrapper'));
-        var name = $('div.user-images input[name=parameter]', $(this._button).parents('div.tabs-wrapper')).val();
-
         response = response.split(';');
 
-        var li_width = $('<li><input type="radio" name="zetaprints-#' + name
-                          + '" value="' + response[0]
-                          + '" /><br /><a class="in-dialog" href="'
-                          + response[1]
-                          + '" title="Click to enlarge" rel="group-' + name
-                          + '-my"><img src="' + response[2]
-                          + '" /></a></li>').prependTo(ul).outerWidth();
+        var uls = $('div.zetaprints-images-selector div.tab.user-images ul');
+        var lis = '';
 
-        $(ul).width($(ul).width() + li_width)
-          .parents('div.zetaprints-images-selector.no-value')
+        $(this._button).parents('div.zetaprints-images-selector.no-value')
           .removeClass('no-value');
 
-        $('a.in-dialog', ul).fancybox({
-          'zoomOpacity': true,
-          'overlayShow': false,
-          'centerOnScroll': false,
-          'zoomSpeedChange': 200,
-          'zoomSpeedIn': 500,
-          'zoomSpeedOut' : 500,
-          'callbackOnShow': function () {
-              $('img#fancy_img').attr('title', 'Click to close'); } });
+        $(uls).each(function () {
+          var name = $('input[name=parameter]', $(this).parent()).val();
 
-        $('input[value=' + response[0] + ']', ul).attr('checked', 1);
+          lis = $('<li><input type="radio" name="zetaprints-#' + name
+            + '" value="' + response[0]
+            + '" /><br /><a class="in-dialog" href="'
+            + response[1]
+            + '" title="Click to enlarge" rel="group-' + name
+            + '-my"><img src="' + response[2]
+            + '" /></a></li>').prependTo(this);
+        });
 
-        $('img.ajax-loader', upload_div).hide();
-        $(upload_div).parents('div.selector-content').tabs('select', 1);
+        $('img', lis).load(function() {
+            $(uls).each(function () {
+              $(this).width($(this).width() + $('li:first',this).outerWidth());
+
+              $('a.in-dialog', this).fancybox({
+                'zoomOpacity': true,
+                'overlayShow': false,
+                'centerOnScroll': false,
+                'zoomSpeedChange': 200,
+                'zoomSpeedIn': 500,
+                'zoomSpeedOut' : 500,
+                'callbackOnShow': function () {
+                $('img#fancy_img').attr('title', 'Click to close'); } });
+            });
+
+            $('div.tab.user-images input[value=' + response[0] + ']',
+              $(upload_div).parent()).attr('checked', 1);
+
+            $('img.ajax-loader', upload_div).hide();
+            $(upload_div).parents('div.selector-content').tabs('select', 1);
+          });
       }
     });
 
