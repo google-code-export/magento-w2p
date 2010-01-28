@@ -470,7 +470,8 @@ jQuery(document).ready(function($) {
       echo "$('[name=$key]').val('$value');\n";
   ?>
 
-  $('#preview-image-page-1, #input-fields-page-1, #stock-images-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
+  $('#stock-images-page-1').removeClass('hidden');
+  $('#preview-image-page-1, #input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
 
@@ -500,12 +501,14 @@ jQuery(document).ready(function($) {
   $('div.zetaprints-image-tabs li').click(function () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
-    $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible, div.zetaprints-page-stock-images:visible').css('display', 'none');
+    $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible').css('display', 'none');
+    $('div.zetaprints-page-stock-images').addClass('hidden');
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
 
-    $('#preview-image-' + page + ', #input-fields-' + page + ', #stock-images-' + page).css('display', 'block');
+    $('#preview-image-' + page + ', #input-fields-' + page).css('display', 'block');
+    $('#stock-images-' + page).removeClass('hidden');
 
     var page_number = page.split('-')[1] * 1;
     if (changed_pages[page_number - 1] && page_number < number_of_pages)

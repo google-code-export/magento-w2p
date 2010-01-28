@@ -52,8 +52,9 @@ div.zetaprints-template-preview img {
 }
 
 /**/
-div.zetaprints-page-stock-images {
-  display: none;
+div.zetaprints-page-stock-images.hidden {
+  position: absolute;
+  left: -10000px;
 }
 
 /**/
