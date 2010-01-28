@@ -595,7 +595,7 @@ jQuery(document).ready(function($) {
 
         response = response.split(';');
 
-        var uls = $('div.zetaprints-images-selector div.tab.user-images ul');
+        var uls = $('div.zetaprints-page-stock-images div.tab.user-images ul');
         var lis = '';
 
         $(this._button).parents('div.zetaprints-images-selector.no-value')
