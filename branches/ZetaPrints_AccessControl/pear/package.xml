@@ -148,6 +148,7 @@ via email with bugs reports and feature requests.
 
             <dir name="accesscontrol_setup">
               <file name="mysql4-install-1.php" role="magecommunity" />
+              <file name="mysql4-upgrade-1-2.php" role="magecommunity" />
             </dir>
 
           </dir>
