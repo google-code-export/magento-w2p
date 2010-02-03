@@ -475,6 +475,15 @@ jQuery(document).ready(function($) {
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
 
+  $('div.tab.user-images').each(function() {
+    var tab_button = $('ul.tab-buttons li.hidden', $(this).parents('div.selector-content'));
+
+    alert($('li', this).length);
+
+    if ($('li', this).length > 0)
+      $(tab_button).removeClass('hidden');
+  });
+
   previews = [<?php echo $previews_array; ?>];
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   number_of_pages = $('div.zetaprints-template-preview').length;
@@ -635,6 +644,7 @@ jQuery(document).ready(function($) {
               $(upload_div).parent()).attr('checked', 1);
 
             $('img.ajax-loader', upload_div).hide();
+            $('ul.tab-buttons li.hidden', $(upload_div).parents('div.selector-content')).removeClass('hidden');
             $(upload_div).parents('div.selector-content').tabs('select', 1);
           });
       }
