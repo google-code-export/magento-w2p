@@ -296,6 +296,10 @@ div.zetaprints-images-selector div.selector-content ul.tab-buttons li {
   line-height: 20px;
 }
 
+div.zetaprints-images-selector div.selector-content ul.tab-buttons li.hidden {
+  display: none;
+}
+
 div.zetaprints-images-selector div.selector-content ul.tab-buttons li.ui-tabs-selected {
   background-color: transparent;
   border-right: none;

@@ -75,7 +75,7 @@
                 <div class="icon upload"><span /></div>
                 <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
               </li>
-              <li>
+              <li class="hidden">
                 <div class="icon user-images"><span /></div>
                 <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
               </li>
