@@ -773,6 +773,114 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
   return $templates;
 }
 
+function zetaprints_get_template_detailes ($url, $key, $template_guid) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  $template = array('guid' => (string) $xml['TemplateID'],
+                     'corporate-guid' => (string) $xml['CorporateID'],
+                     'created' => zp_api_common_str2date($xml['Created']),
+                     'comments' => (string) $xml['Comments'],
+                     'url' => (string) $xml['AccessURL'],
+                     'product-reference' => (string) $xml['ProductReference'],
+                     'download' => (string) $xml['Download'],
+                     'pdf' => isset($field['GeneratePdf'])
+                                  ? (bool) $field['GeneratePdf'] : false,
+                     'jpeg' => isset($field['GenerateJpg'])
+                                  ? (bool) $field['GenerateJpg'] : false,
+                     'png' => isset($field['GenerateGifPng'])
+                                  ? (bool) $field['GenerateGifPng'] : false );
+
+  if (!$xml->Pages->Page) {
+    zetaprints_debug("No pages in temaplate [$template_guid]");
+
+    return $template;
+  }
+
+  $template['pages'] = array();
+
+  $page_number = 1;
+
+  foreach ($xml->Pages->Page as $page) {
+    $template['pages'][$page_number] = array(
+      'name' => (string) $page['Name'],
+      'preview-image' => (string) $page['PreviewImage'],
+      'thumb-image' => (string) $page['ThumbImage'] );
+
+    $page_number++;
+  }
+
+  foreach ($xml->Images->Image as $image) {
+    $image_array = array(
+      'name' => (string) $image['Name'],
+      'width' => (string) $image['Width'],
+      'height' => (string) $image['Height'],
+      'color-picker' => isset($image['ColourPicker'])
+                            ? (string) $image['ColourPicker'] : null,
+      'allow-upload' => isset($image['AllowUpload'])
+                            ? (bool) $image['AllowUpload'] : false,
+      'allow-url' => isset($image['AllowUrl'])
+                            ? (bool) $image['AllowUrl'] : false );
+
+    if ($image->StockImage) {
+      $image_array['stock-images'] = array();
+
+      foreach ($image->StockImage as $stock_image)
+        $image_array['stock-images'][] = array(
+          'guid' => (string) $stock_image['FileID'],
+          'mime' => (string) $stock_image['MIME'],
+          'thumb' => (string) $stock_image['Thumb']
+        );
+    }
+
+    $page_number = (int) $image['Page'];
+
+    if (!isset($template['pages'][$page_number]['images']))
+      $template['pages'][$page_number]['images'] = array();
+
+    $template['pages'][$page_number]['images'][] = $image_array;
+  }
+
+  foreach ($xml->Fields->Field as $field) {
+    $field_array = array(
+      'name' => (string) $field['FieldName'],
+      'hint' => (string) $field['Hint'],
+      'min-length' => isset($field['MinLen']) ? (int) $field['MinLen'] : null,
+      'max-length' => isset($field['MaxLen']) ? (int) $field['MaxLen'] : null,
+      'multiline' => isset($field['Multiline'])
+                        ? (bool) $field['Multiline'] : false );
+
+    if ($field->Value) {
+      $field_array['values'] = array();
+
+      foreach ($field->Value as $value)
+        $field_array['values'][] = (string) $value;
+    }
+
+    $page_number = (int) $field['Page'];
+
+    if (!isset($template['pages'][$page_number]['fields']))
+      $template['pages'][$page_number]['fields'] = array();
+
+    $template['pages'][$page_number]['fields'][] = $field_array;
+  }
+
+  zetaprints_debug(array('template' => $template));
+
+  return $template;
+}
+
 function zetaprints_get_template_details_as_xml ($url, $key, $template_guid) {
   zetaprints_debug();
 

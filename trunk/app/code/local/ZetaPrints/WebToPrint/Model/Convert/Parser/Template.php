@@ -75,6 +75,26 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
       foreach ($templates as $template) {
         $all_template_guids[$template['guid']] = $template['guid'];
 
+        $template_array = zetaprints_get_template_detailes($url, $key, $template['guid']);
+
+        if (!$template_array) {
+          $this->error("Error in receiving or parsing detailes of template {$template['guid']}. Leaving the template unmodified.");
+          continue;
+        }
+
+        $has_fields = false;
+
+        foreach ($template_array['pages'] as $page)
+          if (isset($page['images']) || isset($page['fields'])) {
+            $has_fields = true;
+            break;
+          }
+
+        if (!$has_fields) {
+          $this->warning("Template {$template['guid']} hasn't input and/or image fields. Leaving the template unmodified.");
+          continue;
+        }
+
         $template['public'] = $catalog['public'];
         $templates_collection = Mage::getModel('webtoprint/template')
                                   ->getCollection()
