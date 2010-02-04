@@ -43,18 +43,79 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
       } else {
         $products = $product_model->getCollection()->addAttributeToFilter('webtoprint_template', array('eq' => $template->getGuid()))->load();
 
-        foreach ($products as $product)
-          if (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate())) {
-            $full_product = $product_model->load($product->getId());
-
-            $this->debug("Template for product {$full_product->getWebtoprintTemplate()} changed");
-
-            Mage::register('webtoprint-template-changed', true);
-            $full_product->save();
-            Mage::unregister('webtoprint-template-changed');
-
-            $this->debug("Product {$full_product->getWebtoprintTemplate()} was succesfully updated");
+        if (!$template->getExist()) {
+          if (count($products) == 0) {
+            $this->debug("here");
+            $template->delete();
+            continue;
           }
+
+          $behaviour = (int) Mage::getStoreConfig('zpapi/settings/templates-removing-behaviour');
+
+          if ($behaviour == ZetaPrints_Zpapi_Model_TemplateDeletingBehaviour::NONE) {
+            foreach ($products as $product) {
+              $full_product = $product_model->load($product->getId());
+
+              $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
+
+              Mage::register('webtoprint-template-changed', true);
+              $full_product->setRequiredOptions(false)
+                ->setWebtoprintTemplate(null)
+                ->save();
+              Mage::unregister('webtoprint-template-changed');
+
+              $this->debug("Product {$full_product->getSku()} was unlinked from the template");
+            }
+
+            $template->delete();
+
+          } elseif ($behaviour == ZetaPrints_Zpapi_Model_TemplateDeletingBehaviour::DELETE) {
+            foreach ($products as $product) {
+              $full_product = $product_model->load($product->getId());
+
+              $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
+
+              $full_product->delete();
+
+              $this->debug("Product {$product->getSku()} was removed");
+            }
+
+            $template->delete();
+
+          } else if ($behaviour >= 0) {
+            $category = Mage::getModel('catalog/category')->load($behaviour);
+
+            if (!$category->getId()) {
+              $this->warning('Category doesn\'t exist. Check configuration.');
+              continue;
+            }
+
+            foreach ($products as $product) {
+              $full_product = $product_model->load($product->getId());
+
+              $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
+
+              $full_product->setCategoryIds(array($behaviour))
+                ->save();
+
+              $this->debug("Product {$product->getSku()} was moved to category {$category->getName()}");
+            }
+          }
+
+        } else {
+          foreach ($products as $product)
+            if (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate())) {
+              $full_product = $product_model->load($product->getId());
+
+              $this->debug("Template for product {$full_product->getWebtoprintTemplate()} changed");
+
+              Mage::register('webtoprint-template-changed', true);
+              $full_product->save();
+              Mage::unregister('webtoprint-template-changed');
+
+              $this->debug("Product {$full_product->getWebtoprintTemplate()} was succesfully updated");
+            }
+        }
       }
     }
   }
