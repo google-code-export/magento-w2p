@@ -1,13 +1,11 @@
 <?php
 
-class ZetaPrints_Zpapi_Model_FileUploadingLimit {
-  const NONE = -1;
-  const DELETE = -2;
+class ZetaPrints_Zpapi_Model_FileUploadingLimit extends
+  Mage_Core_Model_Config_Data {
 
-  protected $_options;
+  public function getValue () {
 
-  public function toOptionArray () {
-    return array(ini_get('upload_max_filesize'));
+    return ini_get('upload_max_filesize') . 'B';
   }
 }
 
