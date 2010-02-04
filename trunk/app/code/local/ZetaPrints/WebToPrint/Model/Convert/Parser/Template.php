@@ -52,6 +52,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
     $number_of_uptodate_templates = 0;
     $number_of_updated_templates = 0;
 
+    $all_template_guids = array();
+
     foreach ($catalogs as $catalog) {
       $templates = zetaprints_get_templates_from_catalog($url, $key, $catalog['guid']);
 
@@ -71,6 +73,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
       $total_number_of_templates += count($templates);
 
       foreach ($templates as $template) {
+        $all_template_guids[$template['guid']] = $template['guid'];
+
         $template['public'] = $catalog['public'];
         $templates_collection = Mage::getModel('webtoprint/template')
                                   ->getCollection()
@@ -116,10 +120,24 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
       }
     }
 
+    $templates_collection = Mage::getModel('webtoprint/template')
+                                  ->getCollection()
+                                  ->load();
+
+    $number_of_removed_templates = 0;
+
+    foreach ($templates_collection as $template)
+      if (!isset($all_template_guids[$template->getGuid()])) {
+        $number_of_removed_templates += 1;
+
+        $template->setExist(false)->save();
+      }
+
     $this->notice("Total number of templates: {$total_number_of_templates}");
     $this->notice("Number of added templates: {$number_of_added_templates}");
     $this->notice("Number of up to date templates: {$number_of_uptodate_templates}");
     $this->notice("Number of updated templates: {$number_of_updated_templates}");
+    $this->notice("Number of removed templates: {$number_of_removed_templates}");
   }
 
   public function unparse() {}
