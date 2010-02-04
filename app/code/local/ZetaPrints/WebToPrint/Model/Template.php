@@ -21,6 +21,14 @@ class ZetaPrints_WebToPrint_Model_Template extends Mage_Core_Model_Abstract {
 
     return $this;
   }
+
+  public function delete () {
+    $this->setIdFieldName('template_id');
+    parent::delete();
+    $this->setIdFieldName('guid');
+
+    return $this;
+  }
 }
 
 ?>
