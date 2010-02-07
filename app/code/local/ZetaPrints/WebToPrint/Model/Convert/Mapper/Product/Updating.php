@@ -95,11 +95,17 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
 
               $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
 
+              Mage::register('webtoprint-template-changed', true);
               $full_product->setCategoryIds(array($behaviour))
+                ->setRequiredOptions(false)
+                ->setWebtoprintTemplate(null)
                 ->save();
+              Mage::unregister('webtoprint-template-changed');
 
               $this->debug("Product {$product->getSku()} was moved to category {$category->getName()}");
             }
+
+            $template->delete();
           }
 
         } else {
