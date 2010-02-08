@@ -478,8 +478,6 @@ jQuery(document).ready(function($) {
   $('div.tab.user-images').each(function() {
     var tab_button = $('ul.tab-buttons li.hidden', $(this).parents('div.selector-content'));
 
-    alert($('li', this).length);
-
     if ($('li', this).length > 0)
       $(tab_button).removeClass('hidden');
   });
