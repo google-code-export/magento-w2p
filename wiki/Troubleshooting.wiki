@@ -25,3 +25,22 @@ Go to your ZetaPrints portal, log in as a printer and navigate to API age. Make 
   * Check if you have any templates to import
   * Check if your settings import hidden templates or just the public ones - there may be nothing to import.
   * Check if you have an IP restriction (see API page on ZP)
+
+== File uploading limit ==
+
+PHP has option to limit size of uploading files. If your customers need to upload bigger files you have to increase this limit.
+
+Open PHP config file _php.ini_, find _upload_max_filesize_ option and set its value in megabytes. For example:
+
+{{{
+; Maximum allowed size for uploaded files.
+upload_max_filesize = 10M
+}}}
+
+Also check _post_max_size_ option in the PHP configuration file. The value of the option should be bigger than value of _upload_max_filesize_ option. Otherwise uploading file size will be limited by its value.
+
+Example:
+{{{
+; Maximum size of POST data that PHP will accept.
+post_max_size = 12M
+}}}
