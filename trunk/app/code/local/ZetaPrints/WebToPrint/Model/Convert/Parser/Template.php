@@ -51,6 +51,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
     $number_of_added_templates = 0;
     $number_of_uptodate_templates = 0;
     $number_of_updated_templates = 0;
+    $number_of_removed_templates = 0;
 
     $all_template_guids = array();
 
@@ -90,11 +91,6 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
             break;
           }
 
-        if (!$has_fields) {
-          $this->warning("Template {$template['guid']} hasn't input and/or image fields. Leaving the template unmodified.");
-          continue;
-        }
-
         $template['public'] = $catalog['public'];
         $templates_collection = Mage::getModel('webtoprint/template')
                                   ->getCollection()
@@ -102,7 +98,15 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
                                   ->load();
 
         if ($templates_collection->getSize() == 1)
-          foreach ($templates_collection as $template_model)
+          foreach ($templates_collection as $template_model) {
+            if (!$has_fields) {
+              $template_model->setExist(false)->save();
+              $number_of_removed_templates++;
+
+              $this->warning("Template {$template['guid']} has no variable fields. Template will be deleted.");
+              continue;
+            }
+
             if (strtotime($template['date']) > strtotime($template_model->getDate())
              || $refresh_templates
              || (int)$template_model->getPublic() != $template['public']) {
@@ -122,7 +126,13 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
               $number_of_uptodate_templates++;
               $this->debug("Template {$template['guid']} is up to date");
             }
+          }
         else {
+          if (!$has_fields) {
+            $this->warning("Template {$template['guid']} has no variable fields. Ignored.");
+            continue;
+          }
+
           $template['xml'] = zetaprints_get_template_details_as_xml($url, $key, $template['guid']);
 
           if (!$template['xml']) {
@@ -143,8 +153,6 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
     $templates_collection = Mage::getModel('webtoprint/template')
                                   ->getCollection()
                                   ->load();
-
-    $number_of_removed_templates = 0;
 
     foreach ($templates_collection as $template)
       if (!isset($all_template_guids[$template->getGuid()])) {
