@@ -93,6 +93,7 @@
                           <show_in_default>1</show_in_default>
                           <show_in_website>1</show_in_website>
                           <show_in_store>0</show_in_store>
+                          <comment><![CDATA[Edit values for <b>upload_max_filesize</b> and <b>post_max_size</b> settings in php.ini to increase file size limit.]]></comment>
                         </uploading-length-limit>
                </fields>
                             </settings>
