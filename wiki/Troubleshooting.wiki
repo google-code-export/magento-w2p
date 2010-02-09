@@ -28,7 +28,7 @@ Go to your ZetaPrints portal, log in as a printer and navigate to API age. Make 
 
 == File uploading limit ==
 
-PHP has option to limit size of uploading files. If your customers need to upload bigger files you have to increase this limit.
+PHP has an option to limit the size of uploaded files. If your customers need to upload files larger than 2MB you have to increase this limit.
 
 Open PHP config file _php.ini_, find _upload_max_filesize_ option and set its value in megabytes. For example:
 
@@ -37,7 +37,7 @@ Open PHP config file _php.ini_, find _upload_max_filesize_ option and set its va
 upload_max_filesize = 10M
 }}}
 
-Also check _post_max_size_ option in the PHP configuration file. The value of the option should be bigger than value of _upload_max_filesize_ option. Otherwise uploading file size will be limited by its value.
+Also check _post_max_size_ option in the PHP configuration file. The value of the option should be bigger than value of _upload_max_filesize_ option. 
 
 Example:
 {{{
