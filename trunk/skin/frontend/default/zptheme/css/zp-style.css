@@ -204,7 +204,7 @@ div.zetaprints-images-selector div.head a.image {
 }
 
 div.zetaprints-images-selector div.head a.image span {
-  visibility: hidden;
+  display: none;
 }
 
 div.zetaprints-images-selector div.head a.image.up-down {
