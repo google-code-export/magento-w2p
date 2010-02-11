@@ -61,7 +61,7 @@
     <xsl:for-each select="//Images/Image[@Page=$page]">
       <div class="zetaprints-images-selector no-value minimized base-mini">
         <div class="head">
-          <div class="icon"><span /></div>
+          <div class="icon"><span>Title: </span></div>
           <div class="title">
             <label><xsl:value-of select="@Name" /></label>
           </div>
@@ -72,23 +72,23 @@
           <ul class="tab-buttons">
             <xsl:if test="@AllowUpload='1'">
               <li>
-                <div class="icon upload"><span /></div>
+                <div class="icon upload"><span>Upload</span></div>
                 <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
               </li>
               <li class="hidden">
-                <div class="icon user-images"><span /></div>
+                <div class="icon user-images"><span>My images</span></div>
                 <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
               </li>
             </xsl:if>
             <xsl:if test="StockImage">
               <li>
-                <div class="icon stock-images"><span /></div>
+                <div class="icon stock-images"><span>Stock images</span></div>
                 <a href="#page-{$page}-tabs-{position()}-3"><span>Stock images</span></a>
               </li>
             </xsl:if>
             <xsl:if test="@ColourPicker='RGB'">
               <li>
-                <div class="icon color-picker"><span /></div>
+                <div class="icon color-picker"><span>Color picker</span></div>
                 <a href="#page-{$page}-tabs-{position()}-4"><span>Color picker</span></a>
               </li>
             </xsl:if>
@@ -103,12 +103,12 @@
               </div>
 
               <div class="column">
-                <div class="button choose-file"><span /></div>
-                <div class="button upload-file disabled"><span /></div>
+                <div class="button choose-file"><span>Choose file</span></div>
+                <div class="button upload-file disabled"><span>Upload file</span></div>
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
-              <div class="clear"><span /></div>
+              <!--<div class="clear"><span>&#x0A;</span></div>-->
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
@@ -135,13 +135,13 @@
           <xsl:if test="@ColourPicker='RGB'">
             <div id="page-{$page}-tabs-{position()}-4" class="tab color-picker">
               <input type="radio" name="zetaprints-#{@Name}" disabled="1" value="" />
-              <div class="color-sample"><span /></div>
+              <div class="color-sample"><span>&#x0A;</span></div>
               <span><a href="#">Choose a color</a> and click Select to fill the place of the photo.</span>
             </div>
           </xsl:if>
           </div>
 
-          <div class="clear"><span /></div>
+          <!--<div class="clear">&#x0A;</div>-->
         </div>
       </div>
     </xsl:for-each>
