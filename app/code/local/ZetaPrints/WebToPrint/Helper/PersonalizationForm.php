@@ -642,7 +642,8 @@ jQuery(document).ready(function($) {
               $(upload_div).parent()).attr('checked', 1);
 
             $('img.ajax-loader', upload_div).hide();
-            $('ul.tab-buttons li.hidden', $(upload_div).parents('div.selector-content')).removeClass('hidden');
+            $('div.zetaprints-page-stock-images ul.tab-buttons li.hidden')
+              .removeClass('hidden');
             $(upload_div).parents('div.selector-content').tabs('select', 1);
           });
       }
