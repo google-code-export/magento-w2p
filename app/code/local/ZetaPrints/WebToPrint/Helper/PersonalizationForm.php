@@ -677,15 +677,7 @@ jQuery(document).ready(function($) {
         selected: 0,
         select: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
-            $('div.color-sample', ui.panel).click();
-
-          if ($(ui.panel).hasClass('user-images')) {
-            var width = 0;
-
-            $('li', ui.panel).each(function() {
-              width = width + $(this).outerWidth(); });
-
-            $('ul', ui.panel).width(width); } }
+            $('div.color-sample', ui.panel).click(); }
       });
 
       $('input', this).change(function () {
