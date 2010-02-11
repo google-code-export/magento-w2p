@@ -606,46 +606,49 @@ jQuery(document).ready(function($) {
         response = response.split(';');
 
         var uls = $('div.zetaprints-page-stock-images div.tab.user-images ul');
-        var lis = '';
 
         $(this._button).parents('div.zetaprints-images-selector.no-value')
           .removeClass('no-value');
 
+        var number_of_loaded_imgs = 0;
+
         $(uls).each(function () {
           var name = $('input[name=parameter]', $(this).parent()).val();
 
-          lis = $('<li><input type="radio" name="zetaprints-#' + name
+          var li = $('<li><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
             + '" /><br /><a class="in-dialog" href="'
             + response[1]
             + '" title="Click to enlarge" rel="group-' + name
             + '-my"><img src="' + response[2]
             + '" /></a></li>').prependTo(this);
-        });
 
-        $('img', lis).load(function() {
-            $(uls).each(function () {
-              $(this).width($(this).width() + $('li:first',this).outerWidth());
+          var ul = this;
 
-              $('a.in-dialog', this).fancybox({
-                'zoomOpacity': true,
-                'overlayShow': false,
-                'centerOnScroll': false,
-                'zoomSpeedChange': 200,
-                'zoomSpeedIn': 500,
-                'zoomSpeedOut' : 500,
-                'callbackOnShow': function () {
-                $('img#fancy_img').attr('title', 'Click to close'); } });
-            });
+          $('img', li).load(function() {
+            $(ul).width($(ul).width() + $(li).outerWidth());
 
-            $('div.tab.user-images input[value=' + response[0] + ']',
-              $(upload_div).parent()).attr('checked', 1);
+            $('a.in-dialog', ul).fancybox({
+              'zoomOpacity': true,
+              'overlayShow': false,
+              'centerOnScroll': false,
+              'zoomSpeedChange': 200,
+              'zoomSpeedIn': 500,
+              'zoomSpeedOut' : 500,
+              'callbackOnShow': function () {
+              $('img#fancy_img').attr('title', 'Click to close'); } });
 
-            $('img.ajax-loader', upload_div).hide();
-            $('div.zetaprints-page-stock-images ul.tab-buttons li.hidden')
-              .removeClass('hidden');
-            $(upload_div).parents('div.selector-content').tabs('select', 1);
+            if (++number_of_loaded_imgs == uls.length) {
+              $('div.tab.user-images input[value=' + response[0] + ']',
+                $(upload_div).parent()).attr('checked', 1);
+
+              $('img.ajax-loader', upload_div).hide();
+              $('div.zetaprints-page-stock-images ul.tab-buttons li.hidden')
+                .removeClass('hidden');
+              $(upload_div).parents('div.selector-content').tabs('select', 1);
+            }
           });
+        });
       }
     });
 
