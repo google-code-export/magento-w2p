@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<config>
+  <modules>
+    <ZetaPrints_AccessControl>
+      <active>true</active>
+      <codePool>community</codePool>
+      <depends>
+        <Mage_Customer />
+        <Mage_Catalog />
+      </depends>
+    </ZetaPrints_AccessControl>
+  </modules>
+</config>

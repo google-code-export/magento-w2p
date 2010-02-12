@@ -1,0 +1,5 @@
+#summary About ZetaPrints
+
+ZetaPrints is the sponsor and owner of this open source project. 
+
+ZetaPrints Ltd is a maker of [http://www.zetaprints.com web-to-print and image generation software].

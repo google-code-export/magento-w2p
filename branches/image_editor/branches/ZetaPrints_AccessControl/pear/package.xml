@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package packagerversion="1.7.2" version="2.0"
+  xmlns="http://pear.php.net/dtd/package-2.0"
+  xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd" >
+
+  <name>category_access_control</name>
+  <channel>connect.magentocommerce.com/community</channel>
+
+  <summary>Control access to products and categories using user groups.</summary>
+  <description>
+Features:
+
+* allow access to categories for selected user groups only
+* users see products and categories only if allowed
+* default category settings can be changed individually per category or
+  for the whole store
+* built-in groups for ALL (no access control applies), NONE (no access),
+  REGISTERED (any registered user)
+
+It's pretty easy to configure, but if you are looking for serious access control
+you need to use Magento Enterprise Edition.
+
+This extension is based on the excellent work by Vinnai Kung
+(http://www.magentocommerce.com/extension/reviews/module/635).
+We used his code to change the functionality and simplify the interface.
+
+We actively develop and support this extension please, report any bugs here.
+Our existing customers using our web-to-print and dynamic
+imaging extension (http://www.magentocommerce.com/extension/1586) can contact us
+via email with bugs reports and feature requests.
+  </description>
+
+  <lead>
+    <name>Anatoly A. Kazantsev</name>
+    <user>jimcrow</user>
+    <email>anatoly.kazantsev@gmail.com</email>
+    <active>yes</active>
+  </lead>
+
+  <date>2010-01-21</date>
+
+  <version>
+    <release>0.1.0.0beta2</release>
+    <api>0.1.0.0beta2</api>
+  </version>
+
+  <stability>
+    <release>beta</release>
+    <api>beta</api>
+  </stability>
+
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+  <notes>Beta 2</notes>
+
+  <contents>
+
+    <dir name="/">
+
+      <dir name="modules">
+        <file name="ZetaPrints_AccessControl.xml" role="mageetc" />
+      </dir>
+
+      <dir name="ZetaPrints">
+        <dir name="AccessControl">
+
+          <dir name="Block">
+
+            <dir name="Layer">
+              <file name="View.php" role="magecommunity" />
+            </dir>
+
+            <file name="Navigation.php" role="magecommunity" />
+
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" role="magecommunity" />
+            <file name="system.xml" role="magecommunity" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Category.php" role="magecommunity" />
+            <file name="Data.php" role="magecommunity" />
+            <file name="Product.php" role="magecommunity" />
+          </dir>
+
+          <dir name="Model">
+
+            <dir name="CatalogSearch">
+              <file name="Layer.php" role="magecommunity" />
+            </dir>
+
+            <dir name="Config">
+
+                <dir name="Data">
+                  <file name="Customergroups.php" role="magecommunity" />
+                </dir>
+
+                <dir name="Source">
+
+                  <dir name="Customergroups">
+                    <file name="Category.php" role="magecommunity" />
+                  </dir>
+
+                  <file name="Customergroups.php" role="magecommunity" />
+
+                </dir>
+
+            </dir>
+
+            <dir name="Entity">
+              <dir name="Attribute">
+
+                <dir name="Backend">
+                  <file name="Customergroups.php" role="magecommunity" />
+                </dir>
+
+              </dir>
+            </dir>
+
+            <dir name="Resource">
+
+              <dir name="Sitemap">
+
+                <dir name="Mysql4">
+                  <file name="Category.php" role="magecommunity" />
+                  <file name="Product.php" role="magecommunity" />
+                </dir>
+
+              </dir>
+
+              <file name="Setup.php" role="magecommunity" />
+
+            </dir>
+
+            <file name="Observer.php" role="magecommunity" />
+
+          </dir>
+
+          <dir name="sql">
+
+            <dir name="accesscontrol_setup">
+              <file name="mysql4-install-1.php" role="magecommunity" />
+              <file name="mysql4-upgrade-1-2.php" role="magecommunity" />
+            </dir>
+
+          </dir>
+
+        </dir>
+      </dir>
+
+    </dir>
+
+  </contents>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <pearinstaller>
+        <min>1.6.2</min>
+      </pearinstaller>
+
+    </required>
+  </dependencies>
+
+  <phprelease />
+</package>
