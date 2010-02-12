@@ -237,7 +237,8 @@ jQuery(document).ready(function($) {
 
       foreach ($images as $image) {
         $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
-        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"in-dialog\" href=\"{$url}/photothumbs/{$image['thumbnail']}\" title=\"Click to enlarge\" target=\"_blank\" rel=\"group-{$name}-my\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /></a></li>\n";
+        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"edit-dialog\" href=\"".Mage::getUrl('web-to-print/picedit')."?img_id={$image['guid']}?iframe\"  target=\"_blank\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /><img style=\"position:relative;left:-28px;top:1px\" src=\"".Mage::getDesign()->getSkinUrl('images/picedit/edit.png')."\"></a></li>\n";
+//        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"in-dialog\" href=\"{$url}/photothumbs/{$image['thumbnail']}\" title=\"Click to enlarge\" target=\"_blank\" rel=\"group-{$name}-my\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /></a></li>\n";
       }
 
       $html = str_replace("<replace-with-user-images name=\"{$name}\"/>",
@@ -617,26 +618,18 @@ jQuery(document).ready(function($) {
 
           var li = $('<li><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
-            + '" /><br /><a class="in-dialog" href="'
-            + response[1]
-            + '" title="Click to enlarge" rel="group-' + name
-            + '-my"><img src="' + response[2]
-            + '" /></a></li>').prependTo(this);
+            + '" /><br /><a class="edit-dialog" href="<?php echo Mage::getUrl('web-to-print/picedit');?>?img_id='+response[0]+'?iframe"  target="_blank"><img src="' + response[2]
+            + '" /><img style="position:relative;left:-28px;top:1px" src="<?php echo Mage::getDesign()->getSkinUrl('images/picedit/edit.png');?>"></a></li>').prependTo(this);
 
           var ul = this;
 
           $('img', li).load(function() {
             $(ul).width($(ul).width() + $(li).outerWidth());
 
-            $('a.in-dialog', ul).fancybox({
-              'zoomOpacity': true,
-              'overlayShow': false,
-              'centerOnScroll': false,
-              'zoomSpeedChange': 200,
-              'zoomSpeedIn': 500,
-              'zoomSpeedOut' : 500,
-              'callbackOnShow': function () {
-              $('img#fancy_img').attr('title', 'Click to close'); } });
+            $('a.edit-dialog', ul).fancybox({
+              'padding' : 0,
+              'hideOnOverlayClick':false,
+              'hideOnContentClick':false });
 
             if (++number_of_loaded_imgs == uls.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
@@ -768,6 +761,11 @@ jQuery(document).ready(function($) {
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
     'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+  $('.edit-dialog').fancybox({
+                'padding' : 0,
+                'hideOnOverlayClick':false,
+                'hideOnContentClick':false
+                });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
@@ -785,5 +783,18 @@ jQuery(document).ready(function($) {
 </script>
 <?php
   }
+        public function get_picedit_js_css_includes ($context=null) {
+    $design = Mage::getDesign();
+?>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.Jcrop.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/picedit.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/picedit/jquery.Jcrop.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/picedit/edit.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
+<?php
+  } 
 }
 ?>
