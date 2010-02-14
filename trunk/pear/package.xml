@@ -105,6 +105,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="ProductController.php" role="magelocal" />
             </dir>
 
+            <file name="ImageController.php" role="magelocal" />
             <file name="PreviewController.php" role="magelocal" />
             <file name="UploadController.php" role="magelocal" />
           </dir>
@@ -316,6 +317,8 @@ Extension developed by http://www.zetaprints.com/
             <dir name="css">
               <file name="colorpicker.css" role="mageskin" />
               <file name="jquery.fancybox-1.2.6.css" role="mageskin" />
+              <file name="jquery.jcrop.css" role="mageskin" />
+              <file name="zp-image-edit.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
             </dir>
 
@@ -368,6 +371,22 @@ Extension developed by http://www.zetaprints.com/
                 <file name="fancy_title_right.png" role="mageskin" />
               </dir>
 
+              <dir name="image-edit">
+                <file name="crop.png" role="mageskin" />
+                <file name="delete.png" role="mageskin" />
+                <file name="edit.png" role="mageskin" />
+                <file name="flip_h.png" role="mageskin" />
+                <file name="flip_v.png" role="mageskin" />
+                <file name="line.png" role="mageskin" />
+                <file name="move.png" role="mageskin" />
+                <file name="pen.png" role="mageskin" />
+                <file name="resize.png" role="mageskin" />
+                <file name="restore.png" role="mageskin" />
+                <file name="rotate_l.png" role="mageskin" />
+                <file name="rotate_r.png" role="mageskin" />
+                <file name="save.png" role="mageskin" />
+              </dir>
+
               <dir name="media">
                 <file name="download-webtoprint-extension.jpg" role="mageskin" />
               </dir>
@@ -380,9 +399,15 @@ Extension developed by http://www.zetaprints.com/
               <file name="ajaxupload.js" role="mageskin" />
               <file name="colorpicker.js" role="mageskin" />
               <file name="jquery-1.3.2.min.js" role="mageskin" />
+              <file name="jquery-jcrop.min.js" role="mageskin" />
               <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
               <file name="jquery-ui-1.7.2.custom.min.js" role="mageskin" />
               <file name="jquery.fancybox-1.2.6.pack.js" role="mageskin" />
+              <file name="zp-image-edit.js" role="mageskin" />
+            </dir>
+
+            <dir name="layout">
+              <file name="local.xml" role="magedesign" />
             </dir>
 
             <dir name="template">
@@ -411,6 +436,10 @@ Extension developed by http://www.zetaprints.com/
                   </dir>
 
                 </dir>
+              </dir>
+
+              <dir name="image-edit">
+                <file name="edit.phtml" role="magedesign" />
               </dir>
 
               <dir name="page">

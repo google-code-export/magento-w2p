@@ -147,7 +147,15 @@ div.images-scroller ul li {
   padding: 0px 10px;
 }
 
+div.images-scroller ul li a.edit-dialog {
+  position: relative;
+}
 
+div.images-scroller ul li a.edit-dialog img.edit-button {
+  position: absolute;
+  bottom: 3px;
+  right: -1px;
+}
 
 div.zetaprints-images-selector {
   margin-bottom: 5px; /* Same as div.product-shop dl*/

@@ -1,0 +1,88 @@
+<script>
+<?
+$img_id=$this->getRequest()->getParam('id');
+Mage::log($img_id);
+if (strlen($img_id)<10)die('Wrong Request');
+?>
+var update_url='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
+var image_id='<?php echo $img_id?>';
+</script>
+    <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
+<style>
+div#fancy_content{cursor:auto}
+</style>
+<?
+ $design = Mage::getDesign();
+?>
+<table width=100% cellpadding=0 cellspacing=0>
+<tr>
+    <td id="picedit_left" width=100 valign=top>
+      <ul>
+        <!--
+            <li>
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/pen.png'); ?>" alt=""/><span>Edit title</span>
+            </li>
+        -->
+        <li id="rotate">
+          <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt=""/>
+          <span>Rotate right
+          </span>
+        </li>
+        <li id="rotatel">
+          <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt=""/>
+          <span>Rotate left
+          </span>
+        </li>
+       <!--
+            <li id="resize">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/resize.png'); ?>" alt=""/><span>Resize</span>
+            </li>
+        -->
+        <li id="crop">
+          <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt=""/>
+          <span>Crop
+          </span>
+        </li>
+        <!--
+            <li>
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/move.png'); ?>" alt=""/><span>Place</span>
+            </li>
+            <li>
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_h.png'); ?>" alt=""/><span>Flip Horizontal</span>
+            </li>
+            <li>
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_v.png'); ?>" alt=""/><span>Flip Vertical</span>
+            </li>
+        -->
+        <li id="restore">
+          <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt=""/>
+          <span>Restore
+          </span>
+        </li>
+        <!--
+            <li class="last">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt=""/><span>Delete</span>
+            </li>
+        -->
+      </ul>
+    </td>
+        <td id="picedit_right">
+      <img src="" id="edit" alt="Image" style="display:none"/>
+      <form id="crop_form">
+        <input type="hidden" name="zetaprints-CropX1" id="cropx">
+        <input type="hidden" name="zetaprints-CropY1" id="cropy">
+        <input type="hidden" name="zetaprints-CropX2" id="cropx2">
+        <input type="hidden" name="zetaprints-CropY2" id="cropy2">
+        <input type="hidden" name="Cropw" id="cropw">
+        <input type="hidden" name="Croph" id="croph">
+        <!--<input type="button" name="Apply" value="Apply" id="apply_crop">-->
+        <a href="javascript:void()" id="apply_crop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
+      </form>
+      <form id="resize_form">
+        <input type="hidden" name="neww" id="neww">
+        <input type="hidden" name="newh" id="newh">
+        <input type="button" name="Apply" value="Apply" id="apply_resize">
+      </form>
+    </td>
+    </tr>
+</table>
