@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<convert version="1.0">
-  <profile name="import_zetaprints_templates">
-    <action type="zpapi/importzp" method="parse" />
-  </profile>
-</convert>

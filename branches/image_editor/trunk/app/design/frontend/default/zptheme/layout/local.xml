@@ -1,7 +1,0 @@
-<layout version="0.1.0">
-    <zetaprints_webtoprint_picedit_index>
-        <reference name="root">
-            <block type="page/html" name="root" output="toHtml" template="../template/picedit/edit.phtml" />
-        </reference>
-    </zetaprints_webtoprint_picedit_index>
-</layout>   
