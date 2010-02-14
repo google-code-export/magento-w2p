@@ -232,12 +232,15 @@ jQuery(document).ready(function($) {
     if ($images === null)
       return $html;
 
+    $button_url = Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');
+
     foreach ($names as $name) {
       $images_html = '';
 
       foreach ($images as $image) {
         $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
-        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"in-dialog\" href=\"{$url}/photothumbs/{$image['thumbnail']}\" title=\"Click to enlarge\" target=\"_blank\" rel=\"group-{$name}-my\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /></a></li>\n";
+        $link = Mage::getUrl('web-to-print/image/', array('id' => $image['guid'], 'iframe' => 1));
+        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"edit-dialog\" href=\"{$link}\"  target=\"_blank\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /><img class=\"edit-button\" src=\"{$button_url}\"></a></li>\n";
       }
 
       $html = str_replace("<replace-with-user-images name=\"{$name}\"/>",
@@ -323,6 +326,18 @@ jQuery(document).ready(function($) {
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/colorpicker.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
+<?php
+  }
+
+  public function get_image_edit_js_css_includes ($context=null) {
+    $design = Mage::getDesign();
+?>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-jcrop.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-image-edit.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.jcrop.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-image-edit.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
 <?php
   }
 
@@ -617,26 +632,21 @@ jQuery(document).ready(function($) {
 
           var li = $('<li><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
-            + '" /><br /><a class="in-dialog" href="'
-            + response[1]
-            + '" title="Click to enlarge" rel="group-' + name
-            + '-my"><img src="' + response[2]
-            + '" /></a></li>').prependTo(this);
+            + '" /><br /><a class="edit-dialog" href="' + response[1]
+            + 'target="_blank"><img src="' + response[2]
+            + '" /><img class="edit-button" src="'
+            + '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');?>'
+            + '"></a></li>').prependTo(this);
 
           var ul = this;
 
           $('img', li).load(function() {
             $(ul).width($(ul).width() + $(li).outerWidth());
 
-            $('a.in-dialog', ul).fancybox({
-              'zoomOpacity': true,
-              'overlayShow': false,
-              'centerOnScroll': false,
-              'zoomSpeedChange': 200,
-              'zoomSpeedIn': 500,
-              'zoomSpeedOut' : 500,
-              'callbackOnShow': function () {
-              $('img#fancy_img').attr('title', 'Click to close'); } });
+            $('a.edit-dialog', ul).fancybox({
+              'padding': 0,
+              'hideOnOverlayClick': false,
+              'hideOnContentClick': false });
 
             if (++number_of_loaded_imgs == uls.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
@@ -768,6 +778,11 @@ jQuery(document).ready(function($) {
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
     'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+
+  $('a.edit-dialog').fancybox({
+    'padding': 0,
+    'hideOnOverlayClick': false,
+    'hideOnContentClick': false });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },

@@ -984,6 +984,25 @@ function zetaprints_download_customer_image ($url, $key, $data) {
   return $images;
 }
 
+function zetaprints_get_edited_image_url ($url, $key, $data) {
+  zetaprints_debug();
+
+  if (!isset($data['action']) || strlen($data['action']) == 0) {
+    zp_api_log_error("No picture edit action specified");
+    return null;
+  }
+
+  $action = $data['action'];
+  unset($data['action']);
+
+  $response = zetaprints_get_content_from_url("{$url}/API.aspx?page=api-{$action};ApiKey={$key}", $data);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  return $response['content']['body'];
+}
+
 function zetaprints_get_order_id ($url, $key, $data) {
   zetaprints_debug();
 

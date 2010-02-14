@@ -1,0 +1,78 @@
+body {
+  padding: 0;
+  margin: 0;
+  background: #93B4DF;
+  overflow: hidden;
+}
+
+#apply_crop {
+  margin-left:40%;
+}
+
+#picedit_left {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: #93B4DF none repeat scroll 0 0;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+#picedit_left ul li {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: transparent url(../images/image-edit/line.png) no-repeat scroll center bottom;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding: 12px 0;
+  cursor: pointer;
+  cursor: hand;
+}
+#picedit_left ul {
+  margin: 0;
+  padding: 0;
+}
+
+#picedit_left ul li span {
+  color: white;
+  display: block;
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px;
+}
+
+#picedit_left ul .last {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: transparent none repeat scroll 0 0;
+}
+
+#picedit_right {
+  padding: 10px 10px 4000px 10px;
+  background: white;
+}
+
+#crop_form {
+  display: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#resize_form {
+  display: none;
+}
+.handler {
+  width: 15px;
+  height: 10px;
+  border-right: solid 1px #888;
+  border-bottom: solid 1px #888;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  cursor: nw-resize;
+}
