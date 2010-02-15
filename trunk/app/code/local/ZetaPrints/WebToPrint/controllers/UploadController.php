@@ -27,10 +27,16 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $user_credentials = $w2p_user->get_credentials();
 
+    //FIXME fast n dirty image upload fix
+    $img_url=$media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}");
+    if(substr($img_url, 0, 1) == '/') {
+       $img_url="http://".$_SERVER['SERVER_NAME'].$img_url;
+    }
+    
     $params = array(
       'ID' => $user_credentials['id'],
       'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']),
-      'URL' => $media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}") );
+      'URL' => $img_url);
 
     $image = zetaprints_download_customer_image($url, $w2p_user->key, $params);
 
