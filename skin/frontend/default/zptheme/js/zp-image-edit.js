@@ -3,10 +3,7 @@ jQuery(document).ready(function($)
     var jcrop_api;
     parent.document.getElementById('fancy_frame').style.overflow = 'hidden';
     loadimg();
-    function hide_resize() {
-      $('#resize_form').css('display', 'none');
-      $("#edit").resizable('destroy');
-    }
+
     function crop()
     {
       hide_crop();
@@ -35,6 +32,7 @@ jQuery(document).ready(function($)
     };
 
     function apply_crop() {
+      hide_crop();
       loader();
       $.ajax(
         {
@@ -45,10 +43,6 @@ jQuery(document).ready(function($)
             alert('Can\'t crop image: ' + textStatus);},
         success: function (data, textStatus) {
             apply_img(data);
-            hide_resize();
-            //$.Jcrop('#edit').destroy();
-            $('#crop_form').css('display', 'none');
-            jcrop_api.destroy();
           }
         }
       );
@@ -117,7 +111,7 @@ jQuery(document).ready(function($)
           {
 
 
-            $('#edit').attr("src", 'http://magento.zetaprints.com/photothumbs/'+$(this).attr('Thumb'));
+            $('#edit').attr("src", zp_url+'/photothumbs/'+$(this).attr('Thumb'));
             document.getElementById('edit').style.height = $(this).attr('ThumbHeight')+'px';
             document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
 
@@ -130,11 +124,8 @@ jQuery(document).ready(function($)
         var t = $(xml);
         t.find('img').each(function()
           {
-
-
-            $('#edit').attr("src", 'http://magento.zetaprints.com/photothumbs/'+$(this).attr('thumb'));
-
-
+  
+            $('#edit').attr("src", zp_url+'/photothumbs/'+$(this).attr('thumb'));
             document.getElementById('edit').style.height = $(this).attr('thumbheight')+'px';
             document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
             h = $(this).attr('thumbheight');
@@ -151,7 +142,8 @@ jQuery(document).ready(function($)
           $('#edit').fadeIn();
         }
       );
-
+      if (w<300)w=300;
+      if (h<300)h=300;
       parent.document.getElementById('fancy_outer').style.height = Number(h)+Number(45)+'px';
       parent.document.getElementById('fancy_outer').style.width = Number(w)+Number(120)+'px';
 

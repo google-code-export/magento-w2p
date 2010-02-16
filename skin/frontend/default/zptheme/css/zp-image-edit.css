@@ -7,6 +7,8 @@ body {
 
 #apply_crop {
   margin-left:40%;
+  display:block;
+  padding-top:5px;
 }
 
 #picedit_left {
