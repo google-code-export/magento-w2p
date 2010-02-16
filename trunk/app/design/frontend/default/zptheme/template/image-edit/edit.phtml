@@ -6,6 +6,7 @@ if (strlen($img_id)<10)die('Wrong Request');
 ?>
 var update_url='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
 var image_id='<?php echo $img_id?>';
+var zp_url='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
 </script>
     <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
 <style>
