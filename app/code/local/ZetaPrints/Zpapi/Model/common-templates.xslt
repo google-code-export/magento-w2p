@@ -17,7 +17,14 @@
                 <xsl:if test="string-length(@Hint)!=0">
                   <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
                 </xsl:if>
-                <xsl:text>&#x0A;</xsl:text>
+                <xsl:choose>
+                  <xsl:when test="@Value">
+                    <xsl:value-of select="@Value" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>&#x0A;</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </textarea>
             </xsl:when>
             <xsl:otherwise>
@@ -30,18 +37,30 @@
                     <xsl:if test="string-length(@Hint)!=0">
                       <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
                     </xsl:if>
+                    <xsl:if test="@Value">
+                      <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
+                    </xsl:if>
                   </input>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:choose>
                     <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
                       <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
-                      <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}" />
+                      <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}">
+                        <xsl:if test="@Value=Value[1]">
+                          <xsl:attribute name="checked">1</xsl:attribute>
+                        </xsl:if>
+                      </input>
                     </xsl:when>
                     <xsl:otherwise>
                       <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
                         <xsl:for-each select="Value">
-                          <option><xsl:value-of select="." /></option>
+                          <option>
+                            <xsl:if test=".=../@Value">
+                              <xsl:attribute name="selected">1</xsl:attribute>
+                            </xsl:if>
+                            <xsl:value-of select="." />
+                          </option>
                         </xsl:for-each>
                       </select>
                     </xsl:otherwise>
@@ -122,7 +141,12 @@
               <ul>
                 <xsl:for-each select="StockImage">
                   <li>
-                    <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}" /><br />
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}">
+                      <xsl:if test="@FileID=../@Value">
+                        <xsl:attribute name="checked">1</xsl:attribute>
+                      </xsl:if>
+                    </input>
+                    <br />
                     <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" title="Click to enlarge" target="_blank" rel="group-{../@Name}">
                       <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
                     </a>

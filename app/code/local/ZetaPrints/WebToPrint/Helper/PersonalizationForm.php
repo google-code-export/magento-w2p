@@ -38,12 +38,48 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$template->getId())
       return false;
 
+    try {
+      $xml = new SimpleXMLElement($template->getXml());
+    } catch (Exception $e) {
+      zetaprints_debug("Exception: {$e->getMessage()}");
+      return false;
+    }
+
+    $this->add_values_from_cache($xml);
+
     $params = array(
       'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
       'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif')
     );
 
-    return zetaprints_get_html_from_xml($template->getXml(), $form_part, $params);
+    return zetaprints_get_html_from_xml($xml, $form_part, $params);
+  }
+
+  public function add_values_from_cache ($xml) {
+    $session = Mage::getSingleton('customer/session');
+
+    $text_cache = $session->getTextFieldsCache();
+    $image_cache = $session->getImageFieldsCache();
+
+    if ($text_cache && is_array($text_cache))
+      foreach ($xml->Fields->Field as $field) {
+        $name = (string)$field['FieldName'];
+
+        if (!isset($text_cache[$name]))
+          continue;
+
+        $field->addAttribute('Value', $text_cache[$name]);
+      }
+
+    if ($image_cache && is_array($image_cache))
+      foreach ($xml->Images->Image as $image) {
+        $name = (string)$image['Name'];
+
+        if (!isset($image_cache[$name]))
+          continue;
+
+        $image->addAttribute('Value', $image_cache[$name]);
+      }
   }
 
   public function is_personalization_step ($context) {
