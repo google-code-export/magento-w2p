@@ -694,8 +694,11 @@ function zetaprints_generate_user_password_hash ($password) {
  * Returns string contains html form
  */
 function zetaprints_get_html_from_xml ($xml, $xslt, $params) {
-  $xml_dom = new DOMDocument();
-  $xml_dom->loadXML($xml);
+  if (is_string($xml)) {
+    $xml_dom = new DOMDocument();
+    $xml_dom->loadXML($xml);
+  } else
+    $xml_dom = $xml;
 
   $xslt_dom = new DOMDocument();
   $xslt_dom->load(dirname(__FILE__).'/' . $xslt . '-html.xslt');
