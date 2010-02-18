@@ -722,7 +722,7 @@ jQuery(document).ready(function($) {
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
         select: function (event, ui) {
-          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
+          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).val())
             $('div.color-sample', ui.panel).click(); }
       });
 
@@ -734,7 +734,7 @@ jQuery(document).ready(function($) {
         if ($(top_element).hasClass('minimized')) {
           $(top_element).removeClass('minimized');
           var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
+          if (panel.hasClass('color-picker') && !$('input', panel).val()) {
             $('div.color-sample', panel).click();
           }
         }
@@ -767,9 +767,17 @@ jQuery(document).ready(function($) {
       var input = $('div.color-picker input', this)[0];
       var color_sample = $('div.color-sample', this);
 
+      var colour = $(input).val();
+      if (colour)
+        $(color_sample).css('backgroundColor', colour);
+
       $([color_sample, $('div.color-picker a', this)]).ColorPicker({
         color: '#804080',
         onBeforeShow: function (colpkr) {
+          var colour = $(input).val();
+          if (colour)
+            $(this).ColorPickerSetColor(colour);
+
           $(colpkr).draggable();
           return false;
         },
