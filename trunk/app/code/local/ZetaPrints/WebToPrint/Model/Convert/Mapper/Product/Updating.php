@@ -43,9 +43,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
       } else {
         $products = $product_model->getCollection()->addAttributeToFilter('webtoprint_template', array('eq' => $template->getGuid()))->load();
 
-        if (!$template->getExist()) {
+        if (! (bool) $template->getExist()) {
           if (count($products) == 0) {
-            $this->debug("here");
             $template->delete();
             continue;
           }
