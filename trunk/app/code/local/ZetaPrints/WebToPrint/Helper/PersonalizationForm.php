@@ -45,11 +45,16 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
       return false;
     }
 
-    $this->add_values_from_cache($xml);
+    if ($form_part === 'input-fields' || $form_part === 'stock-images')
+      $this->add_values_from_cache($xml);
+
+    if ($form_part === 'stock-images')
+      $this->add_user_images($xml);
 
     $params = array(
       'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
-      'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif')
+      'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
+      'user-image-edit-button' => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png')
     );
 
     return zetaprints_get_html_from_xml($xml, $form_part, $params);
@@ -226,7 +231,6 @@ jQuery(document).ready(function($) {
 
   public function get_image_fields ($context) {
     $html = $this->get_form_part_html('stock-images', $context->getProduct());
-    $html = $this->insert_user_images($html);
 
     if ($html === false)
       return false;
@@ -235,23 +239,7 @@ jQuery(document).ready(function($) {
     return true;
   }
 
-  private function insert_user_images ($html) {
-    $names = array();
-    $start = 0;
-
-    while (true) {
-      $start = strpos($html, 'replace-with-user-images', $start);
-
-      if ($start === false)
-        break;
-
-      $start += 31;
-      $end = strpos($html, '"', $start);
-
-      $name = substr($html, $start, $end - $start);
-      $names[] = $name;
-    }
-
+  private function add_user_images ($xml) {
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
@@ -266,24 +254,23 @@ jQuery(document).ready(function($) {
     $images = zetaprints_get_user_images ($url, $key, $data);
 
     if ($images === null)
-      return $html;
+      return;
 
-    $button_url = Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');
+    foreach ($xml->Images->Image as $image_node)
+      if (isset($image_node['AllowUpload']))
+        foreach ($images as $image) {
+          $user_image_node = $image_node->addChild('user-image');
+          $user_image_node->addAttribute('guid', $image['guid']);
 
-    foreach ($names as $name) {
-      $images_html = '';
+          $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+          $user_image_node->addAttribute('thumbnail', "{$url}/photothumbs/{$thumbnail}");
 
-      foreach ($images as $image) {
-        $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
-        $link = Mage::getUrl('web-to-print/image/', array('id' => $image['guid'], 'iframe' => 1));
-        $images_html .= "<li><input type=\"radio\" name=\"zetaprints-#{$name}\" value=\"{$image['guid']}\" /><br /><a class=\"edit-dialog\" href=\"{$link}\"  target=\"_blank\"><img src=\"{$url}/photothumbs/{$thumbnail}\" /><img class=\"edit-button\" src=\"{$button_url}\"></a></li>\n";
-      }
-
-      $html = str_replace("<replace-with-user-images name=\"{$name}\"/>",
-                        $images_html, $html);
-    }
-
-    return $html;
+          $user_image_node->addAttribute('mime', $image['mime']);
+          $user_image_node->addAttribute('description', $image['description']);
+          $user_image_node->addAttribute('edit-link',
+            Mage::getUrl('web-to-print/image/',
+              array('id' => $image['guid'], 'iframe' => 1) ));
+        }
   }
 
   public function get_page_tabs ($context) {

@@ -5,6 +5,7 @@
 
   <xsl:param name="zetaprints-api-url" />
   <xsl:param name="ajax-loader-image-url" />
+  <xsl:param name="user-image-edit-button" />
 
   <xsl:template match="TemplateDetails">
     <xsl:apply-templates select="Pages" />
