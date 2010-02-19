@@ -539,7 +539,7 @@ jQuery(document).ready(function($) {
   <?php else : ?>
   $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form fieldset.no-display'));
   $('fieldset.add-to-cart-box button.form-button').css('display', 'none');
-  <? endif; ?>
+  <?php endif; ?>
 
   $('<input type="hidden" name="zetaprints-TemplateID" value="' + template_id +'" />').appendTo('#product_addtocart_form');
 
