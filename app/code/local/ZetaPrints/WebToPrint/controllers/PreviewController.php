@@ -54,6 +54,8 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
     $session->setTextFieldsCache($text_cache);
     $session->setImageFieldsCache($image_cache);
 
+    reset($params);
+
     $w2p_user = Mage::getModel('zpapi/w2puser');
 
     $user_credentials = $w2p_user->get_credentials();
