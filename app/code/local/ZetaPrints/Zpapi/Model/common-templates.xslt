@@ -132,7 +132,20 @@
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
               <ul>
-                <replace-with-user-images name="{@Name}" />
+                <xsl:for-each select="user-image">
+                  <li>
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}">
+                      <xsl:if test="@guid=../@Value">
+                        <xsl:attribute name="checked">1</xsl:attribute>
+                      </xsl:if>
+                    </input>
+                    <br />
+                    <a class="edit-dialog" href="{@edit-link}" title="Click to edit" target="_blank">
+                      <img src="{@thumbnail}" />
+                      <img class="edit-button" src="{$user-image-edit-button}" />
+                    </a>
+                  </li>
+                </xsl:for-each>
               </ul>
             </div>
           </xsl:if>
@@ -158,7 +171,17 @@
 
           <xsl:if test="@ColourPicker='RGB'">
             <div id="page-{$page}-tabs-{position()}-4" class="tab color-picker">
-              <input type="radio" name="zetaprints-#{@Name}" disabled="1" value="" />
+              <input type="radio" name="zetaprints-#{@Name}">
+                <xsl:choose>
+                  <xsl:when test="@Value">
+                    <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:attribute name="value"></xsl:attribute>
+                    <xsl:attribute name="disabled">1</xsl:attribute>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </input>
               <div class="color-sample"><span>&#x0A;</span></div>
               <span><a href="#">Choose a color</a> and click Select to fill the place of the photo.</span>
             </div>
