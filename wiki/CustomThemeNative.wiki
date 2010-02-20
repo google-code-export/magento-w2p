@@ -65,6 +65,11 @@ New code checks for web-to-print in a product and puts correct images urls for p
 <?php if (!$this->helper('webtoprint/personalization-form')->get_preview_images($this)): ?>
   }}}
 
+*Section 2*: remove web-to-print images for multi-page templates from the gallery thumbs.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
+  }}}
+
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/checkout/cart/item/default.phtml template/checkout/cart/item/default.phtml] ==
 This file shows various information for cart item on shopping cart page.
 
