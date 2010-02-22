@@ -57,7 +57,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
       'user-image-edit-button' => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png')
     );
 
-    return zetaprints_get_html_from_xml($xml, $form_part, $params);
+    return zetaprints_get_html_from_xml($xml->asXML(), $form_part, $params);
   }
 
   public function add_values_from_cache ($xml) {
