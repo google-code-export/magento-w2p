@@ -26,8 +26,6 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template extends  Mage_Dataflow
     else
       $this->error("ZetaPrints API Key is empty");
 
-    $this->warning('Please, make certain the domain name and the API key for your ZetaPrints account are correct');
-
     $refresh_templates = (bool)(int)Mage::getStoreConfig('zpapi/settings/w2p_refresh');
     if ($refresh_templates)
       $this->warning('Refresh all templates');
