@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 <title><?php echo $this->getTitle() ?></title>
@@ -29,7 +29,6 @@
 <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
 <meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
 <meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
-<?php echo $this->getChildHtml() ?>
 <link rel="icon" href="<?php echo $this->getSkinUrl('favicon.ico') ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getSkinUrl('favicon.ico') ?>" type="image/x-icon" />
 <script type="text/javascript">
@@ -39,6 +38,7 @@
 //]]>
 </script>
 <?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
 <?php echo $this->helper('core/js')->getTranslatorScript() ?>
 <?php echo $this->getIncludes() ?>
 

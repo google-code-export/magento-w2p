@@ -6,11 +6,11 @@ a.all-order-previews span.show-title {
   display: none;
 }
 
-a.all-order-previews.hidden span.hide-title {
+a.all-order-previews.hide-all span.hide-title {
   display: none;
 }
 
-a.all-order-previews.hidden span.show-title {
+a.all-order-previews.hide-all span.show-title {
   display: inline;
 }
 
@@ -50,14 +50,14 @@ div.zetaprints-previews-box div.content ul li {
   margin-left: 5px;
 }
 
-div.zetaprints-previews-box.hidden div.content {
+div.zetaprints-previews-box.hide div.content {
   display: none;
 }
 
-div.zetaprints-previews-box.hidden div.title a.hide-title {
+div.zetaprints-previews-box.hide div.title a.hide-title {
   display: none;
 }
 
-div.zetaprints-previews-box.hidden div.title a.show-title {
+div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }

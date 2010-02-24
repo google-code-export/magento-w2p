@@ -288,9 +288,11 @@ jQuery(document).ready(function($) {
       return false;
 ?>
     <div class="zetaprints-preview-button">
-      <input type="button" value="Update preview" class="update-preview form-button" />
+      <button class="update-preview button">
+        <span><span>Update preview</span></span>
+      </button>
       <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
-      <span>Updating preview image&hellip;</span>
+      <span class="text">Updating preview image&hellip;</span>
     </div>
 <?php
   }
@@ -300,7 +302,9 @@ jQuery(document).ready(function($) {
       return false;
 ?>
     <div class="zetaprints-next-page-button">
-      <input type="button" value="Next page" class="next-page form-button disabled" />
+      <button class="next-page button">
+        <span><span>Next page</span></span>
+      </button>
     </div>
 <?php
   }
@@ -431,13 +435,13 @@ jQuery(document).ready(function($) {
 
   $('div.zetaprints-previews-box a.show-title').each(function () {
     $(this).click(function () {
-      $(this).parents('div.zetaprints-previews-box').removeClass('hidden');
+      $(this).parents('div.zetaprints-previews-box').removeClass('hide');
     });
   });
 
   $('div.zetaprints-previews-box a.hide-title').each(function () {
     $(this).click(function () {
-      $(this).parents('div.zetaprints-previews-box').addClass('hidden');
+      $(this).parents('div.zetaprints-previews-box').addClass('hide');
     });
   });
 
@@ -467,12 +471,12 @@ jQuery(document).ready(function($) {
 jQuery(document).ready(function($) {
   $('a.all-order-previews').toggle(
     function () {
-      $(this).addClass('hidden');
-      $('div.zetaprints-previews-box').addClass('hidden');
+      $(this).addClass('hide-all');
+      $('div.zetaprints-previews-box').addClass('hide');
     },
     function () {
-      $(this).removeClass('hidden');
-      $('div.zetaprints-previews-box').removeClass('hidden');
+      $(this).removeClass('hide-all');
+      $('div.zetaprints-previews-box').removeClass('hide');
     }
   );
 });
@@ -535,10 +539,10 @@ jQuery(document).ready(function($) {
     $(this).attr('src', src[0] + 'thumb/' + new_id[0] + '_100x100.' + new_id[1]);
   });
 
-  $('<input type="hidden" name="zetaprints-previews" value="<?php echo $previews; ?>" />').appendTo($('#product_addtocart_form fieldset.no-display'));
+  $('<input type="hidden" name="zetaprints-previews" value="<?php echo $previews; ?>" />').appendTo($('#product_addtocart_form div.no-display'));
   <?php else : ?>
-  $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form fieldset.no-display'));
-  $('fieldset.add-to-cart-box button.form-button').css('display', 'none');
+  $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form div.no-display'));
+  $('div.add-to-cart button.button').css('display', 'none');
   <?php endif; ?>
 
   $('<input type="hidden" name="zetaprints-TemplateID" value="' + template_id +'" />').appendTo('#product_addtocart_form');
@@ -563,10 +567,10 @@ jQuery(document).ready(function($) {
   });
 
   function update_preview () {
-    $('div.zetaprints-preview-button span').css('display', 'inline');
+    $('div.zetaprints-preview-button span.text').css('display', 'inline');
     $('img.ajax-loader').css('display', 'inline');
 
-    var update_preview_button = $('input.update-preview').unbind('click').hide();
+    var update_preview_button = $('button.update-preview').unbind('click').hide();
     var page = '' + $('div.zetaprints-image-tabs li.selected img').attr('rel');
 
     if (page == "undefined")
@@ -577,7 +581,7 @@ jQuery(document).ready(function($) {
       type: 'POST',
       data: $('#product_addtocart_form').serialize() + '&zetaprints-From=' + page.split('-')[1],
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        $('div.zetaprints-preview-button span, img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show();
         alert('Can\'t get preview image: ' + textStatus); },
       success: function (data, textStatus) {
@@ -595,7 +599,7 @@ jQuery(document).ready(function($) {
 
           if (previews.length == number_of_pages) {
             $('input[name=zetaprints-previews]').val(previews.join(','));
-            $('fieldset.add-to-cart-box button.form-button').show();
+            $('div.add-to-cart button.button').show();
             $('div.save-order span').css('display', 'none');
           }
         }
@@ -608,12 +612,14 @@ jQuery(document).ready(function($) {
         else
           $('div.zetaprints-next-page-button').hide();
 
-        $('div.zetaprints-preview-button span, img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show(); }
     });
+
+    return false;
   }
 
-  $('input.update-preview').click(update_preview);
+  $('button.update-preview').click(update_preview);
 
   $('div.button.choose-file').each(function () {
     var uploader = new AjaxUpload(this, {
@@ -799,6 +805,7 @@ jQuery(document).ready(function($) {
     if (next_page_number >= number_of_pages)
       $(this).hide();
 
+    return false;
   });
 
   $('div.zetaprints-template-preview a, a.in-dialog').fancybox({

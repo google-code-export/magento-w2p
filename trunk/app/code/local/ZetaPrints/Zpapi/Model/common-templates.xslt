@@ -78,14 +78,14 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-      <div class="zetaprints-images-selector no-value minimized base-mini">
-        <div class="head">
+      <div class="zetaprints-images-selector no-value minimized block">
+        <div class="head block-title">
+          <a class="image up-down" href="#"><span>Up/Down</span></a>
+          <a class="image collapse-expand" href="#"><span>Collapse/Expand</span></a>
           <div class="icon"><span>Title: </span></div>
           <div class="title">
             <label><xsl:value-of select="@Name" /></label>
           </div>
-          <a class="image up-down" href="#"><span>Up/Down</span></a>
-          <a class="image collapse-expand" href="#"><span>Collapse/Expand</span></a>
         </div>
         <div id="page-{$page}-tabs-{position()}" class="selector-content">
           <ul class="tab-buttons">
