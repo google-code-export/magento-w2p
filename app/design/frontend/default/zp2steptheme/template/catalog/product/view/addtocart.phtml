@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 
@@ -36,14 +36,13 @@
 
     <!-- /****** ZP-CODE:1 End ******/ -->
 
-    <fieldset class="add-to-cart-box">
-        <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+    <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
-        <span class="qty-box"><label for="qty"><?php echo $this->__('Qty') ?>:</label>
-        <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
+        <label for="qty"><?php echo $this->__('Qty:') ?></label>
+        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
         <?php endif; ?>
-        <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Personalize') ?></span></button>
-    </fieldset>
+        <button type="button" title="<?php echo $this->__('Personalize') ?>" class="button btn-cart" onclick="productAddToCartForm.submit()"><span><span><?php echo $this->__('Personalize') ?></span></span></button>
+    </div>
 
     <!-- /****** ZP-CODE:2 ... otherwise show "Add to cart" button ******/ -->
 
@@ -51,9 +50,9 @@
 
     <!-- /****** ZP-CODE:2 End ******/ -->
 
-    <fieldset class="add-to-cart-box">
-        <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
-    </fieldset>
+    <div class="add-to-cart">
+        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="productAddToCartForm.submit()"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+    </div>
 
     <!-- /****** ZP-CODE:3 Close 'if' opened in ZP-CODE:1 ******/ -->
 

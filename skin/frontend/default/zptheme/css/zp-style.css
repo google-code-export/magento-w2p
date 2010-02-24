@@ -85,7 +85,7 @@ div.zetaprints-preview-button {
 }
 
 /**/
-div.zetaprints-preview-button span {
+div.zetaprints-preview-button span.text {
   display: none;
   margin-left: 10px;
   font-size: 85%;
@@ -183,7 +183,6 @@ div.zetaprints-images-selector div.head {
   border: 1px solid #b6b6b6;
   margin: 0px;
   text-align: left;
-  padding: 4px 4px 4px 8px;
   cursor: pointer;
 }
 
@@ -192,15 +191,11 @@ div.zetaprints-images-selector div.head div.icon {
   width: 13px;
   float: left;
   background: transparent url('../images/images-selector-sprites.png') 0px -19px no-repeat;
-  margin: 1px 9px 0px 0px;
+  margin: 2px 9px 0px 0px;
 }
 
 div.zetaprints-images-selector.no-value div.head div.icon {
   background-position: 0px 0px;
-}
-
-div.zetaprints-images-selector div.head div.title {
-  float: left;
 }
 
 div.zetaprints-images-selector div.head div.title label {
@@ -211,7 +206,7 @@ div.zetaprints-images-selector div.head a.image {
   float: right;
   background: url('../images/images-selector-sprites.png') no-repeat;
   margin-left: 6px;
-  margin-top:3px;
+  margin-top: 4px;
   height: 9px;
 }
 
@@ -428,11 +423,11 @@ a.all-order-previews span.show-title {
   display: none;
 }
 
-a.all-order-previews.hidden span.hide-title {
+a.all-order-previews.hide-all span.hide-title {
   display: none;
 }
 
-a.all-order-previews.hidden span.show-title {
+a.all-order-previews.hide-all span.show-title {
   display: inline;
 }
 
@@ -472,15 +467,15 @@ div.zetaprints-previews-box div.content ul li {
   margin-left: 5px;
 }
 
-div.zetaprints-previews-box.hidden div.content {
+div.zetaprints-previews-box.hide div.content {
   display: none;
 }
 
-div.zetaprints-previews-box.hidden div.title a.hide-title {
+div.zetaprints-previews-box.hide div.title a.hide-title {
   display: none;
 }
 
-div.zetaprints-previews-box.hidden div.title a.show-title {
+div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
 
