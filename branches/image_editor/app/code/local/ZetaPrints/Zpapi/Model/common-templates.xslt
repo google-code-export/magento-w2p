@@ -131,7 +131,7 @@
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
-              <table width="100%" cellpadding="0" cellspacing="0" class="images_table"><tr>
+              <table cellpadding="0" cellspacing="0" class="images_table"><tr>
                 <xsl:for-each select="user-image">
                   <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}">
@@ -151,7 +151,7 @@
           </xsl:if>
           <xsl:if test="StockImage">
             <div id="page-{$page}-tabs-{position()}-3" class="tab images-scroller">
-              <table width="100%" cellpadding="0" cellspacing="0" class="images_table"><tr>
+              <table cellpadding="0" cellspacing="0" class="images_table"><tr>
                 <xsl:for-each select="StockImage">
                   <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}">
