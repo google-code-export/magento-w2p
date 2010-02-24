@@ -131,6 +131,7 @@ div.save-order img.ajax-loader {
 
 div.images-scroller {
   overflow-x: auto;
+  position:relative;
 }
 
 div.images-scroller ul {
@@ -147,13 +148,13 @@ div.images-scroller ul li {
   padding: 0px 10px;
 }
 
-div.images-scroller ul li a.edit-dialog {
+div.images-scroller .images_table td a.edit-dialog {
   position: relative;
 }
 
-div.images-scroller ul li a.edit-dialog img.edit-button {
+div.images-scroller .images_table td a.edit-dialog img.edit-button {
   position: absolute;
-  bottom: 3px;
+  bottom: 2px;
   right: -1px;
 }
 
@@ -417,6 +418,19 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload 
 
 div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
   margin: 2px 0px 0px 0px;
+}
+
+div.zetaprints-images-selector .ui-tabs-hide .images_table{
+  display:none;
+}
+
+div.zetaprints-images-selector .images_table td{
+  padding:0 5px;
+  min-width: 35px;
+}
+
+div.zetaprints-images-selector .images_table{
+  *height:135px;
 }
 
 a.all-order-previews {

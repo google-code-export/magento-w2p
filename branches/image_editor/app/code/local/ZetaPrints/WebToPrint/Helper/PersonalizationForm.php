@@ -260,9 +260,21 @@ jQuery(document).ready(function($) {
       if (isset($image_node['AllowUpload']))
         foreach ($images as $image) {
           $user_image_node = $image_node->addChild('user-image');
+            //temp fix
+        if (preg_match('/\.jpg$/m', $image['thumbnail'])) {
+        $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+        } else {
+	      $thumbnail=$image['thumbnail'];
+              }
+                $user_image_node->addAttribute('height', "100");
+                $user_image_node->addAttribute('width', round($image['thumbnail_width']*100/$image['thumbnail_height']));
+
+        
+
+        //eof tmp fix
           $user_image_node->addAttribute('guid', $image['guid']);
 
-          $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+          //$thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
           $user_image_node->addAttribute('thumbnail', "{$url}/photothumbs/{$thumbnail}");
 
           $user_image_node->addAttribute('mime', $image['mime']);
@@ -516,7 +528,7 @@ jQuery(document).ready(function($) {
   $('div.tab.user-images').each(function() {
     var tab_button = $('ul.tab-buttons li.hidden', $(this).parents('div.selector-content'));
 
-    if ($('li', this).length > 0)
+    if ($('td', this).length > 0)
       $(tab_button).removeClass('hidden');
   });
 
@@ -643,7 +655,7 @@ jQuery(document).ready(function($) {
 
         response = response.split(';');
 
-        var uls = $('div.zetaprints-page-stock-images div.tab.user-images ul');
+        var uls = $('div.zetaprints-page-stock-images div.tab.user-images table tr');
 
         $(this._button).parents('div.zetaprints-images-selector.no-value')
           .removeClass('no-value');
@@ -651,25 +663,27 @@ jQuery(document).ready(function($) {
         var number_of_loaded_imgs = 0;
 
         $(uls).each(function () {
-          var name = $('input[name=parameter]', $(this).parent()).val();
+          var name =  $('input[name=parameter]', $(this).parent().parent().parent()).val();
 
-          var li = $('<li><input type="radio" name="zetaprints-#' + name
+          var li = $('<td><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
             + '" /><br /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
             + '" /><img class="edit-button" src="'
             + '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');?>'
-            + '"></a></li>').prependTo(this);
+            + '"></a></td>').prependTo(this);
 
           var ul = this;
 
           $('img', li).load(function() {
-            $(ul).width($(ul).width() + $(li).outerWidth());
+            //$(ul).width($(ul).width() + $(li).outerWidth());
 
             $('a.edit-dialog', ul).fancybox({
               'padding': 0,
               'hideOnOverlayClick': false,
-              'hideOnContentClick': false });
+              'hideOnContentClick': false,
+              'centerOnScroll':false
+          });
 
             if (++number_of_loaded_imgs == uls.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
@@ -695,6 +709,7 @@ jQuery(document).ready(function($) {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
 
+      /*
       var width = 0;
 
       $('div.images-scroller', this).each(function() {
@@ -705,7 +720,7 @@ jQuery(document).ready(function($) {
 
         $('ul', this).width(width);
       });
-
+     */
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
         select: function (event, ui) {
@@ -813,7 +828,9 @@ jQuery(document).ready(function($) {
   $('a.edit-dialog').fancybox({
     'padding': 0,
     'hideOnOverlayClick': false,
-    'hideOnContentClick': false });
+    'hideOnContentClick': false,
+    'centerOnScroll':false
+    });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
