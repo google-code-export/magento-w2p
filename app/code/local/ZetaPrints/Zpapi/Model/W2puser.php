@@ -14,6 +14,9 @@
   * 3. Show the IFRAME
   */
 
+//defining cookie life time in seconds
+define('ZP_COOKIE_LIFETIME',15552000);
+
 if (!defined('ZP_API_VER')) include('zp_api.php');
 
 class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
@@ -214,7 +217,36 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
         return 0;
       }
-
+      
+      //connecting to DB
+      $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+      //check if ZP_ID cookie exists
+      $c_user=Mage::getSingleton('core/cookie')->get('ZP_ID');
+      if ($c_user){
+      //found cookie, fetching password from DB
+          zp_api_log_debug('Found cookie, fetching password from DB');
+      $c_pass=$db->fetchOne("select pass from zetaprints_cookie where user_id=?",array($c_user));
+      if (strlen($c_pass)==6)
+          {
+            //found password in DB, assigning creditenials and return
+            zp_api_log_debug('Restoring session from cookie and DB');
+            $this->pass=$c_pass;
+            $this->user=$c_user;
+            $this->state="ok";
+            //Save to session
+            Mage::getSingleton('core/session')->setW2puser($this->user);
+            Mage::getSingleton('core/session')->setW2ppass($this->pass);
+            return 1;
+          }else{
+            //password not found in DB, cookie is wrong?
+            unset($c_user);
+            unset($c_pass);
+            
+            zp_api_log_debug('Wrong cookie on client side. Deleting...');
+            Mage::getSingleton('core/cookie')->delete('ZP_ID');
+          }
+      }
+      
       //Not created, will create new account on ZP
       $this->user = zp_api_common_uuid();
       $this->pass = zp_api_common_pass();
@@ -236,7 +268,13 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
           //Save to session
           Mage::getSingleton('core/session')->setW2puser($this->user);
           Mage::getSingleton('core/session')->setW2ppass($this->pass);
+
+          //registered, creating cookie
+          Mage::getSingleton('core/cookie')->set('ZP_ID',$this->user,ZP_COOKIE_LIFETIME);
+          //adding password to DB
+          $db->insert("zetaprints_cookie",array("user_id"=>$this->user,"pass"=>$this->pass));
         }
+      
       } else {
         //Login Error
         $this->user = "";
@@ -252,7 +290,6 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
     return $login;
   }
-
   /**
    * get magneto's role of the user from session
    */
