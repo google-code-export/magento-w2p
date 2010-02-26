@@ -884,10 +884,11 @@ function zetaprints_get_template_detailes ($url, $key, $template_guid) {
   return $template;
 }
 
-function zetaprints_get_template_details_as_xml ($url, $key, $template_guid) {
+function zetaprints_get_template_details_as_xml ($url, $key, $template_guid,
+                                                 $data = null) {
   zetaprints_debug();
 
-  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key", $data);
 
   if (zetaprints_has_error($response))
     return null;
