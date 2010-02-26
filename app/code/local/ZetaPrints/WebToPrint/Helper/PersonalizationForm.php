@@ -33,20 +33,38 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$template_guid)
       return false;
 
-    $template = Mage::getModel('webtoprint/template')->load($template_guid);
+    //$template = Mage::getModel('webtoprint/template')->load($template_guid);
 
-    if (!$template->getId())
-      return false;
+    //if (!$template->getId())
+    //  return false;
+
+    if (! $template_xml = Mage::registry('webtoprint-template-xml')) {
+      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+      $w2p_user = Mage::getModel('zpapi/w2puser');
+
+      $user_credentials = $w2p_user->get_credentials();
+
+      $data = array(
+        'ID' => $user_credentials['id'],
+        'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']) );
+
+      $template_xml = zetaprints_get_template_details_as_xml($url, $key, $template_guid,
+                                                 $data);
+
+      Mage::register('webtoprint-template-xml', $template_xml);
+    }
 
     try {
-      $xml = new SimpleXMLElement($template->getXml());
+      $xml = new SimpleXMLElement($template_xml);
     } catch (Exception $e) {
       zetaprints_debug("Exception: {$e->getMessage()}");
       return false;
     }
 
-    if ($form_part === 'input-fields' || $form_part === 'stock-images')
-      $this->add_values_from_cache($xml);
+    //if ($form_part === 'input-fields' || $form_part === 'stock-images')
+    //  $this->add_values_from_cache($xml);
 
     if ($form_part === 'stock-images')
       $this->add_user_images($xml);
