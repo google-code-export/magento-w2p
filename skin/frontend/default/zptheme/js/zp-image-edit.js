@@ -170,10 +170,6 @@ jQuery(document).ready(function($)
             } else {
                 jQuery("a[href*="+image_id+"]", top.document).find('img:first').attr('src', tmp);
                 }
-            
-            jQuery("a[href*="+image_id+"]", top.document).find('img:first').attr('height', 100);
-            jQuery("a[href*="+image_id+"]", top.document).find('img:first').attr('width', w*100/h);
-            
 
             $('#edit').attr("src", tmp);
 
