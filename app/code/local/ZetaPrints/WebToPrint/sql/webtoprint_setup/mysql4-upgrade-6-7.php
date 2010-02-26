@@ -3,7 +3,13 @@
 $installer = $this;
 $installer->startSetup();
 
-$installer->run("CREATE TABLE `zetaprints_cookie`(`user_id` VARCHAR(200) NOT NULL , `pass` VARCHAR(6) , PRIMARY KEY (`user_id`));");
+$installer->run(
+  "DROP TABLE IF EXISTS `zetaprints_cookies`;
+  CREATE TABLE `zetaprints_cookies` (
+    `user_id` VARCHAR(36) NOT NULL,
+    `pass` VARCHAR(6),
+    PRIMARY KEY (`user_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
 
 $installer->endSetup();
 
