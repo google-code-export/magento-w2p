@@ -262,7 +262,11 @@ jQuery(document).ready(function($) {
           $user_image_node = $image_node->addChild('user-image');
           $user_image_node->addAttribute('guid', $image['guid']);
 
-          $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+          if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
+            $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+          else
+            $thumbnail = $image['thumbnail'];
+
           $user_image_node->addAttribute('thumbnail', "{$url}/photothumbs/{$thumbnail}");
 
           $user_image_node->addAttribute('mime', $image['mime']);

@@ -149,6 +149,7 @@ div.images-scroller input {
 
 div.images-scroller img {
   vertical-align: baseline;
+  max-height: 100px;
 }
 
 div.images-scroller a.edit-dialog {
