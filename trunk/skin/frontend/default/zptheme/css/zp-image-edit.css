@@ -39,7 +39,7 @@ body {
 }
 
 #picedit_left ul li span {
-  color: white;
+  color: #FFFFFF;
   display: block;
   font-family: Arial;
   font-size: 12px;
@@ -56,7 +56,7 @@ body {
 
 #picedit_right {
   padding: 10px 10px 4000px 10px;
-  background: white;
+  background: #FFFFFF;
 }
 
 #crop_form {
@@ -71,8 +71,8 @@ body {
 .handler {
   width: 15px;
   height: 10px;
-  border-right: solid 1px #888;
-  border-bottom: solid 1px #888;
+  border-right: solid 1px #888888;
+  border-bottom: solid 1px #888888;
   position: absolute;
   right: 1px;
   bottom: 1px;
