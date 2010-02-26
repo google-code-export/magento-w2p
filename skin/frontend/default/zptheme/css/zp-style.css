@@ -131,30 +131,36 @@ div.save-order img.ajax-loader {
 
 div.images-scroller {
   overflow-x: auto;
+  position: relative;
 }
 
-div.images-scroller ul {
-  display: block;
-  overflow: hidden;
+div.images-scroller table tr {
   margin: 0px;
   padding: 0px;
 }
 
-div.images-scroller ul li {
-  display: block;
-  float: left;
-  list-style: none;
+div.images-scroller table td {
   padding: 0px 10px;
 }
 
-div.images-scroller ul li a.edit-dialog {
-  position: relative;
+div.images-scroller input {
+  display: block;
 }
 
-div.images-scroller ul li a.edit-dialog img.edit-button {
+div.images-scroller img {
+  vertical-align: baseline;
+}
+
+div.images-scroller a.edit-dialog {
+  position: relative;
+  display: block;
+  min-height: 21px;
+}
+
+div.images-scroller a.edit-dialog img.edit-button {
   position: absolute;
-  bottom: 3px;
-  right: -1px;
+  bottom: 6px;
+  right: 0px;
 }
 
 div.zetaprints-images-selector {

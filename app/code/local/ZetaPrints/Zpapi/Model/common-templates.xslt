@@ -131,41 +131,39 @@
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
-              <ul>
+              <table><tr>
                 <xsl:for-each select="user-image">
-                  <li>
+                  <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}">
                       <xsl:if test="@guid=../@Value">
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <br />
                     <a class="edit-dialog" href="{@edit-link}" title="Click to edit" target="_blank">
                       <img src="{@thumbnail}" />
                       <img class="edit-button" src="{$user-image-edit-button}" />
                     </a>
-                  </li>
+                  </td>
                 </xsl:for-each>
-              </ul>
+              </tr></table>
             </div>
           </xsl:if>
           <xsl:if test="StockImage">
             <div id="page-{$page}-tabs-{position()}-3" class="tab images-scroller">
-              <ul>
+              <table><tr>
                 <xsl:for-each select="StockImage">
-                  <li>
+                  <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}">
                       <xsl:if test="@FileID=../@Value">
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <br />
                     <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" title="Click to enlarge" target="_blank" rel="group-{../@Name}">
                       <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
                     </a>
-                  </li>
+                  </td>
                 </xsl:for-each>
-              </ul>
+              </tr></table>
             </div>
           </xsl:if>
 

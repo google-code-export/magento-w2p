@@ -520,7 +520,7 @@ jQuery(document).ready(function($) {
   $('div.tab.user-images').each(function() {
     var tab_button = $('ul.tab-buttons li.hidden', $(this).parents('div.selector-content'));
 
-    if ($('li', this).length > 0)
+    if ($('td', this).length > 0)
       $(tab_button).removeClass('hidden');
   });
 
@@ -649,35 +649,34 @@ jQuery(document).ready(function($) {
 
         response = response.split(';');
 
-        var uls = $('div.zetaprints-page-stock-images div.tab.user-images ul');
+        var trs = $('div.zetaprints-page-stock-images div.tab.user-images table tr');
 
         $(this._button).parents('div.zetaprints-images-selector.no-value')
           .removeClass('no-value');
 
         var number_of_loaded_imgs = 0;
 
-        $(uls).each(function () {
+        $(trs).each(function () {
           var name = $('input[name=parameter]', $(this).parent()).val();
 
-          var li = $('<li><input type="radio" name="zetaprints-#' + name
+          var td = $('<td><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
             + '" /><br /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
             + '" /><img class="edit-button" src="'
             + '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');?>'
-            + '"></a></li>').prependTo(this);
+            + '"></a></td>').prependTo(this);
 
-          var ul = this;
+          var tr = this;
 
-          $('img', li).load(function() {
-            $(ul).width($(ul).width() + $(li).outerWidth());
-
-            $('a.edit-dialog', ul).fancybox({
+          $('img', td).load(function() {
+            $('a.edit-dialog', tr).fancybox({
               'padding': 0,
               'hideOnOverlayClick': false,
-              'hideOnContentClick': false });
+              'hideOnContentClick': false,
+              'centerOnScroll': false });
 
-            if (++number_of_loaded_imgs == uls.length) {
+            if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
                 $(upload_div).parent()).attr('checked', 1);
 
@@ -700,17 +699,6 @@ jQuery(document).ready(function($) {
   $(window).load(function () {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
-
-      var width = 0;
-
-      $('div.images-scroller', this).each(function() {
-        var width = 0;
-
-        $('li', this).each(function() {
-          width = width + $(this).outerWidth(); });
-
-        $('ul', this).width(width);
-      });
 
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
@@ -820,7 +808,8 @@ jQuery(document).ready(function($) {
   $('a.edit-dialog').fancybox({
     'padding': 0,
     'hideOnOverlayClick': false,
-    'hideOnContentClick': false });
+    'hideOnContentClick': false,
+    'centerOnScroll': false });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
