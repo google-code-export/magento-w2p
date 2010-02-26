@@ -58,13 +58,6 @@ class ZetaPrints_WebToPrint_UploadController extends Mage_Core_Controller_Front_
         $edit_link = Mage::getUrl('web-to-print/image/', array('id' => $image['guid'], 'iframe' => 1));
         $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
 
-        //image uploaded changing cookie lifetime
-        $cookie=(array)Mage::getModel('core/cookie')->get();
-        foreach ($cookie as $name=>$value)
-        {
-            Mage::getModel('core/cookie')->set($name,$value,60*60*24*30*3);
-        }
-
         echo "{$image['guid']};{$edit_link};{$url}/photothumbs/{$thumbnail}";
     }
 }

@@ -62,13 +62,6 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    //preview generated, changing cookie lifetime
-    $cookie=(array)Mage::getModel('core/cookie')->get();
-    foreach ($cookie as $name=>$value)
-    {
-        Mage::getModel('core/cookie')->set($name,$value,60*60*24*30*3);
-    }
-
     echo zetaprints_get_preview_image_url(Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
   }
 }
