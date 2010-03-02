@@ -18,7 +18,7 @@
                   <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
                 </xsl:if>
                 <xsl:choose>
-                  <xsl:when test="@Value">
+                  <xsl:when test="@Value and string-length(@Value)!=0">
                     <xsl:value-of select="@Value" />
                   </xsl:when>
                   <xsl:otherwise>
