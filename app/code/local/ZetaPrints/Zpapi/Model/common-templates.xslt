@@ -159,7 +159,14 @@
                       </xsl:if>
                     </input>
                     <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" title="Click to enlarge" target="_blank" rel="group-{../@Name}">
-                      <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                      <xsl:choose>
+                        <xsl:when test="contains(@Thumb, '.png') or contains(@Thumb, '.gif')">
+                          <img src="{$zetaprints-api-url}photothumbs/{@Thumb}" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                        </xsl:otherwise>
+                      </xsl:choose>
                     </a>
                   </td>
                 </xsl:for-each>
