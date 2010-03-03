@@ -171,8 +171,9 @@
             <div id="page-{$page}-tabs-{position()}-4" class="tab color-picker">
               <input type="radio" name="zetaprints-#{@Name}">
                 <xsl:choose>
-                  <xsl:when test="@Value">
+                  <xsl:when test="string-length(@Value)=7 and starts-with(@Value,'#')">
                     <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
+                    <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:when>
                   <xsl:otherwise>
                     <xsl:attribute name="value"></xsl:attribute>
