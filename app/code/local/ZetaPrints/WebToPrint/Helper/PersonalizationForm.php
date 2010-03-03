@@ -730,7 +730,12 @@ jQuery(document).ready(function($) {
         selected: 0,
         show: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
-            $('div.color-sample', ui.panel).click(); }
+            $('div.color-sample', ui.panel).click();
+
+          if ($(ui.panel).hasClass('images-scroller')) {
+            var position = $('input:checked', ui.panel).parents('td').position();
+            if (position)
+              $(ui.panel).scrollLeft(position.left); }}
       });
 
       $('input', this).change(function () {
