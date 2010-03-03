@@ -683,7 +683,7 @@ jQuery(document).ready(function($) {
 
           var td = $('<td><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
-            + '" /><br /><a class="edit-dialog" href="' + response[1]
+            + '" /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
             + '" /><img class="edit-button" src="'
             + '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png');?>'
