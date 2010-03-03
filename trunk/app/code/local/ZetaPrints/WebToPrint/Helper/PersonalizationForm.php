@@ -728,8 +728,8 @@ jQuery(document).ready(function($) {
 
       var tabs = $('div.selector-content', this).tabs({
         selected: 0,
-        select: function (event, ui) {
-          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).val())
+        show: function (event, ui) {
+          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
             $('div.color-sample', ui.panel).click(); }
       });
 
@@ -741,7 +741,7 @@ jQuery(document).ready(function($) {
         if ($(top_element).hasClass('minimized')) {
           $(top_element).removeClass('minimized');
           var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-          if (panel.hasClass('color-picker') && !$('input', panel).val()) {
+          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
             $('div.color-sample', panel).click();
           }
         }
