@@ -679,7 +679,7 @@ jQuery(document).ready(function($) {
         var number_of_loaded_imgs = 0;
 
         $(trs).each(function () {
-          var name = $('input[name=parameter]', $(this).parent()).val();
+          var name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
           var td = $('<td><input type="radio" name="zetaprints-#' + name
             + '" value="' + response[0]
