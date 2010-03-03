@@ -534,6 +534,10 @@ jQuery(document).ready(function($) {
       echo "$('[name=$key]').val('$value');\n";
   ?>
 
+  $('div.zetaprints-page-stock-images input:checked').each(function() {
+    $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
+  });
+
   $('#stock-images-page-1').removeClass('hidden');
   $('#preview-image-page-1, #input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
