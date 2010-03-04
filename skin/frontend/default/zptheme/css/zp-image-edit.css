@@ -85,7 +85,8 @@ body {
   font-family: Arial;
   font-size: 12px;
   margin-right:5px;
-  min-width: 280px;
+  *margin-top: -5px; /*msie bug*/
+
 }
 #image-edit-caption span {
   color: #FFFFFF;

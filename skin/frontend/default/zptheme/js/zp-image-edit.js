@@ -132,7 +132,10 @@ jQuery(document).ready(function($)
                     document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
                     $('#image-edit-info-height').html($(this).attr('ImageHeight'));
                     $('#image-edit-info-width').html($(this).attr('ImageWidth'));
-                    $('#image-edit-caption').width($(this).attr('ImageWidth')-10);
+                    if ($(this).attr('ThumbWidth')>280)
+                      $('#image-edit-caption').width($(this).attr('ThumbWidth'));
+                    else
+                      $('#image-edit-caption').width(280);
                     
                     h = $(this).attr('ThumbHeight');
                     w = $(this).attr('ThumbWidth');
@@ -151,7 +154,10 @@ jQuery(document).ready(function($)
                     document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
                     $('#image-edit-info-height').html($(this).attr('imageheight'));
                     $('#image-edit-info-width').html($(this).attr('imagewidth'));
-                    $('#image-edit-caption').width($(this).attr('thumbwidth')-10);
+                    if ($(this).attr('thumbwidth')>280)
+                      $('#image-edit-caption').width($(this).attr('thumbwidth')-10);
+                    else
+                      $('#image-edit-caption').width(280);
 
                     h = $(this).attr('thumbheight');
                     w = $(this).attr('thumbwidth');
