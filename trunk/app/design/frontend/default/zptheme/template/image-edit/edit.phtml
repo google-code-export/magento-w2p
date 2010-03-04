@@ -24,12 +24,12 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/pen.png'); ?>" alt=""/><span>Edit title</span>
             </li>
         -->
-        <li id="rotate">
+        <li id="rotate" title="Rotate Image Right">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt=""/>
           <span>Rotate right
           </span>
         </li>
-        <li id="rotatel">
+        <li id="rotatel" title="Rotate Image Left">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt=""/>
           <span>Rotate left
           </span>
@@ -39,7 +39,7 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/resize.png'); ?>" alt=""/><span>Resize</span>
             </li>
         -->
-        <li id="crop">
+        <li id="crop" title="Crop Image">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt=""/>
           <span>Crop
           </span>
@@ -55,7 +55,7 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_v.png'); ?>" alt=""/><span>Flip Vertical</span>
             </li>
         -->
-        <li id="restore">
+        <li id="restore" title="Undo all changes">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt=""/>
           <span>Restore
           </span>
@@ -69,6 +69,7 @@ div#fancy_content{cursor:auto}
     </td>
         <td id="picedit_right">
       <img src="" id="edit" alt="Image" style="display:none"/>
+      <div id="image-edit-caption"><span>W: <span id="image-edit-info-width"></span>px</span> <span>H: <span id="image-edit-info-height"></span>px</span><span id="image-edit-info"></span></div>
       <form id="crop_form">
         <input type="hidden" name="zetaprints-CropX1" id="cropx">
         <input type="hidden" name="zetaprints-CropY1" id="cropy">
@@ -76,8 +77,7 @@ div#fancy_content{cursor:auto}
         <input type="hidden" name="zetaprints-CropY2" id="cropy2">
         <input type="hidden" name="Cropw" id="cropw">
         <input type="hidden" name="Croph" id="croph">
-        <!--<input type="button" name="Apply" value="Apply" id="apply_crop">-->
-        <a href="javascript:void()" id="apply_crop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
+        <a href="javascript:void(0)" id="apply_crop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
       </form>
       <form id="resize_form">
         <input type="hidden" name="neww" id="neww">

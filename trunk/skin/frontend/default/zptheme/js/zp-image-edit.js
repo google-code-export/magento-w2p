@@ -7,6 +7,7 @@ jQuery(document).ready(function($)
         function crop()
         {
             hide_crop();
+            infobox('Use triggers to crop image');
             jcrop_api = $.Jcrop('#edit');
             jcrop_api.setOptions(
             {
@@ -20,6 +21,7 @@ jQuery(document).ready(function($)
 
 
         function hide_crop() {
+            $('#image-edit-info').hide();
             $('#crop_form').css('display', 'none');
             if (typeof(jcrop_api) != "undefined") {
                 jcrop_api.destroy();
@@ -49,6 +51,7 @@ jQuery(document).ready(function($)
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
+                    infobox('Image Croped');
                 }
             }
             );
@@ -67,6 +70,7 @@ jQuery(document).ready(function($)
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
+                    infobox('Image Restored');
                 }
             }
             );
@@ -84,6 +88,7 @@ jQuery(document).ready(function($)
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
+                    infobox('Image Loaded');
                 }
             }
             );
@@ -101,6 +106,7 @@ jQuery(document).ready(function($)
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
+                    infobox('Image Rotated');
                 }
             }
             );
@@ -108,6 +114,7 @@ jQuery(document).ready(function($)
         function apply_img(xml) {
             var h, w;
             $('#edit').hide();
+            $('#image-edit-caption').hide();
             loader();
             if(! window.DOMParser)
             {
@@ -123,7 +130,10 @@ jQuery(document).ready(function($)
 
                     document.getElementById('edit').style.height = $(this).attr('ThumbHeight')+'px';
                     document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
-
+                    $('#image-edit-info-height').html($(this).attr('ImageHeight'));
+                    $('#image-edit-info-width').html($(this).attr('ImageWidth'));
+                    $('#image-edit-caption').width($(this).attr('ImageWidth')-10);
+                    
                     h = $(this).attr('ThumbHeight');
                     w = $(this).attr('ThumbWidth');
 
@@ -139,6 +149,9 @@ jQuery(document).ready(function($)
 
                     document.getElementById('edit').style.height = $(this).attr('thumbheight')+'px';
                     document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
+                    $('#image-edit-info-height').html($(this).attr('imageheight'));
+                    $('#image-edit-info-width').html($(this).attr('imagewidth'));
+                    $('#image-edit-caption').width($(this).attr('thumbwidth')-10);
 
                     h = $(this).attr('thumbheight');
                     w = $(this).attr('thumbwidth');
@@ -153,12 +166,11 @@ jQuery(document).ready(function($)
                     $('#edit').fadeIn().ready(function ()
                     {
                         parent.jQuery('#fancy_loading').fadeOut();
-
+                        $('#image-edit-caption').show();
                     }
                     );
                 }
                 );
-
 
             tmp = $('#edit').attr("src");
 
@@ -175,7 +187,7 @@ jQuery(document).ready(function($)
 
             if (w<300)w = 300;
             if (h<300)h = 300;
-            parent.document.getElementById('fancy_outer').style.height = Number(h)+Number(45)+'px';
+            parent.document.getElementById('fancy_outer').style.height = Number(h)+Number(75)+'px';
             parent.document.getElementById('fancy_outer').style.width = Number(w)+Number(120)+'px';
             centerBox();
 
@@ -195,6 +207,11 @@ jQuery(document).ready(function($)
 
         function loader() {
             parent.jQuery.fn.fancybox.showLoading();
+        }
+
+        function infobox(msg){
+          $('#image-edit-info').show('slow');
+          $('#image-edit-info').html(msg);
         }
         $('#crop').click(crop);
         $('#apply_crop').click(apply_crop);
