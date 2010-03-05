@@ -216,6 +216,7 @@ jQuery(document).ready(function($)
         }
 
         function infobox(msg){
+          if(typeof(trans[msg])!="undefined")msg=trans[msg];
           $('#image-edit-info').show('slow');
           $('#image-edit-info').html(msg);
         }

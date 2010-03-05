@@ -7,6 +7,13 @@ if (strlen($img_id)<10)die('Wrong Request');
 var update_url='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
 var image_id='<?php echo $img_id?>';
 var zp_url='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
+var trans = new Array();
+trans['Use triggers to crop image']='<?php echo Mage::helper('webtoprint')->__('Use triggers to crop image');?>';
+trans['Image Croped']='<?php echo Mage::helper('webtoprint')->__('Image Croped');?>';
+trans['Image Restored']='<?php echo Mage::helper('webtoprint')->__('Image Restored');?>';
+trans['Image Loaded']='<?php echo Mage::helper('webtoprint')->__('Image Loaded');?>';
+trans['Image Rotated']='<?php echo Mage::helper('webtoprint')->__('Image Rotated');?>';
+
 </script>
     <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
 <style>
@@ -24,14 +31,14 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/pen.png'); ?>" alt=""/><span>Edit title</span>
             </li>
         -->
-        <li id="rotate" title="Rotate Image Right">
+        <li id="rotate" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Right');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt=""/>
-          <span><? echo Mage::helper('webtoprint')->__('Rotate right');?>
+          <span><?php echo Mage::helper('webtoprint')->__('Rotate right');?>
           </span>
         </li>
-        <li id="rotatel" title="Rotate Image Left">
+        <li id="rotatel" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Left');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt=""/>
-          <span><? echo Mage::helper('webtoprint')->__('Rotate left');?>
+          <span><?php echo Mage::helper('webtoprint')->__('Rotate left');?>
           </span>
         </li>
        <!--
@@ -39,9 +46,9 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/resize.png'); ?>" alt=""/><span>Resize</span>
             </li>
         -->
-        <li id="crop" title="Crop Image">
+        <li id="crop" title="<?php echo Mage::helper('webtoprint')->__('Crop Image');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt=""/>
-          <span>Crop
+          <span><?php echo Mage::helper('webtoprint')->__('Crop');?>
           </span>
         </li>
         <!--
@@ -55,9 +62,9 @@ div#fancy_content{cursor:auto}
             <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_v.png'); ?>" alt=""/><span>Flip Vertical</span>
             </li>
         -->
-        <li id="restore" title="Undo all changes">
+        <li id="restore" title="<?php echo Mage::helper('webtoprint')->__('Undo all changes');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt=""/>
-          <span>Restore
+          <span><?php echo Mage::helper('webtoprint')->__('Restore');?>
           </span>
         </li>
         <!--
