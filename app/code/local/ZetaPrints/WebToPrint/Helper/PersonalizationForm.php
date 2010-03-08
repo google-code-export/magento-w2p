@@ -749,6 +749,11 @@ jQuery(document).ready(function($) {
           if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
             $('div.color-sample', panel).click();
           }
+
+          if ($(panel).hasClass('images-scroller')) {
+            var position = $('input:checked', panel).parents('td').position();
+            if (position)
+              $(panel).scrollLeft(position.left); }
         }
         else
           $(top_element).addClass('minimized').removeClass('expanded').css('width', '100%');
@@ -759,9 +764,10 @@ jQuery(document).ready(function($) {
       var previews_images = $('div.zetaprints-template-preview-images');
 
       $('a.image.collapse-expand', this).click(function () {
-        if ($(top_element).hasClass('expanded'))
+        if ($(top_element).hasClass('expanded')) {
           $(top_element).removeClass('expanded').css('width', '100%');
-        else {
+          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
+        } else {
           var position = $(top_element).position().left - $(previews_images).position().left;
           $(top_element).addClass('expanded')
             .css({ 'left': -position, 'width': position + $(top_element).outerWidth() })
@@ -772,6 +778,12 @@ jQuery(document).ready(function($) {
             $('div.color-sample', panel).click();
           }
         }
+
+        if ($(panel).hasClass('images-scroller')) {
+          $(panel).scrollLeft(0);
+          var position = $('input:checked', panel).parents('td').position();
+          if (position)
+            $(panel).scrollLeft(position.left); }
 
         return false;
       });
