@@ -116,6 +116,7 @@ Extension developed by http://www.zetaprints.com/
           </dir>
 
           <dir name="Helper">
+            <file name="Data.php" role="magelocal" />
             <file name="PersonalizationForm.php" role="magelocal" />
           </dir>
 
@@ -480,6 +481,10 @@ Extension developed by http://www.zetaprints.com/
             </dir>
           </dir>
         </dir>
+      </dir>
+
+      <dir name="ru_RU">
+        <file name="zetaprints_w2p.csv" role="magelocale" />
       </dir>
 
     </dir>
