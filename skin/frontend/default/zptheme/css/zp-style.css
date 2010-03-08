@@ -257,7 +257,6 @@ div.zetaprints-images-selector.expanded div.head a.image.collapse-expand:hover {
 
 div.zetaprints-images-selector div.selector-content {
   height: 140px;
-  font-size: 88%;
 }
 
 div.zetaprints-images-selector.minimized div.selector-content {
@@ -309,6 +308,7 @@ div.zetaprints-images-selector div.selector-content ul.tab-buttons li {
   background-color: #f8f9fa;
   height: 20px;
   line-height: 20px;
+  font-size: 90%;
 }
 
 div.zetaprints-images-selector div.selector-content ul.tab-buttons li.hidden {
@@ -345,6 +345,7 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper {
 
 div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab {
   padding: 2px 0px;
+  font-size: 90%;
 }
 
 div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
