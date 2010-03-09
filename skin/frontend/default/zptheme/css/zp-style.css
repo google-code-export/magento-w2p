@@ -167,6 +167,7 @@ div.images-scroller a.edit-dialog img.edit-button {
 div.zetaprints-images-selector {
   margin-bottom: 5px; /* Same as div.product-shop dl*/
   border: none;
+  background-color: #ffffff;
 }
 
 div.zetaprints-images-selector.expanded {
