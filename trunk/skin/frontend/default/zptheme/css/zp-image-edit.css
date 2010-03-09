@@ -90,9 +90,11 @@ body {
 }
 #image-edit-caption span {
   color: #FFFFFF;
+  margin-left:10px;
 }
 #image-edit-caption span span {
   color: #000000;
+  margin-left:0px;
 }
 #image-edit-caption #image-edit-info {
   color: #DB0D0D;

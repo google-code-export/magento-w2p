@@ -144,9 +144,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     $images = explode(',', $options['zetaprints-previews']);
 
     if (count($images) == 1)
-     $message = 'Click to enlarge image';
+     $message = Mage::helper('webtoprint')->__('Click to enlarge image');
     else
-     $message = 'Click to see more images';
+     $message = Mage::helper('webtoprint')->__('Click to see more images');
 
     $first_image = true;
 
@@ -176,7 +176,7 @@ jQuery(document).ready(function($) {
     'zoomSpeedChange': 200,
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', "<?php echo Mage::helper('webtoprint')->__('Click to close');?>"); } });
 });
 //]]>
 </script>
@@ -217,7 +217,7 @@ jQuery(document).ready(function($) {
       $position += 1;
       $html .= "<div id=\"preview-image-page-$position\" class=\"zetaprints-template-preview\">";
       $html .= "<a href=\"$url/preview/$preview\">";
-      $html .= "<img title=\"Click to view in large size\" src=\"$url/preview/$preview\" />";
+      $html .= "<img title=\"".Mage::helper('webtoprint')->__('Click to view in large size')."\" src=\"$url/preview/$preview\" />";
       $html .= '</a></div>';
     }
 
@@ -311,10 +311,10 @@ jQuery(document).ready(function($) {
 ?>
     <div class="zetaprints-preview-button">
       <button class="update-preview button">
-        <span><span>Update preview</span></span>
+        <span><span><?php echo Mage::helper('webtoprint')->__('Update preview');?></span></span>
       </button>
       <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
-      <span class="text">Updating preview image&hellip;</span>
+      <span class="text"><?php echo Mage::helper('webtoprint')->__('Updating preview image');?>&hellip;</span>
     </div>
 <?php
   }
@@ -325,7 +325,7 @@ jQuery(document).ready(function($) {
 ?>
     <div class="zetaprints-next-page-button">
       <button class="next-page button">
-        <span><span>Next page</span></span>
+        <span><span><?php echo Mage::helper('webtoprint')->__('Next page');?></span></span>
       </button>
     </div>
 <?php
@@ -381,6 +381,8 @@ jQuery(document).ready(function($) {
   public function get_image_edit_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
+
+<script type="text/javascript" src="<?php echo Mage::getUrl('web-to-print/Trans'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-jcrop.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-image-edit.js'); ?>"></script>
@@ -427,15 +429,15 @@ jQuery(document).ready(function($) {
       <td class="last" colspan="<?php echo $item ? 5 : 10; ?>">
         <div class="zetaprints-previews-box <?php if ($item) echo 'hidden'; ?>">
           <div class="title">
-            <a class="show-title">+&nbsp;<span>Show&nbsp;previews</span></a>
-            <a class="hide-title">&minus;&nbsp;<span>Hide&nbsp;previews</span></a>
+            <a class="show-title">+&nbsp;<span><?php echo Mage::helper('webtoprint')->__('Show previews');?></span></a>
+            <a class="hide-title">&minus;&nbsp;<span><?php echo Mage::helper('webtoprint')->__('Hide previews');?></span></a>
           </div>
           <div class="content">
             <ul style="width: <?php echo $width ?>px;">
             <?php foreach ($previews as $preview): ?>
               <li>
                 <a class="in-dialog" href="<?php echo "$url/preview/$preview" ?>" target="_blank" rel="<?php echo $group; ?>">
-                  <img src="<?php echo "$url/thumb/$preview" ?>" title="Click to enlarge"/>
+                  <img src="<?php echo "$url/thumb/$preview" ?>" title="<?php echo Mage::helper('webtoprint')->__('Click to enlarge');?>"/>
                 </a>
               </li>
             <?php endforeach ?>
@@ -474,7 +476,7 @@ jQuery(document).ready(function($) {
     'zoomSpeedChange': 200,
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', 'Click to close'); } });
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', '<?php echo Mage::helper('webtoprint')->__('Click to close');?>'); } });
 });
 //]]>
     </script>
@@ -484,8 +486,8 @@ jQuery(document).ready(function($) {
   public function show_hide_all_order_previews ($context) {
 ?>
   <a href="#" class="all-order-previews">
-    <span class="show-title">Show all order previews</span>
-    <span class="hide-title">Hide all order previews</span>
+    <span class="show-title"><?php echo Mage::helper('webtoprint')->__('Show all order previews');?></span>
+    <span class="hide-title"><?php echo Mage::helper('webtoprint')->__('Hide all order previews');?></span>
   </a>
 
   <script type="text/javascript">
@@ -609,10 +611,10 @@ jQuery(document).ready(function($) {
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show();
-        alert('Can\'t get preview image: ' + textStatus); },
+        alert("<?php echo Mage::helper('webtoprint')->__('Can\'t get preview image:');?>" + textStatus); },
       success: function (data, textStatus) {
         if (data.substr(0, 7) != 'http://') {
-          alert('There was an error in generating or receiving preview image.\nPlease try again.');
+          alert("<?php echo Mage::helper('webtoprint')->__('There was an error in generating or receiving preview image.\nPlease try again.');?>");
         } else {
           $('#preview-image-' + page + ' a').attr('href', data);
           $('#preview-image-' + page + ' img').attr('src', data);
@@ -667,7 +669,7 @@ jQuery(document).ready(function($) {
 
         if (response == 'Error') {
           $('img.ajax-loader', upload_div).hide();
-          alert('Error was occurred while uploading image');
+          alert("<?php echo Mage::helper('webtoprint')->__('Error was occurred while uploading image');?>");
           return;
         }
 
