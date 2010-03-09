@@ -35,6 +35,8 @@ jQuery(document).ready(function($)
             $('#cropy2').val(c.y2);
             $('#cropw').val(c.w);
             $('#croph').val(c.h);
+            $('#image-edit-info-height').html(c.h+' px');
+            $('#image-edit-info-width').html(c.w+' px');
 
         }
 
@@ -47,11 +49,11 @@ jQuery(document).ready(function($)
                 type: 'POST',
                 data: $('#crop_form').serialize()+'&zetaprints-action=img-crop&zetaprints-ImageID='+image_id,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('Can\'t crop image: ' + textStatus);
+                    alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
-                    infobox('Image Croped');
+                    infobox('Image Cropped');
                 }
             }
             );
@@ -66,7 +68,7 @@ jQuery(document).ready(function($)
                 type: 'POST',
                 data: 'zetaprints-action=img-restore&zetaprints-ImageID='+image_id,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('Can\'t restore image: ' + textStatus);
+                    alert(zetaprints_trans('Can\'t restore image:') + ' ' + textStatus);
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
@@ -84,7 +86,7 @@ jQuery(document).ready(function($)
                 datatype: 'XML',
                 data: 'zetaprints-action=img&zetaprints-ImageID='+image_id,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('Can\'t load image: ' + textStatus);
+                    alert(zetaprints_trans('Can\'t load image:') + ' ' + textStatus);
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
@@ -102,7 +104,7 @@ jQuery(document).ready(function($)
                 type: 'POST',
                 data: 'zetaprints-action=img-rotate&zetaprints-Rotation='+dir+'&zetaprints-ImageID='+image_id,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('Can\'t rotate image: ' + textStatus);
+                    alert(zetaprints_trans('Can\'t rotate image:') + ' ' + textStatus);
                 },
                 success: function (data, textStatus) {
                     apply_img(data);
@@ -130,8 +132,8 @@ jQuery(document).ready(function($)
 
                     document.getElementById('edit').style.height = $(this).attr('ThumbHeight')+'px';
                     document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
-                    $('#image-edit-info-height').html($(this).attr('ImageHeight'));
-                    $('#image-edit-info-width').html($(this).attr('ImageWidth'));
+                    $('#image-edit-info-height').html($(this).attr('ImageHeight')+' px');
+                    $('#image-edit-info-width').html($(this).attr('ImageWidth')+' px');
                     if ($(this).attr('ThumbWidth')>280)
                       $('#image-edit-caption').width($(this).attr('ThumbWidth'));
                     else
@@ -152,8 +154,8 @@ jQuery(document).ready(function($)
 
                     document.getElementById('edit').style.height = $(this).attr('thumbheight')+'px';
                     document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
-                    $('#image-edit-info-height').html($(this).attr('imageheight'));
-                    $('#image-edit-info-width').html($(this).attr('imagewidth'));
+                    $('#image-edit-info-height').html($(this).attr('imageheight')+' px');
+                    $('#image-edit-info-width').html($(this).attr('imagewidth')+' px');
                     if ($(this).attr('thumbwidth')>280)
                       $('#image-edit-caption').width($(this).attr('thumbwidth')-10);
                     else
@@ -216,9 +218,8 @@ jQuery(document).ready(function($)
         }
 
         function infobox(msg){
-          if(typeof(trans[msg])!="undefined")msg=trans[msg];
           $('#image-edit-info').show('slow');
-          $('#image-edit-info').html(msg);
+          $('#image-edit-info').html(zetaprints_trans(msg));
         }
         $('#crop').click(crop);
         $('#apply_crop').click(apply_crop);

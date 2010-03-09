@@ -7,13 +7,6 @@ if (strlen($img_id)<10)die('Wrong Request');
 var update_url='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
 var image_id='<?php echo $img_id?>';
 var zp_url='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
-var trans = new Array();
-trans['Use triggers to crop image']='<?php echo Mage::helper('webtoprint')->__('Use triggers to crop image');?>';
-trans['Image Croped']='<?php echo Mage::helper('webtoprint')->__('Image Croped');?>';
-trans['Image Restored']='<?php echo Mage::helper('webtoprint')->__('Image Restored');?>';
-trans['Image Loaded']='<?php echo Mage::helper('webtoprint')->__('Image Loaded');?>';
-trans['Image Rotated']='<?php echo Mage::helper('webtoprint')->__('Image Rotated');?>';
-
 </script>
     <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
 <style>
@@ -76,7 +69,7 @@ div#fancy_content{cursor:auto}
     </td>
         <td id="picedit_right">
       <img src="" id="edit" alt="Image" style="display:none"/>
-      <div id="image-edit-caption"><span id="image-edit-info"></span><span>W: <span id="image-edit-info-width"></span>px</span> <span>H: <span id="image-edit-info-height"></span>px</span></div>
+      <div id="image-edit-caption"><span id="image-edit-info"></span><span><?php echo Mage::helper('webtoprint')->__('W:');?> <span id="image-edit-info-width"></span></span> <span><?php echo Mage::helper('webtoprint')->__('H:');?> <span id="image-edit-info-height"></span></span></div>
       <form id="crop_form">
         <input type="hidden" name="zetaprints-CropX1" id="cropx">
         <input type="hidden" name="zetaprints-CropY1" id="cropy">
