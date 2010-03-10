@@ -59,7 +59,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
 
               Mage::register('webtoprint-template-changed', true);
               $full_product->setRequiredOptions(false)
-                ->setWebtoprintTemplate(null)
+                ->setWebtoprintTemplate('')
                 ->save();
               Mage::unregister('webtoprint-template-changed');
 
@@ -97,7 +97,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               Mage::register('webtoprint-template-changed', true);
               $full_product->setCategoryIds(array($behaviour))
                 ->setRequiredOptions(false)
-                ->setWebtoprintTemplate(null)
+                ->setWebtoprintTemplate('')
                 ->save();
               Mage::unregister('webtoprint-template-changed');
 
