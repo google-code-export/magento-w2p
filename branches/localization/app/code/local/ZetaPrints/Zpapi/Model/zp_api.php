@@ -703,28 +703,6 @@ function zetaprints_get_html_from_xml($xml, $xslt, $params) {
     $xml_dom = $xml;
   }
 
-  //append translation mechanizm to xml
-  $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'zetaprints_w2p.csv';
-  if (file_exists($locale_file)) {
-    $locale = @file_get_contents($locale_file);
-    preg_match_all('/"(.*?)","(.*?)"(:?\r|\n)/', $locale, $array, PREG_PATTERN_ORDER);
-    if (is_array($array) && count($array[1]) > 0) {
-      $out = '<trans>';
-      foreach ($array[1] as $key => $value) {
-        if (strlen($value) > 0 && strlen($array[2][$key]) > 0) {
-          $out .= "<phrase key=\"".$value."\" value=\"".$array[2][$key]."\"/>";
-        }
-      }
-      $out .= "</trans>";
-    }
-    $doc = new DOMDocument();
-    $doc->loadXML($out);
-    $node = $doc->getElementsByTagName("trans")->item(0);
-    $node = $xml_dom->importNode($node, true);
-    $xml_dom->documentElement->appendChild($node);
-
-  }
-
   $xslt_dom = new DOMDocument();
   $xslt_dom->load(dirname(__FILE__).'/'.$xslt.'-html.xslt');
   $proc = new XSLTProcessor();
