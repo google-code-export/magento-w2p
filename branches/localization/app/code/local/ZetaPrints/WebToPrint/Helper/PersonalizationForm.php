@@ -78,8 +78,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
   //append translation mechanizm to xml
   $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'zetaprints_w2p.csv';
   if (file_exists($locale_file)) {
-    $session = Mage::getSingleton('customer/session');
-    $out = $session->getXMLTranslationCache();
+    $cache = Mage::getSingleton('core/cache');
+    $out = $cache->load("XMLTranslation".Mage::app()->getLocale()->getLocaleCode());
     if (strlen($out) == 0) {
       $locale = @file_get_contents($locale_file);
       preg_match_all('/"(.*?)","(.*?)"(:?\r|\n)/', $locale, $array, PREG_PATTERN_ORDER);
@@ -91,7 +91,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
           }
         }
         $out .= "</trans>";
-        $session->setXMLTranslationCache($out);
+        $cache->save($out,"XMLTranslation".Mage::app()->getLocale()->getLocaleCode(),array('TRANSLATE'));
       }
     }
     $doc = new DOMDocument();
