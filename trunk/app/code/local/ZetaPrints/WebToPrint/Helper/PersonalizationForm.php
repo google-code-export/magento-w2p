@@ -728,8 +728,12 @@ jQuery(document).ready(function($) {
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
 
+      var tab_number = 0
+      if ($('li.hidden', this).length == 0)
+        tab_number = 1;
+
       var tabs = $('div.selector-content', this).tabs({
-        selected: 0,
+        selected: tab_number,
         show: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
             $('div.color-sample', ui.panel).click();
