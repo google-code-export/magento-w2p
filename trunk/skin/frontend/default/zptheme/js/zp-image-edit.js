@@ -8,14 +8,14 @@ jQuery(document).ready(function($)
         {
             hide_crop();
             infobox('Use triggers to crop image');
-            jcrop_api = $.Jcrop('#edit');
+            jcrop_api = $.Jcrop('#picedit_right #edit');
             jcrop_api.setOptions(
             {
                 onSelect: updatecropCoords,
                 onChange: updatecropCoords
             }
             );
-            jcrop_api.setSelect([Number($('#edit').width())*Number(0.9), Number($('#edit').height())*Number(0.9), Number($('#edit').width())*Number(0.1), Number($('#edit').height())*Number(0.1)]);
+            jcrop_api.setSelect([Number($('#picedit_right #edit').width())*Number(0.9), Number($('#picedit_right #edit').height())*Number(0.9), Number($('#picedit_right #edit').width())*Number(0.1), Number($('#picedit_right #edit').height())*Number(0.1)]);
             $('#crop_form').css('display', 'block');
         }
 
@@ -45,9 +45,9 @@ jQuery(document).ready(function($)
             loader();
             $.ajax(
             {
-                url: update_url,
+                url: im_update_url+'?'+$('#crop_form').serialize()+im_delimeter+'zetaprints-action=img-crop'+im_delimeter+'zetaprints-ImageID='+im_image_id+im_append,
                 type: 'POST',
-                data: $('#crop_form').serialize()+'&zetaprints-action=img-crop&zetaprints-ImageID='+image_id,
+                data: $('#crop_form').serialize()+'&zetaprints-action=img-crop&zetaprints-ImageID='+im_image_id+im_append,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
                 },
@@ -64,9 +64,9 @@ jQuery(document).ready(function($)
             loader();
             $.ajax(
             {
-                url: update_url,
+                url: im_update_url+'?zetaprints-action=img-restore'+im_delimeter+'zetaprints-ImageID='+im_image_id+im_append,
                 type: 'POST',
-                data: 'zetaprints-action=img-restore&zetaprints-ImageID='+image_id,
+                data: 'zetaprints-action=img-restore&zetaprints-ImageID='+im_image_id+im_append,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t restore image:') + ' ' + textStatus);
                 },
@@ -81,10 +81,10 @@ jQuery(document).ready(function($)
             loader();
             $.ajax(
             {
-                url: update_url,
+                url: im_update_url+'?zetaprints-action=img'+im_delimeter+'zetaprints-ImageID='+im_image_id+im_append,
                 type: 'POST',
                 datatype: 'XML',
-                data: 'zetaprints-action=img&zetaprints-ImageID='+image_id,
+                data: 'zetaprints-action=img&zetaprints-ImageID='+im_image_id+im_append,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t load image:') + ' ' + textStatus);
                 },
@@ -100,9 +100,9 @@ jQuery(document).ready(function($)
             loader();
             $.ajax(
             {
-                url: update_url,
+                url: im_update_url+'?zetaprints-action=img-rotate'+im_delimeter+'zetaprints-Rotation='+dir+im_delimeter+'zetaprints-ImageID='+im_image_id+im_append,
                 type: 'POST',
-                data: 'zetaprints-action=img-rotate&zetaprints-Rotation='+dir+'&zetaprints-ImageID='+image_id,
+                data: 'zetaprints-action=img-rotate&zetaprints-Rotation='+dir+'&zetaprints-ImageID='+im_image_id+im_append,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t rotate image:') + ' ' + textStatus);
                 },
@@ -115,7 +115,7 @@ jQuery(document).ready(function($)
         }
         function apply_img(xml) {
             var h, w;
-            $('#edit').hide();
+            $('#picedit_right #edit').hide();
             $('#image-edit-caption').hide();
             loader();
             if(! window.DOMParser)
@@ -128,10 +128,10 @@ jQuery(document).ready(function($)
                 t.find('Image').each(function()
                 {
 
-                    $('#edit').attr("src", zp_url+'/photothumbs/'+$(this).attr('Thumb'));
+                    $('#picedit_right #edit').attr("src", im_zp_url+'/photothumbs/'+$(this).attr('Thumb'));
 
-                    document.getElementById('edit').style.height = $(this).attr('ThumbHeight')+'px';
-                    document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
+                    $('#picedit_right #edit').height($(this).attr('ThumbHeight'));
+                    $('#picedit_right #edit').width($(this).attr('ThumbWidth'));
                     $('#image-edit-info-height').html($(this).attr('ImageHeight')+' px');
                     $('#image-edit-info-width').html($(this).attr('ImageWidth')+' px');
 
@@ -146,10 +146,10 @@ jQuery(document).ready(function($)
                 t.find('img').each(function()
                 {
 
-                    $('#edit').attr("src", zp_url+'/photothumbs/'+$(this).attr('thumb'));
+                    $('#picedit_right #edit').attr("src", im_zp_url+'/photothumbs/'+$(this).attr('thumb'));
 
-                    document.getElementById('edit').style.height = $(this).attr('thumbheight')+'px';
-                    document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
+                    $('#picedit_right #edit').height($(this).attr('thumbheight'));
+                    $('#picedit_right #edit').width($(this).attr('thumbwidth'));
                     $('#image-edit-info-height').html($(this).attr('imageheight')+' px');
                     $('#image-edit-info-width').html($(this).attr('imagewidth')+' px');
 
@@ -160,10 +160,10 @@ jQuery(document).ready(function($)
                 );
             }
 
-            $('#edit')
+            $('#picedit_right #edit')
             .load(
                 function() {
-                    $('#edit').fadeIn().ready(function ()
+                    $('#picedit_right #edit').fadeIn().ready(function ()
                     {
                         parent.jQuery('#fancy_loading').fadeOut();
                         $('#image-edit-caption').show();
@@ -172,18 +172,18 @@ jQuery(document).ready(function($)
                 }
                 );
 
-            tmp = $('#edit').attr("src");
+            tmp = $('#picedit_right #edit').attr("src");
 
             if (tmp.match(/\.jpg/m)) {
 
-                jQuery("a[href*="+image_id+"]", top.document).find('img:first').attr('src', tmp.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
+                jQuery("a[href*="+im_image_id+"]", top.document).find('img:first').attr('src', tmp.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
 
 
             } else {
-                jQuery("a[href*="+image_id+"]", top.document).find('img:first').attr('src', tmp);
+                jQuery("a[href*="+im_image_id+"]", top.document).find('img:first').attr('src', tmp);
                 }
 
-            $('#edit').attr("src", tmp);
+            $('#picedit_right #edit').attr("src", tmp);
             apply_size(w,h);
 
         }
@@ -206,9 +206,9 @@ jQuery(document).ready(function($)
 
         function infobox(msg) {
           if ($.browser.msie)
-            $('#image-edit-caption').width($('#edit').width());
+            $('#image-edit-caption').width($('#picedit_right #edit').width());
           else
-            $('#image-edit-caption').width($('#edit').width()-10);
+            $('#image-edit-caption').width($('#picedit_right #edit').width()-10);
           $('#image-edit-info').html(zetaprints_trans(msg));
           $('#image-edit-info').show('fast', function()
             {
@@ -219,10 +219,10 @@ jQuery(document).ready(function($)
                 }
               );
               if (cw<280)cw = 280;
-              if ($('#edit').width()<cw)
+              if ($('#picedit_right #edit').width()<cw)
               {
                 $('#image-edit-caption').width(cw);
-                apply_size(cw, $('#edit').height());
+                apply_size(cw, $('#picedit_right #edit').height());
               }
 
             }
@@ -234,8 +234,6 @@ jQuery(document).ready(function($)
           //min dimensions
           if (w<300||typeof(w)=="undefined")w = 300;
           if (h<300||typeof(h)=="undefined")h = 300;
-          var cw = $('#image-edit-caption').width();
-          if (cw>w)w = cw;
           $('#fancy_outer', top.document).width(Number(w)+120);
           $('#fancy_outer', top.document).height(Number(h)+75);
           centerBox();
