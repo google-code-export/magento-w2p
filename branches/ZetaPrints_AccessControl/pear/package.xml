@@ -43,11 +43,11 @@ via email with bugs reports and feature requests.
     <active>yes</active>
   </lead>
 
-  <date>2010-02-04</date>
+  <date>2010-03-11</date>
 
   <version>
-    <release>0.1.0.0beta3</release>
-    <api>0.1.0.0beta3</api>
+    <release>0.1.0.0beta4</release>
+    <api>0.1.0.0beta4</api>
   </version>
 
   <stability>
@@ -57,7 +57,7 @@ via email with bugs reports and feature requests.
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>Beta 3</notes>
+  <notes>Beta 4</notes>
 
   <contents>
 
@@ -149,6 +149,7 @@ via email with bugs reports and feature requests.
             <dir name="accesscontrol_setup">
               <file name="mysql4-install-1.php" role="magecommunity" />
               <file name="mysql4-upgrade-1-2.php" role="magecommunity" />
+              <file name="mysql4-upgrade-2-3.php" role="magecommunity" />
             </dir>
 
           </dir>
