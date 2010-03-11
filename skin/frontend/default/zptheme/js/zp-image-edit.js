@@ -134,11 +134,7 @@ jQuery(document).ready(function($)
                     document.getElementById('edit').style.width = $(this).attr('ThumbWidth')+'px';
                     $('#image-edit-info-height').html($(this).attr('ImageHeight')+' px');
                     $('#image-edit-info-width').html($(this).attr('ImageWidth')+' px');
-                    if ($(this).attr('ThumbWidth')>280)
-                      $('#image-edit-caption').width($(this).attr('ThumbWidth'));
-                    else
-                      $('#image-edit-caption').width(280);
-                    
+
                     h = $(this).attr('ThumbHeight');
                     w = $(this).attr('ThumbWidth');
 
@@ -156,10 +152,6 @@ jQuery(document).ready(function($)
                     document.getElementById('edit').style.width = $(this).attr('thumbwidth')+'px';
                     $('#image-edit-info-height').html($(this).attr('imageheight')+' px');
                     $('#image-edit-info-width').html($(this).attr('imagewidth')+' px');
-                    if ($(this).attr('thumbwidth')>280)
-                      $('#image-edit-caption').width($(this).attr('thumbwidth')-10);
-                    else
-                      $('#image-edit-caption').width(280);
 
                     h = $(this).attr('thumbheight');
                     w = $(this).attr('thumbwidth');
@@ -192,12 +184,7 @@ jQuery(document).ready(function($)
                 }
 
             $('#edit').attr("src", tmp);
-
-            if (w<300)w = 300;
-            if (h<300)h = 300;
-            parent.document.getElementById('fancy_outer').style.height = Number(h)+Number(75)+'px';
-            parent.document.getElementById('fancy_outer').style.width = Number(w)+Number(120)+'px';
-            centerBox();
+            apply_size(w,h);
 
         }
 
@@ -217,10 +204,43 @@ jQuery(document).ready(function($)
             parent.jQuery.fn.fancybox.showLoading();
         }
 
-        function infobox(msg){
-          $('#image-edit-info').show('slow');
+        function infobox(msg) {
+          if ($.browser.msie)
+            $('#image-edit-caption').width($('#edit').width());
+          else
+            $('#image-edit-caption').width($('#edit').width()-10);
           $('#image-edit-info').html(zetaprints_trans(msg));
+          $('#image-edit-info').show('fast', function()
+            {
+              var cw = 0;
+              $('#image-edit-caption span').each(function()
+                {
+                  cw += $(this).width();
+                }
+              );
+              if (cw<280)cw = 280;
+              if ($('#edit').width()<cw)
+              {
+                $('#image-edit-caption').width(cw);
+                apply_size(cw, $('#edit').height());
+              }
+
+            }
+          );
         }
+
+
+        function apply_size(w, h) {
+          //min dimensions
+          if (w<300||typeof(w)=="undefined")w = 300;
+          if (h<300||typeof(h)=="undefined")h = 300;
+          var cw = $('#image-edit-caption').width();
+          if (cw>w)w = cw;
+          $('#fancy_outer', top.document).width(Number(w)+120);
+          $('#fancy_outer', top.document).height(Number(h)+75);
+          centerBox();
+        }
+
         $('#crop').click(crop);
         $('#apply_crop').click(apply_crop);
         $('#restore').click(restore);
