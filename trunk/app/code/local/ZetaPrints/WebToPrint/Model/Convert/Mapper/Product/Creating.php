@@ -62,7 +62,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
       $this->debug("Product for template {$template->getGuid()} was created.");
     }
 
-    $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
+    $this->warning('WARNING. This version has an unresolved issue. You need to manually edit each newly created product separately for it to show in the categories.');
   }
 
   private function notice ($message) {
