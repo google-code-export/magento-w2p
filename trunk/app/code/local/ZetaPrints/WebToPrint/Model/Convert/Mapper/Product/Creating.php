@@ -56,6 +56,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
       $stock_item = Mage::getModel('cataloginventory/stock_item');
 
       $stock_item->setStockId(1)
+        ->setUseConfigManageStock(0)
         ->setProduct($product_model)
         ->save();
 
