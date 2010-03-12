@@ -9,7 +9,7 @@ ZetaPrints creates user profiles to manage user data (text and uploaded photos) 
 A user is created in ZP upon a request to update a preview or upload a photo. UserID and password are stored in Magento for future use. 
 
 = User session =
-At the moment Magento unregistered user is created in ZetaPrints, cookie named "ZP_ID" is created on client side. Default cookie lifetime is 6 month, witch can be changed in W2puser.php by ZP_COOKIE_LIFETIME value. Next time user connects, he is recognized by that cookie regardless Magento session expired or not.
+At the moment Magento unregistered user is created in ZetaPrints, cookie named "ZP_ID" is created on client side. Default cookie lifetime is 6 month, witch can be changed in W2puser.php by ZP_COOKIE_LIFETIME value. Next time user connects, he is recognized by that cookie regardless Magento session expired or not. See function autoRegister in W2puser.php for additional details.
 
 Please see following Activity diagram for better explanation:
 
