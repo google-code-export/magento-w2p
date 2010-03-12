@@ -114,7 +114,7 @@ jQuery(document).ready(function($)
             );
         }
         function apply_img(xml) {
-            var h, w;
+            var h, w, uh,uw;
             $('#picedit_right #edit').hide();
             $('#image-edit-caption').hide();
             loader();
@@ -135,8 +135,12 @@ jQuery(document).ready(function($)
                     $('#image-edit-info-height').html($(this).attr('ImageHeight')+' px');
                     $('#image-edit-info-width').html($(this).attr('ImageWidth')+' px');
 
+
                     h = $(this).attr('ThumbHeight');
                     w = $(this).attr('ThumbWidth');
+
+                    uh = $(this).attr('ImageHeightUndo');
+                    uw = $(this).attr('ImageWidthUndo');
 
                 }
                 );
@@ -156,9 +160,14 @@ jQuery(document).ready(function($)
                     h = $(this).attr('thumbheight');
                     w = $(this).attr('thumbwidth');
 
+                    uh = $(this).attr('imageheightundo');
+                    uw = $(this).attr('imagewidthundo');
+
                 }
                 );
             }
+
+            $('#picedit_left #restore').attr('title',zetaprints_trans('Undo all changes')+'. '+zetaprints_trans('Original size')+': '+uw+' x '+uh+' px.');
 
             $('#picedit_right #edit')
             .load(
