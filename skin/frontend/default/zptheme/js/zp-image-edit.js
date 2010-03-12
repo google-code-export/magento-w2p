@@ -140,7 +140,9 @@ jQuery(document).ready(function($)
                     w = $(this).attr('ThumbWidth');
 
                     uh = $(this).attr('ImageHeightUndo');
+                    if (typeof(uh)=="undefined")uh=$(this).attr('ImageHeight');
                     uw = $(this).attr('ImageWidthUndo');
+                    if (typeof(uw)=="undefined")uw=$(this).attr('ImageWidth');
 
                 }
                 );
@@ -161,12 +163,13 @@ jQuery(document).ready(function($)
                     w = $(this).attr('thumbwidth');
 
                     uh = $(this).attr('imageheightundo');
+                    if (typeof(uh)=="undefined")uh=$(this).attr('imageheight');
                     uw = $(this).attr('imagewidthundo');
+                    if (typeof(uw)=="undefined")uw=$(this).attr('imagewidth');
 
                 }
                 );
             }
-
             $('#picedit_left #restore').attr('title',zetaprints_trans('Undo all changes')+'. '+zetaprints_trans('Original size')+': '+uw+' x '+uh+' px.');
 
             $('#picedit_right #edit')
