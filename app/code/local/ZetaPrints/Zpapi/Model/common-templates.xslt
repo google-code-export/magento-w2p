@@ -80,9 +80,21 @@
     <xsl:for-each select="//Images/Image[@Page=$page]">
       <div class="zetaprints-images-selector no-value minimized block">
         <div class="head block-title">
-          <a class="image up-down" href="#"><span>Up/Down</span></a>
-          <a class="image collapse-expand" href="#"><span>Collapse/Expand</span></a>
-          <div class="icon"><span>Title: </span></div>
+          <a class="image up-down" href="#"><span>
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Up/Down</xsl:with-param>
+            </xsl:call-template>
+          </span></a>
+          <a class="image collapse-expand" href="#"><span>
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Collapse/Expand</xsl:with-param>
+            </xsl:call-template>
+          </span></a>
+          <div class="icon"><span>
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Title</xsl:with-param>
+            </xsl:call-template>:
+          </span></div>
           <div class="title">
             <label><xsl:value-of select="@Name" /></label>
           </div>
@@ -91,24 +103,56 @@
           <ul class="tab-buttons">
             <xsl:if test="@AllowUpload='1'">
               <li>
-                <div class="icon upload"><span>Upload</span></div>
-                <a href="#page-{$page}-tabs-{position()}-1"><span>Upload</span></a>
+                <div class="icon upload"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Upload</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
+                <a href="#page-{$page}-tabs-{position()}-1"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Upload</xsl:with-param>
+                  </xsl:call-template>
+                </span></a>
               </li>
               <li class="hidden">
-                <div class="icon user-images"><span>My images</span></div>
-                <a href="#page-{$page}-tabs-{position()}-2"><span>My images</span></a>
+                <div class="icon user-images"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">My images</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
+                <a href="#page-{$page}-tabs-{position()}-2"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">My images</xsl:with-param>
+                  </xsl:call-template>
+                </span></a>
               </li>
             </xsl:if>
             <xsl:if test="StockImage">
               <li>
-                <div class="icon stock-images"><span>Stock images</span></div>
-                <a href="#page-{$page}-tabs-{position()}-3"><span>Stock images</span></a>
+                <div class="icon stock-images"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Stock images</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
+                <a href="#page-{$page}-tabs-{position()}-3"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Stock images</xsl:with-param>
+                  </xsl:call-template>
+                </span></a>
               </li>
             </xsl:if>
             <xsl:if test="@ColourPicker='RGB'">
               <li>
-                <div class="icon color-picker"><span>Color picker</span></div>
-                <a href="#page-{$page}-tabs-{position()}-4"><span>Color picker</span></a>
+                <div class="icon color-picker"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Color picker</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
+                <a href="#page-{$page}-tabs-{position()}-4"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Color picker</xsl:with-param>
+                  </xsl:call-template>
+                </span></a>
               </li>
             </xsl:if>
             <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" /> Leave blank</label></li>
@@ -118,12 +162,24 @@
             <div id="page-{$page}-tabs-{position()}-1" class="tab upload">
               <div class="column">
                 <input type="text" class="input-text file-name" disabled="true" />
-                <label>Upload new image from your computer</label>
+                <label>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Upload new image from your computer</xsl:with-param>
+                  </xsl:call-template>
+                </label>
               </div>
 
               <div class="column">
-                <div class="button choose-file"><span>Choose file</span></div>
-                <div class="button upload-file disabled"><span>Upload file</span></div>
+                <div class="button choose-file"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Choose file</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
+                <div class="button upload-file disabled"><span>
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Upload file</xsl:with-param>
+                  </xsl:call-template>
+                </span></div>
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
@@ -139,7 +195,12 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog" href="{@edit-link}" title="Click to edit" target="_blank">
+                    <a class="edit-dialog" href="{@edit-link}" target="_blank">
+                      <xsl:attribute name="title">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">Click to edit</xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:attribute>
                       <img src="{@thumbnail}" />
                       <img class="edit-button" src="{$user-image-edit-button}" />
                     </a>
@@ -158,7 +219,12 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" title="Click to enlarge" target="_blank" rel="group-{../@Name}">
+                    <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" target="_blank" rel="group-{../@Name}">
+                      <xsl:attribute name="title">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">Click to enlarge</xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:attribute>
                       <xsl:choose>
                         <xsl:when test="contains(@Thumb, '.png') or contains(@Thumb, '.gif')">
                           <img src="{$zetaprints-api-url}photothumbs/{@Thumb}" />
@@ -189,7 +255,16 @@
                 </xsl:choose>
               </input>
               <div class="color-sample"><span>&#x0A;</span></div>
-              <span><a href="#">Choose a color</a> and click Select to fill the place of the photo.</span>
+              <span>
+                <a href="#">
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">Choose a color</xsl:with-param>
+                  </xsl:call-template>
+                </a>
+                <xsl:call-template name="trans">
+                  <xsl:with-param name="key">and click Select to fill the place of the photo.</xsl:with-param>
+                </xsl:call-template>
+              </span>
             </div>
           </xsl:if>
           </div>
@@ -204,7 +279,12 @@
     <div class="zetaprints-image-tabs">
       <ul style="width: {count(Page) * 135}px;">
       <xsl:for-each select="Page">
-          <li title="Click to show page">
+          <li>
+            <xsl:attribute name="title">
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">Click to show page</xsl:with-param>
+              </xsl:call-template>
+            </xsl:attribute>
             <img rel="page-{position()}" src="{$zetaprints-api-url}{substring-before(@ThumbImage, '.')}_100x100.{substring-after(@ThumbImage, '.')}" />
             <br />
             <span><xsl:value-of select="@Name" /></span>
@@ -212,5 +292,29 @@
         </xsl:for-each>
       </ul>
     </div>
+  </xsl:template>
+
+  <!--The translation template-->
+  <xsl:template name="trans">
+    <!--Key to search for-->
+    <xsl:param name="key"/>
+    <xsl:variable name="value">
+      <!--Collect matching values - should be one only, if any. Select them from the chunk of the input XML where the translations are stored.-->
+      <xsl:for-each select="/TemplateDetails/trans/phrase">
+        <xsl:if test="@key=$key">
+        <!--There is match on the key - grab the value (presume it's in that attibute, but use your own path)-->
+          <xsl:value-of select="@value"/>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+    <!--Return either the value of the key if there is no value-->
+    <xsl:choose>
+      <xsl:when test="$value!=''">
+        <xsl:value-of select="$value"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$key"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 </xsl:stylesheet>

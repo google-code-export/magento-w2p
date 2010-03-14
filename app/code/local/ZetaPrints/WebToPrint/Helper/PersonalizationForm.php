@@ -75,7 +75,44 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
       'user-image-edit-button' => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png')
     );
 
-    return zetaprints_get_html_from_xml($xml->asXML(), $form_part, $params);
+    //Append translations to xml
+    $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'zetaprints_w2p.csv';
+
+    if (file_exists($locale_file)) {
+      $cache = Mage::getSingleton('core/cache');
+      $out = $cache->load("XMLTranslation".Mage::app()->getLocale()->getLocaleCode());
+
+      if (strlen($out) == 0) {
+        $locale = @file_get_contents($locale_file);
+        preg_match_all('/"(.*?)","(.*?)"(:?\r|\n)/', $locale, $array, PREG_PATTERN_ORDER);
+
+        if (is_array($array) && count($array[1]) > 0) {
+          $out = '<trans>';
+
+          foreach ($array[1] as $key => $value) {
+            if (strlen($value) > 0 && strlen($array[2][$key]) > 0) {
+              $out .= "<phrase key=\"".$value."\" value=\"".$array[2][$key]."\"/>";
+            }
+          }
+
+          $out .= "</trans>";
+          $cache->save($out,"XMLTranslation".Mage::app()->getLocale()->getLocaleCode(),array('TRANSLATE'));
+        }
+      }
+
+      $doc = new DOMDocument();
+      $doc->loadXML($out);
+      $node = $doc->getElementsByTagName("trans")->item(0);
+      $xml_dom = new DOMDocument();
+      $xml_dom->loadXML($xml->asXML());
+      $node = $xml_dom->importNode($node, true);
+      $xml_dom->documentElement->appendChild($node);
+    } else {
+      $xml_dom = new DOMDocument();
+      $xml_dom->loadXML($xml->asXML());
+    }
+
+    return zetaprints_get_html_from_xml($xml_dom, $form_part, $params);
   }
 
   public function add_values_from_cache ($xml) {
