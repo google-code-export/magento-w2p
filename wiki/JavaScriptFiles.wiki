@@ -50,5 +50,6 @@ Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/front
 
 = [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-personalization-form.js zp-personalization-form.js] =
 This file contains javascript code for the ZetaPrints personalization form.
+The script ... shows fields ... bla ... bla .. What does it do exactly?
 
 Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_
