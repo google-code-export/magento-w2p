@@ -1,14 +1,14 @@
 <script language="javascript" type="text/javascript">
 <?
-$img_id=$this->getRequest()->getParam('id');
-Mage::log($img_id);
-if (strlen($img_id)<10)die('Wrong Request');
+$imageEditorId=$this->getRequest()->getParam('id');
+Mage::log($imageEditorId);
+if (strlen($imageEditorId)<10)die('Wrong Request');
 ?>
-var im_update_url='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
-var im_image_id='<?php echo $img_id?>';
-var im_zp_url='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
-var im_delimeter='&';
-var im_append='';
+var imageEditorUpdateURL='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
+var imageEditorId='<?php echo $imageEditorId?>';
+var imageEditorZpURL='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
+var imageEditorDelimeter='&';
+var imageEditorQueryAppend='';
 
 </script>
     <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
@@ -20,72 +20,41 @@ div#fancy_content{cursor:auto}
 ?>
 <table width=100% cellpadding=0 cellspacing=0>
 <tr>
-    <td id="picedit_left" width=100 valign=top>
+    <td id="imageEditorLeft" width=100 valign=top>
       <ul>
-        <!--
-            <li>
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/pen.png'); ?>" alt=""/><span>Edit title</span>
-            </li>
-        -->
-        <li id="rotate" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Right');?>">
+        <li id="imageEditorRotateRight" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Right');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt=""/>
           <span><?php echo Mage::helper('webtoprint')->__('Rotate right');?>
           </span>
         </li>
-        <li id="rotatel" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Left');?>">
+        <li id="imageEditorRotateLeft" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Left');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt=""/>
           <span><?php echo Mage::helper('webtoprint')->__('Rotate left');?>
           </span>
         </li>
-       <!--
-            <li id="resize">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/resize.png'); ?>" alt=""/><span>Resize</span>
-            </li>
-        -->
-        <li id="crop" title="<?php echo Mage::helper('webtoprint')->__('Crop Image');?>">
+        <li id="imageEditorCrop" title="<?php echo Mage::helper('webtoprint')->__('Crop Image');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt=""/>
           <span><?php echo Mage::helper('webtoprint')->__('Crop');?>
           </span>
         </li>
-        <!--
-            <li>
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/move.png'); ?>" alt=""/><span>Place</span>
-            </li>
-            <li>
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_h.png'); ?>" alt=""/><span>Flip Horizontal</span>
-            </li>
-            <li>
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/flip_v.png'); ?>" alt=""/><span>Flip Vertical</span>
-            </li>
-        -->
-        <li id="restore" title="<?php echo Mage::helper('webtoprint')->__('Undo all changes');?>">
+        <li id="imageEditorRestore" title="<?php echo Mage::helper('webtoprint')->__('Undo all changes');?>">
           <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt=""/>
           <span><?php echo Mage::helper('webtoprint')->__('Restore');?>
           </span>
         </li>
-        <!--
-            <li class="last">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt=""/><span>Delete</span>
-            </li>
-        -->
       </ul>
     </td>
-        <td id="picedit_right">
-      <img src="" id="edit" alt="Image" style="display:none"/>
-      <div id="image-edit-caption"><span id="image-edit-info"></span><span><?php echo Mage::helper('webtoprint')->__('W:');?> <span id="image-edit-info-width"></span></span> <span><?php echo Mage::helper('webtoprint')->__('H:');?> <span id="image-edit-info-height"></span></span></div>
-      <form id="crop_form">
-        <input type="hidden" name="zetaprints-CropX1" id="cropx">
-        <input type="hidden" name="zetaprints-CropY1" id="cropy">
-        <input type="hidden" name="zetaprints-CropX2" id="cropx2">
-        <input type="hidden" name="zetaprints-CropY2" id="cropy2">
-        <input type="hidden" name="Cropw" id="cropw">
-        <input type="hidden" name="Croph" id="croph">
-        <a href="javascript:void(0)" id="apply_crop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
-      </form>
-      <form id="resize_form">
-        <input type="hidden" name="neww" id="neww">
-        <input type="hidden" name="newh" id="newh">
-        <input type="button" name="Apply" value="Apply" id="apply_resize">
+        <td id="imageEditorRight">
+      <img src="" id="imageEditorPreview" alt="Image" style="display:none"/>
+      <div id="imageEditorCaption"><span id="imageEditorInfo"></span><span><?php echo Mage::helper('webtoprint')->__('W:');?> <span id="imageEditorWidthInfo"></span></span> <span><?php echo Mage::helper('webtoprint')->__('H:');?> <span id="imageEditorHeightInfo"></span></span></div>
+      <form id="imageEditorCropForm">
+        <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX">
+        <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY">
+        <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2">
+        <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2">
+        <input type="hidden" name="Cropw" id="imageEditorCropW">
+        <input type="hidden" name="Croph" id="imageEditorCropH">
+        <a href="javascript:void(0)" id="imageEditorApplyCrop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
       </form>
     </td>
     </tr>

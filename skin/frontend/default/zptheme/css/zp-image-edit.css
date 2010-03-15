@@ -5,13 +5,13 @@ body {
   overflow: hidden;
 }
 
-#apply_crop {
+#imageEditorApplyCrop {
   margin-left:40%;
   display:block;
   padding-top:5px;
 }
 
-#picedit_left {
+#imageEditorLeft {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -21,7 +21,7 @@ body {
   text-align: center;
 }
 
-#picedit_left ul li {
+#imageEditorLeft ul li {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -33,12 +33,12 @@ body {
   cursor: pointer;
   cursor: hand;
 }
-#picedit_left ul {
+#imageEditorLeft ul {
   margin: 0;
   padding: 0;
 }
 
-#picedit_left ul li span {
+#imageEditorLeft ul li span {
   color: #FFFFFF;
   display: block;
   font-family: Arial;
@@ -47,27 +47,24 @@ body {
   padding: 2px;
 }
 
-#picedit_left ul .last {
+#imageEditorLeft ul .last {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
   background: transparent none repeat scroll 0 0;
 }
 
-#picedit_right {
+#imageEditorRight {
   padding: 10px 10px 4000px 10px;
   background: #FFFFFF;
 }
 
-#crop_form {
+#imageEditorCropForm {
   display: none;
   padding: 0px;
   margin: 0px;
 }
 
-#resize_form {
-  display: none;
-}
 .handler {
   width: 15px;
   height: 10px;
@@ -78,7 +75,7 @@ body {
   bottom: 1px;
   cursor: nw-resize;
 }
-#image-edit-caption {
+#imageEditorCaption {
   display:none;
   padding: 5px;
   background-color: #93B4DF;
@@ -89,15 +86,15 @@ body {
   white-space:nowrap;
   position:relative;
 }
-#image-edit-caption span {
+#imageEditorCaption span {
   color: #FFFFFF;
   margin-left:10px;
 }
-#image-edit-caption span span {
+#imageEditorCaption span span {
   color: #000000;
   margin-left:0px;
 }
-#image-edit-caption #image-edit-info {
+#imageEditorCaption #imageEditorInfo {
   color: #DB0D0D;
   font-weight: bold;
   float: right;
