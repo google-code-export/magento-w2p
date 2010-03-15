@@ -38,7 +38,7 @@ Original script sourced from: http://jqueryui.com/
 = [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/jquery.fancybox-1.2.6.pack.js jquery.fancybox-1.2.6.pack.js] =
 Fancybox is jQuery plugin to show in-page dialogs. Used to show full size images in pop-ups for template previews, stock images and to show image editing window in pop-up.
 
-Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery.fancybox-1.2.6.css jquery.fancybox-1.2.6.css]_ and images from _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/#zptheme/images/fancybox fancybox]_ directory.
+Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery.fancybox-1.2.6.css jquery.fancybox-1.2.6.css]_ and images from _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/fancybox fancybox]_ directory.
 Original script sourced from: http://fancybox.net
 
 = [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-image-edit.js zp-image-edit.js] =
