@@ -1,19 +1,19 @@
-#summary One-sentence summary of this page.
-
+#summary Overview of JS files used in the extension.
 = Introduction =
-
-Add your content here.
+Our web-to-print extension uses a number a JS scripts and plugins. It is mostly based on jQuery. 
 
 
 = ajaxupload.js =
-This file is used for asynchronious uploading of customer images.
+Used for asynchronous uploading of user images on the customisation page.
 
-Source: http://valums.com/ajax-upload/
+Original script sourced from: http://valums.com/ajax-upload/
 
 = colorpicker.js =
-This javascipt code for a color picker.
+Generates and controls a color picker pop-up. Saves the selected value in one of input fields to be sent to ZP.
 
 Depends on _colorpicker.css_ and images from _colorpicker_ directory
+
+Original script sourced from: 
 
 = jquery-1.3.2.min.js =
 jQuery javascript library.
