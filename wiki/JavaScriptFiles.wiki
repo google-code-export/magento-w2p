@@ -10,7 +10,7 @@ Original script sourced from: http://valums.com/ajax-upload/
 = [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/colorpicker.js colorpicker.js] =
 Generates and controls a color picker pop-up. Saves the selected value in one of input fields to be sent to ZP.
 
-Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/colorpicker.css colorpicker.css}_ and images from _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/#zptheme/images/colorpicker%3Fstate%3Dclosed colorpicker]_ directory
+Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/colorpicker.css colorpicker.css]_ and images from _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/colorpicker colorpicker]_ directory
 
 Original script sourced from: http://www.eyecon.ro/colorpicker/
 
