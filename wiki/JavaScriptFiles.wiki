@@ -1,0 +1,53 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= ajaxupload.js =
+This file is used for asynchronious uploading of customer images.
+
+Source: http://valums.com/ajax-upload/
+
+= colorpicker.js =
+This javascipt code for a color picker.
+
+Depends on _colorpicker.css_ and images from _colorpicker_ directory
+
+= jquery-1.3.2.min.js =
+jQuery javascript library.
+
+Source: http://jquery.com/
+
+= jquery-jcrop.min.js =
+JCrop is jquery plugin for cropping images.
+
+Depends on _jquery.jcrop.css_
+Source: http://deepliquid.com/content/Jcrop.html
+
+= jquery-qtip-1.0.0-rc3.min.js =
+Qtip is jquery plugin for nice tooltips. Qtip is used for showing tooltips for user input fields.
+
+Source: http://craigsworks.com
+
+= jquery-ui-1.7.2.custom.min.js =
+jQuery UI library. It is used for color picker.
+
+Source: http://jqueryui.com/
+
+= jquery.fancybox-1.2.6.pack.js =
+Fancybox is jQuery plugin to show in-page dialogs. Is used to show full size images for previews.
+
+Depends on _jquery.fancybox-1.2.6.css_ and images from _fancybox_ directory.
+Source: http://fancybox.net
+
+= zp-image-edit.js =
+This file is used in ZetaPrints' image editor.
+
+Depends on _zp-image-edit.css_
+
+= zp-personalization-form.js =
+This file is used for ZetaPrints' personalization form.
+
+Depends on _zp-style.css_
