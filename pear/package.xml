@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-01-12</date>
+  <date>2010-03-16</date>
 
   <version>
-    <release>1.7.0.0</release>
-    <api>1.7.0.0</api>
+    <release>1.8.0.0</release>
+    <api>1.8.0.0</api>
   </version>
 
   <stability>
@@ -52,14 +52,14 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Add user images uploading
-* Create profiles automatically (issue #100)
-* Add full-size preview for Stock images and My images (issue #109)
-* Add check for deleted templates during data import (issue #114)
-* Improved thumbs in order details (issue #102)
-* Improved image updating for web-to-print products
-* Better support for IE and Safari browsers.
-* Bug fixes.
+* Support for Magento 1.4
+* Basic image editor with cropping and rotating possibilities for images
+  uploaded by customer (issue #110).
+* User input caching. Backed by ZetaPrints (issue #119).
+* Controlling lifetime of user session (issue #126).
+* Support for localization (issue #132).
+* Better user experience (issue #142, issue #149, issue #153, issue #128).
+* Bug fixes (issue #135, issue #147).
   </notes>
 
   <contents>
@@ -515,6 +515,32 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.7.0.0</release>
+        <api>1.7.0.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-01-12</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Add user images uploading
+* Create profiles automatically (issue #100)
+* Add full-size preview for Stock images and My images (issue #109)
+* Add check for deleted templates during data import (issue #114)
+* Improved thumbs in order details (issue #102)
+* Improved image updating for web-to-print products
+* Better support for IE and Safari browsers.
+* Bug fixes.
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.6.0.1</release>
