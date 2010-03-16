@@ -50,11 +50,3 @@ Normally, orders would be managed through M. Faulty orders may need functions av
 == User order management ==
 Users registered via M cannot login to ZP and cannot access their order history there.
 They use M for that.
-
-== Personalization form ==
-
-http://www.zetaprints.com/magento-docs/page-switcher.png
-http://www.zetaprints.com/magento-docs/preview.png
-http://www.zetaprints.com/magento-docs/preview-button.png
-http://www.zetaprints.com/magento-docs/input-fields.png
-http://www.zetaprints.com/magento-docs/image-fields.png
