@@ -2,6 +2,7 @@ jQuery(document).ready(function($)
     {
         var imageEditorJcropApi;
         $('#fancy_frame',top.document).css('overflow','hidden');
+        $('#fancy_frame',top.document).css('display','block');
         imageEditorLoadImage();
 
         function imageEditorCrop()
@@ -45,9 +46,9 @@ jQuery(document).ready(function($)
             imageEditorLoader();
             $.ajax(
             {
-                url: imageEditorUpdateURL+'?'+$('#imageEditorCropForm').serialize()+imageEditorDelimeter+'zetaprints-action=img-crop'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                url: imageEditorUpdateURL+'?CropX1='+$('#imageEditorCropX').val()+imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val()+imageEditorDelimeter+'CropX2='+$('#imageEditorCropX2').val()+imageEditorDelimeter+'CropY2='+$('#imageEditorCropY2').val()+imageEditorDelimeter+'page=img-crop'+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
                 type: 'POST',
-                data: $('#imageEditorCropForm').serialize()+'&zetaprints-action=img-crop&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                data: 'zetaprints-CropX='+$('#imageEditorCropX').val()+imageEditorDelimeter+'zetaprints-CropY='+$('#imageEditorCropY').val()+imageEditorDelimeter+'zetaprints-CropX2='+$('#imageEditorCropX2').val()+imageEditorDelimeter+'zetaprints-CropY2='+$('#imageEditorCropY2').val()+imageEditorDelimeter+'zetaprints-action=img-crop'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
                 },
@@ -64,7 +65,7 @@ jQuery(document).ready(function($)
             imageEditorLoader();
             $.ajax(
             {
-                url: imageEditorUpdateURL+'?zetaprints-action=img-restore'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                url: imageEditorUpdateURL+'?page=img-undo'+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
                 type: 'POST',
                 data: 'zetaprints-action=img-restore&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -81,7 +82,7 @@ jQuery(document).ready(function($)
             imageEditorLoader();
             $.ajax(
             {
-                url: imageEditorUpdateURL+'?zetaprints-action=img'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                url: imageEditorUpdateURL+'?page=img-props'+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
                 type: 'POST',
                 datatype: 'XML',
                 data: 'zetaprints-action=img&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
@@ -94,13 +95,14 @@ jQuery(document).ready(function($)
                 }
             }
             );
+
         }
         function imageEditorDoRotate(dir) {
             imageEditorHideCrop();
             imageEditorLoader();
             $.ajax(
             {
-                url: imageEditorUpdateURL+'?zetaprints-action=img-rotate'+imageEditorDelimeter+'zetaprints-Rotation='+dir+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                url: imageEditorUpdateURL+'?page=img-rot'+imageEditorDelimeter+'Rotation='+dir+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
                 type: 'POST',
                 data: 'zetaprints-action=img-rotate&zetaprints-Rotation='+dir+'&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -185,14 +187,18 @@ jQuery(document).ready(function($)
                 );
 
             tmp = $('#imageEditorRight #imageEditorPreview').attr("src");
+            tmp1 = jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first');
+            if (tmp1.length==0){
+            tmp1 = jQuery('#img'+imageEditorId, top.document);
+            }
 
             if (tmp.match(/\.jpg/m)) {
 
-                jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first').attr('src', tmp.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
+                tmp1.attr('src', tmp.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
 
 
             } else {
-                jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first').attr('src', tmp);
+                tmp1.attr('src', tmp);
                 }
 
             $('#imageEditorRight #imageEditorPreview').attr("src", tmp);
@@ -227,6 +233,7 @@ jQuery(document).ready(function($)
         }
 
         function imageEditorInfoBox(msg) {
+        $('#imageEditorCaption').show();
           if ($.browser.msie)
             $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width());
           else
@@ -259,6 +266,12 @@ jQuery(document).ready(function($)
           $('#fancy_outer', top.document).width(Number(w)+120);
           $('#fancy_outer', top.document).height(Number(h)+75);
           imageEditorCenterBox();
+        }
+
+        if (!window.zetaprints_trans){
+          function zetaprints_trans(msg){
+            return msg;
+          }
         }
 
         $('#imageEditorCrop').click(imageEditorCrop);
