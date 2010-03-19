@@ -7,7 +7,9 @@ Common causes of problems with w2p extension for Magento:
   * Use of custom theme - use our default theme if you do not know how to integrate the extension into a custom theme.
   * File system permissions - make sure all writable folders have write access for Magento.
 
-== Logging of data import ==
+== Logging ==
+
+The extension has very detailed logging. Most problems can be resolved by looking at the logs.
 
 Check Logging option ON on ZetaPrints configuration page in Magento. Also enable logging in Magento at _System/Configuration/Developer/Log Settings_ in admin interface. All interactions will be logged into Magento log file (_system.log_) file in the _var/log_ folder of Magento. The file cannot be accessed from outside, unless you explicitly allow so.
 
