@@ -9,32 +9,31 @@ This extension does the following:
   * downloads order details from ZetaPrints
   * updates order status in ZetaPrints
 
+We need a Use Case diagram here.
+
 = Personalization form =
+A product linked to a ZP template (where? how?) shows a personalization form on the product details page. See instructions on integrating the form into a theme for [one step proc] and [2 step proc] (insert links).
 
 [http://www.zetaprints.com/magento-docs/create-personalization-form.png]
 [http://www.zetaprints.com/magento-docs/create-personalization-form-2step-theme.png]
 
 = Products =
 
-== Static products ==
-Magento and ZetaPrints have their own product databases. 
-The store can have products created directly in M without a corresponding product in ZP. Such products have no personalization capabilities.
+== Dynamic products overview ==
+By default a product in Magento has no personalization capabilities. A product can be assigned to a template (where? how?). Such products can be personalized.
+Additional product properties (list?) required for personalization are stored in [???].
+Products can be created by the extension using [profile? what is it called? link to the wiki page about it]. 
 
-== Dynamic products ==
-This extension downloads list of template details from Zetaprints into M. This extension maintains M. database in sync with ZetaPrints database by downloading updated records.
-
-Products in ZP have special properties and initial preview images (thumbnails and large previews). They can be downloaded into M or served directly from ZP.
-
-== High-level overview for a product personalizing process ==
+== High-level overview of a product personalizing process ==
 
 [http://www.zetaprints.com/magento-docs/generate-preview.png]
 
 = Users =
-ZetaPrints does not require full user registration to use the services. It only needs a user ID for data caching and resource allocation. The extension creates corresponding user in ZetaPrints (with generated user ID and password) for every user in M. who uses web-to-print features. See http://www.zetaprints.com/help/user-registration-api
+ZetaPrints does not require full user registration to use the services. It only needs a user ID/password combo for data caching and resource allocation. The extension creates a user in ZetaPrints (with generated user ID and password) for every user in M. that uses web-to-print features. See http://www.zetaprints.com/help/user-registration-api
 
 [http://www.zetaprints.com/magento-docs/create-new-zp-user-or-load-existing-one.png]
 
-See also page about UserManagement.
+Lifetime of a user session on ZP can be months or even years. The extension stores ZP credentials separate from M. user sessions to restore them later, independently from the M. user session. See a page about UserManagement.
 
 == User access control ==
 This extension instructs ZP to grant/deny users access to certain catalogs via API (http://www.zetaprints.com/help/user-access-api/)
@@ -47,8 +46,8 @@ Zetaprints is only concerned with the image and file generation part of the orde
 
 == Shop owner order management ==
 Shop owners have printer accounts with ZP and can login to ZP directly to manage orders. They do not see user details, pricing, payments or any other info held within M.
-Normally, orders would be managed through M. Faulty orders may need functions available only wihin ZP.
+Normally, orders would be managed through M. Faulty orders may need functions available only within ZP.
 
 == User order management ==
 Users registered via M cannot login to ZP and cannot access their order history there.
-They use M for that.
+They need to use M for that.
