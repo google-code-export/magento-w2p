@@ -154,8 +154,8 @@ function personalization_form () {
             + '" value="' + response[0]
             + '" /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
-            + '" /><img class="edit-button" src="' + edit_image_button_url
-            + '"></a></td>').prependTo(this);
+            + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
+            + '" target="_blank"><div class="edit-button">.</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button">.</div></a></div>').prependTo(this);
 
           var tr = this;
 
@@ -332,5 +332,24 @@ function personalization_form () {
     position: { corner: { target: 'topLeft' }, adjust: { y: -30 } },
         show: { delay: 1, solo: true, when: { event: 'focus' } },
         hide: { when: { event: 'unfocus' } }
+  });
+
+  $('a.delete-button').click(function(){
+    var imageId = $(this).parent().prevAll('input').val();
+    var parentTd = $(this).parent();
+        if (confirm(delete_this_image_text)){
+              $.ajax(
+                {
+                url: image_controller_url,
+                type: 'POST',
+                data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(cant_delete_text + ': ' + textStatus);
+                    },
+                success: function (data, textStatus) {
+                parentTd.parent().remove();                    }
+                }
+            );
+           }
   });
 }

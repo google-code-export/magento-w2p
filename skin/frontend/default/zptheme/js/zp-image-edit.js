@@ -179,7 +179,10 @@ jQuery(document).ready(function($)
                 function() {
                     $('#imageEditorRight #imageEditorPreview').fadeIn().ready(function ()
                     {
+                        //old fancybox
                         parent.jQuery('#fancy_loading').fadeOut();
+                        //new fancybox
+                        parent.jQuery('#fancybox-loading').fadeOut();
                         $('#imageEditorCaption').show();
                     }
                     );
@@ -190,6 +193,9 @@ jQuery(document).ready(function($)
             tmp1 = jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first');
             if (tmp1.length==0){
             tmp1 = jQuery('#img'+imageEditorId, top.document);
+            }
+            if (tmp1.length==0){
+            tmp1 = jQuery('input[value='+imageEditorId+']', top.document).next().next().find('img');
             }
 
             if (tmp.match(/\.jpg/m)) {
@@ -206,30 +212,79 @@ jQuery(document).ready(function($)
 
         }
 
-        function imageEditorCenterBox(){
-         //based on fancybox scrollBox function
-          if (typeof(parent.jQuery.fn.fancybox)!="undefined")
-            var w = parent.jQuery.fn.fancybox.getViewport();
-            else
-            if (typeof(jQuery.fn.fancybox)!="undefined")
-            var w = jQuery.fn.fancybox.getViewport();
-            else return false;
-           var w = parent.jQuery.fn.fancybox.getViewport();
-           var ow	= $("#fancy_outer", top.document).outerWidth();
-           var oh	= $("#fancy_outer", top.document).outerHeight();
-           var pos	= {
-              	'top'	: (oh > w[1] ? w[3] : w[3] + Math.round((w[1] - oh) * 0.5)),
-			          'left'	: (ow > w[0] ? w[2] : w[2] + Math.round((w[0] - ow) * 0.5))
-		            };
-          $("#fancy_outer", top.document).css(pos);
+        function imageEditorDelete(){
+        if (confirm(zetaprints_trans('Delete this image?'))){
+              $.ajax(
+                {
+                url: imageEditorUpdateURL+'?page=img-del'+imageEditorDelimeter+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
+                type: 'POST',
+                data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(zetaprints_trans('Can\'t delete image:') + ' ' + textStatus);
+                    },
+                success: function (data, textStatus) {
+                         //remove image from strip and close fancybox
+                         jQuery('input[value='+imageEditorId+']', top.document).parent().remove();
+                         //also try to remove every element with imageEditorId
+                         jQuery('#'+imageEditorId, top.document).remove();
+                         if(parent.$.fancybox)parent.$.fancybox.close();
+                         else
+                         parent.jQuery.fn.fancybox.close();
+                    }
+                }
+            );
+           }
         }
 
+        function imageEditorCenterBox() {
+
+           //based on fancybox scrollBox function
+            if (typeof(parent.jQuery.fn.fancybox)!="undefined") {
+                //we are working on iframe
+                //check if it is old fancybox
+                if (typeof(parent.jQuery.fn.fancybox.getViewport)!="undefined")
+                    var w = parent.jQuery.fn.fancybox.getViewport();
+                else
+                {
+                    parent.$.fancybox.center();
+                    return true;
+                }
+            }
+            else {
+                //inline
+                if (typeof(jQuery.fn.fancybox.getViewport)!="undefined")
+                    var w = jQuery.fn.fancybox.getViewport();
+                else
+                {
+                    jQuery.$.center();
+                    newFancybox = true;
+                    return true;
+                }
+            }
+            var ow = $("#fancy_outer", top.document).outerWidth();
+            var oh = $("#fancy_outer", top.document).outerHeight();
+            var pos = {
+            'top': (oh > w[1]? w[3]: w[3] + Math.round((w[1] - oh) * 0.5)),
+            'left': (ow > w[0]? w[2]: w[2] + Math.round((w[0] - ow) * 0.5))
+            };
+            $("#fancy_outer", top.document).css(pos);
+        }
         function imageEditorLoader() {
-            if (typeof(parent.jQuery.fn.fancybox)!="undefined")
-            parent.jQuery.fn.fancybox.showLoading();
-            else
-            if (typeof(jQuery.fn.fancybox)!="undefined")
-            jQuery.fn.fancybox.showLoading();
+            if (typeof(parent.jQuery.fn.fancybox)!="undefined"){
+                //we are working on iframe
+                //check if it is old fancybox
+                if (typeof(parent.jQuery.fn.fancybox.showLoading)!="undefined")
+                    parent.jQuery.fn.fancybox.showLoading();
+                else
+                    parent.jQuery.fancybox.showActivity();
+            }
+            else {
+                //inline
+                if (typeof(jQuery.fn.fancybox.showLoading)!="undefined")
+                    jQuery.fn.fancybox.showLoading();
+                else
+                    jQuery.fancybox.showActivity();
+            }
         }
 
         function imageEditorInfoBox(msg) {
@@ -240,22 +295,22 @@ jQuery(document).ready(function($)
             $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width()-10);
           $('#imageEditorInfo').html(zetaprints_trans(msg));
           $('#imageEditorInfo').show('fast', function()
-            {
-              var cw = 0;
-              $('#imageEditorCaption span').each(function()
                 {
-                  cw += $(this).width();
-                }
-              );
-              if (cw<280)cw = 280;
-              if ($('#imageEditorRight #imageEditorPreview').width()<cw)
-              {
-                $('#imageEditorCaption').width(cw);
-                imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height());
-              }
+                    var cw = 0;
+                    $('#imageEditorCaption span').each(function()
+                        {
+                            cw += $(this).width();
+                        }
+                    );
+                    if (cw<280)cw = 280;
+                    if ($('#imageEditorRight #imageEditorPreview').width()<cw)
+                    {
+                        $('#imageEditorCaption').width(cw);
+                        imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height());
+                    }
 
-            }
-          );
+                }
+            );
         }
 
 
@@ -263,8 +318,16 @@ jQuery(document).ready(function($)
           //min dimensions
           if (w<300||typeof(w)=="undefined")w = 300;
           if (h<300||typeof(h)=="undefined")h = 300;
+          //old fancybox
           $('#fancy_outer', top.document).width(Number(w)+120);
           $('#fancy_outer', top.document).height(Number(h)+75);
+          //new fancybox
+          $('#fancybox-outer', top.document).width(Number(w)+120);
+          $('#fancybox-outer', top.document).height(Number(h)+75);
+          $('#fancybox-wrap', top.document).width(Number(w)+120);
+          $('#fancybox-wrap', top.document).height(Number(h)+75);
+          $('#fancybox-inner', top.document).width(Number(w)+120);
+          $('#fancybox-inner', top.document).height(Number(h)+75);
           imageEditorCenterBox();
         }
 
@@ -287,5 +350,6 @@ jQuery(document).ready(function($)
             imageEditorDoRotate('l');
         }
         );
+        $('#imageEditorDelete').click(imageEditorDelete);
     }
     );
