@@ -202,8 +202,20 @@
                         </xsl:call-template>
                       </xsl:attribute>
                       <img src="{@thumbnail}" />
-                      <img class="edit-button" src="{$user-image-edit-button}" />
                     </a>
+                    <div style="float:right;">
+                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank">
+                      <xsl:attribute name="title">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">Click to edit</xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:attribute>
+                      <div class="edit-button">.</div>
+                    </a>
+                    <a class="delete-button" href="javascript:void(1)">
+                      <div class="delete-button">.</div>
+                    </a>
+                    </div>
                   </td>
                 </xsl:for-each>
               </tr></table>

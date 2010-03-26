@@ -158,10 +158,25 @@ div.images-scroller a.edit-dialog {
   min-height: 21px;
 }
 
-div.images-scroller a.edit-dialog img.edit-button {
-  position: absolute;
-  bottom: 5px;
-  right: 0px;
+div.images-scroller div.edit-button {
+  position:relative;
+  cursor:pointer;
+  float:left;
+  top:-19px;
+  width:27px;
+  height:14px;
+  background:url(../images/images-selector-sprites.png) -222px 0 no-repeat;
+  margin-right:5px;
+}
+
+div.images-scroller div.delete-button {
+  position:relative;
+  cursor:pointer;
+  float:left;
+  top:-19px;
+  width:16px;
+  height:14px;
+  background:url(../images/images-selector-sprites.png) -222px -23px no-repeat;
 }
 
 div.zetaprints-images-selector {

@@ -579,6 +579,7 @@ jQuery(document).ready(function($) {
 
   preview_controller_url = '<?php echo $context->getUrl('web-to-print/preview'); ?>';
   upload_controller_url = '<?php echo $context->getUrl('web-to-print/upload'); ?>';
+  image_controller_url = '<?php echo $context->getUrl('web-to-print/image/update'); ?>';
 
   edit_image_button_url = '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'); ?>';
 
@@ -587,6 +588,8 @@ jQuery(document).ready(function($) {
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
 
+  cant_delete_text = "<?php echo $this->__('Can\'t delete image'); ?>";
+  delete_this_image_text = "<?php echo $this->__('Delete this image?'); ?>";
   personalization_form();
 });
 //]]>
