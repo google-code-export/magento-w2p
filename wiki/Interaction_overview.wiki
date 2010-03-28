@@ -51,3 +51,7 @@ Normally, orders would be managed through M. Faulty orders may need functions av
 == User order management ==
 Users registered via M cannot login to ZP and cannot access their order history there.
 They need to use M for that.
+
+= Uploading user images =
+
+[http://www.zetaprints.com/magento-docs/upload-user-image.png]
