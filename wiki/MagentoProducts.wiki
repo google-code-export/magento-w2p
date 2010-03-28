@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+
+= Product creation =
+
+[http://www.zetaprints.com/magento-docs/product-creation.png]
+
+= Product updating =
+
+[http://www.zetaprints.com/magento-docs/product-updating.png]
