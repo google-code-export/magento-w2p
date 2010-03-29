@@ -178,6 +178,25 @@ function personalization_form () {
               'hideOnContentClick': false,
               'centerOnScroll': false });
 
+            $('a.delete-button', td).click(function() {
+              var imageId = $(this).parent().prevAll('input').val();
+              var parentTd = $(this).parent();
+
+              if (confirm(delete_this_image_text)) {
+                $.ajax({
+                  url: image_controller_url,
+                  type: 'POST',
+                  data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
+                  error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(cant_delete_text + ': ' + textStatus);
+                  },
+                  success: function (data, textStatus) {
+                    parentTd.parent().remove();
+                  }
+                });
+              } }
+            );
+
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
                 $(upload_div).parent()).attr('checked', 1);
