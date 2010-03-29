@@ -41,12 +41,12 @@ div.zetaprints-image-tabs ul li img {
 }
 
 /**/
-div.zetaprints-template-preview {
+a.zetaprints-template-preview {
   display: none;
 }
 
 /**/
-div.zetaprints-template-preview img {
+a.zetaprints-template-preview img {
   max-width: 265px;
   cursor: pointer;
 }
