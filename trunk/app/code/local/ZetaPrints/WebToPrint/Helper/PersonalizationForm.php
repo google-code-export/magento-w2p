@@ -248,17 +248,16 @@ jQuery(document).ready(function($) {
     $previews = explode(',', $session->getData('zetaprints-previews'));
 
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $html = '<div class="zetaprints-template-preview-images">';
+    $html = '';
 
     foreach ($previews as $position => $preview) {
       $position += 1;
-      $html .= "<div id=\"preview-image-page-$position\" class=\"zetaprints-template-preview\">";
-      $html .= "<a href=\"$url/preview/$preview\">";
+      $html .= "<a id=\"preview-image-page-$position\" class=\"zetaprints-template-preview\" href=\"$url/preview/$preview\">";
       $html .= "<img title=\"".Mage::helper('webtoprint')->__('Click to view in large size')."\" src=\"$url/preview/$preview\" />";
-      $html .= '</a></div>';
+      $html .= '</a>';
     }
 
-    echo $html . '</div>';
+    echo $html;
 
     return true;
   }

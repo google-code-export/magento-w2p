@@ -27,11 +27,11 @@ function personalization_form () {
       $(tab_button).removeClass('hidden');
   });
 
-  number_of_pages = $('div.zetaprints-template-preview').length;
+  number_of_pages = $('a.zetaprints-template-preview').length;
   changed_pages = new Array(number_of_pages);
 
   if (previews.length) {
-    $('div.zetaprints-image-tabs img').each(function () {
+    $('a.zetaprints-image-tabs img').each(function () {
       var src = $(this).attr('src').split('thumb');
       var id = src[1].split('_');
       var n = id[0].substring(38, id[0].length);
@@ -51,13 +51,14 @@ function personalization_form () {
   $('div.zetaprints-image-tabs li').click(function () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
-    $('div.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible').css('display', 'none');
+    $('a.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible').css('display', 'none');
     $('div.zetaprints-page-stock-images').addClass('hidden');
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
 
-    $('#preview-image-' + page + ', #input-fields-' + page).css('display', 'block');
+    $('#preview-image-' + page).css('display', 'inline');
+    $('#input-fields-' + page).css('display', 'block');
     $('#stock-images-' + page).removeClass('hidden');
 
     var page_number = page.split('-')[1] * 1;
@@ -89,7 +90,7 @@ function personalization_form () {
         if (data.substr(0, 7) != 'http://') {
           alert(preview_generation_error_text);
         } else {
-          $('#preview-image-' + page + ' a').attr('href', data);
+          $('#preview-image-' + page).attr('href', data);
           $('#preview-image-' + page + ' img').attr('src', data);
 
           var image_name = data.split('/preview/')[1]
@@ -225,7 +226,7 @@ function personalization_form () {
           if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
             $('div.color-sample', panel).click();
           }
-          scroll_strip(panel);
+          scroll_strip(panel)
         }
         else
           $(top_element).addClass('minimized').removeClass('expanded').css('width', '100%');
@@ -233,7 +234,7 @@ function personalization_form () {
         return false;
       });
 
-      var previews_images = $('div.zetaprints-template-preview-images');
+      var previews_images = $('div.product-img-box');
 
       $('a.image.collapse-expand', this).click(function () {
         if ($(top_element).hasClass('expanded')) {
@@ -305,7 +306,7 @@ function personalization_form () {
     return false;
   });
 
-  $('div.zetaprints-template-preview a, a.in-dialog').fancybox({
+  $('a.zetaprints-template-preview, a.in-dialog').fancybox({
     'zoomOpacity': true,
     'overlayShow': false,
     'centerOnScroll': false,

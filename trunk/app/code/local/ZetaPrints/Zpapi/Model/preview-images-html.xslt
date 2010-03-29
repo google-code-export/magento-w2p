@@ -10,24 +10,16 @@
   </xsl:template>
 
   <xsl:template match="Pages">
-
-    <div class="zetaprints-template-preview-images">
-
-      <xsl:for-each select="Page">
-        <div id="preview-image-page-{position()}" class="zetaprints-template-preview">
-          <a href="{$zetaprints-api-url}{@PreviewImage}">
-            <img src="{$zetaprints-api-url}{@PreviewImage}">
-              <xsl:attribute name="title">
-                <xsl:call-template name="trans">
-                  <xsl:with-param name="key">Click to enlarge image</xsl:with-param>
-                </xsl:call-template>
-              </xsl:attribute>
-            </img>
-          </a>
-        </div>
-      </xsl:for-each>
-
-    </div>
-
+    <xsl:for-each select="Page">
+      <a id="preview-image-page-{position()}" class="zetaprints-template-preview" href="{$zetaprints-api-url}{@PreviewImage}">
+        <img src="{$zetaprints-api-url}{@PreviewImage}">
+          <xsl:attribute name="title">
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Click to enlarge image</xsl:with-param>
+            </xsl:call-template>
+          </xsl:attribute>
+        </img>
+      </a>
+    </xsl:for-each>
   </xsl:template>
 </xsl:stylesheet>
