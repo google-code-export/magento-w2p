@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:output method="html"/>
   <xsl:template name="fields-for-page">
     <xsl:param name="page" />
 
@@ -210,10 +211,10 @@
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <div class="edit-button">.</div>
+                      <div class="edit-button"></div>
                     </a>
                     <a class="delete-button" href="javascript:void(1)">
-                      <div class="delete-button">.</div>
+                      <div class="delete-button"></div>
                     </a>
                     </div>
                   </td>
