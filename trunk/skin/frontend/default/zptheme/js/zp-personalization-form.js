@@ -1,6 +1,16 @@
 function personalization_form () {
   var $ = jQuery;
 
+  function scroll_strip(panel){
+    if ($(panel).hasClass('images-scroller')) {
+      $(panel).scrollLeft(0);
+      var position = $('input:checked', panel).parents('td').position();
+      if (position)
+        $(panel).scrollLeft(position.left);
+    }
+    return true;
+  }
+
   $('div.zetaprints-page-stock-images input:checked').each(function() {
     $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
@@ -159,6 +169,7 @@ function personalization_form () {
 
           var tr = this;
 
+            scroll_strip($(this).parents('div:first'));
           $('img', td).load(function() {
             $('a.edit-dialog', tr).fancybox({
               'padding': 0,
@@ -199,11 +210,8 @@ function personalization_form () {
         show: function (event, ui) {
           if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
             $('div.color-sample', ui.panel).click();
-
-          if ($(ui.panel).hasClass('images-scroller')) {
-            var position = $('input:checked', ui.panel).parents('td').position();
-            if (position)
-              $(ui.panel).scrollLeft(position.left); }}
+            scroll_strip(ui.panel);
+              }
       });
 
       $('input', this).change(function () {
@@ -217,11 +225,7 @@ function personalization_form () {
           if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
             $('div.color-sample', panel).click();
           }
-
-          if ($(panel).hasClass('images-scroller')) {
-            var position = $('input:checked', panel).parents('td').position();
-            if (position)
-              $(panel).scrollLeft(position.left); }
+          scroll_strip(panel);
         }
         else
           $(top_element).addClass('minimized').removeClass('expanded').css('width', '100%');
@@ -246,13 +250,7 @@ function personalization_form () {
             $('div.color-sample', panel).click();
           }
         }
-
-        if ($(panel).hasClass('images-scroller')) {
-          $(panel).scrollLeft(0);
-          var position = $('input:checked', panel).parents('td').position();
-          if (position)
-            $(panel).scrollLeft(position.left); }
-
+        scroll_strip(panel);
         return false;
       });
 
