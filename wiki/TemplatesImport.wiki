@@ -1,3 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Overview of templates import process.
 
+= Detailed diagram =
 [http://www.zetaprints.com/magento-docs/templates-synchronization.png]
