@@ -1,4 +1,5 @@
 #summary M. products with web-to-print features.
+#labels Development
 
 = Сreate products for all imported products programmatically = 
 
