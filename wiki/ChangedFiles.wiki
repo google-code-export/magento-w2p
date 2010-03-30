@@ -1,5 +1,5 @@
 #summary Describes changes in Magento files
-#labels Developers
+#labels Development
 
 = Core files =
 === app\code\core\Mage\Catalog\Helper\Image.php ===
