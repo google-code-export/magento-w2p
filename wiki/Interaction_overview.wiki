@@ -22,7 +22,7 @@ A product linked to a ZP template (where? how?) shows a personalization form on 
 == Dynamic products overview ==
 By default a product in Magento has no personalization capabilities. A product can be assigned to a template (where? how?). Such products can be personalized.
 Additional product properties (list?) required for personalization are stored in [???].
-Products can be created by the extension using [profile? what is it called? link to the wiki page about it]. 
+Products can be created by the extension using [profile? what is it called? link to the wiki page about it].
 
 == High-level overview of a product personalizing process ==
 
@@ -55,3 +55,7 @@ They need to use M for that.
 = Uploading user images =
 
 [http://www.zetaprints.com/magento-docs/upload-user-image.png]
+
+_*Pre-created directory*_ is directory that created after extension installation automatically. Name for the directory is randomly generated GUID (see _zetaprints_generate_guid()_ function in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/Zpapi/Model/zp_api.php zp_api.php]_ file) and saved in M. global config under _zetaprints/webtoprint/uploading/dir_ key. Newly created directory is placed in _media/tmp/catalog/product/_ directory of M. distribution.
+
+The directory must be available throw the web to allow ZetaPrints service download images uploaded by user in M. interface.
