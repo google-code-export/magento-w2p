@@ -1,4 +1,5 @@
 #summary Integration of w2p into a custom theme
+#labels Integration
 
 = Introduction =
 
