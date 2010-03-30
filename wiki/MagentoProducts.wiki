@@ -1,9 +1,9 @@
-#summary One-sentence summary of this page.
+#summary M. products with web-to-print features.
 
-= Product creation =
+= Сreate products for all imported products programmatically = 
 
 [http://www.zetaprints.com/magento-docs/product-creation.png]
 
-= Product updating =
+= Update products with web-to-print features after templates synchronization =
 
 [http://www.zetaprints.com/magento-docs/product-updating.png]
