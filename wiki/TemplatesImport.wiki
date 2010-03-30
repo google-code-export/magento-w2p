@@ -1,4 +1,5 @@
 #summary Overview of templates import process.
+#labels Development
 
 = Detailed diagram =
 [http://www.zetaprints.com/magento-docs/templates-synchronization.png]
