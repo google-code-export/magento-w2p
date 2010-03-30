@@ -1,7 +1,6 @@
 #summary Describes changes in Magento files
-= File changes =
 
-== Core files changes ==
+= Core files changes =
 === app\code\core\Mage\Catalog\Helper\Image.php ===
   * Checks if attribute w2p_image is present in the product it displays w2p_image with ZP Image.
 === app\code\core\Mage\Sales\Model\Quote\Item.php ===
@@ -9,7 +8,7 @@
 === app\design\adminhtml\default\default\template\sales\items\column\name.php ===
   * Check if attribute w2p_order = true it displays zp order information on order detail page.
 
-== Theme changes ==
+= Theme changes =
 
 === app\design\frontend\default\default\template\catalog\product\list.phtml ===
   * Change to displays list zp products of category.
