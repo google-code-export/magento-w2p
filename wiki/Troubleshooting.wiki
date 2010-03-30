@@ -1,4 +1,5 @@
 #summary How to figure out why your code doesn't work.
+#labels Admin
 
 = Troubleshooting =
 Common causes of problems with w2p extension for Magento:
