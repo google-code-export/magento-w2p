@@ -1,7 +1,7 @@
 function personalization_form () {
   var $ = jQuery;
 
-  function scroll_strip(panel){
+  function scroll_strip(panel) {
     if ($(panel).hasClass('images-scroller')) {
       $(panel).scrollLeft(0);
       var position = $('input:checked', panel).parents('td').position();
@@ -191,11 +191,11 @@ function personalization_form () {
                     alert(cant_delete_text + ': ' + textStatus);
                   },
                   success: function (data, textStatus) {
-                    parentTd.parent().remove();
+                    $('input[value='+imageId+']').parent().remove();
                   }
                 });
-              } }
-            );
+              }
+            });
 
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
@@ -352,22 +352,22 @@ function personalization_form () {
         hide: { when: { event: 'unfocus' } }
   });
 
-  $('a.delete-button').click(function(){
+  $('a.delete-button').click(function() {
     var imageId = $(this).parent().prevAll('input').val();
     var parentTd = $(this).parent();
-        if (confirm(delete_this_image_text)){
-              $.ajax(
-                {
-                url: image_controller_url,
-                type: 'POST',
-                data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert(cant_delete_text + ': ' + textStatus);
-                    },
-                success: function (data, textStatus) {
-                parentTd.parent().remove();                    }
-                }
-            );
-           }
+
+    if (confirm(delete_this_image_text)) {
+      $.ajax({
+        url: image_controller_url,
+        type: 'POST',
+        data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(cant_delete_text + ': ' + textStatus);
+        },
+        success: function (data, textStatus) {
+          $('input[value='+imageId+']').parent().remove();
+        }
+      });
+    }
   });
 }
