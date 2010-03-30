@@ -1,4 +1,5 @@
 #summary Overview of JS files used in the extension.
+#labels Development
 = Introduction =
 Our web-to-print extension uses a number a JS scripts and plugins. It is mostly based on jQuery. 
 
