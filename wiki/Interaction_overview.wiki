@@ -12,7 +12,7 @@ This extension does the following:
 We need a Use Case diagram here.
 
 = Personalization form =
-A product linked to a ZP template (where? how?) shows a personalization form on the product details page. See instructions on integrating the form into a theme for [one step proc] and [2 step proc] (insert links).
+A product linked to a ZP template throw its _webtoprint_template_ attribute shows a personalization form on the product details page. See instructions on integrating the form into a theme for [http://code.google.com/p/magento-w2p/wiki/CustomThemeNative one step proc] and [http://code.google.com/p/magento-w2p/wiki/CustomTheme2Step 2 step proc].
 
 [http://www.zetaprints.com/magento-docs/create-personalization-form.png]
 [http://www.zetaprints.com/magento-docs/create-personalization-form-2step-theme.png]
