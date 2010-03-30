@@ -20,9 +20,7 @@ A product linked to a ZP template throw its _webtoprint_template_ attribute show
 = Products =
 
 == Dynamic products overview ==
-By default a product in Magento has no personalization capabilities. A product can be assigned to a template (where? how?). Such products can be personalized.
-Additional product properties (list?) required for personalization are stored in [???].
-Products can be created by the extension using [profile? what is it called? link to the wiki page about it].
+By default a product in Magento has no personalization capabilities. A product can be assigned to a template in its settings in admin area (see _Web-to-print templates_ tab in settings) . Such products can be personalized. Products can be created by the extension using _ZetaPrints products creation_ Advanced Import/Export Profile in M.
 
 == High-level overview of a product personalizing process ==
 
