@@ -170,8 +170,8 @@ function personalization_form () {
 
           var tr = this;
 
-            scroll_strip($(this).parents('div:first'));
           $('img', td).load(function() {
+            scroll_strip($(this).parents('div:first'));
             $('a.edit-dialog', tr).fancybox({
               'padding': 0,
               'hideOnOverlayClick': false,
@@ -180,7 +180,6 @@ function personalization_form () {
 
             $('a.delete-button', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
-              var parentTd = $(this).parent();
 
               if (confirm(delete_this_image_text)) {
                 $.ajax({
@@ -354,7 +353,6 @@ function personalization_form () {
 
   $('a.delete-button').click(function() {
     var imageId = $(this).parent().prevAll('input').val();
-    var parentTd = $(this).parent();
 
     if (confirm(delete_this_image_text)) {
       $.ajax({
