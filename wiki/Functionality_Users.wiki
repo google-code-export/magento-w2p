@@ -1,5 +1,5 @@
 #summary User management and user data sync
-#labels Phase-Requirements
+#labels Development
 
 = User management =
 
