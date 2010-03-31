@@ -71,17 +71,17 @@ jQuery(document).ready(function ($) {
   function imageEditorLoadImage () {
     imageEditorLoader();
     $.ajax({
-    url: imageEditorUpdateURL+'?page=img-props'+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
-    type: 'POST',
-    datatype: 'XML',
-    data: 'zetaprints-action=img&zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(zetaprints_trans('Can\'t load image:') + ' ' + textStatus);
-      },
-    success: function (data, textStatus) {
-      imageEditorApplyImage(data);
-      imageEditorInfoBox('Image Loaded');
-    }
+      url: imageEditorUpdateURL + '?page=img-props' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
+      type: 'POST',
+      datatype: 'XML',
+      data: 'zetaprints-action=img&zetaprints-ImageID=' + imageEditorId + imageEditorQueryAppend,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(zetaprints_trans('Can\'t load image:') + ' ' + textStatus);
+        },
+      success: function (data, textStatus) {
+        imageEditorApplyImage(data);
+        imageEditorInfoBox('Image Loaded');
+      }
     });
   }
 
@@ -203,7 +203,7 @@ jQuery(document).ready(function ($) {
     if ($.browser.msie)
       $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width());
     else
-      $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width()-10);
+      $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width() - 10);
     $('#imageEditorInfo').html(zetaprints_trans(msg));
     $('#imageEditorInfo').show('fast', function () {
       var cw = 0;
