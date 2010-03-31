@@ -48,7 +48,7 @@ jQuery(document).ready(function($)
             {
                 url: imageEditorUpdateURL+'?CropX1='+$('#imageEditorCropX').val()+imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val()+imageEditorDelimeter+'CropX2='+$('#imageEditorCropX2').val()+imageEditorDelimeter+'CropY2='+$('#imageEditorCropY2').val()+imageEditorDelimeter+'page=img-crop'+imageEditorDelimeter+'ImageID='+imageEditorId+imageEditorQueryAppend,
                 type: 'POST',
-                data: 'zetaprints-CropX='+$('#imageEditorCropX').val()+imageEditorDelimeter+'zetaprints-CropY='+$('#imageEditorCropY').val()+imageEditorDelimeter+'zetaprints-CropX2='+$('#imageEditorCropX2').val()+imageEditorDelimeter+'zetaprints-CropY2='+$('#imageEditorCropY2').val()+imageEditorDelimeter+'zetaprints-action=img-crop'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
+                data: 'zetaprints-CropX1='+$('#imageEditorCropX').val()+imageEditorDelimeter+'zetaprints-CropY1='+$('#imageEditorCropY').val()+imageEditorDelimeter+'zetaprints-CropX2='+$('#imageEditorCropX2').val()+imageEditorDelimeter+'zetaprints-CropY2='+$('#imageEditorCropY2').val()+imageEditorDelimeter+'zetaprints-action=img-crop'+imageEditorDelimeter+'zetaprints-ImageID='+imageEditorId+imageEditorQueryAppend,
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
                 },
@@ -116,64 +116,30 @@ jQuery(document).ready(function($)
             );
         }
         function imageEditorApplyImage(xml) {
-            var h, w, uh,uw;
+            var h, w, uh, uw, src;
             $('#imageEditorRight #imageEditorPreview').hide();
             $('#imageEditorCaption').hide();
             imageEditorLoader();
-            if(! window.DOMParser)
-            {
-                var xmlDoc = null;
-                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-                xmlDoc.async = false;
-                xmlDoc.loadXML(xml);
-                var t = $(xmlDoc);
-                t.find('Image').each(function()
-                {
-
-                    $('#imageEditorRight #imageEditorPreview').attr("src", imageEditorZpURL+'/photothumbs/'+$(this).attr('Thumb'));
-
-                    $('#imageEditorRight #imageEditorPreview').height($(this).attr('ThumbHeight'));
-                    $('#imageEditorRight #imageEditorPreview').width($(this).attr('ThumbWidth'));
-                    $('#imageEditorHeightInfo').html($(this).attr('ImageHeight')+' px');
-                    $('#imageEditorWidthInfo').html($(this).attr('ImageWidth')+' px');
-
-
-                    h = $(this).attr('ThumbHeight');
-                    w = $(this).attr('ThumbWidth');
-
-                    uh = $(this).attr('ImageHeightUndo');
-                    if (typeof(uh)=="undefined")uh=$(this).attr('ImageHeight');
-                    uw = $(this).attr('ImageWidthUndo');
-                    if (typeof(uw)=="undefined")uw=$(this).attr('ImageWidth');
-
-                }
-                );
-            }
+            src=imageEditorZpURL+'/photothumbs/'+getRegexpValue(xml,/Thumb="([^"].*?)"/);
+            h=getRegexpValue(xml,/ThumbHeight="([^"].*?)"/);
+            w=getRegexpValue(xml,/ThumbWidth="([^"].*?)"/);
+            uh=getRegexpValue(xml,/ImageHeightUndo="([^"].*?)"/);
+            uw=getRegexpValue(xml,/ImageWidthUndo="([^"].*?)"/);
+            if (!uh || !uw)
+              $('#imageEditorRestore').hide();
             else {
-                t = $(xml);
-                t.find('img').each(function()
-                {
-
-                    $('#imageEditorRight #imageEditorPreview').attr("src", imageEditorZpURL+'/photothumbs/'+$(this).attr('thumb'));
-
-                    $('#imageEditorRight #imageEditorPreview').height($(this).attr('thumbheight'));
-                    $('#imageEditorRight #imageEditorPreview').width($(this).attr('thumbwidth'));
-                    $('#imageEditorHeightInfo').html($(this).attr('imageheight')+' px');
-                    $('#imageEditorWidthInfo').html($(this).attr('imagewidth')+' px');
-
-                    h = $(this).attr('thumbheight');
-                    w = $(this).attr('thumbwidth');
-
-                    uh = $(this).attr('imageheightundo');
-                    if (typeof(uh)=="undefined")uh=$(this).attr('imageheight');
-                    uw = $(this).attr('imagewidthundo');
-                    if (typeof(uw)=="undefined")uw=$(this).attr('imagewidth');
-
-                }
-                );
+              $('#imageEditorRestore').show();
+              $('#imageEditorLeft #imageEditorRestore').attr('title', zetaprints_trans('Undo all changes')+'. '+zetaprints_trans('Original size')+': '+uw+' x '+uh+' px.');
+              }
+            if (!h || !w) {
+            alert(zetaprints_trans('Unknown error occured'));
+            return false;
             }
-            $('#imageEditorLeft #imageEditorRestore').attr('title',zetaprints_trans('Undo all changes')+'. '+zetaprints_trans('Original size')+': '+uw+' x '+uh+' px.');
-
+            $('#imageEditorRight #imageEditorPreview').attr("src",src);
+            $('#imageEditorRight #imageEditorPreview').height(h);
+            $('#imageEditorRight #imageEditorPreview').width(w);
+            $('#imageEditorHeightInfo').html(h+' px');
+            $('#imageEditorWidthInfo').html(w+' px');
             $('#imageEditorRight #imageEditorPreview')
             .load(
                 function() {
@@ -189,7 +155,6 @@ jQuery(document).ready(function($)
                 }
                 );
 
-            tmp = $('#imageEditorRight #imageEditorPreview').attr("src");
             tmp1 = jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first');
             if (tmp1.length==0){
             tmp1 = jQuery('#img'+imageEditorId, top.document);
@@ -198,16 +163,15 @@ jQuery(document).ready(function($)
             tmp1 = jQuery('input[value='+imageEditorId+']', top.document).next().next().find('img');
             }
 
-            if (tmp.match(/\.jpg/m)) {
+            if (src.match(/\.jpg/m)) {
 
-                tmp1.attr('src', tmp.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
+                tmp1.attr('src', src.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
 
 
             } else {
-                tmp1.attr('src', tmp);
+                tmp1.attr('src', src);
                 }
 
-            $('#imageEditorRight #imageEditorPreview').attr("src", tmp);
             imageEditorApplySize(w,h);
 
         }
@@ -335,6 +299,18 @@ jQuery(document).ready(function($)
           function zetaprints_trans(msg){
             return msg;
           }
+        }
+
+        function getRegexpValue(subject,exp) {
+          match = subject.match(exp);
+          if (match != null) {
+            if (match.length>2)
+              return match;
+            else
+              return match[1];
+          }
+            else
+	           return false;
         }
 
         $('#imageEditorCrop').click(imageEditorCrop);
