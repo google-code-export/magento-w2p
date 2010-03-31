@@ -138,7 +138,49 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `js/jquery-qtip-1.0.0-rc3.min.js` - QTip jQuery plugin
   * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
   * `css/zp-style.css` - Additional styles for Magento personalization form
-    * Here you can adjust maximum width of preview image (see `'div.zetaprints-template-page div.product-img-box img'` selector)
+
+= Change size of different images (preview, stock and user images) =
+Size of *preview images* can be changed in _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_ file, see _a.zetaprints-template-preview img_ CSS selector.
+
+{{{
+a.zetaprints-template-preview img {
+  max-width: 265px;
+  ...
+}
+}}}
+
+Size of *stock images* in a library scroll can be changed in _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_ file for PNG and GIF and in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/Zpapi/Model/common-templates.xslt common-templates.xslt]_ file for other supported image types. By default every stock image is scaled down to 100px in height.
+
+  * *PNG and GIF images*
+  Change _max-width_ attribute in _div.images-scroller img_ CSS selector in _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_ file.
+{{{
+div.images-scroller img {
+  ...
+  max-height: 100px;
+  ...
+}
+}}}
+
+  * *Other supported image types*
+  Change _0x100_ part of image URL to preferred one where template is _WEIGHTxHEIGHT_ (in pixels) in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/Zpapi/Model/common-templates.xslt common-templates.xslt]_ file.
+{{{
+<xsl:otherwise>
+  <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+</xsl:otherwise>
+}}}
+
+Size of *user images* in library scroll can be changed in _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_ file for PNG and GIF and in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php PersonalizationForm.php]_ (for already uploaded images) and [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/controllers/UploadController.php UploadController.php] (for newly uploaded images) files for other supported image types. By default every user image is scaled down to 100px in height.
+
+  * *PNG and GIF images*
+  Same as for PNG or GIF stock images.
+
+  * *Other supported image types*
+  Change _0x100_ value of parameter to preferred one where template is _WEIGHTxHEIGHT_ (in pixels) in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php PersonalizationForm.php]_ and [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/controllers/UploadController.php UploadController.php] files.
+{{{
+if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
+  $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+}}}
+    
 
 = NOSCRIPT =
 Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
