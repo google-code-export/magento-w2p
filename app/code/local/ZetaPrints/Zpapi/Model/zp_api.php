@@ -806,7 +806,7 @@ function zetaprints_get_template_detailes ($url, $key, $template_guid) {
                                   ? (bool) $field['GenerateGifPng'] : false );
 
   if (!$xml->Pages->Page) {
-    zetaprints_debug("No pages in temaplate [$template_guid]");
+    zetaprints_debug("No pages in tempalate [$template_guid]");
 
     return $template;
   }
