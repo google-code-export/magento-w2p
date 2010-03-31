@@ -6,8 +6,8 @@ class ZetaPrints_WebToPrint_Model_Template extends Mage_Core_Model_Abstract {
     $this->setIdFieldName('guid');
   }
 
-  public function loadByGuid ($guid) {
-    return $this->load($this->_getResource()->getIdByGuid($guid));
+  public function loadById ($template_id) {
+    return $this->load($template_id, 'template_id');
   }
 
   public function load ($id, $field = 'guid') {
