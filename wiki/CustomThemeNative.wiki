@@ -139,7 +139,7 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `js/jquery.fancybox-1.2.1.pack.js`, `css/jquery.fancybox.css`, `images/fancybox/*` - FancyBox jQuery plugin
   * `css/zp-style.css` - Additional styles for Magento personalization form
 
-= Change size of different images (preview, stock and user images) =
+= Adjust size for different images (preview, stock and user images) =
 Size of *preview images* can be changed in _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css zp-style.css]_ file, see _a.zetaprints-template-preview img_ CSS selector.
 
 {{{
