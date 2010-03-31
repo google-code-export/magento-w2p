@@ -107,11 +107,11 @@ jQuery(document).ready(function ($) {
     $('#imageEditorRight #imageEditorPreview').hide();
     $('#imageEditorCaption').hide();
     imageEditorLoader();
-    src=imageEditorZpURL + '/photothumbs/'+getRegexpValue(xml, /Thumb="([^"].*?)"/);
-    h=getRegexpValue(xml, /ThumbHeight="([^"].*?)"/);
-    w=getRegexpValue(xml, /ThumbWidth="([^"].*?)"/);
-    uh=getRegexpValue(xml, /ImageHeightUndo="([^"].*?)"/);
-    uw=getRegexpValue(xml, /ImageWidthUndo="([^"].*?)"/);
+    src=imageEditorZpURL + '/photothumbs/'+getRegexpValue(xml, /Thumb="([^"]*?)"/);
+    h=getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
+    w=getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
+    uh=getRegexpValue(xml, /ImageHeightUndo="([^"]*?)"/);
+    uw=getRegexpValue(xml, /ImageWidthUndo="([^"]*?)"/);
     if (!uh || !uw)
       $('#imageEditorRestore').hide();
     else {
