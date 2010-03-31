@@ -175,7 +175,7 @@ jQuery(document).ready(function ($) {
   function imageEditorCenterBox () {
     //based on fancybox scrollBox function
     //check if it is old fancybox
-    if (typeof(parent.jQuery.fn.fancybox) != "undefined")
+    if (typeof(parent.jQuery.fn.fancybox.getViewport) != "undefined")
       var w = parent.jQuery.fn.fancybox.getViewport();
     else {
       parent.$.fancybox.center();
@@ -192,7 +192,7 @@ jQuery(document).ready(function ($) {
 
   function imageEditorLoader () {
     //check if it is old fancybox
-    if (typeof(parent.jQuery.fn.fancybox)!="undefined")
+    if (typeof(parent.jQuery.fn.fancybox.showLoading)!="undefined")
       parent.jQuery.fn.fancybox.showLoading();
     else
       parent.jQuery.fancybox.showActivity();
