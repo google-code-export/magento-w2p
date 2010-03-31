@@ -776,21 +776,7 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
   return $templates;
 }
 
-function zetaprints_get_template_detailes ($url, $key, $template_guid) {
-  zetaprints_debug();
-
-  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
-
-  if (zetaprints_has_error($response))
-    return null;
-
-  try {
-    $xml = new SimpleXMLElement($response['content']['body']);
-  } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
-    return null;
-  }
-
+function zetaprints_parse_template_details ($xml) {
   $template = array('guid' => (string) $xml['TemplateID'],
                      'corporate-guid' => (string) $xml['CorporateID'],
                      'created' => zp_api_common_str2date($xml['Created']),
@@ -882,6 +868,24 @@ function zetaprints_get_template_detailes ($url, $key, $template_guid) {
   zetaprints_debug(array('template' => $template));
 
   return $template;
+}
+
+function zetaprints_get_template_detailes ($url, $key, $template_guid) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  return zetaprints_parse_template_details($xml);
 }
 
 function zetaprints_get_template_details_as_xml ($url, $key, $template_guid,
