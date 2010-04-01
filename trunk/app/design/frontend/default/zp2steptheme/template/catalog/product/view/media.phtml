@@ -64,11 +64,9 @@
         /****** ZP-CODE:1 Checking for personalization step and disabling image resizing for
                 products with web-to-print feature ******/
 
-        if ($this->helper('webtoprint/personalization-form')->is_personalization_step($this))
-          $this->helper('webtoprint/personalization-form')->get_preview_images($this);
-        else
-          if (!$this->helper('webtoprint/personalization-form')->get_preview_image($this))
-            echo $_helper->productAttribute($_product, $_img, 'image');
+        if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)
+            && !$this->helper('webtoprint/personalization-form')->get_preview_image($this))
+          echo $_helper->productAttribute($_product, $_img, 'image');
 
         /****** ZP-CODE:1 End ******/
     ?>

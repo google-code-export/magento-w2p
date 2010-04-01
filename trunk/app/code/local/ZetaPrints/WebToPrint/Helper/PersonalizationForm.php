@@ -230,36 +230,7 @@ jQuery(document).ready(function($) {
   }
 
   public function get_preview_images ($context) {
-    if (!$this->get_template_id ($context->getProduct()))
-      return false;
-
-    $session = Mage::getSingleton('core/session');
-
-    if (!$session->hasData('zetaprints-previews')) {
-      $html = $this->get_form_part_html('preview-images', $context->getProduct());
-
-      if ($html === false)
-      return false;
-
-      echo $html;
-      return true;
-    }
-
-    $previews = explode(',', $session->getData('zetaprints-previews'));
-
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $html = '';
-
-    foreach ($previews as $position => $preview) {
-      $position += 1;
-      $html .= "<a id=\"preview-image-page-$position\" class=\"zetaprints-template-preview\" href=\"$url/preview/$preview\">";
-      $html .= "<img title=\"".Mage::helper('webtoprint')->__('Click to view in large size')."\" src=\"$url/preview/$preview\" />";
-      $html .= '</a>';
-    }
-
-    echo $html;
-
-    return true;
+    return false;
   }
 
   public function get_preview_image ($context) {
@@ -548,7 +519,7 @@ jQuery(document).ready(function($) {
   }
 
   public function get_js ($context) {
-    if (!$this->get_template_id($context->getProduct()))
+    if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
 
     $session = Mage::getSingleton('core/session');
@@ -562,6 +533,28 @@ jQuery(document).ready(function($) {
       $previews_array = '\'' . str_replace(',', '\',\'', $previews) . '\'';
       $user_input = unserialize($session->getData('zetaprints-user-input'));
       $session->unsetData('zetaprints-previews');
+      $previews_from_session = true;
+    } else {
+      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
+
+      Mage::log($template_id);
+
+      if ($template->getId()) {
+        try {
+          $xml = new SimpleXMLElement($template->getXml());
+        } catch (Exception $e) {
+          zetaprints_debug("Exception: {$e->getMessage()}");
+        }
+
+        if ($xml) {
+          $template_details = zetaprints_parse_template_details($xml);
+
+          foreach ($template_details['pages'] as $page_details)
+            $previews_array .= '\'' . $page_details['preview-image'] . '\', ';
+
+          $previews_array = substr($previews_array, 0, -2);
+        }
+      }
     }
 ?>
 <script type="text/javascript">
@@ -575,6 +568,10 @@ jQuery(document).ready(function($) {
 
   previews = [<?php echo $previews_array; ?>];
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
+  previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
+  is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
+
+  w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
   preview_controller_url = '<?php echo $context->getUrl('web-to-print/preview'); ?>';
   upload_controller_url = '<?php echo $context->getUrl('web-to-print/upload'); ?>';
@@ -586,9 +583,11 @@ jQuery(document).ready(function($) {
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
+  click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";
 
   cant_delete_text = "<?php echo $this->__('Can\'t delete image'); ?>";
   delete_this_image_text = "<?php echo $this->__('Delete this image?'); ?>";
+
   personalization_form();
 });
 //]]>

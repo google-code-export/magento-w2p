@@ -60,23 +60,17 @@
 <p class="product-image">
     <?php
         $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
-
-        /****** ZP-CODE:1 Disable image resizing for products with web-to-print feature ******/
-
-        if (!$this->helper('webtoprint/personalization-form')->get_preview_images($this))
-            echo $_helper->productAttribute($_product, $_img, 'image');
-
-        /****** ZP-CODE:1 End ******/
+        echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
 </p>
 <?php endif; ?>
 
-<!-- /****** ZP-CODE:2 Remove web-to-print images from the gallery
+<!-- /****** ZP-CODE:1 Remove web-to-print images from the gallery
              on personalization form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
 
-<!-- /****** ZP-CODE:2 End ******/ -->
+<!-- /****** ZP-CODE:1 End ******/ -->
 
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">

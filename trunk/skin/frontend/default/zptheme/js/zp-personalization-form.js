@@ -11,12 +11,44 @@ function personalization_form () {
     return true;
   }
 
+  var product_image_element = $('div.product-img-box p.product-image')[0];
+  var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
+
+  //If there's previews for the product
+  if (previews.length) {
+
+    //and base image is not set
+    if (!has_image_zoomer)
+      //then remove all original images placed by M.
+      $(product_image_element).empty();
+
+    //and it's personalization step (for 2-step theme)
+    if (is_personalization_step) {
+      //remove zoomer and base image
+      $(product_image_element).removeClass('product-image-zoom');
+      $('#image, #track_hint, div.zoom').remove();
+      has_image_zoomer = false;
+    }
+  }
+
+  //Add previews to the product page
+  for (var page_number = 0; page_number <  previews.length; page_number++)
+    $('<a id="preview-image-page-' + (page_number + 1) +
+      '" class="zetaprints-template-preview" href="' + w2p_url + previews[page_number] +
+      '"><img title="' + click_to_view_in_large_size + '" src="' + w2p_url +
+      previews[page_number] + '" /></a>').appendTo(product_image_element);
+
   $('div.zetaprints-page-stock-images input:checked').each(function() {
     $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
+  //If no image zoomer on the page
+  if (!has_image_zoomer)
+    //then show preview for the first page
+    $('#preview-image-page-1').css('display', 'block');
+
   $('#stock-images-page-1').removeClass('hidden');
-  $('#preview-image-page-1, #input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
+  $('#input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
 
@@ -30,7 +62,7 @@ function personalization_form () {
   number_of_pages = $('a.zetaprints-template-preview').length;
   changed_pages = new Array(number_of_pages);
 
-  if (previews.length) {
+  if (previews_from_session) {
     $('a.zetaprints-image-tabs img').each(function () {
       var src = $(this).attr('src').split('thumb');
       var id = src[1].split('_');
@@ -40,7 +72,7 @@ function personalization_form () {
       $(this).attr('src', src[0] + 'thumb/' + new_id[0] + '_100x100.' + new_id[1]);
     });
 
-    $('<input type="hidden" name="zetaprints-previews" value="<?php echo $previews; ?>" />').appendTo($('#product_addtocart_form div.no-display'));
+    $('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form div.no-display'));
   } else {
     $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form div.no-display'));
     $('div.add-to-cart button.button').css('display', 'none');
@@ -56,6 +88,14 @@ function personalization_form () {
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
+
+    //If there's image zoomer on the page
+    if (has_image_zoomer) {
+      //remove it and base image
+      $(product_image_element).removeClass('product-image-zoom');
+      $('#image, #track_hint, div.zoom').remove();
+      has_image_zoomer = false;
+    }
 
     $('#preview-image-' + page).css('display', 'inline');
     $('#input-fields-' + page).css('display', 'block');
@@ -98,6 +138,16 @@ function personalization_form () {
 
           var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
           $('div.zetaprints-image-tabs img[rel=' + page + ']').attr('src', thumb_url);
+
+          //If there's image zoomer on the page
+          if (has_image_zoomer) {
+            //remove it and base image
+            $(product_image_element).removeClass('product-image-zoom');
+            $('#image, #track_hint, div.zoom').remove();
+            has_image_zoomer = false;
+            //and show preview for the current page
+            $('#preview-image-' + page).css('display', 'inline');
+          }
 
           if (previews.length == number_of_pages) {
             $('input[name=zetaprints-previews]').val(previews.join(','));
