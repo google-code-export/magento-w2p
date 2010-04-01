@@ -63,14 +63,9 @@ The code is divided into 4 sections.
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml template/catalog/product/view/media.phtml] ==
 This file shows product image, additional images and image zoomer on product page.
 
-New code checks for web-to-print in a product and puts correct images urls for product image and additional images.
+New code checks for web-to-print in a product and puts correct images urls additional images.
 
-*Section 1*: disabling image resizing for products with web-to-print feature.
-  {{{
-<?php if (!$this->helper('webtoprint/personalization-form')->get_preview_images($this)): ?>
-  }}}
-
-*Section 2*: remove web-to-print images for multi-page templates from the gallery thumbs.
+*Section 1*: remove web-to-print images for multi-page templates from the gallery thumbs.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
   }}}
@@ -125,7 +120,7 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `get_preview_button ($context)` - outputs _Update preview_ button for products with web-to-print features
   * `get_js ($context)` - outputs javascript code for products with web-to-print features
   * `get_js_css_includes ($context)` - outputs html tags for including external javascript and css files
-  * `get_preview_images ($context)` - outputs product preview images
+  * `get_preview_images ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_gallery_thumb ($context, $product, $image)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_gallery_image ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_cart_image ($context)` - outputs a slightly modified `<img>` tag to prevent image resizing with correct image url and returns _true_ for products with web-to-print features
