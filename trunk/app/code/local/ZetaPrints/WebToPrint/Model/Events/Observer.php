@@ -207,6 +207,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
   public function delete_zetaprints_order ($observer) {
     $order = $observer->getEvent()->getDataObject();
 
+    //Continue only on complete or canceled status of the order
     if (!($order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE
        || $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED))
       return;
@@ -214,20 +215,24 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
+    //For every item in the order
     foreach ($order->getAllItems() as $item) {
       $options = $item->getProductOptions();
 
+      //check if it's web-to-print product then continue
       if (!isset($options['info_buyRequest']['zetaprints-order-id']))
         continue;
 
       $order_guid = $options['info_buyRequest']['zetaprints-order-id'];
 
+      //receive current ZetaPrints order status (need it on next step)
       $order_details = zetaprints_get_order_details($url, $key, $order_guid);
 
       if (!$order_details) continue;
 
       $old_status = $order_details['status'];
 
+      //change ZetaPrints order status to 'deleted' from current one
       zetaprints_change_order_status($url, $key, $order_guid, $old_status, 'deleted');
     }
   }
