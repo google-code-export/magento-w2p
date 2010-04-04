@@ -1,5 +1,12 @@
 <?php
 
+if (!defined('ZP_API_VER')) {
+  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
+
+  if (file_exists($zetaprints_api_file))
+    require $zetaprints_api_file;
+}
+
 class ZetaPrints_WebToPrint_Model_Events_Observer {
 
   public function create_zetaprints_order ($observer) {
@@ -194,6 +201,34 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
         Mage::getSingleton('catalog/session')->addNotice($notice . ' and/or personalize it');
         $request->setParam('options', 0);
       }
+    }
+  }
+
+  public function delete_zetaprints_order ($observer) {
+    $order = $observer->getEvent()->getDataObject();
+
+    if (!($order->getState() == Mage_Sales_Model_Order::STATE_COMPLETE
+       || $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED))
+      return;
+
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    foreach ($order->getAllItems() as $item) {
+      $options = $item->getProductOptions();
+
+      if (!isset($options['info_buyRequest']['zetaprints-order-id']))
+        continue;
+
+      $order_guid = $options['info_buyRequest']['zetaprints-order-id'];
+
+      $order_details = zetaprints_get_order_details($url, $key, $order_guid);
+
+      if (!$order_details) continue;
+
+      $old_status = $order_details['status'];
+
+      zetaprints_change_order_status($url, $key, $order_guid, $old_status, 'deleted');
     }
   }
 }

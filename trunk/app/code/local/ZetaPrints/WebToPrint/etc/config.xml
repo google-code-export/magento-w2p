@@ -140,6 +140,16 @@
           </webtoprint-specify-option-message>
         </observers>
       </catalog_controller_product_view>
+
+      <sales_order_save_after>
+        <observers>
+          <webtoprint-order-complete>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>delete_zetaprints_order</method>
+          </webtoprint-order-complete>
+        </observers>
+      </sales_order_save_after>
     </events>
   </global>
 
