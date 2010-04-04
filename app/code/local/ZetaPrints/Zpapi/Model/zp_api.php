@@ -900,6 +900,78 @@ function zetaprints_get_template_details_as_xml ($url, $key, $template_guid,
   return $response['content']['body'];
 }
 
+function zetaprints_parse_order_details ($xml) {
+  $order = array(
+    'guid' => (string) $xml['OrderID'],
+    'created-by' => (string) $xml['CreatedBy'],
+    'created' => zp_api_common_str2date($xml['Created']),
+    'status' => (string) $xml['Status'],
+    'billed-by-zp' => zp_api_common_str2date($xml['BilledByZP']),
+    'status-history' => (string) $xml['StatusHistory'],
+    'product-price' => (float) $xml['ProductPrice'],
+    'product-name' => (string) $xml['ProductName'],
+    'pdf' => (string) $xml['PDF'],
+    'cdr' => (string) $xml['CDR'],
+    'gif' => (string) $xml['GIF'],
+    'png' => (string) $xml['PNG'],
+    'jpeg' => (string) $xml['JPEG'],
+    'approval-email' => (string) $xml['ApprovalEmail'],
+    'note' => (string) $xml['Note'],
+    'cost-centre' => (string) $xml['CostCentre'],
+    'delivery-address' => (string) $xml['DeliveryAddress'],
+    'quantity-price-choice' => (string) $xml['QuantityPriceChoice'],
+    'optional-choice' => (string) $xml['OptionalChoice'],
+    'user-reference' => (string) $xml['UserReference'],
+    'paid-date-time' => (string) $xml['PaidDateTime'],
+    'currency' => (string) $xml['Currency'],
+    'delivery-street-1' => (string) $xml['DeliveryStreet1'],
+    'delivery-street-2' => (string) $xml['DeliveryStreet2'],
+    'delivery-town' => (string) $xml['DeliveryTown'],
+    'delivery-state' => (string) $xml['DeliveryState'],
+    'delivery-zip' => (string) $xml['DeliveryZip'],
+    'delivery-country' => (string) $xml['DeliveryCountry'] );
+
+  return $order;
+}
+
+function zetaprints_get_order_details ($url, $key, $order_id) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order;ApiKey=$key;OrderID=$order_id");
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  return zetaprints_parse_order_details($xml);
+}
+
+function zetaprints_change_order_status ($url, $key, $order_id, $old_status, $new_status) {
+  zetaprints_debug();
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-order-status;ApiKey=$key;OrderID=$order_id",
+                                              array('Status' => $new_status,
+                                                    'StatusOld' => $old_status) );
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  return zetaprints_parse_order_details($xml);
+}
+
 function zetaprints_get_preview_image_url ($url, $key, $data) {
   zetaprints_debug();
 
@@ -1030,28 +1102,14 @@ function zetaprints_complete_order ($url, $key, $order_guid) {
   if (zetaprints_has_error($response))
     return null;
 
-  $xml = new SimpleXMLElement($response['content']['body']);
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
 
-  $files = array();
-
-  if (isset($xml['PDF']))
-    $files['pdf'] = (string) $xml['PDF'];
-
-  if (isset($xml['GIF']))
-    $files['gif'] = (string) $xml['GIF'];
-
-  if (isset($xml['PNG']))
-    $files['png'] = (string) $xml['PNG'];
-
-  if (isset($xml['JPEG']))
-    $files['jpeg'] = (string) $xml['JPEG'];
-
-  if (isset($xml['CDR']))
-    $files['cdr'] = (string) $xml['CDR'];
-
-  zetaprints_debug(array('files' => $files));
-
-  return $files;
+  return zetaprints_parse_order_details($xml);
 }
 
 function _return ($content, $error = false) {
