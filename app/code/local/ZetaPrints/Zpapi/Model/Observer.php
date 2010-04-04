@@ -21,13 +21,20 @@ class ZetaPrints_Zpapi_Model_Observer
       if (!isset($options['info_buyRequest']['zetaprints-order-id']))
         continue;
 
-      $files = zetaprints_complete_order(Mage::getStoreConfig('zpapi/settings/w2p_url'), Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
+      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
 
-      if (!is_array($files))
+      $order_details = zetaprints_complete_order($url, Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
+
+      if (!$order_details)
         continue;
 
-      foreach ($files as $type => $path)
-        $options['info_buyRequest']['zetaprints-file-'.$type] = Mage::getStoreConfig('zpapi/settings/w2p_url').'/'.$path;
+      $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
+
+      foreach ($types as $type)
+        if (strlen($order_details[$type]))
+          $options['info_buyRequest']['zetaprints-file-'.$type] = $url . '/' . $order_details[$type];
+
+      $options['info_buyRequest']['zetaprints-order-id'] = $order_details['guid'];
 
       $item->setProductOptions($options)->save();
     }
