@@ -156,7 +156,12 @@
                 </span></a>
               </li>
             </xsl:if>
-            <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" /> Leave blank</label></li>
+            <li class="last"><label><input type="radio" name="zetaprints-#{@Name}" value="" />
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">Leave blank</xsl:with-param>
+              </xsl:call-template>
+            </label>
+            </li>
           </ul>
           <div class="tabs-wrapper">
           <xsl:if test="@AllowUpload='1'">
