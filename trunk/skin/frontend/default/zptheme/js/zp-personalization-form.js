@@ -197,6 +197,8 @@ function personalization_form () {
           return;
         }
 
+        var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
+
         $('input.file-name', upload_div).val('');
 
         response = response.split(';');
@@ -221,7 +223,15 @@ function personalization_form () {
           var tr = this;
 
           $('img', td).load(function() {
-            scroll_strip($(this).parents('div:first'));
+
+            //If a field the image was uploaded into is not current image field
+            if ($(this).parents('div.selector-content').attr('id') != upload_field_id) {
+              var scroll = $(td).parents('div.images-scroller');
+
+              //Scroll stripper to save position of visible images
+              $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
+            }
+
             $('a.edit-dialog', tr).fancybox({
               'padding': 0,
               'hideOnOverlayClick': false,
