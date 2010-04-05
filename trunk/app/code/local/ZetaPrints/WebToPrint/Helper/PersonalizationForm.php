@@ -577,7 +577,7 @@ jQuery(document).ready(function($) {
   upload_controller_url = '<?php echo $context->getUrl('web-to-print/upload'); ?>';
   image_controller_url = '<?php echo $context->getUrl('web-to-print/image/update'); ?>';
 
-  edit_image_button_url = '<?php echo Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'); ?>';
+  edit_button_text = "<?php echo $this->__('Edit');?>";
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
