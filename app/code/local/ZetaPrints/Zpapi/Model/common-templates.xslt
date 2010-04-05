@@ -216,7 +216,11 @@
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <div class="edit-button"></div>
+                      <div class="edit-button">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">Edit</xsl:with-param>
+                        </xsl:call-template>
+                      </div>
                     </a>
                     <a class="delete-button" href="javascript:void(1)">
                       <div class="delete-button"></div>

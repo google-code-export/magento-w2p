@@ -218,7 +218,7 @@ function personalization_form () {
             + '" /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
             + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
-            + '" target="_blank"><div class="edit-button"></div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
+            + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
 
           var tr = this;
 
