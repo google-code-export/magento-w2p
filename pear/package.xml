@@ -210,7 +210,6 @@ Extension developed by http://www.zetaprints.com/
             <file name="Observer.php" role="magelocal" />
             <file name="Optionstore.php" role="magelocal" />
             <file name="page-tabs-html.xslt" role="magelocal" />
-            <file name="preview-images-html.xslt" role="magelocal" />
             <file name="stock-images-html.xslt" role="magelocal" />
             <file name="TemplateDeletingBehaviour.php" role="magelocal" />
             <file name="template-details-to-preview-html.xslt" role="magelocal" />
