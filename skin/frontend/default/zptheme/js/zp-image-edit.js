@@ -104,7 +104,8 @@ jQuery(document).ready(function ($) {
 
   function imageEditorApplyImage (xml) {
     var h, w, uh, uw, src;
-    $('#imageEditorRight #imageEditorPreview').hide();
+    $('#imageEditorPreview').hide();
+    $('#imageEditorPreview').attr("src", "");
     $('#imageEditorCaption').hide();
     imageEditorLoader();
     src=imageEditorZpURL + '/photothumbs/'+getRegexpValue(xml, /Thumb="([^"]*?)"/);
@@ -122,26 +123,17 @@ jQuery(document).ready(function ($) {
       alert(zetaprints_trans('Unknown error occured'));
       return false;
     }
-    $('#imageEditorRight #imageEditorPreview').attr("src", src);
-    $('#imageEditorRight #imageEditorPreview').height(h);
-    $('#imageEditorRight #imageEditorPreview').width(w);
+    $('#imageEditorPreview').attr("src", src);
+    $('#imageEditorPreview').height(h);
+    $('#imageEditorPreview').width(w);
     $('#imageEditorHeightInfo').html(h + ' px');
     $('#imageEditorWidthInfo').html(w + ' px');
-    $('#imageEditorRight #imageEditorPreview')
-    .load( function() {
-      $('#imageEditorRight #imageEditorPreview').fadeIn().ready( function () {
-        //old fancybox
-        parent.jQuery('#fancy_loading').fadeOut();
-        //new fancybox
-        parent.jQuery('#fancybox-loading').fadeOut();
-        $('#imageEditorCaption').show();
-      });
-    });
-    tmp1 = jQuery("a[href*="+imageEditorId+"]", top.document).find('img:first');
+
+    tmp1 = jQuery('input[value='+imageEditorId+']', top.document).parent().find('img');
     if (tmp1.length == 0)
       tmp1 = jQuery('#img'+imageEditorId, top.document);
     if (tmp1.length == 0)
-      tmp1 = jQuery('input[value='+imageEditorId+']', top.document).next().next().find('img');
+      tmp1 = jQuery('input[value='+imageEditorId+']', top.document).parent().find('img');
     if (src.match(/\.jpg/m))
       tmp1.attr('src', src.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
@@ -255,6 +247,16 @@ jQuery(document).ready(function ($) {
     else
       return false;
   }
+
+  $('#imageEditorPreview').load(function(){
+    $('#imageEditorPreview').fadeIn().ready( function () {
+      //old fancybox
+      parent.jQuery('#fancy_loading').fadeOut();
+      //new fancybox
+      parent.jQuery('#fancybox-loading').fadeOut();
+      $('#imageEditorCaption').show();
+    });
+  });
 
   $('#imageEditorCrop').click(imageEditorCrop);
   $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
