@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
 
   function imageEditorApplyCrop () {
     imageEditorHideCrop();
-    imageEditorLoader();
+    parent.jQuery.fancybox.showActivity();
     $.ajax({
       url: imageEditorUpdateURL + '?CropX1='+$('#imageEditorCropX').val() + imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val() + imageEditorDelimeter + 'CropX2=' + $('#imageEditorCropX2').val() + imageEditorDelimeter+'CropY2=' + $('#imageEditorCropY2').val() + imageEditorDelimeter + 'page=img-crop' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
       type: 'POST',
@@ -53,7 +53,7 @@ jQuery(document).ready(function ($) {
 
   function imageEditorRestore () {
     imageEditorHideCrop();
-    imageEditorLoader();
+    parent.jQuery.fancybox.showActivity();
     $.ajax({
     url: imageEditorUpdateURL + '?page=img-undo' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
     type: 'POST',
@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
   }
 
   function imageEditorLoadImage () {
-    imageEditorLoader();
+    parent.jQuery.fancybox.showActivity();
     $.ajax({
       url: imageEditorUpdateURL + '?page=img-props' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
       type: 'POST',
@@ -87,7 +87,7 @@ jQuery(document).ready(function ($) {
 
   function imageEditorDoRotate (dir) {
     imageEditorHideCrop();
-    imageEditorLoader();
+    parent.jQuery.fancybox.showActivity();
     $.ajax({
       url: imageEditorUpdateURL + '?page=img-rot' + imageEditorDelimeter + 'Rotation=' + dir + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
       type: 'POST',
@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorPreview').hide();
     $('#imageEditorPreview').attr("src", "");
     $('#imageEditorCaption').hide();
-    imageEditorLoader();
+    parent.jQuery.fancybox.showActivity();
     src=imageEditorZpURL + '/photothumbs/'+getRegexpValue(xml, /Thumb="([^"]*?)"/);
     h=getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
     w=getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
@@ -155,39 +155,10 @@ jQuery(document).ready(function ($) {
           jQuery('input[value='+imageEditorId+']', top.document).parent().remove();
           //also try to remove every element with imageEditorId
           jQuery('#'+imageEditorId, top.document).remove();
-          if(parent.$.fancybox)
-            parent.$.fancybox.close();
-          else
-            parent.jQuery.fn.fancybox.close();
+          parent.jQuery.fancybox.close();
         }
       });
     }
-  }
-
-  function imageEditorCenterBox () {
-    //based on fancybox scrollBox function
-    //check if it is old fancybox
-    if (typeof(parent.jQuery.fn.fancybox.getViewport) != "undefined")
-      var w = parent.jQuery.fn.fancybox.getViewport();
-    else {
-      parent.$.fancybox.center();
-      return true;
-    }
-    var ow = $("#fancy_outer", top.document).outerWidth();
-    var oh = $("#fancy_outer", top.document).outerHeight();
-    var pos = {
-      'top': (oh > w[1]? w[3]: w[3] + Math.round((w[1] - oh) * 0.5)),
-      'left': (ow > w[0]? w[2]: w[2] + Math.round((w[0] - ow) * 0.5))
-    };
-    $("#fancy_outer", top.document).css(pos);
-  }
-
-  function imageEditorLoader () {
-    //check if it is old fancybox
-    if (typeof(parent.jQuery.fn.fancybox.showLoading)!="undefined")
-      parent.jQuery.fn.fancybox.showLoading();
-    else
-      parent.jQuery.fancybox.showActivity();
   }
 
   function imageEditorInfoBox (msg) {
@@ -227,7 +198,7 @@ jQuery(document).ready(function ($) {
     $('#fancybox-wrap', top.document).height(Number(h) + 75);
     $('#fancybox-inner', top.document).width(Number(w) + 120);
     $('#fancybox-inner', top.document).height(Number(h) + 75);
-    imageEditorCenterBox();
+    parent.jQuery.fancybox.center();
   }
 
   if (!window.zetaprints_trans) {
@@ -250,9 +221,6 @@ jQuery(document).ready(function ($) {
 
   $('#imageEditorPreview').load(function(){
     $('#imageEditorPreview').fadeIn().ready( function () {
-      //old fancybox
-      parent.jQuery('#fancy_loading').fadeOut();
-      //new fancybox
       parent.jQuery('#fancybox-loading').fadeOut();
       $('#imageEditorCaption').show();
     });
