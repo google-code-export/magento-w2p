@@ -805,19 +805,21 @@ function zetaprints_parse_template_details ($xml) {
     $template['pages'][$page_number] = array(
       'name' => (string) $page['Name'],
       'preview-image' => (string) $page['PreviewImage'],
-      'thumb-image' => (string) $page['ThumbImage'],
-      'shapes' => array() );
+      'thumb-image' => (string) $page['ThumbImage'] );
 
-    foreach ($page->Shapes->Shape as $shape) {
-      $name = (string) $shape['Name'];
-      $template['pages'][$page_number]['shapes'][$name] = array(
-        'x1' => (float) $shape['x1'],
-        'y1' => (float) $shape['y1'],
-        'x2' => (float) $shape['x2'],
-        'y2' => (float) $shape['y2'],
-      );
+    if ($page->Shapes) {
+      $template['pages'][$page_number]['shapes'] = array();
+
+      foreach ($page->Shapes->Shape as $shape) {
+        $name = (string) $shape['Name'];
+        $template['pages'][$page_number]['shapes'][$name] = array(
+          'x1' => (float) $shape['x1'],
+          'y1' => (float) $shape['y1'],
+          'x2' => (float) $shape['x2'],
+          'y2' => (float) $shape['y2'],
+        );
+      }
     }
-
 
     $page_number++;
   }
