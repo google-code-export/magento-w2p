@@ -234,6 +234,8 @@ function personalization_form () {
 
             $('a.edit-dialog', tr).fancybox({
               'padding': 0,
+              'titleShow': false,
+              'type': 'iframe',
               'hideOnOverlayClick': false,
               'hideOnContentClick': false,
               'centerOnScroll': false });
@@ -391,10 +393,13 @@ function personalization_form () {
     'zoomSpeedChange': 200,
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
+    'titleShow': false,
     'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); } });
 
   $('a.edit-dialog').fancybox({
     'padding': 0,
+    'titleShow': false,
+    'type': 'iframe',
     'hideOnOverlayClick': false,
     'hideOnContentClick': false,
     'centerOnScroll': false });

@@ -363,9 +363,9 @@ jQuery(document).ready(function($) {
   public function get_admin_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.6.pack.js'); ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.4.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.3.1.pack.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.3.1.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
 <?php
   }
@@ -373,15 +373,15 @@ jQuery(document).ready(function($) {
   public function get_js_css_includes ($context=null) {
     $design = Mage::getDesign();
 ?>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-ui-1.7.2.custom.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.4.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-ui-1.8.custom.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/colorpicker.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-qtip-1.0.0-rc3.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.2.6.pack.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.3.1.pack.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/ajaxupload.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-personalization-form.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/colorpicker.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.3.1.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
 <?php
   }
@@ -391,12 +391,12 @@ jQuery(document).ready(function($) {
 ?>
 
 <script type="text/javascript" src="<?php echo Mage::getUrl('web-to-print/Trans'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.3.2.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.4.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-jcrop.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-image-edit.js'); ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.jcrop.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-image-edit.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.2.6.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.3.1.css'); ?>" />
 <?php
   }
 
