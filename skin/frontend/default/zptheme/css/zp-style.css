@@ -40,12 +40,12 @@ div.zetaprints-image-tabs ul li img {
   max-width: 100px;
 }
 
-/**/
-a.zetaprints-template-preview {
-  display: none;
+/* Use to hide template preview */
+a.zetaprints-template-preview.hidden {
+  position: absolute;
+  left: -10000px;
 }
 
-/**/
 a.zetaprints-template-preview img {
   max-width: 265px;
   cursor: pointer;

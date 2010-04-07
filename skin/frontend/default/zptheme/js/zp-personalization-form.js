@@ -34,7 +34,7 @@ function personalization_form () {
   //Add previews to the product page
   for (var page_number = 0; page_number <  previews.length; page_number++)
     $('<a id="preview-image-page-' + (page_number + 1) +
-      '" class="zetaprints-template-preview" href="' + w2p_url + previews[page_number] +
+      '" class="zetaprints-template-preview  hidden" href="' + w2p_url + previews[page_number] +
       '"><img title="' + click_to_view_in_large_size + '" src="' + w2p_url +
       previews[page_number] + '" /></a>').appendTo(product_image_element);
 
@@ -45,7 +45,7 @@ function personalization_form () {
   //If no image zoomer on the page
   if (!has_image_zoomer)
     //then show preview for the first page
-    $('#preview-image-page-1').css('display', 'block');
+    $('#preview-image-page-1').removeClass('hidden');
 
   $('#stock-images-page-1').removeClass('hidden');
   $('#input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
@@ -83,8 +83,9 @@ function personalization_form () {
   $('div.zetaprints-image-tabs li').click(function () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
-    $('a.zetaprints-template-preview:visible, div.zetaprints-page-input-fields:visible').css('display', 'none');
-    $('div.zetaprints-page-stock-images').addClass('hidden');
+    //Hide preview image, text fields and image fields for the current page
+    $('div.zetaprints-page-input-fields:visible').css('display', 'none');
+    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images').addClass('hidden');
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
@@ -97,9 +98,9 @@ function personalization_form () {
       has_image_zoomer = false;
     }
 
-    $('#preview-image-' + page).css('display', 'inline');
+    //Show preview image, text fields and image fields for the selected page
     $('#input-fields-' + page).css('display', 'block');
-    $('#stock-images-' + page).removeClass('hidden');
+    $('#preview-image-' + page + ', #stock-images-' + page).removeClass('hidden');
 
     var page_number = page.split('-')[1] * 1;
     if (changed_pages[page_number - 1] && page_number < number_of_pages)
@@ -145,8 +146,8 @@ function personalization_form () {
             $(product_image_element).removeClass('product-image-zoom');
             $('#image, #track_hint, div.zoom').remove();
             has_image_zoomer = false;
-            //and show preview for the current page
-            $('#preview-image-' + page).css('display', 'inline');
+            //and show preview image for the current page
+            $('#preview-image-' + page).removeClass('hidden');
           }
 
           if (previews.length == number_of_pages) {
