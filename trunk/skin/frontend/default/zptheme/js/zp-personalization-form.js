@@ -38,6 +38,10 @@ function personalization_form () {
       '"><img title="' + click_to_view_in_large_size + '" src="' + w2p_url +
       previews[page_number] + '" /></a>').appendTo(product_image_element);
 
+  //Reset previews array if previews was default template preview images
+  if (!previews_from_session)
+    previews = [];
+
   $('div.zetaprints-page-stock-images input:checked').each(function() {
     $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
