@@ -51,8 +51,8 @@ function personalization_form () {
     //then show preview for the first page
     $('#preview-image-page-1').removeClass('hidden');
 
-  $('#stock-images-page-1').removeClass('hidden');
-  $('#input-fields-page-1, div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
+  $('#stock-images-page-1, #input-fields-page-1').removeClass('hidden');
+  $('div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
 
@@ -104,8 +104,8 @@ function personalization_form () {
     }
 
     //Show preview image, text fields and image fields for the selected page
-    $('#input-fields-' + page).css('display', 'block');
-    $('#preview-image-' + page + ', #stock-images-' + page).removeClass('hidden');
+    $('#preview-image-' + page + ', #stock-images-' + page + ', #input-fields-'
+      + page).removeClass('hidden');
 
     //Remember number of selected page
     current_page = page.split('-')[1] * 1 - 1;
