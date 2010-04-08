@@ -511,3 +511,13 @@ div.zetaprints-previews-box.hide div.title a.hide-title {
 div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
+
+div.zetaprints-field-shape {
+  position: absolute;
+  border: 1px dashed #c4c6c8;
+}
+
+div.zetaprints-field-shape.highlighted {
+  border-color: #F18200;
+  border-style: solid;
+}

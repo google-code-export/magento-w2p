@@ -11,7 +11,82 @@ function personalization_form () {
     return true;
   }
 
-  var product_image_element = $('div.product-img-box p.product-image')[0];
+  function precalculate_shapes (shapes, preview_dimensions) {
+    for (var page = 0; page < shapes.length; page++)
+      for (shape in shapes[page]) {
+        shapes[page][shape]._x1 = shapes[page][shape].x1;
+        shapes[page][shape].x1 = preview_dimensions[page].width * shapes[page][shape]._x1;
+
+        shapes[page][shape]._y1 = 1 - shapes[page][shape].y1;
+        shapes[page][shape].y1 = preview_dimensions[page].height * shapes[page][shape]._y1;
+
+        shapes[page][shape]._x2 = shapes[page][shape].x2
+        shapes[page][shape].x2 = preview_dimensions[page].width * shapes[page][shape]._x2;
+
+        shapes[page][shape]._y2 = 1 - shapes[page][shape].y2;
+        shapes[page][shape].y2 = preview_dimensions[page].height * shapes[page][shape]._y2;
+      }
+  }
+
+  function get_preview_dimensions () {
+    var dimensions = new Array(number_of_pages);
+
+    for (var page = 0; page < number_of_pages; page++) {
+      var image = $('a#preview-image-page-' + (page + 1) + ' img')[0];
+      dimensions[page] = { width: $(image).width(), height: $(image).height() };
+    }
+
+    return dimensions;
+  }
+
+  function place_shape (shape, container) {
+    $('<div class="zetaprints-field-shape" rel="' + shape.name  + '" />').css({
+      top: shape.top,
+      left: shape.left,
+      width: shape.width,
+      height: shape.height }).appendTo(container);
+  }
+
+  function place_all_precalculated_shapes_for_page (page, shapes, container) {
+    if (shapes[page])
+      for (name in shapes[page])
+        place_shape({
+          left: shapes[page][name].x1,
+          top: shapes[page][name].y2,
+          width: shapes[page][name].x2 - shapes[page][name].x1,
+          height: shapes[page][name].y1 - shapes[page][name].y2,
+          name: name }, container);
+  }
+
+  function place_all_shapes_for_page (page, shapes, image_dimension, container) {
+    if (shapes[page])
+      for (name in shapes[page]) {
+        var left =  shapes[page][name]._x1 * image_dimension.width;
+        var top = shapes[page][name]._y2 * image_dimension.height;
+
+        place_shape({
+          left: left,
+          top: top,
+          width: shapes[page][name]._x2 * image_dimension.width - left,
+          height: shapes[page][name]._y1 * image_dimension.height - top,
+          name: name }, container);
+      }
+  }
+
+  function remove_all_shapes (container) {
+    $('div.zetaprints-field-shape', container).remove();
+  }
+
+  function highlight_shape_by_name (name, container) {
+    $('div.zetaprints-field-shape[rel=' + name +']', container).addClass('highlighted');
+  }
+
+  function dehighlight_shape_by_name (name, container) {
+    $('div.zetaprints-field-shape[rel=' + name +']', container).removeClass('highlighted');
+  }
+
+  var product_image_box = $('div.product-img-box').css('position', 'relative')[0];
+  var product_image_element = $('p.product-image', product_image_box)[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
 
   //If there's previews for the product
@@ -91,6 +166,9 @@ function personalization_form () {
     //Hide preview image, text fields and image fields for the current page
     $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields').addClass('hidden');
 
+    //Remove shapes for current page
+    remove_all_shapes(product_image_box);
+
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
 
@@ -108,6 +186,9 @@ function personalization_form () {
 
     //Remember number of selected page
     current_page = page.split('-')[1] * 1 - 1;
+
+    //Add shapes for selected page
+    place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box);
 
     if (changed_pages[current_page] && page_number < (number_of_pages - 1))
       $('div.zetaprints-next-page-button').show();
@@ -282,6 +363,9 @@ function personalization_form () {
   })
 
   $(window).load(function () {
+    precalculate_shapes(shapes, get_preview_dimensions());
+    place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box);
+
     $('div.zetaprints-images-selector').each(function () {
       var top_element = this;
 
@@ -384,7 +468,28 @@ function personalization_form () {
     return false;
   });
 
-  $('a.zetaprints-template-preview, a.in-dialog').fancybox({
+  $('a.zetaprints-template-preview').fancybox({
+    'zoomOpacity': true,
+    'overlayShow': false,
+    'centerOnScroll': false,
+    'zoomSpeedChange': 200,
+    'zoomSpeedIn': 500,
+    'zoomSpeedOut' : 500,
+    'titleShow': false,
+    'onComplete': function () {
+      $('img#fancy_img').attr('title', click_to_close_text);
+
+      var fancy_inner = $('div#fancybox-inner')[0];
+      var fancy_image = $('img#fancybox-img', fancy_inner)[0];
+
+      var dimension = {
+        width: $(fancy_image).width(),
+        height: $(fancy_image).height() };
+
+      place_all_shapes_for_page (current_page, shapes, dimension, fancy_inner);
+    } });
+
+  $('a.in-dialog').fancybox({
     'zoomOpacity': true,
     'overlayShow': false,
     'centerOnScroll': false,
@@ -412,6 +517,18 @@ function personalization_form () {
     position: { corner: { target: 'topLeft' }, adjust: { y: -30 } },
         show: { delay: 1, solo: true, when: { event: 'focus' } },
         hide: { when: { event: 'unfocus' } }
+  });
+
+  $('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').focusin(function() {
+    highlight_shape_by_name($(this).attr('name').substring(12), [product_image_box, $('div#fancybox-inner:visible')[0]]);
+  }).focusout(function() {
+    dehighlight_shape_by_name($(this).attr('name').substring(12), [product_image_box, $('div#fancybox-inner:visible')[0]]);
+  });
+
+  $('div.zetaprints-images-selector').mouseover(function () {
+    highlight_shape_by_name($(this).attr('rel').substring(12), [product_image_box,  $('div#fancybox-inner:visible')[0]]);
+  }).mouseout(function () {
+    dehighlight_shape_by_name($(this).attr('rel').substring(12), [product_image_box,  $('div#fancybox-inner:visible')[0]]);
   });
 
   $('a.delete-button').click(function() {
