@@ -79,7 +79,7 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-      <div class="zetaprints-images-selector no-value minimized block">
+      <div class="zetaprints-images-selector no-value minimized block" rel="zetaprints-#{@Name}">
         <div class="head block-title">
           <a class="image up-down" href="#"><span>
             <xsl:call-template name="trans">

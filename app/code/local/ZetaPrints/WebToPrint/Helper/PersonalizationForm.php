@@ -527,6 +527,27 @@ jQuery(document).ready(function($) {
     $previews_array = null;
     $previews = null;
     $user_input = null;
+    $shapes = array();
+
+    $template = Mage::getModel('webtoprint/template')->loadById($template_id);
+
+    if ($template->getId()) {
+      try {
+        $xml = new SimpleXMLElement($template->getXml());
+      } catch (Exception $e) {
+        zetaprints_debug("Exception: {$e->getMessage()}");
+      }
+
+      if ($xml) {
+        $template_details = zetaprints_parse_template_details($xml);
+
+        foreach ($template_details['pages'] as $page_details)
+          if (isset($page_details['shapes']))
+              $shapes[] = $page_details['shapes'];
+
+        $shapes = json_encode($shapes);
+      }
+    }
 
     if ($session->hasData('zetaprints-previews')) {
       $previews = $session->getData('zetaprints-previews');
@@ -537,21 +558,11 @@ jQuery(document).ready(function($) {
     } else {
       $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
-      if ($template->getId()) {
-        try {
-          $xml = new SimpleXMLElement($template->getXml());
-        } catch (Exception $e) {
-          zetaprints_debug("Exception: {$e->getMessage()}");
-        }
+      if ($template_details) {
+        foreach ($template_details['pages'] as $page_details)
+          $previews_array .= '\'' . $page_details['preview-image'] . '\', ';
 
-        if ($xml) {
-          $template_details = zetaprints_parse_template_details($xml);
-
-          foreach ($template_details['pages'] as $page_details)
-            $previews_array .= '\'' . $page_details['preview-image'] . '\', ';
-
-          $previews_array = substr($previews_array, 0, -2);
-        }
+        $previews_array = substr($previews_array, 0, -2);
       }
     }
 ?>
@@ -568,6 +579,7 @@ jQuery(document).ready(function($) {
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
   is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
+  shapes = <?php echo $shapes; ?>;
 
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
