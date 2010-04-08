@@ -60,6 +60,7 @@ function personalization_form () {
   });
 
   number_of_pages = $('a.zetaprints-template-preview').length;
+  current_page = 0;
   changed_pages = new Array(number_of_pages);
 
   if (previews_from_session) {
@@ -102,8 +103,10 @@ function personalization_form () {
     $('#input-fields-' + page).css('display', 'block');
     $('#preview-image-' + page + ', #stock-images-' + page).removeClass('hidden');
 
-    var page_number = page.split('-')[1] * 1;
-    if (changed_pages[page_number - 1] && page_number < number_of_pages)
+    //Remember number of selected page
+    current_page = page.split('-')[1] * 1 - 1;
+
+    if (changed_pages[current_page] && page_number < (number_of_pages - 1))
       $('div.zetaprints-next-page-button').show();
     else
       $('div.zetaprints-next-page-button').hide();
@@ -114,15 +117,12 @@ function personalization_form () {
     $('img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('button.update-preview').unbind('click').hide();
-    var page = '' + $('div.zetaprints-image-tabs li.selected img').attr('rel');
-
-    if (page == "undefined")
-      page = 'page-1';
+    var page_number = current_page + 1;
 
     $.ajax({
       url: preview_controller_url,
       type: 'POST',
-      data: $('#product_addtocart_form').serialize() + '&zetaprints-From=' + page.split('-')[1],
+      data: $('#product_addtocart_form').serialize() + '&zetaprints-From=' + page_number,
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show();
@@ -131,14 +131,14 @@ function personalization_form () {
         if (data.substr(0, 7) != 'http://') {
           alert(preview_generation_error_text);
         } else {
-          $('#preview-image-' + page).attr('href', data);
-          $('#preview-image-' + page + ' img').attr('src', data);
+          $('#preview-image-page-' + page_number).attr('href', data);
+          $('#preview-image-page-' + page_number + ' img').attr('src', data);
 
           var image_name = data.split('/preview/')[1]
-          previews[parseInt(page.split('-')[1]) - 1] = image_name;
+          previews[current_page] = image_name;
 
           var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
-          $('div.zetaprints-image-tabs img[rel=' + page + ']').attr('src', thumb_url);
+          $('div.zetaprints-image-tabs img[rel=page-' + page_number + ']').attr('src', thumb_url);
 
           //If there's image zoomer on the page
           if (has_image_zoomer) {
@@ -147,7 +147,7 @@ function personalization_form () {
             $('#image, #track_hint, div.zoom').remove();
             has_image_zoomer = false;
             //and show preview image for the current page
-            $('#preview-image-' + page).removeClass('hidden');
+            $('#preview-image-page-' + page_number).removeClass('hidden');
           }
 
           if (previews.length == number_of_pages) {
@@ -157,8 +157,7 @@ function personalization_form () {
           }
         }
 
-        var page_number = page.split('-')[1] * 1;
-        changed_pages[page_number - 1] = true;
+        changed_pages[current_page] = true;
 
         if (page_number < number_of_pages)
           $('div.zetaprints-next-page-button').show();
@@ -372,12 +371,7 @@ function personalization_form () {
   });
 
   $('div.zetaprints-next-page-button').click(function () {
-    var page = '' + $('div.zetaprints-image-tabs li.selected img').attr('rel');
-
-    if (page == "undefined")
-      page = 'page-1';
-
-    var next_page_number = page.substring(5) * 1 + 1;
+    var next_page_number = current_page + 2;
 
     $('div.zetaprints-image-tabs li img[rel=page-' + next_page_number +']').parent().click();
 
