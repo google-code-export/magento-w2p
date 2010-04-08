@@ -57,9 +57,9 @@ div.zetaprints-page-stock-images.hidden {
   left: -10000px;
 }
 
-/**/
-div.zetaprints-page-input-fields {
-  display: none;
+div.zetaprints-page-input-fields.hidden {
+  position: absolute;
+  left: -10000px;
 }
 
 /**/
@@ -511,4 +511,3 @@ div.zetaprints-previews-box.hide div.title a.hide-title {
 div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
-
