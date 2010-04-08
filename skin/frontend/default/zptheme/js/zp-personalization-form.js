@@ -89,8 +89,7 @@ function personalization_form () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
     //Hide preview image, text fields and image fields for the current page
-    $('div.zetaprints-page-input-fields:visible').css('display', 'none');
-    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images').addClass('hidden');
+    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields').addClass('hidden');
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
