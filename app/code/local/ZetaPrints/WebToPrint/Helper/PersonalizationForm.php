@@ -537,8 +537,6 @@ jQuery(document).ready(function($) {
     } else {
       $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
-      Mage::log($template_id);
-
       if ($template->getId()) {
         try {
           $xml = new SimpleXMLElement($template->getXml());
