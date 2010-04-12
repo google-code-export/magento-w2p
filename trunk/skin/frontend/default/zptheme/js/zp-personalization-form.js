@@ -527,6 +527,7 @@ function personalization_form () {
   });
 
   $('div.zetaprints-images-selector').mouseover(function () {
+    $('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').focusout();
     highlight_shape_by_name($(this).attr('rel').substring(12), [product_image_box,  $('div#fancybox-inner:visible')[0]]);
   }).mouseout(function () {
     dehighlight_shape_by_name($(this).attr('rel').substring(12), [product_image_box,  $('div#fancybox-inner:visible')[0]]);
