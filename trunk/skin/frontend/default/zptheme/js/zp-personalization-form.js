@@ -40,7 +40,8 @@ function personalization_form () {
   }
 
   function place_shape (shape, container) {
-    $('<div class="zetaprints-field-shape" rel="' + shape.name  + '" />').css({
+    $('<div class="zetaprints-field-shape bottom" rel="' + shape.name  +
+      '"><div class="zetaprints-field-shape top" /></div>').css({
       top: shape.top,
       left: shape.left,
       width: shape.width,

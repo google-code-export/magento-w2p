@@ -512,12 +512,32 @@ div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
 
-div.zetaprints-field-shape {
+div.zetaprints-field-shape.bottom {
   position: absolute;
-  border: 1px dashed #c4c6c8;
+  cursor: pointer;
+  border: 1px solid white;
 }
 
-div.zetaprints-field-shape.highlighted {
-  border-color: #F18200;
+div.zetaprints-field-shape.top {
+  position: relative;
+  border: 1px dashed red;
+  top: -1px;
+  left: -1px;
+  width: 100%;
+  height: 100%;
+}
+
+div.zetaprints-field-shape.highligted {
+  border-color: white;
+}
+
+div.zetaprints-field-shape.highlighted div.zetaprints-field-shape.top {
+  top: -2px;
+  left: -2px;
   border-style: solid;
+}
+
+div.zetaprints-page-input-fields .highlighted, div.zetaprints-page-stock-images .highlighted {
+  border-color: #F18200 !important;
+  border-style: solid !important;
 }
