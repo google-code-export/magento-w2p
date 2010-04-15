@@ -1126,6 +1126,22 @@ function zetaprints_complete_order ($url, $key, $order_guid) {
   return zetaprints_parse_order_details($xml);
 }
 
+function zetaprints_register_user ($url, $key, $user_id, $password, $corporate_id = null) {
+  zetaprints_debug();
+
+  $request_url = "$url/api.aspx?page=api-user-new;ApiKey=$key;UserID=$user_id;Password=$password";
+
+  if ($corporate_id && is_string($corporate_id) && count($corporate_id))
+    $request_url .= ";CorporateID=$corporate_id";
+
+  $response = zetaprints_get_content_from_url($request_url);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  return strpos($response['content']['body'], '<ok />') !== false ? true : false;
+}
+
 function _return ($content, $error = false) {
   return array('error' => $error, 'content' => $content);
 }

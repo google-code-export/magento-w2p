@@ -251,9 +251,7 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
       $this->user = zp_api_common_uuid();
       $this->pass = zp_api_common_pass();
 
-      $ret = zp_api_user_register($this->user, $this->pass);
-
-      if ($ret == 1) {
+      if (zetaprints_register_user($this->base, $this->key, $this->user, $this->pass)) {
         //Save SESSION
         $this->state = "ok";
         $login = 1;
