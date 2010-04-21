@@ -181,9 +181,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     $images = explode(',', $options['zetaprints-previews']);
 
     if (count($images) == 1)
-     $message = Mage::helper('webtoprint')->__('Click to enlarge image');
+     $message = $this->__('Click to enlarge image');
     else
-     $message = Mage::helper('webtoprint')->__('Click to see more images');
+     $message = $this->__('Click to see more images');
 
     $first_image = true;
 
@@ -213,7 +213,7 @@ jQuery(document).ready(function($) {
     'zoomSpeedChange': 200,
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', "<?php echo Mage::helper('webtoprint')->__('Click to close');?>"); } });
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', "<?php echo $this->__('Click to close');?>"); } });
 });
 //]]>
 </script>
@@ -318,10 +318,10 @@ jQuery(document).ready(function($) {
 ?>
     <div class="zetaprints-preview-button">
       <button class="update-preview button">
-        <span><span><?php echo Mage::helper('webtoprint')->__('Update preview');?></span></span>
+        <span><span><?php echo $this->__('Update preview');?></span></span>
       </button>
       <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
-      <span class="text"><?php echo Mage::helper('webtoprint')->__('Updating preview image');?>&hellip;</span>
+      <span class="text"><?php echo $this->__('Updating preview image');?>&hellip;</span>
     </div>
 <?php
   }
@@ -332,7 +332,7 @@ jQuery(document).ready(function($) {
 ?>
     <div class="zetaprints-next-page-button">
       <button class="next-page button">
-        <span><span><?php echo Mage::helper('webtoprint')->__('Next page');?></span></span>
+        <span><span><?php echo $this->__('Next page');?></span></span>
       </button>
     </div>
 <?php
@@ -401,15 +401,15 @@ jQuery(document).ready(function($) {
       <td class="last" colspan="<?php echo $item ? 5 : 10; ?>">
         <div class="zetaprints-previews-box <?php if ($item) echo 'hidden'; ?>">
           <div class="title">
-            <a class="show-title">+&nbsp;<span><?php echo Mage::helper('webtoprint')->__('Show previews');?></span></a>
-            <a class="hide-title">&minus;&nbsp;<span><?php echo Mage::helper('webtoprint')->__('Hide previews');?></span></a>
+            <a class="show-title">+&nbsp;<span><?php echo $this->__('Show previews');?></span></a>
+            <a class="hide-title">&minus;&nbsp;<span><?php echo $this->__('Hide previews');?></span></a>
           </div>
           <div class="content">
             <ul style="width: <?php echo $width ?>px;">
             <?php foreach ($previews as $preview): ?>
               <li>
                 <a class="in-dialog" href="<?php echo "$url/preview/$preview" ?>" target="_blank" rel="<?php echo $group; ?>">
-                  <img src="<?php echo "$url/thumb/$preview" ?>" title="<?php echo Mage::helper('webtoprint')->__('Click to enlarge');?>"/>
+                  <img src="<?php echo "$url/thumb/$preview" ?>" title="<?php echo $this->__('Click to enlarge');?>"/>
                 </a>
               </li>
             <?php endforeach ?>
@@ -448,7 +448,7 @@ jQuery(document).ready(function($) {
     'zoomSpeedChange': 200,
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', '<?php echo Mage::helper('webtoprint')->__('Click to close');?>'); } });
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', '<?php echo $this->__('Click to close');?>'); } });
 });
 //]]>
     </script>
@@ -458,8 +458,8 @@ jQuery(document).ready(function($) {
   public function show_hide_all_order_previews ($context) {
 ?>
   <a href="#" class="all-order-previews">
-    <span class="show-title"><?php echo Mage::helper('webtoprint')->__('Show all order previews');?></span>
-    <span class="hide-title"><?php echo Mage::helper('webtoprint')->__('Hide all order previews');?></span>
+    <span class="show-title"><?php echo $this->__('Show all order previews');?></span>
+    <span class="hide-title"><?php echo $this->__('Hide all order previews');?></span>
   </a>
 
   <script type="text/javascript">
