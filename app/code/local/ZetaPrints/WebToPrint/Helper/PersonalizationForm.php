@@ -364,20 +364,6 @@ jQuery(document).ready(function($) {
     return false;
   }
 
-  public function get_image_edit_js_css_includes ($context=null) {
-    $design = Mage::getDesign();
-?>
-
-<script type="text/javascript" src="<?php echo Mage::getUrl('web-to-print/Trans'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.4.2.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-jcrop.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-image-edit.js'); ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.jcrop.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-image-edit.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.3.1.css'); ?>" />
-<?php
-  }
-
   public function get_order_webtoprint_links ($context) {
     $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
