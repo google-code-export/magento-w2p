@@ -80,16 +80,6 @@ New code checks for web-to-print in a product and puts correct images urls for c
 <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
   }}}
 
-== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/page/html/head.phtml template/page/html/head.phtml] ==
-This file prints content of `<head>` tag for every page.
-
-New code adds resources (css and js files) for web-to-print personalization form.
-
-*Section 1*: printing `<link>` tags for every css and js files from web-to-print personalization form resorces.
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
-  }}}
-
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items.phtml template/sales/order/items.phtml] ==
 This file show various information for order item on user orders page.
 
@@ -119,7 +109,7 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * `get_image_fields ($context)` - outputs image fields (stock images, color picker) for products with web-to-print features
   * `get_preview_button ($context)` - outputs _Update preview_ button for products with web-to-print features
   * `get_js ($context)` - outputs javascript code for products with web-to-print features
-  * `get_js_css_includes ($context)` - outputs html tags for including external javascript and css files
+  * `get_js_css_includes ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_preview_images ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_gallery_thumb ($context, $product, $image)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * `get_gallery_image ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
