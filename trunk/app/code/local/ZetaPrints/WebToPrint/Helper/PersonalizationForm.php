@@ -371,19 +371,7 @@ jQuery(document).ready(function($) {
   }
 
   public function get_js_css_includes ($context=null) {
-    $design = Mage::getDesign();
-?>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-1.4.2.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-ui-1.8.custom.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/colorpicker.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery-qtip-1.0.0-rc3.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/jquery.fancybox-1.3.1.pack.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/ajaxupload.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getSkinUrl('js/zp-personalization-form.js'); ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/colorpicker.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/jquery.fancybox-1.3.1.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('css/zp-style.css'); ?>" />
-<?php
+    return false;
   }
 
   public function get_image_edit_js_css_includes ($context=null) {
