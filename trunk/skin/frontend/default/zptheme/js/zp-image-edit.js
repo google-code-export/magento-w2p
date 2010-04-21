@@ -129,11 +129,11 @@ jQuery(document).ready(function ($) {
     $('#imageEditorHeightInfo').html(h + ' px');
     $('#imageEditorWidthInfo').html(w + ' px');
 
-    tmp1 = jQuery('input[value='+imageEditorId+']', top.document).parent().find('img');
+    tmp1 = $('input[value='+imageEditorId+']', top.document).parent().find('img');
     if (tmp1.length == 0)
-      tmp1 = jQuery('#img'+imageEditorId, top.document);
+      tmp1 = $('#img'+imageEditorId, top.document);
     if (tmp1.length == 0)
-      tmp1 = jQuery('input[value='+imageEditorId+']', top.document).parent().find('img');
+      tmp1 = $('input[value='+imageEditorId+']', top.document).parent().find('img');
     if (src.match(/\.jpg/m))
       tmp1.attr('src', src.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
@@ -152,9 +152,9 @@ jQuery(document).ready(function ($) {
         },
         success: function (data, textStatus) {
           //remove image from strip and close fancybox
-          jQuery('input[value='+imageEditorId+']', top.document).parent().remove();
+          $('input[value='+imageEditorId+']', top.document).parent().remove();
           //also try to remove every element with imageEditorId
-          jQuery('#'+imageEditorId, top.document).remove();
+          $('#'+imageEditorId, top.document).remove();
           parent.jQuery.fancybox.close();
         }
       });
