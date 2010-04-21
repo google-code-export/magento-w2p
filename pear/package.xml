@@ -447,14 +447,6 @@ Extension developed by http://www.zetaprints.com/
                 <file name="edit.phtml" role="magedesign" />
               </dir>
 
-              <dir name="page">
-
-                <dir name="html">
-                  <file name="head.phtml" role="magedesign" />
-                </dir>
-
-              </dir>
-
               <dir name="sales">
 
                 <dir name="order">
