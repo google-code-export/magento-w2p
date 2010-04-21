@@ -323,6 +323,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="jquery.jcrop.css" role="mageskin" />
               <file name="zp-image-edit.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
+              <file name="zp-in-preview-edit.css" role="mageskin" />
             </dir>
 
             <dir name="images">
@@ -409,6 +410,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
               <file name="zp-personalization-form.js" role="mageskin" />
               <file name="zp-image-edit.js" role="mageskin" />
+              <file name="zp-in-preview-edit.js" role="mageskin" />
             </dir>
 
             <dir name="layout">
@@ -475,6 +477,14 @@ Extension developed by http://www.zetaprints.com/
                 </dir>
               </dir>
             </dir>
+          </dir>
+
+          <dir name="zpinpredtheme">
+
+            <dir name="layout">
+              <file name="local.xml" role="magedesign" />
+            </dir>
+
           </dir>
         </dir>
       </dir>

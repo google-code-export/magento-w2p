@@ -202,7 +202,7 @@ div.zetaprints-images-selector a.image {
   text-decoration: none;
 }
 
-div.zetaprints-images-selector div.icon span {
+div.zetaprints-images-selector div.icon span, div.selector-content div.icon span {
   display: none;
 }
 
@@ -279,8 +279,9 @@ div.zetaprints-images-selector.expanded div.head a.image.collapse-expand:hover {
   background-position: -18px -16px;
 }
 
-div.zetaprints-images-selector div.selector-content {
+div.selector-content {
   height: 140px;
+  background-color: #ffffff;
 }
 
 div.zetaprints-images-selector.minimized div.selector-content {
@@ -288,44 +289,44 @@ div.zetaprints-images-selector.minimized div.selector-content {
   left: -10000px;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon {
+div.selector-content ul.tab-buttons div.icon {
   width: 20px;
   height: 20px;
   float: left;
   margin-right: 2px;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons a {
+div.selector-content ul.tab-buttons a {
   font-weight: bold;
   text-decoration: none;
   text-align: center;
   display: block;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.upload {
+div.selector-content ul.tab-buttons div.icon.upload {
   background: url('../images/images-selector-sprites.png') -90px 4px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.user-images {
+div.selector-content ul.tab-buttons div.icon.user-images {
   background: url('../images/images-selector-sprites.png') -90px -15px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.stock-images {
+div.selector-content ul.tab-buttons div.icon.stock-images {
   background: url('../images/images-selector-sprites.png') -90px -33px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons div.icon.color-picker {
+div.selector-content ul.tab-buttons div.icon.color-picker {
   background: url('../images/images-selector-sprites.png') -90px -55px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons {
+div.selector-content ul.tab-buttons {
   height: 100%;
   overflow: hidden;
   float: left;
   width: 10em;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons li {
+div.selector-content ul.tab-buttons li {
   border: 1px solid #b6b6b6;
   border-top: none;
   padding: 3px 4px 3px 8px;
@@ -335,30 +336,30 @@ div.zetaprints-images-selector div.selector-content ul.tab-buttons li {
   font-size: 90%;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons li.hidden {
+div.selector-content ul.tab-buttons li.hidden {
   display: none;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons li.ui-tabs-selected {
+div.selector-content ul.tab-buttons li.ui-tabs-selected {
   background-color: transparent;
   border-right: none;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons li.last {
+div.selector-content ul.tab-buttons li.last {
   border-bottom: none;
   border-left: none;
   height: 100%;
   background-color: transparent;
 }
 
-div.zetaprints-images-selector div.selector-content ul.tab-buttons li.last label {
+div.selector-content ul.tab-buttons li.last label {
   font-weight: normal;
   line-height: 20px;
   text-align: center;
   display: block;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper {
+div.selector-content div.tabs-wrapper {
   padding: 0px 2px;
   height: 100%;
   border: 1px solid #b6b6b6;
@@ -367,32 +368,32 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper {
   margin-left: 10em;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab {
+div.selector-content div.tabs-wrapper div.tab {
   padding: 2px 0px;
   font-size: 90%;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
+div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
   position: absolute;
   left: -10000px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker {
+div.selector-content div.tabs-wrapper div.color-picker {
   padding-left: 20px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker input {
+div.selector-content div.tabs-wrapper div.color-picker input {
   margin-bottom: 10px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.color-picker div.color-sample {
+div.selector-content div.tabs-wrapper div.color-picker div.color-sample {
   width: 100px;
   height: 70px;
   border: 1px solid #b6b6b6;
   margin-bottom: 10px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload {
+div.selector-content div.tabs-wrapper div.upload {
   padding-top: 26px;
   padding-left: 6px;
 }
@@ -401,21 +402,21 @@ div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper di
   padding-left: 26px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.column {
+div.selector-content div.tabs-wrapper div.upload div.column {
   float: left;
   width: 50%;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload input.file-name {
+div.selector-content div.tabs-wrapper div.upload input.file-name {
   width: 90%;
   margin-bottom: 5px;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload label {
+div.selector-content div.tabs-wrapper div.upload label {
   font-weight: normal;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button {
+div.selector-content div.tabs-wrapper div.upload div.button {
   float: left;
   margin: 0px 6px 6px 0px;
   width: 78px;
@@ -423,27 +424,27 @@ div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload 
   cursor: pointer;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button span {
+div.selector-content div.tabs-wrapper div.upload div.button span {
   display: none;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.disabled {
+div.selector-content div.tabs-wrapper div.upload div.button.disabled {
   cursor: default;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.choose-file {
+div.selector-content div.tabs-wrapper div.upload div.button.choose-file {
   background: url('../images/images-selector-sprites.png') -115px 0px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.upload-file {
+div.selector-content div.tabs-wrapper div.upload div.button.upload-file {
   background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload div.button.upload-file.disabled {
+div.selector-content div.tabs-wrapper div.upload div.button.upload-file.disabled {
   background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
 }
 
-div.zetaprints-images-selector div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
+div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
   margin: 2px 0px 0px 0px;
 }
 
@@ -510,34 +511,4 @@ div.zetaprints-previews-box.hide div.title a.hide-title {
 
 div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
-}
-
-div.zetaprints-field-shape.bottom {
-  position: absolute;
-  cursor: pointer;
-  border: 1px solid white;
-}
-
-div.zetaprints-field-shape.top {
-  position: relative;
-  border: 1px dashed red;
-  top: -1px;
-  left: -1px;
-  width: 100%;
-  height: 100%;
-}
-
-div.zetaprints-field-shape.highlighted {
-  border-color: white;
-}
-
-div.zetaprints-field-shape.highlighted div.zetaprints-field-shape.top {
-  top: -2px;
-  left: -2px;
-  border-style: solid;
-}
-
-div.zetaprints-page-input-fields .highlighted, div.zetaprints-page-stock-images .highlighted {
-  border-color: #F18200 !important;
-  border-style: solid !important;
 }
