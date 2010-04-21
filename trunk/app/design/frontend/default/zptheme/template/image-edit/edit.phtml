@@ -1,66 +1,69 @@
-<script language="javascript" type="text/javascript">
-<?
-$imageEditorId=$this->getRequest()->getParam('id');
-Mage::log($imageEditorId);
-if (strlen($imageEditorId)<10)die('Wrong Request');
-?>
-var imageEditorUpdateURL='<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
-var imageEditorId='<?php echo $imageEditorId?>';
-var imageEditorZpURL='<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url');?>';
-var imageEditorDelimeter='&';
-var imageEditorQueryAppend='';
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 
-</script>
-    <?php $this->helper('webtoprint/personalization-form')->get_image_edit_js_css_includes(); ?>
-<style>
-div#fancy_content{cursor:auto}
-</style>
-<?
- $design = Mage::getDesign();
-?>
-<table width=100% cellpadding=0 cellspacing=0>
-<tr>
-    <td id="imageEditorLeft" width=100 valign=top>
-      <ul>
-        <li id="imageEditorRotateRight" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Right');?>">
-          <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt=""/>
-          <span><?php echo Mage::helper('webtoprint')->__('Rotate right');?>
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+
+<body>
+  <?php $design = Mage::getDesign(); ?>
+
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td id="imageEditorLeft" width="100" valign="top">
+        <ul>
+          <li id="imageEditorRotateRight" title="<?php echo $this->__('Rotate Image Right'); ?>">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt="" />
+            <span><?php echo $this->__('Rotate right'); ?></span>
+          </li>
+          <li id="imageEditorRotateLeft" title="<?php echo $this->__('Rotate Image Left'); ?>">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt="" />
+            <span><?php echo $this->__('Rotate left'); ?></span>
+          </li>
+          <li id="imageEditorCrop" title="<?php echo $this->__('Crop Image'); ?>">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt="" />
+            <span><?php echo $this->__('Crop'); ?></span>
+          </li>
+          <li id="imageEditorRestore" title="<?php echo $this->__('Undo all changes'); ?>">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt="" />
+            <span><?php echo $this->__('Restore'); ?></span>
+          </li>
+          <li id="imageEditorDelete" title="<?php echo $this->__('Delete Image'); ?>">
+            <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt="" />
+            <span><?php echo $this->__('Delete'); ?></span>
+          </li>
+        </ul>
+      </td>
+
+      <td id="imageEditorRight">
+        <img src="" id="imageEditorPreview" alt="Image" style="display:none" />
+
+        <div id="imageEditorCaption">
+          <span id="imageEditorInfo"></span>
+          <span>
+            <?php echo $this->__('W:'); ?>
+            <span id="imageEditorWidthInfo"></span>
           </span>
-        </li>
-        <li id="imageEditorRotateLeft" title="<?php echo Mage::helper('webtoprint')->__('Rotate Image Left');?>">
-          <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt=""/>
-          <span><?php echo Mage::helper('webtoprint')->__('Rotate left');?>
+          <span>
+            <?php echo $this->__('H:'); ?>
+            <span id="imageEditorHeightInfo"></span>
           </span>
-        </li>
-        <li id="imageEditorCrop" title="<?php echo Mage::helper('webtoprint')->__('Crop Image');?>">
-          <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt=""/>
-          <span><?php echo Mage::helper('webtoprint')->__('Crop');?>
-          </span>
-        </li>
-        <li id="imageEditorRestore" title="<?php echo Mage::helper('webtoprint')->__('Undo all changes');?>">
-          <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt=""/>
-          <span><?php echo Mage::helper('webtoprint')->__('Restore');?>
-          </span>
-        </li>
-        <li id="imageEditorDelete" title="<?php echo Mage::helper('webtoprint')->__('Delete Image');?>">
-          <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt=""/>
-          <span><?php echo Mage::helper('webtoprint')->__('Delete');?>
-          </span>
-        </li>
-      </ul>
-    </td>
-        <td id="imageEditorRight">
-      <img src="" id="imageEditorPreview" alt="Image" style="display:none"/>
-      <div id="imageEditorCaption"><span id="imageEditorInfo"></span><span><?php echo Mage::helper('webtoprint')->__('W:');?> <span id="imageEditorWidthInfo"></span></span> <span><?php echo Mage::helper('webtoprint')->__('H:');?> <span id="imageEditorHeightInfo"></span></span></div>
-      <form id="imageEditorCropForm">
-        <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX">
-        <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY">
-        <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2">
-        <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2">
-        <input type="hidden" name="Cropw" id="imageEditorCropW">
-        <input type="hidden" name="Croph" id="imageEditorCropH">
-        <a href="javascript:void(0)" id="imageEditorApplyCrop"><img border=0 src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save"/></a>
-      </form>
-    </td>
+        </div>
+
+        <form id="imageEditorCropForm">
+          <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
+          <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
+          <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
+          <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
+          <input type="hidden" name="Cropw" id="imageEditorCropW" />
+          <input type="hidden" name="Croph" id="imageEditorCropH" />
+          <a href="javascript:void(0)" id="imageEditorApplyCrop">
+            <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
+          </a>
+        </form>
+      </td>
     </tr>
-</table>
+  </table>
+
+</body>
+</html>

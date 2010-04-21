@@ -99,3 +99,7 @@ body {
   font-weight: bold;
   float: right;
 }
+
+#fancy_content {
+  cursor: auto;
+}
