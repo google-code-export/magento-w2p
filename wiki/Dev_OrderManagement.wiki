@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+
+Status of an order on ZP updates to _deleted_ after status of relative M. order changes to _Canceled_ or _Complete_.
+
+Process steps:
+  # Check for M. order status. It should be _Canceled_ or _Complete_.
+  # For every web-to-print item from the order change its status on ZP to _deleted_
+
+Code is placed in _delete_zetaprints_order_ function in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Model/Events/Observer.php app/code/local/ZetaPrints/WebToPrint/Model/Events/Observer.php] file. The function is registered in M. as a handler for _sales_order_save_after_ event (see [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/etc/config.xml app/code/local/ZetaPrints/WebToPrint/etc/config.xml] file)
