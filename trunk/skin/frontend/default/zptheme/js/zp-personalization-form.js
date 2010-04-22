@@ -146,6 +146,10 @@ function personalization_form () {
           $('#preview-image-page-' + page_number).attr('href', data);
           $('#preview-image-page-' + page_number + ' img').attr('src', data);
 
+          var fancy_img = $('#fancybox-img');
+          if (fancy_img.length)
+            $(fancy_img).attr('src', data);
+
           var image_name = data.split('/preview/')[1]
           previews[current_page] = image_name;
 
