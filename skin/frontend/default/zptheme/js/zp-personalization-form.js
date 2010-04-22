@@ -466,6 +466,11 @@ function personalization_form () {
         hide: { when: { event: 'unfocus' } }
   });
 
+  $('div.zetaprints-page-input-fields input.input-text').keypress(function (event) {
+    if (event.keyCode == 13)
+      return false;
+  });
+
   $('a.delete-button').click(function() {
     var imageId = $(this).parent().prevAll('input').val();
 
