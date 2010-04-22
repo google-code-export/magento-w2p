@@ -144,7 +144,7 @@ function popup_field_by_name (name, position) {
   jQuery(box).css({
     visibility: 'visible',
     left: position.left,
-    top: position.top }).draggable();
+    top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
   jQuery(field).focus();
 }
