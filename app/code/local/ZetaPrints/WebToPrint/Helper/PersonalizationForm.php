@@ -361,6 +361,15 @@ jQuery(document).ready(function($) {
   }
 
   public function get_js_css_includes ($context=null) {
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+  alert('This function has been updated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
+//]]>
+</script>
+
+<?php
     return false;
   }
 
