@@ -373,6 +373,19 @@ jQuery(document).ready(function($) {
     return false;
   }
 
+  public function get_admin_js_css_includes ($context = null) {
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+  alert('This function has been deprecated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
+//]]>
+</script>
+
+<?php
+    return false;
+  }
+
   public function get_order_webtoprint_links ($context) {
     $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
