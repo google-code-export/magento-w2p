@@ -1,0 +1,16 @@
+#summary Release notes for stable releases
+
+= Future stable release (1.8.1.0) =
+== Issues ==
+* User image deletion (Issue #164)
+* Fix error with product's base image (Issue #141)
+* Automatic update of ZetaPrints order status (Issue #10)
+* Switch to jQuery 1.4 (Issue #159)
+* New theme for in-preview editing (Issue #177)
+* Fields highlighting and in-preview fields edit (Issue #169, Issue #170)
+* Other bug fixes: issue #163, issue #167
+
+== Release comments ==
+Deprecated functions:
+  * get_js_css_includes - Bla bla, do ...something to save the world.
+  * get_admin_js_css_includes - Wake-up, Neo...
