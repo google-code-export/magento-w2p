@@ -90,7 +90,7 @@ New code adds resources (css and js files) for web-to-print personalization form
 <?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
   }}}
 
-*NOTE*: this function is deprecated since 1.8.1.0beta2 release. List of CSS and JavaScript files for web-to-print personalization form was moved to _[[http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/layout/local.xml app/design/frontend/default/zptheme/layout/local.xml]]_ file. Copy this file from zptheme to your custom theme's _layout_ directory.
+*NOTE*: this function is deprecated since 1.8.1.0beta2 release. List of CSS and JavaScript files for web-to-print personalization form was moved to _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/layout/local.xml app/design/frontend/default/zptheme/layout/local.xml]_ file. Copy this file from zptheme to your custom theme's _layout_ directory.
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items.phtml template/sales/order/items.phtml] ==
 This file show various information for order item on user orders page.
