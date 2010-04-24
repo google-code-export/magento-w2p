@@ -2,15 +2,20 @@
 
 = Future stable release (1.8.1.0) =
 == Issues ==
-* User image deletion (Issue #164)
-* Fix error with product's base image (Issue #141)
-* Automatic update of ZetaPrints order status (Issue #10)
-* Switch to jQuery 1.4 (Issue #159)
-* New theme for in-preview editing (Issue #177)
-* Fields highlighting and in-preview fields edit (Issue #169, Issue #170)
-* Other bug fixes: issue #163, issue #167
+  * User image deletion (Issue #164)
+  * Fix error with product's base image (Issue #141)
+  * Automatic update of ZetaPrints order status (Issue #10)
+  * Switch to jQuery 1.4 (Issue #159)
+  * New theme for in-preview editing (Issue #177)
+  * Fields highlighting and in-preview fields edit (Issue #169, Issue #170)
+  * Other bug fixes: issue #163, issue #167
 
 == Release comments ==
 Deprecated functions:
-  * get_js_css_includes - Bla bla, do ...something to save the world.
-  * get_admin_js_css_includes - Wake-up, Neo...
+  * _get_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including. To update your custom theme do following steps.
+    # Copy _app/design/frontend/default/zptheme/layout/local.xml_ file to your custom theme's _layout_ directory. Or copy its content if you already have _local.xml_ file in the custom theme.
+    # Remove _app/design/frontend/default/your_custom_theme_name/template/page/html/head.phtml_ file from your custom theme. If you did any custom changes to the file then you should remove following line from the file:
+    {{{
+<?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
+    }}}  
+  * _get_admin_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including in ZP admin theme. Magento doesn't support any uninstallation facilities for its extensions. You should remove _app/design/adminhtml/default/zptheme/template/page/head.phtml_ file by hand.
