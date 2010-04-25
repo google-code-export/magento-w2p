@@ -159,7 +159,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if (!$this->is_personalization_step($context))
       return;
 
-    foreach ($context->getRequest()->getParams() as $key => $value) {
+    foreach ($_POST as $key => $value) {
       if (is_array($value))
         foreach ($value as $option_key => $option_value)
           echo "<input type=\"hidden\" name=\"{$key}[{$option_key}]\" value=\"$option_value\" />";
