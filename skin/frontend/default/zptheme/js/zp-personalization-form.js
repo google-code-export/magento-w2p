@@ -11,8 +11,8 @@ function personalization_form () {
     return true;
   }
 
-  var product_image_box = $('div.product-img-box').css('position', 'relative')[0];
-  var product_image_element = $('p.product-image', product_image_box)[0];
+  var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
+  var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
 
   //If there's previews for the product
@@ -78,10 +78,10 @@ function personalization_form () {
       $(this).attr('src', src[0] + 'thumb/' + new_id[0] + '_100x100.' + new_id[1]);
     });
 
-    $('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form div.no-display'));
+    $('<input type="hidden" name="zetaprints-previews" value="' + previews.join(',') + '" />').appendTo($('#product_addtocart_form'));
   } else {
-    $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form div.no-display'));
-    $('div.add-to-cart button.button').css('display', 'none');
+    $('<input type="hidden" name="zetaprints-previews" value="" />').appendTo($('#product_addtocart_form'));
+    $('#zetaprints-add-to-cart-button').css('display', 'none');
   }
 
   $('<input type="hidden" name="zetaprints-TemplateID" value="' + template_id +'" />').appendTo('#product_addtocart_form');
@@ -168,7 +168,7 @@ function personalization_form () {
 
           if (previews.length == number_of_pages) {
             $('input[name=zetaprints-previews]').val(previews.join(','));
-            $('div.add-to-cart button.button').show();
+            $('#zetaprints-add-to-cart-button').show();
             $('div.save-order span').css('display', 'none');
           }
         }
