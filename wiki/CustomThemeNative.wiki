@@ -28,6 +28,17 @@ some code
 The form is a modified product details page. You need to insert certain function calls at places where the blocks of HTML should show. This screenshot is only a guide to how it can be laid out on the screen. The functions are described below in the article.
 http://www.zetaprints.com/magento-docs/theme-configuration.png
 
+= Custom theme requirements = 
+
+The web-to-print extension has several requirements to HTML code of the custom theme.
+
+  * _app/design/frontend/default/`<`your_custom_theme_name`>`/template/catalog/product/view.phtml_
+  Set *id* attribute of preview image container (can be a parent, but not immediate one) to `zetaprints-preview-image-container` value. Search for `zetaprints-preview-image-container` string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view.phtml view.phtml] file from _zptheme_ theme for example.
+  * _app/design/frontend/default/`<`your_custom_theme`>`/template/catalog/product/view/addtocart.phtml_
+  Set *id* attribute of _Add to cart_ button to `zetaprints-add-to-cart-button` value. Search for `zetaprints-add-to-cart-button` string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addtocart.phtm] file from _zptheme_ theme for example.
+  * _app/design/frontend/default/`<`your_custom_theme`>`/template/catalog/product/view/media.phtml_
+  Set *id* attribute of product image tag to `image` value. Search for `image` string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml] file from _zptheme_ theme for example
+
 = Files in `app/design/frontend/default/<your_theme_name>/` =
 
 You need to modify some files behind the user interface.
