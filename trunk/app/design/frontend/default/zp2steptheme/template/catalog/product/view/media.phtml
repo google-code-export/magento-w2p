@@ -59,14 +59,16 @@
 <?php else: ?>
 <p class="product-image">
     <?php
-        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
+        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" />';
 
         /****** ZP-CODE:1 Checking for personalization step and disabling image resizing for
                 products with web-to-print feature ******/
 
-        if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)
-            && !$this->helper('webtoprint/personalization-form')->get_preview_image($this))
-          echo $_helper->productAttribute($_product, $_img, 'image');
+        if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($this))
+            $this->helper('webtoprint/personalization-form')->get_preview_image($this);
+        else
+            echo $_helper->productAttribute($_product, $_img, 'image');
+
 
         /****** ZP-CODE:1 End ******/
     ?>
