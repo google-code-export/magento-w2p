@@ -1,7 +1,7 @@
 #summary Changes to product's base image logic
 
 = General ZetaPrints theme =
-Then product page has loaded it shows base image of the product with zoomer control. After user clicks on Update preview base image of the product and zoomer control will be removed and will be replaced with generated preview image.
+Then product page has loaded it shows base image of the product with zoomer control. After user clicks on _Update preview_ button base image of the product and zoomer control will be removed and will be replaced with generated preview image.
 
 = 2-step ZetaPrints theme =
 Base image of a product with zoomer is shown only on first step. It doesn't appear on personalization step.
