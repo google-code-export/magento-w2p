@@ -365,7 +365,7 @@ jQuery(document).ready(function($) {
 
 <script type="text/javascript">
 //<![CDATA[
-  alert('This function has been deprecated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
+  alert('<?php echo __FUNCTION__; ?>() function has been deprecated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
 //]]>
 </script>
 
@@ -378,7 +378,7 @@ jQuery(document).ready(function($) {
 
 <script type="text/javascript">
 //<![CDATA[
-  alert('This function has been deprecated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
+  alert('<?php echo __FUNCTION__; ?>() function has been deprecated. See release notes in http://code.google.com/p/magento-w2p/wiki/ReleaseNotes');
 //]]>
 </script>
 
