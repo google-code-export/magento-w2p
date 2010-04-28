@@ -480,7 +480,7 @@ Extension developed by http://www.zetaprints.com/
             </dir>
           </dir>
 
-          <dir name="zpinpredtheme">
+          <dir name="zpadvancedtheme">
 
             <dir name="layout">
               <file name="local.xml" role="magedesign" />
