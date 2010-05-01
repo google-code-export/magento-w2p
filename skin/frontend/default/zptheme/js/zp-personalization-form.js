@@ -115,8 +115,8 @@ function personalization_form () {
     current_page = page.split('-')[1] * 1 - 1;
 
     //Add shapes for selected page
-    if (shapes.length && window.place_all_precalculated_shapes_for_page)
-      place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box);
+    if (shapes.length && window.place_all_precalculated_shapes_for_page && window.shape_handler)
+      place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box, shape_handler);
 
     if (changed_pages[current_page] && page_number < (number_of_pages - 1))
       $('div.zetaprints-next-page-button').show();
@@ -295,9 +295,9 @@ function personalization_form () {
   })
 
   $(window).load(function () {
-    if (shapes.length && window.precalculate_shapes && window.place_all_precalculated_shapes_for_page) {
+    if (shapes.length && window.precalculate_shapes && window.place_all_precalculated_shapes_for_page && shape_handler) {
       precalculate_shapes(shapes, get_preview_dimensions(number_of_pages));
-      place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box);
+      place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box, shape_handler);
     }
 
     $('div.zetaprints-images-selector').each(function () {
@@ -414,7 +414,8 @@ function personalization_form () {
       $('img#fancy_img').attr('title', click_to_close_text);
 
       if (!(shapes.length && window.place_all_shapes_for_page
-        && window.highlight_shape_by_name && window.popup_field_by_name))
+        && window.highlight_shape_by_name && window.popup_field_by_name
+        && window.fancy_shape_handler))
         return;
 
       var fancy_inner = $('div#fancybox-inner')[0];
@@ -424,7 +425,8 @@ function personalization_form () {
         width: $(fancy_image).width(),
         height: $(fancy_image).height() };
 
-      place_all_shapes_for_page (current_page, shapes, dimension, fancy_inner);
+      place_all_shapes_for_page (current_page, shapes, dimension, fancy_inner,
+                                 fancy_shape_handler);
 
       if (typeof(current_field_name) != 'undefined' && current_field_name != null && current_field_name.length != 0) {
         highlight_shape_by_name(current_field_name, fancy_inner);
