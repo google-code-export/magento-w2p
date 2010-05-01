@@ -2,6 +2,7 @@ div.zetaprints-field-shape.bottom {
   position: absolute;
   cursor: pointer;
   border: 1px solid white;
+  background-image: url('../images/transparent-background.gif');
 }
 
 div.zetaprints-field-shape.top {
