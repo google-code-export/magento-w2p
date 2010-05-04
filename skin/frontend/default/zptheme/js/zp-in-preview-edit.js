@@ -254,13 +254,6 @@ function add_in_preview_edit_handlers () {
     popdown_field_by_name();
   });
 
-  jQuery('div#fancybox-inner').bind('mouseover mouseout', function (event) {
-    if (event.type == 'mouseover')
-      jQuery('div.zetaprints-field-shape.bottom', this).removeClass('hide');
-    else
-      jQuery('div.zetaprints-field-shape.bottom[class!=highlighted]', this).addClass('hide');
-  });
-
   jQuery('div.fieldbox-head a').live('click', function () {
     popdown_field_by_name(jQuery(this).attr('rel'));
     dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());

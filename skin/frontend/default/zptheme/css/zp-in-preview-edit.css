@@ -14,12 +14,16 @@ div.zetaprints-field-shape.top {
   height: 100%;
 }
 
-div.zetaprints-field-shape.hide {
+div#fancybox-inner div.zetaprints-field-shape.bottom {
   visibility: hidden;
 }
 
-div.zetaprints-field-shape.highlighted {
+div#fancybox-inner:hover div.zetaprints-field-shape.bottom {
   visibility: visible;
+}
+
+div.zetaprints-field-shape.highlighted {
+  visibility: visible !important;
   border-color: white;
 }
 
