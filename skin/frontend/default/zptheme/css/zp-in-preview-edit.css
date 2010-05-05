@@ -14,6 +14,14 @@ div.zetaprints-field-shape.top {
   height: 100%;
 }
 
+div#zetaprints-preview-image-container div.zetaprints-field-shape.bottom {
+  visibility: hidden;
+}
+
+div#zetaprints-preview-image-container:hover div.zetaprints-field-shape.bottom {
+  visibility: visible;
+}
+
 div#fancybox-inner div.zetaprints-field-shape.bottom {
   visibility: hidden;
 }
