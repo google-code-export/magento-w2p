@@ -136,7 +136,7 @@ function popup_field_by_name (name, position) {
     position.left += 10;
   }
 
-  var window_height = jQuery(window).height();
+  var window_height = jQuery(window).height() + jQuery(window).scrollTop();
   if ((position.top + height) > window_height)
     position.top -= position.top + height - window_height;
 
