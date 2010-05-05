@@ -227,8 +227,6 @@ function fancy_shape_handler (event) {
 }
 
 function add_in_preview_edit_handlers () {
-  var product_image_box = jQuery('div.product-img-box');
-
   jQuery('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').focusin(function() {
     highlight_shape_by_name(jQuery(this).attr('name').substring(12), get_current_shapes_container());
   }).focusout(function() {
@@ -241,12 +239,6 @@ function add_in_preview_edit_handlers () {
   }).mouseout(function () {
     if (!jQuery(this).children('div.fieldbox').length)
       dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
-  });
-
-  jQuery(product_image_box).mouseover(function () {
-    jQuery('div.zetaprints-field-shape.bottom', this).removeClass('hide');
-  }).mouseout(function () {
-    jQuery('div.zetaprints-field-shape.bottom[class!=highlighted]', this).addClass('hide');
   });
 
   jQuery('img#fancybox-img').live('click', function () {
