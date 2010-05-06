@@ -546,7 +546,7 @@ jQuery(document).ready(function($) {
 
       if ($template_details) {
         foreach ($template_details['pages'] as $page_details)
-          $previews_array .= '\'' . $page_details['preview-image'] . '\', ';
+          $previews_array .= '\'/' . $page_details['preview-image'] . '\', ';
 
         $previews_array = substr($previews_array, 0, -2);
       }
