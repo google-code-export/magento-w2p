@@ -254,7 +254,14 @@ function add_in_preview_edit_handlers () {
 
   var fancybox_center_function = jQuery.fancybox.center;
   jQuery.fancybox.center = function () {
+    var orig_position = jQuery('div#fancybox-wrap').position();
+
     fancybox_center_function();
-    popup_field_by_name(popdown_field_by_name());
+
+    var new_position = jQuery('div#fancybox-wrap').position();
+
+    if (orig_position.top != new_position.top
+      || orig_position.left != new_position.left)
+      popup_field_by_name(popdown_field_by_name());
   }
 }
