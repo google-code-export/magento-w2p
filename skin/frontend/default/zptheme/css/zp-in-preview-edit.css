@@ -46,6 +46,10 @@ div.zetaprints-page-input-fields .highlighted, div.zetaprints-page-stock-images 
   border-style: solid !important;
 }
 
+div.zetaprints-field-shape.edited {
+  background-image: url('../images/edited-shape-background.png');
+}
+
 div.fieldbox {
   visibility: hidden;
   background-color: white;

@@ -30,7 +30,12 @@ function get_preview_dimensions (number_of_pages) {
 }
 
 function place_shape (shape, container, shape_handler) {
-  jQuery('<div class="zetaprints-field-shape bottom hide" rel="' + shape.name  +
+  if (shape.edited)
+    var edited_class = ' edited';
+  else
+    var edited_class = '';
+
+  jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '" rel="' + shape.name  +
     '"><div class="zetaprints-field-shape top" /></div>')
     .css({
       top: shape.top,
@@ -63,7 +68,8 @@ function place_all_shapes_for_page (page, shapes, image_dimension, container, sh
         top: top,
         width: shapes[page][name]._x2 * image_dimension.width - left,
         height: shapes[page][name]._y1 * image_dimension.height - top,
-        name: name }, container, shape_handler);
+        name: name,
+        edited: shapes[page][name].edited }, container, shape_handler);
     }
 }
 
@@ -101,6 +107,12 @@ function popup_field_by_name (name, position) {
     var width = jQuery(shape).outerWidth();
     if (width <= 150)
       width = 150;
+
+    //If type of field is textarea or one-line input field
+    if (field.type == 'textarea' || field.type == 'text')
+      //then save current value
+      field.original_value = field.value;
+
   } else {
     field = jQuery('div.zetaprints-images-selector[rel=zetaprints-#' + name + '] div.selector-content');
 
@@ -170,9 +182,26 @@ function popdown_field_by_name (name) {
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
+  if (element[0].original_value)
+    if (element[0].original_value != element[0].value)
+      //Fire change event on the field if its value was changed
+      jQuery(element[0]).change();
+
   jQuery(field).remove();
 
   return name;
+}
+
+function mark_shape_as_edited (name, shapes, current_page) {
+  jQuery('div.zetaprints-field-shape[rel=' + name + ']').addClass('edited');
+
+  shapes[current_page][name].edited = true;
+}
+
+function unmark_shape_as_edited (name, shapes, current_page) {
+  jQuery('div.zetaprints-field-shape[rel=' + name + ']').removeClass('edited');
+
+  shapes[current_page][name].edited = false;
 }
 
 function get_current_shapes_container () {

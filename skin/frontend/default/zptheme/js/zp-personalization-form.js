@@ -318,6 +318,12 @@ function personalization_form () {
 
       $('input', this).change(function () {
         $(top_element).removeClass('no-value');
+
+        //If ZetaPrints advanced theme is enabled then...
+        if (window.mark_shape_as_edited) {
+          //... mark shape as edited then image is seleted
+          mark_shape_as_edited($(this).attr('name').substring(12), shapes, current_page);
+        }
       });
 
       $('div.head', this).click(function () {
@@ -476,6 +482,18 @@ function personalization_form () {
     if (event.keyCode == 13)
       return false;
   });
+
+  //If ZetaPrints advanced theme is enabled then...
+  if (shapes.length && window.mark_shape_as_edited && window.unmark_shape_as_edited) {
+    $('div.zetaprints-page-input-fields :input').change(function () {
+      if ($(this).val().length)
+        // ... then mark shape as edited if input field was modified and is not empty
+        mark_shape_as_edited($(this).attr('name').substring(12), shapes, current_page);
+      else
+        // or unmark it if input field is empty
+        unmark_shape_as_edited($(this).attr('name').substring(12), shapes, current_page);
+    });
+  }
 
   $('a.delete-button').click(function() {
     var imageId = $(this).parent().prevAll('input').val();
