@@ -182,7 +182,7 @@ function popdown_field_by_name (name) {
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
-  if (element[0].original_value)
+  if (element[0].original_value != undefined)
     if (element[0].original_value != element[0].value)
       //Fire change event on the field if its value was changed
       jQuery(element[0]).change();
