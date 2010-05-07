@@ -295,7 +295,11 @@ function personalization_form () {
   })
 
   $(window).load(function () {
-    if (shapes.length && window.precalculate_shapes && window.place_all_precalculated_shapes_for_page && shape_handler) {
+    if (shapes.length && window.mark_shapes_as_edited
+        && window.precalculate_shapes
+        && window.place_all_precalculated_shapes_for_page && shape_handler) {
+
+      mark_shapes_as_edited(shapes);
       precalculate_shapes(shapes, get_preview_dimensions(number_of_pages));
       place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box, shape_handler);
     }
