@@ -54,7 +54,8 @@ function place_all_precalculated_shapes_for_page (page, shapes, container, shape
         top: shapes[page][name].y2,
         width: shapes[page][name].x2 - shapes[page][name].x1,
         height: shapes[page][name].y1 - shapes[page][name].y2,
-        name: name }, container, shape_handler);
+        name: name,
+        edited: shapes[page][name].edited}, container, shape_handler);
 }
 
 function place_all_shapes_for_page (page, shapes, image_dimension, container, shape_handler) {
@@ -202,6 +203,24 @@ function unmark_shape_as_edited (name, shapes, current_page) {
   jQuery('div.zetaprints-field-shape[rel=' + name + ']').removeClass('edited');
 
   shapes[current_page][name].edited = false;
+}
+
+function mark_shapes_as_edited (shapes) {
+  var fields = jQuery('div.zetaprints-page-input-fields, div.zetaprints-page-stock-images');
+
+  for (var page = 0; page < shapes.length; page++)
+    for (name in shapes[page]) {
+      var field = jQuery('input[name=zetaprints-_' + name + ']:text, '
+        + 'textarea[name=zetaprints-_' + name + '], '
+        + 'select[name=zetaprints-_' + name + '], '
+        + 'input[name=zetaprints-_' + name + ']:checked, '
+        + 'input[name=zetaprints-#' + name + ']:checked', fields);
+
+      if (field.length == 1 && field[0].value) {
+        shapes[page][name].edited = true;
+        continue;
+      }
+    }
 }
 
 function get_current_shapes_container () {
