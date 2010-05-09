@@ -7,7 +7,7 @@ if (!defined('ZP_API_VER')) {
     require $zetaprints_api_file;
 }
 
-class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_Abstract {
+class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToPrint_Helper_Data {
 
   private function get_template_guid_from_product ($product) {
 
@@ -27,7 +27,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
       return Mage::getModel('webtoprint/template')->getResource()->getIdByGuid($template_guid);
   }
 
-  private function get_form_part_html ($form_part = null, $product) {
+  private function get_form_part_html ($form_part = null, $product, $params = array()) {
     $template_guid = $this->get_template_guid_from_product($product);
 
     if (!$template_guid)
@@ -69,11 +69,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends Mage_Core_Helper_
     if ($form_part === 'stock-images')
       $this->add_user_images($xml);
 
-    $params = array(
+    $params = array_merge($params, array(
       'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
       'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
       'user-image-edit-button' => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png')
-    );
+    ) );
 
     //Append translations to xml
     $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'zetaprints_w2p.csv';
@@ -297,13 +297,17 @@ jQuery(document).ready(function($) {
           $user_image_node->addAttribute('mime', $image['mime']);
           $user_image_node->addAttribute('description', $image['description']);
           $user_image_node->addAttribute('edit-link',
-            Mage::getUrl('web-to-print/image/',
+            $this->_getUrl('web-to-print/image/',
               array('id' => $image['guid'], 'iframe' => 1) ));
         }
   }
 
   public function get_page_tabs ($context) {
-    $html = $this->get_form_part_html('page-tabs', $context->getProduct());
+    $params = array(
+      'thumbnail-url-template'
+        => $this->get_thumbnail_url('image-guid.image-ext', 100, 100) );
+
+    $html = $this->get_form_part_html('page-tabs', $context->getProduct(), $params);
 
     if ($html === false)
       return false;
@@ -545,8 +549,10 @@ jQuery(document).ready(function($) {
       $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
       if ($template_details) {
-        foreach ($template_details['pages'] as $page_details)
-          $previews_array .= '\'/' . $page_details['preview-image'] . '\', ';
+        foreach ($template_details['pages'] as $page_details) {
+          $guid = explode('preview/', $page_details['preview-image']);
+          $previews_array .= '\'' . $this->get_preview_url($guid[1]) . '\', ';
+        }
 
         $previews_array = substr($previews_array, 0, -2);
       }
@@ -569,9 +575,9 @@ jQuery(document).ready(function($) {
 
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
-  preview_controller_url = '<?php echo $context->getUrl('web-to-print/preview'); ?>';
-  upload_controller_url = '<?php echo $context->getUrl('web-to-print/upload'); ?>';
-  image_controller_url = '<?php echo $context->getUrl('web-to-print/image/update'); ?>';
+  preview_controller_url = '<?php echo $this->_getUrl('web-to-print/preview'); ?>';
+  upload_controller_url = '<?php echo $this->_getUrl('web-to-print/upload'); ?>';
+  image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
 

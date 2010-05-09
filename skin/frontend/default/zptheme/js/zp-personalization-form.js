@@ -35,8 +35,8 @@ function personalization_form () {
   //Add previews to the product page
   for (var page_number = 0; page_number <  previews.length; page_number++)
     $('<a id="preview-image-page-' + (page_number + 1) +
-      '" class="zetaprints-template-preview  hidden" href="' + w2p_url + previews[page_number] +
-      '"><img title="' + click_to_view_in_large_size + '" src="' + w2p_url +
+      '" class="zetaprints-template-preview  hidden" href="' + previews[page_number] +
+      '"><img title="' + click_to_view_in_large_size + '" src="' +
       previews[page_number] + '" /></a>').appendTo(product_image_element);
 
   //Reset previews array if previews was default template preview images
@@ -134,27 +134,31 @@ function personalization_form () {
     $.ajax({
       url: preview_controller_url,
       type: 'POST',
+      dataType: 'json',
       data: $('#product_addtocart_form').serialize() + '&zetaprints-From=' + page_number,
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).bind('click', update_preview).show();
         alert(preview_generation_response_error_text + textStatus); },
       success: function (data, textStatus) {
-        if (data.substr(0, 7) != 'http://') {
+        if (!data) {
           alert(preview_generation_error_text);
         } else {
-          $('#preview-image-page-' + page_number).attr('href', data);
-          $('#preview-image-page-' + page_number + ' img').attr('src', data);
+          //Update links to preview image on current page
+          $('#preview-image-page-' + page_number).attr('href', data.preview_url);
+          $('#preview-image-page-' + page_number + ' img').attr('src', data.preview_url);
 
+          //Update link to preview image in opened fancybox
           var fancy_img = $('#fancybox-img');
           if (fancy_img.length)
-            $(fancy_img).attr('src', data);
+            $(fancy_img).attr('src', data.preview_url);
 
-          var image_name = data.split('/preview/')[1]
-          previews[current_page] = image_name;
+          //Remember file name of preview image for current page
+          previews[current_page] = data.filename;
 
-          var thumb_url = data.split('/preview/')[0] + '/thumb/' + image_name.split('.')[0] + '_100x100.' + image_name.split('.')[1];
-          $('div.zetaprints-image-tabs img[rel=page-' + page_number + ']').attr('src', thumb_url);
+          //Update link to preview thumbnail for current page tab
+          $('div.zetaprints-image-tabs img[rel=page-' + page_number + ']')
+            .attr('src', data.thumbnail_url);
 
           //If there's image zoomer on the page
           if (has_image_zoomer) {

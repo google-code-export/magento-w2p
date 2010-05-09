@@ -1208,7 +1208,15 @@ function zetaprints_get_content_from_url ($url, $data = null) {
 
   $output = explode("\r\n\r\n", $output);
 
-  zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
+  if (isset($info['content_type'])) {
+    $type = explode('/', $info['content_type']);
+
+    if ($type[0] == 'image')
+      zetaprints_debug(array('header' => $output[0], 'body' => 'Image'));
+    else
+      zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
+  } else
+    zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
 
   return ok(array('header' => $output[0], 'body' => $output[1]));
 }
