@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <xsl:output method="html"/>
+
   <xsl:template name="fields-for-page">
     <xsl:param name="page" />
 
@@ -307,7 +308,14 @@
                 <xsl:with-param name="key">Click to show page</xsl:with-param>
               </xsl:call-template>
             </xsl:attribute>
-            <img rel="page-{position()}" src="{$zetaprints-api-url}{substring-before(@ThumbImage, '.')}_100x100.{substring-after(@ThumbImage, '.')}" />
+            <img rel="page-{position()}">
+              <xsl:attribute name="src">
+                <xsl:call-template name="produce-url-from-template">
+                  <xsl:with-param name="url-template" select="$thumbnail-url-template" />
+                  <xsl:with-param name="filename" select="substring(@ThumbImage, 7)" />
+                </xsl:call-template>
+              </xsl:attribute>
+            </img>
             <br />
             <span><xsl:value-of select="@Name" /></span>
           </li>
@@ -338,5 +346,19 @@
         <xsl:value-of select="$key"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="produce-url-from-template">
+    <xsl:param name='url-template' />
+    <xsl:param name='filename' />
+
+    <xsl:variable name="guid" select="substring-before($filename, '.')" />
+    <xsl:variable name="ext" select="substring-after($filename, '.')" />
+
+    <xsl:variable name="first-part" select="substring-before($url-template, 'image-guid')" />
+    <xsl:variable name="middle-part" select="substring-before(substring-after($url-template, 'image-guid'), 'image-ext')" />
+    <xsl:variable name="last-part" select="substring-after($url-template, 'image-ext')" />
+
+    <xsl:value-of select="concat($first-part, $guid, $middle-part, $ext, $last-part)" />
   </xsl:template>
 </xsl:stylesheet>
