@@ -33,4 +33,17 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
     return Mage::getStoreConfig('zpapi/settings/w2p_url') . '/thumb/' . $guid;
   }
+
+  public function get_photo_thumbnail_url ($guid, $width = 0, $height = 0) {
+    if ($this->_getRequest()->getScheme() == Zend_Controller_Request_Http::SCHEME_HTTPS)
+      return parent::_getUrl('web-to-print/photothumbnail/get',
+                              array('guid' => $guid, 'width' => $width,
+                              'height' => $height, '_secure' => true) );
+
+    //Check if width or height is setted
+    if (($width + $height) != 0)
+      $guid = str_replace('.', "_{$width}x{$height}.", $guid);
+
+    return Mage::getStoreConfig('zpapi/settings/w2p_url') . '/photothumbs/' . $guid;
+  }
 }

@@ -71,8 +71,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
     $params = array_merge($params, array(
       'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
-      'ajax-loader-image-url' => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
-      'user-image-edit-button' => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png')
     ) );
 
     //Append translations to xml
@@ -255,7 +253,18 @@ jQuery(document).ready(function($) {
   }
 
   public function get_image_fields ($context) {
-    $html = $this->get_form_part_html('stock-images', $context->getProduct());
+    $params = array(
+      'ajax-loader-image-url'
+        => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
+      'user-image-edit-button'
+        => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'),
+      'photothumbnail-url-height-100-template'
+        => $this->get_photo_thumbnail_url('image-guid.image-ext', 0, 100),
+      'photothumbnail-url-template'
+        => $this->get_photo_thumbnail_url('image-guid.image-ext')
+    );
+
+    $html = $this->get_form_part_html('stock-images', $context->getProduct(), $params);
 
     if ($html === false)
       return false;
