@@ -3,7 +3,8 @@
 
   <xsl:include href="common-templates.xslt" />
 
-  <xsl:param name="zetaprints-api-url" />
+  <xsl:param name="photothumbnail-url-template" />
+  <xsl:param name="photothumbnail-url-height-100-template" />
   <xsl:param name="ajax-loader-image-url" />
   <xsl:param name="user-image-edit-button" />
 

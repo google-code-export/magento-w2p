@@ -242,18 +242,38 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="in-dialog" href="{$zetaprints-api-url}photothumbs/{@Thumb}" target="_blank" rel="group-{../@Name}">
+                    <a class="in-dialog" target="_blank" rel="group-{../@Name}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to enlarge</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
+                      <xsl:attribute name="href">
+                        <xsl:call-template name="produce-url-from-template">
+                          <xsl:with-param name="url-template" select="$photothumbnail-url-template" />
+                          <xsl:with-param name="filename" select="@Thumb" />
+                        </xsl:call-template>
+                      </xsl:attribute>
                       <xsl:choose>
                         <xsl:when test="contains(@Thumb, '.png') or contains(@Thumb, '.gif')">
-                          <img src="{$zetaprints-api-url}photothumbs/{@Thumb}" />
+                          <img>
+                            <xsl:attribute name="src">
+                              <xsl:call-template name="produce-url-from-template">
+                                <xsl:with-param name="url-template" select="$photothumbnail-url-template" />
+                                <xsl:with-param name="filename" select="@Thumb" />
+                              </xsl:call-template>
+                            </xsl:attribute>
+                          </img>
                         </xsl:when>
                         <xsl:otherwise>
-                          <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}" />
+                          <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}">
+                            <xsl:attribute name="src">
+                              <xsl:call-template name="produce-url-from-template">
+                                <xsl:with-param name="url-template" select="$photothumbnail-url-height-100-template" />
+                                <xsl:with-param name="filename" select="@Thumb" />
+                              </xsl:call-template>
+                            </xsl:attribute>
+                          </img>
                         </xsl:otherwise>
                       </xsl:choose>
                     </a>
