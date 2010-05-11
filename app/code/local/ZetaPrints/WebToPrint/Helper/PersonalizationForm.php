@@ -297,11 +297,11 @@ jQuery(document).ready(function($) {
           $user_image_node->addAttribute('guid', $image['guid']);
 
           if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
-            $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+            $thumbnail_url = $this->get_photo_thumbnail_url($image['thumbnail'], 0, 100);
           else
-            $thumbnail = $image['thumbnail'];
+            $thumbnail_url = $this->get_photo_thumbnail_url($image['thumbnail']);
 
-          $user_image_node->addAttribute('thumbnail', "{$url}/photothumbs/{$thumbnail}");
+          $user_image_node->addAttribute('thumbnail', $thumbnail_url);
 
           $user_image_node->addAttribute('mime', $image['mime']);
           $user_image_node->addAttribute('description', $image['description']);

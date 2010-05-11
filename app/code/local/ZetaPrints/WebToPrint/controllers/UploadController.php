@@ -54,11 +54,11 @@ class ZetaPrints_WebToPrint_UploadController
     $edit_link = Mage::getUrl('web-to-print/image/', array('id' => $image['guid'], 'iframe' => 1));
 
     if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
-      $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
+      $thumbnail_url = Mage::helper('webtoprint')->get_photo_thumbnail_url($image['thumbnail'], 0, 100);
     else
-      $thumbnail = $image['thumbnail'];
+      $thumbnail_url = Mage::helper('webtoprint')->get_photo_thumbnail_url($image['thumbnail']);
 
-    echo "{$image['guid']};{$edit_link};{$url}/photothumbs/{$thumbnail}";
+    echo "{$image['guid']};{$edit_link};{$thumbnail_url}";
   }
 }
 ?>
