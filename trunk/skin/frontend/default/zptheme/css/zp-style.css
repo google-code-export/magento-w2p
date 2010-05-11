@@ -43,7 +43,7 @@ div.zetaprints-image-tabs ul li img {
 /* Use to hide template preview */
 a.zetaprints-template-preview.hidden {
   position: absolute;
-  left: -10000px;
+  left: -100000px;
 }
 
 a.zetaprints-template-preview img {
@@ -54,12 +54,12 @@ a.zetaprints-template-preview img {
 /**/
 div.zetaprints-page-stock-images.hidden {
   position: absolute;
-  left: -10000px;
+  left: -100000px;
 }
 
 div.zetaprints-page-input-fields.hidden {
   position: absolute;
-  left: -10000px;
+  left: -100000px;
 }
 
 /**/
@@ -286,7 +286,7 @@ div.selector-content {
 
 div.zetaprints-images-selector.minimized div.selector-content {
   position: absolute;
-  left: -10000px;
+  left: -100000px;
 }
 
 div.selector-content ul.tab-buttons div.icon {
@@ -375,7 +375,7 @@ div.selector-content div.tabs-wrapper div.tab {
 
 div.selector-content div.tabs-wrapper div.tab.ui-tabs-hide {
   position: absolute;
-  left: -10000px;
+  left: -100000px;
 }
 
 div.selector-content div.tabs-wrapper div.color-picker {
