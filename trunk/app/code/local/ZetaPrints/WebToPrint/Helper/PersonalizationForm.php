@@ -408,6 +408,28 @@ jQuery(document).ready(function($) {
     if (!isset($options['zetaprints-order-id']))
       return;
 
+    //Check that downloading generated files is allowed for users
+    if ($item && isset($options['zetaprints-TemplateID']))   {
+      $template = Mage::getModel('webtoprint/template')
+                                      ->load($options['zetaprints-TemplateID']);
+
+      if ($template->getId()) {
+        try {
+          $xml = new SimpleXMLElement($template->getXml());
+        } catch (Exception $e) {
+          zetaprints_debug("Exception: {$e->getMessage()}");
+          return;
+        }
+
+        if ($xml) {
+          $template_details = zetaprints_parse_template_details($xml);
+
+          if (!$template_details['download'])
+            return;
+        } else return;
+      } else return;
+    }
+
     $webtoprint_links = "";
 
     $types = array('pdf', 'gif', 'png', 'jpeg');
