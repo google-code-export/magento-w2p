@@ -777,13 +777,19 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
 }
 
 function zetaprints_parse_template_details ($xml) {
+  $download = false;
+
+  if (isset($xml['Download']) && ((string)$xml['Download'] == 'allow'
+      || (string)$xml['Download'] == 'only'))
+    $download = true;
+
   $template = array('guid' => (string) $xml['TemplateID'],
                      'corporate-guid' => (string) $xml['CorporateID'],
                      'created' => zp_api_common_str2date($xml['Created']),
                      'comments' => (string) $xml['Comments'],
                      'url' => (string) $xml['AccessURL'],
                      'product-reference' => (string) $xml['ProductReference'],
-                     'download' => (string) $xml['Download'],
+                     'download' => $download,
                      'pdf' => isset($xml['GeneratePdf'])
                                   ? (bool) $xml['GeneratePdf'] : false,
                      'jpeg' => isset($xml['GenerateJpg'])
