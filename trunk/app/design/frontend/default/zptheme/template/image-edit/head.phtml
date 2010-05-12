@@ -5,7 +5,8 @@
   var imageEditorUpdateURL = '<?php echo Mage::helper('webtoprint')
     ->_getUrl('web-to-print/image/update'); ?>';
   var imageEditorId = '<?php echo $this->getRequest()->getParam('id') ?>';
-  var imageEditorZpURL = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
+  var editor_image_url_template = '<?php echo Mage::helper('webtoprint')
+    ->get_photo_thumbnail_url('image-guid.image-ext'); ?>';
   var imageEditorDelimeter = '&';
   var imageEditorQueryAppend = '';
 //]]>

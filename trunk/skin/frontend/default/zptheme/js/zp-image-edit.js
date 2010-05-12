@@ -108,7 +108,10 @@ jQuery(document).ready(function ($) {
     $('#imageEditorPreview').attr("src", "");
     $('#imageEditorCaption').hide();
     parent.jQuery.fancybox.showActivity();
-    src=imageEditorZpURL + '/photothumbs/'+getRegexpValue(xml, /Thumb="([^"]*?)"/);
+
+    src = editor_image_url_template.replace('image-guid.image-ext',
+                                      getRegexpValue(xml, /Thumb="([^"]*?)"/));
+
     h=getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
     w=getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
     uh=getRegexpValue(xml, /ImageHeightUndo="([^"]*?)"/);
