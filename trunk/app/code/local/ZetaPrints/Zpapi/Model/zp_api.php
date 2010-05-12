@@ -784,12 +784,12 @@ function zetaprints_parse_template_details ($xml) {
                      'url' => (string) $xml['AccessURL'],
                      'product-reference' => (string) $xml['ProductReference'],
                      'download' => (string) $xml['Download'],
-                     'pdf' => isset($field['GeneratePdf'])
-                                  ? (bool) $field['GeneratePdf'] : false,
-                     'jpeg' => isset($field['GenerateJpg'])
-                                  ? (bool) $field['GenerateJpg'] : false,
-                     'png' => isset($field['GenerateGifPng'])
-                                  ? (bool) $field['GenerateGifPng'] : false );
+                     'pdf' => isset($xml['GeneratePdf'])
+                                  ? (bool) $xml['GeneratePdf'] : false,
+                     'jpeg' => isset($xml['GenerateJpg'])
+                                  ? (bool) $xml['GenerateJpg'] : false,
+                     'png' => isset($xml['GenerateGifPng'])
+                                  ? (bool) $xml['GenerateGifPng'] : false );
 
   if (!$xml->Pages->Page) {
     zetaprints_debug("No pages in tempalate [$template_guid]");
