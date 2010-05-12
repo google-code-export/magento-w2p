@@ -188,8 +188,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     $group = 'group-' . mt_rand();
 
     foreach ($images as $image) {
-      $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/preview/{$image}";
-      $src = Mage::getStoreConfig('zpapi/settings/w2p_url') . "/thumb/{$image}";
+      $href = $this->get_preview_url($image);
+      $src = $this->get_thumbnail_url($image);
 
       if ($first_image) {
         echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
