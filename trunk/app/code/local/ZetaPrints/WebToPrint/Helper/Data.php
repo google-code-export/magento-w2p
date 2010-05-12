@@ -4,7 +4,7 @@
  */
 class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
-  protected function _getUrl($route, $params = array()) {
+  public function _getUrl($route, $params = array()) {
     if ($this->_getRequest()->getScheme() == Zend_Controller_Request_Http::SCHEME_HTTPS) {
       $params['_secure'] = true;
       return parent::_getUrl($route, $params);
