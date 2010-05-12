@@ -2,7 +2,8 @@
 
 <script type="text/javascript">
 //<![CDATA[
-  var imageEditorUpdateURL = '<?php echo Mage::getUrl('web-to-print/image/update'); ?>';
+  var imageEditorUpdateURL = '<?php echo Mage::helper('webtoprint')
+    ->_getUrl('web-to-print/image/update'); ?>';
   var imageEditorId = '<?php echo $this->getRequest()->getParam('id') ?>';
   var imageEditorZpURL = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
   var imageEditorDelimeter = '&';
