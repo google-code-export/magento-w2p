@@ -399,15 +399,24 @@ jQuery(document).ready(function($) {
     return false;
   }
 
-  public function get_order_webtoprint_links ($context) {
-    $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+  public function get_order_webtoprint_links ($context, $item = null) {
+    if ($item)
+      $options = $item->getProductOptionByCode('info_buyRequest');
+    else
+      $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
     if (!isset($options['zetaprints-order-id']))
       return;
 
     $webtoprint_links = "";
 
-    $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
+    $types = array('pdf', 'gif', 'png', 'jpeg');
+
+    //If function called from admin template
+    if (!$item)
+      //then add CDR file type to list of available types
+      array_push($types, 'cdr');
+
     foreach ($types as $type)
       if (isset($options['zetaprints-file-'.$type])) {
         $title = strtoupper($type);
