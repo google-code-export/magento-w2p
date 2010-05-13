@@ -123,6 +123,16 @@ New code checks for web-to-print in a product and shows preview images for order
 <?php $this->helper('webtoprint/personalization-form')->get_js_for_order_preview_images($this); ?>
   }}}
 
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items/renderer/default.phtml template/sales/order/items/renderer/default.phtml] ==
+This file show various information for particular order item on user orders page.
+
+New code shows links to generated files in order.
+
+*Section 1*: inserting links to web-to-print generated files.
+  {{{
+<?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
+  }}}
+
 = Functions =
 Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
