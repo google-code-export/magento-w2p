@@ -124,9 +124,9 @@ New code checks for web-to-print in a product and shows preview images for order
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items/renderer/default.phtml template/sales/order/items/renderer/default.phtml] ==
-This file show various information for particular order item on user orders page.
+This file shows various information for particular order item on user orders page.
 
-New code shows links to generated files in order.
+The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in order details. The links appear if the files were generated and the template config (in ZP) has _download by customer_ setting set to either _allow_ (a user can download files) or _only_ (the order is for downloading only, nothing gets printed). The function returns nothing if the conditions above are not met.
 
 *Section 1*: inserting links to web-to-print generated files.
   {{{
