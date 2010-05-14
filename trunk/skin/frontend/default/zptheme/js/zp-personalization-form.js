@@ -240,6 +240,8 @@ function personalization_form () {
             + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
             + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
 
+          $('input:radio', td).change(image_field_select_handler);
+
           var tr = this;
 
           $('img', td).load(function() {
@@ -298,6 +300,17 @@ function personalization_form () {
     });
   })
 
+  function image_field_select_handler (event) {
+    $(event.target).parents('div.zetaprints-images-selector')
+      .removeClass('no-value');
+
+    //If ZetaPrints advanced theme is enabled then...
+    if (window.mark_shape_as_edited)
+      //... mark shape as edited then image is seleted
+      mark_shape_as_edited($(event.target).attr('name').substring(12), shapes,
+        current_page);
+  }
+
   $(window).load(function () {
     if (shapes.length && window.mark_shapes_as_edited
         && window.precalculate_shapes
@@ -324,15 +337,7 @@ function personalization_form () {
               }
       });
 
-      $('input', this).change(function () {
-        $(top_element).removeClass('no-value');
-
-        //If ZetaPrints advanced theme is enabled then...
-        if (window.mark_shape_as_edited) {
-          //... mark shape as edited then image is seleted
-          mark_shape_as_edited($(this).attr('name').substring(12), shapes, current_page);
-        }
-      });
+      $('input', this).change(image_field_select_handler);
 
       $('div.head', this).click(function () {
         if ($(top_element).hasClass('minimized')) {
