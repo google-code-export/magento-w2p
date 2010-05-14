@@ -225,9 +225,6 @@ function personalization_form () {
 
         var trs = $('div.zetaprints-page-stock-images div.tab.user-images table tr');
 
-        $(this._button).parents('div.zetaprints-images-selector.no-value')
-          .removeClass('no-value');
-
         var number_of_loaded_imgs = 0;
 
         $(trs).each(function () {
@@ -282,7 +279,7 @@ function personalization_form () {
 
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value=' + response[0] + ']',
-                $(upload_div).parent()).attr('checked', 1);
+                $(upload_div).parent()).attr('checked', 1).change();
 
               $('img.ajax-loader', upload_div).hide();
               $('div.zetaprints-page-stock-images ul.tab-buttons li.hidden')
