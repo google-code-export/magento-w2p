@@ -134,7 +134,7 @@ function popup_field_by_name (name, position) {
   jQuery('<input type="hidden" name="field" value="' + full_name + '" />').appendTo(shape);
 
   var box = jQuery(field).wrap('<div class="field" />').parent().wrap('<div class="fieldbox-wrapper" />')
-    .parent().prepend('<div class="fieldbox-head"><a href="#" rel="' + full_name + '">&times;</a><span>' + name + ':</span></div>')
+    .parent().prepend('<div class="fieldbox-head"><a href="#" rel="' + full_name + '" /><span>' + name + ':</span></div>')
     .wrap('<div class="fieldbox" />').parent().css({
     zIndex: '10000',
     position: 'absolute',

@@ -71,11 +71,13 @@ div.fieldbox.ui-draggable div.fieldbox-head {
 }
 
 div.fieldbox div.fieldbox-head a {
+  display: block;
+  background-image: url('../images/save-button.png');
   float: right;
-  color: white;
   text-decoration: none;
-  font-size: 160%;
-  line-height: 70%;
+  width: 44px;
+  height: 16px;
+  margin-top: 1px;
 }
 
 div.fieldbox div.field {
