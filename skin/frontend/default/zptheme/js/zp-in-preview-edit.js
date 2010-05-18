@@ -108,12 +108,6 @@ function popup_field_by_name (name, position) {
     var width = jQuery(shape).outerWidth();
     if (width <= 150)
       width = 150;
-
-    //If type of field is textarea or one-line input field
-    if (field.type == 'textarea' || field.type == 'text')
-      //then save current value
-      field.original_value = field.value;
-
   } else {
     field = jQuery('div.zetaprints-images-selector[rel=zetaprints-#' + name + '] div.selector-content');
 
@@ -182,11 +176,6 @@ function popdown_field_by_name (name) {
   var element = jQuery('div.zetaprints-page-input-fields :input[name=' + full_name + '], div.zetaprints-images-selector[rel=' + full_name + '] div.selector-content')
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
-
-  if (element[0].original_value != undefined)
-    if (element[0].original_value != element[0].value)
-      //Fire change event on the field if its value was changed
-      jQuery(element[0]).change();
 
   jQuery(field).remove();
 
