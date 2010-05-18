@@ -275,14 +275,13 @@ function fancy_shape_handler (event) {
 }
 
 function add_in_preview_edit_handlers () {
-  jQuery('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').focusin(function() {
+  jQuery('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').mouseover(function() {
     highlight_shape_by_name(jQuery(this).attr('name').substring(12), get_current_shapes_container());
-  }).focusout(function() {
+  }).mouseout(function() {
     dehighlight_shape_by_name(jQuery(this).attr('name').substring(12), get_current_shapes_container());
   });
 
   jQuery('div.zetaprints-images-selector').mouseover(function () {
-    jQuery('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').focusout();
     highlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
   }).mouseout(function () {
     if (!jQuery(this).children('div.fieldbox').length)

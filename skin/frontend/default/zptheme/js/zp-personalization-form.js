@@ -311,10 +311,15 @@ function personalization_form () {
       .removeClass('no-value');
 
     //If ZetaPrints advanced theme is enabled then...
-    if (window.mark_shape_as_edited)
-      //... mark shape as edited then image is seleted
-      mark_shape_as_edited($(event.target).attr('name').substring(12), shapes,
-        current_page);
+    if (window.mark_shape_as_edited && window.unmark_shape_as_edited)
+      if ($(event.target).val().length)
+        //... mark shape as edited then image is seleсted
+        mark_shape_as_edited($(event.target).attr('name').substring(12), shapes,
+          current_page);
+      else
+        //or unmark shape then Leave blank is selected
+        unmark_shape_as_edited($(event.target).attr('name').substring(12),
+          shapes, current_page);
   }
 
   $(window).load(function () {
