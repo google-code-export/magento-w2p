@@ -168,6 +168,15 @@ function personalization_form () {
             has_image_zoomer = false;
             //and show preview image for the current page
             $('#preview-image-page-' + page_number).removeClass('hidden');
+
+            //Add all shapes to personalization form after first preview
+            //update
+            if (shapes.length && window.place_all_precalculated_shapes_for_page
+                && window.shape_handler)
+              place_all_precalculated_shapes_for_page(current_page,
+                                                      shapes,
+                                                      product_image_box,
+                                                      shape_handler);
           }
 
           if (previews.length == number_of_pages) {
@@ -315,7 +324,14 @@ function personalization_form () {
 
       mark_shapes_as_edited(shapes);
       precalculate_shapes(shapes, get_preview_dimensions(number_of_pages));
-      place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box, shape_handler);
+
+      //Add all shapes only then there's no base image.
+      //Shapes will be added after first preview update then base image exists
+      if (!has_image_zoomer)
+        place_all_precalculated_shapes_for_page(current_page,
+                                                shapes,
+                                                product_image_box,
+                                                shape_handler);
     }
 
     $('div.zetaprints-images-selector').each(function () {
