@@ -516,7 +516,7 @@ function personalization_form () {
 
   //If ZetaPrints advanced theme is enabled then...
   if (shapes.length && window.mark_shape_as_edited && window.unmark_shape_as_edited) {
-    $('div.zetaprints-page-input-fields :input').change(function () {
+    $('div.zetaprints-page-input-fields :input').keyup(function () {
       if ($(this).val().length)
         // ... then mark shape as edited if input field was modified and is not empty
         mark_shape_as_edited($(this).attr('name').substring(12), shapes, current_page);
