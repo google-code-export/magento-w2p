@@ -31,9 +31,11 @@ class ZetaPrints_WebToPrint_UploadController
     //FIXME fast n dirty image upload fix
     $img_url = $media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}");
 
-    if(substr($img_url, 0, 1) == '/') {
+    if(substr($img_url, 0, 1) == '/')
       $img_url = 'http://'.$_SERVER['SERVER_NAME'].$img_url;
-    }
+    else
+      //ZetaPrints doesn't accept URLs with HTTPS scheme
+      $img_url = str_replace('https://', 'http://', $img_url);
 
     $params = array(
       'ID' => $user_credentials['id'],
