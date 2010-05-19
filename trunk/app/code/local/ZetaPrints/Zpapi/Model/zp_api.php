@@ -1148,6 +1148,23 @@ function zetaprints_register_user ($url, $key, $user_id, $password, $corporate_i
   return strpos($response['content']['body'], '<ok />') !== false ? true : false;
 }
 
+function _parse_http_headers ($headers_string) {
+  $lines = explode("\r\n", $headers_string);
+
+  $headers = array();
+
+  foreach ($lines as $line) {
+    $key_value = explode(': ', $line);
+
+    if (count($key_value) == 2)
+      $headers[$key_value[0]] = $key_value[1];
+    else
+      $headers[] = $key_value[0];
+  }
+
+  return $headers;
+}
+
 function _return ($content, $error = false) {
   return array('error' => $error, 'content' => $content);
 }
@@ -1196,9 +1213,13 @@ function zetaprints_get_content_from_url ($url, $data = null) {
   if ($output === false || $info['http_code'] != 200) {
     $zetaprins_message = '';
 
-    if ($output !== false && function_exists('http_parse_headers')) {
+    if ($output !== false) {
       $output = explode("\r\n\r\n", $output);
-      $headers = http_parse_headers($output[0]);
+
+      if (function_exists('http_parse_headers'))
+        $headers = http_parse_headers($output[0]);
+      else
+        $headers = _parse_http_headers($output[0]);
 
       $zetaprins_message = (is_array($headers) && isset($headers['X-ZP-API-Error-Msg'])) ? $headers['X-ZP-API-Error-Msg'] : '';
     }
@@ -1212,19 +1233,24 @@ function zetaprints_get_content_from_url ($url, $data = null) {
 
   curl_close($curl);
 
-  $output = explode("\r\n\r\n", $output);
+  list($headers, $content) = explode("\r\n\r\n", $output);
+
+  if (function_exists('http_parse_headers'))
+    $headers = http_parse_headers($headers);
+  else
+    $headers = _parse_http_headers($headers);
 
   if (isset($info['content_type'])) {
     $type = explode('/', $info['content_type']);
 
     if ($type[0] == 'image')
-      zetaprints_debug(array('header' => $output[0], 'body' => 'Image'));
+      zetaprints_debug(array('header' => $headers, 'body' => 'Image'));
     else
-      zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
+      zetaprints_debug(array('header' => $headers, 'body' => $content));
   } else
-    zetaprints_debug(array('header' => $output[0], 'body' => $output[1]));
+    zetaprints_debug(array('header' => $headers, 'body' => $content));
 
-  return ok(array('header' => $output[0], 'body' => $output[1]));
+  return ok(array('header' => $headers, 'body' => $content));
 }
 
 ?>
