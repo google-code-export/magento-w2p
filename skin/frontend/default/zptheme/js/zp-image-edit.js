@@ -1,9 +1,8 @@
 jQuery(document).ready(function ($) {
   var imageEditorJcropApi;
-  $('#fancy_frame', top.document).css('overflow', 'hidden');
-  $('#fancy_frame', top.document).css('display', 'block');
   imageEditorLoadImage();
 
+  //inicialize Jcrop api
   function imageEditorCrop () {
     imageEditorHideCrop();
     imageEditorInfoBox('Use triggers to crop image');
@@ -16,6 +15,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCropForm').css('display', 'block');
   }
 
+  //remove Jcrop, if exists
   function imageEditorHideCrop () {
     $('#imageEditorInfo').hide();
     $('#imageEditorCropForm').css('display', 'none');
@@ -23,6 +23,7 @@ jQuery(document).ready(function ($) {
       imageEditorJcropApi.destroy();
   }
 
+  //Jcrop assign box coords
   function imageEditorUpdateCropCoords (c) {
     $('#imageEditorCropX').val(c.x);
     $('#imageEditorCropY').val(c.y);
@@ -34,6 +35,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorWidthInfo').html(c.w + ' px');
   }
 
+  //perform crop
   function imageEditorApplyCrop () {
     imageEditorHideCrop();
     parent.jQuery.fancybox.showActivity();
@@ -51,6 +53,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //perform image restore
   function imageEditorRestore () {
     imageEditorHideCrop();
     parent.jQuery.fancybox.showActivity();
@@ -68,6 +71,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //initial image load
   function imageEditorLoadImage () {
     parent.jQuery.fancybox.showActivity();
     $.ajax({
@@ -85,6 +89,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //perform image rotate
   function imageEditorDoRotate (dir) {
     imageEditorHideCrop();
     parent.jQuery.fancybox.showActivity();
@@ -102,6 +107,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //parse xml output and change image
   function imageEditorApplyImage (xml) {
     var h, w, uh, uw, src;
     $('#imageEditorPreview').hide();
@@ -144,6 +150,7 @@ jQuery(document).ready(function ($) {
     imageEditorApplySize(w, h);
   }
 
+  //perform image delete
   function imageEditorDelete (){
     if (confirm(zetaprints_trans('Delete this image?'))){
       $.ajax({
@@ -164,6 +171,7 @@ jQuery(document).ready(function ($) {
     }
   }
 
+  //show info text on blue line below
   function imageEditorInfoBox (msg) {
     $('#imageEditorCaption').show();
     if ($.browser.msie)
@@ -185,16 +193,13 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  //change fancybox size and center it
   function imageEditorApplySize (w, h) {
     //min dimensions
     if (w < 300 || typeof(w) == "undefined")
       w = 300;
     if (h < 300 || typeof(h) == "undefined")
       h = 300;
-    //old fancybox
-    $('#fancy_outer', top.document).width(Number(w) + 120);
-    $('#fancy_outer', top.document).height(Number(h) + 75);
-    //new fancybox
     $('#fancybox-outer', top.document).width(Number(w) + 120);
     $('#fancybox-outer', top.document).height(Number(h) + 75);
     $('#fancybox-wrap', top.document).width(Number(w) + 120);
@@ -204,12 +209,14 @@ jQuery(document).ready(function ($) {
     parent.jQuery.fancybox.center();
   }
 
+  //check if zetaprints_trans function exists, if not exists create dummy one
   if (!window.zetaprints_trans) {
     function zetaprints_trans (msg) {
       return msg;
     }
   }
 
+  //parse regular expression
   function getRegexpValue (subject, exp) {
     match = subject.match(exp);
     if (match != null) {
@@ -222,6 +229,7 @@ jQuery(document).ready(function ($) {
       return false;
   }
 
+  //image load handler. Fade in on load, hide loading icon, show image caption
   $('#imageEditorPreview').load(function(){
     $('#imageEditorPreview').fadeIn().ready( function () {
       parent.jQuery('#fancybox-loading').fadeOut();
@@ -229,6 +237,7 @@ jQuery(document).ready(function ($) {
     });
   });
 
+  //button handlers
   $('#imageEditorCrop').click(imageEditorCrop);
   $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
   $('#imageEditorRestore').click(imageEditorRestore);
