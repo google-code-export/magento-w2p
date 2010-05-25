@@ -10,7 +10,7 @@ ZetaPrints serves different types of images:
   * user images
   * user images thumbnails
 
-Images are added to Magento pages as direct links to ZetaPrints.
+Web-to-print images are added to Magento pages as direct links to ZetaPrints.
 Web browsers produce a warning about unsecure content if a Magento page was opened via _HTTPS_. Our extension proxies this content through Magento to remove HTTP components from the page. Also it proxies all HTTP caching headers for images from ZetaPrints.
 Images are proxied in memory only and are never cached on the disk.
 
