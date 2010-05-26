@@ -169,6 +169,16 @@ Extension developed by http://www.zetaprints.com/
 
             </dir>
 
+            <dir name="System">
+              <dir name="Config">
+
+                  <dir name="Backend">
+                    <file name="ZetaPrintsUrl.php" role="magelocal" />
+                  </dir>
+
+              </dir>
+            </dir>
+
             <file name="Template.php" role="magelocal" />
           </dir>
 

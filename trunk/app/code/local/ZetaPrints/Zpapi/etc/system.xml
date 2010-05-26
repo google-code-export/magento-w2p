@@ -33,10 +33,12 @@
             <w2p_url translate="label">
                             <label>ZetaPrints URL</label>
                             <frontend_type>text</frontend_type>
+                            <backend_model>ZetaPrints_WebToPrint_Model_System_Config_Backend_ZetaPrintsUrl</backend_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <validate>validate-url</validate>
               <comment><![CDATA[
                                 Example: <b>http://orders.example.com</b>
                             ]]></comment>
