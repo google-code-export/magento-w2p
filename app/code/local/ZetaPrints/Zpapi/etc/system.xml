@@ -40,7 +40,7 @@
                             <show_in_store>0</show_in_store>
                             <validate>validate-url</validate>
               <comment><![CDATA[
-                                Example: <b>http://orders.example.com</b>
+                                Example: <b>http://orders.example.com/</b>
                             ]]></comment>
                         </w2p_url>
             <w2p_key translate="label">
