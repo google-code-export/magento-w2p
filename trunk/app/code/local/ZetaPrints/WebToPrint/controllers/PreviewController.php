@@ -126,5 +126,47 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
       $this->getResponse()->setBody($response['content']['body']);
     }
   }
+
+  public function localLinkAction () {
+    if (!$this->getRequest()->has('guid'))
+        return;
+
+    $guid = $this->getRequest()->get('guid');
+
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url') . '/preview/' . $guid;
+
+    //Download preview image from ZetaPrinrs
+    $response = zetaprints_get_content_from_url($url);
+
+    if (zetaprints_has_error($response)) {
+      echo json_encode($this->__('Error was occurred while preparing preview image'));
+      return;
+    }
+
+    $media_config = Mage::getModel('catalog/product_media_config');
+
+    $guid = explode('.', $guid);
+
+    $file_name = zetaprints_generate_guid() . '.' . $guid[1];
+    $file_path = $media_config->getTmpMediaPath("previews/{$file_name}");
+
+    //Save preview image on M. server
+    if (file_put_contents($file_path, $response['content']['body']) === false) {
+      echo json_encode($this->__('Error was occurred while preparing preview image'));
+      return;
+    }
+
+    //Preparing link to preview image on M. server
+    $local_link = $media_config->getTmpMediaUrl("previews/{$file_name}");
+
+    if(substr($local_link, 0, 1) == '/') {
+      $scheme = $this->getRequest()->getScheme()
+              == Zend_Controller_Request_Http::SCHEME_HTTPS ? 'https' : 'http';
+      $local_link = $scheme . '://' . $_SERVER['SERVER_NAME'] . $local_link;
+    }
+
+    //Send prepared link to browser
+    echo json_encode($local_link);
+  }
 }
 ?>

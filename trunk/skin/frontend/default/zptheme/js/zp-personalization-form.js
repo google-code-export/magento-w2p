@@ -124,6 +124,25 @@ function personalization_form () {
       $('div.zetaprints-next-page-button').hide();
   });
 
+  function add_preview_sharing_link (filename) {
+    $.ajax({
+      url: preview_locallink_url,
+      type: 'POST',
+      dataType: 'json',
+      data: 'guid=' + filename,
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert(preview_sharing_link_error_text + ': ' + textStatus);
+      },
+      success: function (data, textStatus) {
+        //Check if data starts with http:// or https://
+        if (data.match(/^http(s)?:\/\/.+$/) != null)
+          $('#zetaprints-share-link-input').val(data);
+        else
+          alert(data);
+      }
+    });
+  }
+
   function update_preview () {
     $('div.zetaprints-preview-button span.text').css('display', 'inline');
     $('img.ajax-loader').css('display', 'inline');
@@ -147,6 +166,10 @@ function personalization_form () {
           //Update links to preview image on current page
           $('#preview-image-page-' + page_number).attr('href', data.preview_url);
           $('#preview-image-page-' + page_number + ' img').attr('src', data.preview_url);
+
+          //Generate preview sharing link if it was enabled
+          if (window.place_preview_image_sharing_link)
+            add_preview_sharing_link(data.filename);
 
           //Update link to preview image in opened fancybox
           var fancy_img = $('#fancybox-img');

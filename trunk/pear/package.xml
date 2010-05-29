@@ -192,6 +192,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="mysql4-upgrade-4-5.php" role="magelocal" />
               <file name="mysql4-upgrade-5-6.php" role="magelocal" />
               <file name="mysql4-upgrade-6-7.php" role="magelocal" />
+              <file name="mysql4-upgrade-7-8.php" role="magelocal" />
             </dir>
 
           </dir>
@@ -442,6 +443,7 @@ Extension developed by http://www.zetaprints.com/
                 <dir name="product">
 
                   <dir name="view">
+                    <file name="addto.phtml" role="magedesign" />
                     <file name="addtocart.phtml" role="magedesign" />
                     <file name="media.phtml" role="magedesign" />
                   </dir>

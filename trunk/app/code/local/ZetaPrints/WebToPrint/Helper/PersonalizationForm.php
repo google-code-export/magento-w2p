@@ -231,6 +231,34 @@ jQuery(document).ready(function($) {
     return false;
   }
 
+  public function get_preview_image_sharing_link ($context = null) {
+ ?>
+
+<li>
+  <span class="separator">|</span>
+  <span class="zetaprints-share-link">
+    <a href="javascript:void(0)">Share preview</a>
+    <input id="zetaprints-share-link-input" type="text" value="" />
+  </span>
+</li>
+
+<script type="text/javascript">
+//<![CDATA[
+  var place_preview_image_sharing_link = true;
+
+  jQuery(document).ready(function($) {
+    $('#zetaprints-share-link-input').val('');
+
+    $('span.zetaprints-share-link a').click(function () {
+      $(this).parent().addClass('show');
+    });
+  });
+//]]>
+</script>
+
+<?php
+  }
+
   public function get_preview_image ($context) {
     if (!$context->getProduct()->getSmallImage())
       return false;
@@ -616,6 +644,7 @@ jQuery(document).ready(function($) {
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
   preview_controller_url = '<?php echo $this->_getUrl('web-to-print/preview'); ?>';
+  preview_locallink_url = '<?php echo $this->_getUrl('web-to-print/preview/locallink'); ?>';
   upload_controller_url = '<?php echo $this->_getUrl('web-to-print/upload'); ?>';
   image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
@@ -623,6 +652,7 @@ jQuery(document).ready(function($) {
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
+  preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";

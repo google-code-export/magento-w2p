@@ -512,3 +512,15 @@ div.zetaprints-previews-box.hide div.title a.hide-title {
 div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
+
+span.zetaprints-share-link input {
+  display: none;
+}
+
+span.zetaprints-share-link.show a {
+  display: none;
+}
+
+span.zetaprints-share-link.show input {
+  display: inline;
+}
