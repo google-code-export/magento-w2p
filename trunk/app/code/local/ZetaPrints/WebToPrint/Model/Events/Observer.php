@@ -41,6 +41,15 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       Mage::throwException('ZetaPrints error');
 
     $options['zetaprints-order-id'] = $order_id;
+
+    //Get details for newly created order
+    $order_details = zetaprints_get_order_details(Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $order_id);
+
+    //If order details contain link to low resolution PDF...
+    if ($order_details && $order_details['pdf'] != '')
+      //... save it in the item options
+      $options['zetaprints-order-lowres-pdf'] = $order_details['pdf'];
+
     $option_model->setValue(serialize($options));
 
     Mage::getSingleton('core/session')->unsetData('zetaprints-previews');

@@ -200,6 +200,15 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       echo "<img src=\"$src\" style=\"max-width: 75px;\" />";
       echo "</a>";
     }
+
+    //If item has low resolution link to PDF...
+    if (isset($options['zetaprints-order-lowres-pdf'])) {
+      $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . $options['zetaprints-order-lowres-pdf'];
+      $title = $this->__('PDF Proof');
+
+      //... show it
+      echo "<a class=\"zetaprints-lowres-pdf-link\" href=\"{$href}\">{$title}</a>";
+    }
 ?>
 <script type="text/javascript">
 //<![CDATA[
