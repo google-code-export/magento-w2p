@@ -31,8 +31,6 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
     $w2p_user = Mage::getModel('zpapi/w2puser');
 
-    //$params['ApiKey'] = $w2p_user->key;
-
     $user_credentials = $w2p_user->get_credentials();
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
