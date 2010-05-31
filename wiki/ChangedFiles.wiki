@@ -19,5 +19,3 @@
   * Change to displays ZP Image(w2p_image) on product detail page.
 === app\design\frontend\default\default\template\catalog\product\view\addtocart.phtml ===
   * Change to displays Personalize Button on product detail page.
-=== app\design\frontend\default\default\template\page\2columns-right.phtml ===
-  * Change to display iframe of product.
