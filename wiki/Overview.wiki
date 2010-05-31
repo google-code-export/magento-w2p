@@ -11,9 +11,7 @@ Magento is an open source e-commerce platform (www.magentocommerce.com). It has 
 
 Magento is geared up to selling finished products. A user would normally browse the catalog, add products to cart, pay, download or have them delivered.
 Selling template-based products requires one more step - personalization.
-Personalization is done by ZetaPrints via:
-  * showing ZetaPrints preview page in an IFRAME (www.zetaprints.com/help/samples/embedded-image-generator.html)
-  * using ZetaPrints flash plugin (http://code.google.com/p/e-cards-plugin/)
+Personalization is done by ZetaPrints using ZetaPrints flash plugin (http://code.google.com/p/e-cards-plugin/)
 Once the design is customized the control is passed back to Magento along with necessary IDs to complete the order and obtain the files.
 The user never leaves the Magento store and is unaware that some services were provided by ZetaPrints.
 
