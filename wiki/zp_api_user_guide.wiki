@@ -126,32 +126,6 @@ _zp_api_user_register($user, $pass)_ function returns
 
 Registering a new user with _UserID_ and _Password_ matching an existing user is the same as verifying the user exists.
 
-==== Show template previews in an IFRAME ====
-There is number of options how your website may present templates:
-  * Build your own GUI
-  * Show ZetaPrints in a FRAME
-  * Use ZetaPrints [http://code.google.com/p/e-cards-plugin/ e-cards widget]
-
-One of the options is to show ZetaPrints interface in an IFRAME. Note, that you have to have a registered user ID to use this function. 
-
-The function crafts a special URL for the FRAME SRC attribute that includes the following parameters: 
-  * RetT=id
-  * RetO=Save
-  * RetE=1
-  * TemplateID=Template ID
-  * ID=[http://www.zetaprints.com/help/user-registration-api/ UserID]
-  * Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ MD5 hash for authentication]
-
-{{{
-//Show previews of template in IFRAME
-$iframe = zp_api_template_iframe_url ("_Template ID_","_UserID_","_Password_");
-echo "iframe=[$iframe]";
-}}}
-Where _Template ID_ is a GUID of a template in question.
-
-_zp_api_template_iframe_url("_Template ID_","_UserID_","_Password_")_ function returns 
-  * [http://www.zetaprints.com/help/user-pass-through-api/ Frame src]: http://order.example.com/?page=template;TemplateID=Template ID;RetT=id;RetO=Save;RetE=1;ID=[http://www.zetaprints.com/help/user-registration-api/ UserID];Hash=[http://www.zetaprints.com/help/md5-hash-for-authentication/ MD5 hash for authentication]
-
 == Order API ==
 ZetaPrints Order API allows some manipulation of orders and retrieval of order details. 
 
