@@ -7,10 +7,16 @@
   * Automatic update of ZetaPrints order status (Issue #10)
   * Switch to jQuery 1.4 (Issue #159)
   * New theme for in-preview editing (Issue #177)
-  * Fields highlighting and in-preview fields edit (Issue #169, Issue #170)
-  * Other bug fixes: issue #163, issue #167
+  * Fields highlighting and in-preview fields edit (Issue #169, Issue #170, Issue #193)
+  * Better support for HTTPS (Issue #192)
+  * Order output files download for users (Issue #198)
+  * Preview image sharing (Issue #210)
+  * PDF proofs for saved orders (Issue #191)
+  * Other bug fixes: issue #163, issue #167, issue #186, issue #207
 
 == Release comments ==
+There was introduced several requirements to custom themes. See more info at Custom theme requirements on CustomThemeNative page.
+
 Deprecated functions:
   * _get_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including. To update your custom theme do following steps.
     # Copy _app/design/frontend/default/zptheme/layout/local.xml_ file to your custom theme's _layout_ directory. Or copy its content if you already have _local.xml_ file in the custom theme.
