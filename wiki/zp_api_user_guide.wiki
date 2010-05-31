@@ -16,7 +16,6 @@ All the functions are called via HTTP GET/POST. We created a set of PHP wrappers
 		# Get list of templates of catalog ([http://www.zetaprints.com/help/template-details-api/ Templates API])
 	# Template API
 		# Get details of template ([http://www.zetaprints.com/help/template-details-api/ Templates API])
-		# Show previews of template in IFRAME ([http://www.zetaprints.com/help/user-pass-through-api/ User pass-through API])
 	# User API
 		# Regiser new User ([http://www.zetaprints.com/help/user-registration-api/ User rego API])
 	# Order API
