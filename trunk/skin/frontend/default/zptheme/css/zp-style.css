@@ -517,6 +517,11 @@ span.zetaprints-share-link input {
   display: none;
 }
 
+.add-to-links span.zetaprints-share-link.empty a {
+  color: gray !important;
+  cursor: default;
+}
+
 span.zetaprints-share-link.show a {
   display: none;
 }

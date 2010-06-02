@@ -68,6 +68,10 @@ function personalization_form () {
   current_page = 0;
   changed_pages = new Array(number_of_pages);
 
+  //Create array for preview images sharing links
+  if (window.place_preview_image_sharing_link)
+    preview_sharing_links = new Array(number_of_pages);
+
   if (previews_from_session) {
     $('a.zetaprints-image-tabs img').each(function () {
       var src = $(this).attr('src').split('thumb');
@@ -114,6 +118,10 @@ function personalization_form () {
     //Remember number of selected page
     current_page = page.split('-')[1] * 1 - 1;
 
+    //Set preview images sharing link for the current page
+    if (window.place_preview_image_sharing_link)
+      set_preview_sharing_link_for_page(current_page, preview_sharing_links)
+
     //Add shapes for selected page
     if (shapes.length && window.place_all_precalculated_shapes_for_page && window.shape_handler)
       place_all_precalculated_shapes_for_page(current_page, shapes, product_image_box, shape_handler);
@@ -135,12 +143,25 @@ function personalization_form () {
       },
       success: function (data, textStatus) {
         //Check if data starts with http:// or https://
-        if (data.match(/^http(s)?:\/\/.+$/) != null)
+        if (data.match(/^http(s)?:\/\/.+$/) != null) {
+          preview_sharing_links[current_page] = data;
+          $('span.zetaprints-share-link').removeClass('empty');
           $('#zetaprints-share-link-input').val(data);
+        }
         else
           alert(data);
       }
     });
+  }
+
+  function set_preview_sharing_link_for_page (page_number, links) {
+    if (links[page_number]) {
+      $('span.zetaprints-share-link').removeClass('empty');
+      $('#zetaprints-share-link-input').val(links[page_number]);
+    } else {
+      $('span.zetaprints-share-link').addClass('empty');
+      $('#zetaprints-share-link-input').val('');
+    }
   }
 
   function update_preview () {
