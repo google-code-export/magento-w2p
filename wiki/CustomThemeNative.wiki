@@ -136,6 +136,8 @@ The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
 *Note:* _If you planing to show sharing links to generated previews then you have to modify this template, otherwise you don't need to touch it._
 
+All downloaded from ZetaPrints previews will be saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically while the web-to-print extension installation process. Old preview images won't be removed automatically from the directory.
+
 This file shows links to add current product to user's wishlist or list for comparison with other products. 
 
 The following ZP code adds link to show text field with sharing url for a generated preview.
