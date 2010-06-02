@@ -245,7 +245,7 @@ jQuery(document).ready(function($) {
 
 <li>
   <span class="separator">|</span>
-  <span class="zetaprints-share-link">
+  <span class="zetaprints-share-link empty">
     <a href="javascript:void(0)">Share preview</a>
     <input id="zetaprints-share-link-input" type="text" value="" />
   </span>
@@ -256,10 +256,17 @@ jQuery(document).ready(function($) {
   var place_preview_image_sharing_link = true;
 
   jQuery(document).ready(function($) {
-    $('#zetaprints-share-link-input').val('');
+    $('#zetaprints-share-link-input').focusout(function() {
+      $(this).parent().removeClass('show');
+    }).val('');
 
     $('span.zetaprints-share-link a').click(function () {
-      $(this).parent().addClass('show');
+      var parent = $(this).parent();
+
+      if (!$(parent).hasClass('empty')) {
+        $(parent).addClass('show');
+        $('#zetaprints-share-link-input').focus().select();
+      }
     });
   });
 //]]>
