@@ -207,7 +207,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       $title = $this->__('PDF Proof');
 
       //... show it
-      echo "<a class=\"zetaprints-lowres-pdf-link\" href=\"{$href}\">{$title}</a>";
+      echo "<br /><a class=\"zetaprints-lowres-pdf-link\" href=\"{$href}\">{$title}</a>";
     }
 ?>
 <script type="text/javascript">
