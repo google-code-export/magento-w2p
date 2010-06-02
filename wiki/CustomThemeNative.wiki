@@ -133,6 +133,18 @@ The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in
 <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
   }}}
 
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
+*Note:* _If you planing to show sharing links to generated previews then you have to modify this template, otherwise you don't need to touch it._
+
+This file shows links to add current product to user's wishlist or list for comparison with other products. 
+
+The following ZP code adds link to show text field with sharing url for a generated preview.
+
+*Section 1*: add preview sharing link.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->get_preview_image_sharing_link(); ?>
+  }}}
+
 = Functions =
 Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
