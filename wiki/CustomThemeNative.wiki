@@ -84,9 +84,10 @@ New code checks for web-to-print in a product and puts correct images urls addit
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/checkout/cart/item/default.phtml template/checkout/cart/item/default.phtml] ==
 This file shows various information for cart item on shopping cart page.
 
-New code checks for web-to-print in a product and puts correct images urls for cart item.
+New code checks for web-to-print in a product and puts correct images urls for cart item,
+also it adds link to PDF proofs.
 
-*Section 1*: checking if product has web-to-print features and then printing `img` tag with correct url.
+*Section 1*: checking if product has web-to-print features and then printing `img` tag with correct url; add link to PDF proof for the template.
   {{{
 <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
   }}}
