@@ -259,7 +259,7 @@ jQuery(document).ready(function($) {
                     ->getTmpMediaUrl('previews/');
 
     if(substr($media_url, 0, 1) == '/') {
-      $scheme = $this->getRequest()->getScheme()
+      $scheme = $this->_getRequest()->getScheme()
               == Zend_Controller_Request_Http::SCHEME_HTTPS ? 'https' : 'http';
       $media_url = $scheme . '://' . $_SERVER['SERVER_NAME'] . $media_url;
     }
