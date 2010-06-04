@@ -133,25 +133,11 @@ function personalization_form () {
   });
 
   function add_preview_sharing_link (filename) {
-    $.ajax({
-      url: preview_locallink_url,
-      type: 'POST',
-      dataType: 'json',
-      data: 'guid=' + filename,
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(preview_sharing_link_error_text + ': ' + textStatus);
-      },
-      success: function (data, textStatus) {
-        //Check if data starts with http:// or https://
-        if (data.match(/^http(s)?:\/\/.+$/) != null) {
-          preview_sharing_links[current_page] = data;
-          $('span.zetaprints-share-link').removeClass('empty');
-          $('#zetaprints-share-link-input').val(data);
-        }
-        else
-          alert(data);
-      }
-    });
+    preview_sharing_links[current_page] = preview_image_sharing_link_template +
+                                          filename;
+
+    $('span.zetaprints-share-link').removeClass('empty');
+    $('#zetaprints-share-link-input').val(preview_sharing_links[current_page]);
   }
 
   function set_preview_sharing_link_for_page (page_number, links) {
