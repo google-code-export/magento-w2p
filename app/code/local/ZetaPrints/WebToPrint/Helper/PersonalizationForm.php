@@ -146,7 +146,21 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
   public function get_next_step_url ($context) {
     if (!$this->is_personalization_step($context)) {
-      echo $context->getProduct()->getProductUrl() . '?personalization=1';
+      //Get model for URL
+      $url_model = $context->getProduct()->getUrlModel();
+
+      $params = array();
+
+      //Set parameter for Session ID in URL
+      if (!Mage::app()->getUseSessionInUrl())
+        $params['_nosid'] = true;
+
+      //Add personalization parameter to URL
+      $params['_query'] = array('personalization' => '1');
+
+      //Print out url for the product
+      echo $url_model->getUrl($context->getProduct(), $params);
+
       return true;
     }
     else
