@@ -272,6 +272,8 @@ jQuery(document).ready(function($) {
   jQuery(document).ready(function($) {
     $('#zetaprints-share-link-input').focusout(function() {
       $(this).parent().removeClass('show');
+    }).click(function () {
+      $(this).select();
     }).val('');
 
     $('span.zetaprints-share-link a').click(function () {
