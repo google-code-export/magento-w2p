@@ -255,6 +255,14 @@ jQuery(document).ready(function($) {
   }
 
   public function get_preview_image_sharing_link ($context = null) {
+    $media_url = Mage::getModel('catalog/product_media_config')
+                    ->getTmpMediaUrl('previews/');
+
+    if(substr($media_url, 0, 1) == '/') {
+      $scheme = $this->getRequest()->getScheme()
+              == Zend_Controller_Request_Http::SCHEME_HTTPS ? 'https' : 'http';
+      $media_url = $scheme . '://' . $_SERVER['SERVER_NAME'] . $media_url;
+    }
  ?>
 
 <li>
@@ -268,12 +276,28 @@ jQuery(document).ready(function($) {
 <script type="text/javascript">
 //<![CDATA[
   var place_preview_image_sharing_link = true;
+  var preview_image_sharing_link_template = '<?php echo $media_url; ?>';
 
   jQuery(document).ready(function($) {
     $('#zetaprints-share-link-input').focusout(function() {
       $(this).parent().removeClass('show');
     }).click(function () {
       $(this).select();
+    }).select(function () {
+      $.ajax({
+        url: preview_download_url,
+        type: 'POST',
+        dataType: 'json',
+        data: 'guid=' + previews[current_page],
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert(preview_sharing_link_error_text + ': ' + textStatus);
+        },
+        success: function (data, textStatus) {
+          //Check returned status'
+          if (data != 'OK')
+            alert(data);
+        }
+      });
     }).val('');
 
     $('span.zetaprints-share-link a').click(function () {
@@ -281,7 +305,7 @@ jQuery(document).ready(function($) {
 
       if (!$(parent).hasClass('empty')) {
         $(parent).addClass('show');
-        $('#zetaprints-share-link-input').focus().select();
+        $('#zetaprints-share-link-input').focus();
       }
     });
   });
@@ -676,7 +700,7 @@ jQuery(document).ready(function($) {
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
   preview_controller_url = '<?php echo $this->_getUrl('web-to-print/preview'); ?>';
-  preview_locallink_url = '<?php echo $this->_getUrl('web-to-print/preview/locallink'); ?>';
+  preview_download_url = '<?php echo $this->_getUrl('web-to-print/preview/download'); ?>';
   upload_controller_url = '<?php echo $this->_getUrl('web-to-print/upload'); ?>';
   image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
