@@ -215,4 +215,4 @@ if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
 Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
 
 
-[http://www.zetaprints.com/magento-web-to-print/magento-partners Get professional Magento support]
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://ec2-174-129-95-130.compute-1.amazonaws.com/help/img/magento_w2p_images/magento_support_text.png]
