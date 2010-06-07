@@ -19,3 +19,5 @@
   * Change to displays ZP Image(w2p_image) on product detail page.
 === app\design\frontend\default\default\template\catalog\product\view\addtocart.phtml ===
   * Change to displays Personalize Button on product detail page.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
