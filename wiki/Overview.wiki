@@ -19,3 +19,5 @@ The user never leaves the Magento store and is unaware that some services were p
 = Purpose of the project =
 The main purpose is to allow e-commerce operators build their online stores using an open source platform and utilize the power of ZetaPrints dynamic image generation and web-to-print back-end.
 Different applications need different page layouts, different workflow, different styles. Using Magento as a storefront makes the customization possible. Using ZetaPrints API adds design personalization capabilities.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
