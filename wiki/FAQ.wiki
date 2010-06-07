@@ -26,3 +26,5 @@ Check that the template exists in your ZetaPrints portal.
 *Error in receiving list of templates for catalog _catalog_name_*
 
 Check that the catalog exists in your ZetaPrints portal.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
