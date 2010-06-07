@@ -23,3 +23,5 @@ User management code is placed in _app/code/local/ZetaPrints/Api/Model/W2puser.p
   * getW2pState() - Returns status of magento user.
   * getW2pUserId() - Returns ZetaPrints' GUID for the registered Magento user.
   * getW2pPass() - Returns ZetaPrints' password for the registered Magento user.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
