@@ -180,3 +180,5 @@ print_r($order);
 _zp_api_order_change("_ZetaPrints order ID_", "_new status_", "_current status_")_ function returns 
   * Data Detail (data type is array) of New ZetaPrints Order.
   * null - if you didn't set [http://www.zetaprints.com/help/about-web-to-print-api/ ZetaPrints API Key] or the [http://www.zetaprints.com/help/category/access-url/ domain name] of your ZetaPrints portal.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
