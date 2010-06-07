@@ -25,3 +25,5 @@ Deprecated functions:
 <?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
     }}}  
   * _get_admin_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including in ZP admin theme. Magento doesn't support any uninstallation facilities for its extensions. You should remove _app/design/adminhtml/default/zptheme/template/page/head.phtml_ file by hand.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
