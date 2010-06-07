@@ -7,3 +7,5 @@ Process steps:
   # For every web-to-print item from the order change its status on ZP to _deleted_
 
 Code is placed in _delete_zetaprints_order_ function in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Model/Events/Observer.php app/code/local/ZetaPrints/WebToPrint/Model/Events/Observer.php] file. The function is registered in M. as a handler for _sales_order_save_after_ event (see [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/etc/config.xml app/code/local/ZetaPrints/WebToPrint/etc/config.xml] file)
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
