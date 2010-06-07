@@ -20,3 +20,6 @@ Change a template on ZP. Run Import profile.
   * Remove an image field
 
 The product on M. should reflect all changes after the import.
+
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
