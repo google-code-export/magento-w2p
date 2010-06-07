@@ -59,3 +59,5 @@ Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/front
 This file contains JavaScript code for a in-preview editing and fields highlighting.
 
 Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-in-preview-edit.css zp-in-preview-edit.css]_
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
