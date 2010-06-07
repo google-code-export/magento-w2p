@@ -50,3 +50,5 @@ post_max_size = 12M
 
 == XSL support ==
 The extension requires XSL (XSLT) support. The presence of an XSL component is checked during the installation. It can be aborted if the component is absent. Contact your sysadmin or the hosting company to have it installed.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
