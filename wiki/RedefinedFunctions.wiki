@@ -23,3 +23,5 @@ The class is redefined by *[http://code.google.com/p/magento-w2p/source/browse/t
 
 Redifined functions:
   * `getCopyright ()` - Add version of web-to-print extension.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
