@@ -57,3 +57,5 @@ They need to use M for that.
 _*Pre-created directory*_ is directory that created after extension installation automatically. Name for the directory is randomly generated GUID (see _zetaprints_generate_guid()_ function in _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/Zpapi/Model/zp_api.php zp_api.php]_ file) and saved in M. global config under _zetaprints/webtoprint/uploading/dir_ key. Newly created directory is placed in _media/tmp/catalog/product/_ directory of M. distribution.
 
 The directory must be available throw the web to allow ZetaPrints service download images uploaded by user in M. interface.
+
+[http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
