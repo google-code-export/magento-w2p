@@ -496,6 +496,7 @@ Extension developed by http://www.zetaprints.com/
                 <dir name="product">
 
                   <dir name="view">
+                    <file name="addto.phtml" role="magedesign" />
                     <file name="addtocart.phtml" role="magedesign" />
                     <file name="media.phtml" role="magedesign" />
                   </dir>

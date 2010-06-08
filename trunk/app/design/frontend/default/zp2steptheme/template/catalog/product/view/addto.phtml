@@ -33,11 +33,4 @@
 <?php if($_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product) ): ?>
     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
 <?php endif; ?>
-
-    <!-- /****** ZP-CODE:1 Add preview sharing link ******/ -->
-    <li><span class="separator">|</span>
-      <?php $this->helper('webtoprint/personalization-form')->get_preview_image_sharing_link() ?>
-    </li>
-    <!-- /****** ZP-CODE:1 End ******/ -->
-
 </ul>
