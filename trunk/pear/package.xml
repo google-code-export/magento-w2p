@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-03-16</date>
+  <date>2010-06-08</date>
 
   <version>
-    <release>1.8.0.0</release>
-    <api>1.8.0.0</api>
+    <release>1.8.1.0</release>
+    <api>1.8.1.0</api>
   </version>
 
   <stability>
@@ -52,14 +52,17 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Support for Magento 1.4
-* Basic image editor with cropping and rotating possibilities for images
-  uploaded by customer (issue #110).
-* User input caching. Backed by ZetaPrints (issue #119).
-* Controlling lifetime of user session (issue #126).
-* Support for localization (issue #132).
-* Better user experience (issue #142, issue #149, issue #153, issue #128).
-* Bug fixes (issue #135, issue #147).
+* User image deletion (issue #164)
+* Fix error with product's base image (issue #141)
+* Automatic update of ZetaPrints order status (issue #10)
+* Switch to jQuery 1.4 (issue #159)
+* New theme for in-preview editing (issue #177)
+* Fields highlighting and in-preview fields edit (issue #169, issue #170, issue #193 )
+* Better support for HTTPS (issue #192)
+* Order output files download for users (issue #198)
+* Preview image sharing (issue #210)
+* PDF proofs for saved orders (issue #191)
+* Bug fixes (issue #163, issue #167, issue #186, issue #207)
   </notes>
 
   <contents>
@@ -548,6 +551,32 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+    <version>
+      <release>1.8.0.0</release>
+      <api>1.8.0.0</api>
+    </version>
+
+    <stability>
+      <release>stable</release>
+      <api>stable</api>
+    </stability>
+
+    <date>2010-03-16</date>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+    <notes>
+* Support for Magento 1.4
+* Basic image editor with cropping and rotating possibilities for images
+  uploaded by customer (issue #110).
+* User input caching. Backed by ZetaPrints (issue #119).
+* Controlling lifetime of user session (issue #126).
+* Support for localization (issue #132).
+* Better user experience (issue #142, issue #149, issue #153, issue #128).
+* Bug fixes (issue #135, issue #147).
+    </notes>
+  </release>
+
     <release>
       <version>
         <release>1.7.0.0</release>
