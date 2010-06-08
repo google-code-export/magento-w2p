@@ -1,6 +1,6 @@
 #summary Release notes for stable releases
 
-= Future stable release (1.8.1.0) =
+= 1.8.1.0 release =
 == Issues ==
   * User image deletion (Issue #164)
   * Fix error with product's base image (Issue #141)
