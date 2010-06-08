@@ -102,7 +102,7 @@ New code adds resources (css and js files) for web-to-print personalization form
 <?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
   }}}
 
-*NOTE*: this function is deprecated since 1.8.1.0beta2 release. List of CSS and JavaScript files for web-to-print personalization form was moved to _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/layout/local.xml app/design/frontend/default/zptheme/layout/local.xml]_ file. Copy this file from zptheme to your custom theme's _layout_ directory.
+*NOTE*: this function was deprecated since 1.8.1.0beta2 release. List of CSS and JavaScript files for web-to-print personalization form was moved to _[http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/layout/local.xml app/design/frontend/default/zptheme/layout/local.xml]_ file. Copy this file from zptheme to your custom theme's _layout_ directory.
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/sales/order/items.phtml template/sales/order/items.phtml] ==
 This file show various information for order item on user orders page.
@@ -119,7 +119,7 @@ New code checks for web-to-print in a product and shows preview images for order
 <?php $this->helper('webtoprint/personalization-form')->get_order_preview_images($this, $_item); ?>
   }}}
 
-*Section 3*: add JavaScript code for previews images.
+*Section 3*: add JavaScript code for preview images.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js_for_order_preview_images($this); ?>
   }}}
@@ -135,13 +135,11 @@ The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
-*Note:* _If you planing to show sharing links to generated previews then you have to modify this template, otherwise you don't need to touch it._
+This file needs to be modified only of you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
 
-Preview downloading is initiated only then user clicks on text input with URL. All previews those are downloaded from ZetaPrints will be saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically while the web-to-print extension installation process. Old preview images won't be removed automatically from the directory.
+Preview downloading is initiated only then user clicks on text input with URL. All previews downloaded from ZetaPrints are saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically during the extension installation process. Old preview images need to be removed manually from the temp directory.
 
-This file shows links to add current product to user's wishlist or list for comparison with other products. 
-
-The following ZP code adds link to show text field with sharing url for a generated preview.
+The following ZP code adds link to show text field with sharing url for a generated preview. You can insert this function into any other place in the layout, which may be in a different file.
 
 *Section 1*: add preview sharing link.
   {{{
