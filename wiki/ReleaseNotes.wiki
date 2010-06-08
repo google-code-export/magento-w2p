@@ -1,4 +1,4 @@
-#summary Release notes for stable releases
+#summary Release notes for stable releases. It may or may not include changes for beta releases.
 
 = 1.8.1.0 release =
 == Issues ==
@@ -15,15 +15,18 @@
   * Other bug fixes: issue #163, issue #167, issue #186, issue #207
 
 == Release comments ==
-There was introduced several requirements to custom themes. See more info at Custom theme requirements on CustomThemeNative page.
+Themes running on the previous stable version need to be modified. Themes running on a recent beta release can be left as is. See more info at Custom theme requirements on CustomThemeNative page.
 
 Deprecated functions:
-  * _get_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including. To update your custom theme do following steps.
-    # Copy _app/design/frontend/default/zptheme/layout/local.xml_ file to your custom theme's _layout_ directory. Or copy its content if you already have _local.xml_ file in the custom theme.
-    # Remove _app/design/frontend/default/your_custom_theme_name/template/page/html/head.phtml_ file from your custom theme. If you did any custom changes to the file then you should remove following line from the file:
+  * _get_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way JavaScript and CSS files are included. Follow these steps to update your custom theme:
+
+    # Copy _app/design/frontend/default/zptheme/layout/local.xml_ file to your custom theme's _layout_ directory or copy its content into _local.xml_ file, if you already have one.
+
+    # Remove _app/design/frontend/default/your_custom_theme_name/template/page/html/head.phtml_ file from your custom theme. If you did any custom changes to the file then you should remove following line from it:
     {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
     }}}  
-  * _get_admin_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way of JavaScript and CSS files including in ZP admin theme. Magento doesn't support any uninstallation facilities for its extensions. You should remove _app/design/adminhtml/default/zptheme/template/page/head.phtml_ file by hand.
+
+  * _get_admin_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way JavaScript and CSS files are included in ZP admin theme. Magento doesn't support any un-installation facilities for its extensions. You should remove _app/design/adminhtml/default/zptheme/template/page/head.phtml_ file manually.
 
 [http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
