@@ -38,7 +38,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //if (!$template->getId())
     //  return false;
 
-    if (! $template_xml = Mage::registry('webtoprint-template-xml')) {
+    if (! $xml = Mage::registry('webtoprint-template-xml')) {
       $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
       $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
@@ -53,14 +53,14 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       $template_xml = zetaprints_get_template_details_as_xml($url, $key, $template_guid,
                                                  $data);
 
-      Mage::register('webtoprint-template-xml', $template_xml);
-    }
+      try {
+        $xml = new SimpleXMLElement($template_xml);
+      } catch (Exception $e) {
+        zetaprints_debug("Exception: {$e->getMessage()}");
+        return false;
+      }
 
-    try {
-      $xml = new SimpleXMLElement($template_xml);
-    } catch (Exception $e) {
-      zetaprints_debug("Exception: {$e->getMessage()}");
-      return false;
+      Mage::register('webtoprint-template-xml', $xml);
     }
 
     //if ($form_part === 'input-fields' || $form_part === 'stock-images')
