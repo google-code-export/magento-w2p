@@ -529,3 +529,18 @@ span.zetaprints-share-link.show a {
 span.zetaprints-share-link.show input {
   display: inline;
 }
+
+div.zetaprints-preview-placeholder {
+  width: 100%;
+  height: 200px;
+}
+
+div.zetaprints-preview-placeholder.hidden {
+  display: none;
+}
+
+div.zetaprints-big-spinner {
+  background: url('../images/big-spinner.gif') center no-repeat;
+  width: 100%;
+  height: 100%;
+}
