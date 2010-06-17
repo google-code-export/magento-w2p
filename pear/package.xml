@@ -416,6 +416,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="transparent-background.gif" role="mageskin" />
               <file name="edited-shape-background.png" role="mageskin" />
               <file name="save-button.png" role="mageskin" />
+              <file name="big-spinner.gif" role="mageskin" />
 
             </dir>
 
