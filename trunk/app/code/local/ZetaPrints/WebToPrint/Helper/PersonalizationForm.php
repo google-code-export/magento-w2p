@@ -158,6 +158,14 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       //Add personalization parameter to URL
       $params['_query'] = array('personalization' => '1');
 
+      //Check that the product page was opened from cart page (need for
+      //automatic first preview update for cross-sell product)
+      if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
+            'checkout/cart') !== false
+          && isset($_GET['options']) && $_GET['options'] == 'cart')
+        //Send update-first-preview query parameter to personalization step
+        $params['_query']['update-first-preview'] = 1;
+
       //Print out url for the product
       echo $url_model->getUrl($context->getProduct(), $params);
 
@@ -678,6 +686,15 @@ jQuery(document).ready(function($) {
         $previews_array = substr($previews_array, 0, -2);
       }
     }
+
+    //Check that the product page was opened from cart page (need for
+    //automatic first preview update for cross-sell product)
+    if ((strpos($session->getData('last_url'), 'checkout/cart') !== false
+        && isset($_GET['options']) && $_GET['options'] == 'cart')
+        || (isset($_GET['update-first-preview']) && $_GET['update-first-preview'] == '1'))
+      $update_first_preview_on_load = json_encode(true);
+    else
+      $update_first_preview_on_load = json_encode(false);
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -693,6 +710,8 @@ jQuery(document).ready(function($) {
   previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
   is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
   shapes = <?php echo $shapes; ?>;
+
+  update_first_preview_on_load = <?php echo $update_first_preview_on_load ?>;
 
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
 
