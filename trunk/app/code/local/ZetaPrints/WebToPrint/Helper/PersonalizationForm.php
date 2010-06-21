@@ -39,19 +39,39 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //  return false;
 
     if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
-
       $w2p_user = Mage::getModel('zpapi/w2puser');
 
-      $user_credentials = $w2p_user->get_credentials();
+      //This flag shows a status of web-to-print user registration
+      $user_was_registered = true;
 
-      $data = array(
-        'ID' => $user_credentials['id'],
-        'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']) );
+      //Check a status of web-to-print user registration on ZetaPrints
+      //and if it's not then set user_was_registered flag to false
+      if (!$w2p_user->getW2pUserId()) {
+        $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
-      $template_xml = zetaprints_get_template_details_as_xml($url, $key, $template_guid,
-                                                 $data);
+        if ($template->getId())
+          $user_was_registered = false;
+      }
+
+      //Remember a status of web-to-print user registrarion for subsequent
+      //function calls
+      Mage::register('webtoprint-user-was-registered', $xml);
+
+      if ($user_was_registered) {
+        $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+        $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+        $user_credentials = $w2p_user->get_credentials();
+
+        $data = array(
+          'ID' => $user_credentials['id'],
+          'Hash' => zetaprints_generate_user_password_hash(
+                                              $user_credentials['password']) );
+
+        $template_xml = zetaprints_get_template_details_as_xml($url, $key,
+                                                        $template_guid, $data);
+      } else
+        $template_xml = $template->getXml();
 
       try {
         $xml = new SimpleXMLElement($template_xml);
@@ -66,7 +86,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //if ($form_part === 'input-fields' || $form_part === 'stock-images')
     //  $this->add_values_from_cache($xml);
 
-    if ($form_part === 'stock-images')
+    if ($form_part === 'stock-images'
+        && Mage::registry('webtoprint-user-was-registered'))
       $this->add_user_images($xml);
 
     $params = array_merge($params, array(
