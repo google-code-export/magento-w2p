@@ -4,13 +4,13 @@ function precalculate_shapes (shapes, preview_dimensions) {
       shapes[page][shape]._x1 = shapes[page][shape].x1;
       shapes[page][shape].x1 = preview_dimensions[page].width * shapes[page][shape]._x1;
 
-      shapes[page][shape]._y1 = 1 - shapes[page][shape].y1;
+      shapes[page][shape]._y1 = shapes[page][shape].y1;
       shapes[page][shape].y1 = preview_dimensions[page].height * shapes[page][shape]._y1;
 
       shapes[page][shape]._x2 = shapes[page][shape].x2
       shapes[page][shape].x2 = preview_dimensions[page].width * shapes[page][shape]._x2;
 
-      shapes[page][shape]._y2 = 1 - shapes[page][shape].y2;
+      shapes[page][shape]._y2 = shapes[page][shape].y2;
       shapes[page][shape].y2 = preview_dimensions[page].height * shapes[page][shape]._y2;
     }
 }
@@ -51,9 +51,9 @@ function place_all_precalculated_shapes_for_page (page, shapes, container, shape
     for (name in shapes[page])
       place_shape({
         left: shapes[page][name].x1,
-        top: shapes[page][name].y2,
+        top: shapes[page][name].y1,
         width: shapes[page][name].x2 - shapes[page][name].x1,
-        height: shapes[page][name].y1 - shapes[page][name].y2,
+        height: shapes[page][name].y2 - shapes[page][name].y1,
         name: name,
         edited: shapes[page][name].edited}, container, shape_handler);
 }
@@ -62,13 +62,13 @@ function place_all_shapes_for_page (page, shapes, image_dimension, container, sh
   if (shapes[page])
     for (name in shapes[page]) {
       var left =  shapes[page][name]._x1 * image_dimension.width;
-      var top = shapes[page][name]._y2 * image_dimension.height;
+      var top = shapes[page][name]._y1 * image_dimension.height;
 
       place_shape({
         left: left,
         top: top,
         width: shapes[page][name]._x2 * image_dimension.width - left,
-        height: shapes[page][name]._y1 * image_dimension.height - top,
+        height: shapes[page][name]._y2 * image_dimension.height - top,
         name: name,
         edited: shapes[page][name].edited }, container, shape_handler);
     }
