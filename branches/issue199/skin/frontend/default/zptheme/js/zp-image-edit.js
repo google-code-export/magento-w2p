@@ -12,12 +12,13 @@ jQuery(document).ready(function ($) {
       onChange: imageEditorUpdateCropCoords	  
     });
 
-	if ((top.aspectRatio[0]!= 0) && (top.aspectRatio[1] != 0)) {
-		imageEditorJcropApi.setOptions({
-			aspectRatio: top.aspectRatio[0] / top.aspectRatio[1]
-		});
-	}
-	
+    //inicialize aspectRatio setting for Jcrop, is not empty data
+    if ((top.aspectRatio[0] != 0) && (top.aspectRatio[1] != 0)) {
+      imageEditorJcropApi.setOptions({
+        aspectRatio: top.aspectRatio[0] / top.aspectRatio[1]
+      });
+    }
+
     imageEditorJcropApi.setSelect([Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.1), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.1)]);
     $('#imageEditorCropForm').css('display', 'block');
   }

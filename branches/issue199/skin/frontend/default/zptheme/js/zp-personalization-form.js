@@ -549,7 +549,7 @@ function personalization_form () {
         popdown_field_by_name();
       }
     } });
-
+  
   $('a.in-dialog').fancybox({
     'zoomOpacity': true,
     'overlayShow': false,
@@ -558,30 +558,34 @@ function personalization_form () {
     'zoomSpeedIn': 500,
     'zoomSpeedOut' : 500,
     'titleShow': false,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); } });
+    'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); }
+  });
 
-	$('a.edit-dialog').click(function() {
-		var name = $(this).attr('name');			
-		aspectRatio = [0,0];
-		$.each(shapes, function() {
-			var shape = $(this);
-			if (shape[0][name] != undefined) {
-				var pos = shape[0][name];
-				aspectRatio = [pos['x2'] - pos['x1'], pos['y2'] - pos['y1']];
-			}
-		});
-		
-		$.fancybox({
-			'padding': 0,
-			'titleShow': false,
-			'type': 'iframe',
-			'href': $(this).attr('href'),
-			'hideOnOverlayClick': false,
-			'hideOnContentClick': false,
-			'centerOnScroll': false
-		});
-
-		return false;
+  $('a.edit-dialog').click(function() {
+    //get template name
+    var name = $(this).attr('name');
+    //default value for JCrop
+    aspectRatio = [0,0];
+    $.each(shapes, function() {
+      var shape = $(this);
+      if (shape[0][name] != undefined) {
+        var pos = shape[0][name];
+        //calculate aspect ratio
+        aspectRatio = [pos['x2'] - pos['x1'], pos['y2'] - pos['y1']];
+      }
+    });
+    //open a modal window with editor pictures
+    $.fancybox({
+      'padding': 0,
+      'titleShow': false,
+      'type': 'iframe',
+      'href': $(this).attr('href'),
+      'hideOnOverlayClick': false,
+      'hideOnContentClick': false,
+      'centerOnScroll': false
+    });
+    //block the links
+    return false;
   });
   
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
