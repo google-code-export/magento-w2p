@@ -202,7 +202,7 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog" href="{@edit-link}" target="_blank">
+                    <a class="edit-dialog" href="{@edit-link}" target="_blank" name="{../@Name}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>

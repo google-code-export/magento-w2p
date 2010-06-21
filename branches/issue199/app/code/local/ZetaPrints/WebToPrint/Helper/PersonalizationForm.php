@@ -698,6 +698,11 @@ jQuery(document).ready(function($) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
+
+// global var
+var shapes = <?php echo $shapes; ?>;
+var aspectRatio = [0,0];
+
 jQuery(document).ready(function($) {
   <?php
   if ($user_input)
@@ -709,8 +714,7 @@ jQuery(document).ready(function($) {
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
   is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
-  shapes = <?php echo $shapes; ?>;
-
+  
   update_first_preview_on_load = <?php echo $update_first_preview_on_load ?>;
 
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';

@@ -560,14 +560,30 @@ function personalization_form () {
     'titleShow': false,
     'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); } });
 
-  $('a.edit-dialog').fancybox({
-    'padding': 0,
-    'titleShow': false,
-    'type': 'iframe',
-    'hideOnOverlayClick': false,
-    'hideOnContentClick': false,
-    'centerOnScroll': false });
+	$('a.edit-dialog').click(function() {
+		var name = $(this).attr('name');			
+		aspectRatio = [0,0];
+		$.each(shapes, function() {
+			var shape = $(this);
+			if (shape[0][name] != undefined) {
+				var pos = shape[0][name];
+				aspectRatio = [pos['x2'] - pos['x1'], pos['y2'] - pos['y1']];
+			}
+		});
+		
+		$.fancybox({
+			'padding': 0,
+			'titleShow': false,
+			'type': 'iframe',
+			'href': $(this).attr('href'),
+			'hideOnOverlayClick': false,
+			'hideOnContentClick': false,
+			'centerOnScroll': false
+		});
 
+		return false;
+  });
+  
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
         show: { delay: 1, solo: true, when: { event: 'focus' } },

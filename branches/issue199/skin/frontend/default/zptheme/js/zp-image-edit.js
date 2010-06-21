@@ -9,12 +9,19 @@ jQuery(document).ready(function ($) {
     imageEditorJcropApi = $.Jcrop('#imageEditorRight #imageEditorPreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
-      onChange: imageEditorUpdateCropCoords
+      onChange: imageEditorUpdateCropCoords	  
     });
+
+	if ((top.aspectRatio[0]!= 0) && (top.aspectRatio[1] != 0)) {
+		imageEditorJcropApi.setOptions({
+			aspectRatio: top.aspectRatio[0] / top.aspectRatio[1]
+		});
+	}
+	
     imageEditorJcropApi.setSelect([Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.1), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.1)]);
     $('#imageEditorCropForm').css('display', 'block');
   }
-
+  
   //remove Jcrop, if exists
   function imageEditorHideCrop () {
     $('#imageEditorInfo').hide();
@@ -115,8 +122,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCaption').hide();
     parent.jQuery.fancybox.showActivity();
 
-    src = editor_image_url_template.replace('image-guid.image-ext',
-                                      getRegexpValue(xml, /Thumb="([^"]*?)"/));
+    src = editor_image_url_template.replace('image-guid.image-ext',  getRegexpValue(xml, /Thumb="([^"]*?)"/));
 
     h=getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
     w=getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
