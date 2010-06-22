@@ -1126,6 +1126,26 @@ function zetaprints_get_edited_image_url ($url, $key, $data) {
   return $response['content']['body'];
 }
 
+function zetaprints_create_order ($url, $key, $data) {
+  zetaprints_debug();
+
+  $data['Xml'] = 1;
+
+  $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-save;ApiKey=$key", $data);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  return zetaprints_parse_order_details($xml);
+}
+
 function zetaprints_get_order_id ($url, $key, $data) {
   zetaprints_debug();
 
