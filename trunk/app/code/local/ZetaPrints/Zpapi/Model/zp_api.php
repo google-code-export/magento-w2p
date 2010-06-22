@@ -811,7 +811,8 @@ function zetaprints_parse_template_details ($xml) {
     $template['pages'][$page_number] = array(
       'name' => (string) $page['Name'],
       'preview-image' => (string) $page['PreviewImage'],
-      'thumb-image' => (string) $page['ThumbImage'] );
+      'thumb-image' => (string) $page['ThumbImage'],
+      'updated-preview-image' => (string) $page['PreviewImageUpdated'] );
 
     if ($page->Shapes) {
       $template['pages'][$page_number]['shapes'] = array();
@@ -992,6 +993,26 @@ function zetaprints_change_order_status ($url, $key, $order_id, $old_status, $ne
   }
 
   return zetaprints_parse_order_details($xml);
+}
+
+function zetaprints_update_preview ($url, $key, $data) {
+  zetaprints_debug();
+
+  $data['Xml'] = 1;
+
+  $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-preview;ApiKey=$key", $data);
+
+  if (zetaprints_has_error($response))
+    return null;
+
+  try {
+    $xml = new SimpleXMLElement($response['content']['body']);
+  } catch (Exception $e) {
+    zetaprints_debug("Exception: {$e->getMessage()}");
+    return null;
+  }
+
+  return zetaprints_parse_template_details($xml);
 }
 
 function zetaprints_get_preview_image_url ($url, $key, $data) {

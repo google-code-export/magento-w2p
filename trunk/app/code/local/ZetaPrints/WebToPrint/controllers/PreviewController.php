@@ -70,21 +70,24 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $url = zetaprints_get_preview_image_url(
+    $templates_details = zetaprints_update_preview(
       Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
 
-    $guid = explode('/preview/', $url);
-
-    if (count($guid) != 2)
+    if (!$templates_details)
       return;
 
-    $urls = array(
-      'filename' => $guid[1],
-      'preview_url' => Mage::helper('webtoprint')->get_preview_url($guid[1]),
-      'thumbnail_url' => Mage::helper('webtoprint')->get_thumbnail_url($guid[1],
-        100, 100) );
+    $helper = Mage::helper('webtoprint');
 
-    echo json_encode($urls);
+    //Generate URLs for preview and thumbnail images
+    foreach ($templates_details['pages'] as &$page) {
+      $page['updated-preview-url'] = $helper
+                  ->get_preview_url(substr($page['updated-preview-image'], 8));
+      $page['updated-thumb-url'] = $helper
+                  ->get_thumbnail_url(substr($page['updated-preview-image'], 6),
+                                      100, 100);
+    }
+
+    echo json_encode($templates_details);
   }
 
   public function getAction () {
