@@ -217,8 +217,8 @@ function personalization_form () {
           $('#preview-image-page-' + page_number + ' img').attr('src',
                                 data.pages[page_number]['updated-preview-url']);
 
-          var preview_filename =  data.pages[page_number]['updated-preview-image']
-                                    .split('preview/')[0];
+          var preview_filename =  data.pages[page_number]['updated-preview-url']
+                                    .split('/preview/')[1];
 
           //Generate preview sharing link if it was enabled
           if (window.place_preview_image_sharing_link)
