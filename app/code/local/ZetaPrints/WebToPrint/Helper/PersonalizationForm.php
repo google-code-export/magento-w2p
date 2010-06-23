@@ -80,6 +80,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         return false;
       }
 
+      //If product page was requested with reorder parameter...
+      if ($this->_getRequest()->has('reorder')
+          && strlen($this->_getRequest()->getParam('reorder')) == 36)
+        //...then replace field values from order details
+        $this->replace_user_input_from_order_details($xml,
+                                    $this->_getRequest()->getParam('reorder'));
+
       Mage::register('webtoprint-template-xml', $xml);
     }
 
@@ -178,6 +185,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
       //Add personalization parameter to URL
       $params['_query'] = array('personalization' => '1');
+
+      //Check if the product page was requested with reorder parameter
+      //then proxy the parameter to personalization step
+      if ($this->_getRequest()->has('reorder'))
+        $params['_query']['reorder'] = $this->_getRequest()->getParam('reorder');
 
       //Check that the product page was opened from cart page (need for
       //automatic first preview update for cross-sell product)
@@ -421,6 +433,32 @@ jQuery(document).ready(function($) {
         }
   }
 
+  private function replace_user_input_from_order_details($template, $order_guid) {
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $order_details = zetaprints_get_order_details($url, $key, $order_guid);
+
+    if (!$order_details)
+      return;
+
+    //Replace text field values from order details
+    foreach ($template->Fields->Field as $field)
+      foreach ($order_details['template-details']['pages'] as $page)
+        if ($value = $page['fields'][(string) $field['FieldName']]['value']) {
+          $field['Value'] = $value;
+          break;
+        }
+
+    //Replace image field values from order details
+    foreach ($template->Images->Image as $image)
+      foreach ($order_details['template-details']['pages'] as $page)
+        if ($value = $page['images'][(string) $image['Name']]['value']) {
+          $image['Value'] = $value;
+          break;
+        }
+  }
+
   public function get_page_tabs ($context) {
     $params = array(
       'thumbnail-url-template'
@@ -595,6 +633,20 @@ jQuery(document).ready(function($) {
       </td>
     </tr>
 <?php
+  }
+
+  public function get_reorder_button ($context, $item) {
+    $options = $item->getProductOptionByCode('info_buyRequest');
+
+    $product = Mage::getModel('catalog/product')->load($options['product']);
+
+    if (!$product->getId())
+      return;
+
+    $url = $product->getUrlInStore(array('_query'
+                      => array('reorder' => $options['zetaprints-order-id'])));
+
+    echo "<a href=\"{$url}\">Reorder</a>";
   }
 
   public function get_js_for_order_preview_images ($context) {
