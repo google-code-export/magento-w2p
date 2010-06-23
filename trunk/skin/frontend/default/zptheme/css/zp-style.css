@@ -352,11 +352,18 @@ div.selector-content ul.tab-buttons li.last {
   background-color: transparent;
 }
 
-div.selector-content ul.tab-buttons li.last label {
+div.selector-content ul.tab-buttons li.last {
   font-weight: normal;
-  line-height: 20px;
-  text-align: center;
+}
+
+div.selector-content ul.tab-buttons li.last div {
+  float:left;
+  height: 20px;
+}
+
+div.selector-content ul.tab-buttons li.last span {
   display: block;
+  text-align: center;
 }
 
 div.selector-content div.tabs-wrapper {
