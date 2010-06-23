@@ -134,6 +134,13 @@ The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in
 <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
   }}}
 
+The following ZP code adds re-order link to every order item. After clicking on the link the corresponding product page will be opened and fields from personalization form will be filled with values from order.
+
+*Section 1*: insert re-order link.
+  {{{
+<?php echo $this->helper('webtoprint/personalization-form')->get_reorder_button($this, $_item); ?>
+  }}}
+
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
 This file needs to be modified only of you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
 
