@@ -841,7 +841,8 @@ function zetaprints_parse_template_details ($xml) {
       'allow-upload' => isset($image['AllowUpload'])
                             ? (bool) $image['AllowUpload'] : false,
       'allow-url' => isset($image['AllowUrl'])
-                            ? (bool) $image['AllowUrl'] : false );
+                            ? (bool) $image['AllowUrl'] : false,
+      'value' => (string) $image['Value'] );
 
     if ($image->StockImage) {
       $image_array['stock-images'] = array();
@@ -859,7 +860,8 @@ function zetaprints_parse_template_details ($xml) {
     if (!isset($template['pages'][$page_number]['images']))
       $template['pages'][$page_number]['images'] = array();
 
-    $template['pages'][$page_number]['images'][] = $image_array;
+    $template['pages'][$page_number]['images'][(string) $image['Name']]
+                                                                = $image_array;
   }
 
   foreach ($xml->Fields->Field as $field) {
@@ -869,7 +871,8 @@ function zetaprints_parse_template_details ($xml) {
       'min-length' => isset($field['MinLen']) ? (int) $field['MinLen'] : null,
       'max-length' => isset($field['MaxLen']) ? (int) $field['MaxLen'] : null,
       'multiline' => isset($field['Multiline'])
-                        ? (bool) $field['Multiline'] : false );
+                        ? (bool) $field['Multiline'] : false,
+      'value' => (string) $field['FieldValue'] );
 
     if ($field->Value) {
       $field_array['values'] = array();
@@ -883,7 +886,8 @@ function zetaprints_parse_template_details ($xml) {
     if (!isset($template['pages'][$page_number]['fields']))
       $template['pages'][$page_number]['fields'] = array();
 
-    $template['pages'][$page_number]['fields'][] = $field_array;
+    $template['pages'][$page_number]['fields'][(string) $field['FieldName']]
+                                                                = $field_array;
   }
 
   zetaprints_debug(array('template' => $template));
