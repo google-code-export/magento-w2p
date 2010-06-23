@@ -26,7 +26,7 @@ class ZetaPrints_Zpapi_Model_Observer
       $order_details = zetaprints_complete_order($url, Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
 
       if (!$order_details)
-        continue;
+        Mage::throwException('Error in interaction with ZetaPrints service');
 
       $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
 
@@ -36,7 +36,7 @@ class ZetaPrints_Zpapi_Model_Observer
 
       $options['info_buyRequest']['zetaprints-order-id'] = $order_details['guid'];
 
-      $item->setProductOptions($options)->save();
+      $item->setProductOptions($options);
     }
 
     return $this;
