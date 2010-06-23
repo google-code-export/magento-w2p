@@ -60,6 +60,13 @@
         <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
 
         <!-- /****** ZP-CODE:1 End ******/ -->
+
+        <!-- /****** ZP-CODE:2  Inserting link for re-order *****/ -->
+
+        <?php echo $this->helper('webtoprint/personalization-form')->get_reorder_button($this, $_item); ?>
+
+        <!-- /****** ZP-CODE:1 End ******/ -->
+
     </td>
     <td><?php echo $this->htmlEscape(Mage::helper('core/string')->splitInjection($this->getSku())) ?></td>
     <td class="a-right">
