@@ -956,6 +956,9 @@ function zetaprints_parse_order_details ($xml) {
     'delivery-zip' => (string) $xml['DeliveryZip'],
     'delivery-country' => (string) $xml['DeliveryCountry'] );
 
+  $order['template-details'] =
+                      zetaprints_parse_template_details($xml->TemplateDetails);
+
   zetaprints_debug(array('order' => $order));
 
   return $order;
