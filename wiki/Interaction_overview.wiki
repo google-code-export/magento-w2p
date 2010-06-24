@@ -18,8 +18,8 @@ A product linked to a ZP template throw its _webtoprint_template_ attribute show
 [http://www.zetaprints.com/magento-docs/create-personalization-form-2step-theme.png]
 
 Changes since 1.8.2.0:
-  1. User is never registered on ZetaPrints before personalization form creation.
-  2. Template details are took from M. database for unregistered users on ZetaPrints.
+  # User is never registered on ZetaPrints before personalization form creation.
+  # Template details are took from M. database for unregistered users on ZetaPrints.
 
 = Products =
 
