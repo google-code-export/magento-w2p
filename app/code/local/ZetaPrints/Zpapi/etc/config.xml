@@ -23,7 +23,7 @@
         </zpapi>
     </helpers>
     <events>
-      <checkout_type_onepage_save_order>
+      <checkout_type_onepage_save_order_after>
       <!--checkout_onepage_controller_success_action-->
         <observers>
           <biinno_zpapi_observer>
@@ -33,7 +33,7 @@
           </biinno_zpapi_observer>
         </observers>
       <!--/checkout_onepage_controller_success_action-->
-      </checkout_type_onepage_save_order>
+      </checkout_type_onepage_save_order_after>
     </events>
   </global>
   <adminhtml>
