@@ -83,7 +83,7 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
       $page['updated-preview-url'] = $helper
                   ->get_preview_url(substr($page['updated-preview-image'], 8));
       $page['updated-thumb-url'] = $helper
-                  ->get_thumbnail_url(substr($page['updated-preview-image'], 6),
+                  ->get_thumbnail_url(substr($page['updated-preview-image'], 8),
                                       100, 100);
     }
 
