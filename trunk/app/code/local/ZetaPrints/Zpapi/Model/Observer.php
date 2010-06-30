@@ -25,8 +25,11 @@ class ZetaPrints_Zpapi_Model_Observer
 
       $order_details = zetaprints_complete_order($url, Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
 
-      if (!$order_details)
-        Mage::throwException('Error in interaction with ZetaPrints service');
+      if (!$order_details) {
+        $order->setState('problems', true, 'Problem in order details receiving or in order completion on ZetaPrints')
+          ->save;
+        return;
+      }
 
       $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
 
