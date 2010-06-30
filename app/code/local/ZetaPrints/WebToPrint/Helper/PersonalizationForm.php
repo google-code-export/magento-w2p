@@ -593,6 +593,13 @@ jQuery(document).ready(function($) {
         $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
       }
 
+    if (!$item) {
+      $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
+        . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
+
+      $webtoprint_links .="<br /><br />ZP Order ID: <a target=\"_blank\" href=\"{$zp_order_url}\">{$options['zetaprints-order-id']}</a><br /><br />";
+    }
+
     return $webtoprint_links;
   }
 
