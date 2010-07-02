@@ -726,7 +726,7 @@ jQuery(document).ready(function($) {
     $previews_array = null;
     $previews = null;
     $user_input = null;
-    $shapes = array();
+    $shapes = json_encode(false);
 
     $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
@@ -739,12 +739,13 @@ jQuery(document).ready(function($) {
 
       if ($xml) {
         $template_details = zetaprints_parse_template_details($xml);
+        $shapes = array();
 
-        foreach ($template_details['pages'] as $page_details)
+        foreach ($template_details['pages'] as $page_number => $page_details)
           if (isset($page_details['shapes']))
-              $shapes[] = $page_details['shapes'];
+              $shapes[$page_number] = $page_details['shapes'];
 
-        $shapes = json_encode($shapes);
+        $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
       }
     }
 
