@@ -55,7 +55,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
       //Remember a status of web-to-print user registrarion for subsequent
       //function calls
-      Mage::register('webtoprint-user-was-registered', $xml);
+      Mage::register('webtoprint-user-was-registered', $user_was_registered);
 
       if ($user_was_registered) {
         $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
