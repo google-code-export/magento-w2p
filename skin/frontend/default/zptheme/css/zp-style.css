@@ -356,14 +356,12 @@ div.selector-content ul.tab-buttons li.last {
   font-weight: normal;
 }
 
-div.selector-content ul.tab-buttons li.last div {
-  float:left;
-  height: 20px;
+div.selector-content ul.tab-buttons li.last label input {
+  margin-right: 1px;
 }
 
-div.selector-content ul.tab-buttons li.last span {
-  display: block;
-  text-align: center;
+div.selector-content ul.tab-buttons li.last label.leave-blank-value {
+  margin-right: 5px;
 }
 
 div.selector-content div.tabs-wrapper {
