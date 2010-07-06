@@ -842,7 +842,9 @@ function zetaprints_parse_template_details ($xml) {
                             ? (bool) $image['AllowUpload'] : false,
       'allow-url' => isset($image['AllowUrl'])
                             ? (bool) $image['AllowUrl'] : false,
-      'value' => (string) $image['Value'] );
+      //We get lowercase GUID in value for user images.
+      //Convert to uppercase while the issue will be fixed in ZP side
+      'value' => strtoupper((string) $image['Value']) );
 
     if ($image->StockImage) {
       $image_array['stock-images'] = array();
