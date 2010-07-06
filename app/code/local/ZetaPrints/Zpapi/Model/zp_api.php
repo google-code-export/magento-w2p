@@ -1164,10 +1164,15 @@ function zetaprints_get_order_id ($url, $key, $data) {
   return $response['content']['body'];
 }
 
-function zetaprints_complete_order ($url, $key, $order_guid) {
+function zetaprints_complete_order ($url, $key, $order_guid, $new_guid = null) {
   zetaprints_debug();
 
-  $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-complete;ApiKey=$key;OrderID=$order_guid");
+  if ($new_guid)
+    $new_guid_parameter = ";IDs={$new_guid}";
+  else
+    $new_guid_parameter = '';
+
+  $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-complete;ApiKey=$key;OrderID=$order_guid{$new_guid_parameter}");
 
   if (zetaprints_has_error($response))
     return null;
