@@ -34,7 +34,7 @@ class ZetaPrints_Zpapi_Model_Observer
 
       if (!$order_details) {
         //Check if saved order exists on ZetaPrints...
-        if (zetaprints_get_order_details($url, $key, $current_order_id) {
+        if (zetaprints_get_order_details($url, $key, $current_order_id)) {
           //... then try again to complete the order
           $order_details = zetaprints_complete_order($url, $key,
                                               $current_order_id, $new_order_id);
@@ -51,12 +51,13 @@ class ZetaPrints_Zpapi_Model_Observer
         //... otherwise try to get order details by new GUID and if completed
         //order doesn't exist in ZetaPrints...
         else if (!$order_details =
-                       zetaprints_get_order_details($url, $key, $new_order_id) {
+                       zetaprints_get_order_details($url, $key, $new_order_id)) {
           //... then set state for order in M. as problems and add comment about
           //failed order on ZetaPrints side.
           $order->setState('problems', true,
                   'Failed order. Contact admin@zetaprints.com ASAP to resolve.')
             ->save;
+
           return;
         }
       }
@@ -69,7 +70,7 @@ class ZetaPrints_Zpapi_Model_Observer
 
       $options['info_buyRequest']['zetaprints-order-id'] = $order_details['guid'];
 
-      $item->setProductOptions($options);
+      $item->setProductOptions($options)->save();
     }
 
     return $this;
