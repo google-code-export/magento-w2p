@@ -49,7 +49,7 @@ Extension developed by http://www.zetaprints.com/
     <api>stable</api>
   </stability>
 
-  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+  <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
 * User image deletion (issue #164)
@@ -542,6 +542,11 @@ Extension developed by http://www.zetaprints.com/
         <min>1.6.2</min>
       </pearinstaller>
 
+      <package>
+        <name />
+        <channel>connect.magentocommerce.com/core</channel>
+      </package>
+
       <extension>
         <name>xsl</name>
       </extension>
@@ -564,7 +569,7 @@ Extension developed by http://www.zetaprints.com/
     </stability>
 
     <date>2010-03-16</date>
-    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
     <notes>
 * Support for Magento 1.4
@@ -590,7 +595,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2010-01-12</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Add user images uploading
@@ -616,7 +621,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2010-01-14</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Fix old products updating code.
@@ -635,7 +640,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2010-01-13</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Support for Magento images in web-to-print products
@@ -657,7 +662,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2009-12-24</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Fix error in web-to-print product images.
@@ -676,7 +681,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2009-12-23</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Fix error which prevents templates importing.
@@ -695,7 +700,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2009-12-21</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Mark web-to-print products to be configured before adding to cart.
@@ -718,7 +723,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2009-12-05</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Add support for 2 step ordering flow (issue #57)
@@ -738,7 +743,7 @@ Extension developed by http://www.zetaprints.com/
       </stability>
 
       <date>2009-12-05</date>
-      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
       <notes>
 * Most of the code were rewritten.
