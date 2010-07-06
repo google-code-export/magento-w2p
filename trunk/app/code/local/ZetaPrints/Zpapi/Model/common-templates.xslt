@@ -158,23 +158,18 @@
               </li>
             </xsl:if>
             <li class="last">
-              <div>
+              <label class="leave-blank-value">
                 <input type="radio" name="zetaprints-#{@Name}" value="" />
-              </div>
-              <span>
                 <xsl:call-template name="trans">
-                  <xsl:with-param name="key">Leave blank</xsl:with-param>
+                  <xsl:with-param name="key">Blank</xsl:with-param>
                 </xsl:call-template>
-              </span>
-
-              <div>
+              </label>
+              <label class="leave-default-value">
                 <input type="radio" name="zetaprints-#{@Name}" value="#" />
-              </div>
-              <span>
                 <xsl:call-template name="trans">
-                  <xsl:with-param name="key">Leave default</xsl:with-param>
+                  <xsl:with-param name="key">Default</xsl:with-param>
                 </xsl:call-template>
-              </span>
+              </label>
             </li>
           </ul>
           <div class="tabs-wrapper">
