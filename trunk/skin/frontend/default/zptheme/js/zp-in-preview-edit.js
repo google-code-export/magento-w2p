@@ -224,7 +224,7 @@ function shape_handler (event) {
   var shape = jQuery(event.target).parent();
   if (event.type == 'click') {
     current_field_name = jQuery(shape).attr('rel');
-    jQuery('#preview-image-page-' + (current_page + 1), jQuery(shape).parent()).click();
+    jQuery('#preview-image-page-' + current_page, jQuery(shape).parent()).click();
   } else if (event.type == 'mouseover') {
     jQuery('#zetaprints-preview-image-container > div.zetaprints-field-shape.bottom')
       .removeClass('highlighted');
