@@ -1,5 +1,9 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Future stable release (1.8.2.0) =
+== Issues ==
+  * Loading indicator for preview images (Issue #202)
+
 = 1.8.1.0 release =
 == Issues ==
   * User image deletion (Issue #164)
