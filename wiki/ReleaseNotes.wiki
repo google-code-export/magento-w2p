@@ -2,7 +2,12 @@
 
 = Future stable release (1.8.2.0) =
 == Issues ==
-  * Loading indicator for preview images (Issue #202)
+  * Loading indicator for preview images on product page (Issue #202)
+  * Show up-sell product with prepared preview (Issue #222)
+  * Add product link to each order item for quick re-ordering (Issue #216)
+  * Add "Default" option to image fields (Issue #240)
+  * Add link to ZetaPrints order to every M. order item in admin interface (Issue #152)
+  * Other improvements (Issue #221, Issue #225, Issue #238) and little bug fixes.
 
 = 1.8.1.0 release =
 == Issues ==
