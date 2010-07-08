@@ -261,7 +261,7 @@ function personalization_form () {
 
         changed_pages[current_page] = true;
 
-        if (current_page <= number_of_pages)
+        if (current_page < number_of_pages)
           $('div.zetaprints-next-page-button').show();
         else
           $('div.zetaprints-next-page-button').hide();
