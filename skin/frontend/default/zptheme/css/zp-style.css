@@ -549,3 +549,8 @@ div.zetaprints-big-spinner {
   width: 100%;
   height: 100%;
 }
+
+div.zetaprints-big-spinner.zetaprints-over-image-spinner {
+  position: absolute;
+  top: 0px;
+}

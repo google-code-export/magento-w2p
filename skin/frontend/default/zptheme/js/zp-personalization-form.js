@@ -52,9 +52,11 @@ function personalization_form () {
 
   //If update_first_preview_on_load parameter was set
   if (update_first_preview_on_load) {
-    //Remove link to preview of the first template page
-    //This prevents from adding default preview image to the product page
-    previews[0] = '';
+    //Add over-image spinner for the first preview
+    $('<div id="zetaprints-first-preview-update-spinner" class="' +
+      'zetaprints-big-spinner zetaprints-over-image-spinner hidden" />')
+      .appendTo(product_image_box);
+
     //Update preview for the first page
     update_preview(null, true);
   }
@@ -76,6 +78,13 @@ function personalization_form () {
           && current_page == 1)
         //then show preview for the first page
         $('#preview-image-page-1').removeClass('hidden');
+
+      //If update_first_preview_on_load parameter was set and
+      //first default preview has already been loaded then...
+      if (update_first_preview_on_load && event.data.page_number == 1)
+        //...show over-image spinner
+        $('div#zetaprints-first-preview-update-spinner')
+          .removeClass('hidden');
     }).end().appendTo(product_image_element);
 
   //Reset previews array if previews was default template preview images
@@ -265,6 +274,11 @@ function personalization_form () {
           $('div.zetaprints-next-page-button').show();
         else
           $('div.zetaprints-next-page-button').hide();
+
+        //If update_first_preview_on_load parameter was set then...
+        if (update_first_preview_on_load)
+          //.. remove over-image spinner
+          $('div#zetaprints-first-preview-update-spinner').remove();
 
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).show(); }
