@@ -194,8 +194,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       //Check that the product page was opened from cart page (need for
       //automatic first preview update for cross-sell product)
       if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
-            'checkout/cart') !== false
-          && isset($_GET['options']) && $_GET['options'] == 'cart')
+            'checkout/cart') !== false)
         //Send update-first-preview query parameter to personalization step
         $params['_query']['update-first-preview'] = 1;
 
@@ -770,9 +769,9 @@ jQuery(document).ready(function($) {
 
     //Check that the product page was opened from cart page (need for
     //automatic first preview update for cross-sell product)
-    if ((strpos($session->getData('last_url'), 'checkout/cart') !== false
-        && isset($_GET['options']) && $_GET['options'] == 'cart')
-        || (isset($_GET['update-first-preview']) && $_GET['update-first-preview'] == '1'))
+    if (strpos($session->getData('last_url'), 'checkout/cart') !== false
+        || (isset($_GET['update-first-preview'])
+            && $_GET['update-first-preview'] == '1'))
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
