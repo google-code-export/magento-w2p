@@ -597,7 +597,7 @@ jQuery(document).ready(function($) {
       $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
         . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
 
-      $webtoprint_links .="<br /><br />ZP Order ID: <a target=\"_blank\" href=\"{$zp_order_url}\">{$options['zetaprints-order-id']}</a><br /><br />";
+      $webtoprint_links .=" <a target=\"_blank\" href=\"{$zp_order_url}\">ZP order</a>";
     }
 
     return $webtoprint_links;
