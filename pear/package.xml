@@ -542,11 +542,6 @@ Extension developed by http://www.zetaprints.com/
         <min>1.6.2</min>
       </pearinstaller>
 
-      <package>
-        <name />
-        <channel>connect.magentocommerce.com/core</channel>
-      </package>
-
       <extension>
         <name>xsl</name>
       </extension>
