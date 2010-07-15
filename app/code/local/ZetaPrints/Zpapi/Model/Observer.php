@@ -43,7 +43,7 @@ class ZetaPrints_Zpapi_Model_Observer
           if (!$order_details) {
             //... then set state for order in M. as problems and add comment
             $order->setState('problems', true,
-                'Problem in order details receiving or in order completion on ZetaPrints')
+                'Use the link to ZP order to troubleshoot.')
               ->save();
             return;
           }
