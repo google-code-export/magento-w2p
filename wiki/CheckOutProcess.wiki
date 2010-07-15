@@ -2,11 +2,7 @@
 
 = Checkout process =
 
-Requirements to checkout process:
-  * Administrator should always be able to track the order on ZetaPrints side.
-  * The order in Magento must be saved with Problems status and some message on error situation.
-
-The web-to-print extension tries to complete saved order (the order was created on add to cart) on ZetaPrints side after successful order checkout in M.
+The extension tries to complete saved order (the order was created on add to cart) on ZetaPrints side after successful order checkout in M.
 
 If saved order completion fails then the extension checks that saved order still exists on ZetaPrint side. This means that there was an error that prevented ZetaPrints from completing saved order (for example, error in sending request to ZetaPrints).
   * Saved order exists: try once more to complete saved order on ZetaPrints side. If it fails again then set status for order in M. to PROBLEMS.
@@ -15,4 +11,6 @@ If saved order completion fails then the extension checks that saved order still
     * If the final order doesn't exist on ZetaPrints then it's a bug. Set status for order in M. to PROBLEMS and add message to ask contact admin with ZetaPrints.
 
 = Up-sell products =
-Then users click on link to up-sell product or its Add to cart button the web-to-print extension checks that it happened on My Cart page and activates template personalization process.
+Upsell products with personalisation have automatic preview update based on the existing data in the user cache, if any.
+The preview page checks if the referral came from Shopping Cart page, shows the default preview and tries to automatically update it while the user is making up his mind.
+Clicking on a product link or Add to cart in the upsell area of a shopping cart has the same effect for products with personalisation - it takes them to the preview page.
