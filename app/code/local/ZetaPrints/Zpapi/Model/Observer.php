@@ -44,7 +44,7 @@ class ZetaPrints_Zpapi_Model_Observer
             //... then set state for order in M. as problems and add comment
             $order->setState('problems', true,
                 'Problem in order details receiving or in order completion on ZetaPrints')
-              ->save;
+              ->save();
             return;
           }
         }
@@ -56,7 +56,7 @@ class ZetaPrints_Zpapi_Model_Observer
           //failed order on ZetaPrints side.
           $order->setState('problems', true,
                   'Failed order. Contact admin@zetaprints.com ASAP to resolve.')
-            ->save;
+            ->save();
 
           return;
         }
