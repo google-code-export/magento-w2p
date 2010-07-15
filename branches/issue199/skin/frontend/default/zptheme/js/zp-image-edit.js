@@ -46,7 +46,38 @@ jQuery(document).ready(function ($) {
   //perform crop
   function imageEditorApplyCrop () {
     imageEditorHideCrop();
-    parent.jQuery.fancybox.showActivity();
+    if (isCropFit) {
+        applyCropMetadata();
+        parent.jQuery.fancybox.close();
+    } else {
+        parent.jQuery.fancybox.showActivity();
+        applyCropServer();
+    }    
+  }
+  
+  //apply crop use of the metadata field 
+  function applyCropMetadata() {
+      
+    var widht = Number($('#imageEditorRight #imageEditorPreview').width());
+    var height = Number($('#imageEditorRight #imageEditorPreview').height());
+    
+    var crx1 = $('#imageEditorCropX').val() / widht;
+    var cry1 = $('#imageEditorCropY').val() / height;
+    var crx2 = $('#imageEditorCropX2').val() / widht;
+    var cry2 = $('#imageEditorCropY2').val() / height;
+    
+    var img = jQuery(parent.document.body).find("input[value='"+imageEditorId+"']");
+    var name = img.attr("name").replace(/\#/,"*#");
+
+    jQuery(parent.document.body).find("input[name='"+name+"']").remove(); // remove old metadata
+    
+    var metadata = "<input type='hidden' name='" + name + "' value='cr-x1="+crx1+";cr-x2="+crx2+";cr-y1="+cry1+";cr-y2="+cry2+";img-id="+imageEditorId+"'>";
+    img.after( metadata ); // create new metadata
+  }
+  
+  
+  //apply crop use on the server
+  function applyCropServer() {
     $.ajax({
       url: imageEditorUpdateURL + '?CropX1='+$('#imageEditorCropX').val() + imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val() + imageEditorDelimeter + 'CropX2=' + $('#imageEditorCropX2').val() + imageEditorDelimeter+'CropY2=' + $('#imageEditorCropY2').val() + imageEditorDelimeter + 'page=img-crop' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
       type: 'POST',
@@ -123,8 +154,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCaption').hide();
     parent.jQuery.fancybox.showActivity();
 
-    src = editor_image_url_template.replace('image-guid.image-ext',  getRegexpValue(xml, /Thumb="([^"]*?)"/));
-
+    src = editor_image_url_template.replace('image-guid.image-ext', getRegexpValue(xml, /Thumb="([^"]*?)"/));
     h=getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
     w=getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
     uh=getRegexpValue(xml, /ImageHeightUndo="([^"]*?)"/);
@@ -245,8 +275,17 @@ jQuery(document).ready(function ($) {
   });
 
   //button handlers
-  $('#imageEditorCrop').click(imageEditorCrop);
+  var isCropFit = false;
+  $('#imageEditorCrop').click(function() {
+    isCropFit = false;
+    imageEditorCrop();
+  });
+  $('#imageEditorCropFit').click(function(){
+    isCropFit = true;
+    imageEditorCrop();
+  });  
   $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
+  
   $('#imageEditorRestore').click(imageEditorRestore);
   $('#imageEditorRotateRight').click( function () {
     imageEditorDoRotate('r');
