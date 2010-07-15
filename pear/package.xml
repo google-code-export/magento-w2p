@@ -553,20 +553,20 @@ Extension developed by http://www.zetaprints.com/
 
   <changelog>
     <release>
-    <version>
-      <release>1.8.0.0</release>
-      <api>1.8.0.0</api>
-    </version>
+      <version>
+        <release>1.8.0.0</release>
+        <api>1.8.0.0</api>
+      </version>
 
-    <stability>
-      <release>stable</release>
-      <api>stable</api>
-    </stability>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
 
-    <date>2010-03-16</date>
-    <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+      <date>2010-03-16</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
-    <notes>
+      <notes>
 * Support for Magento 1.4
 * Basic image editor with cropping and rotating possibilities for images
   uploaded by customer (issue #110).
@@ -575,8 +575,8 @@ Extension developed by http://www.zetaprints.com/
 * Support for localization (issue #132).
 * Better user experience (issue #142, issue #149, issue #153, issue #128).
 * Bug fixes (issue #135, issue #147).
-    </notes>
-  </release>
+      </notes>
+    </release>
 
     <release>
       <version>
