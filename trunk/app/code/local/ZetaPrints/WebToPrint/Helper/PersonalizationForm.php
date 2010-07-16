@@ -325,7 +325,7 @@ jQuery(document).ready(function($) {
         url: preview_download_url,
         type: 'POST',
         dataType: 'json',
-        data: 'guid=' + previews[current_page],
+        data: 'guid=' + previews[current_page - 1],
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert(preview_sharing_link_error_text + ': ' + textStatus);
         },
