@@ -17,11 +17,11 @@ To enable preview sharing link functionality modify _catalog/product/view/addto.
 Please, do following steps if you don't use zptheme as default in Magento (e.g. your custom theme works on top of zptheme):
   * Add to your custom theme _skin/frontend/default/zptheme/images/big-spinner.gif_ image for preview loading spinner.
   * Update _zp-style.css_ file in your custom theme (_skin/frontend/default/zptheme/css/zp-style.css_)
-    Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=811&r=893&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fcss%2Fzp-style.css changes] for the file in this release if you changed _zp-style.css_ file or included it in your custom theme's CSS file.
+  Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=811&r=893&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fcss%2Fzp-style.css changes] for the file in this release if you changed _zp-style.css_ file or included it in your custom theme's CSS file.
   * Update _zp-personalization-form.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-personalization-form.js_)
-    Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=819&r=907&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-personalization-form.js changes] for the file in this release if you changed _zp-personalization-form.js_ file.
+  Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=819&r=907&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-personalization-form.js changes] for the file in this release if you changed _zp-personalization-form.js_ file.
   * Update _zp-in-preview-edit.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-in-preview-edit.js_)
-    Note: please, see [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
+  Note: please, see [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
 
 = 1.8.1.0 release =
 == Issues ==
@@ -42,9 +42,7 @@ Themes running on the previous stable version need to be modified. Themes runnin
 
 Deprecated functions:
   * _get_js_css_includes()_ ([http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php]) - the function was deprecated because of new way JavaScript and CSS files are included. Follow these steps to update your custom theme:
-
     # Copy _app/design/frontend/default/zptheme/layout/local.xml_ file to your custom theme's _layout_ directory or copy its content into _local.xml_ file, if you already have one.
-
     # Remove _app/design/frontend/default/your_custom_theme_name/template/page/html/head.phtml_ file from your custom theme. If you did any custom changes to the file then you should remove following line from it:
     {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js_css_includes(); ?>
