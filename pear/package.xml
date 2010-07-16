@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-07-15</date>
+  <date>2010-07-16</date>
 
   <version>
-    <release>1.8.2.0</release>
-    <api>1.8.2.0</api>
+    <release>1.8.2.1</release>
+    <api>1.8.2.1</api>
   </version>
 
   <stability>
@@ -52,12 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-* Loading indicator for preview images on product page (issue #202)
-* Show up-sell product with prepared preview (issue #222)
-* Add product link to each order item for quick re-ordering (issue #216)
-* Add "Default" option to image fields (issue #240)
-* Add link to ZetaPrints order to every M. order item in admin interface (issue #152)
-* Other improvements (issue #221, issue #225, issue #238) and little bug fixes.
+* Fix error in preview share link functionality
   </notes>
 
   <contents>
@@ -547,6 +542,30 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.8.2.0</release>
+        <api>1.8.2.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-07-15</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+* Loading indicator for preview images on product page (issue #202)
+* Show up-sell product with prepared preview (issue #222)
+* Add product link to each order item for quick re-ordering (issue #216)
+* Add "Default" option to image fields (issue #240)
+* Add link to ZetaPrints order to every M. order item in admin interface (issue #152)
+* Other improvements (issue #221, issue #225, issue #238) and little bug fixes.
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.8.1.0</release>
