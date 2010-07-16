@@ -9,6 +9,20 @@
   * Add link to ZetaPrints order to every M. order item in admin interface (Issue #152)
   * Other improvements (Issue #221, Issue #225, Issue #238) and little bug fixes.
 
+== Release comments ==
+To enable quick re-ordering feature modify _sales/order/items/renderer/default.phtml_ template file in your custom theme as described in CustomThemeNative page.
+
+To enable preview sharing link functionality modify _catalog/product/view/addto.phtml_ template file in your custom theme as described in CustomThemeNative page.
+
+Please, do following steps if you don't use zptheme as default in Magento (e.g. your custom theme works on top of zptheme):
+  * Add to your custom theme _skin/frontend/default/zptheme/images/big-spinner.gif_ image for preview loading spinner.
+  * Update _zp-style.css_ file in your custom theme (_skin/frontend/default/zptheme/css/zp-style.css_)
+    Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=811&r=893&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fcss%2Fzp-style.css changes] for the file in this release if you changed _zp-style.css_ file or included it in your custom theme's CSS file.
+  * Update _zp-personalization-form.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-personalization-form.js_)
+    Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=819&r=907&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-personalization-form.js changes] for the file in this release if you changed _zp-personalization-form.js_ file.
+  * Update _zp-in-preview-edit.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-in-preview-edit.js_)
+    Note: please, see [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
+
 = 1.8.1.0 release =
 == Issues ==
   * User image deletion (Issue #164)
