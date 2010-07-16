@@ -159,7 +159,7 @@
             </xsl:if>
             <li class="last">
               <label class="leave-blank-value">
-                <input type="radio" name="zetaprints-#{@Name}" value="">
+                <input id="zetaprints-blank-value" type="radio" name="zetaprints-#{@Name}" value="">
                   <xsl:if test="string-length(@Value)=0">
                     <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:if>

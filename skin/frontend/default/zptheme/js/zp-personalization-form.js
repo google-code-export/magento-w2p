@@ -92,7 +92,8 @@ function personalization_form () {
     previews = [];
 
   $('div.zetaprints-page-stock-images input:checked').each(function() {
-    $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
+    if ($(this).attr('id') != 'zetaprints-blank-value')
+      $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
   $('#stock-images-page-1, #input-fields-page-1').removeClass('hidden');
