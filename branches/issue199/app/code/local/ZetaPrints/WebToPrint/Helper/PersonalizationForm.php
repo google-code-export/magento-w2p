@@ -39,19 +39,39 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //  return false;
 
     if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
-
       $w2p_user = Mage::getModel('zpapi/w2puser');
 
-      $user_credentials = $w2p_user->get_credentials();
+      //This flag shows a status of web-to-print user registration
+      $user_was_registered = true;
 
-      $data = array(
-        'ID' => $user_credentials['id'],
-        'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']) );
+      //Check a status of web-to-print user registration on ZetaPrints
+      //and if it's not then set user_was_registered flag to false
+      if (!$w2p_user->getW2pUserId()) {
+        $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
-      $template_xml = zetaprints_get_template_details_as_xml($url, $key, $template_guid,
-                                                 $data);
+        if ($template->getId())
+          $user_was_registered = false;
+      }
+
+      //Remember a status of web-to-print user registrarion for subsequent
+      //function calls
+      Mage::register('webtoprint-user-was-registered', $user_was_registered);
+
+      if ($user_was_registered) {
+        $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+        $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+        $user_credentials = $w2p_user->get_credentials();
+
+        $data = array(
+          'ID' => $user_credentials['id'],
+          'Hash' => zetaprints_generate_user_password_hash(
+                                              $user_credentials['password']) );
+
+        $template_xml = zetaprints_get_template_details_as_xml($url, $key,
+                                                        $template_guid, $data);
+      } else
+        $template_xml = $template->getXml();
 
       try {
         $xml = new SimpleXMLElement($template_xml);
@@ -60,13 +80,21 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         return false;
       }
 
+      //If product page was requested with reorder parameter...
+      if ($this->_getRequest()->has('reorder')
+          && strlen($this->_getRequest()->getParam('reorder')) == 36)
+        //...then replace field values from order details
+        $this->replace_user_input_from_order_details($xml,
+                                    $this->_getRequest()->getParam('reorder'));
+
       Mage::register('webtoprint-template-xml', $xml);
     }
 
     //if ($form_part === 'input-fields' || $form_part === 'stock-images')
     //  $this->add_values_from_cache($xml);
 
-    if ($form_part === 'stock-images')
+    if ($form_part === 'stock-images'
+        && Mage::registry('webtoprint-user-was-registered'))
       $this->add_user_images($xml);
 
     $params = array_merge($params, array(
@@ -158,11 +186,15 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       //Add personalization parameter to URL
       $params['_query'] = array('personalization' => '1');
 
+      //Check if the product page was requested with reorder parameter
+      //then proxy the parameter to personalization step
+      if ($this->_getRequest()->has('reorder'))
+        $params['_query']['reorder'] = $this->_getRequest()->getParam('reorder');
+
       //Check that the product page was opened from cart page (need for
       //automatic first preview update for cross-sell product)
       if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
-            'checkout/cart') !== false
-          && isset($_GET['options']) && $_GET['options'] == 'cart')
+            'checkout/cart') !== false)
         //Send update-first-preview query parameter to personalization step
         $params['_query']['update-first-preview'] = 1;
 
@@ -293,7 +325,7 @@ jQuery(document).ready(function($) {
         url: preview_download_url,
         type: 'POST',
         dataType: 'json',
-        data: 'guid=' + previews[current_page],
+        data: 'guid=' + previews[current_page - 1],
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert(preview_sharing_link_error_text + ': ' + textStatus);
         },
@@ -397,6 +429,32 @@ jQuery(document).ready(function($) {
           $user_image_node->addAttribute('edit-link',
             $this->_getUrl('web-to-print/image/',
               array('id' => $image['guid'], 'iframe' => 1) ));
+        }
+  }
+
+  private function replace_user_input_from_order_details($template, $order_guid) {
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $order_details = zetaprints_get_order_details($url, $key, $order_guid);
+
+    if (!$order_details)
+      return;
+
+    //Replace text field values from order details
+    foreach ($template->Fields->Field as $field)
+      foreach ($order_details['template-details']['pages'] as $page)
+        if ($value = $page['fields'][(string) $field['FieldName']]['value']) {
+          $field['Value'] = $value;
+          break;
+        }
+
+    //Replace image field values from order details
+    foreach ($template->Images->Image as $image)
+      foreach ($order_details['template-details']['pages'] as $page)
+        if ($value = $page['images'][(string) $image['Name']]['value']) {
+          $image['Value'] = $value;
+          break;
         }
   }
 
@@ -534,6 +592,13 @@ jQuery(document).ready(function($) {
         $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
       }
 
+    if (!$item) {
+      $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
+        . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
+
+      $webtoprint_links .=" <a target=\"_blank\" href=\"{$zp_order_url}\">ZP order</a>";
+    }
+
     return $webtoprint_links;
   }
 
@@ -574,6 +639,20 @@ jQuery(document).ready(function($) {
       </td>
     </tr>
 <?php
+  }
+
+  public function get_reorder_button ($context, $item) {
+    $options = $item->getProductOptionByCode('info_buyRequest');
+
+    $product = Mage::getModel('catalog/product')->load($options['product']);
+
+    if (!$product->getId())
+      return;
+
+    $url = $product->getUrlInStore(array('_query'
+                      => array('reorder' => $options['zetaprints-order-id'])));
+
+    echo "<a href=\"{$url}\">Reorder</a>";
   }
 
   public function get_js_for_order_preview_images ($context) {
@@ -646,7 +725,7 @@ jQuery(document).ready(function($) {
     $previews_array = null;
     $previews = null;
     $user_input = null;
-    $shapes = array();
+    $shapes = json_encode(false);
 
     $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
@@ -659,12 +738,13 @@ jQuery(document).ready(function($) {
 
       if ($xml) {
         $template_details = zetaprints_parse_template_details($xml);
+        $shapes = array();
 
-        foreach ($template_details['pages'] as $page_details)
+        foreach ($template_details['pages'] as $page_number => $page_details)
           if (isset($page_details['shapes']))
-              $shapes[] = $page_details['shapes'];
+              $shapes[$page_number] = $page_details['shapes'];
 
-        $shapes = json_encode($shapes);
+        $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
       }
     }
 
@@ -689,9 +769,9 @@ jQuery(document).ready(function($) {
 
     //Check that the product page was opened from cart page (need for
     //automatic first preview update for cross-sell product)
-    if ((strpos($session->getData('last_url'), 'checkout/cart') !== false
-        && isset($_GET['options']) && $_GET['options'] == 'cart')
-        || (isset($_GET['update-first-preview']) && $_GET['update-first-preview'] == '1'))
+    if (strpos($session->getData('last_url'), 'checkout/cart') !== false
+        || (isset($_GET['update-first-preview'])
+            && $_GET['update-first-preview'] == '1'))
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);

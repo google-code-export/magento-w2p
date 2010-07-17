@@ -1,16 +1,16 @@
 function precalculate_shapes (shapes, preview_dimensions) {
-  for (var page = 0; page < shapes.length; page++)
-    for (shape in shapes[page]) {
+  for (var page in shapes)
+    for (var shape in shapes[page]) {
       shapes[page][shape]._x1 = shapes[page][shape].x1;
       shapes[page][shape].x1 = preview_dimensions[page].width * shapes[page][shape]._x1;
 
-      shapes[page][shape]._y1 = 1 - shapes[page][shape].y1;
+      shapes[page][shape]._y1 = shapes[page][shape].y1;
       shapes[page][shape].y1 = preview_dimensions[page].height * shapes[page][shape]._y1;
 
       shapes[page][shape]._x2 = shapes[page][shape].x2
       shapes[page][shape].x2 = preview_dimensions[page].width * shapes[page][shape]._x2;
 
-      shapes[page][shape]._y2 = 1 - shapes[page][shape].y2;
+      shapes[page][shape]._y2 = shapes[page][shape].y2;
       shapes[page][shape].y2 = preview_dimensions[page].height * shapes[page][shape]._y2;
     }
 }
@@ -18,8 +18,8 @@ function precalculate_shapes (shapes, preview_dimensions) {
 function get_preview_dimensions (number_of_pages) {
   var dimensions = new Array(number_of_pages);
 
-  for (var page = 0; page < number_of_pages; page++) {
-    var image = jQuery('a#preview-image-page-' + (page + 1) + ' img')[0];
+  for (var page = 1; page <= number_of_pages; page++) {
+    var image = jQuery('a#preview-image-page-' + page + ' img')[0];
 
     dimensions[page] = {
       width: jQuery(image).width(),
@@ -51,9 +51,9 @@ function place_all_precalculated_shapes_for_page (page, shapes, container, shape
     for (name in shapes[page])
       place_shape({
         left: shapes[page][name].x1,
-        top: shapes[page][name].y2,
+        top: shapes[page][name].y1,
         width: shapes[page][name].x2 - shapes[page][name].x1,
-        height: shapes[page][name].y1 - shapes[page][name].y2,
+        height: shapes[page][name].y2 - shapes[page][name].y1,
         name: name,
         edited: shapes[page][name].edited}, container, shape_handler);
 }
@@ -62,13 +62,13 @@ function place_all_shapes_for_page (page, shapes, image_dimension, container, sh
   if (shapes[page])
     for (name in shapes[page]) {
       var left =  shapes[page][name]._x1 * image_dimension.width;
-      var top = shapes[page][name]._y2 * image_dimension.height;
+      var top = shapes[page][name]._y1 * image_dimension.height;
 
       place_shape({
         left: left,
         top: top,
         width: shapes[page][name]._x2 * image_dimension.width - left,
-        height: shapes[page][name]._y1 * image_dimension.height - top,
+        height: shapes[page][name]._y2 * image_dimension.height - top,
         name: name,
         edited: shapes[page][name].edited }, container, shape_handler);
     }
@@ -197,8 +197,8 @@ function unmark_shape_as_edited (name, shapes, current_page) {
 function mark_shapes_as_edited (shapes) {
   var fields = jQuery('div.zetaprints-page-input-fields, div.zetaprints-page-stock-images');
 
-  for (var page = 0; page < shapes.length; page++)
-    for (name in shapes[page]) {
+  for (var page in shapes)
+    for (var name in shapes[page]) {
       var field = jQuery('input[name=zetaprints-_' + name + ']:text, '
         + 'textarea[name=zetaprints-_' + name + '], '
         + 'select[name=zetaprints-_' + name + '], '
@@ -224,7 +224,7 @@ function shape_handler (event) {
   var shape = jQuery(event.target).parent();
   if (event.type == 'click') {
     current_field_name = jQuery(shape).attr('rel');
-    jQuery('#preview-image-page-' + (current_page + 1), jQuery(shape).parent()).click();
+    jQuery('#preview-image-page-' + current_page, jQuery(shape).parent()).click();
   } else if (event.type == 'mouseover') {
     jQuery('#zetaprints-preview-image-container > div.zetaprints-field-shape.bottom')
       .removeClass('highlighted');

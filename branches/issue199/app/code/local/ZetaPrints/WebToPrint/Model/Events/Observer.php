@@ -35,18 +35,17 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $order_id = zetaprints_get_order_id (Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
+    $order_details = zetaprints_create_order(
+      Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
 
-    if (!preg_match('/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/', $order_id))
+    if (!$order_details)
       Mage::throwException('ZetaPrints error');
 
-    $options['zetaprints-order-id'] = $order_id;
-
-    //Get details for newly created order
-    $order_details = zetaprints_get_order_details(Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $order_id);
+    //Save order GUID in the item options
+    $options['zetaprints-order-id'] = $order_details['guid'];
 
     //If order details contain link to low resolution PDF...
-    if ($order_details && $order_details['pdf'] != '')
+    if ($order_details['pdf'] != '')
       //... save it in the item options
       $options['zetaprints-order-lowres-pdf'] = $order_details['pdf'];
 

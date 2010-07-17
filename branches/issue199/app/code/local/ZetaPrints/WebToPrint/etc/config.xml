@@ -151,6 +151,26 @@
         </observers>
       </sales_order_save_after>
     </events>
+
+    <sales>
+      <order>
+        <statuses>
+          <problems translate="label"><label>Problems</label></problems>
+        </statuses>
+
+        <states>
+          <problems translate="label">
+            <label>Problems</label>
+
+            <statuses>
+              <problems default="1" />
+            </statuses>
+
+            <visible_on_front />
+          </problems>
+        </states>
+      </order>
+    </sales>
   </global>
 
   <frontend>

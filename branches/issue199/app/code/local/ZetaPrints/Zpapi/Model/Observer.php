@@ -22,11 +22,45 @@ class ZetaPrints_Zpapi_Model_Observer
         continue;
 
       $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
-      $order_details = zetaprints_complete_order($url, Mage::getStoreConfig('zpapi/settings/w2p_key'), $options['info_buyRequest']['zetaprints-order-id']);
+      //GUID for ZetaPrints order which was saved on Add to cart step
+      $current_order_id = $options['info_buyRequest']['zetaprints-order-id'];
+      //New GUID for completed order
+      $new_order_id = zetaprints_generate_guid();
 
-      if (!$order_details)
-        continue;
+      $order_details = zetaprints_complete_order($url, $key, $current_order_id,
+                                                                 $new_order_id);
+
+      if (!$order_details) {
+        //Check if saved order exists on ZetaPrints...
+        if (zetaprints_get_order_details($url, $key, $current_order_id)) {
+          //... then try again to complete the order
+          $order_details = zetaprints_complete_order($url, $key,
+                                              $current_order_id, $new_order_id);
+
+          //If it fails...
+          if (!$order_details) {
+            //... then set state for order in M. as problems and add comment
+            $order->setState('problems', true,
+                'Use the link to ZP order to troubleshoot.')
+              ->save();
+            return;
+          }
+        }
+        //... otherwise try to get order details by new GUID and if completed
+        //order doesn't exist in ZetaPrints...
+        else if (!$order_details =
+                       zetaprints_get_order_details($url, $key, $new_order_id)) {
+          //... then set state for order in M. as problems and add comment about
+          //failed order on ZetaPrints side.
+          $order->setState('problems', true,
+                  'Failed order. Contact admin@zetaprints.com ASAP to resolve.')
+            ->save();
+
+          return;
+        }
+      }
 
       $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
 
