@@ -1,6 +1,6 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
-= Future stable release (1.8.2.0) =
+= Stable release 1.8.2.0 =
 == Issues ==
   * Loading indicator for preview images on product page (Issue #202)
   * Show up-sell product with prepared preview (Issue #222)
@@ -18,11 +18,11 @@ To enable preview sharing link functionality modify _catalog/product/view/addto.
 Please, do following steps if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into your custom theme):
   * Add a new loading indicator to your custom theme (_skin/frontend/default/zptheme/images/big-spinner.gif_).
   * Update _zp-style.css_ file in your custom theme (_skin/frontend/default/zptheme/css/zp-style.css_)
-  Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=811&r=893&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fcss%2Fzp-style.css changes] for the file in this release if you changed _zp-style.css_ file or included it in your custom theme's CSS file.
+  See [http://code.google.com/p/magento-w2p/source/diff?old=811&r=893&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fcss%2Fzp-style.css changes] for the file in this release if you changed _zp-style.css_ file or included it in your custom theme's CSS file.
   * Update _zp-personalization-form.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-personalization-form.js_)
-  Note: please, see [http://code.google.com/p/magento-w2p/source/diff?old=819&r=907&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-personalization-form.js changes] for the file in this release if you changed _zp-personalization-form.js_ file.
+  See [http://code.google.com/p/magento-w2p/source/diff?old=819&r=907&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-personalization-form.js changes] for the file in this release if you changed _zp-personalization-form.js_ file.
   * Update _zp-in-preview-edit.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-in-preview-edit.js_)
-  Note: please, see [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
+  See [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
 
 = 1.8.1.0 release =
 == Issues ==
