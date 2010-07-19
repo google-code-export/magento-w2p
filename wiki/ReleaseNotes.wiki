@@ -10,10 +10,11 @@
   * Other improvements (Issue #221, Issue #225, Issue #238) and little bug fixes.
 
 == Release comments ==
+=== Quick re-ordering ===
+Modify _sales/order/items/renderer/default.phtml_ template file in your custom theme as described in CustomThemeNative page to enable quick re-ordering feature.
 
-To enable quick re-ordering feature modify _sales/order/items/renderer/default.phtml_ template file in your custom theme as described in CustomThemeNative page.
-
-To enable preview sharing link functionality modify _catalog/product/view/addto.phtml_ template file in your custom theme as described in CustomThemeNative page.
+=== Preview sharing link ===
+Modify _catalog/product/view/addto.phtml_ template file in your custom theme as described in CustomThemeNative page to enable preview sharing link functionality.
 
 Please, do following steps if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into your custom theme):
   * Add a new loading indicator to your custom theme (_skin/frontend/default/zptheme/images/big-spinner.gif_).
