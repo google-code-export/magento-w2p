@@ -24,6 +24,16 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     if (!(isset($options['zetaprints-TemplateID']) && isset($options['zetaprints-previews'])))
       Mage::throwException('Not enough ZetaPrints template parameters');
 
+    //Use saved order information from the item for M. re-order...
+    if (isset($options['zetaprints-order-id'])) {
+      //... and mark the item as re-ordered
+      $options['zetaprints-reordered'] = true;
+
+      $option_model->setValue(serialize($options));
+
+      return;
+    }
+
     $params = array();
 
     $params['TemplateID'] = $options['zetaprints-TemplateID'];
