@@ -60,35 +60,6 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
         return 0;
       }
 
-      //connecting to DB
-      $db = Mage::getSingleton('core/resource')->getConnection('core_write');
-      //check if ZP_ID cookie exists
-      $c_user=Mage::getSingleton('core/cookie')->get('ZP_ID');
-      if ($c_user){
-      //found cookie, fetching password from DB
-          zp_api_log_debug('Found cookie, fetching password from DB');
-      $c_pass=$db->fetchOne("select pass from zetaprints_cookies where user_id=?",array($c_user));
-      if (strlen($c_pass)==6)
-          {
-            //found password in DB, assigning creditenials and return
-            zp_api_log_debug('Restoring session from cookie and DB');
-            $this->pass=$c_pass;
-            $this->user=$c_user;
-            $this->state="ok";
-            //Save to session
-            Mage::getSingleton('core/session')->setW2puser($this->user);
-            Mage::getSingleton('core/session')->setW2ppass($this->pass);
-            return 1;
-          }else{
-            //password not found in DB, cookie is wrong?
-            unset($c_user);
-            unset($c_pass);
-
-            zp_api_log_debug('Wrong cookie on client side. Deleting...');
-            Mage::getSingleton('core/cookie')->delete('ZP_ID');
-          }
-      }
-
       //Not created, will create new account on ZP
       $this->user = zp_api_common_uuid();
       $this->pass = zp_api_common_pass();
@@ -111,6 +82,8 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
           //registered, creating cookie
           Mage::getSingleton('core/cookie')->set('ZP_ID',$this->user,ZP_COOKIE_LIFETIME);
+          //connecting to DB
+          $db = Mage::getSingleton('core/resource')->getConnection('core_write');
           //adding password to DB
           $db->insert("zetaprints_cookies",array("user_id"=>$this->user,"pass"=>$this->pass));
         }
@@ -162,15 +135,66 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
   }
 
   function get_credentials () {
+    //Get user ID from session or from customer object
     $id = $this->getW2pUserId();
 
-    if (!$id) {
-      $this->autoRegister();
-      $id = $this->getW2pUserId();
+    //If user has ZetaPrints ID in session or in customer object, then...
+    if ($id) {
+      Mage::log('1');
+      //... return user's ID and its password
+      return array('id' => $id, 'password' => $this->getW2pPass());
     }
 
-    $password = $this->getW2pPass();
+    //If user hasn't ZetaPrints ID in session or in customer object, but has
+    //ZP_ID cookie, then extract ZetaPrints ID from it and password from DB
+    if (($credentials = $this->get_credentials_from_zp_cookie()) !== false) {
+      //Update session if password for user exists in DB
+      $this->update_session_with_credentials($credentials);
+       Mage::log('2');
+       Mage::log($credentials);
+      return $credentials;
+    }
+     Mage::log('3');
+    //We don't know the user, register him on ZetaPrints
+    $this->autoRegister();
+
+    return array('id' => $this->getW2pUserId(),
+                 'password' => $this->getW2pPass());
+  }
+
+  function get_credentials_from_zp_cookie () {
+    //Get ZetaPrints user id from cookie
+    $id = Mage::getSingleton('core/cookie')->get('ZP_ID');
+
+    if (!$id)
+      return false;
+
+    //connecting to DB
+    $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+
+    //Get password for user from DB
+    $password = $db
+      ->fetchOne("select pass from zetaprints_cookies where user_id=?",
+                 array($id));
+
+    //If there's no password for user in DB then...
+    if (strlen($password) != 6) {
+      //... remove cookie
+      Mage::getSingleton('core/cookie')->delete('ZP_ID');
+
+      return false;
+    }
 
     return array('id' => $id, 'password' => $password);
+  }
+
+  function update_session_with_credentials ($credentials) {
+    $this->user = $credentials['id'];
+    $this->pass = $credentials['password'];
+    $this->state = "ok";
+
+    Mage::getSingleton('core/session')->setW2puser($this->user);
+    Mage::getSingleton('core/session')->setW2ppass($this->pass);
+    Mage::getSingleton('core/session')->setState($this->state);
   }
 }
