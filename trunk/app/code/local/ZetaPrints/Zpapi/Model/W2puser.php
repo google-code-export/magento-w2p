@@ -140,21 +140,21 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
     //If user has ZetaPrints ID in session or in customer object, then...
     if ($id) {
-      Mage::log('1');
+
       //... return user's ID and its password
       return array('id' => $id, 'password' => $this->getW2pPass());
     }
 
-    //If user hasn't ZetaPrints ID in session or in customer object, but has
-    //ZP_ID cookie, then extract ZetaPrints ID from it and password from DB
+    //If user doesn't have ZetaPrints ID in session or in customer object,
+    //but has ZP_ID cookie, then extract ZetaPrints ID from it and
+    //password from DB
     if (($credentials = $this->get_credentials_from_zp_cookie()) !== false) {
       //Update session if password for user exists in DB
       $this->update_session_with_credentials($credentials);
-       Mage::log('2');
-       Mage::log($credentials);
+
       return $credentials;
     }
-     Mage::log('3');
+
     //We don't know the user, register him on ZetaPrints
     $this->autoRegister();
 
