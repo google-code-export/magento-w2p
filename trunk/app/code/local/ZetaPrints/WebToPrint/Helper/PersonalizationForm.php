@@ -46,7 +46,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
       //Check a status of web-to-print user registration on ZetaPrints
       //and if it's not then set user_was_registered flag to false
-      if (!$w2p_user->getW2pUserId()) {
+      if (!($w2p_user->getW2pUserId()
+           || $w2p_user->get_credentials_from_zp_cookie() !== false)) {
         $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
         if ($template->getId())
