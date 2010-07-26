@@ -5,10 +5,10 @@
   * Bug fixes (issue #252)
 
 = Stable release 1.8.2.2 =
-* Fix regression in session handling (introduced in 1.8.2.0)
+  * Fix regression in session handling (introduced in 1.8.2.0)
 
 = Stable release 1.8.2.1 =
-* Fix regression in preview share link functionality (introduced in 1.8.2.0)
+  * Fix regression in preview share link functionality (introduced in 1.8.2.0)
 
 = Stable release 1.8.2.0 =
 == Issues ==
