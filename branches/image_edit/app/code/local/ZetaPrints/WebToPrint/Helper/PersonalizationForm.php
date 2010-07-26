@@ -726,6 +726,7 @@ jQuery(document).ready(function($) {
     $previews = null;
     $user_input = null;
     $shapes = json_encode(false);
+    $images = json_encode(false);
 
     $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
@@ -739,12 +740,19 @@ jQuery(document).ready(function($) {
       if ($xml) {
         $template_details = zetaprints_parse_template_details($xml);
         $shapes = array();
+        $images = array();
 
         foreach ($template_details['pages'] as $page_number => $page_details)
+        {
           if (isset($page_details['shapes']))
-              $shapes[$page_number] = $page_details['shapes'];
+            $shapes[$page_number] = $page_details['shapes'];
+
+          if (isset($page_details['images']))
+          	$images[$page_number] = $page_details['images'];
+        }
 
         $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
+        $images = count($images) ? json_encode($images) : json_encode(false);
       }
     }
 
@@ -782,6 +790,8 @@ jQuery(document).ready(function($) {
 // global var
 var shapes = <?php echo $shapes; ?>;
 var aspectRatio = [0,0];
+
+var images = <?php echo $images; ?>;
 
 jQuery(document).ready(function($) {
   <?php

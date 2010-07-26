@@ -584,14 +584,16 @@ function personalization_form () {
     var name = $(this).attr('name');
     //default value for JCrop
     aspectRatio = [0,0];
-    $.each(shapes, function() {
-      var shape = $(this);
-      if (shape[0][name] != undefined) {
-        var pos = shape[0][name];
-        //calculate aspect ratio
-        aspectRatio = [pos['x2'] - pos['x1'], pos['y2'] - pos['y1']];
+    $.each(images, function() {
+      var image = $(this);
+      if (image[0][name] != undefined) {
+        var image_dimensions = image[0][name];
+        //set aspect ratio
+        aspectRatio = [image_dimensions['width'], image_dimensions['height']];
+        //alert(aspectRatio)
       }
     });
+
     //open a modal window with editor pictures
     $.fancybox({
       'padding': 0,
