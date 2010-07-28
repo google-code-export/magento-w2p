@@ -783,14 +783,20 @@ jQuery(document).ready(function($) {
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
+      
+      
+// echo '<xmp>' . print_r($images, true) . '</xmp>';
 ?>
 <script type="text/javascript">
 //<![CDATA[
 
-// global var
+// global vars
 var shapes = <?php echo $shapes; ?>;
-var aspectRatio = [0,0];
 
+// global vars: default value for JCrop
+var image_aspectRatio = [0,0];
+
+// global vars: template images settings
 var images = <?php echo $images; ?>;
 
 jQuery(document).ready(function($) {

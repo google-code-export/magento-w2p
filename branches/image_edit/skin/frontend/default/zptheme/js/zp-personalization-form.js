@@ -1,6 +1,36 @@
 function personalization_form () {
   var $ = jQuery;
 
+  function load_template_image_settings(image_name) {
+    image_name = unescape(image_name);
+
+    //default value for JCrop
+    image_aspectRatio = [0,0];
+
+    $.each(images, function() {
+      var image = $(this);
+      if (image[0][image_name] != undefined) {
+        var image_dimensions = image[0][image_name];
+        image_aspectRatio = [image_dimensions['width'], image_dimensions['height']];
+      }
+    })
+  }
+  
+  function get_image_edit_dialog(image_name, iframe_src) {
+    load_template_image_settings(image_name);
+
+    //open a modal window with editor pictures
+    $.fancybox({
+      'padding': 0,
+      'titleShow': false,
+      'type': 'iframe',
+      'href': iframe_src,
+      'hideOnOverlayClick': false,
+      'hideOnContentClick': false,
+      'centerOnScroll': false
+    });
+  }
+
   function scroll_strip(panel) {
     if ($(panel).hasClass('images-scroller')) {
       $(panel).scrollLeft(0);
@@ -325,9 +355,9 @@ function personalization_form () {
         var number_of_loaded_imgs = 0;
 
         $(trs).each(function () {
-          var name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
+          var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
-          var td = $('<td><input type="radio" name="zetaprints-#' + name
+          var td = $('<td><input type="radio" name="zetaprints-#' + image_name
             + '" value="' + response[0]
             + '" /><a class="edit-dialog" href="' + response[1]
             + 'target="_blank"><img src="' + response[2]
@@ -348,13 +378,12 @@ function personalization_form () {
               $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
             }
 
-            $('a.edit-dialog', tr).fancybox({
-              'padding': 0,
-              'titleShow': false,
-              'type': 'iframe',
-              'hideOnOverlayClick': false,
-              'hideOnContentClick': false,
-              'centerOnScroll': false });
+            $('a.edit-dialog', tr).click(function() {
+              get_image_edit_dialog(image_name, $(this).attr('href'));
+
+              //block the links
+              return false;
+            });
 
             $('a.delete-button', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
@@ -580,30 +609,8 @@ function personalization_form () {
   });
 
   $('a.edit-dialog').click(function() {
-    //get template name
-    var name = $(this).attr('name');
-    //default value for JCrop
-    aspectRatio = [0,0];
-    $.each(images, function() {
-      var image = $(this);
-      if (image[0][name] != undefined) {
-        var image_dimensions = image[0][name];
-        //set aspect ratio
-        aspectRatio = [image_dimensions['width'], image_dimensions['height']];
-        //alert(aspectRatio)
-      }
-    });
+  	get_image_edit_dialog($(this).attr('name'), $(this).attr('href'));
 
-    //open a modal window with editor pictures
-    $.fancybox({
-      'padding': 0,
-      'titleShow': false,
-      'type': 'iframe',
-      'href': $(this).attr('href'),
-      'hideOnOverlayClick': false,
-      'hideOnContentClick': false,
-      'centerOnScroll': false
-    });
     //block the links
     return false;
   });
@@ -657,4 +664,42 @@ function personalization_form () {
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
+}
+
+function j5_var_dump(_obj, _name, _level)
+{
+	if (typeof(_obj)=='function')
+		return '';
+
+	var _offset = '';
+	var _var_dump = '';
+
+	if (typeof(_level)!='undefined') {
+		for(var _n=0; _n<_level; _n++) {
+			_offset += '\t';
+		}
+		_level++;
+	} else {
+		_level = 1;
+	}
+
+	// var _out = _offset + '<small>(' + typeof(_obj) + ')</small> <strong>' + _name + '</strong> => ';
+	var _out = _offset + '(' + typeof(_obj) + ') ' + _name + ' => ';
+
+	if (typeof(_obj)=='object') {
+		_out += '[';
+		for (var _i in _obj) {
+			_var_dump += j5_var_dump(_obj[_i], _i, _level);
+		}
+		if (_var_dump!='') {
+			_out += '\n' + _var_dump + _offset;
+		}
+		_out += ']'
+	} else {
+		_out += '' + _obj + '';
+	} 
+
+	_out += '\n';
+
+	return _out;
 }
