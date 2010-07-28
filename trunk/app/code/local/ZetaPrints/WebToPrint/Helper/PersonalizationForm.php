@@ -377,7 +377,7 @@ jQuery(document).ready(function($) {
   public function get_image_fields ($context) {
     $params = array(
       'ajax-loader-image-url'
-        => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
+        => Mage::getDesign()->getSkinUrl('images/spinner.gif'),
       'user-image-edit-button'
         => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'),
       'photothumbnail-url-height-100-template'
@@ -481,7 +481,7 @@ jQuery(document).ready(function($) {
       <button class="update-preview button">
         <span><span><?php echo $this->__('Update preview');?></span></span>
       </button>
-      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
+      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spinner.gif'); ?>" class="ajax-loader"/>
       <span class="text"><?php echo $this->__('Updating preview image');?>&hellip;</span>
     </div>
 <?php
