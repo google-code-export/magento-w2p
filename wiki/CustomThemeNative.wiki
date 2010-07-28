@@ -215,7 +215,12 @@ Size of *user images* in library scroll can be changed in _[http://code.google.c
 if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
   $thumbnail = str_replace('.', '_0x100.', $image['thumbnail']);
 }}}
-    
+
+= Spinners for progress of AJAX requests =
+There's two types of spinners: big and normal. Big spinner is used for preview loading progress. Normal spinner is used for different AJAX requests to M.
+
+  * Image for big spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/big-spinner.gif skin/frontend/default/zptheme/images/big-spinner.gif]
+  * Image for normal spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif]
 
 = NOSCRIPT =
 Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
