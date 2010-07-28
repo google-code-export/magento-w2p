@@ -407,6 +407,7 @@ Fix regression in session handling (introduced in 1.8.2.0)
               <file name="edited-shape-background.png" role="mageskin" />
               <file name="save-button.png" role="mageskin" />
               <file name="big-spinner.gif" role="mageskin" />
+              <file name="spinner.gif" role="mageskin" />
 
             </dir>
 
