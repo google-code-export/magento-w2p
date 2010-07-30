@@ -790,11 +790,12 @@ jQuery(document).ready(function($) {
 <script type="text/javascript">
 //<![CDATA[
 
-// global vars
+// global vars:
 var shapes = <?php echo $shapes; ?>;
 
-// global vars: default value for JCrop
+// global vars: default values for image edit dialog box
 var image_aspectRatio = [0,0];
+var image_imageName = '';
 
 // global vars: template images settings
 var images = <?php echo $images; ?>;

@@ -6,6 +6,7 @@ function personalization_form () {
 
     //default value for JCrop
     image_aspectRatio = [0,0];
+    image_imageName = image_name;
 
     $.each(images, function() {
       var image = $(this);
@@ -357,12 +358,13 @@ function personalization_form () {
         $(trs).each(function () {
           var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
-          var td = $('<td><input type="radio" name="zetaprints-#' + image_name
-            + '" value="' + response[0]
-            + '" /><a class="edit-dialog" href="' + response[1]
-            + 'target="_blank"><img src="' + response[2]
-            + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
-            + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
+          var td = $('<td>'
+                   + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" />'
+                   + '<a class="edit-dialog" href="' + response[1] + 'target="_blank"><img src="' + response[2] + '" /></a> '
+                   + '<div style="float:right;">'
+                   + '<a class="edit-dialog" style="float:left" href="' + response[1] + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a>'
+                   + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
+                   + '</div>').prependTo(this);
 
           $('input:radio', td).change(image_field_select_handler);
 
@@ -664,42 +666,4 @@ function personalization_form () {
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
-}
-
-function j5_var_dump(_obj, _name, _level)
-{
-	if (typeof(_obj)=='function')
-		return '';
-
-	var _offset = '';
-	var _var_dump = '';
-
-	if (typeof(_level)!='undefined') {
-		for(var _n=0; _n<_level; _n++) {
-			_offset += '\t';
-		}
-		_level++;
-	} else {
-		_level = 1;
-	}
-
-	// var _out = _offset + '<small>(' + typeof(_obj) + ')</small> <strong>' + _name + '</strong> => ';
-	var _out = _offset + '(' + typeof(_obj) + ') ' + _name + ' => ';
-
-	if (typeof(_obj)=='object') {
-		_out += '[';
-		for (var _i in _obj) {
-			_var_dump += j5_var_dump(_obj[_i], _i, _level);
-		}
-		if (_var_dump!='') {
-			_out += '\n' + _var_dump + _offset;
-		}
-		_out += ']'
-	} else {
-		_out += '' + _obj + '';
-	} 
-
-	_out += '\n';
-
-	return _out;
 }

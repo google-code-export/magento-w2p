@@ -9,17 +9,24 @@ jQuery(document).ready(function ($) {
     imageEditorJcropApi = $.Jcrop('#imageEditorRight #imageEditorPreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
-      onChange: imageEditorUpdateCropCoords	  
+      onChange: imageEditorUpdateCropCoords
     });
 
-    //inicialize aspectRatio setting for Jcrop, is not empty data
+    //inicialize aspectRatio setting for Jcrop, if not empty data
     if ((top.image_aspectRatio[0] != 0) && (top.image_aspectRatio[1] != 0)) {
       imageEditorJcropApi.setOptions({
         aspectRatio: top.image_aspectRatio[0] / top.image_aspectRatio[1]
       });
     }
 
-    imageEditorJcropApi.setSelect([Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.9), Number($('#imageEditorRight #imageEditorPreview').width())*Number(0.1), Number($('#imageEditorRight #imageEditorPreview').height())*Number(0.1)]);
+    //set an initial selection area
+    var cropMetadata = fetchCropMetadata();
+    if (cropMetadata[0] && cropMetadata[1] && cropMetadata[2] && cropMetadata[3]) {
+      imageEditorJcropApi.setSelect(cropMetadata);
+    } else {
+      imageEditorJcropApi.setSelect([10, 10, 60, 60]);
+    }
+
     $('#imageEditorCropForm').css('display', 'block');
   }
   
@@ -47,36 +54,87 @@ jQuery(document).ready(function ($) {
   function imageEditorApplyCrop () {
     imageEditorHideCrop();
     if (isCropFit) {
-        applyCropMetadata();
-        parent.jQuery.fancybox.close();
+      storeCropMetadata();
+      parent.jQuery.fancybox.close();
     } else {
-        parent.jQuery.fancybox.showActivity();
-        applyCropServer();
+      parent.jQuery.fancybox.showActivity();
+      applyCropServer();
     }    
   }
-  
-  //apply crop use of the metadata field 
-  function applyCropMetadata() {
-      
-    var widht = Number($('#imageEditorRight #imageEditorPreview').width());
-    var height = Number($('#imageEditorRight #imageEditorPreview').height());
-    
-    var crx1 = $('#imageEditorCropX').val() / widht;
-    var cry1 = $('#imageEditorCropY').val() / height;
-    var crx2 = $('#imageEditorCropX2').val() / widht;
-    var cry2 = $('#imageEditorCropY2').val() / height;
-    
-    var img = jQuery(parent.document.body).find("input[value='"+imageEditorId+"']");
-    var name = img.attr("name").replace(/\#/,"*#");
 
-    jQuery(parent.document.body).find("input[name='"+name+"']").remove(); // remove old metadata
-    
-    var metadata = "<input type='hidden' name='" + name + "' value='cr-x1="+crx1+";cr-x2="+crx2+";cr-y1="+cry1+";cr-y2="+cry2+";img-id="+imageEditorId+"'>";
-    img.after( metadata ); // create new metadata
+  /**
+   * Class for storing any number of keys and values in specified html input element
+   * @attr: _storageInputElement - html input element
+   */
+  function metadataAccessor (_storageInputElement) {
+    this.metadataAccessor = function(_storageInputElement) {
+      this._storageInputElement = _storageInputElement
+    }
+    this.metadataAccessor(_storageInputElement)
+
+    this.restoreFromStorage = function() {
+      var _key_val_pairs = this._storageInputElement.value.split(';');
+      for (var _i in _key_val_pairs) {
+        [_key, _val] = _key_val_pairs[_i].split('=');
+        this.setProperty(_key, _val);
+      }
+    }
+
+    this.storeAll = function() {
+      var _outArr = [];
+      var _j = 0;
+      for(var _i in this) if (typeof(this[_i])!='function' && _i != '_storageInputElement') {
+        _outArr[_j++] = _i + '=' + this[_i];
+      }
+      this._storageInputElement.value = _outArr.join(';');
+    }
+
+    this.setProperty = function(_propertyName, _propertyValue) {
+      this[_propertyName] = _propertyValue;
+    }
+
+    this.getProperty = function(_propertyName) {
+      if(typeof(this[_propertyName])=='undefined')
+        return null
+      else
+        return this[_propertyName];
+    }
+  }
+
+  /**
+   * Fetch stored crop metadata
+   */
+  function fetchCropMetadata() {
+  	var width = Number($('#imageEditorRight #imageEditorPreview').width());
+    var height = Number($('#imageEditorRight #imageEditorPreview').height());
+
+    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
+    ma.restoreFromStorage();
+    var cropMetadata = [Math.round(ma.getProperty('cr-x1') * width), Math.round(ma.getProperty('cr-y1') * height), Math.round(ma.getProperty('cr-x2') * width), Math.ceil(ma.getProperty('cr-y2') * height)];
+
+    return cropMetadata;
+  }
+  
+  /**
+   * Store crop metadata for further usage
+   */
+  function storeCropMetadata() {
+    var width = Number($('#imageEditorRight #imageEditorPreview').width());
+    var height = Number($('#imageEditorRight #imageEditorPreview').height());
+
+    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
+    ma.setProperty('cr-x1', $('#imageEditorCropX').val() / width);
+    ma.setProperty('cr-x2', $('#imageEditorCropX2').val() / width);
+    ma.setProperty('cr-y1', $('#imageEditorCropY').val() / height);
+    ma.setProperty('cr-y2', $('#imageEditorCropY2').val() / height);
+    ma.setProperty('img-id', imageEditorId);
+    ma.storeAll();
   }
   
   
-  //apply crop use on the server
+  /**
+   * Apply image crop using ZetaPrint server
+   */
   function applyCropServer() {
     $.ajax({
       url: imageEditorUpdateURL + '?CropX1='+$('#imageEditorCropX').val() + imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val() + imageEditorDelimeter + 'CropX2=' + $('#imageEditorCropX2').val() + imageEditorDelimeter+'CropY2=' + $('#imageEditorCropY2').val() + imageEditorDelimeter + 'page=img-crop' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
@@ -92,7 +150,9 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  //perform image restore
+  /**
+   * Perform image restore
+   */
   function imageEditorRestore () {
     imageEditorHideCrop();
     parent.jQuery.fancybox.showActivity();
