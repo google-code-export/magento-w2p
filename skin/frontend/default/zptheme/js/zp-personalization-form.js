@@ -198,8 +198,8 @@ function personalization_form () {
   }
 
   function update_preview (event, preserve_fields) {
-    $('div.zetaprints-preview-button span.text').css('display', 'inline');
-    $('img.ajax-loader').css('display', 'inline');
+    $('div.zetaprints-preview-button span.text, ' +
+      'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('button.update-preview').hide();
 
@@ -285,7 +285,10 @@ function personalization_form () {
           //.. remove over-image spinner
           $('div#zetaprints-first-preview-update-spinner').remove();
 
-        $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span.text, ' +
+          'div.zetaprints-preview-button img.ajax-loader')
+            .css('display', 'none');
+
         $(update_preview_button).show(); }
     });
 
