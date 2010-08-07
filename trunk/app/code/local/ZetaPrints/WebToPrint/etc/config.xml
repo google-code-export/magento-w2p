@@ -155,12 +155,12 @@
     <sales>
       <order>
         <statuses>
-          <problems translate="label"><label>Problems</label></problems>
+          <problems translate="label"><label>Pending Review</label></problems>
         </statuses>
 
         <states>
           <problems translate="label">
-            <label>Problems</label>
+            <label>Pending Review</label>
 
             <statuses>
               <problems default="1" />
