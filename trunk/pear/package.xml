@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-07-26</date>
+  <date>2010-08-07</date>
 
   <version>
-    <release>1.8.2.2</release>
-    <api>1.8.2.2</api>
+    <release>1.8.2.3</release>
+    <api>1.8.2.3</api>
   </version>
 
   <stability>
@@ -52,7 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-Fix regression in session handling (introduced in 1.8.2.0)
+Fix bug in product's images update.
   </notes>
 
   <contents>
@@ -543,6 +543,25 @@ Fix regression in session handling (introduced in 1.8.2.0)
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.8.2.2</release>
+        <api>1.8.2.2</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-07-26</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+Fix regression in session handling (introduced in 1.8.2.0)
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.8.2.1</release>
