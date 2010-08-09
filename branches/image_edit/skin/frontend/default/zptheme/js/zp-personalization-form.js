@@ -17,8 +17,10 @@ function personalization_form () {
     })
   }
   
-  function get_image_edit_dialog(image_name, iframe_src) {
+  function get_image_edit_dialog(image_name, iframe_src, userImageThumb) {
     load_template_image_settings(image_name);
+
+    userImageThumbSelected = userImageThumb
 
     //open a modal window with editor pictures
     $.fancybox({
@@ -30,6 +32,12 @@ function personalization_form () {
       'hideOnContentClick': false,
       'centerOnScroll': false
     });
+  }
+
+  function swapMetadata() {
+    var _metadata = $('#' + $(this).val()).data('metadata');
+    _metadata = (_metadata==null) ? '' : _metadata;
+    document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
   }
 
   function scroll_strip(panel) {
@@ -359,10 +367,12 @@ function personalization_form () {
           var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
           var td = $('<td>'
-                   + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" />'
-                   + '<a class="edit-dialog" href="' + response[1] + 'target="_blank"><img src="' + response[2] + '" /></a> '
+                   + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
+                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
                    + '<div style="float:right;">'
-                   + '<a class="edit-dialog" style="float:left" href="' + response[1] + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a>'
+                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '" style="float:left">'
+                   + '<div class="edit-button">' + edit_button_text + '</div></a>'
                    + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
                    + '</div>').prependTo(this);
 
@@ -371,6 +381,8 @@ function personalization_form () {
           var tr = this;
 
           $('img', td).load(function() {
+
+            var userImageThumb = $(this);
 
             //If a field the image was uploaded into is not current image field
             if ($(this).parents('div.selector-content').attr('id') != upload_field_id) {
@@ -381,7 +393,7 @@ function personalization_form () {
             }
 
             $('a.edit-dialog', tr).click(function() {
-              get_image_edit_dialog(image_name, $(this).attr('href'));
+              get_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
 
               //block the links
               return false;
@@ -415,6 +427,8 @@ function personalization_form () {
               $(upload_div).parents('div.selector-content').tabs('select', 1);
             }
           });
+
+          $('input[type=radio]', td).click(swapMetadata)
         });
       }
     });
@@ -611,7 +625,7 @@ function personalization_form () {
   });
 
   $('a.edit-dialog').click(function() {
-  	get_image_edit_dialog($(this).attr('name'), $(this).attr('href'));
+  	get_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
 
     //block the links
     return false;
@@ -663,6 +677,8 @@ function personalization_form () {
       });
     }
   });
+
+  $('input.zetaprints-images').click(swapMetadata)
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
