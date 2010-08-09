@@ -783,22 +783,18 @@ jQuery(document).ready(function($) {
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
-      
-      
-// echo '<xmp>' . print_r($images, true) . '</xmp>';
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
 
-// global vars:
+// Global vars go here
 var shapes = <?php echo $shapes; ?>;
-
-// global vars: default values for image edit dialog box
-var image_aspectRatio = [0,0];
-var image_imageName = '';
-
-// global vars: template images settings
-var images = <?php echo $images; ?>;
+var image_aspectRatio = [0,0];  //default values for image edit dialog box
+var image_imageName = '';  //currently edited template image
+var userImageThumbSelected = null;  //user selected image to edit
+var images = <?php echo $images; ?>;  //template images settings
+// Global vars end
 
 jQuery(document).ready(function($) {
   <?php

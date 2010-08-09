@@ -214,21 +214,21 @@
               <table><tr>
                 <xsl:for-each select="user-image">
                   <td>
-                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}">
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}" class="zetaprints-images">
                       <xsl:if test="@guid=../@Value">
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog" href="{@edit-link}" target="_blank" name="{../@Name}">
+                    <a class="edit-dialog" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" />
+                      <img src="{@thumbnail}" id="{@guid}" />
                     </a>
                     <div style="float:right;">
-                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank">
+                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank" rel="{@guid}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
