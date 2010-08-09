@@ -4,8 +4,11 @@
 == Issues ==
   * Bug fixes (issue #252)
 
+= Future stable release (1.8.2.4) =
+  * Bug fixes (issue #270, issue #262)
+
 = Stable release 1.8.2.3 =
-  * Fix bug in product's images update
+  * Fix bug in product's images update (issue #274)
 
 = Stable release 1.8.2.2 =
   * Fix regression in session handling (introduced in 1.8.2.0)
