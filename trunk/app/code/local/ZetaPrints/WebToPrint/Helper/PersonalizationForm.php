@@ -727,6 +727,7 @@ jQuery(document).ready(function($) {
     $previews = null;
     $user_input = null;
     $shapes = json_encode(false);
+    $images = json_encode(false);
 
     $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
@@ -740,12 +741,19 @@ jQuery(document).ready(function($) {
       if ($xml) {
         $template_details = zetaprints_parse_template_details($xml);
         $shapes = array();
+        $images = array();
 
         foreach ($template_details['pages'] as $page_number => $page_details)
+        {
           if (isset($page_details['shapes']))
-              $shapes[$page_number] = $page_details['shapes'];
+            $shapes[$page_number] = $page_details['shapes'];
+
+          if (isset($page_details['images']))
+          	$images[$page_number] = $page_details['images'];
+        }
 
         $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
+        $images = count($images) ? json_encode($images) : json_encode(false);
       }
     }
 
@@ -779,6 +787,15 @@ jQuery(document).ready(function($) {
 ?>
 <script type="text/javascript">
 //<![CDATA[
+
+// Global vars go here
+var shapes = <?php echo $shapes; ?>;
+var image_aspectRatio = [0,0];  //default values for image edit dialog box
+var image_imageName = '';  //currently edited template image
+var userImageThumbSelected = null;  //user selected image to edit
+var images = <?php echo $images; ?>;  //template images settings
+// Global vars end
+
 jQuery(document).ready(function($) {
   <?php
   if ($user_input)
@@ -790,7 +807,6 @@ jQuery(document).ready(function($) {
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
   is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
-  shapes = <?php echo $shapes; ?>;
 
   update_first_preview_on_load = <?php echo $update_first_preview_on_load ?>;
 
