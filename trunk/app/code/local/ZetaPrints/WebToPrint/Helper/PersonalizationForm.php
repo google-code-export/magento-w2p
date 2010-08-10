@@ -720,32 +720,33 @@ jQuery(document).ready(function($) {
     $shapes = json_encode(false);
     $images = json_encode(false);
 
-    $template = Mage::getModel('webtoprint/template')->loadById($template_id);
+    if (! $xml = Mage::registry('webtoprint-template-xml')) {
+      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
-    if ($template->getId()) {
-      try {
-        $xml = new SimpleXMLElement($template->getXml());
-      } catch (Exception $e) {
-        zetaprints_debug("Exception: {$e->getMessage()}");
-      }
-
-      if ($xml) {
-        $template_details = zetaprints_parse_template_details($xml);
-        $shapes = array();
-        $images = array();
-
-        foreach ($template_details['pages'] as $page_number => $page_details)
-        {
-          if (isset($page_details['shapes']))
-            $shapes[$page_number] = $page_details['shapes'];
-
-          if (isset($page_details['images']))
-            $images[$page_number] = $page_details['images'];
+      if ($template->getId())
+        try {
+          $xml = new SimpleXMLElement($xml = $template->getXml());
+        } catch (Exception $e) {
+          zetaprints_debug("Exception: {$e->getMessage()}");
         }
+    }
 
-        $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
-        $images = count($images) ? json_encode($images) : json_encode(false);
+    if ($xml) {
+      $template_details = zetaprints_parse_template_details($xml);
+      $shapes = array();
+      $images = array();
+
+      foreach ($template_details['pages'] as $page_number => $page_details)
+      {
+        if (isset($page_details['shapes']))
+          $shapes[$page_number] = $page_details['shapes'];
+
+        if (isset($page_details['images']))
+          $images[$page_number] = $page_details['images'];
       }
+
+      $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
+      $images = count($images) ? json_encode($images) : json_encode(false);
     }
 
     if ($session->hasData('zetaprints-previews')) {
