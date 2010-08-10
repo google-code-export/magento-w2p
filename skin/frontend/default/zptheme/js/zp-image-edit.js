@@ -54,11 +54,6 @@ jQuery(document).ready(function ($) {
   function thumbCropedAreaSet (_targetImageElement, _cropArea) {
     thumbCropedAreaRemove (_targetImageElement)
 
-    
-    // alert(_targetImageElement.attr("id"));
-    // alert(_targetImageElement.position().left + ', ' + _targetImageElement.position().top)
-    // alert(_targetImageElement.width() + ', ' + _targetImageElement.height())
-  	
   	if (_cropArea[0]==_cropArea[2] || _cropArea[1]==_cropArea[3])
   		return;
 
