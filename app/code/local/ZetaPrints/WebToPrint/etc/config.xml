@@ -150,6 +150,16 @@
           </webtoprint-order-complete>
         </observers>
       </sales_order_save_after>
+
+      <sales_quote_item_save_after>
+        <observers>
+          <webtoprint-save-product-url>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>save_product_url</method>
+          </webtoprint-save-product-url>
+        </observers>
+      </sales_quote_item_save_after>
     </events>
 
     <sales>

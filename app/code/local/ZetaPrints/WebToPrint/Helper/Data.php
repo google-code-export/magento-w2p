@@ -72,4 +72,56 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
     return $url_model->getUrl($product, $params);
   }
+
+  protected function replace_template_values_from_cart_item ($template, $item_id) {
+    $item = Mage::getSingleton('checkout/session')
+              ->getQuote()
+              ->getItemById($item_id);
+
+    if (!($item && $item->getId()))
+      return;
+
+    $option_model = $item->getOptionByCode('info_buyRequest');
+    $options = unserialize($option_model->getValue());
+
+    //Item previews stored as comma-separated string in a quote.
+    //Convert it to array.
+    $previews = explode(',', $options['zetaprints-previews']);
+
+    //Replace previews in XML
+    foreach ($previews as $index => $preview) {
+      $template->Pages->Page[$index]['PreviewImage'] = "preview/{$preview}";
+      $template->Pages->Page[$index]['ThumbImage'] = "thumb/{$preview}";
+    }
+
+    $fields = array();
+
+    //Prepare fields' values
+    foreach ($options as $key => $value)
+      if (strpos($key, 'zetaprints-') !== false) {
+        $key = substr($key, 11);
+
+        if (strpos($key, '#') === 0 || strpos($key, '_') === 0) {
+          $key = str_replace(array('_', "\x0A"), array(' ', '.'), substr($key, 1));
+
+          $fields[$key] = $value;
+        }
+      }
+
+    //Replace text field values in XML
+    foreach ($template->Fields->Field as $field) {
+      $name = (string) $field['FieldName'];
+
+      if (isset($fields[$name]))
+        $field['Value'] = $fields[$name];
+    }
+
+    //Replace image field values in XML
+    foreach ($template->Images->Image as $image) {
+      $name = (string) $image['Name'];
+
+      if (isset($fields[$name]))
+        $image['Value'] = $fields[$name];
+    }
+  }
 }
