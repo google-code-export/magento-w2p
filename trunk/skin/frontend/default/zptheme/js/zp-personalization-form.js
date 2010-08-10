@@ -17,7 +17,7 @@ function personalization_form () {
     })
   }
   
-  function get_image_edit_dialog(image_name, iframe_src, userImageThumb) {
+  function show_image_edit_dialog(image_name, iframe_src, userImageThumb) {
     load_template_image_settings(image_name);
 
     userImageThumbSelected = userImageThumb
@@ -401,7 +401,7 @@ function personalization_form () {
             }
 
             $('a.edit-dialog', tr).click(function() {
-              get_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
+              show_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
 
               //block the links
               return false;
@@ -633,7 +633,7 @@ function personalization_form () {
   });
 
   $('a.edit-dialog').click(function() {
-  	get_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
+  	show_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
 
     //block the links
     return false;
