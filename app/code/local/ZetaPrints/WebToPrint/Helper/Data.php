@@ -59,7 +59,7 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
   public function create_url_for_product ($product, $query_params) {
     //Get model for URL
-    $url_model = $product()->getUrlModel();
+    $url_model = $product->getUrlModel();
 
     $params = array();
 
@@ -70,6 +70,6 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     //Add query parameters to URL
     $params['_query'] = $query_params;
 
-    echo $url_model->getUrl($context->getProduct(), $params);
+    return $url_model->getUrl($product, $params);
   }
 }
