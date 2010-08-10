@@ -384,6 +384,7 @@ Fix bug in product's images update.
 
               <dir name="image-edit">
                 <file name="crop.png" role="mageskin" />
+                <file name="crop_to_fit.png" role="mageskin" />
                 <file name="delete.png" role="mageskin" />
                 <file name="edit.png" role="mageskin" />
                 <file name="flip_h.png" role="mageskin" />
