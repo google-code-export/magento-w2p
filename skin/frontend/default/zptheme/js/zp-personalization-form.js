@@ -194,7 +194,15 @@ function personalization_form () {
   }
 
   function prepare_post_data_for_php (data) {
-    return data.replace(/\./g, '\x0A');
+    var _data = '';
+
+    data = data.split('&');
+    for (var i = 0; i < data.length; i++) {
+      var token = data[i].split('=');
+      _data += '&' + token[0].replace(/\./g, '\x0A') + '=' + token[1];
+    }
+
+    return _data.substring(1);
   }
 
   function update_preview (event, preserve_fields) {
