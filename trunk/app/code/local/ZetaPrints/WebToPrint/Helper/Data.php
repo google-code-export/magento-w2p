@@ -56,4 +56,20 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     return parent::_getUrl('web-to-print/image/',
                             array('id' => $guid, 'iframe' => 1) );
   }
+
+  public function create_url_for_product ($product, $query_params) {
+    //Get model for URL
+    $url_model = $product()->getUrlModel();
+
+    $params = array();
+
+    //Set parameter for Session ID in URL
+    if (!Mage::app()->getUseSessionInUrl())
+      $params['_nosid'] = true;
+
+    //Add query parameters to URL
+    $params['_query'] = $query_params;
+
+    echo $url_model->getUrl($context->getProduct(), $params);
+  }
 }
