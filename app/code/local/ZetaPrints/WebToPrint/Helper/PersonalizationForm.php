@@ -175,32 +175,23 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
   public function get_next_step_url ($context) {
     if (!$this->is_personalization_step($context)) {
-      //Get model for URL
-      $url_model = $context->getProduct()->getUrlModel();
-
-      $params = array();
-
-      //Set parameter for Session ID in URL
-      if (!Mage::app()->getUseSessionInUrl())
-        $params['_nosid'] = true;
-
       //Add personalization parameter to URL
-      $params['_query'] = array('personalization' => '1');
+      $params = array('personalization' => '1');
 
       //Check if the product page was requested with reorder parameter
       //then proxy the parameter to personalization step
       if ($this->_getRequest()->has('reorder'))
-        $params['_query']['reorder'] = $this->_getRequest()->getParam('reorder');
+        $params['reorder'] = $this->_getRequest()->getParam('reorder');
 
       //Check that the product page was opened from cart page (need for
       //automatic first preview update for cross-sell product)
       if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
             'checkout/cart') !== false)
         //Send update-first-preview query parameter to personalization step
-        $params['_query']['update-first-preview'] = 1;
+        $params['update-first-preview'] = 1;
 
       //Print out url for the product
-      echo $url_model->getUrl($context->getProduct(), $params);
+      echo $this->create_url_for_product($context->getProduct(), $params);
 
       return true;
     }
@@ -749,7 +740,7 @@ jQuery(document).ready(function($) {
             $shapes[$page_number] = $page_details['shapes'];
 
           if (isset($page_details['images']))
-          	$images[$page_number] = $page_details['images'];
+            $images[$page_number] = $page_details['images'];
         }
 
         $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
