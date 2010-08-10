@@ -88,6 +88,12 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         $this->replace_user_input_from_order_details($xml,
                                     $this->_getRequest()->getParam('reorder'));
 
+      //If product page was requested with for-item parameter...
+      if ($this->_getRequest()->has('for-item'))
+        //...then replace various template values from item's options
+        $this->replace_template_values_from_cart_item($xml,
+                                    $this->_getRequest()->getParam('for-item'));
+
       Mage::register('webtoprint-template-xml', $xml);
     }
 
@@ -183,12 +189,19 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       if ($this->_getRequest()->has('reorder'))
         $params['reorder'] = $this->_getRequest()->getParam('reorder');
 
-      //Check that the product page was opened from cart page (need for
-      //automatic first preview update for cross-sell product)
-      if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
-            'checkout/cart') !== false)
-        //Send update-first-preview query parameter to personalization step
-        $params['update-first-preview'] = 1;
+      //Check if the product page was requested with for-item parameter
+      //then proxy the parameter to personalization step and ignore last
+      //visited page (need it to distinguish cross-sell product and already
+      //personalized product)
+      if ($this->_getRequest()->has('for-item'))
+        $params['for-item'] = $this->_getRequest()->getParam('for-item');
+      else
+        //Check that the product page was opened from cart page (need for
+        //automatic first preview update for cross-sell product)
+        if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
+              'checkout/cart') !== false)
+          //Send update-first-preview query parameter to personalization step
+          $params['update-first-preview'] = 1;
 
       //Print out url for the product
       echo $this->create_url_for_product($context->getProduct(), $params);

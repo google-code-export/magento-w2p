@@ -252,6 +252,41 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       zetaprints_change_order_status($url, $key, $order_guid, $old_status, 'deleted');
     }
   }
+
+  /**
+   * Generate url to product with for-item parameter and save it as
+   * redirect url in quote item. Redirect url will be used as link to already
+   * personalized product on cart page
+   */
+  public function save_product_url ($observer) {
+    $item = $observer->getEvent()->getItem();
+
+    if ($item->getParentItem())
+      $item = $item->getParentItem();
+
+    //If redirect URL has already set then exit from the function.
+    if ($item->getRedirectUrl())
+      return;
+
+    $option_model = $item->getOptionByCode('info_buyRequest');
+    $options = unserialize($option_model->getValue());
+
+    if (!(isset($options['zetaprints-TemplateID']) || isset($options['zetaprints-previews'])))
+      return;
+
+    //Get product model for quote item
+    $product = $item->getProduct();
+    $option  = $item->getOptionByCode('product_type');
+    if ($option)
+      $product = $option->getProduct();
+
+    //Generate URL for product with for-item parameter
+    $url = Mage::helper('webtoprint')->create_url_for_product($product,
+                                    array('for-item' => $item->getId()) );
+
+    //Set generated URL and then save item object
+    $item->setRedirectUrl($url)->save();
+  }
 }
 
 ?>
