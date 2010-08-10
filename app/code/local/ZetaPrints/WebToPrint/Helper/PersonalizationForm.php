@@ -754,9 +754,7 @@ jQuery(document).ready(function($) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
       $session->unsetData('zetaprints-previews');
       $previews_from_session = true;
-    } else {
-      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
-
+    } else
       if ($template_details) {
         foreach ($template_details['pages'] as $page_details) {
           $guid = explode('preview/', $page_details['preview-image']);
@@ -765,7 +763,6 @@ jQuery(document).ready(function($) {
 
         $previews_array = substr($previews_array, 0, -2);
       }
-    }
 
     //Check that the product page was opened from cart page (need for
     //automatic first preview update for cross-sell product)
