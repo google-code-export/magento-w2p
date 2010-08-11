@@ -544,15 +544,16 @@ function personalization_form () {
   });
 
   $('a.zetaprints-template-preview').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
+    'transitionIn': 'elastic',
+    'speedIn': 500,
+    'speedOut' : 500,
     'titleShow': false,
+    'hideOnContentClick': true,
+    'showNavArrows': false,
     'onComplete': function () {
-      $('img#fancy_img').attr('title', click_to_close_text);
+      $('img#fancybox-img').attr('title', click_to_close_text);
 
       if (!(shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
@@ -584,22 +585,21 @@ function personalization_form () {
     } });
 
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'titleShow': false,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 
   $('a.edit-dialog').fancybox({
     'padding': 0,
     'titleShow': false,
     'type': 'iframe',
     'hideOnOverlayClick': false,
-    'hideOnContentClick': false,
-    'centerOnScroll': false });
+    'centerOnScroll': true,
+    'showNavArrows': false });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
