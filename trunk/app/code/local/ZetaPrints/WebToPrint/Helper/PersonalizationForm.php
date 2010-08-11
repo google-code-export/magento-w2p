@@ -273,13 +273,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 //<![CDATA[
 jQuery(document).ready(function($) {
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', "<?php echo $this->__('Click to close');?>"); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 });
 //]]>
 </script>
@@ -681,13 +681,13 @@ jQuery(document).ready(function($) {
   });
 
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', '<?php echo $this->__('Click to close');?>'); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 });
 //]]>
     </script>
