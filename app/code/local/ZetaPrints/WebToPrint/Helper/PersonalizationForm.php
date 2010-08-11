@@ -778,11 +778,13 @@ jQuery(document).ready(function($) {
         $previews_array = substr($previews_array, 0, -2);
       }
 
-    //Check that the product page was opened from cart page (need for
-    //automatic first preview update for cross-sell product)
-    if (strpos($session->getData('last_url'), 'checkout/cart') !== false
-        || (isset($_GET['update-first-preview'])
-            && $_GET['update-first-preview'] == '1'))
+    //Check that the product page was opened from cart page and wasn't
+    //requested with for-item parameter (need for automatic first preview
+    //update for cross-sell product)
+    if (!$this->_getRequest()->has('for-item')
+        && (strpos($session->getData('last_url'), 'checkout/cart') !== false
+            || (isset($_GET['update-first-preview'])
+                && $_GET['update-first-preview'] == '1')))
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
