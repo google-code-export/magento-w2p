@@ -61,3 +61,30 @@ div.zetaprints-previews-box.hide div.title a.hide-title {
 div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
+
+/* Fancybox tweaks */
+
+/* Move right arrow area to the right */
+a#fancybox-right {
+  right: -50px;
+}
+
+/* Move left arrow area to the left */
+a#fancybox-left {
+  left: -50px;
+}
+
+/*a#fancybox-right, a#fancybox-left {
+  visibility: visible; /* IE6 */
+/*}*/
+
+/* Make left arrow icon always visible */
+a#fancybox-left span {
+  left: 20px;
+}
+
+/* Make right arrow icon always visible */
+a#fancybox-right span {
+  left: auto;
+  right: 20px;
+}
