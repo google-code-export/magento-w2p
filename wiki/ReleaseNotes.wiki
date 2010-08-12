@@ -2,6 +2,8 @@
 
 = Future stable release (1.8.3.0) =
 == Issues ==
+  * Point product links in cart to already personalized products (issue #277)
+  * Show arrows in pop-uped fancybox all the time (issue #276)
   * Bug fixes (issue #252)
 
 = Stable release (1.8.2.4) =
