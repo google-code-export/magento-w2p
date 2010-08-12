@@ -31,164 +31,6 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
   }
 
   /**
-   * Process saved order to magento db
-   * param id order id
-   */
-  function order ($id) {
-    $data = zp_api_order_detail($id);
-
-    if (!$data || !isset($data['orderid']) || !isset($data['productname'])
-        || !isset($data['created']) || !isset($data['productprice'])
-        || !isset($data['previewimage']) || !isset($data['previews'])) return -1;
-
-    $data['created'] = zp_api_common_str2date($data['created']);
-    $product = Mage::getModel('catalog/product');
-    $old = $product->getIdBySku($id);
-
-    if($old) {
-      $product->load($old);
-
-      Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
-
-      $product->setData("w2p_image", $data['previewimage']);
-      $product->setData("w2p_modified", $data['created']);
-      $product->setData("w2p_isorder", 1);
-      $product->setData("w2p_image_links", $data['previews']);
-      $product->save();
-
-      return $old;
-    }
-
-    $baseProduct = Mage::registry('product');
-    Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
-
-    $product = $baseProduct;
-
-    //custom option
-    $newOptionsArray = array();
-    $product->setCanSaveCustomOptions(true);
-
-    foreach ($product->getOptions() as $_option) {
-      /* @var $_option Mage_Catalog_Model_Product_Option */
-      $newOptionsArray[] = $_option->prepareOptionForDuplicate();
-    }
-
-    $product->setProductOptions($newOptionsArray);
-    //end custom option
-
-    $product->setId(null);
-
-    $product->setSku($id);
-    $product->setData("w2p_image", $data['previewimage']);
-    $product->setData("w2p_image_large", $data['previewimage']);
-    $product->setData("w2p_image_small", $data['previewimage']);
-    $product->setData("w2p_created", $data['created']);
-    $product->setData("w2p_modified", $data['created']);
-    $product->setData("w2p_image_links", $data['previews']);
-    $product->setData("w2p_isorder", 1);
-    $product->setData("w2p_link", "");
-    $product->setData("url_key", $id);
-    $product->setData("inventory_manage_stock_default", 1);
-    $product->setData("inventory_qty", 10000);
-
-    $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-    $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG);
-    $product->setCategoryIds(array(0 => 0));
-    $product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID);
-
-    $product->save();
-
-    //stock item
-    $stockItem = Mage::getModel('cataloginventory/stock_item');
-    $stockItem->setData('use_config_manage_stock', 1);
-    $stockItem->setData('is_in_stock', 1);
-    $stockItem->setData('stock_id', 1);
-    $stockItem->setData('qty', 10000);
-    $stockItem->setProduct($product);
-    $stockItem->save();
-
-    return $product->getId();
-  }
-
-  /**
-   * Save order  to ZP
-   * param id order id
-   * return array
-   * ret['pdf'] pdf url
-   * ret['jpg'] jpg url
-   * ret['gif'] gif url
-   * ret['png'] png url
-   * ret['cdr'] cdr url
-   */
-  function saveOrder ($id) {
-    $product = Mage::getModel('catalog/product');
-    $old = $product->getIdBySku($id);
-
-    if ($old) {
-      $product->load($old);
-
-      if (!$product->getData('w2p_isorder')) return 0;
-    } else {
-      return 0;
-    }
-
-    $data = array();
-    for ($i = 0; $i < 2; $i++) {
-      $data = zp_api_order_save($id);
-
-      if (isset($data['orderid'])) break;
-    }
-
-    if (!$data || !isset($data['orderid']) || !isset($data['productname'])
-        || !isset($data['created']) || !isset($data['productprice'])
-        || !isset($data['previewimage']) || !isset($data['previews'])) {
-
-      Mage::getSingleton('checkout/session')->addError("SAVE STATUS OF $id :ERROR!!!" );
-
-      return -1;
-    }
-
-    $ret = array("pdf" => "",
-                 "jpeg" => "",
-                 "gif" => "",
-                 "png" => "",
-                 "cdr" => "");
-
-    foreach ($ret as $key => $val)
-      if (isset($data[$key]))
-        $ret[$key] = $data[$key];
-
-    foreach ($ret as $key => $val)
-      if ($val) {
-        if ($key == "jpeg") $key = "jpg";
-        $product->setData("w2p_".$key, $val);
-      }
-
-    Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
-
-    $product->setStatus(2);
-    $product->save();
-
-    Mage::getSingleton('checkout/session')->addError("CHANGE STATUS OF $id :DONE!!!");
-
-    return 1;
-  }
-
-  function getPersonalizeUrl ($tid) {
-    $ip = $_SERVER["REMOTE_ADDR"];
-    $uid = $this->getW2pUserId();
-
-    if (!$uid) {
-      $this->autoRegister();
-      $uid = $this->getW2pUserId();
-    }
-
-    $pass = $this->getW2pPass();
-
-    return zp_api_template_iframe_url($tid, $uid, $pass);
-  }
-
-  /**
    * auto registe user
    * check if is not registed, this will create new GUID and Pas then registe new user
    *
@@ -218,35 +60,6 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
         return 0;
       }
 
-      //connecting to DB
-      $db = Mage::getSingleton('core/resource')->getConnection('core_write');
-      //check if ZP_ID cookie exists
-      $c_user=Mage::getSingleton('core/cookie')->get('ZP_ID');
-      if ($c_user){
-      //found cookie, fetching password from DB
-          zp_api_log_debug('Found cookie, fetching password from DB');
-      $c_pass=$db->fetchOne("select pass from zetaprints_cookies where user_id=?",array($c_user));
-      if (strlen($c_pass)==6)
-          {
-            //found password in DB, assigning creditenials and return
-            zp_api_log_debug('Restoring session from cookie and DB');
-            $this->pass=$c_pass;
-            $this->user=$c_user;
-            $this->state="ok";
-            //Save to session
-            Mage::getSingleton('core/session')->setW2puser($this->user);
-            Mage::getSingleton('core/session')->setW2ppass($this->pass);
-            return 1;
-          }else{
-            //password not found in DB, cookie is wrong?
-            unset($c_user);
-            unset($c_pass);
-
-            zp_api_log_debug('Wrong cookie on client side. Deleting...');
-            Mage::getSingleton('core/cookie')->delete('ZP_ID');
-          }
-      }
-
       //Not created, will create new account on ZP
       $this->user = zp_api_common_uuid();
       $this->pass = zp_api_common_pass();
@@ -269,6 +82,8 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
           //registered, creating cookie
           Mage::getSingleton('core/cookie')->set('ZP_ID',$this->user,ZP_COOKIE_LIFETIME);
+          //connecting to DB
+          $db = Mage::getSingleton('core/resource')->getConnection('core_write');
           //adding password to DB
           $db->insert("zetaprints_cookies",array("user_id"=>$this->user,"pass"=>$this->pass));
         }
@@ -320,15 +135,66 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
   }
 
   function get_credentials () {
+    //Get user ID from session or from customer object
     $id = $this->getW2pUserId();
 
-    if (!$id) {
-      $this->autoRegister();
-      $id = $this->getW2pUserId();
+    //If user has ZetaPrints ID in session or in customer object, then...
+    if ($id) {
+
+      //... return user's ID and its password
+      return array('id' => $id, 'password' => $this->getW2pPass());
     }
 
-    $password = $this->getW2pPass();
+    //If user doesn't have ZetaPrints ID in session or in customer object,
+    //but has ZP_ID cookie, then extract ZetaPrints ID from it and
+    //password from DB
+    if (($credentials = $this->get_credentials_from_zp_cookie()) !== false) {
+      //Update session if password for user exists in DB
+      $this->update_session_with_credentials($credentials);
+
+      return $credentials;
+    }
+
+    //We don't know the user, register him on ZetaPrints
+    $this->autoRegister();
+
+    return array('id' => $this->getW2pUserId(),
+                 'password' => $this->getW2pPass());
+  }
+
+  function get_credentials_from_zp_cookie () {
+    //Get ZetaPrints user id from cookie
+    $id = Mage::getSingleton('core/cookie')->get('ZP_ID');
+
+    if (!$id)
+      return false;
+
+    //connecting to DB
+    $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+
+    //Get password for user from DB
+    $password = $db
+      ->fetchOne("select pass from zetaprints_cookies where user_id=?",
+                 array($id));
+
+    //If there's no password for user in DB then...
+    if (strlen($password) != 6) {
+      //... remove cookie
+      Mage::getSingleton('core/cookie')->delete('ZP_ID');
+
+      return false;
+    }
 
     return array('id' => $id, 'password' => $password);
+  }
+
+  function update_session_with_credentials ($credentials) {
+    $this->user = $credentials['id'];
+    $this->pass = $credentials['password'];
+    $this->state = "ok";
+
+    Mage::getSingleton('core/session')->setW2puser($this->user);
+    Mage::getSingleton('core/session')->setW2ppass($this->pass);
+    Mage::getSingleton('core/session')->setState($this->state);
   }
 }

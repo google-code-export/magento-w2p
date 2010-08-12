@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-07-16</date>
+  <date>2010-08-12</date>
 
   <version>
-    <release>1.8.2.1</release>
-    <api>1.8.2.1</api>
+    <release>1.8.2.4</release>
+    <api>1.8.2.4</api>
   </version>
 
   <stability>
@@ -52,7 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-* Fix error in preview share link functionality
+* Bug fixes (issue #270, issue #262)
   </notes>
 
   <contents>
@@ -384,6 +384,7 @@ Extension developed by http://www.zetaprints.com/
 
               <dir name="image-edit">
                 <file name="crop.png" role="mageskin" />
+                <file name="crop_to_fit.png" role="mageskin" />
                 <file name="delete.png" role="mageskin" />
                 <file name="edit.png" role="mageskin" />
                 <file name="flip_h.png" role="mageskin" />
@@ -407,6 +408,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="edited-shape-background.png" role="mageskin" />
               <file name="save-button.png" role="mageskin" />
               <file name="big-spinner.gif" role="mageskin" />
+              <file name="spinner.gif" role="mageskin" />
 
             </dir>
 
@@ -542,6 +544,63 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.8.2.3</release>
+        <api>1.8.2.3</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-08-07</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+Fix bug in product's images update.
+      </notes>
+    </release>
+
+    <release>
+      <version>
+        <release>1.8.2.2</release>
+        <api>1.8.2.2</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-07-26</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+Fix regression in session handling (introduced in 1.8.2.0)
+      </notes>
+    </release>
+
+    <release>
+      <version>
+        <release>1.8.2.1</release>
+        <api>1.8.2.1</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-07-16</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+* Fix error in preview share link functionality
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.8.2.0</release>

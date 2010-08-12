@@ -21,6 +21,12 @@ class ZetaPrints_Zpapi_Model_Observer
       if (!isset($options['info_buyRequest']['zetaprints-order-id']))
         continue;
 
+      //If the item was reordered skip it (we can't complete already completed
+      //order on ZetaPrints)
+      if (isset($options['info_buyRequest']['zetaprints-reordered'])
+          && $options['info_buyRequest']['zetaprints-reordered'] === true)
+        continue;
+
       $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
       $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 

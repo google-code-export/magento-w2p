@@ -115,7 +115,10 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               $this->debug("Template for product {$full_product->getWebtoprintTemplate()} changed");
 
               Mage::register('webtoprint-template-changed', true);
-              $full_product->save();
+
+              //Mark product as changed and then save it.
+              $full_product->setDataChanges(true)->save();
+
               Mage::unregister('webtoprint-template-changed');
 
               $this->debug("Product {$full_product->getWebtoprintTemplate()} was succesfully updated");

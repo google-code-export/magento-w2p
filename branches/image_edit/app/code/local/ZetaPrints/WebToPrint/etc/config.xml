@@ -150,17 +150,27 @@
           </webtoprint-order-complete>
         </observers>
       </sales_order_save_after>
+
+      <sales_quote_item_save_after>
+        <observers>
+          <webtoprint-save-product-url>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>save_product_url</method>
+          </webtoprint-save-product-url>
+        </observers>
+      </sales_quote_item_save_after>
     </events>
 
     <sales>
       <order>
         <statuses>
-          <problems translate="label"><label>Problems</label></problems>
+          <problems translate="label"><label>Pending Review</label></problems>
         </statuses>
 
         <states>
           <problems translate="label">
-            <label>Problems</label>
+            <label>Pending Review</label>
 
             <statuses>
               <problems default="1" />

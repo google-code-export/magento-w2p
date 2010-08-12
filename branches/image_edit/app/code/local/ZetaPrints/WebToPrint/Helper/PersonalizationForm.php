@@ -46,7 +46,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
       //Check a status of web-to-print user registration on ZetaPrints
       //and if it's not then set user_was_registered flag to false
-      if (!$w2p_user->getW2pUserId()) {
+      if (!($w2p_user->getW2pUserId()
+           || $w2p_user->get_credentials_from_zp_cookie() !== false)) {
         $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
         if ($template->getId())
@@ -86,6 +87,12 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         //...then replace field values from order details
         $this->replace_user_input_from_order_details($xml,
                                     $this->_getRequest()->getParam('reorder'));
+
+      //If product page was requested with for-item parameter...
+      if ($this->_getRequest()->has('for-item'))
+        //...then replace various template values from item's options
+        $this->replace_template_values_from_cart_item($xml,
+                                    $this->_getRequest()->getParam('for-item'));
 
       Mage::register('webtoprint-template-xml', $xml);
     }
@@ -174,32 +181,30 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
   public function get_next_step_url ($context) {
     if (!$this->is_personalization_step($context)) {
-      //Get model for URL
-      $url_model = $context->getProduct()->getUrlModel();
-
-      $params = array();
-
-      //Set parameter for Session ID in URL
-      if (!Mage::app()->getUseSessionInUrl())
-        $params['_nosid'] = true;
-
       //Add personalization parameter to URL
-      $params['_query'] = array('personalization' => '1');
+      $params = array('personalization' => '1');
 
       //Check if the product page was requested with reorder parameter
       //then proxy the parameter to personalization step
       if ($this->_getRequest()->has('reorder'))
-        $params['_query']['reorder'] = $this->_getRequest()->getParam('reorder');
+        $params['reorder'] = $this->_getRequest()->getParam('reorder');
 
-      //Check that the product page was opened from cart page (need for
-      //automatic first preview update for cross-sell product)
-      if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
-            'checkout/cart') !== false)
-        //Send update-first-preview query parameter to personalization step
-        $params['_query']['update-first-preview'] = 1;
+      //Check if the product page was requested with for-item parameter
+      //then proxy the parameter to personalization step and ignore last
+      //visited page (need it to distinguish cross-sell product and already
+      //personalized product)
+      if ($this->_getRequest()->has('for-item'))
+        $params['for-item'] = $this->_getRequest()->getParam('for-item');
+      else
+        //Check that the product page was opened from cart page (need for
+        //automatic first preview update for cross-sell product)
+        if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
+              'checkout/cart') !== false)
+          //Send update-first-preview query parameter to personalization step
+          $params['update-first-preview'] = 1;
 
       //Print out url for the product
-      echo $url_model->getUrl($context->getProduct(), $params);
+      echo $this->create_url_for_product($context->getProduct(), $params);
 
       return true;
     }
@@ -268,13 +273,13 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 //<![CDATA[
 jQuery(document).ready(function($) {
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', "<?php echo $this->__('Click to close');?>"); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 });
 //]]>
 </script>
@@ -376,7 +381,7 @@ jQuery(document).ready(function($) {
   public function get_image_fields ($context) {
     $params = array(
       'ajax-loader-image-url'
-        => Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'),
+        => Mage::getDesign()->getSkinUrl('images/spinner.gif'),
       'user-image-edit-button'
         => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'),
       'photothumbnail-url-height-100-template'
@@ -480,7 +485,7 @@ jQuery(document).ready(function($) {
       <button class="update-preview button">
         <span><span><?php echo $this->__('Update preview');?></span></span>
       </button>
-      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/opc-ajax-loader.gif'); ?>" class="ajax-loader"/>
+      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spinner.gif'); ?>" class="ajax-loader"/>
       <span class="text"><?php echo $this->__('Updating preview image');?>&hellip;</span>
     </div>
 <?php
@@ -676,13 +681,13 @@ jQuery(document).ready(function($) {
   });
 
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', '<?php echo $this->__('Click to close');?>'); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 });
 //]]>
     </script>
@@ -728,32 +733,33 @@ jQuery(document).ready(function($) {
     $shapes = json_encode(false);
     $images = json_encode(false);
 
-    $template = Mage::getModel('webtoprint/template')->loadById($template_id);
+    if (! $xml = Mage::registry('webtoprint-template-xml')) {
+      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
-    if ($template->getId()) {
-      try {
-        $xml = new SimpleXMLElement($template->getXml());
-      } catch (Exception $e) {
-        zetaprints_debug("Exception: {$e->getMessage()}");
-      }
-
-      if ($xml) {
-        $template_details = zetaprints_parse_template_details($xml);
-        $shapes = array();
-        $images = array();
-
-        foreach ($template_details['pages'] as $page_number => $page_details)
-        {
-          if (isset($page_details['shapes']))
-            $shapes[$page_number] = $page_details['shapes'];
-
-          if (isset($page_details['images']))
-          	$images[$page_number] = $page_details['images'];
+      if ($template->getId())
+        try {
+          $xml = new SimpleXMLElement($xml = $template->getXml());
+        } catch (Exception $e) {
+          zetaprints_debug("Exception: {$e->getMessage()}");
         }
+    }
 
-        $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
-        $images = count($images) ? json_encode($images) : json_encode(false);
+    if ($xml) {
+      $template_details = zetaprints_parse_template_details($xml);
+      $shapes = array();
+      $images = array();
+
+      foreach ($template_details['pages'] as $page_number => $page_details)
+      {
+        if (isset($page_details['shapes']))
+          $shapes[$page_number] = $page_details['shapes'];
+
+        if (isset($page_details['images']))
+          $images[$page_number] = $page_details['images'];
       }
+
+      $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
+      $images = count($images) ? json_encode($images) : json_encode(false);
     }
 
     if ($session->hasData('zetaprints-previews')) {
@@ -762,9 +768,7 @@ jQuery(document).ready(function($) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
       $session->unsetData('zetaprints-previews');
       $previews_from_session = true;
-    } else {
-      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
-
+    } else
       if ($template_details) {
         foreach ($template_details['pages'] as $page_details) {
           $guid = explode('preview/', $page_details['preview-image']);
@@ -773,17 +777,17 @@ jQuery(document).ready(function($) {
 
         $previews_array = substr($previews_array, 0, -2);
       }
-    }
 
-    //Check that the product page was opened from cart page (need for
-    //automatic first preview update for cross-sell product)
-    if (strpos($session->getData('last_url'), 'checkout/cart') !== false
-        || (isset($_GET['update-first-preview'])
-            && $_GET['update-first-preview'] == '1'))
+    //Check that the product page was opened from cart page and wasn't
+    //requested with for-item parameter (need for automatic first preview
+    //update for cross-sell product)
+    if (!$this->_getRequest()->has('for-item')
+        && (strpos($session->getData('last_url'), 'checkout/cart') !== false
+            || (isset($_GET['update-first-preview'])
+                && $_GET['update-first-preview'] == '1')))
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
-
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -807,7 +811,7 @@ jQuery(document).ready(function($) {
   template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
   previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
   is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
-  
+
   update_first_preview_on_load = <?php echo $update_first_preview_on_load ?>;
 
   w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
