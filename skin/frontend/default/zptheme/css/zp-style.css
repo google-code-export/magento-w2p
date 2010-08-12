@@ -559,12 +559,12 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
 
 /* Move right arrow area to the right */
 a#fancybox-right {
-  right: -50px;
+  right: -40px;
 }
 
 /* Move left arrow area to the left */
 a#fancybox-left {
-  left: -50px;
+  left: -40px;
 }
 
 /*a#fancybox-right, a#fancybox-left {
