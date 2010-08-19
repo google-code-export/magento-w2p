@@ -9,37 +9,74 @@ function cropVisualAssistant ()
   this.userImageThumb = {};
   this.templatePreview = {};
   this.templatePreviewPlaceholder = {}
-  $ = jQuery;
+  this.templateImage = {}
+  // $ = jQuery;
 
+  /**
+   * Init settings for the UserImage
+   *
+   * @attr: _element - image uploaded by user
+   * @attr: _widthActual - actual width of user image
+   * @attr: _heightActual - actual height of user image
+   * @attr: _widthPreview - preview width of user image
+   * @attr: _heightPreview - preview height of user image
+   */
   this.setUserImage = function (_element, _widthActual, _heightActual, _widthPreview, _heightPreview)
   {
     this.userImage = {
       element: _element,
-      widthActual: _widthActual,
-      heightActual: _heightActual,
-      widthPreview: _widthPreview,
-      heightPreview: _heightPreview
+      widthActualPx: _widthActual,
+      heightActualPx: _heightActual,
+      widthPreviewPx: _widthPreview,
+      heightPreviewPx: _heightPreview,
+      aspectRatio: _widthActual/_heightActual
     }
   }
 
+  /**
+   * Init settings for the UserImageThumb
+   *
+   * @attr: _element - affected thumb image
+   */
   this.setUserImageThumb = function (_element)
   {
     this.userImageThumb = {
       element: _element,
-      width: _element.width(),
-      height: _element.height()
+      widthPx: _element.width(),
+      heightPx: _element.height()
     }
   }
 
+  /**
+   * Init settings for the TemplatePreview
+   *
+   * @attr: _templatePreviewElement - affected TemplatePreview image
+   */
   this.setTemplatePreview = function (_templatePreviewElement)
   {
-  	$.each(top.shapes, function() {
-      var shape = $(this);
-      if (shape[0][top.image_imageName] != undefined) {
-        _templatePreviewPlaceholder = shape[0][top.image_imageName];
+    for (var pageNum in top.shapes) {
+      if (top.shapes[pageNum][top.image_imageName] != undefined) {
+        _templatePreviewPlaceholder = top.shapes[pageNum][top.image_imageName];
+
+        //@Temporary plug for transform inches values to relative ones:
+        //(not used yet)
+        _templatePreviewPlaceholder['anchorx'] = _templatePreviewPlaceholder['anchorx'] / top.pages[pageNum]['width-in'];
+        _templatePreviewPlaceholder['anchory'] = _templatePreviewPlaceholder['anchory'] / top.pages[pageNum]['height-in'];
       }
-    });
+    }
     this.templatePreviewPlaceholder = _templatePreviewPlaceholder
+
+    for (var pageNum in top.images) {
+      if (top.images[pageNum][top.image_imageName] != undefined) {
+        var image_dimensions = top.images[pageNum][top.image_imageName];
+        _templateImage = {
+          widthPx: image_dimensions['width'],
+          heightPx: image_dimensions['height'],
+          aspectRatio: image_dimensions['width'] / image_dimensions['height']
+        };
+      }
+    }
+    this.templateImage = _templateImage;
 
     this.templatePreview = {
       element: _templatePreviewElement,
@@ -48,6 +85,10 @@ function cropVisualAssistant ()
     }
   }
 
+  /**
+   * Init preview if need to, do the calculations and update cropped area
+   *
+   */
   this.updateView = function (_cropArea)
   {
     if (this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').length==0)
@@ -57,19 +98,12 @@ function cropVisualAssistant ()
         {backgroundColor:'black', opacity:'0.7'}
       );
 
-    if (this.templatePreview.element.prev('div.thumbCropedAreaToolSet').length==0)
-      this.cropedAreaSet(
-        this.templatePreview.element,
-        this.userImage.element.attr("src"),
-        {backgroundColor:'transparent', opacity:'1.0'}
-      );
+    var _cropArea2 = [_cropArea[0]/this.userImage.widthPreviewPx, _cropArea[1]/this.userImage.heightPreviewPx, _cropArea[2]/this.userImage.widthPreviewPx, _cropArea[3]/this.userImage.heightPreviewPx]
 
-    var _cropArea2 = [_cropArea[0]/this.userImage.widthPreview, _cropArea[1]/this.userImage.heightPreview, _cropArea[2]/this.userImage.widthPreview, _cropArea[3]/this.userImage.heightPreview]
-
-    var _cropAreaLeft = Math.round(this.userImageThumb.width * _cropArea2[0]);
-    var _cropAreaTop = Math.round(this.userImageThumb.height * _cropArea2[1]);
-    var _cropAreaWidth = Math.round(this.userImageThumb.width * _cropArea2[2]) - _cropAreaLeft;
-    var _cropAreaHeight = Math.round(this.userImageThumb.height * _cropArea2[3]) - _cropAreaTop;
+    var _cropAreaLeft = Math.round(this.userImageThumb.widthPx * _cropArea2[0]);
+    var _cropAreaTop = Math.round(this.userImageThumb.heightPx * _cropArea2[1]);
+    var _cropAreaWidth = Math.round(this.userImageThumb.widthPx * _cropArea2[2]) - _cropAreaLeft;
+    var _cropAreaHeight = Math.round(this.userImageThumb.heightPx * _cropArea2[3]) - _cropAreaTop;
 
     this.cropedAreaUpdate(
       this.userImageThumb.element,
@@ -79,37 +113,56 @@ function cropVisualAssistant ()
       _cropAreaHeight,
       _cropAreaLeft,
       _cropAreaTop,
-      this.userImageThumb.width
-    );
-
-    var _placeholderOffsetLeft = Math.round(this.templatePreviewPlaceholder.x1 * this.templatePreview.width);
-    var _placeholderOffsetTop = Math.round(this.templatePreviewPlaceholder.y1 * this.templatePreview.height);
-    var _placeholderWidth = Math.round((this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1) * this.templatePreview.width);
-    var _placeholderHeight = Math.round((this.templatePreviewPlaceholder.y2 - this.templatePreviewPlaceholder.y1) * this.templatePreview.height);
-
-    var _k = _placeholderWidth / (_cropArea[2] - _cropArea[0]);
-
-    var _clipedImageLeft = Math.round(_k * _cropArea[0])
-    var _clipedImageTop = Math.round(_k * _cropArea[1])
-    var _clipedImageWidth = Math.round(_k * this.userImage.widthPreview);
-    var _clipedImageHeight = Math.round(_k * this.userImage.heightPreview);
-
-    this.cropedAreaUpdate(
-      this.templatePreview.element,
-      _placeholderOffsetLeft,
-      _placeholderOffsetTop,
-      _placeholderWidth,
-      _placeholderHeight,
-      _clipedImageLeft,
-      _clipedImageTop,
-      _clipedImageWidth
+      this.userImageThumb.widthPx
     );
   }
 
   /**
-   * Set cropped area in the thumbnail
-   * @attr: _targetImageElement - affected thumbnail image
-   * @attr: _cropArea - array of [cr_x1, cr_y1, cr_x2, cr_y2]
+   * Obtain initial coordinates of the cropped area (exactly as it would be
+   * if one used the "obtain preview" action without defining any crop area)
+   *
+   * @attr:
+   */
+  this.getInitCroppedArea = function ()
+  {
+    // not used ------------
+    var userImage_AnchorX = this.userImage.widthPreviewPx * this.templatePreviewPlaceholder['anchorx'];
+    var userImage_AnchorY = this.userImage.heightPreviewPx * this.templatePreviewPlaceholder['anchory'];
+
+    var placeholderToImageRel = this.templateImage.widthPx / (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1);
+
+    var imageAnchorXPx = this.templatePreviewPlaceholder.anchorx * placeholderToImageRel;
+    var imageAnchorYPx = this.templatePreviewPlaceholder.anchory * placeholderToImageRel;
+    // not used (end) ------
+
+    // temporary solution:
+    var _x = 0;
+    var _y = 0;
+    var _w = this.userImage.widthPreviewPx;
+    var _h = this.userImage.heightPreviewPx;
+
+    if (this.templateImage.aspectRatio > this.userImage.aspectRatio) {
+      _h = this.userImage.widthPreviewPx / this.templateImage.aspectRatio;
+      _y = (this.userImage.heightPreviewPx - _h) / 2;
+  	} else {
+      _w = this.userImage.heightPreviewPx * this.templateImage.aspectRatio;
+      _x = (this.userImage.widthPreviewPx - _w) / 2;
+    }
+
+  	return [_x, _y, _x + _w, _y + _h];
+  }
+
+  /**
+   * Update cropped area (according to the user manipulations with the crop frame)
+   *
+   * @attr: _targetImageElement - affected image
+   * @attr: _cropAreaLeft - left coord of crop frame (px)
+   * @attr: _cropAreaTop - top coord of crop frame (px)
+   * @attr: _cropAreaWidth - width of crop frame (px)
+   * @attr: _cropAreaHeight - height of crop frame (px)
+   * @attr: _clipedImageLeft - shift of clipped image to the left with relative to the crop frame (px)
+   * @attr: _clipedImageTop - shift of clipped image to the top with relative to the crop frame (px)
+   * @attr: _clipedImageWidth - width of the displayed image (for changing scale of displayed image)
    */
   this.cropedAreaUpdate = function (
     _targetImageElement,
@@ -140,9 +193,11 @@ function cropVisualAssistant ()
   }
 
   /**
-   * Set cropped area in the thumbnail
-   * @attr: _targetImageElement - affected thumbnail image
-   * @attr: _cropArea - array of [cr_x1, cr_y1, cr_x2, cr_y2]
+   * Set cropped area
+   *
+   * @attr: _targetImageElement - affected image
+   * @attr: _clipedImageSrc - image url used for displaying in clipped area
+   * @attr: _targetImageOverheadStyle - css rules for outside area (backgroundColor and opacity)
    */
   this.cropedAreaSet = function (
     _targetImageElement,
@@ -150,11 +205,6 @@ function cropVisualAssistant ()
     _targetImageOverheadStyle
   )
   {
-    // this.cropedAreaRemove (_targetImageElement)
-
-    // if (_cropAreaWidth==0 || _cropAreaHeight==0)
-    //  return;
-
     var _targetImageElementPos = _targetImageElement.position();
     var _toolSet = jQuery('<DIV />');
     _toolSet.css({
@@ -170,23 +220,20 @@ function cropVisualAssistant ()
     var _cropAreaDiv = jQuery('<DIV />');
     _cropAreaDiv.css({
       position: 'absolute',
-      // border: '1px solid red',
       overflow: 'hidden'
     }).appendTo(_toolSet);
 
     var _cropImg = jQuery('<IMG src="' + _clipedImageSrc + '" />').css({
       position: 'absolute',
-      // maxWidth: 'auto'
     })
     _cropImg.appendTo(_cropAreaDiv);
   }
 
   /**
-   * Remove cropped area from the thumbnail
-   * @attr: _targetImageElement - affected thumbnail image
+   * Remove cropped area
+   *
    */
   this.cropedAreaRemove = function () {
-    // this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').remove();
     this.templatePreview.element.prev('div.thumbCropedAreaToolSet').remove();
   }
 }

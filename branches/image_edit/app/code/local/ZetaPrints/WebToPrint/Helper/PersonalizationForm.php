@@ -746,11 +746,18 @@ jQuery(document).ready(function($) {
 
     if ($xml) {
       $template_details = zetaprints_parse_template_details($xml);
+      $pages = array();
       $shapes = array();
       $images = array();
 
       foreach ($template_details['pages'] as $page_number => $page_details)
       {
+        $page_attributes = array();
+        foreach ($page_details as $page_attr_key => $page_attr_val)
+          if (!is_array($page_attr_val))
+            $page_attributes[$page_attr_key] = $page_attr_val;
+        $pages[$page_number] = $page_attributes;
+
         if (isset($page_details['shapes']))
           $shapes[$page_number] = $page_details['shapes'];
 
@@ -758,6 +765,7 @@ jQuery(document).ready(function($) {
           $images[$page_number] = $page_details['images'];
       }
 
+      $pages = count($pages) ? json_encode($pages) : json_encode(false);
       $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
       $images = count($images) ? json_encode($images) : json_encode(false);
     }
@@ -778,13 +786,13 @@ jQuery(document).ready(function($) {
         $previews_array = substr($previews_array, 0, -2);
       }
 
-    //Check that the product page was opened from cart page and wasn't
+    //Check that the product page was opened from cart page or was
     //requested with for-item parameter (need for automatic first preview
     //update for cross-sell product)
-    if (!$this->_getRequest()->has('for-item')
-        && (strpos($session->getData('last_url'), 'checkout/cart') !== false
-            || (isset($_GET['update-first-preview'])
-                && $_GET['update-first-preview'] == '1')))
+    if ($this->_getRequest()->has('for-item')
+        || strpos($session->getData('last_url'), 'checkout/cart') !== false
+        || (isset($_GET['update-first-preview'])
+            && $_GET['update-first-preview'] == '1') )
       $update_first_preview_on_load = json_encode(true);
     else
       $update_first_preview_on_load = json_encode(false);
@@ -793,6 +801,7 @@ jQuery(document).ready(function($) {
 //<![CDATA[
 
 // Global vars go here
+var pages = <?php echo $pages; ?>;
 var shapes = <?php echo $shapes; ?>;
 var image_aspectRatio = [0,0];  //default values for image edit dialog box
 var image_imageName = '';  //currently edited template image

@@ -28,7 +28,9 @@ jQuery(document).ready(function ($) {
     if (cropMetadata[0] && cropMetadata[1] && cropMetadata[2] && cropMetadata[3]) {
       imageEditorJcropApi.setSelect(cropMetadata);
     } else {
-      imageEditorJcropApi.setSelect([10, 10, 60, 60]);
+      // imageEditorJcropApi.setSelect([10, 10, 60, 60]);
+      // _cropVisualAssistant.getCroppedArea(0, 0);
+      imageEditorJcropApi.setSelect(_cropVisualAssistant.getInitCroppedArea(0, 0));
     }
 
     $('#imageEditorCropForm').css('display', 'block');

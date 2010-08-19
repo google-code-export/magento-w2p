@@ -86,13 +86,13 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
     //Item previews stored as comma-separated string in a quote.
     //Convert it to array.
-    $previews = explode(',', $options['zetaprints-previews']);
+    //$previews = explode(',', $options['zetaprints-previews']);
 
     //Replace previews in XML
-    foreach ($previews as $index => $preview) {
-      $template->Pages->Page[$index]['PreviewImage'] = "preview/{$preview}";
-      $template->Pages->Page[$index]['ThumbImage'] = "thumb/{$preview}";
-    }
+    //foreach ($previews as $index => $preview) {
+    //  $template->Pages->Page[$index]['PreviewImage'] = "preview/{$preview}";
+    //  $template->Pages->Page[$index]['ThumbImage'] = "thumb/{$preview}";
+    //}
 
     $fields = array();
 
