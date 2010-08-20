@@ -44,6 +44,12 @@ Depends on _[http://code.google.com/p/magento-w2p/source/browse/trunk/skin/front
 
 Original script sourced from: http://fancybox.net
 
+= [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js zp-crop-visual-assistant.js] =
+This file contains javascript cropVisualAssistant class code.
+
+This is a class for comparing user images and placeholders.
+It contains functionality to determine ratios and positioning between a given placeholder and a user image.
+
 = [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-image-edit.js zp-image-edit.js] =
 This file contains javascript code for the ZetaPrints image editor.
 
