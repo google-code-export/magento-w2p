@@ -29,7 +29,8 @@ function cropVisualAssistant ()
       heightActualPx: _heightActual,
       widthPreviewPx: _widthPreview,
       heightPreviewPx: _heightPreview,
-      aspectRatio: _widthActual/_heightActual
+      aspectRatio: _widthActual/_heightActual,
+      scaleCoef: _widthActual/_widthPreview
     }
   }
 
@@ -70,6 +71,7 @@ function cropVisualAssistant ()
       if (top.images[pageNum][top.image_imageName] != undefined) {
         var image_dimensions = top.images[pageNum][top.image_imageName];
         _templateImage = {
+          widthIn: top.pages[pageNum]['width-in'] * (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1),
           widthPx: image_dimensions['width'],
           heightPx: image_dimensions['height'],
           aspectRatio: image_dimensions['width'] / image_dimensions['height']
@@ -150,6 +152,19 @@ function cropVisualAssistant ()
     }
 
   	return [_x, _y, _x + _w, _y + _h];
+  }
+
+  /**
+   * Get information about placeholder and corresponding image
+   */
+  this.getPlaceholderInfo = function ()
+  {
+    return {
+      widthPx: this.templateImage.widthPx,
+      heightPx: this.templateImage.heightPx,
+      widthIn: this.templateImage.widthIn,
+      userImageScaleCoef: this.userImage.scaleCoef
+    }
   }
 
   /**

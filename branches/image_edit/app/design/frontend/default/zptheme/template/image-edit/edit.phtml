@@ -42,7 +42,10 @@
         <img src="" id="imageEditorPreview" alt="Image" style="display:none" />
 
         <div id="imageEditorCaption">
-          <span id="imageEditorInfo"></span>
+          <span id="imageEditorInfo"></span><br />
+          <span>
+            <?php echo $this->__('Preview image:'); ?>
+          </span>
           <span>
             <?php echo $this->__('W:'); ?>
             <span id="imageEditorWidthInfo"></span>
@@ -50,6 +53,26 @@
           <span>
             <?php echo $this->__('H:'); ?>
             <span id="imageEditorHeightInfo"></span>
+          </span>
+          <span>
+            <?php echo $this->__('Resulting image resolution:'); ?>
+            <span id="resultingImageResolution"></span>
+          </span>
+          <br />
+          <span>
+            <?php echo $this->__('Placeholder:'); ?>
+          </span>
+          <span>
+            <?php echo $this->__('W:'); ?>
+            <span id="placeholderWidthInfo"></span>
+          </span>
+          <span>
+            <?php echo $this->__('H:'); ?>
+            <span id="placeholderHeightInfo"></span>
+          </span>
+          <span>
+            <?php echo $this->__('Resolution:'); ?>
+            <span id="placeholderResolution"></span>
           </span>
         </div>
 

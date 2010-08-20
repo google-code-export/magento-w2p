@@ -6,6 +6,10 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
+  $('#placeholderHeightInfo').html(_cropVisualAssistant.getPlaceholderInfo().heightPx + ' px');
+  $('#placeholderWidthInfo').html(_cropVisualAssistant.getPlaceholderInfo().widthPx + ' px');
+  $('#placeholderResolution').html((Math.round(_cropVisualAssistant.getPlaceholderInfo().widthPx / _cropVisualAssistant.getPlaceholderInfo().widthIn)) + ' dpi');
+
   //inicialize Jcrop api
   function imageEditorCrop () {
     imageEditorHideCrop();
@@ -54,10 +58,11 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCropH').val(c.h);
     $('#imageEditorHeightInfo').html(c.h + ' px');
     $('#imageEditorWidthInfo').html(c.w + ' px');
-
-    // var width = Number($('#imageEditorRight #imageEditorPreview').width());
-    // var height = Number($('#imageEditorRight #imageEditorPreview').height());
-    // thumbCropedAreaSet (top.userImageThumbSelected, [c.x/width, c.y/height, c.x2/width, c.y2/height]);
+    
+    var placeholderResolution = parseInt($('#placeholderResolution').html());
+    var resultingImageResolution = Math.round(c.w * _cropVisualAssistant.getPlaceholderInfo().userImageScaleCoef / _cropVisualAssistant.getPlaceholderInfo().widthIn);
+    var resolutionMsg = (resultingImageResolution < placeholderResolution) ? '&nbsp;&nbsp;<span style="color:#DB0D0D;font-weight:bold;">Too low</span>' : '';
+    $('#resultingImageResolution').html(resultingImageResolution + ' dpi' + resolutionMsg);
 
     _cropVisualAssistant.updateView([c.x, c.y, c.x2, c.y2]);
   }
@@ -261,8 +266,9 @@ jQuery(document).ready(function ($) {
     $('#imageEditorPreview').attr("src", userImageSrc);
     $('#imageEditorPreview').width(userImageWidthPreview);
     $('#imageEditorPreview').height(userImageHeightPreview);
-    $('#imageEditorWidthInfo').html(userImageWidthPreview + ' px');
-    $('#imageEditorHeightInfo').html(userImageHeightPreview + ' px');
+    $('#imageEditorWidthInfo').html('__ px');//userImageWidthPreview + ' px');
+    $('#imageEditorHeightInfo').html('__ px');//userImageHeightPreview + ' px');
+    $('#resultingImageResolution').html('__ dpi');
 
     if (!userImageWidthActual || !userImageHeightActual) {
       alert(zetaprints_trans('Unknown error occured'));
@@ -320,8 +326,9 @@ jQuery(document).ready(function ($) {
       if (cw < 280)
         cw = 280;
       if ($('#imageEditorRight #imageEditorPreview').width() < cw) {
-        $('#imageEditorCaption').width(cw);
-        imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height());
+        // $('#imageEditorCaption').width(cw);
+        // imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height());
+        imageEditorApplySize($('#imageEditorRight #imageEditorPreview').width(), $('#imageEditorRight #imageEditorPreview').height()+30);
       }
     });
   }
