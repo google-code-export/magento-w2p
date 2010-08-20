@@ -312,24 +312,26 @@ jQuery(document).ready(function ($) {
 
   //show info text on blue line below
   function imageEditorInfoBox (msg) {
+  	var imageEditorPreviewWidth = $('#imageEditorRight #imageEditorPreview').width();
     $('#imageEditorCaption').show();
     if ($.browser.msie)
-      $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width());
+      $('#imageEditorCaption').width(imageEditorPreviewWidth);
     else
-      $('#imageEditorCaption').width($('#imageEditorRight #imageEditorPreview').width() - 10);
+      $('#imageEditorCaption').width(imageEditorPreviewWidth - 10);
     $('#imageEditorInfo').html(zetaprints_trans(msg));
     $('#imageEditorInfo').show('fast', function () {
       var cw = 0;
       $('#imageEditorCaption span').each( function () {
         cw += $(this).width();
       });
-      if (cw < 280)
-        cw = 280;
-      if ($('#imageEditorRight #imageEditorPreview').width() < cw) {
-        // $('#imageEditorCaption').width(cw);
-        // imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height());
-        imageEditorApplySize($('#imageEditorRight #imageEditorPreview').width(), $('#imageEditorRight #imageEditorPreview').height()+30);
-      }
+      if (cw > imageEditorPreviewWidth)
+        cw = imageEditorPreviewWidth;
+      if (cw < 500)
+        cw = 500;
+      // if (imageEditorPreviewWidth < cw) {
+      $('#imageEditorCaption').width(cw);
+      imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height() + 30);
+      // }
     });
   }
 
