@@ -8,7 +8,7 @@ jQuery(document).ready(function ($) {
 
   $('#placeholderHeightInfo').html(_cropVisualAssistant.getPlaceholderInfo().heightPx + ' px');
   $('#placeholderWidthInfo').html(_cropVisualAssistant.getPlaceholderInfo().widthPx + ' px');
-  $('#placeholderResolution').html((Math.round(_cropVisualAssistant.getPlaceholderInfo().widthPx / _cropVisualAssistant.getPlaceholderInfo().widthIn)) + ' dpi');
+  $('#placeholderResolution').html(_cropVisualAssistant.getPlaceholderInfo().resolution + ' dpi');
 
   //inicialize Jcrop api
   function imageEditorCrop () {
@@ -59,8 +59,8 @@ jQuery(document).ready(function ($) {
     $('#imageEditorHeightInfo').html(c.h + ' px');
     $('#imageEditorWidthInfo').html(c.w + ' px');
     
-    var placeholderResolution = parseInt($('#placeholderResolution').html());
-    var resultingImageResolution = Math.round(c.w * _cropVisualAssistant.getPlaceholderInfo().userImageScaleCoef / _cropVisualAssistant.getPlaceholderInfo().widthIn);
+    var placeholderResolution = _cropVisualAssistant.getPlaceholderInfo().resolution;
+    var resultingImageResolution = _cropVisualAssistant.getResultingImageResolution(c.w, c.h);
     var resolutionMsg = (resultingImageResolution < placeholderResolution) ? '&nbsp;&nbsp;<span style="color:#DB0D0D;font-weight:bold;">Too low</span>' : '';
     $('#resultingImageResolution').html(resultingImageResolution + ' dpi' + resolutionMsg);
 
@@ -266,15 +266,21 @@ jQuery(document).ready(function ($) {
     $('#imageEditorPreview').attr("src", userImageSrc);
     $('#imageEditorPreview').width(userImageWidthPreview);
     $('#imageEditorPreview').height(userImageHeightPreview);
-    $('#imageEditorWidthInfo').html('__ px');//userImageWidthPreview + ' px');
-    $('#imageEditorHeightInfo').html('__ px');//userImageHeightPreview + ' px');
-    $('#resultingImageResolution').html('__ dpi');
+    $('#imageEditorWidthInfo').html(userImageWidthPreview + ' px');
+    $('#imageEditorHeightInfo').html(userImageHeightPreview + ' px');
+    $('#resultingImageResolution').html('.. dpi');
 
     if (!userImageWidthActual || !userImageHeightActual) {
       alert(zetaprints_trans('Unknown error occured'));
       return false;
     } else {
       _cropVisualAssistant.setUserImage($('#imageEditorPreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
+      
+      var placeholderResolution = _cropVisualAssistant.getPlaceholderInfo().resolution;
+      var resultingImageResolution = _cropVisualAssistant.getResultingImageResolution(userImageWidthPreview, userImageHeightPreview);
+      var resolutionMsg = (resultingImageResolution < placeholderResolution) ? '&nbsp;&nbsp;<span style="color:#DB0D0D;font-weight:bold;">Too low</span>' : '';
+
+    	$('#resultingImageResolution').html(resultingImageResolution + ' dpi' + resolutionMsg);
     }
 
     tmp1 = $('input[value=' + imageEditorId + ']', top.document).parent().find('img');

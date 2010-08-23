@@ -69,12 +69,13 @@ function cropVisualAssistant ()
 
     for (var pageNum in top.images) {
       if (top.images[pageNum][top.image_imageName] != undefined) {
-        var image_dimensions = top.images[pageNum][top.image_imageName];
+        var image_data = top.images[pageNum][top.image_imageName];
         _templateImage = {
+          clipped: (image_data['clipped']) ? true : false,
           widthIn: top.pages[pageNum]['width-in'] * (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1),
-          widthPx: image_dimensions['width'],
-          heightPx: image_dimensions['height'],
-          aspectRatio: image_dimensions['width'] / image_dimensions['height']
+          widthPx: image_data['width'],
+          heightPx: image_data['height'],
+          aspectRatio: image_data['width'] / image_data['height']
         };
       }
     }
@@ -146,12 +147,12 @@ function cropVisualAssistant ()
     if (this.templateImage.aspectRatio > this.userImage.aspectRatio) {
       _h = this.userImage.widthPreviewPx / this.templateImage.aspectRatio;
       _y = (this.userImage.heightPreviewPx - _h) / 2;
-  	} else {
+    } else {
       _w = this.userImage.heightPreviewPx * this.templateImage.aspectRatio;
       _x = (this.userImage.widthPreviewPx - _w) / 2;
     }
 
-  	return [_x, _y, _x + _w, _y + _h];
+    return [_x, _y, _x + _w, _y + _h];
   }
 
   /**
@@ -160,11 +161,35 @@ function cropVisualAssistant ()
   this.getPlaceholderInfo = function ()
   {
     return {
+      clipped: this.templateImage.clipped,
+      widthIn: this.templateImage.widthIn,
       widthPx: this.templateImage.widthPx,
       heightPx: this.templateImage.heightPx,
-      widthIn: this.templateImage.widthIn,
-      userImageScaleCoef: this.userImage.scaleCoef
+      userImageScaleCoef: this.userImage.scaleCoef,
+      resolution: Math.round(this.templateImage.widthPx / this.templateImage.widthIn)
     }
+  }
+
+  /**
+   * Get resulting image resolution
+   *
+   *@attr: _userSelectedWidth - user selected width
+   */
+  this.getResultingImageResolution = function (_userSelectedWidth, _userSelectedHeight)
+  {
+    var userSelectedActualWidth = _userSelectedWidth * this.getPlaceholderInfo().userImageScaleCoef;
+    var userSelectedActualHeight = _userSelectedHeight * this.getPlaceholderInfo().userImageScaleCoef;
+    /*
+     * Image resolution does not change only if the image is smaller than the placeholder or clipped=false
+     */
+    if (
+      this.getPlaceholderInfo().clipped == true ||
+      userSelectedActualWidth > this.templateImage.widthPx ||
+      userSelectedActualHeight > this.templateImage.heightPx
+    )
+      return Math.round(userSelectedActualWidth / this.getPlaceholderInfo().widthIn);
+    else
+      return this.getPlaceholderInfo().resolution;
   }
 
   /**
