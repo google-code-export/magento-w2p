@@ -1,0 +1,5 @@
+<!--@subject New items to approve @-->
+
+Hello, {{var approver_fullname}}.
+
+There's {{var number_of_items}} new item(s) to approve.

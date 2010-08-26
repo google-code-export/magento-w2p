@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<package version="2.0"
+<package packagerversion="1.7.2" version="2.0"
   xmlns="http://pear.php.net/dtd/package-2.0"
   xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,25 +9,28 @@
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd" >
 
-  <name>web_to_print_store_incl_theme</name>
+  <name>Order_approval</name>
   <channel>connect.magentocommerce.com/community</channel>
 
-  <summary>Magento extension for ZetaPrints web-to-print API And Theme</summary>
+  <summary>Items can be added to cart, but cannot be checked out until a nominated approver checks the order.</summary>
   <description>
-Add web-to-print and image personalization to your merchandize.
-Add design personalization to your products if you sell items such as cards,
-invitations, t-shirts, business cards, posters, banners,
-anything else where users may need to change text and upload their own photos
-in design templates.
+Another useful extension by web-to-print and dynamic imaging guys.
+It's in an early stage yet, but we are working on it. Watch this space.
 
-This extension uses ZetaPrints API to generate preview images and PDF files.
 
-Demo site: http://www.zetaprints.com/magento/
-Help and manuals: http://www.zetaprints.com/help/category/magento/
-Source code: http://code.google.com/p/magento-w2p/
+How it works
 
-Technical support: admin@zetaprints.com
-Extension developed by http://www.zetaprints.com/
+Nominate one approver per user.
+
+Any purchases made by a user with an approver have to go through
+an additional approval step. Any items can be added to cart, but only approved
+items can be checked out.
+
+When a user tried to check out a shopping cart it checks for any new unapproved
+items and sends an email to the nominated approver. The approver can log in,
+view the list of items and then either approve or cancel the purchase.
+
+Users without a nominated approver can check out as usual.
   </description>
 
   <lead>
@@ -37,485 +40,85 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-08-12</date>
+  <date>2010-08-26</date>
 
   <version>
-    <release>1.8.2.4</release>
-    <api>1.8.2.4</api>
+    <release>0.1.0.0alpha1</release>
+    <api>0.1.0.0alpha1</api>
   </version>
 
   <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>alpha</release>
+    <api>alpha</api>
   </stability>
 
-  <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>
-* Bug fixes (issue #270, issue #262)
-  </notes>
+  <notes>Alpha 1</notes>
 
   <contents>
 
     <dir name="/">
 
       <dir name="modules">
-        <file name="ZetaPrints_All.xml" role="mageetc" />
+        <file name="ZetaPrints_OrderApproval.xml" role="mageetc" />
       </dir>
 
       <dir name="ZetaPrints">
-        <dir name="WebToPrint">
+        <dir name="OrderApproval">
 
           <dir name="Block">
+            <file name="Cart.php" role="magecommunity" />
+          </dir>
 
-            <dir name="Catalog">
-              <dir name="Product">
-                <dir name="Edit">
+          <dir name="Helper">
+            <file name="Data.php" role="magecommunity" />
+          </dir>
 
-                  <dir name="Tab">
+          <dir name="Model">
 
-                    <dir name="Templates">
-                      <file name="Radiobutton.php" role="magelocal" />
-                    </dir>
+            <dir name="Entity">
+             <dir name="Attribute">
 
-                    <file name="Templates.php" role="magelocal" />
-                  </dir>
-
-                  <file name="Tabs.php" role="magelocal" />
+                <dir name="Source">
+                  <file name="Approvers.php" role="magecommunity" />
                 </dir>
+
               </dir>
             </dir>
 
-            <dir name="Html">
-              <file name="Footer.php" role="magelocal" />
+            <dir name="Events">
+              <file name="Observer.php" role="magecommunity" />
             </dir>
+
+            <dir name="Quote">
+              <file name="Address.php" role="magecommunity" />
+            </dir>
+
+            <file name="Cart.php" role="magecommunity" />
+            <file name="Quote.php" role="magecommunity" />
 
           </dir>
 
           <dir name="controllers">
-
-            <dir name="Catalog">
-              <file name="ProductController.php" role="magelocal" />
-            </dir>
-
-            <file name="ImageController.php" role="magelocal" />
-            <file name="PreviewController.php" role="magelocal" />
-            <file name="TransController.php" role="magelocal" />
-            <file name="UploadController.php" role="magelocal" />
-            <file name="ThumbnailController.php" role="magelocal" />
-            <file name="PhotothumbnailController.php" role="magelocal" />
+            <file name="CartController.php" role="magecommunity" />
+            <file name="OnepageController.php" role="magecommunity" />
           </dir>
 
           <dir name="etc">
-            <file name="config.xml" role="magelocal" />
-            <file name="convert.xml" role="magelocal" />
-          </dir>
-
-          <dir name="Helper">
-            <file name="Data.php" role="magelocal" />
-            <file name="PersonalizationForm.php" role="magelocal" />
-          </dir>
-
-          <dir name="Model">
-            <dir name="Convert">
-
-              <dir name="Mapper">
-                <dir name="Product">
-                  <file name="Creating.php" role="magelocal" />
-                  <file name="Updating.php" role="magelocal" />
-                </dir>
-              </dir>
-
-              <dir name="Parser">
-                <file name="Template.php" role="magelocal" />
-              </dir>
-
-            </dir>
-
-            <dir name="Events">
-              <file name="Observer.php" role="magelocal" />
-            </dir>
-
-            <dir name="Mysql4">
-
-              <dir name="Template">
-                <file name="Collection.php" role="magelocal" />
-              </dir>
-
-              <file name="Template.php" role="magelocal" />
-
-            </dir>
-
-            <dir name="Profile">
-              <file name="History.php" role="magelocal" />
-            </dir>
-
-            <dir name="Quote">
-              <file name="Item.php" role="magelocal" />
-            </dir>
-
-            <dir name="Resource">
-
-              <dir name="Mysql4">
-                <file name="Setup.php" role="magelocal" />
-              </dir>
-
-            </dir>
-
-            <dir name="System">
-              <dir name="Config">
-
-                  <dir name="Backend">
-                    <file name="ZetaPrintsUrl.php" role="magelocal" />
-                  </dir>
-
-              </dir>
-            </dir>
-
-            <file name="Template.php" role="magelocal" />
+            <file name="config.xml" role="magecommunity" />
+            <file name="system.xml" role="magecommunity" />
           </dir>
 
           <dir name="sql">
 
-            <dir name="webtoprint_setup">
-              <file name="mysql4-install-1.php" role="magelocal" />
-              <file name="mysql4-upgrade-1-2.php" role="magelocal" />
-              <file name="mysql4-upgrade-2-3.php" role="magelocal" />
-              <file name="mysql4-upgrade-3-4.php" role="magelocal" />
-              <file name="mysql4-upgrade-4-5.php" role="magelocal" />
-              <file name="mysql4-upgrade-5-6.php" role="magelocal" />
-              <file name="mysql4-upgrade-6-7.php" role="magelocal" />
-              <file name="mysql4-upgrade-7-8.php" role="magelocal" />
+            <dir name="orderapproval_setup">
+              <file name="mysql4-install-1.php" role="magecommunity" />
             </dir>
 
-          </dir>
-        </dir>
-
-        <dir name="Zpapi">
-
-          <dir name="Block">
-            <file name="W2pUser.php" role="magelocal" />
-          </dir>
-
-          <dir name="etc">
-            <file name="config.xml" role="magelocal" />
-            <file name="system.xml" role="magelocal" />
-          </dir>
-
-          <dir name="Helper">
-            <file name="Data.php" role="magelocal" />
-          </dir>
-
-          <dir name="Model">
-            <file name="color-pickers-html.xslt" role="magelocal" />
-            <file name="common-templates.xslt" role="magelocal" />
-            <file name="FileUploadingLimit.php" role="magelocal" />
-            <file name="Importer.php" role="magelocal" />
-            <file name="input-fields-html.xslt" role="magelocal" />
-            <file name="Itag.php" role="magelocal" />
-            <file name="Observer.php" role="magelocal" />
-            <file name="Optionstore.php" role="magelocal" />
-            <file name="page-tabs-html.xslt" role="magelocal" />
-            <file name="stock-images-html.xslt" role="magelocal" />
-            <file name="TemplateDeletingBehaviour.php" role="magelocal" />
-            <file name="template-details-to-preview-html.xslt" role="magelocal" />
-            <file name="template_details_to_preview_html.xslt" role="magelocal" />
-            <file name="W2puser.php" role="magelocal" />
-            <file name="zp_api.php" role="magelocal" />
-            <file name="mage-logging.php" role="magelocal" />
           </dir>
 
         </dir>
-      </dir>
-
-      <dir name="adminhtml">
-        <dir name="default">
-          <dir name="zptheme">
-
-            <dir name="css">
-              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
-              <file name="zp-style.css" role="mageskin" />
-            </dir>
-
-            <dir name="images">
-
-              <dir name="fancybox">
-                <file name="fancy_close.png" role="mageskin" />
-                <file name="fancy_nav_left.png" role="mageskin" />
-                <file name="fancy_loading.png" role="mageskin" />
-                <file name="fancy_nav_right.png" role="mageskin" />
-                <file name="fancy_shadow_e.png" role="mageskin" />
-                <file name="fancy_shadow_n.png" role="mageskin" />
-                <file name="fancy_shadow_ne.png" role="mageskin" />
-                <file name="fancy_shadow_nw.png" role="mageskin" />
-                <file name="fancy_shadow_s.png" role="mageskin" />
-                <file name="fancy_shadow_se.png" role="mageskin" />
-                <file name="fancy_shadow_sw.png" role="mageskin" />
-                <file name="fancy_shadow_w.png" role="mageskin" />
-                <file name="fancybox-x.png" role="mageskin" />
-                <file name="fancybox-y.png" role="mageskin" />
-                <file name="fancybox.png" role="mageskin" />
-                <file name="blank.gif" role="mageskin" />
-              </dir>
-
-            </dir>
-
-            <dir name="js">
-              <file name="jquery-1.4.2.min.js" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
-            </dir>
-
-            <dir name="layout">
-              <file name="local.xml" role="magedesign" />
-            </dir>
-
-            <dir name="template">
-
-              <dir name="catalog">
-                <dir name="product">
-                  <dir name="tab">
-
-                    <dir name="templates">
-                      <file name="radiobutton.phtml" role="magedesign" />
-                    </dir>
-
-                  </dir>
-                </dir>
-              </dir>
-
-              <dir name="sales">
-
-                <dir name="items">
-
-                  <dir name="column">
-                    <file name="name.phtml" role="magedesign" />
-                  </dir>
-
-                </dir>
-
-                <dir name="order">
-                  <dir name="view">
-
-                    <dir name="tab">
-                      <file name="info.phtml" role="magedesign" />
-                    </dir>
-
-                    <dir name="items">
-
-                      <dir name="renderer">
-                        <file name="default.phtml" role="magedesign" />
-                      </dir>
-
-                    </dir>
-
-                  </dir>
-                </dir>
-
-              </dir>
-
-            </dir>
-
-          </dir>
-        </dir>
-      </dir>
-
-      <dir name="frontend">
-        <dir name="default">
-          <dir name="zptheme">
-
-            <dir name="css">
-              <file name="colorpicker.css" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
-              <file name="jquery.jcrop.css" role="mageskin" />
-              <file name="zp-image-edit.css" role="mageskin" />
-              <file name="zp-style.css" role="mageskin" />
-              <file name="zp-in-preview-edit.css" role="mageskin" />
-            </dir>
-
-            <dir name="images">
-
-              <dir name="colorpicker">
-                <file name="blank.gif" role="mageskin" />
-                <file name="colorpicker_background.png" role="mageskin" />
-                <file name="colorpicker_hex.png" role="mageskin" />
-                <file name="colorpicker_hsb_b.png" role="mageskin" />
-                <file name="colorpicker_hsb_h.png" role="mageskin" />
-                <file name="colorpicker_hsb_s.png" role="mageskin" />
-                <file name="colorpicker_indic.gif" role="mageskin" />
-                <file name="colorpicker_overlay.png" role="mageskin" />
-                <file name="colorpicker_rgb_b.png" role="mageskin" />
-                <file name="colorpicker_rgb_g.png" role="mageskin" />
-                <file name="colorpicker_rgb_r.png" role="mageskin" />
-                <file name="colorpicker_select.gif" role="mageskin" />
-                <file name="colorpicker_submit.png" role="mageskin" />
-                <file name="custom_background.png" role="mageskin" />
-                <file name="custom_hex.png" role="mageskin" />
-                <file name="custom_hsb_b.png" role="mageskin" />
-                <file name="custom_hsb_h.png" role="mageskin" />
-                <file name="custom_hsb_s.png" role="mageskin" />
-                <file name="custom_indic.gif" role="mageskin" />
-                <file name="custom_rgb_b.png" role="mageskin" />
-                <file name="custom_rgb_g.png" role="mageskin" />
-                <file name="custom_rgb_r.png" role="mageskin" />
-                <file name="custom_submit.png" role="mageskin" />
-                <file name="select.png" role="mageskin" />
-                <file name="select2.png" role="mageskin" />
-                <file name="slider.png" role="mageskin" />
-              </dir>
-
-              <dir name="fancybox">
-                <file name="fancy_close.png" role="mageskin" />
-                <file name="fancy_nav_left.png" role="mageskin" />
-                <file name="fancy_loading.png" role="mageskin" />
-                <file name="fancy_nav_right.png" role="mageskin" />
-                <file name="fancy_shadow_e.png" role="mageskin" />
-                <file name="fancy_shadow_n.png" role="mageskin" />
-                <file name="fancy_shadow_ne.png" role="mageskin" />
-                <file name="fancy_shadow_nw.png" role="mageskin" />
-                <file name="fancy_shadow_s.png" role="mageskin" />
-                <file name="fancy_shadow_se.png" role="mageskin" />
-                <file name="fancy_shadow_sw.png" role="mageskin" />
-                <file name="fancy_shadow_w.png" role="mageskin" />
-                <file name="fancybox-x.png" role="mageskin" />
-                <file name="fancybox-y.png" role="mageskin" />
-                <file name="fancybox.png" role="mageskin" />
-                <file name="blank.gif" role="mageskin" />
-              </dir>
-
-              <dir name="image-edit">
-                <file name="crop.png" role="mageskin" />
-                <file name="crop_to_fit.png" role="mageskin" />
-                <file name="delete.png" role="mageskin" />
-                <file name="edit.png" role="mageskin" />
-                <file name="flip_h.png" role="mageskin" />
-                <file name="flip_v.png" role="mageskin" />
-                <file name="line.png" role="mageskin" />
-                <file name="move.png" role="mageskin" />
-                <file name="pen.png" role="mageskin" />
-                <file name="resize.png" role="mageskin" />
-                <file name="restore.png" role="mageskin" />
-                <file name="rotate_l.png" role="mageskin" />
-                <file name="rotate_r.png" role="mageskin" />
-                <file name="save.png" role="mageskin" />
-              </dir>
-
-              <dir name="media">
-                <file name="download-webtoprint-extension.jpg" role="mageskin" />
-              </dir>
-
-              <file name="images-selector-sprites.png" role="mageskin" />
-              <file name="transparent-background.gif" role="mageskin" />
-              <file name="edited-shape-background.png" role="mageskin" />
-              <file name="save-button.png" role="mageskin" />
-              <file name="big-spinner.gif" role="mageskin" />
-              <file name="spinner.gif" role="mageskin" />
-
-            </dir>
-
-            <dir name="js">
-              <file name="ajaxupload.js" role="mageskin" />
-              <file name="colorpicker.js" role="mageskin" />
-              <file name="jquery-1.4.2.min.js" role="mageskin" />
-              <file name="jquery-jcrop.min.js" role="mageskin" />
-              <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
-              <file name="jquery-ui-1.8.custom.min.js" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
-              <file name="zp-personalization-form.js" role="mageskin" />
-              <file name="zp-image-edit.js" role="mageskin" />
-              <file name="zp-in-preview-edit.js" role="mageskin" />
-            </dir>
-
-            <dir name="layout">
-              <file name="local.xml" role="magedesign" />
-            </dir>
-
-            <dir name="template">
-
-              <dir name="callouts">
-                <file name="right_col.phtml" role="magedesign" />
-              </dir>
-
-              <dir name="catalog">
-                <dir name="product">
-
-                  <dir name="view">
-                    <file name="addto.phtml" role="magedesign" />
-                    <file name="addtocart.phtml" role="magedesign" />
-                    <file name="media.phtml" role="magedesign" />
-                  </dir>
-
-                  <file name="view.phtml" role="magedesign" />
-
-                </dir>
-              </dir>
-
-              <dir name="checkout">
-                <dir name="cart">
-
-                  <dir name="item">
-                    <file name="default.phtml" role="magedesign" />
-                  </dir>
-
-                </dir>
-              </dir>
-
-              <dir name="image-edit">
-                <file name="edit.phtml" role="magedesign" />
-                <file name="head.phtml" role="magedesign" />
-              </dir>
-
-              <dir name="sales">
-
-                <dir name="order">
-
-                  <dir name="items">
-
-                    <dir name="renderer">
-                      <file name="default.phtml" role="magedesign" />
-                    </dir>
-
-                  </dir>
-
-                  <file name="items.phtml" role="magedesign" />
-
-                </dir>
-
-              </dir>
-
-            </dir>
-
-          </dir>
-
-          <dir name="zp2steptheme">
-            <dir name="template">
-              <dir name="catalog">
-                <dir name="product">
-
-                  <dir name="view">
-                    <file name="addto.phtml" role="magedesign" />
-                    <file name="addtocart.phtml" role="magedesign" />
-                    <file name="media.phtml" role="magedesign" />
-                  </dir>
-
-                  <file name="view.phtml" role="magedesign" />
-
-                </dir>
-              </dir>
-            </dir>
-          </dir>
-
-          <dir name="zpadvancedtheme">
-
-            <dir name="layout">
-              <file name="local.xml" role="magedesign" />
-            </dir>
-
-          </dir>
-        </dir>
-      </dir>
-
-      <dir name="ru_RU">
-        <file name="zetaprints_w2p.csv" role="magelocale" />
       </dir>
 
     </dir>
@@ -534,322 +137,8 @@ Extension developed by http://www.zetaprints.com/
         <min>1.6.2</min>
       </pearinstaller>
 
-      <extension>
-        <name>xsl</name>
-      </extension>
-
     </required>
   </dependencies>
 
   <phprelease />
-
-  <changelog>
-    <release>
-      <version>
-        <release>1.8.2.3</release>
-        <api>1.8.2.3</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-08-07</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-Fix bug in product's images update.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.8.2.2</release>
-        <api>1.8.2.2</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-07-26</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-Fix regression in session handling (introduced in 1.8.2.0)
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.8.2.1</release>
-        <api>1.8.2.1</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-07-16</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Fix error in preview share link functionality
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.8.2.0</release>
-        <api>1.8.2.0</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-07-15</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Loading indicator for preview images on product page (issue #202)
-* Show up-sell product with prepared preview (issue #222)
-* Add product link to each order item for quick re-ordering (issue #216)
-* Add "Default" option to image fields (issue #240)
-* Add link to ZetaPrints order to every M. order item in admin interface (issue #152)
-* Other improvements (issue #221, issue #225, issue #238) and little bug fixes.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.8.1.0</release>
-        <api>1.8.1.0</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-06-08</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* User image deletion (issue #164)
-* Fix error with product's base image (issue #141)
-* Automatic update of ZetaPrints order status (issue #10)
-* Switch to jQuery 1.4 (issue #159)
-* New theme for in-preview editing (issue #177)
-* Fields highlighting and in-preview fields edit (issue #169, issue #170, issue #193 )
-* Better support for HTTPS (issue #192)
-* Order output files download for users (issue #198)
-* Preview image sharing (issue #210)
-* PDF proofs for saved orders (issue #191)
-* Bug fixes (issue #163, issue #167, issue #186, issue #207)
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.8.0.0</release>
-        <api>1.8.0.0</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-03-16</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Support for Magento 1.4
-* Basic image editor with cropping and rotating possibilities for images
-  uploaded by customer (issue #110).
-* User input caching. Backed by ZetaPrints (issue #119).
-* Controlling lifetime of user session (issue #126).
-* Support for localization (issue #132).
-* Better user experience (issue #142, issue #149, issue #153, issue #128).
-* Bug fixes (issue #135, issue #147).
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.7.0.0</release>
-        <api>1.7.0.0</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-01-12</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Add user images uploading
-* Create profiles automatically (issue #100)
-* Add full-size preview for Stock images and My images (issue #109)
-* Add check for deleted templates during data import (issue #114)
-* Improved thumbs in order details (issue #102)
-* Improved image updating for web-to-print products
-* Better support for IE and Safari browsers.
-* Bug fixes.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.6.0.1</release>
-        <api>1.6.0.1</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-01-14</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Fix old products updating code.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.6.0.0</release>
-        <api>1.6.0.0</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2010-01-13</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Support for Magento images in web-to-print products
-* Better stock images selector
-* Improved error handling and logging
-* Bug fixies and some cleanups
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.5.0.2</release>
-        <api>1.5.0.2</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2009-12-24</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Fix error in web-to-print product images.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.5.0.1</release>
-        <api>1.5.0.1</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2009-12-23</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Fix error which prevents templates importing.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.5</release>
-        <api>1.5</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2009-12-21</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Mark web-to-print products to be configured before adding to cart.
-* Add support for configurable products.
-* Add link to full size preview in a cart (issue #69).
-* Rewrite stock images selector and color picker (issue #67).
-* Add "Web-to-print templates" tab to products configuration in admin interface.
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.4.1</release>
-        <api>1.4.1</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2009-12-05</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Add support for 2 step ordering flow (issue #57)
-* Fix error in personalization-form helper
-      </notes>
-    </release>
-
-    <release>
-      <version>
-        <release>1.4.0.1</release>
-        <api>1.4.0.1</api>
-      </version>
-
-      <stability>
-        <release>stable</release>
-        <api>stable</api>
-      </stability>
-
-      <date>2009-12-05</date>
-      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
-
-      <notes>
-* Most of the code were rewritten.
-* Added model for web-to-print templates (now products links to corresponding templates)
-* No more duplicate products
-* All web-to-print changes in templates were wrapped with function and were moved into
-  'personalization-form' helper.
-* Bug fixes, usability improvements.
-      </notes>
-    </release>
-  </changelog>
 </package>
