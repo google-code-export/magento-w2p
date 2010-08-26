@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package packagerversion="1.7.2" version="2.0"
+  xmlns="http://pear.php.net/dtd/package-2.0"
+  xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd" >
+
+  <name>Order_approval</name>
+  <channel>connect.magentocommerce.com/community</channel>
+
+  <summary>Items can be added to cart, but cannot be checked out until a nominated approver checks the order.</summary>
+  <description>
+Another useful extension by web-to-print and dynamic imaging guys.
+It's in an early stage yet, but we are working on it. Watch this space.
+
+
+How it works
+
+Nominate one approver per user.
+
+Any purchases made by a user with an approver have to go through
+an additional approval step. Any items can be added to cart, but only approved
+items can be checked out.
+
+When a user tried to check out a shopping cart it checks for any new unapproved
+items and sends an email to the nominated approver. The approver can log in,
+view the list of items and then either approve or cancel the purchase.
+
+Users without a nominated approver can check out as usual.
+  </description>
+
+  <lead>
+    <name>Anatoly A. Kazantsev</name>
+    <user>jimcrow</user>
+    <email>anatoly.kazantsev@gmail.com</email>
+    <active>yes</active>
+  </lead>
+
+  <date>2010-08-26</date>
+
+  <version>
+    <release>0.1.0.0alpha1</release>
+    <api>0.1.0.0alpha1</api>
+  </version>
+
+  <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+  </stability>
+
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+  <notes>Alpha 1</notes>
+
+  <contents>
+
+    <dir name="/">
+
+      <dir name="modules">
+        <file name="ZetaPrints_OrderApproval.xml" role="mageetc" />
+      </dir>
+
+      <dir name="ZetaPrints">
+        <dir name="OrderApproval">
+
+          <dir name="Block">
+            <file name="Cart.php" role="magecommunity" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Data.php" role="magecommunity" />
+          </dir>
+
+          <dir name="Model">
+
+            <dir name="Entity">
+             <dir name="Attribute">
+
+                <dir name="Source">
+                  <file name="Approvers.php" role="magecommunity" />
+                </dir>
+
+              </dir>
+            </dir>
+
+            <dir name="Events">
+              <file name="Observer.php" role="magecommunity" />
+            </dir>
+
+            <dir name="Quote">
+              <file name="Address.php" role="magecommunity" />
+            </dir>
+
+            <file name="Cart.php" role="magecommunity" />
+            <file name="Quote.php" role="magecommunity" />
+
+          </dir>
+
+          <dir name="controllers">
+            <file name="CartController.php" role="magecommunity" />
+            <file name="OnepageController.php" role="magecommunity" />
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" role="magecommunity" />
+            <file name="system.xml" role="magecommunity" />
+          </dir>
+
+          <dir name="sql">
+
+            <dir name="orderapproval_setup">
+              <file name="mysql4-install-1.php" role="magecommunity" />
+            </dir>
+
+          </dir>
+
+        </dir>
+      </dir>
+
+    </dir>
+
+  </contents>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <pearinstaller>
+        <min>1.6.2</min>
+      </pearinstaller>
+
+    </required>
+  </dependencies>
+
+  <phprelease />
+</package>

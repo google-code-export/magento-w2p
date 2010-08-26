@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<config>
+  <modules>
+    <ZetaPrints_OrderApproval>
+      <version>1</version>
+    </ZetaPrints_OrderApproval>
+  </modules>
+
+  <global>
+    <models>
+      <orderapproval>
+        <class>ZetaPrints_OrderApproval_Model</class>
+      </orderapproval>
+
+      <checkout>
+        <rewrite>
+          <cart>ZetaPrints_OrderApproval_Model_Cart</cart>
+        </rewrite>
+      </checkout>
+
+      <sales>
+        <rewrite>
+          <quote>ZetaPrints_OrderApproval_Model_Quote</quote>
+          <quote_address>ZetaPrints_OrderApproval_Model_Quote_Address</quote_address>
+        </rewrite>
+      </sales>
+    </models>
+
+    <blocks>
+      <orderapproval>
+        <class>ZetaPrints_OrderApproval_Block</class>
+      </orderapproval>-->
+
+      <checkout>
+        <rewrite>
+          <cart>ZetaPrints_OrderApproval_Block_Cart</cart>
+        </rewrite>
+      </checkout>
+    </blocks>-->
+
+    <helpers>
+      <orderapproval>
+        <class>ZetaPrints_OrderApproval_Helper</class>
+      </orderapproval>
+    </helpers>-->
+
+    <resources>
+      <orderapproval_setup>
+        <setup>
+          <module>ZetaPrints_OrderApproval</module>
+          <class>Mage_Eav_Model_Entity_Setup</class>
+        </setup>
+        <connection>
+          <use>default_setup</use>
+        </connection>
+      </orderapproval_setup>
+
+      <orderapproval_write>
+        <connection><use>default_write</use></connection>
+      </orderapproval_write>
+
+      <orderapproval_read>
+        <connection><use>default_read</use></connection>
+      </orderapproval_read>
+    </resources>
+
+    <events>
+      <checkout_cart_product_add_after>
+        <observers>
+          <orderapproval-mark-quote-item>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>mark_quote_item</method>
+          </orderapproval-mark-quote-item>
+        </observers>
+      </checkout_cart_product_add_after>
+    </events>
+
+    <rewrite>
+      <ZetaPrints_OrderApproval_Onepage>
+        <from><![CDATA[#^/checkout/onepage/#]]></from>
+        <to>/order-approval/onepage/</to>
+      </ZetaPrints_OrderApproval_Onepage>
+
+      <ZetaPrints_OrderApproval_Cart>
+        <from><![CDATA[#^/checkout/cart/#]]></from>
+        <to>/order-approval/cart/</to>
+      </ZetaPrints_OrderApproval_Cart>
+    </rewrite>
+
+    <template>
+      <email>
+        <sales_email_orderapproval_new_items_template translate="label" module="orderapproval">
+          <label>New Items To Approve</label>
+          <file>sales/new-items-to-approve.txt</file>
+          <type>txt</type>
+        </sales_email_orderapproval_new_items_template>
+      </email>
+    </template>
+  </global>
+
+  <frontend>
+    <routers>
+      <orderapproval>
+        <use>standard</use>
+        <args>
+          <module>ZetaPrints_OrderApproval</module>
+          <frontName>order-approval</frontName>
+        </args>
+      </orderapproval>
+    </routers>
+  </frontend>
+
+  <default>
+    <sales_email>
+      <orderapproval>
+        <new_items_template>sales_email_orderapproval_new_items_template</new_items_template>
+      </orderapproval>
+    </sales_email>
+  </default>
+</config>
