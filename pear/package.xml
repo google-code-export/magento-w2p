@@ -121,6 +121,18 @@ Users without a nominated approver can check out as usual.
         </dir>
       </dir>
 
+      <dir name="en_US">
+        <dir name="template">
+          <dir name="email">
+
+              <dir name="sales">
+                <file name="new-items-to-approve.txt" role="magelocale" />
+              </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
     </dir>
 
   </contents>
