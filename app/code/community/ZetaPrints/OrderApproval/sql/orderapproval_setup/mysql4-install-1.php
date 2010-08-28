@@ -67,9 +67,9 @@ $this->addAttribute('customer', 'approver',
     'unique'            => false,
     'position'          => 1 ));
 
-$this->run("
-  ALTER TABLE {$this->getTable('sales/quote_item')}
-  DROP COLUMN `approved`");
+//$this->run("
+//  ALTER TABLE {$this->getTable('sales/quote_item')}
+//  DROP COLUMN `approved`");
 
 $this->run("
   ALTER TABLE {$this->getTable('sales/quote_item')}
