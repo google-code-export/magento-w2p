@@ -24,7 +24,8 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     //$options['orderapprove-need-approve'] = true;
 
     //$option_model->setValue(serialize($options));
-    $item->setApproved(false)->save();
+
+    $item->setApproved(false);
   }
 }
 
