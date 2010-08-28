@@ -14,7 +14,9 @@ class  ZetaPrints_OrderApproval_Model_Quote_Address
 
     if ($this->getQuote()->getIsMultiShipping() && $addressItems->count() > 0)
       foreach ($addressItems as $aItem) {
-        if ($aItem->isDeleted() || !$this->_filterNominal($aItem))
+        if ($aItem->isDeleted()
+            // Work around for M. versions < 1.4.1.0
+            || (method_exists($this) && !$this->_filterNominal($aItem)))
           continue;
 
         if (!$aItem->getQuoteItemImported()) {
@@ -30,7 +32,9 @@ class  ZetaPrints_OrderApproval_Model_Quote_Address
       $isQuoteVirtual = $this->getQuote()->isVirtual();
 
       foreach ($quoteItems as $qItem) {
-        if ($qItem->isDeleted() || !$this->_filterNominal($qItem))
+        if ($qItem->isDeleted()
+            // Work around for M. versions < 1.4.1.0
+            || (method_exists($this) && !$this->_filterNominal($qItem)))
           continue;
 
         //For virtual quote we assign all items to billing address
