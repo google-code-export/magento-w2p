@@ -111,9 +111,11 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
   }
 
   public function addItem (Mage_Sales_Model_Quote_Item $item) {
-    if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems())
-      Mage::throwException(Mage::helper('sales')
-        ->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.'));
+    // Work around for M. versions < 1.4.1.0
+    if (method_exists($item, "isNominal"))
+      if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems())
+        Mage::throwException(Mage::helper('sales')
+          ->__('Nominal item can be purchased standalone only. To proceed please remove other items from the quote.'));
 
     $item->setQuote($this);
 
