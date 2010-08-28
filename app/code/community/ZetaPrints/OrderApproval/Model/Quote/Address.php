@@ -16,7 +16,8 @@ class  ZetaPrints_OrderApproval_Model_Quote_Address
       foreach ($addressItems as $aItem) {
         if ($aItem->isDeleted()
             // Work around for M. versions < 1.4.1.0
-            || (method_exists($this) && !$this->_filterNominal($aItem)))
+            || (method_exists($this, 'filterNominal')
+                && !$this->_filterNominal($aItem)))
           continue;
 
         if (!$aItem->getQuoteItemImported()) {
@@ -34,7 +35,8 @@ class  ZetaPrints_OrderApproval_Model_Quote_Address
       foreach ($quoteItems as $qItem) {
         if ($qItem->isDeleted()
             // Work around for M. versions < 1.4.1.0
-            || (method_exists($this) && !$this->_filterNominal($qItem)))
+            || (method_exists($this, 'filterNominal')
+                && !$this->_filterNominal($qItem)))
           continue;
 
         //For virtual quote we assign all items to billing address
