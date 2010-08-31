@@ -346,13 +346,15 @@ function cropVisualAssistant ()
       width: _targetImageElement.width(),
       height: _targetImageElement.height(),
       backgroundColor: _targetImageOverheadStyle.backgroundColor,
-      opacity: _targetImageOverheadStyle.opacity
+      opacity: _targetImageOverheadStyle.opacity,
+      zIndex: 1000
     }).attr('class', 'thumbCropedAreaToolSet').insertBefore(_targetImageElement);
 
     var _cropAreaDiv = jQuery('<DIV />');
     _cropAreaDiv.css({
       position: 'absolute',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      zIndex: 1001
     }).appendTo(_toolSet);
 
     var _cropImg = jQuery('<IMG src="' + _clipedImageSrc + '" />').css({

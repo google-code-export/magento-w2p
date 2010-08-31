@@ -384,7 +384,7 @@ function personalization_form () {
 
           var td = $('<td>'
                    + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
-                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<a class="edit-dialog-img" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
                    + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
                    + '<div class="edit-dialog-context-menu">'
                    + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
@@ -420,7 +420,7 @@ function personalization_form () {
               //block the links
               return false;
             });
-            $('a.edit-menuroot').click(function() {
+            $('a.edit-menuroot,a.edit-dialog-img').click(function() {
               showImageEditMenu ($(this));
               return false; //block the links
             });
@@ -661,7 +661,7 @@ function personalization_form () {
     });
   }
 
-  $('a.edit-menuroot').click(function() {
+  $('a.edit-menuroot,a.edit-dialog-img').click(function() {
     showImageEditMenu ($(this));
     return false; //block the links
   });

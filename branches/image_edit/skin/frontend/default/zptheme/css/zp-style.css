@@ -159,15 +159,11 @@ div.edit-dialog-context-menu {
   position:relative;
   top:-55px;
   width: 100px;
-  /*border: 1px solid red;*/
   float: right;
-  /*margin: 0 1px 1px 0;*/
+  z-index: 1050;
 }
 
 div.edit-dialog-context-menu a.edit-dialog {
-  /*position: relative;*/
-  /*display: block;*/
-  /*min-height: 21px;*/
   float: left;
   display: block;
   min-height: 16px;
@@ -175,20 +171,13 @@ div.edit-dialog-context-menu a.edit-dialog {
   width: 70px;
   text-decoration:none;
   margin: 0 0 1px 0;
-  z-index: 1000;
 }
 
 div.edit-dialog-context-menu div.edit-button {
-  /*position:relative;*/
   cursor:pointer;
-  /*left: 0;*/
-  /*float:left;
-  top:-59px;
-  *top:-14px;*/
   height:16px;
   width: 70px;
   background:#5284C2;
-  /*margin-right:5px;*/
   color:#FFFFFF;
   font-weight:bold;
   padding:0 5px 0 5px;
@@ -210,9 +199,6 @@ div.edit-dialog-context-menu div.delete-button {
   cursor:pointer;
   right: 1px;
   bottom: 1px;
-  /*float:left;
-  top:-19px;
-  *top:-14px;*/
   width:16px;
   height:16px;
   background:url(../images/images-selector-sprites.png) -222px -23px no-repeat #5284C2;
