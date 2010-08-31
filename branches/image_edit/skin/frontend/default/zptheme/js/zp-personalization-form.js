@@ -652,11 +652,17 @@ function personalization_form () {
 
   function showImageEditMenu (_menuRootElement)
   {
+    var backgroundImage = $('div', _menuRootElement).css('backgroundImage');
+    var backgroundImage_closed = backgroundImage.replace('_opened', '_closed');
+    var backgroundImage_opened = backgroundImage.replace('_closed', '_opened');
+
     $('a.edit-submenu', _menuRootElement.parent()).each(function(){
       if ($(this).css('visibility')=='hidden') {
         $(this).css({visibility: 'visible'});
+        $('div', _menuRootElement).css('backgroundImage', backgroundImage_opened);
       } else {
         $(this).css({visibility: 'hidden'});
+        $('div', _menuRootElement).css('backgroundImage', backgroundImage_closed);
       }
     });
   }

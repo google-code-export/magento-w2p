@@ -192,6 +192,7 @@ div.edit-dialog-context-menu a.edit-submenu div {
 }
 div.edit-dialog-context-menu a.edit-menuroot div {
   text-align: right;
+  background: url(../images/image-edit/thumb_contextmenuroot_closed.gif) 5px 6px no-repeat #5284C2;
 }
 
 div.edit-dialog-context-menu div.delete-button {
