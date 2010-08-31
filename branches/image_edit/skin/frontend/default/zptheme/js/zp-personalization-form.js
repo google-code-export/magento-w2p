@@ -386,8 +386,14 @@ function personalization_form () {
                    + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
                    + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
                    + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
-                   + '<div style="float:right;">'
-                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '" style="float:left">'
+                   + '<div class="edit-dialog-context-menu">'
+                   + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<div class="edit-button">' + edit_and_save_button_text + '</div>'
+                   + '</a><br />'
+                   + '<a class="edit-dialog edit-submenu" href="' + response[1] + '&fit_in_field=yes" target="_blank" rel="' + response[0] + '">'
+                   + '<div class="edit-button">' + fit_in_field_button_text + '</div>'
+                   + '</a><br />'
+                   + '<a href="javascript:void(1)" class="edit-dialog edit-menuroot">'
                    + '<div class="edit-button">' + edit_button_text + '</div></a>'
                    + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
                    + '</div>').prependTo(this);
@@ -408,11 +414,15 @@ function personalization_form () {
               $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
             }
 
-            $('a.edit-dialog', tr).click(function() {
+            $('a.edit-submenu', tr).click(function() {
               show_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
 
               //block the links
               return false;
+            });
+            $('a.edit-menuroot').click(function() {
+              showImageEditMenu ($(this));
+              return false; //block the links
             });
 
             $('a.delete-button', td).click(function() {
@@ -637,13 +647,28 @@ function personalization_form () {
     'changeSpeed': 200,
     'speedIn': 500,
     'speedOut' : 500,
-    'titleShow': false });
+    'titleShow': false
+  });
 
-  $('a.edit-dialog').click(function() {
+  function showImageEditMenu (_menuRootElement)
+  {
+    $('a.edit-submenu', _menuRootElement.parent()).each(function(){
+      if ($(this).css('visibility')=='hidden') {
+        $(this).css({visibility: 'visible'});
+      } else {
+        $(this).css({visibility: 'hidden'});
+      }
+    });
+  }
+
+  $('a.edit-menuroot').click(function() {
+    showImageEditMenu ($(this));
+    return false; //block the links
+  });
+
+  $('a.edit-submenu').click(function() {
   	show_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
-
-    //block the links
-    return false;
+    return false; //block the links
   });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({

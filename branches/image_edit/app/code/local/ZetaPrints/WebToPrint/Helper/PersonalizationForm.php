@@ -831,6 +831,8 @@ jQuery(document).ready(function($) {
   image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
+  edit_and_save_button_text = "<?php echo $this->__('Edit & save');?>";
+  fit_in_field_button_text = "<?php echo $this->__('Fit in field');?>";
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";

@@ -227,22 +227,41 @@
                       </xsl:attribute>
                       <img src="{@thumbnail}" id="{@guid}" />
                     </a>
-                    <div style="float:right;">
-                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank" rel="{@guid}">
-                      <xsl:attribute name="title">
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Click to edit</xsl:with-param>
-                        </xsl:call-template>
-                      </xsl:attribute>
-                      <div class="edit-button">
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Edit</xsl:with-param>
-                        </xsl:call-template>
-                      </div>
-                    </a>
-                    <a class="delete-button" href="javascript:void(1)">
-                      <div class="delete-button"></div>
-                    </a>
+                    <div class="edit-dialog-context-menu">
+                      <a class="edit-dialog edit-submenu" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
+                        <xsl:attribute name="title">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
+                          </xsl:call-template>
+                        </xsl:attribute>
+                        <div class="edit-button">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
+                          </xsl:call-template>
+                        </div>
+                      </a><br />
+                      <a class="edit-dialog edit-submenu" href="{@edit-link}&amp;fit_in_field=yes" target="_blank" name="{../@Name}" rel="{@guid}">
+                        <xsl:attribute name="title">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Fit in field</xsl:with-param>
+                          </xsl:call-template>
+                        </xsl:attribute>
+                        <div class="edit-button">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Fit in field</xsl:with-param>
+                          </xsl:call-template>
+                        </div>
+                      </a><br />
+                      <a class="edit-dialog edit-menuroot" href="javascript:void(1)">
+                        <div class="edit-button">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Edit</xsl:with-param>
+                          </xsl:call-template>
+                        </div>
+                      </a><br />
+                      <a class="delete-button" href="javascript:void(1)">
+                        <div class="delete-button"></div>
+                      </a>
                     </div>
                   </td>
                 </xsl:for-each>

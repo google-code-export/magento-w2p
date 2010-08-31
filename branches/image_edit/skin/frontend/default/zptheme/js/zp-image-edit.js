@@ -6,15 +6,13 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
-  $('#placeholderHeightInfo').html(_cropVisualAssistant.getPlaceholderInfo().heightPx + ' px');
-  $('#placeholderWidthInfo').html(_cropVisualAssistant.getPlaceholderInfo().widthPx + ' px');
-  $('#placeholderResolution').html(_cropVisualAssistant.getPlaceholderInfo().resolution + ' dpi');
-
-  //inicialize Jcrop api
+  /**
+   * Inicialize Jcrop api
+   */
   function imageEditorCrop () {
     imageEditorHideCrop();
     imageEditorInfoBox('Use triggers to crop image');
-    imageEditorJcropApi = $.Jcrop('#imageEditorRight #imageEditorPreview');
+    imageEditorJcropApi = $.Jcrop('#imageEditorPreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
       onChange: imageEditorUpdateCropCoords
@@ -32,23 +30,25 @@ jQuery(document).ready(function ($) {
     if (cropMetadata[0] && cropMetadata[1] && cropMetadata[2] && cropMetadata[3]) {
       imageEditorJcropApi.setSelect(cropMetadata);
     } else {
-      // imageEditorJcropApi.setSelect([10, 10, 60, 60]);
-      // _cropVisualAssistant.getCroppedArea(0, 0);
       imageEditorJcropApi.setSelect(_cropVisualAssistant.getInitCroppedArea(0, 0));
     }
 
     $('#imageEditorCropForm').css('display', 'block');
   }
 
-  //remove Jcrop, if exists
+  /**
+   * Remove Jcrop, if exists
+   */
   function imageEditorHideCrop () {
-    $('#imageEditorInfo').hide();
-    $('#imageEditorCropForm').css('display', 'none');
+    $('#imageEditorInfoTooltip').hide();
+    // $('#imageEditorCropForm').css('display', 'none');
     if (typeof(imageEditorJcropApi) != "undefined")
       imageEditorJcropApi.destroy();
   }
 
-  //Jcrop assign box coords
+  /**
+   * Jcrop assign box coords
+   */
   function imageEditorUpdateCropCoords (c) {
     $('#imageEditorCropX').val(c.x);
     $('#imageEditorCropY').val(c.y);
@@ -56,18 +56,15 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCropY2').val(c.y2);
     $('#imageEditorCropW').val(c.w);
     $('#imageEditorCropH').val(c.h);
-    $('#imageEditorHeightInfo').html(c.h + ' px');
-    $('#imageEditorWidthInfo').html(c.w + ' px');
-    
-    var placeholderResolution = _cropVisualAssistant.getPlaceholderInfo().resolution;
-    var resultingImageResolution = _cropVisualAssistant.getResultingImageResolution(c.w, c.h);
-    var resolutionMsg = (resultingImageResolution < placeholderResolution) ? '&nbsp;&nbsp;<span style="color:#DB0D0D;font-weight:bold;">Too low</span>' : '';
-    $('#resultingImageResolution').html(resultingImageResolution + ' dpi' + resolutionMsg);
+    updateEditAndSaveInfoBar(c.w, c.h);
 
+    _cropVisualAssistant.updateInfoBar(c.w, c.h);
     _cropVisualAssistant.updateView([c.x, c.y, c.x2, c.y2]);
   }
 
-  //perform crop
+  /**
+   * Perform crop
+   */
   function imageEditorApplyCrop () {
     imageEditorHideCrop();
     if (isCropFit) {
@@ -157,8 +154,8 @@ jQuery(document).ready(function ($) {
     ma.setProperty('img-id', imageEditorId);
     ma.storeAll();
   }
-  
-  
+
+
   /**
    * Apply image crop using ZetaPrint server
    */
@@ -171,7 +168,7 @@ jQuery(document).ready(function ($) {
         alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
       },
       success: function (data, textStatus) {
-      imageEditorApplyImage(data);
+        imageEditorApplyImage(data);
         imageEditorInfoBox('Image Cropped');
       }
     });
@@ -197,7 +194,9 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  //initial image load
+  /**
+   * Initial image load
+   */
   function imageEditorLoadImage () {
     parent.jQuery.fancybox.showActivity();
     $.ajax({
@@ -215,7 +214,9 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  //perform image rotate
+  /**
+   * Perform image rotate
+   */
   function imageEditorDoRotate (dir) {
     imageEditorHideCrop();
     parent.jQuery.fancybox.showActivity();
@@ -233,14 +234,16 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  //parse xml output and change image
+  /**
+   * Parse XML output and change image
+   */
   function imageEditorApplyImage (xml)
   {
     var userImageWidthPreview, userImageHeightPreview, userImageWidthActual, userImageHeightActual, uh, uw, src;
 
     $('#imageEditorPreview').hide();
     $('#imageEditorPreview').attr("src", "");
-    $('#imageEditorCaption').hide();
+    $('#imageEditorInfo').hide();
     parent.jQuery.fancybox.showActivity();
 
     userImageSrc = editor_image_url_template.replace('image-guid.image-ext', getRegexpValue(xml, /Thumb="([^"]*?)"/));
@@ -266,8 +269,7 @@ jQuery(document).ready(function ($) {
     $('#imageEditorPreview').attr("src", userImageSrc);
     $('#imageEditorPreview').width(userImageWidthPreview);
     $('#imageEditorPreview').height(userImageHeightPreview);
-    $('#imageEditorWidthInfo').html(userImageWidthPreview + ' px');
-    $('#imageEditorHeightInfo').html(userImageHeightPreview + ' px');
+    updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
     $('#resultingImageResolution').html('.. dpi');
 
     if (!userImageWidthActual || !userImageHeightActual) {
@@ -275,12 +277,6 @@ jQuery(document).ready(function ($) {
       return false;
     } else {
       _cropVisualAssistant.setUserImage($('#imageEditorPreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
-      
-      var placeholderResolution = _cropVisualAssistant.getPlaceholderInfo().resolution;
-      var resultingImageResolution = _cropVisualAssistant.getResultingImageResolution(userImageWidthPreview, userImageHeightPreview);
-      var resolutionMsg = (resultingImageResolution < placeholderResolution) ? '&nbsp;&nbsp;<span style="color:#DB0D0D;font-weight:bold;">Too low</span>' : '';
-
-    	$('#resultingImageResolution').html(resultingImageResolution + ' dpi' + resolutionMsg);
     }
 
     tmp1 = $('input[value=' + imageEditorId + ']', top.document).parent().find('img');
@@ -292,10 +288,26 @@ jQuery(document).ready(function ($) {
       tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
       tmp1.attr('src', userImageSrc);
-    imageEditorApplySize(userImageWidthPreview, userImageHeightPreview);
+
+    imageEditorAdjustSize(userImageWidthPreview, userImageHeightPreview);
+
+    if ($('#imageEditorLeft').length==0) {
+    	$('#imageEditorPreview').bind('load', function() {
+        isCropFit = true;
+        imageEditorCrop();
+
+        _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorInfoBar'));
+        _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
+      });
+    } else {
+      getEditAndSaveInfoBar().appendTo($('#imageEditorInfoBar'));
+      updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
+    }
   }
 
-  //perform image delete
+  /**
+   * Perform image delete
+   */
   function imageEditorDelete (){
     if (confirm(zetaprints_trans('Delete this image?'))){
       $.ajax({
@@ -316,55 +328,89 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  //show info text on blue line below
+  function updateEditAndSaveInfoBar (_width, _height)
+  {
+    $('#imageEditorWidthInfo').html(_width + ' px');
+    $('#imageEditorHeightInfo').html(_height + ' px');
+  }
+
+  function getEditAndSaveInfoBar ()
+  {
+    return $(
+      '<STYLE type="text/css">' +
+        '#infoBar td {color:white; font-size: 12px;}' +
+        '#infoBar #imageEditorWidthInfo {min-width: 30px; color:black;}' +
+        '#infoBar #imageEditorHeightInfo {min-width: 30px; color:black;}' +
+      '</STYLE>' +
+      '<TABLE id="infoBar"><TR>' +
+      '<TD>' + zetaprints_trans('W:') + '</TD><TD id="imageEditorWidthInfo"></TD>' +
+      '<TD>' + zetaprints_trans('H:') + '</TD><TD id="imageEditorHeightInfo"></TD>' +
+      '</TR></TABLE>');
+  }
+
+  /**
+   * Show messages in the InfoBar
+   */
   function imageEditorInfoBox (msg) {
-  	var imageEditorPreviewWidth = $('#imageEditorRight #imageEditorPreview').width();
-    $('#imageEditorCaption').show();
-    if ($.browser.msie)
-      $('#imageEditorCaption').width(imageEditorPreviewWidth);
-    else
-      $('#imageEditorCaption').width(imageEditorPreviewWidth - 10);
-    $('#imageEditorInfo').html(zetaprints_trans(msg));
-    $('#imageEditorInfo').show('fast', function () {
-      var cw = 0;
-      $('#imageEditorCaption span').each( function () {
-        cw += $(this).width();
-      });
-      if (cw > imageEditorPreviewWidth)
-        cw = imageEditorPreviewWidth;
-      if (cw < 500)
-        cw = 500;
-      // if (imageEditorPreviewWidth < cw) {
-      $('#imageEditorCaption').width(cw);
-      imageEditorApplySize(cw, $('#imageEditorRight #imageEditorPreview').height() + 30);
-      // }
+    var imagePreviewWidth = $('#imageEditorPreview').width();
+    var imageEditorInfoBarWidth = $('#imageEditorInfo').width();
+    var imageEditorInfoBarHeight = $('#imageEditorInfo').height();
+    var imageEditorWidth = (imageEditorInfoBarWidth > imagePreviewWidth) ? imageEditorInfoBarWidth : imagePreviewWidth;
+    var imageEditorHeight = $('#imageEditorPreview').height() + imageEditorInfoBarHeight;
+    // $('#imageEditorInfo').show();
+    $('#imageEditorCropForm').css('display', 'block');
+
+    $('#imageEditorInfoTooltip').html(zetaprints_trans(msg));
+    $('#imageEditorInfoTooltip').show('fast', function () {
+      imageEditorAdjustSize(imageEditorWidth, imageEditorHeight);
     });
   }
 
-  //change fancybox size and center it
-  function imageEditorApplySize (w, h) {
-    //min dimensions
-    if (w < 300 || typeof(w) == "undefined")
-      w = 300;
-    if (h < 300 || typeof(h) == "undefined")
-      h = 300;
-    $('#fancybox-outer', top.document).width(Number(w) + 120);
-    $('#fancybox-outer', top.document).height(Number(h) + 75);
-    $('#fancybox-wrap', top.document).width(Number(w) + 120);
-    $('#fancybox-wrap', top.document).height(Number(h) + 75);
-    $('#fancybox-inner', top.document).width(Number(w) + 120);
-    $('#fancybox-inner', top.document).height(Number(h) + 75);
+  /**
+   * Adjust fancybox size, place it in center of browser window,
+   * and center user image in center of the fancybox
+   */
+  function imageEditorAdjustSize (_width, _height)
+  {
+    if (typeof(_width) == "undefined" || typeof(_width) != "number")
+      _width = 300;
+    if (typeof(_height) == "undefined" || typeof(_height) != "number")
+      _height = 300;
+
+    var w_add = 10;
+    var h_add = 75;
+    if ($('#imageEditorLeft').length==1) {
+      w_add = 110;
+      h_add = 53;
+    }
+
+    if ($('#imageEditorLeft').length==1) {
+      if (_height < $('#imageEditorLeft').height()) {
+        _height = $('#imageEditorLeft').height();
+        $('#imageEditorPreview').parent().css('bottom', h_add + ((_height - $('#imageEditorPreview').height()) / 2));
+      }
+    }
+
+    $('#fancybox-outer', top.document).width(_width + w_add);
+    $('#fancybox-outer', top.document).height(_height + h_add);
+    $('#fancybox-wrap', top.document).width(_width + w_add);
+    $('#fancybox-wrap', top.document).height(_height + h_add);
+    $('#fancybox-inner', top.document).width(_width + w_add);
+    $('#fancybox-inner', top.document).height(_height + h_add);
+
     parent.jQuery.fancybox.center();
   }
 
-  //check if zetaprints_trans function exists, if not exists create dummy one
+  // Check if zetaprints_trans function exists, if not exists create dummy one
   if (!window.zetaprints_trans) {
     function zetaprints_trans (msg) {
       return msg;
     }
   }
 
-  //parse regular expression
+  /**
+   * Parse regular expression
+   */
   function getRegexpValue (subject, exp) {
     match = subject.match(exp);
     if (match != null) {
@@ -382,7 +428,7 @@ jQuery(document).ready(function ($) {
   	_cropVisualAssistant.cropedAreaRemove();
     $('#imageEditorPreview').fadeIn().ready(function () {
       parent.jQuery('#fancybox-loading').fadeOut();
-      $('#imageEditorCaption').show();
+      $('#imageEditorInfo').show();
     });
   });
 
@@ -395,9 +441,9 @@ jQuery(document).ready(function ($) {
   $('#imageEditorCropFit').click(function(){
     isCropFit = true;
     imageEditorCrop();
-  });  
+  });
   $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
-  
+
   $('#imageEditorRestore').click(imageEditorRestore);
   $('#imageEditorRotateRight').click( function () {
     imageEditorDoRotate('r');

@@ -155,36 +155,67 @@ div.images-scroller img {
   max-height: 100px;
 }
 
-div.images-scroller a.edit-dialog {
-  position: relative;
-  display: block;
-  min-height: 21px;
-  text-decoration:none;
+div.edit-dialog-context-menu {
+  position:relative;
+  top:-55px;
+  width: 100px;
+  /*border: 1px solid red;*/
+  float: right;
+  /*margin: 0 1px 1px 0;*/
 }
 
-div.images-scroller div.edit-button {
-  position:relative;
+div.edit-dialog-context-menu a.edit-dialog {
+  /*position: relative;*/
+  /*display: block;*/
+  /*min-height: 21px;*/
+  float: left;
+  display: block;
+  min-height: 16px;
+  height:16px;
+  width: 70px;
+  text-decoration:none;
+  margin: 0 0 1px 0;
+  z-index: 1000;
+}
+
+div.edit-dialog-context-menu div.edit-button {
+  /*position:relative;*/
   cursor:pointer;
-  float:left;
-  top:-19px;
-  *top:-14px;
-  height:14px;
+  /*left: 0;*/
+  /*float:left;
+  top:-59px;
+  *top:-14px;*/
+  height:16px;
+  width: 70px;
   background:#5284C2;
-  margin-right:5px;
+  /*margin-right:5px;*/
   color:#FFFFFF;
   font-weight:bold;
-  padding:0 5px;
+  padding:0 5px 0 5px;
+  white-space: nowrap;
 }
 
-div.images-scroller div.delete-button {
-  position:relative;
+div.edit-dialog-context-menu a.edit-submenu {
+  visibility: hidden;
+}
+div.edit-dialog-context-menu a.edit-submenu div {
+  text-align: left;
+}
+div.edit-dialog-context-menu a.edit-menuroot div {
+  text-align: right;
+}
+
+div.edit-dialog-context-menu div.delete-button {
+  position:absolute;
   cursor:pointer;
-  float:left;
+  right: 1px;
+  bottom: 1px;
+  /*float:left;
   top:-19px;
-  *top:-14px;
+  *top:-14px;*/
   width:16px;
-  height:14px;
-  background:url(../images/images-selector-sprites.png) -222px -23px no-repeat;
+  height:16px;
+  background:url(../images/images-selector-sprites.png) -222px -23px no-repeat #5284C2;
 }
 
 div.zetaprints-images-selector {
@@ -553,31 +584,4 @@ div.zetaprints-big-spinner {
 div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   position: absolute;
   top: 0px;
-}
-
-/* Fancybox tweaks */
-
-/* Move right arrow area to the right */
-a#fancybox-right {
-  right: -40px;
-}
-
-/* Move left arrow area to the left */
-a#fancybox-left {
-  left: -40px;
-}
-
-/*a#fancybox-right, a#fancybox-left {
-  visibility: visible; /* IE6 */
-/*}*/
-
-/* Make left arrow icon always visible */
-a#fancybox-left span {
-  left: 20px;
-}
-
-/* Make right arrow icon always visible */
-a#fancybox-right span {
-  left: auto;
-  right: 20px;
 }

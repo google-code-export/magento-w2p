@@ -7,10 +7,14 @@
 
 <body>
   <?php $design = Mage::getDesign(); ?>
-  <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td id="imageEditorLeft" width="100" valign="top">
-        <ul>
+
+  <script type="text/javascript">
+    var skinUrl="<?php echo $design->getSkinUrl('images/image-edit/'); ?>";
+  </script>
+
+  <?php if (!isset($_GET['fit_in_field'])): ?>
+    <div id="imageEditorLeft">
+      <ul>
           <li id="imageEditorRotateRight" title="<?php echo $this->__('Rotate Image Right'); ?>">
             <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt="" />
             <span><?php echo $this->__('Rotate right'); ?></span>
@@ -23,10 +27,6 @@
             <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt="" />
             <span><?php echo $this->__('Crop'); ?></span>
           </li>
-          <li id="imageEditorCropFit" title="<?php echo $this->__('Crop to fit Image'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/crop_to_fit.png'); ?>" alt="" />
-            <span><?php echo $this->__('Crop to fit'); ?></span>
-          </li>
           <li id="imageEditorRestore" title="<?php echo $this->__('Undo all changes'); ?>">
             <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt="" />
             <span><?php echo $this->__('Restore'); ?></span>
@@ -35,61 +35,35 @@
             <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt="" />
             <span><?php echo $this->__('Delete'); ?></span>
           </li>
-        </ul>
-      </td>
+      </ul>
+    </div>
+  <?php endif; ?>
 
-      <td id="imageEditorRight">
-        <img src="" id="imageEditorPreview" alt="Image" style="display:none" />
-
-        <div id="imageEditorCaption">
-          <span id="imageEditorInfo"></span><br />
-          <span>
-            <?php echo $this->__('Preview image:'); ?>
-          </span>
-          <span>
-            <?php echo $this->__('W:'); ?>
-            <span id="imageEditorWidthInfo"></span>
-          </span>
-          <span>
-            <?php echo $this->__('H:'); ?>
-            <span id="imageEditorHeightInfo"></span>
-          </span>
-          <span>
-            <?php echo $this->__('Resulting image resolution:'); ?>
-            <span id="resultingImageResolution"></span>
-          </span>
-          <br />
-          <span>
-            <?php echo $this->__('Placeholder:'); ?>
-          </span>
-          <span>
-            <?php echo $this->__('W:'); ?>
-            <span id="placeholderWidthInfo"></span>
-          </span>
-          <span>
-            <?php echo $this->__('H:'); ?>
-            <span id="placeholderHeightInfo"></span>
-          </span>
-          <span>
-            <?php echo $this->__('Resolution:'); ?>
-            <span id="placeholderResolution"></span>
-          </span>
+        <div style="position:absolute;right:5px;bottom:90px;">
+          <img src="" id="imageEditorPreview" alt="Image" style="display:none" />
         </div>
 
-        <form id="imageEditorCropForm">
-          <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
-          <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
-          <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
-          <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
-          <input type="hidden" name="Cropw" id="imageEditorCropW" />
-          <input type="hidden" name="Croph" id="imageEditorCropH" />
-          <a href="javascript:void(0)" id="imageEditorApplyCrop">
-            <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
-          </a>
-        </form>
-      </td>
-    </tr>
-  </table>
+        <div style="position:absolute;right:5px;bottom:5px;min-width:600px;">
+          <table id="imageEditorInfo">
+            <tr>
+              <td id="imageEditorInfoBar"></td>
+              <td id="imageEditorInfoTooltip"></td>
+            </tr>
+          </table>
+
+          <form id="imageEditorCropForm">
+            <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
+            <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
+            <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
+            <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
+            <input type="hidden" name="Cropw" id="imageEditorCropW" />
+            <input type="hidden" name="Croph" id="imageEditorCropH" />
+            <a href="javascript:void(0)" id="imageEditorApplyCrop">
+              <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
+            </a>
+          </form>
+        </div>
+
 
 </body>
 </html>

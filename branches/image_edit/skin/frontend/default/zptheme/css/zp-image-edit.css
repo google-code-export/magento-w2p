@@ -1,24 +1,29 @@
 body {
   padding: 0;
   margin: 0;
-  background: #93B4DF;
+  background: #ffffff;
   overflow: hidden;
 }
 
 #imageEditorApplyCrop {
-  margin-left:40%;
-  display:block;
-  padding-top:5px;
+  display: block;
+  padding-top: 5px;
 }
 
 #imageEditorLeft {
-  -moz-background-clip: border;
+  /*-moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
-  background: #93B4DF none repeat scroll 0 0;
+  background: #93B4DF none repeat scroll 0 0;*/
+  background-color: #93B4DF;
+  width: 100px;
   height: 100%;
   margin: 0;
   text-align: center;
+  vertical-align: top;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 #imageEditorLeft ul li {
@@ -54,15 +59,11 @@ body {
   background: transparent none repeat scroll 0 0;
 }
 
-#imageEditorRight {
-  padding: 10px 10px 4000px 10px;
-  background: #FFFFFF;
-}
-
 #imageEditorCropForm {
   display: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 .handler {
@@ -75,30 +76,38 @@ body {
   bottom: 1px;
   cursor: nw-resize;
 }
-#imageEditorCaption {
-  display:none;
-  padding: 5px;
+#imageEditorInfo {
+  width: 100%;
+  /*display:none;*/
+  /*padding: 5px;*/
   background-color: #93B4DF;
   font-family: Arial;
   font-size: 12px;
   margin-right:5px;
   *margin-top: -5px; /*msie bug*/
-  white-space:nowrap;
-  position:relative;
+  /*white-space:nowrap;*/
+  /*position:relative;*/
 }
-#imageEditorCaption span {
+/* #imageEditorInfo span {
   color: #FFFFFF;
   margin-left:10px;
 }
 #imageEditorCaption span span {
   color: #000000;
   margin-left:0px;
-}
-#imageEditorCaption #imageEditorInfo {
+} */
+/*#imageEditorInfo td {
+  vertical-align: top;
+}*/
+#imageEditorInfo #imageEditorInfoTooltip {
   color: #DB0D0D;
   font-weight: bold;
-  float: right;
+  /*float: right;*/
+  white-space: nowrap;
+  text-align: right;
+  padding: 4px 5px 0;
 }
+
 
 #fancy_content {
   cursor: auto;
