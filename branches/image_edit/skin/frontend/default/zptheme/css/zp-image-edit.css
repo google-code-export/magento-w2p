@@ -10,7 +10,7 @@ body {
   padding-top: 5px;
 }
 
-#imageEditorLeft {
+#imageEditorLeftSidebar {
   /*-moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -26,7 +26,7 @@ body {
   top: 0;
 }
 
-#imageEditorLeft ul li {
+#imageEditorLeftSidebar ul li {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -38,12 +38,12 @@ body {
   cursor: pointer;
   cursor: hand;
 }
-#imageEditorLeft ul {
+#imageEditorLeftSidebar ul {
   margin: 0;
   padding: 0;
 }
 
-#imageEditorLeft ul li span {
+#imageEditorLeftSidebar ul li span {
   color: #FFFFFF;
   display: block;
   font-family: Arial;
@@ -52,7 +52,7 @@ body {
   padding: 2px;
 }
 
-#imageEditorLeft ul .last {
+#imageEditorLeftSidebar ul .last {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -76,38 +76,38 @@ body {
   bottom: 1px;
   cursor: nw-resize;
 }
-#imageEditorInfo {
+
+#imageEditorInfoBar {
   width: 100%;
-  /*display:none;*/
-  /*padding: 5px;*/
+  display: none;
   background-color: #93B4DF;
   font-family: Arial;
   font-size: 12px;
-  margin-right:5px;
+  margin-right: 5px;
   *margin-top: -5px; /*msie bug*/
-  /*white-space:nowrap;*/
-  /*position:relative;*/
 }
-/* #imageEditorInfo span {
-  color: #FFFFFF;
-  margin-left:10px;
-}
-#imageEditorCaption span span {
-  color: #000000;
-  margin-left:0px;
-} */
-/*#imageEditorInfo td {
-  vertical-align: top;
-}*/
-#imageEditorInfo #imageEditorInfoTooltip {
+
+#imageEditorInfoBar #imageEditorTooltip {
   color: #DB0D0D;
   font-weight: bold;
-  /*float: right;*/
   white-space: nowrap;
   text-align: right;
   padding: 4px 5px 0;
+  vertical-align: top;
 }
 
+#imageEditorBottomPanel {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  min-width: 600px;
+}
+
+#userImagePreviewContainer {
+  position: absolute;
+  right: 5px;
+  bottom: 90px;
+}
 
 #fancy_content {
   cursor: auto;

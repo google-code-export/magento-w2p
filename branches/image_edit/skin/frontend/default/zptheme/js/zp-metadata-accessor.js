@@ -42,7 +42,7 @@ function metadataAccessor (_storageInputElement)
     }
     var _metadata = _outArr.join(';');
     top.userImageThumbSelected.data('metadata', _metadata);
-    if ($('input[name=zetaprints-#' + top.image_imageName + ']:checked', top.document).val()==top.userImageThumbSelected.attr('id'))
+    if (jQuery('input[name=zetaprints-#' + top.image_imageName + ']:checked', top.document).val()==top.userImageThumbSelected.attr('id'))
       this._storageInputElement.value = _metadata;
   }
 

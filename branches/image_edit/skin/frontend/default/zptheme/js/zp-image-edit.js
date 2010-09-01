@@ -11,8 +11,8 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorCrop () {
     imageEditorHideCrop();
-    imageEditorInfoBox('Use triggers to crop image');
-    imageEditorJcropApi = $.Jcrop('#imageEditorPreview');
+    showImageEditorTooltip('Use triggers to crop image');
+    imageEditorJcropApi = $.Jcrop('#userImagePreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
       onChange: imageEditorUpdateCropCoords
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
    * Remove Jcrop, if exists
    */
   function imageEditorHideCrop () {
-    $('#imageEditorInfoTooltip').hide();
+    $('#imageEditorTooltip').hide();
     // $('#imageEditorCropForm').css('display', 'none');
     if (typeof(imageEditorJcropApi) != "undefined")
       imageEditorJcropApi.destroy();
@@ -80,8 +80,8 @@ jQuery(document).ready(function ($) {
    * Fetch stored crop metadata
    */
   function fetchCropMetadata() {
-  	var width = Number($('#imageEditorRight #imageEditorPreview').width());
-    var height = Number($('#imageEditorRight #imageEditorPreview').height());
+  	var width = Number($('#imageEditorRight #userImagePreview').width());
+    var height = Number($('#imageEditorRight #userImagePreview').height());
 
     var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
     ma.restoreFromStorage();
@@ -94,8 +94,8 @@ jQuery(document).ready(function ($) {
    * Store crop metadata for further usage
    */
   function storeCropMetadata() {
-    var width = Number($('#imageEditorRight #imageEditorPreview').width());
-    var height = Number($('#imageEditorRight #imageEditorPreview').height());
+    var width = Number($('#imageEditorRight #userImagePreview').width());
+    var height = Number($('#imageEditorRight #userImagePreview').height());
 
     var cr_x1 = $('#imageEditorCropX').val() / width;
     var cr_x2 = $('#imageEditorCropX2').val() / width;
@@ -125,7 +125,7 @@ jQuery(document).ready(function ($) {
       },
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
-        imageEditorInfoBox('Image Cropped');
+        showImageEditorTooltip('Image Cropped');
       }
     });
   }
@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
     },
     success: function (data, textStatus) {
       imageEditorApplyImage(data);
-      imageEditorInfoBox('Image Restored');
+      showImageEditorTooltip('Image Restored');
     }
     });
   }
@@ -165,7 +165,7 @@ jQuery(document).ready(function ($) {
         },
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
-        imageEditorInfoBox('Image Loaded');
+        showImageEditorTooltip('Image Loaded');
       }
     });
   }
@@ -185,7 +185,7 @@ jQuery(document).ready(function ($) {
       },
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
-        imageEditorInfoBox('Image Rotated');
+        showImageEditorTooltip('Image Rotated');
       }
     });
   }
@@ -197,9 +197,9 @@ jQuery(document).ready(function ($) {
   {
     var userImageWidthPreview, userImageHeightPreview, userImageWidthActual, userImageHeightActual, uh, uw, src;
 
-    $('#imageEditorPreview').hide();
-    $('#imageEditorPreview').attr("src", "");
-    $('#imageEditorInfo').hide();
+    $('#userImagePreview').hide();
+    $('#userImagePreview').attr("src", "");
+    $('#imageEditorInfoBar').hide();
     parent.jQuery.fancybox.showActivity();
 
     userImageSrc = editor_image_url_template.replace('image-guid.image-ext', getRegexpValue(xml, /Thumb="([^"]*?)"/));
@@ -214,7 +214,7 @@ jQuery(document).ready(function ($) {
       $('#imageEditorRestore').hide();
     else {
       $('#imageEditorRestore').show();
-      $('#imageEditorLeft #imageEditorRestore').attr('title', zetaprints_trans('Undo all changes') + '. ' + zetaprints_trans('Original size') + ': ' + userImageWidthUndo + ' x ' + userImageHeightUndo + ' px.');
+      $('#imageEditorLeftSidebar #imageEditorRestore').attr('title', zetaprints_trans('Undo all changes') + '. ' + zetaprints_trans('Original size') + ': ' + userImageWidthUndo + ' x ' + userImageHeightUndo + ' px.');
     }
 
     if (!userImageWidthPreview || !userImageHeightPreview) {
@@ -222,17 +222,16 @@ jQuery(document).ready(function ($) {
       return false;
     }
 
-    $('#imageEditorPreview').attr("src", userImageSrc);
-    $('#imageEditorPreview').width(userImageWidthPreview);
-    $('#imageEditorPreview').height(userImageHeightPreview);
+    $('#userImagePreview').attr("src", userImageSrc);
+    $('#userImagePreview').width(userImageWidthPreview);
+    $('#userImagePreview').height(userImageHeightPreview);
     updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-    $('#resultingImageResolution').html('.. dpi');
 
     if (!userImageWidthActual || !userImageHeightActual) {
       alert(zetaprints_trans('Unknown error occured'));
       return false;
     } else {
-      _cropVisualAssistant.setUserImage($('#imageEditorPreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
+      _cropVisualAssistant.setUserImage($('#userImagePreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
     }
 
     tmp1 = $('input[value=' + imageEditorId + ']', top.document).parent().find('img');
@@ -245,20 +244,19 @@ jQuery(document).ready(function ($) {
     else
       tmp1.attr('src', userImageSrc);
 
-    imageEditorAdjustSize(userImageWidthPreview, userImageHeightPreview);
-
-    if ($('#imageEditorLeft').length==0) {
-    	$('#imageEditorPreview').bind('load', function() {
+    $('#userImagePreview').bind('load', function() {
+      if ($('#imageEditorLeftSidebar').length==0) {
         isCropFit = true;
         imageEditorCrop();
 
-        _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorInfoBar'));
+        _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
         _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
-      });
-    } else {
-      getEditAndSaveInfoBar().appendTo($('#imageEditorInfoBar'));
-      updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-    }
+      } else {
+        $('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
+        updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
+      }
+      imageEditorAdjustSize();
+    });
   }
 
   /**
@@ -284,12 +282,18 @@ jQuery(document).ready(function ($) {
     }
   }
 
+  /**
+   * Update InfoBar
+   */
   function updateEditAndSaveInfoBar (_width, _height)
   {
     $('#imageEditorWidthInfo').html(_width + ' px');
     $('#imageEditorHeightInfo').html(_height + ' px');
   }
 
+  /**
+   * Get InfoBar for "Edit And Save" fancybox
+   */
   function getEditAndSaveInfoBar ()
   {
     return $(
@@ -305,54 +309,68 @@ jQuery(document).ready(function ($) {
   }
 
   /**
-   * Show messages in the InfoBar
+   * Show messages in the InfoBar imageEditorTooltip
    */
-  function imageEditorInfoBox (msg) {
-    var imagePreviewWidth = $('#imageEditorPreview').width();
-    var imageEditorInfoBarWidth = $('#imageEditorInfo').width();
-    var imageEditorInfoBarHeight = $('#imageEditorInfo').height();
-    var imageEditorWidth = (imageEditorInfoBarWidth > imagePreviewWidth) ? imageEditorInfoBarWidth : imagePreviewWidth;
-    var imageEditorHeight = $('#imageEditorPreview').height() + imageEditorInfoBarHeight;
-    // $('#imageEditorInfo').show();
+  function showImageEditorTooltip (_message)
+  {
+    $('#imageEditorInfoBar').show();
     $('#imageEditorCropForm').css('display', 'block');
 
-    $('#imageEditorInfoTooltip').html(zetaprints_trans(msg));
-    $('#imageEditorInfoTooltip').show('fast', function () {
-      imageEditorAdjustSize(imageEditorWidth, imageEditorHeight);
+    $('#imageEditorTooltip').html(zetaprints_trans(_message));
+    $('#imageEditorTooltip').show('fast', function () {
+      imageEditorAdjustSize();
     });
   }
 
   /**
    * Adjust fancybox size, place it in center of browser window,
-   * and center user image in center of the fancybox
+   * and place user image in the center of the fancybox
    */
-  function imageEditorAdjustSize (_width, _height)
+  function imageEditorAdjustSize ()
   {
-    if (typeof(_width) == "undefined" || typeof(_width) != "number")
-      _width = 300;
-    if (typeof(_height) == "undefined" || typeof(_height) != "number")
-      _height = 300;
+    var userImagePreviewWidth = $('#userImagePreview').width();
+    var userImagePreviewHeight = $('#userImagePreview').height();
 
-    var w_add = 10;
-    var h_add = 75;
-    if ($('#imageEditorLeft').length==1) {
-      w_add = 110;
-      h_add = 53;
+    var infoBarWidth = $('#imageEditorBottomPanel').width();
+    var infoBarHeight = $('#imageEditorBottomPanel').height() + 10;
+    // 10 = gap between InfoBar and UserImagePreview plus offset of InfoBar from bottom fancybox edge
+
+    var leftSidebarWidth = 0;
+    var leftSidebarHeight = 0;
+    if ($('#imageEditorLeftSidebar').length==1) {
+      leftSidebarWidth = 100;
+      leftSidebarHeight = $('#imageEditorLeftSidebar > ul').height();
     }
 
-    if ($('#imageEditorLeft').length==1) {
-      if (_height < $('#imageEditorLeft').height()) {
-        _height = $('#imageEditorLeft').height();
-        $('#imageEditorPreview').parent().css('bottom', h_add + ((_height - $('#imageEditorPreview').height()) / 2));
-      }
-    }
+    var imageEditorWidth = (infoBarWidth > userImagePreviewWidth) ? infoBarWidth : userImagePreviewWidth;
+    imageEditorWidth += leftSidebarWidth;
+    imageEditorWidth += 10;
 
-    $('#fancybox-outer', top.document).width(_width + w_add);
-    $('#fancybox-outer', top.document).height(_height + h_add);
-    $('#fancybox-wrap', top.document).width(_width + w_add);
-    $('#fancybox-wrap', top.document).height(_height + h_add);
-    $('#fancybox-inner', top.document).width(_width + w_add);
-    $('#fancybox-inner', top.document).height(_height + h_add);
+    var imageEditorHeight = userImagePreviewHeight + infoBarHeight;
+    imageEditorHeight = (imageEditorHeight > leftSidebarHeight) ? imageEditorHeight : leftSidebarHeight;
+
+    // place UserImage in the center of available area
+    var userImagePreviewContainerRight = ((imageEditorWidth - leftSidebarWidth) / 2) - (userImagePreviewWidth / 2);
+    var userImagePreviewContainerBottom = infoBarHeight + ((imageEditorHeight - infoBarHeight) / 2) - (userImagePreviewHeight / 2);
+    $('#userImagePreviewContainer').css({
+      right: userImagePreviewContainerRight,
+      bottom: userImagePreviewContainerBottom,
+      width: userImagePreviewWidth,
+      height: userImagePreviewHeight
+    });
+
+    imageEditorHeight += 20;
+    // 20 = offset from top edge of fancybox (can be used for top fancybox caption)
+
+    imageEditorWidth = Math.round(imageEditorWidth);
+    imageEditorHeight = Math.round(imageEditorHeight);
+
+    $('#fancybox-outer', top.document).width(imageEditorWidth);
+    $('#fancybox-outer', top.document).height(imageEditorHeight);
+    $('#fancybox-wrap', top.document).width(imageEditorWidth);
+    $('#fancybox-wrap', top.document).height(imageEditorHeight);
+    $('#fancybox-inner', top.document).width(imageEditorWidth);
+    $('#fancybox-inner', top.document).height(imageEditorHeight);
 
     parent.jQuery.fancybox.center();
   }
@@ -380,11 +398,11 @@ jQuery(document).ready(function ($) {
   }
 
   //image load handler. Fade in on load, hide loading icon, show image caption
-  $('#imageEditorPreview').load(function () {
+  $('#userImagePreview').load(function () {
   	_cropVisualAssistant.cropedAreaRemove();
-    $('#imageEditorPreview').fadeIn().ready(function () {
+    $('#userImagePreview').fadeIn().ready(function () {
       parent.jQuery('#fancybox-loading').fadeOut();
-      $('#imageEditorInfo').show();
+      $('#imageEditorInfoBar').show();
     });
   });
 

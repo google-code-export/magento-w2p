@@ -17,7 +17,7 @@ function personalization_form () {
     })
   }
   
-  function show_image_edit_dialog(image_name, iframe_src, userImageThumb) {
+  function showImageEditDialog(image_name, iframe_src, userImageThumb) {
     load_template_image_settings(image_name);
 
     userImageThumbSelected = userImageThumb
@@ -415,7 +415,7 @@ function personalization_form () {
             }
 
             $('a.edit-submenu', tr).click(function() {
-              show_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
+              showImageEditDialog(image_name, $(this).attr('href'), userImageThumb);
 
               //block the links
               return false;
@@ -680,7 +680,7 @@ function personalization_form () {
   });
 
   $('a.edit-submenu').click(function() {
-  	show_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
+  	showImageEditDialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
     return false; //block the links
   });
 

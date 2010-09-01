@@ -13,7 +13,7 @@
   </script>
 
   <?php if (!isset($_GET['fit_in_field'])): ?>
-    <div id="imageEditorLeft">
+    <div id="imageEditorLeftSidebar">
       <ul>
           <li id="imageEditorRotateRight" title="<?php echo $this->__('Rotate Image Right'); ?>">
             <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt="" />
@@ -39,31 +39,30 @@
     </div>
   <?php endif; ?>
 
-        <div style="position:absolute;right:5px;bottom:90px;">
-          <img src="" id="imageEditorPreview" alt="Image" style="display:none" />
-        </div>
+  <div id="userImagePreviewContainer">
+    <img src="" id="userImagePreview" alt="Image" style="display:none" />
+  </div>
 
-        <div style="position:absolute;right:5px;bottom:5px;min-width:600px;">
-          <table id="imageEditorInfo">
-            <tr>
-              <td id="imageEditorInfoBar"></td>
-              <td id="imageEditorInfoTooltip"></td>
-            </tr>
-          </table>
+  <div id="imageEditorBottomPanel">
+    <table id="imageEditorInfoBar">
+      <tr>
+        <td id="imageEditorImageInfo"></td>
+        <td id="imageEditorTooltip"></td>
+      </tr>
+    </table>
 
-          <form id="imageEditorCropForm">
-            <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
-            <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
-            <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
-            <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
-            <input type="hidden" name="Cropw" id="imageEditorCropW" />
-            <input type="hidden" name="Croph" id="imageEditorCropH" />
-            <a href="javascript:void(0)" id="imageEditorApplyCrop">
-              <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
-            </a>
-          </form>
-        </div>
-
+    <form id="imageEditorCropForm">
+      <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
+      <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
+      <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
+      <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
+      <input type="hidden" name="Cropw" id="imageEditorCropW" />
+      <input type="hidden" name="Croph" id="imageEditorCropH" />
+      <a href="javascript:void(0)" id="imageEditorApplyCrop">
+        <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
+      </a>
+    </form>
+  </div>
 
 </body>
 </html>
