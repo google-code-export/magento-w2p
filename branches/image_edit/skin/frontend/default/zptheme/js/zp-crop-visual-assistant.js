@@ -337,12 +337,10 @@ function cropVisualAssistant ()
     _targetImageOverheadStyle
   )
   {
-    var _targetImageElementPos = _targetImageElement.position();
     var _toolSet = jQuery('<DIV />');
     _toolSet.css({
-      position: 'absolute',
-      left: _targetImageElementPos.left,
-      top: _targetImageElementPos.top,
+      position: 'relative',
+      marginBottom: -_targetImageElement.height(),
       width: _targetImageElement.width(),
       height: _targetImageElement.height(),
       backgroundColor: _targetImageOverheadStyle.backgroundColor,

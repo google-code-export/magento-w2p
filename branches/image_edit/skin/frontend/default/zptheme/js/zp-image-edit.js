@@ -80,8 +80,8 @@ jQuery(document).ready(function ($) {
    * Fetch stored crop metadata
    */
   function fetchCropMetadata() {
-  	var width = Number($('#imageEditorRight #userImagePreview').width());
-    var height = Number($('#imageEditorRight #userImagePreview').height());
+  	var width = Number($('#userImagePreview').width());
+    var height = Number($('#userImagePreview').height());
 
     var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
     ma.restoreFromStorage();
@@ -94,8 +94,8 @@ jQuery(document).ready(function ($) {
    * Store crop metadata for further usage
    */
   function storeCropMetadata() {
-    var width = Number($('#imageEditorRight #userImagePreview').width());
-    var height = Number($('#imageEditorRight #userImagePreview').height());
+    var width = Number($('#userImagePreview').width());
+    var height = Number($('#userImagePreview').height());
 
     var cr_x1 = $('#imageEditorCropX').val() / width;
     var cr_x2 = $('#imageEditorCropX2').val() / width;
