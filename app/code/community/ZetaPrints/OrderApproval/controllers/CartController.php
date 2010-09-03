@@ -143,12 +143,12 @@ class ZetaPrints_OrderApproval_CartController
       }
 
       $item->setQuote($quote)->setApproved(true)->save();
+    }
 
-      Mage::getSingleton('core/session')
+    Mage::getSingleton('core/session')
         ->addNotice($this->__('Selected products were succesfully approved'));
 
-      $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
-    }
+    $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
   }
 
   public function approveAction () {
