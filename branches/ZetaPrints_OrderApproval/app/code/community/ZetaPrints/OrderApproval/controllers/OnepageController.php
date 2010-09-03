@@ -6,7 +6,7 @@ class ZetaPrints_OrderApproval_OnepageController
   extends Mage_Checkout_OnepageController {
 
   const XML_PATH_NEW_ITEMS_TEMPLATE
-                                = 'sales_email/orderapproval/new_items_template';
+                               = 'sales_email/orderapproval/new_items_template';
 
   public function indexAction () {
     $customer_session = Mage::getSingleton('customer/session');
@@ -32,17 +32,21 @@ class ZetaPrints_OrderApproval_OnepageController
             $email_template  = Mage::getModel('core/email_template');
 
             $approver_fullname = "{$approver->getFirstname()} {$approver->getLastname()}";
+            $cart_url = Mage::getUrl('checkout/cart/edit',
+                                      array('customer' => $customer->getId()));
 
             $template = Mage::getStoreConfig(self::XML_PATH_NEW_ITEMS_TEMPLATE);
+
 
             $email_template->sendTransactional(
               $template,
               'sales',
-              $approver->getEmail(),
+              /*$approver->getEmail(),*/'jimcrow@localhost',
               $approver_fullname,
               array(
                 'number_of_items' => count($items_to_approve),
-                'approver_fullname' => $approver_fullname ));
+                'approver_fullname' => $approver_fullname,
+                'customers_shopping_cart_url' => $cart_url ));
           }
 
           if (count($quote->getAllItemsCollection()) != 0
