@@ -40,21 +40,21 @@ Users without a nominated approver can check out as usual.
     <active>yes</active>
   </lead>
 
-  <date>2010-08-26</date>
+  <date>2010-09-03</date>
 
   <version>
-    <release>0.1.0.0alpha1</release>
-    <api>0.1.0.0alpha1</api>
+    <release>0.1.0.0beta1</release>
+    <api>0.1.0.0beta1</api>
   </version>
 
   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>Alpha 1</notes>
+  <notes>Beta 1</notes>
 
   <contents>
 
@@ -68,6 +68,46 @@ Users without a nominated approver can check out as usual.
         <dir name="OrderApproval">
 
           <dir name="Block">
+
+            <dir name="Cart">
+
+              <dir name="Edit">
+
+                <dir name="Grid">
+                  <dir name="Column">
+
+                    <dir name="Renderer">
+                      <file name="Image.php" role="magecommunity" />
+                      <file name="Productoptions.php" role="magecommunity" />
+                      <file name="Price.php" role="magecommunity" />
+                      <file name="Qty.php" role="magecommunity" />
+                      <file name="Subtotal.php" role="magecommunity" />
+                      <file name="Abstract.php" role="magecommunity" />
+                    </dir>
+
+                  </dir>
+                </dir>
+
+                <file name="Grid.php" role="magecommunity" />
+
+              </dir>
+
+              <file name="Edit.php" role="magecommunity" />
+
+            </dir>
+
+            <dir name="Widget">
+              <dir name="Grid">
+                <dir name="Column">
+
+                  <dir name="Renderer">
+                    <file name="Image.php" role="magecommunity" />
+                  </dir>
+
+                </dir>
+              </dir>
+            </dir>
+
             <file name="Cart.php" role="magecommunity" />
           </dir>
 
@@ -128,6 +168,67 @@ Users without a nominated approver can check out as usual.
               <dir name="sales">
                 <file name="new-items-to-approve.txt" role="magelocale" />
               </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
+      <dir name="frontend">
+        <dir name="base">
+          <dir name="default">
+
+            <dir name="template">
+
+              <dir name="checkout">
+                <dir name="cart">
+
+                  <dir name="edit">
+                    <dir name="grid">
+                      <dir name="column">
+                        <dir name="renderer">
+                          <file name="qty.phtml" role="magedesign" />
+                          <file name="subtotal.phtml" role="magedesign" />
+                          <file name="product-options.phtml" role="magedesign" />
+                          <file name="image.phtml" role="magedesign" />
+                          <file name="price.phtml" role="magedesign" />
+                        </dir>
+                      </dir>
+                    </dir>
+                  </dir>
+
+                  <file name="edit.phtml" role="magedesign" />
+
+                </dir>
+              </dir>
+
+              <dir name="widget">
+
+                <dir name="grid">
+                  <file name="container.phtml" role="magedesign" />
+                  <file name="massaction.phtml" role="magedesign" />
+                </dir>
+
+                <file name="grid.phtml" role="magedesign" />
+
+              </dir>
+
+            </dir>
+
+            <dir name="layout">
+
+              <dir name="checkout">
+                <file name="edit.xml" role="magedesign" />
+              </dir>
+
+            </dir>
+
+            <dir name="css">
+
+              <dir name="order-approval">
+                <file name="styles.css" role="mageskin" />
+              </dir>
+
+            </dir>
 
           </dir>
         </dir>

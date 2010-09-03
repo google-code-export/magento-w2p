@@ -3,3 +3,5 @@
 Hello, {{var approver_fullname}}.
 
 There's {{var number_of_items}} new item(s) to approve.
+
+Please, visit customer's shopping cart at {{var customers_shopping_cart_url}}

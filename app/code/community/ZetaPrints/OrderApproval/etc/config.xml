@@ -109,6 +109,14 @@
         </args>
       </orderapproval>
     </routers>
+
+    <layout>
+      <updates>
+        <orderapproval>
+          <file>orderapproval.xml</file>
+        </orderapproval>
+      </updates>
+    </layout>
   </frontend>
 
   <default>
