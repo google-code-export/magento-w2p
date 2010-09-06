@@ -11,7 +11,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorCrop () {
     imageEditorHideCrop();
-    showImageEditorTooltip('Use triggers to crop image');
+    showImageEditorTooltip('Select visible part to crop image');
     imageEditorJcropApi = $.Jcrop('#userImagePreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
