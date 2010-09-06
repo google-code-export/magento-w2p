@@ -240,7 +240,7 @@
                           </xsl:call-template>
                         </div>
                       </a><br />
-                      <a class="edit-dialog edit-submenu" href="{@edit-link}&amp;fit_in_field=yes" target="_blank" name="{../@Name}" rel="{@guid}">
+                      <a class="edit-dialog edit-submenu fit-in-field" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
                         <xsl:attribute name="title">
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Fit in field</xsl:with-param>

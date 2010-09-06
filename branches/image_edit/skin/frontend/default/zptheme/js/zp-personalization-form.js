@@ -16,11 +16,19 @@ function personalization_form () {
       }
     })
   }
-  
-  function showImageEditDialog(image_name, iframe_src, userImageThumb) {
+
+  function showImageEditDialog(image_name, iframe_src, userImageThumb, imageEditFitInField) {
     load_template_image_settings(image_name);
 
     userImageThumbSelected = userImageThumb
+
+    if (imageEditFitInField) {
+      if (iframe_src.indexOf('?')!=-1) {
+        iframe_src += '&fit_in_field=yes';
+      } else {
+        iframe_src += '?fit_in_field=yes';
+      }
+    }
 
     //open a modal window with editor pictures
     $.fancybox({
@@ -250,6 +258,8 @@ function personalization_form () {
       'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('button.update-preview').hide();
+    
+    alert(prepare_post_data_for_php($('#product_addtocart_form').serialize()) + '&zetaprints-From=' + current_page + preserve_fields);
 
     //Convert preserve_field parameter to query parameter
     var preserve_fields = typeof(preserve_fields) != 'undefined'
@@ -390,7 +400,7 @@ function personalization_form () {
                    + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
                    + '<div class="edit-button">' + edit_and_save_button_text + '</div>'
                    + '</a><br />'
-                   + '<a class="edit-dialog edit-submenu" href="' + response[1] + '&fit_in_field=yes" target="_blank" rel="' + response[0] + '">'
+                   + '<a class="edit-dialog edit-submenu fit-in-field" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
                    + '<div class="edit-button">' + fit_in_field_button_text + '</div>'
                    + '</a><br />'
                    + '<a href="javascript:void(1)" class="edit-dialog edit-menuroot">'
@@ -415,7 +425,7 @@ function personalization_form () {
             }
 
             $('a.edit-submenu', tr).click(function() {
-              showImageEditDialog(image_name, $(this).attr('href'), userImageThumb);
+              showImageEditDialog(image_name, $(this).attr('href'), userImageThumb, $(this).hasClass('fit-in-field'));
 
               //block the links
               return false;
@@ -680,7 +690,7 @@ function personalization_form () {
   });
 
   $('a.edit-submenu').click(function() {
-  	showImageEditDialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
+  	showImageEditDialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')), $(this).hasClass('fit-in-field'));
     return false; //block the links
   });
 
