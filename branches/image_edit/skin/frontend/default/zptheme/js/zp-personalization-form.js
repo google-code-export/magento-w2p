@@ -426,13 +426,15 @@ function personalization_form () {
 
             $('a.edit-submenu', tr).click(function() {
               showImageEditDialog(image_name, $(this).attr('href'), userImageThumb, $(this).hasClass('fit-in-field'));
-
-              //block the links
-              return false;
+              return false; //block the links
             });
             $('a.edit-menuroot,a.edit-dialog-img').click(function() {
-              showImageEditMenu ($(this));
+              showImageEditMenu($(this));
               return false; //block the links
+            });
+            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('blur', function() {
+              var thisObj = $(this);
+              window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
             });
 
             $('a.delete-button', td).click(function() {
@@ -660,7 +662,7 @@ function personalization_form () {
     'titleShow': false
   });
 
-  function showImageEditMenu (_menuRootElement)
+  function showImageEditMenu(_menuRootElement, _forceHide)
   {
     var currentMenuRootElement = null;
     if ($('div', _menuRootElement).length>0) {
@@ -674,7 +676,7 @@ function personalization_form () {
     var backgroundImage_opened = backgroundImage.replace('_closed', '_opened');
 
     $('a.edit-submenu', _menuRootElement.parent()).each(function(){
-      if ($(this).css('visibility')=='hidden') {
+      if ($(this).css('visibility')=='hidden' && !_forceHide) {
         $(this).css({visibility: 'visible'});
         currentMenuRootElement.css('backgroundImage', backgroundImage_opened);
       } else {
@@ -684,14 +686,17 @@ function personalization_form () {
     });
   }
 
-  $('a.edit-menuroot,a.edit-dialog-img').click(function() {
-    showImageEditMenu ($(this));
+  $('a.edit-menuroot, a.edit-dialog-img').click(function() {
+    showImageEditMenu($(this));
     return false; //block the links
   });
-
   $('a.edit-submenu').click(function() {
   	showImageEditDialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')), $(this).hasClass('fit-in-field'));
     return false; //block the links
+  });
+  $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('blur', function() {
+    var thisObj = $(this);
+    window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
   });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
