@@ -7,7 +7,8 @@ body {
 
 #imageEditorApplyCrop {
   display: block;
-  padding-top: 5px;
+  width: 68px;
+  margin: 5px auto 0 auto;
 }
 
 #imageEditorLeftSidebar {

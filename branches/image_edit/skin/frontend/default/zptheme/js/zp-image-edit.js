@@ -39,9 +39,9 @@ jQuery(document).ready(function ($) {
   /**
    * Remove Jcrop, if exists
    */
-  function imageEditorHideCrop () {
+  function imageEditorHideCrop() {
     $('#imageEditorTooltip').hide();
-    // $('#imageEditorCropForm').css('display', 'none');
+    $('#imageEditorCropForm').css('display', 'none');
     if (typeof(imageEditorJcropApi) != "undefined")
       imageEditorJcropApi.destroy();
   }
@@ -314,7 +314,7 @@ jQuery(document).ready(function ($) {
   function showImageEditorTooltip (_message)
   {
     $('#imageEditorInfoBar').show();
-    $('#imageEditorCropForm').css('display', 'block');
+    // $('#imageEditorCropForm').css('display', 'block');
 
     $('#imageEditorTooltip').html(zetaprints_trans(_message));
     $('#imageEditorTooltip').show('fast', function () {
