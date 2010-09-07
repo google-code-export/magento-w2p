@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
   /**
-   * Inicialize Jcrop api
+   * Initialize Jcrop api
    */
   function imageEditorCrop () {
     imageEditorHideCrop();
