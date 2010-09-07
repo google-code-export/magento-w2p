@@ -41,7 +41,7 @@ class ZetaPrints_OrderApproval_OnepageController
             $email_template->sendTransactional(
               $template,
               'sales',
-              /*$approver->getEmail(),*/'jimcrow@localhost',
+              $approver->getEmail(),
               $approver_fullname,
               array(
                 'number_of_items' => count($items_to_approve),
