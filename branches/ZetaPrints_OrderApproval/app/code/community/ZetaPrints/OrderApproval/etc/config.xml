@@ -29,20 +29,20 @@
     <blocks>
       <orderapproval>
         <class>ZetaPrints_OrderApproval_Block</class>
-      </orderapproval>-->
+      </orderapproval>
 
       <checkout>
         <rewrite>
           <cart>ZetaPrints_OrderApproval_Block_Cart</cart>
         </rewrite>
       </checkout>
-    </blocks>-->
+    </blocks>
 
     <helpers>
       <orderapproval>
         <class>ZetaPrints_OrderApproval_Helper</class>
       </orderapproval>
-    </helpers>-->
+    </helpers>
 
     <resources>
       <orderapproval_setup>
