@@ -268,7 +268,9 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     if ($item->getRedirectUrl())
       return;
 
-    $option_model = $item->getOptionByCode('info_buyRequest');
+    if (! $option_model = $item->getOptionByCode('info_buyRequest'))
+      return;
+
     $options = unserialize($option_model->getValue());
 
     if (!(isset($options['zetaprints-TemplateID']) || isset($options['zetaprints-previews'])))
