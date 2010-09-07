@@ -830,7 +830,6 @@ jQuery(document).ready(function($) {
   upload_controller_url = '<?php echo $this->_getUrl('web-to-print/upload'); ?>';
   image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
-  edit_button_text = "<?php echo $this->__('Edit');?>";
   edit_and_save_button_text = "<?php echo $this->__('Edit & save');?>";
   fit_in_field_button_text = "<?php echo $this->__('Fit in field');?>";
 
