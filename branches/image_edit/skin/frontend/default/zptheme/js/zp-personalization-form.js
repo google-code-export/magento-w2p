@@ -258,8 +258,6 @@ function personalization_form () {
       'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('button.update-preview').hide();
-    
-    alert(prepare_post_data_for_php($('#product_addtocart_form').serialize()) + '&zetaprints-From=' + current_page + preserve_fields);
 
     //Convert preserve_field parameter to query parameter
     var preserve_fields = typeof(preserve_fields) != 'undefined'
