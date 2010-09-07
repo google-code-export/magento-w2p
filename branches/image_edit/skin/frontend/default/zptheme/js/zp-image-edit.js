@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
     });
 
     //inicialize aspectRatio setting for Jcrop, if not empty data
-    if ((top.image_aspectRatio[0] != 0) && (top.image_aspectRatio[1] != 0)) {
+    if (isCropFit && (top.image_aspectRatio[0] != 0) && (top.image_aspectRatio[1] != 0)) {
       imageEditorJcropApi.setOptions({
         aspectRatio: top.image_aspectRatio[0] / top.image_aspectRatio[1]
       });
