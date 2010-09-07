@@ -29,6 +29,47 @@ class ZetaPrints_OrderApproval_CartController
     return false;
   }
 
+  public function _add_notice_to_approved_item ($item) {
+    //Load options for the item
+    $option_models = Mage::getModel('sales/quote_item_option')
+      ->getCollection()
+      ->addItemFilter($item);
+
+    $option_model = null;
+
+    //Find additional options
+    foreach ($option_models as $_option_model)
+      if ($_option_model['code'] == 'additional_options') {
+        $option_model = $_option_model;
+
+        break;
+      }
+
+    //Declare option for item
+    $option = array(
+      'label' => $this->__('Order approval status:'),
+      'value' => $this->__('Approved') );
+
+    //If additional options exist...
+    if ($option_model) {
+      //... then get its value
+      $options = unserialize($option_model->getValue());
+
+      //Update approval status option
+      $options['approval_status'] = $option;
+
+      //and save additional options
+      $option_model->setValue(serialize($options))->save();
+    } else {
+      //... else create additional options with approval status option
+      //in the item
+      $item->addOption(array(
+        'code' => 'additional_options',
+        'value' => serialize(
+          array('approval_status' => $option) )) );
+    }
+  }
+
   public function indexAction () {
     $cart = $this->_getCart();
 
@@ -142,6 +183,9 @@ class ZetaPrints_OrderApproval_CartController
         }
       }
 
+      //Update or add approval status notice to the item
+      $this->_add_notice_to_approved_item($item);
+
       $item->setQuote($quote)->setApproved(true)->save();
     }
 
@@ -177,6 +221,9 @@ class ZetaPrints_OrderApproval_CartController
       $this->_redirect('');
       return;
     }
+
+    //Update or add approval status notice to the item
+    $this->_add_notice_to_approved_item($item);
 
     $item->setQuote($quote)->setApproved(true)->save();
 

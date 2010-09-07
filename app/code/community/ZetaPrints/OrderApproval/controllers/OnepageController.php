@@ -29,6 +29,36 @@ class ZetaPrints_OrderApproval_OnepageController
               $items_to_approve[] = $item;
 
           if (count($items_to_approve)) {
+            foreach ($items_to_approve as $item) {
+              //Declare option for item
+              $option = array(
+                'label' => $this->__('Order approval status:'),
+                'value' => $this->__('Pending approval') );
+
+              //Check if additional options exist...
+              if ($option_model = $item->getOptionByCode('additional_options')) {
+                //... then get its value
+                $options = unserialize($option_model->getValue());
+
+                //Check if approval status option doesn't exist
+                if (!isset($options['approval_status'])) {
+                  //... then add approval status option to additional options
+                  $options['approval_status'] = $option;
+
+                  //and save additional options
+                  $option_model->setValue(serialize($options))->save();
+                }
+              } else {
+                //... else create additional options with approval status option
+                //in the item
+                $item->addOption(array(
+                        'code' => 'additional_options',
+                        'value' => serialize(
+                          array('approval_status' => $option) )) )
+                  ->save();
+              }
+            }
+
             $email_template  = Mage::getModel('core/email_template');
 
             $approver_fullname = "{$approver->getFirstname()} {$approver->getLastname()}";
