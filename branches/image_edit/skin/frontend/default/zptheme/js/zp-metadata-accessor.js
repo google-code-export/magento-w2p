@@ -47,6 +47,15 @@ function metadataAccessor (_storageInputElement)
   }
 
   /*
+   * Clear all metadata
+   */
+  this.clearAll = function()
+  {
+    top.userImageThumbSelected.data('metadata', null);
+    this._storageInputElement.value = '';
+  }
+
+  /*
    * Property setter
    */
   this.setProperty = function(_propertyName, _propertyValue)

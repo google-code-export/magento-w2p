@@ -111,6 +111,11 @@ jQuery(document).ready(function ($) {
     ma.storeAll();
   }
 
+  function clearCropMetadata() {
+    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
+    ma.clearAll();
+    _cropVisualAssistant.cropedAreaRemove();
+  }
 
   /**
    * Apply image crop using ZetaPrint server
@@ -135,6 +140,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorRestore () {
     imageEditorHideCrop();
+    clearCropMetadata();
     parent.jQuery.fancybox.showActivity();
     $.ajax({
     url: imageEditorUpdateURL + '?page=img-undo' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
@@ -175,6 +181,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorDoRotate (dir) {
     imageEditorHideCrop();
+    clearCropMetadata();
     parent.jQuery.fancybox.showActivity();
     $.ajax({
       url: imageEditorUpdateURL + '?page=img-rot' + imageEditorDelimeter + 'Rotation=' + dir + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
@@ -243,6 +250,8 @@ jQuery(document).ready(function ($) {
       tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
       tmp1.attr('src', userImageSrc);
+
+    clearCropMetadata();
 
     $('#userImagePreview').bind('load', function() {
       if ($('#imageEditorLeftSidebar').length==0) {

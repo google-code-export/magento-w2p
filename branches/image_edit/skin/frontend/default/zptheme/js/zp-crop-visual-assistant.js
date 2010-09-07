@@ -366,6 +366,7 @@ function cropVisualAssistant ()
    *
    */
   this.cropedAreaRemove = function () {
-    this.templatePreview.element.prev('div.thumbCropedAreaToolSet').remove();
+    // this.templatePreview.element.prev('div.thumbCropedAreaToolSet').remove();
+    this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').remove();
   }
 }
