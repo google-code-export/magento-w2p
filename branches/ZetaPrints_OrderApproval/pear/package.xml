@@ -217,7 +217,7 @@ Users without a nominated approver can check out as usual.
             <dir name="layout">
 
               <dir name="checkout">
-                <file name="edit.xml" role="magedesign" />
+                <file name="cart-edit.xml" role="magedesign" />
               </dir>
 
             </dir>
