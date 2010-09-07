@@ -158,40 +158,51 @@ div.images-scroller img {
 div.edit-dialog-context-menu {
   position:relative;
   top:-55px;
-  width: 100px;
+  width: 70px;
+  height: 51px;
   float: right;
   z-index: 1050;
-}
-
-div.edit-dialog-context-menu a.edit-dialog {
-  float: left;
-  display: block;
-  min-height: 16px;
-  height:16px;
-  width: 70px;
-  text-decoration:none;
-  margin: 0 0 1px 0;
 }
 
 div.edit-dialog-context-menu div.edit-button {
   cursor:pointer;
   height:16px;
-  width: 70px;
+  width: 100%;
   background:#5284C2;
   color:#FFFFFF;
   font-weight:bold;
-  padding:0 5px 0 5px;
   white-space: nowrap;
 }
 
 div.edit-dialog-context-menu a.edit-submenu {
   visibility: hidden;
+  position:relative;
+  display: block;
+  height:16px;
+  margin: 0 0 1px 0;
+  width: auto;
 }
 div.edit-dialog-context-menu a.edit-submenu div {
   text-align: left;
 }
+div.edit-dialog-context-menu a.edit-submenu div div {
+  padding: 0 5px 0 5px;
+}
+
+div.edit-dialog-context-menu a.edit-menuroot {
+  position:absolute;
+  cursor:pointer;
+  right: 18px;
+  bottom: 1px;
+  display: block;
+  height:16px;
+  width: auto;
+  text-decoration:none;
+  margin: 0;
+}
 div.edit-dialog-context-menu a.edit-menuroot div {
-  text-align: right;
+  width: 16px;
+  padding: 0;
   background: url(../images/image-edit/thumb_contextmenuroot_closed.gif) 5px 6px no-repeat #5284C2;
 }
 

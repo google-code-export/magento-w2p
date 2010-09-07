@@ -234,31 +234,27 @@
                             <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
                           </xsl:call-template>
                         </xsl:attribute>
-                        <div class="edit-button">
+                        <div class="edit-button"><div>
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
                           </xsl:call-template>
-                        </div>
-                      </a><br />
+                        </div></div>
+                      </a>
                       <a class="edit-dialog edit-submenu fit-in-field" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
                         <xsl:attribute name="title">
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Fit in field</xsl:with-param>
                           </xsl:call-template>
                         </xsl:attribute>
-                        <div class="edit-button">
+                        <div class="edit-button"><div>
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Fit in field</xsl:with-param>
                           </xsl:call-template>
-                        </div>
-                      </a><br />
+                        </div></div>
+                      </a>
                       <a class="edit-dialog edit-menuroot" href="javascript:void(1)">
-                        <div class="edit-button">
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Edit</xsl:with-param>
-                          </xsl:call-template>
-                        </div>
-                      </a><br />
+                        <div class="edit-button"></div>
+                      </a>
                       <a class="delete-button" href="javascript:void(1)">
                         <div class="delete-button"></div>
                       </a>

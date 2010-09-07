@@ -398,13 +398,13 @@ function personalization_form () {
                    + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
                    + '<div class="edit-dialog-context-menu">'
                    + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
-                   + '<div class="edit-button">' + edit_and_save_button_text + '</div>'
-                   + '</a><br />'
+                   + '<div class="edit-button"><div>' + edit_and_save_button_text + '</div></div>'
+                   + '</a>'
                    + '<a class="edit-dialog edit-submenu fit-in-field" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
-                   + '<div class="edit-button">' + fit_in_field_button_text + '</div>'
-                   + '</a><br />'
+                   + '<div class="edit-button"><div>' + fit_in_field_button_text + '</div></div>'
+                   + '</a>'
                    + '<a href="javascript:void(1)" class="edit-dialog edit-menuroot">'
-                   + '<div class="edit-button">' + edit_button_text + '</div></a>'
+                   + '<div class="edit-button"></div></a>'
                    + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
                    + '</div>').prependTo(this);
 
