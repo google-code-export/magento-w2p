@@ -14,6 +14,8 @@ class ZetaPrints_OrderApproval_OnepageController
     if ($customer_session->isLoggedIn()) {
       $customer = $customer_session->getCustomer();
 
+      //If customer was loaded successfully and has approver field
+      //and the field is not empty then...
       if ($customer->getId() && $customer->hasApprover()
           && $approver_id = $customer->getApprover()) {
 
@@ -91,6 +93,35 @@ class ZetaPrints_OrderApproval_OnepageController
             return;
           }
         }
+      } else {
+        //... else mark all items as approved and remove approval statuses
+        //from them
+
+        //Get customer's quote
+        $quote = $this->getOnepage()->getQuote();
+
+        //For every item from the quote check...
+        foreach ($quote->getAllItemsCollection() as $item)
+          //... if it's not approved then ...
+          if (!$item->getApproved()) {
+            //... if it has additional options...
+            if ($option_model = $item->getOptionByCode('additional_options')) {
+              //... get its value
+              $options = unserialize($option_model->getValue());
+
+              //Remove approval status
+              unset($options['approval_status']);
+
+              //and update value of additional options
+              $option_model->setValue(serialize($options));
+            }
+
+            //Mark the item as approved
+            $item->setApproved(true);
+          }
+
+        //Save items from the quote
+        $quote->getAllItemsCollection()->save();
       }
     }
 
