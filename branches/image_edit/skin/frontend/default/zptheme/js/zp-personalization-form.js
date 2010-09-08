@@ -17,16 +17,17 @@ function personalization_form () {
     })
   }
 
-  function showImageEditDialog(image_name, iframe_src, userImageThumb, imageEditFitInField) {
-    load_template_image_settings(image_name);
+  function showImageEditDialog(_imageName, _iframeSrc, _userImageThumb, _imageEditFitInField) {
+    load_template_image_settings(_imageName);
 
-    userImageThumbSelected = userImageThumb
+    userImageThumbSelected = _userImageThumb;
+    imageEditFitInField = _imageEditFitInField;
 
-    if (imageEditFitInField) {
-      if (iframe_src.indexOf('?')!=-1) {
-        iframe_src += '&fit_in_field=yes';
+    if (_imageEditFitInField) {
+      if (_iframeSrc.indexOf('?')!=-1) {
+        _iframeSrc += '&fit_in_field=yes';
       } else {
-        iframe_src += '?fit_in_field=yes';
+        _iframeSrc += '?fit_in_field=yes';
       }
     }
 
@@ -35,7 +36,7 @@ function personalization_form () {
       'padding': 0,
       'titleShow': false,
       'type': 'iframe',
-      'href': iframe_src,
+      'href': _iframeSrc,
       'hideOnOverlayClick': false,
       'hideOnContentClick': false,
       'centerOnScroll': false,
@@ -263,6 +264,10 @@ function personalization_form () {
     var preserve_fields = typeof(preserve_fields) != 'undefined'
       && preserve_fields ? '&zetaprints-Preserve=yes' : preserve_fields = '';
 
+    //@todo: remove this in production version
+    // alert(prepare_post_data_for_php($('#product_addtocart_form').serialize()) + '&zetaprints-From=' + current_page + preserve_fields);
+    // alert($('#product_addtocart_form').serialize() + '&zetaprints-From=' + current_page + preserve_fields);
+
     $.ajax({
       url: preview_controller_url,
       type: 'POST',
@@ -410,7 +415,7 @@ function personalization_form () {
 
           var tr = this;
 
-          $('img', td).load(function() {
+          $('img.userImageThumb', td).load(function() {
 
             var userImageThumb = $(this);
 

@@ -121,6 +121,7 @@ jQuery(document).ready(function ($) {
    * Apply image crop using ZetaPrint server
    */
   function applyCropServer() {
+    clearCropMetadata();
     $.ajax({
       url: imageEditorUpdateURL + '?CropX1='+$('#imageEditorCropX').val() + imageEditorDelimeter+'CropY1='+$('#imageEditorCropY').val() + imageEditorDelimeter + 'CropX2=' + $('#imageEditorCropX2').val() + imageEditorDelimeter+'CropY2=' + $('#imageEditorCropY2').val() + imageEditorDelimeter + 'page=img-crop' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
       type: 'POST',
@@ -200,7 +201,7 @@ jQuery(document).ready(function ($) {
   /**
    * Parse XML output and change image
    */
-  function imageEditorApplyImage (xml)
+  function imageEditorApplyImage(xml)
   {
     var userImageWidthPreview, userImageHeightPreview, userImageWidthActual, userImageHeightActual, uh, uw, src;
 
@@ -251,8 +252,6 @@ jQuery(document).ready(function ($) {
     else
       tmp1.attr('src', userImageSrc);
 
-    clearCropMetadata();
-
     $('#userImagePreview').bind('load', function() {
       if ($('#imageEditorLeftSidebar').length==0) {
         isCropFit = true;
@@ -294,7 +293,7 @@ jQuery(document).ready(function ($) {
   /**
    * Update InfoBar
    */
-  function updateEditAndSaveInfoBar (_width, _height)
+  function updateEditAndSaveInfoBar(_width, _height)
   {
     $('#imageEditorWidthInfo').html(_width + ' px');
     $('#imageEditorHeightInfo').html(_height + ' px');
@@ -303,7 +302,7 @@ jQuery(document).ready(function ($) {
   /**
    * Get InfoBar for "Edit And Save" fancybox
    */
-  function getEditAndSaveInfoBar ()
+  function getEditAndSaveInfoBar()
   {
     return $(
       '<STYLE type="text/css">' +
@@ -320,7 +319,7 @@ jQuery(document).ready(function ($) {
   /**
    * Show messages in the InfoBar imageEditorTooltip
    */
-  function showImageEditorTooltip (_message)
+  function showImageEditorTooltip(_message)
   {
     $('#imageEditorInfoBar').show();
     // $('#imageEditorCropForm').css('display', 'block');
@@ -335,7 +334,7 @@ jQuery(document).ready(function ($) {
    * Adjust fancybox size, place it in center of browser window,
    * and place user image in the center of the fancybox
    */
-  function imageEditorAdjustSize ()
+  function imageEditorAdjustSize()
   {
     var userImagePreviewWidth = $('#userImagePreview').width();
     var userImagePreviewHeight = $('#userImagePreview').height();
@@ -408,7 +407,15 @@ jQuery(document).ready(function ($) {
 
   //image load handler. Fade in on load, hide loading icon, show image caption
   $('#userImagePreview').load(function () {
-  	_cropVisualAssistant.cropedAreaRemove();
+    // _cropVisualAssistant.cropedAreaRemove();
+    if (!parent.imageEditFitInField) {
+      _cropVisualAssistant.cropedAreaHide();
+
+      parent.jQuery('#fancybox-close').click(function() {
+        _cropVisualAssistant.cropedAreaShow();
+      });
+    }
+
     $('#userImagePreview').fadeIn().ready(function () {
       parent.jQuery('#fancybox-loading').fadeOut();
       $('#imageEditorInfoBar').show();

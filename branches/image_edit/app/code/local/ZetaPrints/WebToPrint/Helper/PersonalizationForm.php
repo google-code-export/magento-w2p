@@ -806,6 +806,7 @@ var shapes = <?php echo $shapes; ?>;
 var image_aspectRatio = [0,0];  //default values for image edit dialog box
 var image_imageName = '';  //currently edited template image
 var userImageThumbSelected = null;  //user selected image to edit
+var imageEditFitInField = false; //fancybox mode: FitInField or EditAndSave
 var images = <?php echo $images; ?>;  //template images settings
 // Global vars end
 

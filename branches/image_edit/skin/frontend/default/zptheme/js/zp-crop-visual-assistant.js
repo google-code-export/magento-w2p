@@ -356,7 +356,7 @@ function cropVisualAssistant ()
     }).appendTo(_toolSet);
 
     var _cropImg = jQuery('<IMG src="' + _clipedImageSrc + '" />').css({
-      position: 'absolute',
+      position: 'absolute'
     })
     _cropImg.appendTo(_cropAreaDiv);
   }
@@ -368,5 +368,21 @@ function cropVisualAssistant ()
   this.cropedAreaRemove = function () {
     // this.templatePreview.element.prev('div.thumbCropedAreaToolSet').remove();
     this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').remove();
+  }
+
+  /**
+   * Hide cropped area
+   *
+   */
+  this.cropedAreaHide = function () {
+    this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').hide();
+  }
+
+  /**
+   * Show cropped area
+   *
+   */
+  this.cropedAreaShow = function () {
+    this.userImageThumb.element.prev('div.thumbCropedAreaToolSet').show();
   }
 }

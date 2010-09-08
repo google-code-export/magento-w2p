@@ -42,8 +42,12 @@ function metadataAccessor (_storageInputElement)
     }
     var _metadata = _outArr.join(';');
     top.userImageThumbSelected.data('metadata', _metadata);
-    if (jQuery('input[name=zetaprints-#' + top.image_imageName + ']:checked', top.document).val()==top.userImageThumbSelected.attr('id'))
+
+    // also place metadata in product form field for sending it on serverside
+    // only if the image edited by user is checked by corresponding radio-button
+    if (jQuery('input[type=radio]', top.userImageThumbSelected.parents('td')).attr('checked') == true) {
       this._storageInputElement.value = _metadata;
+    }
   }
 
   /*
