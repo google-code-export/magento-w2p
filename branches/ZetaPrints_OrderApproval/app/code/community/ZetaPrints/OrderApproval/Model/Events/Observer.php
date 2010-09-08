@@ -33,7 +33,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     $quote = $observer->getEvent()->getQuote();
 
     //If the quote is not active then it means that shopping cart contained
-    //only approved items and all of then were checkouted.
+    //only approved items and all of them were checked out.
     if (!$quote->getIsActive())
       return;
 
