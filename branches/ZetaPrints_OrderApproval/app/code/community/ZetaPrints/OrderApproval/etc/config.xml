@@ -75,7 +75,9 @@
         </observers>
       </checkout_cart_product_add_after>
 
-      <sales_model_service_quote_submit_success>
+      <!-- For compatibility with M. verion < 1.4.1.0 -->
+      <!--<sales_model_service_quote_submit_success>-->
+      <sales_model_service_quote_submit_after>
         <observers>
           <orderapproval-remove-approved-item-from-quote>
             <type>singleton</type>
@@ -83,7 +85,8 @@
             <method>remove_approved_items_from_quote</method>
           </orderapproval-remove-approved-item-from-quote>
         </observers>
-      </sales_model_service_quote_submit_success>
+      </sales_model_service_quote_submit_after>
+      <!--</sales_model_service_quote_submit_success>-->
     </events>
 
     <rewrite>
