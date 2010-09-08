@@ -27,6 +27,33 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
 
     $item->setApproved(false);
   }
+
+  public function remove_approved_items_from_quote ($observer) {
+    //Get quote
+    $quote = $observer->getEvent()->getQuote();
+
+    //If the quote is not active then it means that shopping cart contained
+    //only approved items and all of then were checkouted.
+    if (!$quote->getIsActive())
+      return;
+
+    //If shopping cart contained both approved and not approved items,
+    //then remove all approved items from the cart. After it cart will contain
+    //only not approved items for futher processing.
+
+    //For every item from the quote check...
+    foreach ($quote->getAllVisibleItems(true) as $item) {
+      //... if it's approved then...
+      if ($item->getApproved())
+        //...remove it from the cart
+        $quote->removeItem($item->getId(), true);
+
+    //Reset toatal collected flag
+    $quote->setTotalsCollectedFlag(false);
+
+    //Recalculate quote total and save the quote.
+    $quote->collectTotals()->save();
+  }
 }
 
 ?>
