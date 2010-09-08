@@ -219,16 +219,16 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog-img" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
+                    <a class="edit-dialog-img" href="{@edit-link}" target="_blank" name="{../@Name}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" id="{@guid}" />
+                      <img src="{@thumbnail}" class="userImageThumb" />
                     </a>
                     <div class="edit-dialog-context-menu">
-                      <a class="edit-dialog edit-submenu" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
+                      <a class="edit-dialog edit-submenu" href="{@edit-link}" target="_blank" name="{../@Name}">
                         <xsl:attribute name="title">
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
@@ -240,7 +240,7 @@
                           </xsl:call-template>
                         </div></div>
                       </a>
-                      <a class="edit-dialog edit-submenu fit-in-field" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
+                      <a class="edit-dialog edit-submenu fit-in-field" href="{@edit-link}" target="_blank" name="{../@Name}">
                         <xsl:attribute name="title">
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Fit in field</xsl:with-param>

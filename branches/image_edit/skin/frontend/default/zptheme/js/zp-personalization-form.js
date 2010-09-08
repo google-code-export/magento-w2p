@@ -392,13 +392,13 @@ function personalization_form () {
 
           var td = $('<td>'
                    + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
-                   + '<a class="edit-dialog-img" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
-                   + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
+                   + '<a class="edit-dialog-img" href="' + response[1] + '" target="_blank">'
+                   + '<img src="' + response[2] + '" class="userImageThumb" /></a> '
                    + '<div class="edit-dialog-context-menu">'
-                   + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<a class="edit-dialog edit-submenu" href="' + response[1] + '" target="_blank">'
                    + '<div class="edit-button"><div>' + edit_and_save_button_text + '</div></div>'
                    + '</a>'
-                   + '<a class="edit-dialog edit-submenu fit-in-field" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<a class="edit-dialog edit-submenu fit-in-field" href="' + response[1] + '" target="_blank">'
                    + '<div class="edit-button"><div>' + fit_in_field_button_text + '</div></div>'
                    + '</a>'
                    + '<a href="javascript:void(1)" class="edit-dialog edit-menuroot">'
@@ -689,7 +689,12 @@ function personalization_form () {
     return false; //block the links
   });
   $('a.edit-submenu').click(function() {
-  	showImageEditDialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')), $(this).hasClass('fit-in-field'));
+  	showImageEditDialog(
+  	  $(this).attr('name'),
+  	  $(this).attr('href'),
+  	  $('img.userImageThumb', $(this).parents('td')),
+  	  $(this).hasClass('fit-in-field')
+  	);
     return false; //block the links
   });
   $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('blur', function() {
