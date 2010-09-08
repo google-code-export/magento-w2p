@@ -137,9 +137,10 @@ div.images-scroller {
   overflow-y: hidden;
 }
 
-div.images-scroller table tr {
-  margin: 0px;
-  padding: 0px;
+div.images-scroller table {
+  margin: 0 auto 0 0;
+  min-width: 30px;
+  width: 30px;
 }
 
 div.images-scroller table td {

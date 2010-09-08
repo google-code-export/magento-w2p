@@ -426,11 +426,11 @@ function personalization_form () {
               showImageEditDialog(image_name, $(this).attr('href'), userImageThumb, $(this).hasClass('fit-in-field'));
               return false; //block the links
             });
-            $('a.edit-menuroot,a.edit-dialog-img').click(function() {
+            $('a.edit-menuroot, a.edit-dialog-img', tr).click(function() {
               showImageEditMenu($(this));
               return false; //block the links
             });
-            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('blur', function() {
+            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu', tr).bind('blur', function() {
               var thisObj = $(this);
               window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
             });
