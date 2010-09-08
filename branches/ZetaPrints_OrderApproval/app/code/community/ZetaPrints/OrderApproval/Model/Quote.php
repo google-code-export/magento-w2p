@@ -211,6 +211,17 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
 
     return $this;
   }
+
+  public function setIsActive ($active) {
+    //Change quote active state only then it contains only approved items,
+    //otherwise ignore it
+
+    if (!$active
+        && $this->getAllItemsCount() != count($this->getAllVisibleItems()))
+      return;
+
+    parent::setIsActive($active);
+  }
 }
 
 ?>

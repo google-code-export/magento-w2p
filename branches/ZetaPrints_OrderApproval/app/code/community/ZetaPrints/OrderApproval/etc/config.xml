@@ -74,6 +74,16 @@
           </orderapproval-mark-quote-item>
         </observers>
       </checkout_cart_product_add_after>
+
+      <sales_model_service_quote_submit_success>
+        <observers>
+          <orderapproval-remove-approved-item-from-quote>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>remove_approved_items_from_quote</method>
+          </orderapproval-remove-approved-item-from-quote>
+        </observers>
+      </sales_model_service_quote_submit_success>
     </events>
 
     <rewrite>
