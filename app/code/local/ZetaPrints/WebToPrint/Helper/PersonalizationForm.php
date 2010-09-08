@@ -649,6 +649,12 @@ jQuery(document).ready(function($) {
   public function get_reorder_button ($context, $item) {
     $options = $item->getProductOptionByCode('info_buyRequest');
 
+    //Check for ZetaPrints Order ID in item options
+    //If it doesn't exists or product doesn't have web-to-print features then...
+    if (!isset($options['zetaprints-order-id']))
+      //... just return from the function.
+      return;
+
     $product = Mage::getModel('catalog/product')->load($options['product']);
 
     if (!$product->getId())
