@@ -32,7 +32,7 @@ See '_add_notice_to_approved_item' method code in [http://code.google.com/p/mage
 = How to create a custom email =
 There's an e-mail template editor in M. admin interface (System -> Transactional Emails). There administrators can create new e-mail templates based on original M. templates.
 
-Step 1: press Add New Template button. Select 'New items to approve' template from list. Select a locale you want to use new template in. Press Load Template button to load content of the template for father editing.
+Step 1: Press Add New Template button. Select 'New items to approve' template from list. Select a locale you want to use new template in. Press Load Template button to load content of the template for father editing.
 
 Step 2: Give a name for a new template. Edit its subject and content. After it press Save Template button.
 
