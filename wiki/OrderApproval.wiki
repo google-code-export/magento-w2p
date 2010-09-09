@@ -28,3 +28,17 @@ Item's option 'additional_options' was used to save and show approval status for
 This options are showed in Product name column on shopping cart page.
 
 See '_add_notice_to_approved_item' method code in [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php] file and code in [https://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php] file.
+
+=  Total removal of extension =
+Separate uninstallation script will be provided later.
+
+= Added or changed M. files =
+The extension adds several files (no one was changed) to base theme, such as additional layout and template files to checkout module, some widget templates from admin theme and adds e-mail templates.
+
+List of added files:
+  * Files from [http://code.google.com/p/magento-w2p/source/browse/#svn/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/layout/checkout app/design/frontend/base/default/layout/checkout/] directory
+  * [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/template/checkout/cart/edit.phtml app/design/frontend/base/default/template/checkout/cart/edit.ptml] file
+  * Files from [http://code.google.com/p/magento-w2p/source/browse/#svn/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/template/checkout/cart/edit app/design/frontend/base/default/template/checkout/cart/edit/] directory
+  * Files from [http://code.google.com/p/magento-w2p/source/browse/#svn/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/template/widget app/design/frontend/base/default/template/widget] directory
+  * [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/skin/frontend/base/default/css/order-approval/styles.css skin/frontend/base/default/css/order-approval/styles.css] file
+  * [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/locale/en_US/template/email/sales/new-items-to-approve.txt app/locale/en_US/template/email/sales/new-items-to-approve.txt] file
