@@ -54,3 +54,41 @@ List of added files:
   * Files from [http://code.google.com/p/magento-w2p/source/browse/#svn/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/template/widget app/design/frontend/base/default/template/widget] directory
   * [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/skin/frontend/base/default/css/order-approval/styles.css skin/frontend/base/default/css/order-approval/styles.css] file
   * [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/locale/en_US/template/email/sales/new-items-to-approve.txt app/locale/en_US/template/email/sales/new-items-to-approve.txt] file
+
+= Re-defined M. classes =
+  * Class Mage_Checkout_CartController is re-defined by ZetaPrints_OrderApproval_CartController class.
+  Re-defined functions:
+    * indexAction ()
+  * Class Mage_Checkout_OnepageController is re-defined by ZetaPrints_OrderApproval_OnepageController class
+  Re-defined functions:
+    * indexAction ()
+  * Class Mage_Checkout_Block_Cart is re-defined by ZetaPrints_OrderApproval_Block_Cart class
+  Re-defined functions:
+    * getItems ()
+    * chooseTemplate ()
+  * Class Mage_Checkout_Model_Cart is re-defined by ZetaPrints_OrderApproval_Model_Cart
+  Re-defined functions:
+    * getItems ()
+    * getQuoteProductIds ()
+    * init ()
+    * addProduct ()
+    * updateItems ()
+    * removeItem ()
+    * truncate ()
+    * getProductIds ()
+  * Class Mage_Sales_Model_Quote is re-defined by ZetaPrints_OrderApproval_Model_Quote
+  Re-defined functions:
+    * _afterSave ()
+    * getItemsCollection()
+    * getAllItems ()
+    * hasItems ()
+    * getItemById ()
+    * removeItem ()
+    * getAllVisibleItems ()
+    * addItem ()
+    * getItemByProduct ()
+    * collectTotals ()
+    * setIsActive ()
+  * Class Mage_Sales_Model_Quote_Address is re-defined by Mage_Sales_Model_Quote_Address
+  Re-defined functions:
+    * getAllItems()
