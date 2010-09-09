@@ -1,5 +1,7 @@
 #summary Order Approval extension description
 
+Order Approval extension allows to organize approval process in Magento shop. Approval process is managed by approvers (a customer with enabled approver role) who are setted by administrator. Also, administrator should set approvers for each customer whose orders need approval. Approval process sits between customer's shopping cart and checkout process. It means that customer able to add any number products to a shopping cart, delete and modify them in the cart any time without any restrictions. But the same time he can not check out products from the cart while they are not approved. Every time customer tries to check out his shopping cart, the customer's approver receives notification about unapproved products in the customer's shopping cart. Approver can use link from the e-mail to reach order approval UI where he able to approve customer's products. Customer can check status of approval for every products in his shopping cart and is allowed to check out already approved products from the cart.
+
 = Approval status for cart item =
 Item's option 'additional_options' was used to save and show approval status for an item.
 This options are showed in Product name column on shopping cart page.
