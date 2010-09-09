@@ -6,6 +6,23 @@ Approval process sits between customer's shopping cart and checkout process. It 
 
 Every time customer tries to check out his shopping cart, the customer's approver receives notification about unapproved products in the customer's shopping cart. Approver can use link from the e-mail to reach order approval UI where he able to approve customer's products. Customer can check status of approval for every products in his shopping cart and is allowed to check out already approved products from the cart.
 
+== Approval process workflow ==
+
+Setting approver workflow:
+  * Administrator adds approver role to a customer
+  * Administrator sets approver for another customers
+
+Customer workflow:
+  * Customer adds product(s) to his shopping cart
+  * Customer tries to check out product(s) from the cart
+  * Customer waits for approval
+  * Customer checks out again after approving
+
+Approver workflow:
+  * Approver receives an e-mail about products to approve.
+  * Approver opens order approval UI with link in the e-mail
+  * Approver approves products from customer's shopping cart
+
 = Approval status for cart item =
 Item's option 'additional_options' was used to save and show approval status for an item.
 This options are showed in Product name column on shopping cart page.
