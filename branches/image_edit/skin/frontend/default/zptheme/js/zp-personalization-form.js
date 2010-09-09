@@ -45,7 +45,9 @@ function personalization_form () {
   }
 
   function swapMetadata() {
-    var _metadata = $('#' + $(this).val()).data('metadata');
+    //@todo: remove in production ver
+    // var _metadata = $('#' + $(this).val()).data('metadata');
+    var _metadata = $('img.userImageThumb', $(this).parents('td')).data('metadata');
     _metadata = (_metadata==null) ? '' : _metadata;
     document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
   }
