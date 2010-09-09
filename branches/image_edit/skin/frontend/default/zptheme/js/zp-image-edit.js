@@ -60,6 +60,8 @@ jQuery(document).ready(function ($) {
 
     _cropVisualAssistant.updateInfoBar(c.w, c.h);
     _cropVisualAssistant.updateView([c.x, c.y, c.x2, c.y2]);
+
+    imageEditorAdjustSize();
   }
 
   /**
