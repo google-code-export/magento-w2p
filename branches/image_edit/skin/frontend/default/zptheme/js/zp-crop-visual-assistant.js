@@ -49,6 +49,16 @@ function cropVisualAssistant ()
   }
 
   /**
+   * Get GUID of UserImageThumb (by value stored in CSS class)
+   *
+   * @return: GUID
+   */
+  this.getUserImageThumbGuid = function ()
+  {
+    return jQuery.trim(this.userImageThumb.element.attr('class').replace('userImageThumb', ''));
+  }
+
+  /**
    * Init settings for the TemplatePreview
    *
    * @attr: _templatePreviewElement - affected TemplatePreview image

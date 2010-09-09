@@ -225,7 +225,7 @@
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" class="userImageThumb" />
+                      <img src="{@thumbnail}" class="userImageThumb {@guid}" />
                     </a>
                     <div class="edit-dialog-context-menu">
                       <a class="edit-dialog edit-submenu" href="{@edit-link}" target="_blank" name="{../@Name}">

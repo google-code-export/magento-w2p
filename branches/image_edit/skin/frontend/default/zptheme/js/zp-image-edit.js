@@ -112,9 +112,16 @@ jQuery(document).ready(function ($) {
   }
 
   function clearCropMetadata() {
-    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
-    ma.clearAll();
-    _cropVisualAssistant.cropedAreaRemove();
+    //@todo: remove in production ver
+    // var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
+    // ma.clearAll();
+    // _cropVisualAssistant.cropedAreaRemove();
+    
+    // alert(_cropVisualAssistant.getUserImageThumbGuid());
+    $('.' + _cropVisualAssistant.getUserImageThumbGuid(), $(parent.document)).each(function(){
+      $(this).data('metadata', null);
+      $(this).prev('div.thumbCropedAreaToolSet').remove();
+    });
   }
 
   /**

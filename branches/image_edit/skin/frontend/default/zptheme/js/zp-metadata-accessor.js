@@ -19,7 +19,9 @@ function metadataAccessor (_storageInputElement)
    */
   this.restoreFromStorage = function()
   {
-    var _metadata = top.userImageThumbSelected.data('metadata');
+    var _metadata = parent.userImageThumbSelected.data('metadata');
+    //@todo: remove in production
+    // alert(_metadata + ', ' + top.userImageThumbSelected.attr('src'))
     var _key_val_pairs = (_metadata==null) ? [] : _metadata.split(';');
     // var _key_val_pairs = this._storageInputElement.value.split(';');
     for (var _i in _key_val_pairs) {
@@ -41,7 +43,7 @@ function metadataAccessor (_storageInputElement)
       _outArr[_j++] = _i + '=' + this[_i];
     }
     var _metadata = _outArr.join(';');
-    top.userImageThumbSelected.data('metadata', _metadata);
+    parent.userImageThumbSelected.data('metadata', _metadata);
 
     // also place metadata in product form field for sending it on serverside
     // only if the image edited by user is checked by corresponding radio-button
