@@ -63,10 +63,10 @@ div.zetaprints-page-input-fields.hidden {
 }
 
 /**/
-div.zetaprints-page-input-fields input.input-text{
+div.zetaprints-page-input-fields input.input-text {
   width: 100%;
 }
-div.zetaprints-page-input-fields textarea{
+div.zetaprints-page-input-fields textarea {
   width: 100%;
   height: 45px;
 }
@@ -195,6 +195,7 @@ div.zetaprints-images-selector {
   margin-bottom: 5px; /* Same as div.product-shop dl*/
   border: none;
   background-color: #ffffff;
+  background: none !important;
 }
 
 div.zetaprints-images-selector.expanded {
@@ -219,6 +220,8 @@ div.zetaprints-images-selector div.head {
   margin: 0px;
   text-align: left;
   cursor: pointer;
+  background: none !important;
+  padding:3px 10px;
 }
 
 div.zetaprints-images-selector div.head div.icon {
@@ -584,4 +587,17 @@ a#fancybox-left span {
 a#fancybox-right span {
   left: auto;
   right: 20px;
+}
+
+/***/
+.zp-resize-handle {
+  background: url('../images/handle_l.gif') center no-repeat;
+  cursor: sw-resize;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
