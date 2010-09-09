@@ -38,6 +38,9 @@ Step 2: Give a name for a new template. Edit its subject and content. After it p
 
 Step 3: Select newly created template in System -> Configuration -> Sales Emails -> Order Approval Tab from a list.
 
+= How to make it work with M. web-to-print extension =
+Both Order Approval and web-to-print extensions support each other out of the box. 
+
 =  Total removal of extension =
 Separate uninstallation script will be provided later.
 
