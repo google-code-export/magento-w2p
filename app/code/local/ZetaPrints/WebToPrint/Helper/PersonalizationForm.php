@@ -650,7 +650,7 @@ jQuery(document).ready(function($) {
     $options = $item->getProductOptionByCode('info_buyRequest');
 
     //Check for ZetaPrints Order ID in item options
-    //If it doesn't exists or product doesn't have web-to-print features then...
+    //If it doesn't exist or product doesn't have web-to-print features then...
     if (!isset($options['zetaprints-order-id']))
       //... just return from the function.
       return;
