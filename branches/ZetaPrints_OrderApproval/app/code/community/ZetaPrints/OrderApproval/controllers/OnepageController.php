@@ -99,7 +99,7 @@ class ZetaPrints_OrderApproval_OnepageController
                 'customers_shopping_cart_url' => $cart_url ));
 
             //If e-mail was sent sucessfully then...
-            if ($email_template->getSentSuccess())
+            if ($email_template->getSentSuccess()) {
               //.. for every item from the list...
               foreach ($items_to_approve as $item) {
                 //... get info options model
@@ -114,19 +114,28 @@ class ZetaPrints_OrderApproval_OnepageController
                 //Save options model
                 $option_model->setValue(serialize($options))->save();
               }
-          }
 
-          if (count($quote->getAllItemsCollection()) != 0
-              && count($quote->getAllItemsCollection())
+              //If there's only unapproved items in the cart then...
+              if (count($quote->getAllItemsCollection())
                                                   == count($items_to_approve)) {
-            Mage::getSingleton('checkout/session')
-              ->addNotice($this
-                            ->__('All items in the cart need to be approved'));
+                //... show notice for customer
+                Mage::getSingleton('checkout/session')
+                  ->addNotice($this->__('Approval request sent to')
+                                                . ' ' . $approver->getEmail() );
+                //and redirect to shopping cart page
+                $this->_redirect('checkout/cart');
 
-            $this->_redirect('checkout/cart');
-
-            return;
-          }
+                return;
+              }
+            }
+          } else
+            //else if there's no items to approve and
+            //shopping cart is no empty then...
+            if (count($quote->getAllItemsCollection()) != 0)
+              //... show notice for customer
+              Mage::getSingleton('checkout/session')
+                ->addNotice($this
+                       ->__('Please, wait for your purchase to be approved.') );
         }
       } else {
         //... else mark all items as approved and remove approval statuses

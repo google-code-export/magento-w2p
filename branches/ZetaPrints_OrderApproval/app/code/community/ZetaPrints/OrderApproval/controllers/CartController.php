@@ -70,6 +70,25 @@ class ZetaPrints_OrderApproval_CartController
     }
   }
 
+  public function _has_not_sent_items ($items) {
+    //For every item in a list...
+    foreach ($items as $item) {
+      //... get info options model
+      $option_model = $item->getOptionByCode('info_buyRequest');
+
+      //Get option values from the model
+      $options = unserialize($option_model->getValue());
+
+      //Check if zetaprints-approval-email-was-sent option doesn't exist or
+      //its value is not true
+      if (!(isset($options['zetaprints-approval-email-was-sent'])
+            && $options['zetaprints-approval-email-was-sent'] == true))
+        return true;
+    }
+
+    return false;
+  }
+
   public function indexAction () {
     $cart = $this->_getCart();
 
@@ -83,6 +102,14 @@ class ZetaPrints_OrderApproval_CartController
         $warning = Mage::getStoreConfig('sales/minimum_order/description');
         $cart->getCheckoutSession()->addNotice($warning);
       }
+
+      //If shopping cart contains items that were not mentioned in approval
+      //e-mails then...
+      if ($this->_has_not_sent_items($cart->getQuote()->getAllItemsCollection()))
+        //show notice to cautomer
+        $cart->getCheckoutSession()->addNotice(
+          $this->__('Approval request for all added items will be sent out when you proceed to checkout.') );
+
     }
 
     foreach ($cart->getQuote()->getMessages() as $message)
