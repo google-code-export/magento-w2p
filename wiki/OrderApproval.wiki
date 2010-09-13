@@ -11,7 +11,7 @@ http://create.ly/gbvkju1s1?a=b.png
 
 = Approval status for cart item =
 Item's option 'additional_options' was used to save and show approval status for an item.
-This options are showed in Product name column on shopping cart page.
+These options are displayed in Product name column on shopping cart page.
 
 See '_add_notice_to_approved_item' method code in [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php] file and code in [https://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php] file.
 
