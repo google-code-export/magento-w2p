@@ -16,6 +16,8 @@ jQuery.fn.resizer = function($){
     // add a handle
     me.after(
       $('<div class="zp-resize-handle" id="handle_'+id+'" unselectable="on"></div>').bind('mousedown', function(e) {
+	tmp_val = me.val();
+	me.val(tmp_val);
         // onMouseDown
         $('body').css('-webkit-user-select','none');
         div.css('z-index',1000);
@@ -28,7 +30,7 @@ jQuery.fn.resizer = function($){
 	if(glob_x == -1) glob_x = x;
 	if(glob_x > x) glob_x = x;
 
-        // onMouseMove
+	// onMouseMove
         var moveHandler = function(e){
           if(me.attr('tagName').toUpperCase()=='TEXTAREA')
             me.css('height',Math.max(h,(e.pageY + height - y)));
