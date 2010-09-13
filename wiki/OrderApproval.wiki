@@ -28,7 +28,9 @@ Step 3: Select newly created template in System -> Configuration -> Sales Emails
 Both Order Approval and web-to-print extensions support each other out of the box. 
 
 =  Total removal of extension =
-Separate uninstallation script will be provided later.
+  * Remove extension via Magento's ConnectManager
+  * Copy [http://magento-w2p.googlecode.com/svn/branches/ZetaPrints_OrderApproval/uninstall/uninstall.php uninstall.php] file to your Magento installation
+  * Point browser to uninstall.php file in your Magento installation
 
 = Added or changed M. files =
 The extension adds several files (no one was changed) to base theme, such as additional layout and template files to checkout module, some widget templates from admin theme and adds e-mail templates.
