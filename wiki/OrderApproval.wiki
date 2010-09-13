@@ -25,7 +25,11 @@ Step 2: Give a name for a new template. Edit its subject and content. After it p
 Step 3: Select newly created template in System -> Configuration -> Sales Emails -> Order Approval Tab from a list.
 
 = How to make it work with M. web-to-print extension =
-Both Order Approval and web-to-print extensions support each other out of the box. 
+Both Order Approval and web-to-print extensions support each other out of the box.
+
+In OrderApproval extension there's a check for exist of helper function for displaying proper shopping cart item images from web-to-print extension.
+
+Links to JavaScript and CSS resource files were added into layout file from web-to-print's zptheme to enable additional features on approver UI pages.
 
 =  Total removal of extension =
   * Remove extension via Magento's ConnectManager
