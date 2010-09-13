@@ -26,9 +26,27 @@ class ZetaPrints_OrderApproval_OnepageController
 
           $items_to_approve = array();
 
+          //Filter unapproved items which were not mentioned in previous e-mails
+          //For every item in the quote...
           foreach ($quote->getAllItemsCollection() as $item)
-            if (!$item->getApproved())
+            //... check that it is not approved alred then...
+            if (!$item->getApproved()) {
+              //... get info options model
+              $option_model = $item->getOptionByCode('info_buyRequest');
+
+              //Get option values from the model
+              $options = unserialize($option_model->getValue());
+
+              //Check if zetaprints-approval-email-was-sent option exists and
+              //has true value then...
+              if (isset($options['zetaprints-approval-email-was-sent'])
+                  && $options['zetaprints-approval-email-was-sent'] == true)
+                //... pass the item.
+                continue;
+
+              //Add unapproved item to the list for further processing
               $items_to_approve[] = $item;
+            }
 
           if (count($items_to_approve)) {
             foreach ($items_to_approve as $item) {
@@ -79,6 +97,23 @@ class ZetaPrints_OrderApproval_OnepageController
                 'number_of_items' => count($items_to_approve),
                 'approver_fullname' => $approver_fullname,
                 'customers_shopping_cart_url' => $cart_url ));
+
+            //If e-mail was sent sucessfully then...
+            if ($email_template->getSentSuccess())
+              //.. for every item from the list...
+              foreach ($items_to_approve as $item) {
+                //... get info options model
+                $option_model = $item->getOptionByCode('info_buyRequest');
+
+                //Get option values from the model
+                $options = unserialize($option_model->getValue());
+
+                //Set zetaprints-approval-email-was-sent option to true
+                $options['zetaprints-approval-email-was-sent'] = true;
+
+                //Save options model
+                $option_model->setValue(serialize($options))->save();
+              }
           }
 
           if (count($quote->getAllItemsCollection()) != 0
