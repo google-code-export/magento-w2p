@@ -113,3 +113,18 @@ body {
 #fancy_content {
   cursor: auto;
 }
+
+#infoBar td {
+  color: white;
+  font-size: 12px;
+}
+
+#infoBar #imageEditorWidthInfo {
+  min-width: 30px;
+  color: black;
+}
+
+#infoBar #imageEditorHeightInfo {
+  min-width: 30px;
+  color: black;
+}

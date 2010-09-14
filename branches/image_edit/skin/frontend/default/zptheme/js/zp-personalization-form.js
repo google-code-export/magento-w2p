@@ -437,7 +437,7 @@ function personalization_form () {
               showImageEditMenu($(this));
               return false; //block the links
             });
-            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu', tr).bind('blur', function() {
+            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu', tr).bind('focusout', function() {
               var thisObj = $(this);
               window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
             });
@@ -704,7 +704,7 @@ function personalization_form () {
   	);
     return false; //block the links
   });
-  $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('blur', function() {
+  $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('focusout', function() {
     var thisObj = $(this);
     window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
   });

@@ -11,7 +11,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorCrop () {
     imageEditorHideCrop();
-    showImageEditorTooltip('Select visible part to crop image');
+    showImageEditorTooltip('Select visible part');
     imageEditorJcropApi = $.Jcrop('#userImagePreview');
     imageEditorJcropApi.setOptions( {
       onSelect: imageEditorUpdateCropCoords,
@@ -61,7 +61,7 @@ jQuery(document).ready(function ($) {
     _cropVisualAssistant.updateInfoBar(c.w, c.h);
     _cropVisualAssistant.updateView([c.x, c.y, c.x2, c.y2]);
 
-    imageEditorAdjustSize();
+    setTimeout(imageEditorAdjustSize, 100);
   }
 
   /**
@@ -314,11 +314,6 @@ jQuery(document).ready(function ($) {
   function getEditAndSaveInfoBar()
   {
     return $(
-      '<STYLE type="text/css">' +
-        '#infoBar td {color:white; font-size: 12px;}' +
-        '#infoBar #imageEditorWidthInfo {min-width: 30px; color:black;}' +
-        '#infoBar #imageEditorHeightInfo {min-width: 30px; color:black;}' +
-      '</STYLE>' +
       '<TABLE id="infoBar"><TR>' +
       '<TD>' + zetaprints_trans('W:') + '</TD><TD id="imageEditorWidthInfo"></TD>' +
       '<TD>' + zetaprints_trans('H:') + '</TD><TD id="imageEditorHeightInfo"></TD>' +

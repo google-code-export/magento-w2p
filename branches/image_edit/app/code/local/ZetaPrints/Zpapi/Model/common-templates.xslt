@@ -252,7 +252,7 @@
                           </xsl:call-template>
                         </div></div>
                       </a>
-                      <a class="edit-dialog edit-menuroot" href="javascript:void(1)">
+                      <a class="edit-dialog edit-menuroot" href="javascript:void(0);">
                         <div class="edit-button"></div>
                       </a>
                       <a class="delete-button" href="javascript:void(1)">
