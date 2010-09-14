@@ -29,13 +29,13 @@ Both Order Approval and web-to-print extensions support each other out of the bo
 
 Support code is split into two parts.
 
-One part from OrderApproval extension checks an existence of a web-to-print helper class. The helper class exists then web-to-print extension has been installed already. OrderApproval extension uses the helper class to display previews from web-to-print order on approval UI pages if the check was successful.
+One part from the OrderApproval extension checks if a web-to-print helper class exists. If it does exist, then the web-to-print extension has been installed already and OrderApproval extension uses the helper class to display previews from web-to-print orders on approval UI pages.
 
 Another part of support code from web-to-print extension adds resource files (JS and CSS) to approval UI pages in zptheme layout file.
 
 =  Total removal of extension =
   * Remove extension via Magento's ConnectManager
-  * Copy [http://magento-w2p.googlecode.com/svn/branches/ZetaPrints_OrderApproval/uninstall/uninstall.php uninstall.php] file to a root of your M. installation.
+  * Copy [http://magento-w2p.googlecode.com/svn/branches/ZetaPrints_OrderApproval/uninstall/uninstall.php uninstall.php] file to the root folder of your M. installation.
   Note: change including path at the beginning of the script if you copied it into another directory or a subdirectory of M. installation.
   * Point browser to uninstall.php file from your M. installation
 
