@@ -557,7 +557,10 @@ jQuery(document).ready(function($) {
     else
       $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
-    if (!isset($options['zetaprints-order-id']))
+    //Check for ZetaPrints Template ID in item options
+    //If it doesn't exist or product doesn't have web-to-print features then...
+    if (!isset($options['zetaprints-TemplateID']))
+      //... just return from the function.
       return;
 
     //Check that downloading generated files is allowed for users
@@ -597,10 +600,14 @@ jQuery(document).ready(function($) {
         $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
       }
 
-    if (!$item) {
+    //Check if the item is not null (it means the function was called from admin
+    //interface) and ZetaPrints Order ID option is in the item then...
+    if (!$item && isset($options['zetaprints-order-id') {
+      //... create URL to order details on web-to-print site
       $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
         . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
 
+      //Display it on the page
       $webtoprint_links .=" <a target=\"_blank\" href=\"{$zp_order_url}\">ZP order</a>";
     }
 
