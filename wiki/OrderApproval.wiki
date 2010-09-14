@@ -27,9 +27,11 @@ Step 3: Select your newly created template in System -> Configuration -> Sales E
 = How to make it work with M. web-to-print extension =
 Both Order Approval and web-to-print extensions support each other out of the box.
 
-In OrderApproval extension there's a check for exist of helper function for displaying proper shopping cart item images from web-to-print extension.
+Support code is split into two parts.
 
-Links to JavaScript and CSS resource files were added into layout file from web-to-print's zptheme to enable additional features on approver UI pages.
+One part from OrderApproval extension checks an existence of a web-to-print helper class. The helper class exists then web-to-print extension has been installed already. OrderApproval extension uses the helper class to display previews from web-to-print order on approval UI pages if the check was successful.
+
+Another part of support code from web-to-print extension adds resource files (JS and CSS) to approval UI pages in zptheme layout file.
 
 =  Total removal of extension =
   * Remove extension via Magento's ConnectManager
