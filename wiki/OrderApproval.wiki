@@ -1,10 +1,10 @@
 #summary Order Approval extension description
 
-Order Approval extension allows to organize approval process in Magento shop. Approval process is managed by approvers (a customer with enabled approver role) who are setted by administrator. Also, administrator should set approvers for each customer whose orders need approval.
+Order Approval extension allows organizing a approval process in Magento shop. Approval process is managed by approvers (a customer with enabled approver role) who are set by the administrator. Also, administrator should set approvers for each customer whose orders need approval.
 
-Approval process sits between customer's shopping cart and checkout process. It means that customer able to add any number products to a shopping cart, delete and modify them in the cart any time without any restrictions. But the same time he can not check out products from the cart while they are not approved.
+Approval process sits between customer's shopping cart and the checkout process. It means that customers are able to add any number of products into their shopping cart, delete and modify them at any time without any restrictions, but they can not checkout products from the cart before they are approved.
 
-Every time customer tries to check out his shopping cart, the customer's approver receives notification about unapproved products in the customer's shopping cart. Approver can use link from the e-mail to reach order approval UI where he able to approve customer's products. Customer can check status of approval for every products in his shopping cart and is allowed to check out already approved products from the cart.
+When customers try to checkout their shopping cart, the customer's approver receives a notification about unapproved products in the customer's shopping cart. Approver can use the link from the e-mail to reach order approval UI and approve customer's products. Customers can check approval status for every product in their shopping cart and are allowed to checkout items that have already been approved.
 
 == Approval process workflow ==
 http://create.ly/gbvkju1s1?a=b.png
@@ -15,14 +15,14 @@ These options are displayed in Product name column on shopping cart page.
 
 See '_add_notice_to_approved_item' method code in [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php] file and code in [https://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php] file.
 
-= How to create a custom email =
-There's an e-mail template editor in M. admin interface (System -> Transactional Emails). There administrators can create new e-mail templates based on original M. templates.
+= How to create a custom notification email =
+There's an e-mail template editor in M. admin interface (System -> Transactional Emails). Administrators can create new e-mail templates based on original M. templates.
 
-Step 1: Press Add New Template button. Select 'New items to approve' template from list. Select a locale you want to use new template in. Press Load Template button to load content of the template for father editing.
+Step 1: Press Add New Template button. Select 'New items to approve' template from list. Select a locale you want to use the new template in. Press Load Template button to load content of the template for further editing.
 
-Step 2: Give a name for a new template. Edit its subject and content. After it press Save Template button.
+Step 2: Input a name for the new template. Edit its subject and content. When done, press Save Template button.
 
-Step 3: Select newly created template in System -> Configuration -> Sales Emails -> Order Approval Tab from a list.
+Step 3: Select your newly created template in System -> Configuration -> Sales Emails -> Order Approval Tab from a list.
 
 = How to make it work with M. web-to-print extension =
 Both Order Approval and web-to-print extensions support each other out of the box.
@@ -37,7 +37,7 @@ Links to JavaScript and CSS resource files were added into layout file from web-
   * Point browser to uninstall.php file in your Magento installation
 
 = Added or changed M. files =
-The extension adds several files (no one was changed) to base theme, such as additional layout and template files to checkout module, some widget templates from admin theme and adds e-mail templates.
+The extension adds several files (none are changed) to base theme, such as additional layout and template files to checkout module, some widget templates from admin theme and adds e-mail templates.
 
 List of added files:
   * Files from [http://code.google.com/p/magento-w2p/source/browse/#svn/branches/ZetaPrints_OrderApproval/app/design/frontend/base/default/layout/checkout app/design/frontend/base/default/layout/checkout/] directory
