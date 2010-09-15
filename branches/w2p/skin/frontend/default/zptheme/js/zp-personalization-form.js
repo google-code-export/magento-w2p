@@ -1,6 +1,46 @@
 function personalization_form () {
   var $ = jQuery;
 
+  function load_template_image_settings(image_name) {
+    image_name = unescape(image_name);
+
+    //default value for JCrop
+    image_aspectRatio = [0,0];
+    image_imageName = image_name;
+
+    $.each(images, function() {
+      var image = $(this);
+      if (image[0][image_name] != undefined) {
+        var image_dimensions = image[0][image_name];
+        image_aspectRatio = [image_dimensions['width'], image_dimensions['height']];
+      }
+    })
+  }
+  
+  function show_image_edit_dialog(image_name, iframe_src, userImageThumb) {
+    load_template_image_settings(image_name);
+
+    userImageThumbSelected = userImageThumb
+
+    //open a modal window with editor pictures
+    $.fancybox({
+      'padding': 0,
+      'titleShow': false,
+      'type': 'iframe',
+      'href': iframe_src,
+      'hideOnOverlayClick': false,
+      'hideOnContentClick': false,
+      'centerOnScroll': false,
+      'showNavArrows': false
+    });
+  }
+
+  function swapMetadata() {
+    var _metadata = $('#' + $(this).val()).data('metadata');
+    _metadata = (_metadata==null) ? '' : _metadata;
+    document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
+  }
+
   function scroll_strip(panel) {
     if ($(panel).hasClass('images-scroller')) {
       $(panel).scrollLeft(0);
@@ -206,8 +246,8 @@ function personalization_form () {
   }
 
   function update_preview (event, preserve_fields) {
-    $('div.zetaprints-preview-button span.text').css('display', 'inline');
-    $('img.ajax-loader').css('display', 'inline');
+    $('div.zetaprints-preview-button span.text, ' +
+      'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
     var update_preview_button = $('button.update-preview').hide();
 
@@ -293,7 +333,10 @@ function personalization_form () {
           //.. remove over-image spinner
           $('div#zetaprints-first-preview-update-spinner').remove();
 
-        $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
+        $('div.zetaprints-preview-button span.text, ' +
+          'div.zetaprints-preview-button img.ajax-loader')
+            .css('display', 'none');
+
         $(update_preview_button).show(); }
     });
 
@@ -323,6 +366,7 @@ function personalization_form () {
         var upload_div = $(this._button).parents('div.upload');
         $('div.button.choose-file', upload_div).removeClass('disabled');
         $('div.button.upload-file', upload_div).addClass('disabled');
+        $('input.file-name', upload_div).val('');
 
         if (response == 'Error') {
           $('img.ajax-loader', upload_div).hide();
@@ -332,8 +376,6 @@ function personalization_form () {
 
         var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
 
-        $('input.file-name', upload_div).val('');
-
         response = response.split(';');
 
         var trs = $('div.zetaprints-page-stock-images div.tab.user-images table tr');
@@ -341,20 +383,25 @@ function personalization_form () {
         var number_of_loaded_imgs = 0;
 
         $(trs).each(function () {
-          var name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
+          var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
-          var td = $('<td><input type="radio" name="zetaprints-#' + name
-            + '" value="' + response[0]
-            + '" /><a class="edit-dialog" href="' + response[1]
-            + 'target="_blank"><img src="' + response[2]
-            + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
-            + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
+          var td = $('<td>'
+                   + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
+                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
+                   + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
+                   + '<div style="float:right;">'
+                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '" style="float:left">'
+                   + '<div class="edit-button">' + edit_button_text + '</div></a>'
+                   + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
+                   + '</div>').prependTo(this);
 
           $('input:radio', td).change(image_field_select_handler);
 
           var tr = this;
 
           $('img', td).load(function() {
+
+            var userImageThumb = $(this);
 
             //If a field the image was uploaded into is not current image field
             if ($(this).parents('div.selector-content').attr('id') != upload_field_id) {
@@ -364,13 +411,12 @@ function personalization_form () {
               $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
             }
 
-            $('a.edit-dialog', tr).fancybox({
-              'padding': 0,
-              'titleShow': false,
-              'type': 'iframe',
-              'hideOnOverlayClick': false,
-              'hideOnContentClick': false,
-              'centerOnScroll': false });
+            $('a.edit-dialog', tr).click(function() {
+              show_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
+
+              //block the links
+              return false;
+            });
 
             $('a.delete-button', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
@@ -400,6 +446,8 @@ function personalization_form () {
               $(upload_div).parents('div.selector-content').tabs('select', 1);
             }
           });
+
+          $('input[type=radio]', td).click(swapMetadata);
         });
       }
     });
@@ -412,6 +460,7 @@ function personalization_form () {
         $('img.ajax-loader', upload_div).hide();
         $('div.button.choose-file', upload_div).removeClass('disabled');
         $('div.button.upload-file', upload_div).addClass('disabled');
+        $('input.file-name', upload_div).val('');
       }
     });
   })
@@ -551,15 +600,16 @@ function personalization_form () {
   });
 
   $('a.zetaprints-template-preview').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
+    'transitionIn': 'elastic',
+    'speedIn': 500,
+    'speedOut' : 500,
     'titleShow': false,
+    'hideOnContentClick': true,
+    'showNavArrows': false,
     'onComplete': function () {
-      $('img#fancy_img').attr('title', click_to_close_text);
+      $('img#fancybox-img').attr('title', click_to_close_text);
 
       if (!(shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
@@ -591,22 +641,20 @@ function personalization_form () {
     } });
 
   $('a.in-dialog').fancybox({
-    'zoomOpacity': true,
+    'opacity': true,
     'overlayShow': false,
-    'centerOnScroll': false,
-    'zoomSpeedChange': 200,
-    'zoomSpeedIn': 500,
-    'zoomSpeedOut' : 500,
-    'titleShow': false,
-    'callbackOnShow': function () { $('img#fancy_img').attr('title', click_to_close_text); } });
+    'transitionIn': 'elastic',
+    'changeSpeed': 200,
+    'speedIn': 500,
+    'speedOut' : 500,
+    'titleShow': false });
 
-  $('a.edit-dialog').fancybox({
-    'padding': 0,
-    'titleShow': false,
-    'type': 'iframe',
-    'hideOnOverlayClick': false,
-    'hideOnContentClick': false,
-    'centerOnScroll': false });
+  $('a.edit-dialog').click(function() {
+  	show_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
+
+    //block the links
+    return false;
+  });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
@@ -654,6 +702,8 @@ function personalization_form () {
       });
     }
   });
+
+  $('input.zetaprints-images').click(swapMetadata);
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
