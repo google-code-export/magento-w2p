@@ -602,7 +602,7 @@ jQuery(document).ready(function($) {
 
     //Check if the item is not null (it means the function was called from admin
     //interface) and ZetaPrints Order ID option is in the item then...
-    if (!$item && isset($options['zetaprints-order-id') {
+    if (!$item && isset($options['zetaprints-order-id'])) {
       //... create URL to order details on web-to-print site
       $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
         . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
