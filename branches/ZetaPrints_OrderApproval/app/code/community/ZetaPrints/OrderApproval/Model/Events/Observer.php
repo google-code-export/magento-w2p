@@ -54,6 +54,40 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     //Recalculate quote total and save the quote.
     $quote->collectTotals()->save();
   }
+
+  public function check_for_not_sent_items ($observer) {
+    //Get customer session
+    $customer_session = Mage::getSingleton('customer/session');
+
+    //Check if customer is logged
+    if (!$customer_session->isLoggedIn())
+      return;
+
+    //Get customer object from the session
+    $customer = $customer_session->getCustomer();
+
+    //Check if customer object was loaded already
+    if (!$customer->getId())
+      return;
+
+    //Check if customer has approver
+    if (!($customer->hasApprover() && $customer->getApprover()))
+      return;
+
+    //Get cart contoller
+    $controller = $observer->getEvent()->getControllerAction();
+
+    //Get cart object
+    $cart = Mage::getSingleton('checkout/cart');
+
+    //If shopping cart contains items that were not mentioned in approval
+    //e-mails then...
+    if ($controller->_has_not_sent_items($cart->getQuote()->getAllItemsCollection()))
+      //show notice to cautomer
+      $cart->getCheckoutSession()->addNotice(
+        $controller
+          ->__('Approval request for all added items will be sent out when you proceed to checkout.') );
+  }
 }
 
 ?>
