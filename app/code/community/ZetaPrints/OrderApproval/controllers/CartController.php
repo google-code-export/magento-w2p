@@ -102,14 +102,6 @@ class ZetaPrints_OrderApproval_CartController
         $warning = Mage::getStoreConfig('sales/minimum_order/description');
         $cart->getCheckoutSession()->addNotice($warning);
       }
-
-      //If shopping cart contains items that were not mentioned in approval
-      //e-mails then...
-      if ($this->_has_not_sent_items($cart->getQuote()->getAllItemsCollection()))
-        //show notice to cautomer
-        $cart->getCheckoutSession()->addNotice(
-          $this->__('Approval request for all added items will be sent out when you proceed to checkout.') );
-
     }
 
     foreach ($cart->getQuote()->getMessages() as $message)

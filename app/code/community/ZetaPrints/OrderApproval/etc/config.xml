@@ -75,6 +75,16 @@
         </observers>
       </checkout_cart_product_add_after>
 
+      <controller_action_predispatch_checkout_cart_index>
+        <observers>
+          <orderapproval-check-for-not-sent-items>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>check_for_not_sent_items</method>
+          </orderapproval-check-for-not-sent-items>
+        </observers>
+      </controller_action_predispatch_checkout_cart_index>
+
       <!-- For compatibility with M. verion < 1.4.1.0 -->
       <!--<sales_model_service_quote_submit_success>-->
       <sales_model_service_quote_submit_after>
