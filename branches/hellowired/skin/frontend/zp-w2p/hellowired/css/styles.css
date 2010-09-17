@@ -964,7 +964,7 @@ f/********** Product Prices > */
 /* Product Images */
 .product-view .product-img-box { float:left;width: 265px;}
 .col3-layout .product-view .product-img-box { float:none; margin:0 auto; }
-.product-view .product-img-box .product-image { margin:0 0 10px; border:1px solid #cacaca; }
+.product-view .product-img-box .product-image { margin:0 0 10px; }
 .product-view .product-img-box .product-image-zoom { position:relative; width:350px; height:320px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
 .product-view .product-img-box .zoom-notice { margin:0 0 10px; text-align:center; }
@@ -1763,3 +1763,8 @@ html[xmlns] .clearfix {
 
     
 /* ======================================================================================= */
+
+span.zetaprints-share-link.show input {
+  display:inline;
+  width:20%;
+}
