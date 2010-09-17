@@ -1,0 +1,6 @@
+.zp-resize-handle {
+  background: url('../images/handle_r.gif') center no-repeat;
+  margin-left:100%;
+  left:-4px;
+  cursor: se-resize;
+}
