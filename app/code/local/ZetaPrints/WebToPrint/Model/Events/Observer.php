@@ -118,6 +118,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       if (!$template->getId()) return;
 
       $xml = new SimpleXMLElement($template->getXml());
+
+      unset($template);
     }
 
     //Trying to remove images which no longer exist in template
@@ -140,7 +142,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       foreach ($xml->Pages[0]->Page as $page) {
         $image_id = basename((string)$page['PreviewImage']);
 
-        if (strpos(basename($image['file']), 'zetaprints_' . $image_id))
+        if (strpos(basename($image['file']), "zetaprints_{$image_id}"))
           break;
 
         $image['removed'] = 1;
@@ -166,7 +168,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       }
 
     $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-    $gallery = $attributes['media_gallery'];
+    $gallery_backend = $attributes['media_gallery']->getBackend();
+    unset($attributes);
 
     foreach ($xml->Pages[0]->Page as $page) {
       $image_id = basename((string)$page['PreviewImage']);
@@ -181,13 +184,18 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
       if ($image_exists) break;
 
-      $client = new Varien_Http_Client(Mage::getStoreConfig('zpapi/settings/w2p_url') . '/' . (string)$page['PreviewImage']);
-      $response = $client->request()->getHeaders();
+      $client = new Varien_Http_Client(
+                                  Mage::getStoreConfig('zpapi/settings/w2p_url')
+                                  . '/'
+                                  . (string)$page['PreviewImage']);
 
       $filename = Mage::getBaseDir('var') . "/tmp/zetaprints_{$image_id}";
+
       file_put_contents($filename, $client->request()->getBody());
 
-      $file = $gallery->getBackend()->addImage($product, $filename, null, true);
+      unset($client);
+
+      $file = $gallery_backend->addImage($product, $filename, null, true);
 
       $data = array('label' => (string)$page['Name']);
 
@@ -202,8 +210,13 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       } else
         $data['exclude'] = 0;
 
-      $gallery->getBackend()->updateImage($product, $file, $data);
+      $gallery_backend->updateImage($product, $file, $data);
+
+      unset($data);
     }
+
+    unset($gallery_backend);
+    unset($xml);
   }
 
   public function specify_option_message ($observer) {

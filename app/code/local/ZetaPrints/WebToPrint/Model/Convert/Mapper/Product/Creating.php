@@ -10,32 +10,46 @@ if (!defined('ZP_API_VER')) {
 class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_Dataflow_Model_Convert_Mapper_Abstract {
 
   public function map () {
-
     //Always print debug information. Issue #80
     $this->debug = true;
 
+    //Get all web-to-print templates
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
+    //Get all products
+    $products = Mage::getModel('catalog/product')
+                  ->getCollection()
+                  ->addAttributeToSelect('webtoprint_template')
+                  ->load();
+
+    //If there're products then...
+    if ($has_products = (bool) count($products)) {
+      //... create array to store used web-to-print template GUIDs
+      $used_templates = array();
+
+      //For every product...
+      foreach($products as $product) {
+        //... remember its ID
+        $used_templates[$product->getId()] = null;
+
+        //And if it has web-to-print attribute set then...
+        if($product->hasWebtoprintTemplate() && $product->getWebtoprintTemplate())
+          //... also remember the value of the attribute
+          $used_templates[$product->getWebtoprintTemplate()] = null;
+      }
+    }
+
+    unset($products);
+
     foreach ($templates as $template) {
-      $product_model = Mage::getModel('catalog/product');
-
-      if ($product_id = $product_model->getIdBySku($template->getGuid())) {
-        $this->debug("Product {$template->getGuid()} already exists");
-        continue;
-      }
-      else {
-        $products = $product_model->getCollection()->addAttributeToFilter('webtoprint_template', array('eq' => $template->getGuid()))->load();
-
-        if (count($products) === 1) {
+      if ($has_products)
+        if (array_key_exists($template->getGuid(), $used_templates)) {
           $this->debug("Product {$template->getGuid()} already exists");
+
           continue;
         }
 
-        if (($number = count($products)) > 1) {
-          $this->warning("Template {$template->getGuid()} is used by {$number} products");
-          continue;
-        }
-      }
+      $product_model = Mage::getModel('catalog/product');
 
       if (Mage::app()->isSingleStoreMode())
         $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
@@ -50,8 +64,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
         ->setShortDescription($template->getDescription())
         ->setVisibility(0)
         ->setRequiredOptions(true)
-        ->setWebtoprintTemplate($template->getGuid())
-        ->save();
+        ->setWebtoprintTemplate($template->getGuid());
+
+      $product_model->save();
 
       $stock_item = Mage::getModel('cataloginventory/stock_item');
 
@@ -61,6 +76,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
         ->save();
 
       $this->debug("Product for template {$template->getGuid()} was created.");
+
+      unset($product_model);
+      unset($stock_item);
     }
 
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
