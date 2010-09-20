@@ -11,5 +11,5 @@
 <!-- Show web-to-print previews only then web-to-print extension is installed
      and product has web-to-print features -->
 <?php if(!($helper && $helper->get_cart_image($this))): ?>
-  <img src="<?php echo $this->getImageUrl(); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($this->getAltText()); ?>" />
+  <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
 <?php endif; ?>
