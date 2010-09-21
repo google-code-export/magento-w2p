@@ -157,17 +157,28 @@ div.images-scroller img {
 }
 
 div.edit-dialog-context-menu {
-  position:relative;
-  top:-55px;
+  position: relative;
+  visibility: hidden;
+  top: -56px;
   width: 70px;
-  height: 51px;
+  height: 33px;
+  float: right;
+  z-index: 1051;
+  clear: both;
+}
+div.edit-dialog-context-menu-root {
+  position: relative;
+  top: -55px;
+  width: 34px;
+  height: 17px;
   float: right;
   z-index: 1050;
+  clear: both;
 }
 
-div.edit-dialog-context-menu div.edit-button {
-  cursor:pointer;
-  height:16px;
+div.edit-dialog-context-menu div.edit-button, div.edit-dialog-context-menu-root div.edit-button {
+  cursor: pointer;
+  height: 16px;
   width: 100%;
   background:#5284C2;
   color:#FFFFFF;
@@ -176,8 +187,7 @@ div.edit-dialog-context-menu div.edit-button {
 }
 
 div.edit-dialog-context-menu a.edit-submenu {
-  visibility: hidden;
-  position:relative;
+  position: relative;
   display: block;
   height:16px;
   margin: 0 0 1px 0;
@@ -190,7 +200,7 @@ div.edit-dialog-context-menu a.edit-submenu div div {
   padding: 0 5px 0 5px;
 }
 
-div.edit-dialog-context-menu a.edit-menuroot {
+div.edit-dialog-context-menu-root a.edit-menuroot {
   position:absolute;
   cursor:pointer;
   right: 18px;
@@ -201,13 +211,13 @@ div.edit-dialog-context-menu a.edit-menuroot {
   text-decoration:none;
   margin: 0;
 }
-div.edit-dialog-context-menu a.edit-menuroot div {
+div.edit-dialog-context-menu-root a.edit-menuroot div {
   width: 16px;
   padding: 0;
   background: url(../images/image-edit/thumb_contextmenuroot_closed.gif) 5px 6px no-repeat #5284C2;
 }
 
-div.edit-dialog-context-menu div.delete-button {
+div.edit-dialog-context-menu-root div.delete-button {
   position:absolute;
   cursor:pointer;
   right: 1px;

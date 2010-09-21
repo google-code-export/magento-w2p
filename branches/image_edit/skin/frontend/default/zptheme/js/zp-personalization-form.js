@@ -667,28 +667,27 @@ function personalization_form () {
     'titleShow': false
   });
 
-  function showImageEditMenu(_menuRootElement, _forceHide)
+  function showImageEditMenu(_eventElement, _forceHide)
   {
     var currentMenuRootElement = null;
-    if ($('div', _menuRootElement).length>0) {
-      currentMenuRootElement = $('div', _menuRootElement);
+    if ($('div', _eventElement).length>0) {
+      currentMenuRootElement = $('div', _eventElement);
     } else {
-      currentMenuRootElement = $('a.edit-menuroot > div', _menuRootElement.next('.edit-dialog-context-menu'));
+      currentMenuRootElement = $('div.edit-dialog-context-menu-root div.edit-button', _eventElement.parents('td'))
     }
 
     var backgroundImage = currentMenuRootElement.css('backgroundImage');
     var backgroundImage_closed = backgroundImage.replace('_opened', '_closed');
     var backgroundImage_opened = backgroundImage.replace('_closed', '_opened');
 
-    $('a.edit-submenu', _menuRootElement.parent()).each(function(){
-      if ($(this).css('visibility')=='hidden' && !_forceHide) {
-        $(this).css({visibility: 'visible'});
-        currentMenuRootElement.css('backgroundImage', backgroundImage_opened);
-      } else {
-        $(this).css({visibility: 'hidden'});
-        currentMenuRootElement.css('backgroundImage', backgroundImage_closed);
-      }
-    });
+    var currentContextMenu = $('div.edit-dialog-context-menu', _eventElement.parents('td'));
+    if (currentContextMenu.css('visibility')=='hidden' && !_forceHide) {
+      currentContextMenu.css({visibility: 'visible'});
+      currentMenuRootElement.css('backgroundImage', backgroundImage_opened);
+    } else {
+      currentContextMenu.css({visibility: 'hidden'});
+      currentMenuRootElement.css('backgroundImage', backgroundImage_closed);
+    }
   }
 
   $('a.edit-menuroot, a.edit-dialog-img').click(function() {
@@ -707,6 +706,7 @@ function personalization_form () {
   $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu').bind('focusout', function() {
     var thisObj = $(this);
     window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
+    return false;
   });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({

@@ -219,7 +219,7 @@
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog-img" href="{@edit-link}" target="_blank" name="{../@Name}">
+                    <a class="edit-dialog-img" href="{@edit-link}" target="_blank" name="{../@Name}" tabindex="-1">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
@@ -234,7 +234,7 @@
                             <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
                           </xsl:call-template>
                         </xsl:attribute>
-                        <div class="edit-button"><div>
+                        <div class="edit-button" tabindex="-1"><div>
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Edit &amp; save</xsl:with-param>
                           </xsl:call-template>
@@ -246,13 +246,15 @@
                             <xsl:with-param name="key">Fit in field</xsl:with-param>
                           </xsl:call-template>
                         </xsl:attribute>
-                        <div class="edit-button"><div>
+                        <div class="edit-button" tabindex="-1"><div>
                           <xsl:call-template name="trans">
                             <xsl:with-param name="key">Fit in field</xsl:with-param>
                           </xsl:call-template>
                         </div></div>
                       </a>
-                      <a class="edit-dialog edit-menuroot" href="javascript:void(0);">
+                    </div>
+                    <div class="edit-dialog-context-menu-root">
+                      <a class="edit-dialog edit-menuroot" href="javascript:void(0);" tabindex="-1">
                         <div class="edit-button"></div>
                       </a>
                       <a class="delete-button" href="javascript:void(1)">
