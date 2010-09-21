@@ -96,18 +96,6 @@ Users without a nominated approver can check out as usual.
 
             </dir>
 
-            <dir name="Widget">
-              <dir name="Grid">
-                <dir name="Column">
-
-                  <dir name="Renderer">
-                    <file name="Image.php" role="magecommunity" />
-                  </dir>
-
-                </dir>
-              </dir>
-            </dir>
-
             <file name="Cart.php" role="magecommunity" />
           </dir>
 
