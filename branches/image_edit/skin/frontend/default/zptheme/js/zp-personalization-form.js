@@ -435,11 +435,11 @@ function personalization_form () {
               showImageEditDialog(image_name, $(this).attr('href'), userImageThumb, $(this).hasClass('fit-in-field'));
               return false; //block the links
             });
-            $('a.edit-menuroot, a.edit-dialog-img', tr).click(function() {
+            $('a.edit-menuroot, a.edit-dialog-img', td).click(function() {
               showImageEditMenu($(this));
               return false; //block the links
             });
-            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu', tr).bind('focusout', function() {
+            $('a.edit-menuroot, a.edit-dialog-img, a.edit-submenu', td).bind('focusout', function() {
               var thisObj = $(this);
               window.setTimeout(function(){showImageEditMenu(thisObj, true)}, 300);
             });
@@ -681,6 +681,8 @@ function personalization_form () {
     var backgroundImage = currentMenuRootElement.css('backgroundImage');
     var backgroundImage_closed = backgroundImage.replace('_opened', '_closed');
     var backgroundImage_opened = backgroundImage.replace('_closed', '_opened');
+    
+    // if (!_forceHide) alert(currentMenuRootElement[0].tagName + ', ' + currentMenuRootElement[0].className + ', ' + backgroundImage)
 
     var currentContextMenu = $('div.edit-dialog-context-menu', _eventElement.parents('td'));
     if (currentContextMenu.css('visibility')=='hidden' && !_forceHide) {
