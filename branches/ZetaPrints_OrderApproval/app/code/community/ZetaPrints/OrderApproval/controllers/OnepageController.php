@@ -115,27 +115,50 @@ class ZetaPrints_OrderApproval_OnepageController
                 $option_model->setValue(serialize($options))->save();
               }
 
+              //Show notice for customer about sending request to approver
+              Mage::getSingleton('checkout/session')
+                ->addNotice($this->__('Approval request sent to')
+                                                . ' ' . $approver->getEmail() );
+
+              //If there're both approved and not approved items in the cart
+              //then...
+              if (count($quote->getItemsCollection())
+                  && $unapproved_items_number =
+                      count($quote->getAllItemsCollection())
+                        - count($quote->getItemsCollection()))
+                //...display notice about number of unapproved items
+                //in customer's cart
+                Mage::getSingleton('checkout/session')->addNotice(
+                    $unapproved_items_number . $this
+                    ->__(' unapproved item(s) remain in your shopping cart.') );
+
               //If there's only unapproved items in the cart then...
               if (count($quote->getAllItemsCollection())
                                                   == count($items_to_approve)) {
-                //... show notice for customer
-                Mage::getSingleton('checkout/session')
-                  ->addNotice($this->__('Approval request sent to')
-                                                . ' ' . $approver->getEmail() );
-                //and redirect to shopping cart page
+                //... redirect to shopping cart page
                 $this->_redirect('checkout/cart');
 
                 return;
               }
             }
           } else
-            //else if there's no items to approve and
-            //shopping cart is no empty then...
-            if (count($quote->getAllItemsCollection()) != 0)
+            //else if there's no items to approve without sent emails and
+            //shopping cart is empty then...
+            if (!count($quote->getItemsCollection()))
               //... show notice for customer
               Mage::getSingleton('checkout/session')
                 ->addNotice($this
                        ->__('Please, wait for your purchase to be approved.') );
+            else
+              // else if there's unapproved items then...
+              if ($unapproved_items_number =
+                    count($quote->getAllItemsCollection())
+                      - count($quote->getItemsCollection()))
+                //...display notice about number of unapproved items
+                //in customer's cart
+                Mage::getSingleton('checkout/session')
+                  ->addNotice($unapproved_items_number . $this
+                    ->__(' unapproved item(s) remain in your shopping cart.') );
         }
       } else {
         //... else mark all items as approved and remove approval statuses
