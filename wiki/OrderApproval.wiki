@@ -37,7 +37,12 @@ Another part of support code from web-to-print extension adds resource files (JS
   * Remove extension via Magento's ConnectManager
   * Copy [http://magento-w2p.googlecode.com/svn/branches/ZetaPrints_OrderApproval/uninstall/uninstall.php uninstall.php] file to the root folder of your M. installation.
   Note: change including path at the beginning of the script if you copied it into another directory or a subdirectory of M. installation.
+
+  Examples:
+    * If you copied script into 'media/' subdirectory of M. installation then change include path to '../app/Mage.php' in the script.
+    * If you copied script into 'media/tmp/' subdirectory (or another subdirectory of 'media/' directory) hen change include path to '../../app/Mage.php' in the script.
   * Point browser to uninstall.php file from your M. installation
+  * Remove the script from your M. installation.
 
 = Added or changed M. files =
 The extension adds several files (none are changed) to base theme, such as additional layout and template files to checkout module, some widget templates from admin theme and adds e-mail templates.
