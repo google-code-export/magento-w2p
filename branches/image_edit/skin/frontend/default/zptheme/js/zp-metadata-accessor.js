@@ -1,17 +1,20 @@
 /**
  * Class for storing any number of keys and values in specified html input element
- * @attr: _storageInputElement - html input element
+ *
+ * @attr: _storageElement - element for storing metadata
+ * @attr: _productFormInput - html input element
  */
-function metadataAccessor (_storageInputElement)
+function metadataAccessor (_storageElement, _productFormInput)
 {
   /*
    * Constructor
    */
-  this.metadataAccessor = function(_storageInputElement)
+  this.metadataAccessor = function(_storageElement, _productFormInput)
   {
-    this._storageInputElement = _storageInputElement
+    this._storageElement = _storageElement;
+    this._productFormInput = _productFormInput;
   }
-  this.metadataAccessor(_storageInputElement);
+  this.metadataAccessor(_storageElement, _productFormInput);
 
   /*
    * Restore metadata from the storage,
@@ -19,11 +22,8 @@ function metadataAccessor (_storageInputElement)
    */
   this.restoreFromStorage = function()
   {
-    var _metadata = parent.userImageThumbSelected.data('metadata');
-    //@todo: remove in production
-    // alert(_metadata + ', ' + top.userImageThumbSelected.attr('src'))
+    var _metadata = this._storageElement.data('metadata');
     var _key_val_pairs = (_metadata==null) ? [] : _metadata.split(';');
-    // var _key_val_pairs = this._storageInputElement.value.split(';');
     for (var _i in _key_val_pairs) {
       [_key, _val] = _key_val_pairs[_i].split('=');
       this.setProperty(_key, _val);
@@ -39,16 +39,16 @@ function metadataAccessor (_storageInputElement)
   {
     var _outArr = [];
     var _j = 0;
-    for(var _i in this) if (typeof(this[_i])!='function' && _i != '_storageInputElement') {
+    for(var _i in this) if (typeof(this[_i])!='function' && _i != '_storageElement' && _i != '_productFormInput') {
       _outArr[_j++] = _i + '=' + this[_i];
     }
     var _metadata = _outArr.join(';');
-    parent.userImageThumbSelected.data('metadata', _metadata);
+    this._storageElement.data('metadata', _metadata);
 
     // also place metadata in product form field for sending it on serverside
     // only if the image edited by user is checked by corresponding radio-button
-    if (jQuery('input[type=radio]', top.userImageThumbSelected.parents('td')).attr('checked') == true) {
-      this._storageInputElement.value = _metadata;
+    if (jQuery('input[type=radio]', this._storageElement.parents('td')).attr('checked') == true) {
+      this._productFormInput.value = _metadata;
     }
   }
 
@@ -57,8 +57,10 @@ function metadataAccessor (_storageInputElement)
    */
   this.clearAll = function()
   {
-    top.userImageThumbSelected.data('metadata', null);
-    this._storageInputElement.value = '';
+    this._storageElement.data('metadata', null);
+    if (jQuery('input[type=radio]', this._storageElement.parents('td')).attr('checked') == true) {
+      this._productFormInput.value = '';
+    }
   }
 
   /*

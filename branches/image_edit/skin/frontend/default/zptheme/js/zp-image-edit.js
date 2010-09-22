@@ -6,6 +6,11 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
+  var _metadataAccessor = new metadataAccessor(
+    top.userImageThumbSelected,
+    parent.document.getElementById('zetaprints-' + top.image_imageName)
+  );
+
   /**
    * Initialize Jcrop api
    */
@@ -85,9 +90,13 @@ jQuery(document).ready(function ($) {
   	var width = Number($('#userImagePreview').width());
     var height = Number($('#userImagePreview').height());
 
-    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
-    ma.restoreFromStorage();
-    var cropMetadata = [Math.round(ma.getProperty('cr-x1') * width), Math.round(ma.getProperty('cr-y1') * height), Math.round(ma.getProperty('cr-x2') * width), Math.ceil(ma.getProperty('cr-y2') * height)];
+    _metadataAccessor.restoreFromStorage();
+    var cropMetadata = [
+      Math.round(_metadataAccessor.getProperty('cr-x1') * width),
+      Math.round(_metadataAccessor.getProperty('cr-y1') * height),
+      Math.round(_metadataAccessor.getProperty('cr-x2') * width),
+      Math.ceil(_metadataAccessor.getProperty('cr-y2') * height)
+    ];
 
     return cropMetadata;
   }
@@ -104,22 +113,18 @@ jQuery(document).ready(function ($) {
     var cr_y1 = $('#imageEditorCropY').val() / height;
     var cr_y2 = $('#imageEditorCropY2').val() / height;
 
-    var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
-    ma.setProperty('cr-x1', cr_x1);
-    ma.setProperty('cr-x2', cr_x2);
-    ma.setProperty('cr-y1', cr_y1);
-    ma.setProperty('cr-y2', cr_y2);
-    ma.setProperty('img-id', imageEditorId);
-    ma.storeAll();
+    _metadataAccessor.setProperty('cr-x1', cr_x1);
+    _metadataAccessor.setProperty('cr-x2', cr_x2);
+    _metadataAccessor.setProperty('cr-y1', cr_y1);
+    _metadataAccessor.setProperty('cr-y2', cr_y2);
+    _metadataAccessor.setProperty('img-id', imageEditorId);
+    _metadataAccessor.storeAll();
   }
 
   function clearCropMetadata() {
-    //@todo: remove in production ver
-    // var ma = new metadataAccessor(parent.document.getElementById('zetaprints-' + top.image_imageName));
-    // ma.clearAll();
+    _metadataAccessor.clearAll();
     // _cropVisualAssistant.cropedAreaRemove();
-    
-    // alert(_cropVisualAssistant.getUserImageThumbGuid());
+
     $('.' + _cropVisualAssistant.getUserImageThumbGuid(), $(parent.document)).each(function(){
       $(this).data('metadata', null);
       $(this).prev('div.thumbCropedAreaToolSet').remove();
@@ -148,7 +153,7 @@ jQuery(document).ready(function ($) {
   /**
    * Perform image restore
    */
-  function imageEditorRestore () {
+  function imageEditorRestore() {
     imageEditorHideCrop();
     clearCropMetadata();
     parent.jQuery.fancybox.showActivity();
@@ -169,7 +174,7 @@ jQuery(document).ready(function ($) {
   /**
    * Initial image load
    */
-  function imageEditorLoadImage () {
+  function imageEditorLoadImage() {
     parent.jQuery.fancybox.showActivity();
     $.ajax({
       url: imageEditorUpdateURL + '?page=img-props' + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
@@ -189,7 +194,7 @@ jQuery(document).ready(function ($) {
   /**
    * Perform image rotate
    */
-  function imageEditorDoRotate (dir) {
+  function imageEditorDoRotate(dir) {
     imageEditorHideCrop();
     clearCropMetadata();
     parent.jQuery.fancybox.showActivity();
@@ -279,7 +284,7 @@ jQuery(document).ready(function ($) {
   /**
    * Perform image delete
    */
-  function imageEditorDelete (){
+  function imageEditorDelete() {
     if (confirm(zetaprints_trans('Delete this image?'))){
       $.ajax({
         url: imageEditorUpdateURL + '?page=img-del' + imageEditorDelimeter + imageEditorDelimeter + 'ImageID=' + imageEditorId + imageEditorQueryAppend,
