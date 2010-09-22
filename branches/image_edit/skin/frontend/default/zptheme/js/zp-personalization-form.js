@@ -671,18 +671,11 @@ function personalization_form () {
 
   function showImageEditMenu(_eventElement, _forceHide)
   {
-    var currentMenuRootElement = null;
-    if ($('div', _eventElement).length>0) {
-      currentMenuRootElement = $('div', _eventElement);
-    } else {
-      currentMenuRootElement = $('div.edit-dialog-context-menu-root div.edit-button', _eventElement.parents('td'))
-    }
+    var currentMenuRootElement = $('div.edit-dialog-context-menu-root div.edit-button', _eventElement.parents('td'));
 
     var backgroundImage = currentMenuRootElement.css('backgroundImage');
     var backgroundImage_closed = backgroundImage.replace('_opened', '_closed');
     var backgroundImage_opened = backgroundImage.replace('_closed', '_opened');
-    
-    // if (!_forceHide) alert(currentMenuRootElement[0].tagName + ', ' + currentMenuRootElement[0].className + ', ' + backgroundImage)
 
     var currentContextMenu = $('div.edit-dialog-context-menu', _eventElement.parents('td'));
     if (currentContextMenu.css('visibility')=='hidden' && !_forceHide) {
