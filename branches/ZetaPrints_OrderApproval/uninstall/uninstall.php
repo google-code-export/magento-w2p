@@ -8,7 +8,7 @@ umask(0);
 Mage::app('default');
 
 //Get setup model
-$setup = Mage::getModel('eav/entity_setup',  'core');
+$setup = Mage::getModel('eav/entity_setup',  'core_setup');
 
 $setup->startSetup();
 
