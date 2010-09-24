@@ -40,7 +40,7 @@ Another part of support code from web-to-print extension adds resource files (JS
 
   Examples:
     * If you copied script into 'media/' subdirectory of M. installation then change include path to '../app/Mage.php' in the script.
-    * If you copied script into 'media/tmp/' subdirectory (or another subdirectory of 'media/' directory) hen change include path to '../../app/Mage.php' in the script.
+    * If you copied script into 'media/tmp/' subdirectory (or another subdirectory of 'media/' directory) then change include path to '../../app/Mage.php' in the script.
   * Point browser to uninstall.php file from your M. installation
   * Remove the script from your M. installation.
 
