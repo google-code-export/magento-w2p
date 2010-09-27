@@ -43,7 +43,7 @@ Magento's ConnectManager doesn't support roll-back of DB changes and removing cu
     * If you copied script into 'media/' subdirectory of M. installation then change include path to '../app/Mage.php' in the script.
     * If you copied script into 'media/tmp/' subdirectory (or another subdirectory of 'media/' directory) then change include path to '../../app/Mage.php' in the script.
 
-  In most cases there's URL re-writes (re-directs) in root directory of M. installation. So, scripts from root directory are not available. The easiest workaround is to copy the script into directory without re-writes (re-directs) from  M. installation, e.g. 'media/' directory. And fix include path in the script as described above.
+  In most cases, there are URL re-writes (re-directs) in root directory of M. installation. So, scripts from root directory are not available. The easiest workaround is to copy the script into a directory without re-writes (re-directs), e.g. 'media/' directory and fix include path in the script as described above.
 
   * Point browser to uninstall.php file from your M. installation
   * Remove the script from your M. installation.
