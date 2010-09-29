@@ -1,11 +1,11 @@
 <?php
-  try {
-    //Trying to load helper from web-to-print extension
-    //We need to show real previews for web-to-print item
+  //Trying to load helper from web-to-print extension
+  //We need to show real previews for web-to-print item
+  if (Mage::getConfig()->getHelperClassName('webtoprint/personalization-form')
+      === 'ZetaPrints_WebToPrint_Helper_PersonalizationForm')
     $helper = $this->helper('webtoprint/personalization-form');
-  } catch (Exception $e) {
+  else
     $helper = null;
-  }
 ?>
 
 <!-- Show web-to-print previews only then web-to-print extension is installed
