@@ -1,6 +1,6 @@
 #summary Order Approval extension description
 
-Order Approval extension allows organizing a approval process in Magento shop. Approval process is managed by approvers (a customer with enabled approver role) who are set by the administrator on 'Customer details' page in Magento admin panel. Also, administrator should set approvers for each customer whose orders need approval.
+Order Approval extension allows organizing a approval process in Magento shop. Approval process is managed by approvers (a customer with enabled approver role) who are set by the administrator on 'Customer details' page in Magento admin panel. The administrator should also assign one of those nominated approvers for each customer whose orders need approval.
 
 Approval process sits between customer's shopping cart and the checkout process. It means that customers are able to add any number of products into their shopping cart, delete and modify them at any time without any restrictions, but they can not checkout products from the cart before they are approved.
 
@@ -20,7 +20,9 @@ There's an e-mail template editor in M. admin interface (System -> Transactional
 
 Step 1: Press Add New Template button. Select 'New items to approve' template from list. Select a locale you want to use the new template in. Press Load Template button to load content of the template for further editing.
 
-Step 2: Input a name for the new template. Edit its subject and content. When done, press Save Template button.
+Step 2: Input a name for the new template. Edit its subject and content. 
+Note. Input your store URL before {{var customers_shopping_cart_url}} to ensure approvers get a direct link to the approval UI.
+When done, press Save Template button.
 
 Step 3: Select your newly created template in System -> Configuration -> Sales Emails -> Order Approval Tab from a list.
 
@@ -34,7 +36,7 @@ One part from the OrderApproval extension checks if a web-to-print helper class 
 Another part of support code from web-to-print extension adds resource files (JS and CSS) to approval UI pages in zptheme layout file.
 
 =  Total removal of extension =
-Magento's ConnectManager doesn't support roll-back of DB changes and removing custom attributes added by the extension. Do the following instructions to completely remove the extension:
+Magento's ConnectManager doesn't support roll-back of DB changes and removing custom attributes added by the extension. Follow these instructions to completely remove the extension:
   * Remove extension via Magento's ConnectManager
   * Copy [http://magento-w2p.googlecode.com/svn/branches/ZetaPrints_OrderApproval/uninstall/uninstall.php uninstall.php] file to the root folder of your M. installation.
   Note: change including path at the beginning of the script if you copied it into another directory or a subdirectory of M. installation.
