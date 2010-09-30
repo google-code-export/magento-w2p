@@ -5,11 +5,15 @@
   * Point product links in cart to already personalized products (issue #277)
   * Show arrows in fancybox all the time (issue #276)
   * Make all spinners in same color in zptheme (issue #255)
+  * Memory consumption and speed improvements in product creation profile (issue #283)
   * Add support for ZetaPrints OrderApproval extension
+  * Update jQuery UI library to 1.8.5 release
   * Bug fixes (issue #252, issue #278)
 
 == Release comments ==
-Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif] file into your custom theme's image directory if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme)
+Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
+ * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif] file into your custom theme's image directory
+ * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js] file  into your custom theme's js directory and remove 'jquery-ui-1.8.custom.min.js' file from it.
 
 = Stable release (1.8.2.4) =
   * Bug fixes (issue #270, issue #262)
