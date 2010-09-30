@@ -26,12 +26,7 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
       $data = array(
         'id' => $item->getId(),
-        'thumbnail'=> array('url' => Mage::helper('catalog/image')
-                              ->init($item->getProduct(), 'thumbnail')
-                              ->resize(75),
-                            'alt' => $item->getProduct()->getName(),
-                            'item' => $item),
-        'item' => $item);
+        'item' => $item );
 
       $collection->addItem(new Varien_Object($data));
     }
@@ -45,7 +40,7 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
       'renderer' => 'orderapproval/cart_edit_grid_column_renderer_image',
       'width'     => '80',
       'align'     => 'center',
-      'index'     => 'thumbnail',
+      'index'     => 'item',
       'sortable'  => false,
     ));
 
