@@ -17,18 +17,18 @@
 Another useful extension by web-to-print and dynamic imaging guys.
 It's in an early stage yet, but we are working on it. Watch this space.
 
-
 How it works
 
 Nominate one approver per user.
 
 Any purchases made by a user with an approver have to go through
-an additional approval step. Any items can be added to cart, but only approved
-items can be checked out.
+an additional approval step. Any items can be added to cart, but only
+approved items can be checked out.
 
-When a user tried to check out a shopping cart it checks for any new unapproved
-items and sends an email to the nominated approver. The approver can log in,
-view the list of items and then either approve or cancel the purchase.
+When a user tried to check out a shopping cart it checks
+for any new unapproved items and sends an email to the nominated approver.
+The approver can log in, view the list of items and then either approve or
+cancel the purchase.
 
 Users without a nominated approver can check out as usual.
   </description>
@@ -40,21 +40,21 @@ Users without a nominated approver can check out as usual.
     <active>yes</active>
   </lead>
 
-  <date>2010-09-03</date>
+  <date>2010-10-01</date>
 
   <version>
-    <release>0.1.0.0beta1</release>
-    <api>0.1.0.0beta1</api>
+    <release>0.1.0.0</release>
+    <api>0.1.0.0</api>
   </version>
 
   <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>Beta 1</notes>
+  <notes>First stable release</notes>
 
   <contents>
 
