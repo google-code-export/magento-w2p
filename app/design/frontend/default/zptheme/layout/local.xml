@@ -52,10 +52,10 @@
       <block type="page/html" name="root" output="toHtml" template="image-edit/edit.phtml">
         <block type="page/html_head" name="head" as="head" template="image-edit/head.phtml">
           <action method="addItem"><type>skin_js</type><name>js/jquery-1.4.2.min.js</name></action>
-          <action method="addItem"><type>skin_js</type><name>js/jquery-jcrop.min.js</name></action>
+          <action method="addItem"><type>skin_js</type><name>js/jquery-jcrop-0.9.8.js</name></action>
           <action method="addItem"><type>skin_js</type><name>js/zp-image-edit.js</name></action>
 
-          <action method="addItem"><type>skin_css</type><name>css/jquery.jcrop.css</name></action>
+          <action method="addItem"><type>skin_css</type><name>css/jquery-jcrop-0.9.8.css</name></action>
           <action method="addItem"><type>skin_css</type><name>css/jquery.fancybox-1.3.1.css</name></action>
           <action method="addItem"><type>skin_css</type><name>css/zp-image-edit.css</name></action>
         </block>
