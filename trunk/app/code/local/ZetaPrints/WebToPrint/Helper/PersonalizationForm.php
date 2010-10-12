@@ -759,11 +759,20 @@ jQuery(document).ready(function($) {
 
     if ($xml) {
       $template_details = zetaprints_parse_template_details($xml);
+      $pages = array();
       $shapes = array();
       $images = array();
 
       foreach ($template_details['pages'] as $page_number => $page_details)
       {
+        $page_attributes = array();
+
+        foreach ($page_details as $key => $value)
+          if (!is_array($value))
+            $page_attributes[$key] = $value;
+
+        $pages[$page_number] = $page_attributes;
+
         if (isset($page_details['shapes']))
           $shapes[$page_number] = $page_details['shapes'];
 
@@ -771,6 +780,7 @@ jQuery(document).ready(function($) {
           $images[$page_number] = $page_details['images'];
       }
 
+      $pages = count($pages) ? json_encode($pages) : json_encode(false);
       $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
       $images = count($images) ? json_encode($images) : json_encode(false);
     }
@@ -806,6 +816,7 @@ jQuery(document).ready(function($) {
 //<![CDATA[
 
 // Global vars go here
+var pages = <?php echo $pages; ?>;
 var shapes = <?php echo $shapes; ?>;
 var image_aspectRatio = [0,0];  //default values for image edit dialog box
 var image_imageName = '';  //currently edited template image
