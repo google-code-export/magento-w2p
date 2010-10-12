@@ -812,7 +812,9 @@ function zetaprints_parse_template_details ($xml) {
       'name' => (string) $page['Name'],
       'preview-image' => (string) $page['PreviewImage'],
       'thumb-image' => (string) $page['ThumbImage'],
-      'updated-preview-image' => (string) $page['PreviewImageUpdated'] );
+      'updated-preview-image' => (string) $page['PreviewImageUpdated'],
+      'width-in' => (string) $page['WidthIn'],
+      'height-in' => (string) $page['HeightIn'] );
 
     if ($page->Shapes) {
       $template['pages'][$page_number]['shapes'] = array();
@@ -824,7 +826,8 @@ function zetaprints_parse_template_details ($xml) {
           'y1' => (float) $shape['Y1'],
           'x2' => (float) $shape['X2'],
           'y2' => (float) $shape['Y2'],
-        );
+          'anchor-x' => (float) $shape['AnchorX'],
+          'anchor-y' => (float) $shape['AnchorY'] );
       }
     }
 
@@ -842,6 +845,8 @@ function zetaprints_parse_template_details ($xml) {
                             ? (bool) $image['AllowUpload'] : false,
       'allow-url' => isset($image['AllowUrl'])
                             ? (bool) $image['AllowUrl'] : false,
+      'clipped' => isset($image['Clipped'])
+                            ? (bool) $image['Clipped'] : false,
       //We get lowercase GUID in value for user images.
       //Convert to uppercase while the issue will be fixed in ZP side
       'value' => strtoupper((string) $image['Value']) );
