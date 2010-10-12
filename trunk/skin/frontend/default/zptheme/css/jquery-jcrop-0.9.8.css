@@ -1,0 +1,78 @@
+/* Fixes issue here http://code.google.com/p/jcrop/issues/detail?id=1 */
+.jcrop-holder {
+  text-align: left;
+  overflow: hidden;
+ }
+
+.jcrop-vline, .jcrop-hline
+{
+  font-size: 0;
+  position: absolute;
+  background: black url('Jcrop.gif') top left repeat;
+}
+.jcrop-vline { height: 100%; width: 1px !important; }
+.jcrop-hline { width: 100%; height: 1px !important; }
+.jcrop-handle, .ui-resizable-handle {
+  font-size: 1px;
+  width: 7px !important;
+  height: 7px !important;
+  border: 1px red solid;
+  background-color: #999;
+  *width: 9px;
+  *height: 9px;
+}
+
+.jcrop-tracker { width: 100%; height: 100%; }
+
+.custom .jcrop-vline,
+.custom .jcrop-hline
+{
+  background: yellow;
+}
+.custom .jcrop-handle
+{
+  border-color: black;
+  background-color: #C7BB00;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.ui-wrapper {
+  position: relative;
+  background-color: black;
+  overflow: visible !important;
+}
+
+.ui-draggable {
+  cursor: move;
+}
+
+.ui-resizable-handle {
+  border: 1px yellow solid;
+  background-color: #999;
+  position: absolute;
+}
+
+.ui-resizable-nw {
+  top: -4px;
+  left: -4px;
+  cursor: nw-resize;
+}
+
+.ui-resizable-ne {
+  top: -4px;
+  right: -4px;
+  cursor: ne-resize;
+}
+
+.ui-resizable-se {
+  bottom: -4px;
+  right: -4px;
+  cursor: se-resize;
+}
+
+.ui-resizable-sw {
+  bottom: -4px;
+  left: -4px;
+  cursor: sw-resize;
+}
