@@ -798,7 +798,7 @@ function zetaprints_parse_template_details ($xml) {
                                   ? (bool) $xml['GenerateGifPng'] : false );
 
   if (!$xml->Pages->Page) {
-    zetaprints_debug("No pages in tempalate [$template_guid]");
+    zetaprints_debug("No pages in tempalate [{$template['guid']}]");
 
     return $template;
   }
