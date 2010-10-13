@@ -1,46 +1,6 @@
 function personalization_form () {
   var $ = jQuery;
 
-  function load_template_image_settings(image_name) {
-    image_name = unescape(image_name);
-
-    //default value for JCrop
-    image_aspectRatio = [0,0];
-    image_imageName = image_name;
-
-    $.each(images, function() {
-      var image = $(this);
-      if (image[0][image_name] != undefined) {
-        var image_dimensions = image[0][image_name];
-        image_aspectRatio = [image_dimensions['width'], image_dimensions['height']];
-      }
-    })
-  }
-  
-  function show_image_edit_dialog(image_name, iframe_src, userImageThumb) {
-    load_template_image_settings(image_name);
-
-    userImageThumbSelected = userImageThumb
-
-    //open a modal window with editor pictures
-    $.fancybox({
-      'padding': 0,
-      'titleShow': false,
-      'type': 'iframe',
-      'href': iframe_src,
-      'hideOnOverlayClick': false,
-      'hideOnContentClick': false,
-      'centerOnScroll': false,
-      'showNavArrows': false
-    });
-  }
-
-  function swapMetadata() {
-    var _metadata = $('#' + $(this).val()).data('metadata');
-    _metadata = (_metadata==null) ? '' : _metadata;
-    document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
-  }
-
   function scroll_strip(panel) {
     if ($(panel).hasClass('images-scroller')) {
       $(panel).scrollLeft(0);
@@ -349,24 +309,19 @@ function personalization_form () {
     var uploader = new AjaxUpload(this, {
       name: 'customer-image',
       action: upload_controller_url,
-      autoSubmit: true,
+      autoSubmit: false,
       onChange: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
         $('input.file-name', upload_div).val(file);
+        $('div.button.upload-file', upload_div).removeClass('disabled');
       },
       onSubmit: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
-        $('div.button.choose-file', upload_div).addClass('disabled');
-        $('div.button.upload-file', upload_div).removeClass('disabled');
+        $('div.button.upload-file', upload_div).addClass('disabled');
         $('img.ajax-loader', upload_div).show();
-	this.disable();
       },
       onComplete: function (file, response) {
-	this.enable();
         var upload_div = $(this._button).parents('div.upload');
-        $('div.button.choose-file', upload_div).removeClass('disabled');
-        $('div.button.upload-file', upload_div).addClass('disabled');
-        $('input.file-name', upload_div).val('');
 
         if (response == 'Error') {
           $('img.ajax-loader', upload_div).hide();
@@ -375,6 +330,8 @@ function personalization_form () {
         }
 
         var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
+
+        $('input.file-name', upload_div).val('');
 
         response = response.split(';');
 
@@ -385,23 +342,18 @@ function personalization_form () {
         $(trs).each(function () {
           var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
-          var td = $('<td>'
-                   + '<input type="radio" name="zetaprints-#' + image_name + '" value="' + response[0] + '" class="zetaprints-images" />'
-                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '">'
-                   + '<img src="' + response[2] + '" id="' + response[0] + '" /></a> '
-                   + '<div style="float:right;">'
-                   + '<a class="edit-dialog" href="' + response[1] + '" target="_blank" rel="' + response[0] + '" style="float:left">'
-                   + '<div class="edit-button">' + edit_button_text + '</div></a>'
-                   + '<a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a>'
-                   + '</div>').prependTo(this);
+          var td = $('<td><input type="radio" name="zetaprints-#' + image_name
+            + '" value="' + response[0]
+            + '" /><a class="edit-dialog" href="' + response[1]
+            + 'target="_blank"><img src="' + response[2]
+            + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
+            + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
 
           $('input:radio', td).change(image_field_select_handler);
 
           var tr = this;
 
           $('img', td).load(function() {
-
-            var userImageThumb = $(this);
 
             //If a field the image was uploaded into is not current image field
             if ($(this).parents('div.selector-content').attr('id') != upload_field_id) {
@@ -411,12 +363,13 @@ function personalization_form () {
               $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
             }
 
-            $('a.edit-dialog', tr).click(function() {
-              show_image_edit_dialog(image_name, $(this).attr('href'), userImageThumb);
-
-              //block the links
-              return false;
-            });
+            $('a.edit-dialog', tr).fancybox({
+              'padding': 0,
+              'titleShow': false,
+              'type': 'iframe',
+              'hideOnOverlayClick': false,
+              'hideOnContentClick': false,
+              'centerOnScroll': false });
 
             $('a.delete-button', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
@@ -446,22 +399,13 @@ function personalization_form () {
               $(upload_div).parents('div.selector-content').tabs('select', 1);
             }
           });
-
-          $('input[type=radio]', td).click(swapMetadata);
         });
       }
     });
 
     $('div.button.upload-file', $(this).parent()).click(function () {
-      if (!$(this).hasClass('disabled')){
-        uploader.cancel();
-	uploader.enable();
-        var upload_div = $(uploader._button).parents('div.upload');
-        $('img.ajax-loader', upload_div).hide();
-        $('div.button.choose-file', upload_div).removeClass('disabled');
-        $('div.button.upload-file', upload_div).addClass('disabled');
-        $('input.file-name', upload_div).val('');
-      }
+      if (!$(this).hasClass('disabled'))
+        uploader.submit();
     });
   })
 
@@ -649,12 +593,13 @@ function personalization_form () {
     'speedOut' : 500,
     'titleShow': false });
 
-  $('a.edit-dialog').click(function() {
-  	show_image_edit_dialog($(this).attr('name'), $(this).attr('href'), $('#' + $(this).attr('rel')));
-
-    //block the links
-    return false;
-  });
+  $('a.edit-dialog').fancybox({
+    'padding': 0,
+    'titleShow': false,
+    'type': 'iframe',
+    'hideOnOverlayClick': false,
+    'centerOnScroll': true,
+    'showNavArrows': false });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
@@ -702,8 +647,6 @@ function personalization_form () {
       });
     }
   });
-
-  $('input.zetaprints-images').click(swapMetadata);
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
