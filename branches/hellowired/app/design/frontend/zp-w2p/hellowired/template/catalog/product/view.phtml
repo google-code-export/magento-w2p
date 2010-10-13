@@ -89,7 +89,7 @@
             <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
 
             <!-- /****** ZP-CODE:2 End ******/ -->
-
+            <?php echo $this->getChildHtml('order_attachement')?>
             <?php if ($_product->getShortDescription()):?>
                 <div class="short-description">
                     <h2><?php echo $this->__('Quick Overview') ?></h2>

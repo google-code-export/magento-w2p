@@ -650,8 +650,6 @@
             var iframe = this._createIframe();
             var form = this._createForm(iframe);
             
-	    this._settings._iframe = iframe;
-	    
             // assuming following structure
             // div -> input type='file'
             removeNode(this._input.parentNode);            
@@ -670,9 +668,6 @@
 
             // get ready for next request            
             this._createInput();
-        },
-	cancel: function(){
-          this._settings._iframe.src = "javascript:'<html></html>';";
-	}
+        }
     };
 })(); 
