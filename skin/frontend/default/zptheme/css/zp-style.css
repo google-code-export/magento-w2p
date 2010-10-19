@@ -162,29 +162,32 @@ div.images-scroller a.edit-dialog {
   text-decoration:none;
 }
 
-div.images-scroller div.edit-button {
-  position:relative;
-  cursor:pointer;
-  float:left;
-  top:-19px;
-  *top:-14px;
-  height:14px;
-  background:#5284C2;
-  margin-right:5px;
-  color:#FFFFFF;
-  font-weight:bold;
-  padding:0 5px;
+div.images-scroller div.buttons-row {
+  position: relative;
+  bottom: 20px;
 }
 
-div.images-scroller div.delete-button {
-  position:relative;
-  cursor:pointer;
-  float:left;
-  top:-19px;
-  *top:-14px;
-  width:16px;
-  height:14px;
-  background:url(../images/images-selector-sprites.png) -222px -23px no-repeat;
+div.images-scroller .button {
+  cursor: pointer;
+  float: right;
+  margin-left: 5px;
+}
+
+div.images-scroller div.button.edit {
+  background: #5284C2;
+  color: #FFFFFF;
+  font-weight: bold;
+  line-height: 15px;
+  padding: 0 4px;
+  margin: 0;
+}
+
+div.images-scroller a.button.delete {
+  display: block;
+  width: 17px;
+  height: 15px;
+  color: transparent;
+  background: url(../images/images-selector-sprites.png) -222px -22px no-repeat;
 }
 
 div.zetaprints-images-selector {
@@ -580,4 +583,24 @@ a#fancybox-left span {
 a#fancybox-right span {
   left: auto;
   right: 20px;
+}
+
+/* Extracted from js code of image_edit branch */
+div.thumbCropedAreaToolSet {
+  position: relative;
+  background-color: black;
+  opacity: .7;
+}
+
+div.thumbCropedAreaToolSet div {
+  position: absolute;
+  overflow: hidden;
+  opacity: 1;
+  backgroud-color: white;
+  width: 100%;
+}
+
+div.thumbCropedAreaToolSet div img {
+  position: absolute;
+  opacity: 1;
 }

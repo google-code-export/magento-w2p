@@ -80,7 +80,7 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-    	<input type="hidden" name="zetaprints-*#{@Name}" value="" id="zetaprints-{@Name}" />
+      <input type="hidden" name="zetaprints-*#{@Name}" value="" id="zetaprints-{@Name}" />
       <div class="zetaprints-images-selector no-value minimized block" rel="zetaprints-#{@Name}">
         <div class="head block-title">
           <a class="image up-down" href="#"><span>
@@ -227,22 +227,30 @@
                       </xsl:attribute>
                       <img src="{@thumbnail}" id="{@guid}" />
                     </a>
-                    <div style="float:right;">
-                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank" rel="{@guid}">
-                      <xsl:attribute name="title">
+                    <div class="buttons-row">
+                      <a class="button delete" href="javascript:void(0)">
+                        <xsl:attribute name="title">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Click to delete</xsl:with-param>
+                          </xsl:call-template>
+                        </xsl:attribute>
+
                         <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Click to edit</xsl:with-param>
+                          <xsl:with-param name="key">Delete</xsl:with-param>
                         </xsl:call-template>
-                      </xsl:attribute>
-                      <div class="edit-button">
+                      </a>
+
+                      <div class="button edit">
+                        <xsl:attribute name="title">
+                          <xsl:call-template name="trans">
+                            <xsl:with-param name="key">Click to edit</xsl:with-param>
+                          </xsl:call-template>
+                        </xsl:attribute>
+
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Edit</xsl:with-param>
                         </xsl:call-template>
                       </div>
-                    </a>
-                    <a class="delete-button" href="javascript:void(1)">
-                      <div class="delete-button"></div>
-                    </a>
                     </div>
                   </td>
                 </xsl:for-each>

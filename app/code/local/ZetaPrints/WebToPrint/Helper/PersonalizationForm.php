@@ -846,13 +846,17 @@ jQuery(document).ready(function($) {
   image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
+  delete_button_text = "<?php echo $this->__('Delete'); ?>";
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
+
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";
+  click_to_delete_text = "<?php echo $this->__('Click to delete'); ?>";
+  click_to_edit_text = "<?php echo $this->__('Click to edit'); ?>";
 
   cant_delete_text = "<?php echo $this->__('Can\'t delete image'); ?>";
   delete_this_image_text = "<?php echo $this->__('Delete this image?'); ?>";
