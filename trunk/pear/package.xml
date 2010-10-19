@@ -390,7 +390,7 @@ Extension developed by http://www.zetaprints.com/
 
               <dir name="image-edit">
                 <file name="crop.png" role="mageskin" />
-                <file name="crop_to_fit.png" role="mageskin" />
+                <file name="fit-to-field-crop-icon.png" role="mageskin" />
                 <file name="delete.png" role="mageskin" />
                 <file name="edit.png" role="mageskin" />
                 <file name="flip_h.png" role="mageskin" />
@@ -403,6 +403,8 @@ Extension developed by http://www.zetaprints.com/
                 <file name="rotate_l.png" role="mageskin" />
                 <file name="rotate_r.png" role="mageskin" />
                 <file name="save.png" role="mageskin" />
+                <file name="infobar_icon_tooltip_red.gif" role="mageskin" />
+                <file name="infobar_icon_tooltip_white.gif" role="mageskin" />
               </dir>
 
               <dir name="media">
@@ -429,6 +431,8 @@ Extension developed by http://www.zetaprints.com/
               <file name="zp-personalization-form.js" role="mageskin" />
               <file name="zp-image-edit.js" role="mageskin" />
               <file name="zp-in-preview-edit.js" role="mageskin" />
+              <file name="zp-crop-visual-assistant.js" role="mageskin" />
+              <file name="zp-metadata-accessor.js" role="mageskin" />
             </dir>
 
             <dir name="layout">

@@ -11,6 +11,46 @@ function personalization_form () {
     return true;
   }
 
+  function load_template_image_settings (image_name) {
+    console.log(image_name);
+    image_name = unescape(image_name);
+
+    //default value for JCrop
+    image_aspectRatio = [0,0];
+    image_imageName = image_name;
+
+    $.each(images, function() {
+      var image = $(this);
+      if (image[0][image_name] != undefined) {
+        var image_dimensions = image[0][image_name];
+        image_aspectRatio = [image_dimensions['width'], image_dimensions['height']];
+      }
+    })
+  }
+
+  function show_image_edit_dialog (image_name, src, thumb) {
+    load_template_image_settings(image_name);
+
+    userImageThumbSelected = thumb
+
+    //open a modal window with editor pictures
+    $.fancybox({
+      'padding': 0,
+      'titleShow': false,
+      'type': 'iframe',
+      'href': src,
+      'hideOnOverlayClick': false,
+      'hideOnContentClick': false,
+      'centerOnScroll': false,
+      'showNavArrows': false });
+  }
+
+  function swap_metadata() {
+    var _metadata = $('img.userImageThumb', $(this).parents('td')).data('metadata');
+    _metadata = (_metadata==null) ? '' : _metadata;
+    document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
+  }
+
   var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
@@ -342,12 +382,22 @@ function personalization_form () {
         $(trs).each(function () {
           var image_name = $('input[name=parameter]', $(this).parents('div.user-images')).val();
 
-          var td = $('<td><input type="radio" name="zetaprints-#' + image_name
-            + '" value="' + response[0]
-            + '" /><a class="edit-dialog" href="' + response[1]
-            + 'target="_blank"><img src="' + response[2]
-            + '" /></a> <div style="float:right;"><a class="edit-dialog" style="float:left" href="'+response[1]
-            + '" target="_blank"><div class="edit-button">' + edit_button_text + '</div></a><a class="delete-button" href="javascript:void(1)"><div class="delete-button"></div></a></div>').prependTo(this);
+          var td = $(
+            '<td>\
+              <input type="radio" name="zetaprints-#' + image_name + '" value="'
+                + response[0] + '" />\
+              <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
+                title="' + click_to_edit_text + '">\
+                <img src="' + response[2] + '" />\
+              </a>\
+              <div class="buttons-row">\
+                <a class="button delete" href="javascript:void(0)"\
+                  title="' + click_to_delete_text + '">' + delete_button_text
+                  + '</a>\
+                <div class="button edit" title="' + click_to_edit_text + '">'
+                  + edit_button_text + '</div>\
+              </div>\
+            </td>').prependTo(this);
 
           $('input:radio', td).change(image_field_select_handler);
 
@@ -363,13 +413,20 @@ function personalization_form () {
               $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
             }
 
-            $('a.edit-dialog', tr).fancybox({
-              'padding': 0,
-              'titleShow': false,
-              'type': 'iframe',
-              'hideOnOverlayClick': false,
-              'hideOnContentClick': false,
-              'centerOnScroll': false });
+            var img = this;
+
+            $('a.edit-dialog, div.button.edit', tr).click(function () {
+              var link = this;
+
+              //If customer clicks on Edit button then...
+              if (this.tagName == 'DIV')
+                //... get link to the image edit dialog and use its attributes
+                var link = $(this).parents('td').children('a');
+
+              show_image_edit_dialog(image_name, $(link).attr('href'), img);
+
+              return false;
+            });
 
             $('a.delete-button', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
@@ -593,13 +650,19 @@ function personalization_form () {
     'speedOut' : 500,
     'titleShow': false });
 
-  $('a.edit-dialog').fancybox({
-    'padding': 0,
-    'titleShow': false,
-    'type': 'iframe',
-    'hideOnOverlayClick': false,
-    'centerOnScroll': true,
-    'showNavArrows': false });
+  $('a.edit-dialog, div.button.edit').click(function() {
+    var link = this;
+
+    //If customer clicks on Edit button then...
+    if (this.tagName == 'DIV')
+      //... get link to the image edit dialog and use its attributes
+      var link = $(this).parents('td').children('a');
+
+    show_image_edit_dialog($(link).attr('name'),
+                           $(link).attr('href'),
+                           $(link).children('img') );
+
+    return false; });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
@@ -647,6 +710,8 @@ function personalization_form () {
       });
     }
   });
+
+  $('input.zetaprints-images').click(swap_metadata);
 
   if (shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
