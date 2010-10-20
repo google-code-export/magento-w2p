@@ -1,5 +1,26 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Future stable release (1.8.4.0) =
+== Issues ==
+  * New fit-to-field feature in image editor dialog
+
+== Release comments ==
+Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/app/design/frontend/default/zptheme/layout/local.xml] file to your custom theme's _layout_ directory or copy its content into _local.xml_ file, if you already have one.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/image-edit/edit.phtml app/design/frontend/default/zptheme/template/image-edit/edit.phtml] file into _image-edit_ directory in your custom theme's template directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css skin/frontend/default/zptheme/css/zp-style.css] file into your custom theme's CSS directory.
+  * Copy [https://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery-jcrop-0.9.8.css skin/frontend/default/zptheme/css/jquery-jcrop-0.9.8.css] file into your custom theme's JS directory and remove _jquery.jcrop.css_ from it.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/jquery-jcrop-0.9.8.js skin/frontend/default/zptheme/js/jquery-jcrop-0.9.8.js] file into your custom theme's JS directory and remove _jquery-jcrop.min.js_ from it.
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-image-edit.js skin/frontend/default/zptheme/js/zp-image-edit.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-metadata-accessor.js skin/frontend/default/zptheme/js/zp-metadata-accessor.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-personalization-form.js skin/frontend/default/zptheme/js/zp-personalization-form.js] file into your custom theme's JS directory.
+  * Remove _crop_to_fit.png_ file from _image-edit_ directory in your custom theme's image directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/fit-to-field-crop-icon.png skin/frontend/default/zptheme/images/image-edit/fit-to-field-crop-icon.png] file into _image-edit_ directory in your custom theme's image directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif] file into _image-edit_ directory in your custom theme's image directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif] file into _image-edit_ directory in your custom theme's image directory.
+
 = Stable release (1.8.3.0) =
 == Issues ==
   * Point product links in cart to already personalized products (issue #277)
@@ -12,8 +33,8 @@
 
 == Release comments ==
 Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
- * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif] file into your custom theme's image directory
- * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js] file  into your custom theme's js directory and remove 'jquery-ui-1.8.custom.min.js' file from it.
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif] file into your custom theme's image directory
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js] file  into your custom theme's js directory and remove 'jquery-ui-1.8.custom.min.js' file from it.
 
 = Stable release (1.8.2.4) =
   * Bug fixes (issue #270, issue #262)
