@@ -200,11 +200,8 @@ jQuery(document).ready(function ($) {
     _metadataAccessor.storeAll();
   }
 
-  function imageEditorApplyImage() {
+  function clearCropMetadata () {
     _metadataAccessor.clearAll();
-    // _cropVisualAssistant.cropedAreaRemove();
-
-    console.log(_cropVisualAssistant.getUserImageThumbGuid());
 
     $('#' + _cropVisualAssistant.getUserImageThumbGuid(), parent.document).each(function(){
       $(this).data('metadata', null);
