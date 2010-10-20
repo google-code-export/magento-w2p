@@ -444,15 +444,19 @@ div.selector-content div.tabs-wrapper div.upload div.button.disabled {
 }
 
 div.selector-content div.tabs-wrapper div.upload div.button.choose-file {
+  background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
+}
+
+div.selector-content div.tabs-wrapper div.upload div.button.choose-file.disabled {
   background: url('../images/images-selector-sprites.png') -115px 0px no-repeat;
 }
 
-div.selector-content div.tabs-wrapper div.upload div.button.upload-file {
-  background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
+div.selector-content div.tabs-wrapper div.upload div.button.cancel-upload {
+  background: url('../images/images-selector-sprites.png') -115px -84px no-repeat;
 }
 
-div.selector-content div.tabs-wrapper div.upload div.button.upload-file.disabled {
-  background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
+div.selector-content div.tabs-wrapper div.upload div.button.cancel-upload.disabled {
+  background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
 }
 
 div.selector-content div.tabs-wrapper div.upload img.ajax-loader {

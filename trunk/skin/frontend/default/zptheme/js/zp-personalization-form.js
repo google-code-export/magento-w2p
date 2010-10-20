@@ -352,19 +352,26 @@ function personalization_form () {
     var uploader = new AjaxUpload(this, {
       name: 'customer-image',
       action: upload_controller_url,
-      autoSubmit: false,
+      autoSubmit: true,
       onChange: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
         $('input.file-name', upload_div).val(file);
-        $('div.button.upload-file', upload_div).removeClass('disabled');
       },
       onSubmit: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
-        $('div.button.upload-file', upload_div).addClass('disabled');
+        $('div.button.choose-file', upload_div).addClass('disabled');
+        $('div.button.cancel-upload', upload_div).removeClass('disabled');
         $('img.ajax-loader', upload_div).show();
+
+        this.disable();
       },
       onComplete: function (file, response) {
+        this.enable();
+
         var upload_div = $(this._button).parents('div.upload');
+        $('div.button.choose-file', upload_div).removeClass('disabled');
+        $('div.button.cancel-upload', upload_div).addClass('disabled');
+        $('input.file-name', upload_div).val('');
 
         if (response == 'Error') {
           $('img.ajax-loader', upload_div).hide();
@@ -373,8 +380,6 @@ function personalization_form () {
         }
 
         var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
-
-        $('input.file-name', upload_div).val('');
 
         response = response.split(';');
 
@@ -463,9 +468,18 @@ function personalization_form () {
       }
     });
 
-    $('div.button.upload-file', $(this).parent()).click(function () {
-      if (!$(this).hasClass('disabled'))
-        uploader.submit();
+    $('div.button.cancel-upload', $(this).parent()).click(function () {
+      if (!$(this).hasClass('disabled')) {
+        uploader.cancel();
+        uploader.enable();
+
+        var upload_div = $(uploader._button).parents('div.upload');
+
+        $('img.ajax-loader', upload_div).hide();
+        $('div.button.choose-file', upload_div).removeClass('disabled');
+        $('div.button.cancel-upload', upload_div).addClass('disabled');
+        $('input.file-name', upload_div).val('');
+      }
     });
   })
 
