@@ -171,6 +171,9 @@ function personalization_form () {
     $('#zetaprints-add-to-cart-button').css('display', 'none');
   }
 
+  $('div.zetaprints-page-input-fields input.input-text,\
+     div.zetaprints-page-input-fields textarea').text_field_resizer();
+
   $('div.zetaprints-image-tabs li').click(function () {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 

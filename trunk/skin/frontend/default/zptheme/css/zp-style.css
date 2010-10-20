@@ -63,8 +63,13 @@ div.zetaprints-page-input-fields.hidden {
 }
 
 /**/
-div.zetaprints-page-input-fields input.input-text, div.zetaprints-page-input-fields textarea {
+div.zetaprints-page-input-fields input.input-text {
   width: 100%;
+}
+
+div.zetaprints-page-input-fields textarea {
+  width: 100%;
+  height: 45px;
 }
 
 /**/
@@ -604,3 +609,27 @@ div.thumbCropedAreaToolSet div img {
   position: absolute;
   opacity: 1;
 }
+
+/* ZetaPrints text field resizer */
+.zp-resize-handle {
+  background: url('../images/zp-input-field-resizer/left-handler.gif') center no-repeat;
+  cursor: sw-resize;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Uncomment following CSS rule to switch to right
+   position of a resizing handler */
+/*.zp-resize-handle {
+  background: url('../images/zp-input-field-resizer/right-handler.gif') center no-repeat;
+  cursor: se-resize;
+  margin-left: 100%;
+  left: -4px;
+  cursor: se-resize;
+}*/
+
