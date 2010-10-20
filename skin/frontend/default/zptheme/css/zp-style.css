@@ -203,7 +203,7 @@ div.zetaprints-images-selector {
 
 div.zetaprints-images-selector.expanded {
   position: relative;
-  z-index: 1; /* Used to place expanded box upper then preview image */
+  z-index: 1; /* Used to place expanded box upper than preview image */
 }
 
 div.zetaprints-images-selector a.image {
