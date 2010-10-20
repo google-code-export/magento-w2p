@@ -199,7 +199,7 @@
                     <xsl:with-param name="key">Choose file</xsl:with-param>
                   </xsl:call-template>
                 </span></div>
-                <div class="button upload-file disabled"><span>
+                <div class="button cancel-upload disabled"><span>
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">Upload file</xsl:with-param>
                   </xsl:call-template>
