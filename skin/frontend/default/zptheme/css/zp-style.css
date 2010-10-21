@@ -193,6 +193,7 @@ div.images-scroller a.button.delete {
   height: 15px;
   color: transparent;
   background: url(../images/images-selector-sprites.png) -222px -22px no-repeat;
+  font-size: 0; /* IE do not understand 'color: transparent' rule above */
 }
 
 div.zetaprints-images-selector {
