@@ -8,7 +8,7 @@
 {
   font-size: 0;
   position: absolute;
-  background: black url('Jcrop.gif') top left repeat;
+  background: white url('Jcrop.gif') top left repeat;
 }
 .jcrop-vline { height: 100%; width: 1px !important; }
 .jcrop-hline { width: 100%; height: 1px !important; }
@@ -16,8 +16,8 @@
   font-size: 1px;
   width: 7px !important;
   height: 7px !important;
-  border: 1px red solid;
-  background-color: #999;
+  border: 1px solid white;
+  background-color: #93b4df;
   *width: 9px;
   *height: 9px;
 }
@@ -37,6 +37,12 @@
   -webkit-border-radius: 3px;
 }
 
+.jcrop-tracker.jcrop-frame {
+  background: url('../images/image-edit/frame-handle.png') no-repeat;
+  width: 59px;
+  height: 26px;
+}
+
 .ui-wrapper {
   position: relative;
   background-color: black;
@@ -45,11 +51,12 @@
 
 .ui-draggable {
   cursor: move;
+  border: 1px solid #204a87;
 }
 
 .ui-resizable-handle {
-  border: 1px yellow solid;
-  background-color: #999;
+  border-color: #204a87;
+  background-color: white;
   position: absolute;
 }
 

@@ -160,8 +160,8 @@ $.Jcrop = function(obj,opt)
   var bound = options.boundary;
   var $trk = newTracker().width(boundx+(bound*2)).height(boundy+(bound*2))
     .css({ position: 'absolute', top: px(-bound), left: px(-bound), zIndex: 290,
-           display: 'none' });
-    //.mousedown(newSelection);
+           display: 'none' })
+    .mousedown(newSelection);
 
   /* }}} */
   // Set more variables {{{
@@ -628,8 +628,8 @@ $.Jcrop = function(obj,opt)
     /*}}}*/
 
     var $track = newTracker().mousedown(createDragger('move'))
-        .css({ cursor: 'move', position: 'absolute', zIndex: 360,
-               width: '30px', height: '30px', backgroundColor: 'red' })
+        .addClass('jcrop-frame')
+        .css({ cursor: 'move', position: 'absolute', zIndex: 360 })
 
     $img_holder.append($track);
     disableHandles();
