@@ -329,7 +329,8 @@ function cropVisualAssistant ()
     _cropAreaDiv.css({
       left: _cropAreaLeft,
       top: _cropAreaTop,
-      height: _cropAreaHeight
+      height: _cropAreaHeight,
+      width: _cropAreaWidth
     });
     var _cropImg = jQuery('img', _cropAreaDiv);
     _cropImg.css({
