@@ -4,11 +4,11 @@ jQuery(document).ready(function ($) {
 
   var _cropVisualAssistant = new cropVisualAssistant ();
 
-  _cropVisualAssistant.setUserImageThumb($(top.userImageThumbSelected));
+  _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
   var _metadataAccessor = new metadataAccessor(
-    $(top.userImageThumbSelected),
+    top.userImageThumbSelected,
     parent.document.getElementById('zetaprints-' + top.image_imageName)
   );
 
