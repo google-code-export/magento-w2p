@@ -436,7 +436,7 @@ function personalization_form () {
               return false;
             });
 
-            $('a.delete-button', td).click(function() {
+            $('a.button.delete', td).click(function() {
               var imageId = $(this).parent().prevAll('input').val();
 
               if (confirm(delete_this_image_text)) {
@@ -710,7 +710,7 @@ function personalization_form () {
     });
   }
 
-  $('a.delete-button').click(function() {
+  $('a.button.delete').click(function() {
     var imageId = $(this).parent().prevAll('input').val();
 
     if (confirm(delete_this_image_text)) {
