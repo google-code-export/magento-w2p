@@ -76,6 +76,14 @@ via email with bugs reports and feature requests.
               <file name="View.php" role="magecommunity" />
             </dir>
 
+            <dir name="Seo">
+
+              <dir name="Sitemap">
+                <file name="Category.php" role="magecommunity" />
+              </dir>
+
+            </dir>
+
             <file name="Navigation.php" role="magecommunity" />
 
           </dir>
