@@ -80,6 +80,7 @@ via email with bugs reports and feature requests.
 
               <dir name="Sitemap">
                 <file name="Category.php" role="magecommunity" />
+                <file name="Product.php" role="magecommunity" />
               </dir>
 
             </dir>
