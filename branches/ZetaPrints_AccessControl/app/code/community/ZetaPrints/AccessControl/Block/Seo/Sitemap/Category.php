@@ -43,32 +43,28 @@ class ZetaPrints_AccessControl_Block_Seo_Sitemap_Category
    * @return Mage_Catalog_Block_Seo_Sitemap_Category
    */
   protected function _prepareLayout () {
+    parent::_prepareLayout();
+
     //Get AccessControl's general helper
     $helper = Mage::helper('accesscontrol');
-
-    $category_helper = Mage::helper('catalog/category');
 
     //Check if extension is enabled then...
     if ($helper->is_extension_enabled()) {
       //... initialize collection
-      $categories = new Varien_Data_Collection();;
+      $categories = new Varien_Data_Collection();
 
       //Go throw list of categories
-      foreach ($category_helper
-                             ->getStoreCategories('name', true, false) as $item)
+      foreach ($this->getCollection() as $category)
         //Check if current customer's groups has access to a category
          if ($helper->has_customer_group_access_to_category(
-              Mage::getModel('catalog/category')->setId($item->getId())))
+              Mage::getModel('catalog/category')->setId($category->getId())))
           //If the group has access to the category then add it to
           //collection of categories
-          $categories->addItem($item);
+          $categories->addItem($category);
 
       //Save prepared collection of categories
       $this->setCollection($categories);
-    } else
-      //... else save whole collection of categories
-      $pager->setCollection($category_helper
-                                     ->getStoreCategories('name', true, false));
+    }
 
     return $this;
   }
