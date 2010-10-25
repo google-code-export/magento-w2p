@@ -10,7 +10,7 @@ if (!defined('ZP_API_VER')) {
 class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends Mage_Dataflow_Model_Convert_Mapper_Abstract
 {
 
-  public function map()
+  public function map ()
   {
     //Always print debug information. Issue #80
     $this->debug = true;
@@ -92,23 +92,23 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends Mage_D
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
   }
 
-  private function notice($message)
+  private function notice ($message)
   {
     $this->addException($message, Mage_Dataflow_Model_Convert_Exception::NOTICE);
   }
 
-  private function warning($message)
+  private function warning ($message)
   {
     $this->addException($message, Mage_Dataflow_Model_Convert_Exception::WARNING);
   }
 
-  private function debug($message)
+  private function debug ($message)
   {
     if ($this->debug)
       $this->notice($message);
   }
 
-  private function error($message)
+  private function error ($message)
   {
     $this->addException($message, Mage_Dataflow_Model_Convert_Exception::ERROR);
   }
