@@ -1295,7 +1295,17 @@ function zetaprints_get_content_from_url ($url, $data = null) {
 
   curl_close($curl);
 
-  list($headers, $content) = explode("\r\n\r\n", $output);
+//  list($headers, $content) = explode("\r\n\r\n", $output);
+  /*
+   * Some times there could be "\r\n\r\n" in content, handled like this
+   * means content could be cut off
+   */
+  $parts = explode("\r\n\r\n", $output);
+  $headers = array_shift($parts);
+  $content = implode("\r\n\r\n", $parts);
+  /*
+   * So after we get headers we implode content and continue
+   */
 
   if (function_exists('http_parse_headers'))
     $headers = http_parse_headers($headers);
