@@ -7,8 +7,8 @@ if (!defined('ZP_API_VER')) {
     require $zetaprints_api_file;
 }
 
-class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends Mage_Dataflow_Model_Convert_Mapper_Abstract
-{
+class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating 
+  extends Mage_Dataflow_Model_Convert_Mapper_Abstract {
 
   public function map ()
   {
