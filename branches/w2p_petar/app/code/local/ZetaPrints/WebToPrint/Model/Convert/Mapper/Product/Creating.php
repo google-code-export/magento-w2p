@@ -66,7 +66,14 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
         ->setRequiredOptions(true)
         ->setWebtoprintTemplate($template->getGuid());
 
-      $product_model->save();
+        try{
+            $product_model->save();
+        }catch(Zend_Http_Client_Exception $e){
+            $this->addException('Error creating product from template: ' . $template->getGuid(),
+                                 Mage_Dataflow_Model_Convert_Exception::ERROR);
+            $this->addException($e->getMessage(), Mage_Dataflow_Model_Convert_Exception::ERROR);
+            continue;
+        }
 
       $stock_item = Mage::getModel('cataloginventory/stock_item');
 
