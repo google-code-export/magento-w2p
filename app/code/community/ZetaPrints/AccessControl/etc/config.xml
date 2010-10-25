@@ -35,6 +35,7 @@
         <rewrite>
           <navigation>ZetaPrints_AccessControl_Block_Navigation</navigation>
           <layer_view>ZetaPrints_AccessControl_Block_Layer_View</layer_view>
+          <product_list_toolbar>ZetaPrints_AccessControl_Block_Product_List_Toolbar</product_list_toolbar>
           <seo_sitemap_category>ZetaPrints_AccessControl_Block_Seo_Sitemap_Category</seo_sitemap_category>
           <seo_sitemap_product>ZetaPrints_AccessControl_Block_Seo_Sitemap_Product</seo_sitemap_product>
         </rewrite>

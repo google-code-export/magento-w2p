@@ -85,6 +85,14 @@ via email with bugs reports and feature requests.
 
             </dir>
 
+            <dir name="Product">
+
+              <dir name="List">
+                <file name="Toolbar.php" role="magecommunity" />
+              </dir>
+
+            </dir>
+
             <file name="Navigation.php" role="magecommunity" />
 
           </dir>
