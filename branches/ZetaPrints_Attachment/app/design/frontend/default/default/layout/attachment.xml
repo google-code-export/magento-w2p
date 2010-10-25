@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
     <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/attachment.js</name></action>
+        </reference>
         <reference name="content">
             <reference name="product.info">
                 <reference name="alert.urls">
@@ -10,4 +13,4 @@
             </reference>
         </reference>
     </catalog_product_view>
-</layout> 
+</layout>

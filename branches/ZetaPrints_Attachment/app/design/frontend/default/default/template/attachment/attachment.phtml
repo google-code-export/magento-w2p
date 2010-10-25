@@ -4,16 +4,7 @@
         return;
     }
 ?>
-<div id="attachments">
-    <h4><?php echo $this->__('Attach files to order');?></h4>
-    <script type="text/javascript">
-        if(undefined == Prototype){
-            var base = '<?php echo $this->getUrl("js/prototype/prototype.js");?>';
-            var prot = document.createElement('script');
-            prot.type = 'text/javascript';
-            prot.src = base;
-            var parent = document.getElementById('attachments');
-            parent.appendChild(prot);
-        }
-    </script>
+<div id="attachments" style="display:none;">
+    <h4><?php echo $this->__('Files attached:');?></h4>
+    <div id="attachments-list"></div>
 </div>

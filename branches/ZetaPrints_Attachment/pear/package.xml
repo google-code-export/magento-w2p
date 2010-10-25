@@ -14,9 +14,9 @@
   <active>yes</active>
  </lead>
  <date>2010-10-25</date>
- <time>07:58:29</time>
+ <time>20:28:10</time>
  <version>
-  <release>0.1</release>
+  <release>0.1.1</release>
   <api>1.0</api>
  </version>
  <stability>
@@ -31,12 +31,15 @@
     <dir name="frontend">
      <dir name="default">
       <dir name="default">
+       <dir name="js">
+        <file md5sum="e93820851c1c74d4da498703eaf80333" name="attachment.js" role="mageskin" />
+       </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
-        <file md5sum="d2cb0af17d72f47e081b110fc4a6f382" name="attachment.xml" role="magedesign" />
+        <file md5sum="74ffbaccb675f52c79d0b4a1849580a5" name="attachment.xml" role="magedesign" />
        </dir> <!-- ///frontend/default/default/layout -->
        <dir name="template">
         <dir name="attachment">
-         <file md5sum="167fb2d633ddb365f518e3755347ea30" name="attachment.phtml" role="magedesign" />
+         <file md5sum="4c7706374cec4ec5ac4c46be3117ef91" name="attachment.phtml" role="magedesign" />
         </dir> <!-- ///frontend/default/default/template/attachment -->
        </dir> <!-- ///frontend/default/default/template -->
       </dir> <!-- ///frontend/default/default -->
@@ -68,19 +71,22 @@
        <dir name="Adminhtml">
         <file md5sum="ba38e11f5fe51bc67f6fd2235b4e4eae" name="AttachmentController.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/controllers/Adminhtml -->
-       <file md5sum="50d4837140d661509b9aeb703629a058" name="IndexController.php" role="magelocal" />
+       <file md5sum="824d12cf1f9678a5f5fc4e0989da73f5" name="IndexController.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/controllers -->
       <dir name="etc">
-       <file md5sum="00e83853424a319be48020a0e681332f" name="config.xml" role="magelocal" />
+       <file md5sum="5bf08181998d0397ad61d1379601fab9" name="config.xml" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/etc -->
       <dir name="Helper">
        <file md5sum="9bd099bc2077833d2b856686ca22d8f9" name="Data.php" role="magelocal" />
-       <file md5sum="655385e4e06b390f1088afe9619d16dd" name="Upload.php" role="magelocal" />
+       <file md5sum="596fca72323523a61ff19b9ba5e2dd98" name="Upload.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/Helper -->
       <dir name="Model">
+       <dir name="Events">
+        <file md5sum="ba248d9960d373538c67c43b48c79504" name="Observer.php" role="magelocal" />
+       </dir> <!-- ///ZetaPrints/Attachment/Model/Events -->
        <dir name="Mysql4">
         <dir name="Attachment">
-         <file md5sum="02ae7289a01b51bdf37a1afaa83c8913" name="Collection.php" role="magelocal" />
+         <file md5sum="b9176ecc631663812015fcadbe3b9991" name="Collection.php" role="magelocal" />
         </dir> <!-- ///ZetaPrints/Attachment/Model/Mysql4/Attachment -->
         <file md5sum="d358cfe1ea1a9ef2d8b7d7640fbe5dde" name="Attachment.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/Model/Mysql4 -->
@@ -93,7 +99,8 @@
       <dir name="sql">
        <dir name="attachment_setup">
         <file md5sum="24b987c853aea4fe8f5b640a06e9b1b4" name="mysql4-install-0.1.0.php" role="magelocal" />
-        <file md5sum="d8c64d7d14e3a1f14627e6ce87449b57" name="mysql4-upgrade-0.1.0-0.1.1.php" role="magelocal" />
+        <file md5sum="a7e19a6772b2bb6af8149fd02133b1b9" name="mysql4-upgrade-0.1.0-0.1.1.php" role="magelocal" />
+        <file md5sum="1ad5e298925f68a0a31626a82168d23e" name="mysql4-upgrade-0.1.1-0.1.2.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/sql/attachment_setup -->
       </dir> <!-- ///ZetaPrints/Attachment/sql -->
      </dir> <!-- ///ZetaPrints/Attachment -->
