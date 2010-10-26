@@ -222,6 +222,21 @@ There's two types of spinners: big and normal. Big spinner is used for preview l
   * Image for big spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/big-spinner.gif skin/frontend/default/zptheme/images/big-spinner.gif]
   * Image for normal spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif]
 
+= Styling links added by the extension =
+Here is list of CSS class name selectors for links added by the extension:
+  * Product page:
+    * `.add-to-links span.zetaprints-share-link a` - selector for "Share preview" link
+    * `.add-to-links span.zetaprints-share-link.empty a` - selector for "Share preview" link in disabled state
+  * Shopping cart page:
+    * `a.zetaprints-lowres-pdf-link` - selector for "PDF Proof" link
+  * Order details page:
+    * `a.zetaprints-reorder-item-link` - selector for "Reorder" link
+    * `a.zetaprints-order-file-link` - selector for web-to-print order files
+    Links to different types (i.e. PDF, PNG, GIF, JPEG, CDR) of web-to-print order files can be distinguished by additional class name (same as file type). E.g. `a.zetaprints-order-file-link.pdf` - selector for PDF web-to-print order files.
+    * `a.all-order-previews` - selector for "Show all order previews" and "Hide all order previews"
+    * `div.zetaprints-previews-box a.show-title` - selector for "Show previews" links
+    * `div.zetaprints-previews-box a.hide-title` - selector for "Hide previews" links
+
 = NOSCRIPT =
 Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
 
