@@ -72,6 +72,10 @@ via email with bugs reports and feature requests.
 
           <dir name="Block">
 
+            <dir name="Advanced">
+              <file name="Result.php" role="magecommunity" />
+            </dir>
+
             <dir name="Layer">
               <file name="View.php" role="magecommunity" />
             </dir>
@@ -157,6 +161,7 @@ via email with bugs reports and feature requests.
 
             </dir>
 
+            <file name="Advanced.php" role="magecommunity" />
             <file name="Observer.php" role="magecommunity" />
 
           </dir>

@@ -15,6 +15,7 @@
       <catalogsearch>
         <rewrite>
           <layer>ZetaPrints_AccessControl_Model_CatalogSearch_Layer</layer>
+          <advanced>ZetaPrints_AccessControl_Model_Advanced</advanced>
         </rewrite>
       </catalogsearch>
 
@@ -40,6 +41,12 @@
           <seo_sitemap_product>ZetaPrints_AccessControl_Block_Seo_Sitemap_Product</seo_sitemap_product>
         </rewrite>
       </catalog>
+
+      <catalogsearch>
+        <rewrite>
+          <advanced_result>ZetaPrints_AccessControl_Block_Advanced_Result</advanced_result>
+        </rewrite>
+      </catalogsearch>
     </blocks>
 
     <helpers>
