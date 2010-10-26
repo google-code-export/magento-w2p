@@ -14,7 +14,7 @@
 
       <catalogsearch>
         <rewrite>
-          <layer>ZetaPrints_AccessControl_Model_CatalogSearch_Layer</layer>
+          <layer>ZetaPrints_AccessControl_Model_Layer</layer>
           <advanced>ZetaPrints_AccessControl_Model_Advanced</advanced>
         </rewrite>
       </catalogsearch>
