@@ -11,6 +11,7 @@ The class is redefined by *[http://code.google.com/p/magento-w2p/source/browse/t
 
 Redefined functions:
   * `representProduct ($product)` - If product has web-to-print features then return false to force creating new quote item in cart for personalized product.
+  * `compare ($item)` - If quote item represents product with web-to-print features then do not allow merge items in checkout.
 
 = Class _!Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_ =
 The class is redifined by *[http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Block/Catalog/Product/Edit/Tabs.php ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tabs]* class.
