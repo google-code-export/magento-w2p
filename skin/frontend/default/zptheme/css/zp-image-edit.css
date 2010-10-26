@@ -1,27 +1,33 @@
 body {
   padding: 0;
   margin: 0;
-  background: #93B4DF;
+  background: #ffffff;
   overflow: hidden;
 }
 
 #imageEditorApplyCrop {
-  margin-left:40%;
-  display:block;
-  padding-top:5px;
+  display: block;
+  width: 68px;
+  margin: 5px auto 0 auto;
 }
 
-#imageEditorLeft {
-  -moz-background-clip: border;
+#imageEditorLeftSidebar {
+  /*-moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
-  background: #93B4DF none repeat scroll 0 0;
+  background: #93B4DF none repeat scroll 0 0;*/
+  background-color: #93B4DF;
+  width: 100px;
   height: 100%;
   margin: 0;
   text-align: center;
+  vertical-align: top;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-#imageEditorLeft ul li {
+#imageEditorLeftSidebar ul li {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
@@ -33,12 +39,12 @@ body {
   cursor: pointer;
   cursor: hand;
 }
-#imageEditorLeft ul {
+#imageEditorLeftSidebar ul {
   margin: 0;
   padding: 0;
 }
 
-#imageEditorLeft ul li span {
+#imageEditorLeftSidebar ul li span {
   color: #FFFFFF;
   display: block;
   font-family: Arial;
@@ -47,22 +53,18 @@ body {
   padding: 2px;
 }
 
-#imageEditorLeft ul .last {
+#imageEditorLeftSidebar ul .last {
   -moz-background-clip: border;
   -moz-background-inline-policy: continuous;
   -moz-background-origin: padding;
   background: transparent none repeat scroll 0 0;
 }
 
-#imageEditorRight {
-  padding: 10px 10px 4000px 10px;
-  background: #FFFFFF;
-}
-
 #imageEditorCropForm {
   display: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 .handler {
@@ -75,31 +77,54 @@ body {
   bottom: 1px;
   cursor: nw-resize;
 }
-#imageEditorCaption {
-  display:none;
-  padding: 5px;
+
+#imageEditorInfoBar {
+  width: 100%;
+  display: none;
   background-color: #93B4DF;
   font-family: Arial;
   font-size: 12px;
-  margin-right:5px;
+  margin-right: 5px;
   *margin-top: -5px; /*msie bug*/
-  white-space:nowrap;
-  position:relative;
 }
-#imageEditorCaption span {
-  color: #FFFFFF;
-  margin-left:10px;
-}
-#imageEditorCaption span span {
-  color: #000000;
-  margin-left:0px;
-}
-#imageEditorCaption #imageEditorInfo {
+
+#imageEditorInfoBar #imageEditorTooltip {
   color: #DB0D0D;
   font-weight: bold;
-  float: right;
+  white-space: nowrap;
+  text-align: right;
+  padding: 4px 5px 0;
+  vertical-align: top;
+}
+
+#imageEditorBottomPanel {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  min-width: 600px;
+}
+
+#userImagePreviewContainer {
+  position: absolute;
+  right: 5px;
+  bottom: 90px;
 }
 
 #fancy_content {
   cursor: auto;
+}
+
+#infoBar td {
+  color: white;
+  font-size: 12px;
+}
+
+#infoBar #imageEditorWidthInfo {
+  min-width: 30px;
+  color: black;
+}
+
+#infoBar #imageEditorHeightInfo {
+  min-width: 30px;
+  color: black;
 }
