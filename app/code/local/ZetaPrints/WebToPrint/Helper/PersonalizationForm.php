@@ -597,7 +597,7 @@ jQuery(document).ready(function($) {
     foreach ($types as $type)
       if (isset($options['zetaprints-file-'.$type])) {
         $title = strtoupper($type);
-        $webtoprint_links .= "<a href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
+        $webtoprint_links .= "<a class=\"zetaprints-order-file-link {$type}\" href=\"{$options['zetaprints-file-'.$type]}\" target=\"_blank\">$title</a>&nbsp;";
       }
 
     //Check if the item is not null (it means the function was called from admin
@@ -670,7 +670,7 @@ jQuery(document).ready(function($) {
     $url = $product->getUrlInStore(array('_query'
                       => array('reorder' => $options['zetaprints-order-id'])));
 
-    echo "<a href=\"{$url}\">Reorder</a>";
+    echo "<a class=\"zetaprints-reorder-item-link\" href=\"{$url}\">Reorder</a>";
   }
 
   public function get_js_for_order_preview_images ($context) {
