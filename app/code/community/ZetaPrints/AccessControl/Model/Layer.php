@@ -26,7 +26,7 @@
  * @package    ZetaPrints_AccessControl
  * @author     Anatoly A. Kazantsev <anatoly.kazantsev@gmail.com>
  */
-class ZetaPrints_AccessControl_Model_CatalogSearch_Layer extends Mage_CatalogSearch_Model_Layer
+class ZetaPrints_AccessControl_Model_Layer extends Mage_CatalogSearch_Model_Layer
 {
   /**
    * Prepare add groups catalog product filter to a prepared product collection
