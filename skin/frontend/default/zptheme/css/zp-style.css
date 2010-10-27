@@ -615,7 +615,7 @@ div.thumbCropedAreaToolSet div img {
 
 /* ZetaPrints text field resizer */
 .zp-resize-handle {
-  background: url('../images/zp-input-field-resizer/left-handler.gif') center no-repeat;
+  background: url('../images/zp-text-field-resizer/left-handle.gif') center no-repeat;
   cursor: sw-resize;
   position: relative;
   width: 10px;
@@ -629,7 +629,7 @@ div.thumbCropedAreaToolSet div img {
 /* Uncomment following CSS rule to switch to right
    position of a resizing handler */
 /*.zp-resize-handle {
-  background: url('../images/zp-input-field-resizer/right-handler.gif') center no-repeat;
+  background: url('../images/zp-text-field-resizer/right-handle.gif') center no-repeat;
   cursor: se-resize;
   margin-left: 100%;
   left: -4px;
