@@ -39,6 +39,9 @@ class ZetaPrints_AccessControl_Block_Advanced_Result
     if (!$this->getData('result_count')) {
       $size = count($this->getSearchModel()->getProductCollection());
       $this->setResultCount($size);
+
+      Mage::helper('accesscontrol')
+                          ->filter_out_products($this->_getProductCollection());
     }
 
     return $this->getData('result_count');
