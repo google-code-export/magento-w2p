@@ -412,6 +412,11 @@ Extension developed by http://www.zetaprints.com/
                 <file name="download-webtoprint-extension.jpg" role="mageskin" />
               </dir>
 
+              <dir name="zp-text-field-resizer">
+                <file name="left-handle.gif" role="mageskin" />
+                <file name="right-handle.gif" role="mageskin" />
+              </dir>
+
               <file name="images-selector-sprites.png" role="mageskin" />
               <file name="transparent-background.gif" role="mageskin" />
               <file name="edited-shape-background.png" role="mageskin" />
@@ -434,7 +439,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="zp-in-preview-edit.js" role="mageskin" />
               <file name="zp-crop-visual-assistant.js" role="mageskin" />
               <file name="zp-metadata-accessor.js" role="mageskin" />
-              <file name="zp-text-fields-resizer.js" role="mageskin" />
+              <file name="zp-text-field-resizer.js" role="mageskin" />
             </dir>
 
             <dir name="layout">
