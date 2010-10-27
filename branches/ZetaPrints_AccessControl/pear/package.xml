@@ -157,7 +157,6 @@ via email with bugs reports and feature requests.
 
             </dir>
 
-            <file name="Advanced.php" role="magecommunity" />
             <file name="Layer.php" role="magecommunity" />
             <file name="Observer.php" role="magecommunity" />
 
