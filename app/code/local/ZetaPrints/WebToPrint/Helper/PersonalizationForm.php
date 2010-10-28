@@ -641,7 +641,7 @@ jQuery(document).ready(function($) {
             <?php foreach ($previews as $preview): ?>
               <li>
                 <a class="in-dialog" href="<?php echo $this->get_preview_url($preview); ?>" target="_blank" rel="<?php echo $group; ?>">
-                  <img src="<?php echo $this->get_thumbnail_url($preview); ?>" title="<?php echo $this->__('Click to enlarge');?>"/>
+                  <img src="<?php echo $this->get_thumbnail_url($preview); ?>" title="<?php echo $this->__('Click to enlarge image');?>"/>
                 </a>
               </li>
             <?php endforeach ?>
