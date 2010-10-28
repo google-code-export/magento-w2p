@@ -311,7 +311,7 @@ jQuery(document).ready(function($) {
  ?>
 
 <span class="zetaprints-share-link empty">
-  <a href="javascript:void(0)">Share preview</a>
+  <a href="javascript:void(0)"><?php echo $this->__('Share preview'); ?></a>
   <input id="zetaprints-share-link-input" type="text" value="" />
 </span>
 

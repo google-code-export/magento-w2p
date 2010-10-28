@@ -330,7 +330,7 @@
                   </xsl:call-template>
                 </a>
                 <xsl:call-template name="trans">
-                  <xsl:with-param name="key">and click Select to fill the place of the photo.</xsl:with-param>
+                  <xsl:with-param name="key"> and click Select to fill the place of the photo.</xsl:with-param>
                 </xsl:call-template>
               </span>
             </div>
