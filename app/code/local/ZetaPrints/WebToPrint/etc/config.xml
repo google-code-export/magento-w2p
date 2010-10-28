@@ -188,11 +188,12 @@
       <modules>
         <ZetaPrints_WebToPrint>
           <files>
-            <default>zetaprints_w2p.csv</default>
+            <default>ZetaPrints_WebToPrint.csv</default>
           </files>
         </ZetaPrints_WebToPrint>
       </modules>
     </translate>
+
     <routers>
       <ZetaPrints_WebToPrint>
         <use>standard</use>
