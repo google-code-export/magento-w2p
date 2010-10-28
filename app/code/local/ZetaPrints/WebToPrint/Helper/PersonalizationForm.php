@@ -109,7 +109,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     ) );
 
     //Append translations to xml
-    $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'zetaprints_w2p.csv';
+    $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'ZetaPrints_Zpapi.csv';
 
     if (file_exists($locale_file)) {
       $cache = Mage::getSingleton('core/cache');
