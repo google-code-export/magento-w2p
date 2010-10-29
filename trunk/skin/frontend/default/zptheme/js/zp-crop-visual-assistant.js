@@ -335,7 +335,7 @@ function cropVisualAssistant ()
     var _cropImg = jQuery('img', _cropAreaDiv);
     _cropImg.css({
       left: -_clipedImageLeft,
-      top: -_clipedImageTop,
+      top: -_clipedImageTop
     })
   }
 
@@ -350,7 +350,7 @@ function cropVisualAssistant ()
     var _toolSet = jQuery('<DIV />');
     _toolSet.css({
       marginBottom: -_targetImageElement.height(),
-      height: _targetImageElement.height(),
+      height: _targetImageElement.height()
     }).attr('class', 'thumbCropedAreaToolSet').insertBefore(_targetImageElement);
 
     var _cropAreaDiv = jQuery('<DIV />');
