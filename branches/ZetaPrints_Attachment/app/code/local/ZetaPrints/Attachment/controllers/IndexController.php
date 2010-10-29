@@ -1,6 +1,8 @@
 <?php
-class ZetaPrints_Attachment_IndexController extends Mage_Core_Controller_Front_Action
+class ZetaPrints_Attachment_IndexController
+  extends Mage_Core_Controller_Front_Action
 {
+  protected $errorSpan = '<span class="error">%s</span>';
 
   public function indexAction()
   {
@@ -48,31 +50,37 @@ class ZetaPrints_Attachment_IndexController extends Mage_Core_Controller_Front_A
   public function uploadAction()
   {
     $this->setFlag('', 'no-renderLayout', TRUE);
-    $request = $this->getRequest()->getPost(); // get all form values;
-    $prid = isset($request['product_id']) ? $request['product_id'] : null; // get product id
-    $optId = isset($request['option_id']) ? $request['option_id'] : null;
-    if (null === $prid) { // no product id - can't load custom options, return
-      return null;
-    }
-    if(!headers_sent()){
-      header('Content-Type:text/javascript');
+    $request = $this->getRequest();
+    $prid = $request->getParam('product'); // get product id
+    $optId = $request->getParam('option_id');
+    $hash = $request->getParam('attachment_hash');
+
+    $response = $this->getResponse();
+
+    if (!isset($prid, $optId, $hash)) { // no product id - can't load custom options, return
+      $response->setBody($this->_jsonError('No product id or hash received'));
     }
 
-    $product = Mage::getModel('catalog/product')->setStoreId(
-      Mage::app()->getStore()->getId())->load($prid);
+    $hash = $hash[$optId];
+
+    $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($prid);
     /*$var Mage_Catalog_Model_Product $product*/
-    $buyRequest = new Varien_Object(
-      array ('qty' => 0, // try not to add product to cart yet
-             'product' => $product->getId()
-      ));
-    $result = $product->getTypeInstance(true)->prepareForCart(
-      $buyRequest, $product);
+    $buyRequest = new Varien_Object(array ('qty' => 0, // try not to add product to cart yet
+                                  'product' => $product->getId()
+                                    ));
+      try{
+        $result = $product->getTypeInstance(true)->prepareForCart($buyRequest, $product);
+      }catch(Exception $e){
+        $response->setBody(($this->_jsonError($e->getMessage())));
+      }
     /**
      * Error message
      */
 
     if (is_string($result)) {
-      die('alert("' . $result . '")');
+      $response->setBody(($this->_jsonError($result)));
     }
     $value = $result[0]->getCustomOption('option_' . $optId)->getValue();
 
@@ -81,10 +89,35 @@ class ZetaPrints_Attachment_IndexController extends Mage_Core_Controller_Front_A
     $quote = $cart->getQuote();
     /*@var Mage_Sales_Model_Quote $quote */
     $attachment = Mage::getModel('attachment/attachment');
-    $attachment->setProductId($prid)
-               ->setAttachmentValue($value)
-               ->save();
 
-    die(Zend_Json::encode(unserialize($value)));
+    $data = array(
+      ZetaPrints_Attachment_Model_Attachment::PR_ID => $prid,
+      ZetaPrints_Attachment_Model_Attachment::OPT_ID => $optId,
+      ZetaPrints_Attachment_Model_Attachment::ATT_HASH => $hash,
+      ZetaPrints_Attachment_Model_Attachment::ATT_VALUE => $value
+    );
+    /* @var $attachment ZetaPrints_Attachment_Model_Attachment */
+    $attachment->addAtachment($data);
+
+    $return = unserialize($value);
+    $return['attachment_id'] = $attachment->getId();
+    $response->setBody($this->_jsonEncode($return));
+  }
+
+  /**
+   * Encode error message as json string
+   * @param string $msg - message to send
+   * @param string $template - format template that can be used with sprintf
+   */
+  protected function _jsonError($msg, $template = null)
+  {
+    if(null == $template){
+      $template = $this->errorSpan;
+    }
+    return $this->_jsonEncode(array('title' => sprintf($template, $msg)));
+  }
+
+  protected function _jsonEncode($valueToEncode, $cycleCheck = false, $options = array()){
+    return Mage::helper('Core')->jsonEncode($valueToEncode, $cycleCheck = false, $options = array());
   }
 }

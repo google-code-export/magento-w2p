@@ -13,10 +13,10 @@
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-10-25</date>
- <time>20:28:10</time>
+ <date>2010-10-29</date>
+ <time>16:57:11</time>
  <version>
-  <release>0.1.1</release>
+  <release>0.1.2</release>
   <api>1.0</api>
  </version>
  <stability>
@@ -32,7 +32,8 @@
      <dir name="default">
       <dir name="default">
        <dir name="js">
-        <file md5sum="e93820851c1c74d4da498703eaf80333" name="attachment.js" role="mageskin" />
+        <file md5sum="54960b2b98a93f40a2f92d2bd4227aa3" name="ajaxupload.js" role="mageskin" />
+        <file md5sum="bc836a3afb07c250f34b24afedc12ef8" name="attachment.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
         <file md5sum="74ffbaccb675f52c79d0b4a1849580a5" name="attachment.xml" role="magedesign" />
@@ -41,6 +42,17 @@
         <dir name="attachment">
          <file md5sum="4c7706374cec4ec5ac4c46be3117ef91" name="attachment.phtml" role="magedesign" />
         </dir> <!-- ///frontend/default/default/template/attachment -->
+        <dir name="catalog">
+         <dir name="product">
+          <dir name="view">
+           <dir name="options">
+            <dir name="type">
+             <file md5sum="e0debf34a130f22d9873191dd5a82c93" name="file.phtml" role="magedesign" />
+            </dir> <!-- ///frontend/default/default/template/catalog/product/view/options/type -->
+           </dir> <!-- ///frontend/default/default/template/catalog/product/view/options -->
+          </dir> <!-- ///frontend/default/default/template/catalog/product/view -->
+         </dir> <!-- ///frontend/default/default/template/catalog/product -->
+        </dir> <!-- ///frontend/default/default/template/catalog -->
        </dir> <!-- ///frontend/default/default/template -->
       </dir> <!-- ///frontend/default/default -->
      </dir> <!-- ///frontend/default -->
@@ -71,18 +83,21 @@
        <dir name="Adminhtml">
         <file md5sum="ba38e11f5fe51bc67f6fd2235b4e4eae" name="AttachmentController.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/controllers/Adminhtml -->
-       <file md5sum="824d12cf1f9678a5f5fc4e0989da73f5" name="IndexController.php" role="magelocal" />
+       <dir name="Sales">
+        <file md5sum="c6c7c78993c450ada82b9ab93ada2c99" name="DownloadController.php" role="magelocal" />
+       </dir> <!-- ///ZetaPrints/Attachment/controllers/Sales -->
+       <file md5sum="556c9eeffe809e1bf54ee8fb875ce832" name="IndexController.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/controllers -->
       <dir name="etc">
-       <file md5sum="5bf08181998d0397ad61d1379601fab9" name="config.xml" role="magelocal" />
+       <file md5sum="c91b660c6f38dca105138f5ed98a6a68" name="config.xml" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/etc -->
       <dir name="Helper">
        <file md5sum="9bd099bc2077833d2b856686ca22d8f9" name="Data.php" role="magelocal" />
-       <file md5sum="596fca72323523a61ff19b9ba5e2dd98" name="Upload.php" role="magelocal" />
+       <file md5sum="bab58ebba2941da3971531db510c3781" name="Upload.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/Helper -->
       <dir name="Model">
        <dir name="Events">
-        <file md5sum="ba248d9960d373538c67c43b48c79504" name="Observer.php" role="magelocal" />
+        <file md5sum="2af27002b7520b4d67ea0946f4d902f3" name="Observer.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/Model/Events -->
        <dir name="Mysql4">
         <dir name="Attachment">
@@ -90,17 +105,26 @@
         </dir> <!-- ///ZetaPrints/Attachment/Model/Mysql4/Attachment -->
         <file md5sum="d358cfe1ea1a9ef2d8b7d7640fbe5dde" name="Attachment.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/Model/Mysql4 -->
+       <dir name="Product">
+        <dir name="Option">
+         <dir name="Type">
+          <file md5sum="9d93436f54468c7276b36ac4befa48a4" name="Attachment.php" role="magelocal" />
+         </dir> <!-- ///ZetaPrints/Attachment/Model/Product/Option/Type -->
+        </dir> <!-- ///ZetaPrints/Attachment/Model/Product/Option -->
+        <file md5sum="27b484b743456f5aca408c3bd8ffbf09" name="Option.php" role="magelocal" />
+       </dir> <!-- ///ZetaPrints/Attachment/Model/Product -->
        <dir name="Resource">
         <file md5sum="3538e609dea1b26fd1f8a63ce18fbed4" name="Setup.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/Model/Resource -->
-       <file md5sum="7c076b153e4eb4bd951e84c7fe394677" name="Attachment.php" role="magelocal" />
+       <file md5sum="c811bb75e6a7362b7678bbfc5c0be70a" name="Attachment.php" role="magelocal" />
        <file md5sum="1625cf486a0dc2b38ed207ca67ece762" name="Status.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachment/Model -->
       <dir name="sql">
        <dir name="attachment_setup">
         <file md5sum="24b987c853aea4fe8f5b640a06e9b1b4" name="mysql4-install-0.1.0.php" role="magelocal" />
         <file md5sum="a7e19a6772b2bb6af8149fd02133b1b9" name="mysql4-upgrade-0.1.0-0.1.1.php" role="magelocal" />
-        <file md5sum="1ad5e298925f68a0a31626a82168d23e" name="mysql4-upgrade-0.1.1-0.1.2.php" role="magelocal" />
+        <file md5sum="ebbc18308f0867ca9019e3477c779e7d" name="mysql4-upgrade-0.1.1-0.1.2.php" role="magelocal" />
+        <file md5sum="f8be200476c99a0096484bb99273fcd6" name="mysql4-upgrade-0.1.2-0.1.3.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachment/sql/attachment_setup -->
       </dir> <!-- ///ZetaPrints/Attachment/sql -->
      </dir> <!-- ///ZetaPrints/Attachment -->

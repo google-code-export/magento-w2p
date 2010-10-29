@@ -77,6 +77,12 @@
     </layout>
   </adminhtml>
   <global>
+        <rewrite>
+            <zetaprints_attachment_sales_download>
+                <from><![CDATA[#^/sales/download/#]]></from>
+                <to>/attachment/sales_download/</to>
+            </zetaprints_attachment_sales_download>
+            </rewrite>
     <models>
       <attachment>
         <class>ZetaPrints_Attachment_Model</class>
@@ -90,6 +96,14 @@
           </attachment>
         </entities>
       </attachment_mysql4>
+      
+      <catalog>
+        <rewrite>
+          <product_option>ZetaPrints_Attachment_Model_Product_Option</product_option>
+          <product_option_type_attachment>ZetaPrints_Attachment_Model_Product_Option_Type_Attachment</product_option_type_attachment>
+        </rewrite>
+      </catalog>
+      
     </models>
     <resources>
       <attachment_setup>

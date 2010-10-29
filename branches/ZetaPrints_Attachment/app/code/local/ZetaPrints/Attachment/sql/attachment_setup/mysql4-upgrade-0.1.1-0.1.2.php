@@ -10,8 +10,8 @@ $installer->run("
 ALTER TABLE `{$table}`
 ADD `product_id` INT( 10 ) UNSIGNED NOT NULL ,
 ADD `order_id` INT( 10 ) UNSIGNED NULL ,
-ADD `quote_id` INT( 10 ) UNSIGNED NULL ,
-ADD `attachment_value` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+ADD `option_id` INT( 10 ) NOT NULL,
+ADD `attachment_value` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL
 ");
 $installer->endSetup();
 
