@@ -101,6 +101,10 @@ via email with bugs reports and feature requests.
 
           </dir>
 
+          <dir name="controllers">
+            <file name="AjaxController.php" role="magecommunity" />
+          </dir>
+
           <dir name="etc">
             <file name="config.xml" role="magecommunity" />
             <file name="system.xml" role="magecommunity" />

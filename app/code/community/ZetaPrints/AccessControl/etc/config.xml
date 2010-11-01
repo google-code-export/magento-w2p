@@ -80,6 +80,13 @@
         <connection><use>default_read</use></connection>
       </accesscontrol_read>
     </resources>
+
+    <rewrite>
+      <ZetaPrints_AccessControl_Ajax>
+        <from><![CDATA[#^/catalogsearch/ajax/#]]></from>
+        <to>/access-control/ajax/</to>
+      </ZetaPrints_AccessControl_Ajax>
+    </rewrite>
   </global>
 
   <frontend>
@@ -94,6 +101,16 @@
         </observers>
       </catalog_category_collection_load_after>
     </events>
+
+    <routers>
+      <accesscontrol>
+        <use>standard</use>
+        <args>
+          <module>ZetaPrints_AccessControl</module>
+          <frontName>access-control</frontName>
+        </args>
+      </accesscontrol>
+    </routers>
   </frontend>
 
   <adminhtml>
