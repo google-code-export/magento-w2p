@@ -275,6 +275,18 @@ Extension developed by http://www.zetaprints.com/
               <file name="local.xml" role="magedesign" />
             </dir>
 
+            <dir name="locale">
+
+              <dir name="en_US">
+                <file name="translate.csv" role="magedesign" />
+              </dir>
+
+              <dir name="ru_RU">
+                <file name="translate.csv" role="magedesign" />
+              </dir>
+
+            </dir>
+
             <dir name="template">
 
               <dir name="catalog">
