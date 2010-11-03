@@ -1,4 +1,4 @@
-var AttachedFilesRegistry = new Hash();
+var AttachedFilesRegistry = [];
 /**
  * Adding file to upload
  *
@@ -14,44 +14,64 @@ function addAttachment(button, action, form, spinner)
   var idx = btn.readAttribute('id').sub(/zp-btn-upload-(\d+)/, '#{1}');
   var name = 'options_' + idx + '_file';
   var theData = $(form).serialize(true);
-  if(undefined == AttachedFilesRegistry.get(name)){
-	  AttachedFilesRegistry[name] = $H();
-	  AttachedFilesRegistry[name].counter = 0;
-  }
 
   var listItemId = name + 'list';
   var upload = new AjaxUpload(btn,{
     'action':action,
     'name':name,
     'data':theData,
-    'responseType':'json',
+    'responseType':'html',
     onChange: function (file, extension) {
+  	  var listItemId = makeFileId(file);
+  	  updateAttachmentsList('attachments-list', listItemId, {title:'Loading <strong>' + file + '</strong>&nbsp;&nbsp;<img src="' + spinner + '" alt="loading"/>'});
   	},
     onSubmit: function (file, extension) {
-  	  AttachedFilesRegistry[name].counter++;
-  	  listItemId += AttachedFilesRegistry[name].counter;
-	  updateAttachmentsList('attachments-list', listItemId, {title:'Loading <strong>' + file + '</strong>&nbsp;&nbsp;<img src="' + spinner + '" alt="loading"/>'});
-      btn.disabled = 'disabled';
+//      btn.disabled = 'disabled';
 //      btn.hide();
-      if(undefined == $('add-new-file')){
-    	  var add = new Element('button', {id:'add-new-file' + idx, type:'button'}).update('Add another file');
-      }
+  	  var listItemId = makeFileId(file);
+  	  AttachedFilesRegistry.push(listItemId);
+	  $('product_addtocart_form').down('button.btn-cart').hide();
+//      if(undefined == $('add-new-file')){
+//    	  var add = new Element('button', {id:'add-new-file' + idx, type:'button'}).update('Add another file');
+//      }
       addFileNameToForm(form, file, idx);
 //      btn.up('div.zp-upload').insert(add);
-      btn.insert({after:add});
-      add.observe('click', function(e){
-        btn.disabled = '';
-        btn.show();
-        this.remove();
-      });
+//      btn.insert({after:add});
+//      add.observe('click', function(e){
+//        btn.disabled = '';
+//        btn.show();
+//        this.remove();
+//      });
       return true;
     },
     onComplete: function (file, response) {
+      var listItemId = makeFileId(file);
+      var idx = AttachedFilesRegistry.indexOf(listItemId);
+      if(idx!=-1) AttachedFilesRegistry.splice(idx, 1);
+      if(AttachedFilesRegistry.length == 0){
+        $('product_addtocart_form').down('button.btn-cart').show();
+      }
+      response = parseResponse(response);
       updateAttachmentsList('attachments-list', listItemId, response);
     }
   });
 }
 
+function parseResponse(res)
+{
+  var result = res.sub(/{.*}/, '#{0}');
+  try{
+    var json = result.evalJSON();
+  }catch (e) {
+    json = {title: e.message};
+  }
+  return json;
+}
+
+function makeFileId(file)
+{
+  return file.gsub(/\./, '_').toLowerCase();
+}
 /**
  * Update list of uploaded files
  * @param String|Element list
