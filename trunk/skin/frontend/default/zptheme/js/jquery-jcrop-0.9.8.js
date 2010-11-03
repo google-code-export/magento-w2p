@@ -420,8 +420,8 @@ $.Jcrop = function(obj,opt)
     // Insert border divs for outline
     if (options.drawBorders) {
       borders = {
-          top: insertBorder('hline')
-            .css('top',$.browser.msie?px(-1):px(0)),
+          top: insertBorder('hline'),
+            //.css('top',$.browser.msie?px(-1):px(0)),
           bottom: insertBorder('hline'),
           left: insertBorder('vline'),
           right: insertBorder('vline')
