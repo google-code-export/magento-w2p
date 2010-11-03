@@ -66,7 +66,14 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
         ->setRequiredOptions(true)
         ->setWebtoprintTemplate($template->getGuid());
 
-      $product_model->save();
+      try {
+        $product_model->save();
+      } catch (Zend_Http_Client_Exception $e) {
+        $this->error("Error creating product from template: {$template->getGuid()}");
+        $this->error($e->getMessage());
+
+        continue;
+      }
 
       $stock_item = Mage::getModel('cataloginventory/stock_item');
 
@@ -82,6 +89,10 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
     }
 
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
+  }
+
+  private function error ($message) {
+    $this->addException($message, Mage_Dataflow_Model_Convert_Exception::ERROR);
   }
 
   private function notice ($message) {
