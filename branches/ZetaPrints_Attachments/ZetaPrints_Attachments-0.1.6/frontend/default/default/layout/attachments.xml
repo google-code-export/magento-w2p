@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <checkout_cart_index>
+    <reference name="head">
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>js/attachments.js</name>
+      </action>
+    </reference>
+  </checkout_cart_index>
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/attachments.js</name></action>
+        </reference>
+        <reference name="content">
+            <reference name="product.info">
+                <!--
+                <reference name="alert.urls">
+                    <block type="attachments/attachments" name="order.attachments"
+                        template="attachments/attachments.phtml" as="order_attachments" after="-"/>
+                </reference>
+                -->
+                <reference name="product.info.options.wrapper">
+                  <reference name="product.info.options">
+                    <action method="addOptionRenderer">
+                      <type>attachments</type>
+                      <block>attachments/product_view_options_type_attachments</block>
+                      <template>catalog/product/view/options/type/attachments.phtml</template>
+                    </action>
+                  </reference>
+                </reference>
+            </reference>
+        </reference>
+    </catalog_product_view>
+</layout>
