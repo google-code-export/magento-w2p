@@ -199,10 +199,6 @@ Extension developed by http://www.zetaprints.com/
 
         <dir name="Zpapi">
 
-          <dir name="Block">
-            <file name="W2pUser.php" role="magelocal" />
-          </dir>
-
           <dir name="etc">
             <file name="config.xml" role="magelocal" />
             <file name="system.xml" role="magelocal" />
