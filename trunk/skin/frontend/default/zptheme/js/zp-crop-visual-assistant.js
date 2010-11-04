@@ -109,7 +109,10 @@ function cropVisualAssistant ()
         this.userImageThumb.element.attr("src")
       );
 
-    var _cropArea2 = [_cropArea[0]/this.userImage.widthPreviewPx, _cropArea[1]/this.userImage.heightPreviewPx, _cropArea[2]/this.userImage.widthPreviewPx, _cropArea[3]/this.userImage.heightPreviewPx]
+    var _cropArea2 = [_cropArea[0]/this.userImage.widthPreviewPx,
+                      _cropArea[1]/this.userImage.heightPreviewPx,
+                      _cropArea[2]/this.userImage.widthPreviewPx,
+                      _cropArea[3]/this.userImage.heightPreviewPx]
 
     var _cropAreaLeft = Math.round(this.userImageThumb.widthPx * _cropArea2[0]);
     var _cropAreaTop = Math.round(this.userImageThumb.heightPx * _cropArea2[1]);
@@ -326,6 +329,7 @@ function cropVisualAssistant ()
   {
     var _toolSet = _targetImageElement.prev('div.thumbCropedAreaToolSet');
     var _cropAreaDiv = jQuery('div', _toolSet);
+
     _cropAreaDiv.css({
       left: _cropAreaLeft,
       top: _cropAreaTop,
