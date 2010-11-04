@@ -44,16 +44,32 @@ jQuery(document).ready(function ($) {
       var selection_position = imageEditorJcropApi.get_selection_position();
       var selection_size = imageEditorJcropApi.get_selection_size();
 
-      imageEditorJcropApi.set_image_position(
-        selection_position.left + selection_size.width / _metadataAccessor.getProperty('sh-x'),
-        selection_position.top + selection_size.height / _metadataAccessor.getProperty('sh-y') );
+      var sh_x = _metadataAccessor.getProperty('sh-x');
 
-      imageEditorJcropApi.set_image_size(
-        selection_size.width / _metadataAccessor.getProperty('sz-x'),
-        selection_size.height / _metadataAccessor.getProperty('sz-y') );
+      if (sh_x)
+        var image_position_left = selection_position.left + selection_size.width / sh_x
+      else
+        var image_position_left = 0;
+
+      var sh_y = _metadataAccessor.getProperty('sh-x');
+
+      if (sh_y)
+        var image_position_top = selection_position.top + selection_size.height / sh_y
+      else
+        var image_position_top = 0;
+
+      imageEditorJcropApi.set_image_position(image_position_left,
+                                             image_position_top );
+
+      var sz_x = _metadataAccessor.getProperty('sz-x');
+      var sz_y = _metadataAccessor.getProperty('sz-y')
+
+      if (sz_x && sz_y)
+        imageEditorJcropApi.set_image_size(selection_size.width / sz_x,
+                                           selection_size.height / sz_y );
     }
 
-    $('#imageEditorCropForm').css('display', 'block');
+    $('#imageEditorCropForm').show();
   }
 
   /**
@@ -61,7 +77,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorHideCrop() {
     $('#imageEditorTooltip').hide();
-    $('#imageEditorCropForm').css('display', 'none');
+    $('#imageEditorCropForm').hide();
     if (typeof(imageEditorJcropApi) != "undefined")
       imageEditorJcropApi.destroy();
 
@@ -224,6 +240,7 @@ jQuery(document).ready(function ($) {
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
         showImageEditorTooltip('Image Cropped');
+        $('#userImagePreview').fadeIn();
       }
     });
   }
@@ -245,6 +262,7 @@ jQuery(document).ready(function ($) {
     success: function (data, textStatus) {
       imageEditorApplyImage(data);
       showImageEditorTooltip('Image Restored');
+      $('#userImagePreview').fadeIn();
     }
     });
   }
@@ -286,6 +304,7 @@ jQuery(document).ready(function ($) {
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
         showImageEditorTooltip('Image Rotated');
+        $('#userImagePreview').fadeIn();
       }
     });
   }
@@ -295,7 +314,7 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorApplyImage(xml)
   {
-    var userImageWidthPreview, userImageHeightPreview, userImageWidthActual, userImageHeightActual, uh, uw, src;
+    var userImageWidthActual, userImageHeightActual, uh, uw, src;
 
     $('#userImagePreview').hide();
     $('#userImagePreview').attr("src", "");
@@ -322,17 +341,18 @@ jQuery(document).ready(function ($) {
       return false;
     }
 
-    $('#userImagePreview').attr("src", userImageSrc);
-    $('#userImagePreview').width(userImageWidthPreview);
-    $('#userImagePreview').height(userImageHeightPreview);
-    updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-
     if (!userImageWidthActual || !userImageHeightActual) {
       alert(zetaprints_trans('Unknown error occured'));
       return false;
     } else {
       _cropVisualAssistant.setUserImage($('#userImagePreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
     }
+
+    $('#userImagePreview').attr("src", userImageSrc);
+    $('#userImagePreview').width(userImageWidthPreview);
+    $('#userImagePreview').height(userImageHeightPreview);
+
+    updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
 
     tmp1 = $('input[value=' + imageEditorId + ']', top.document).parent().find('img');
     if (tmp1.length == 0)
@@ -343,19 +363,6 @@ jQuery(document).ready(function ($) {
       tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
       tmp1.attr('src', userImageSrc);
-
-    $('#userImagePreview').bind('load', function() {
-      if (isCropFit) {
-        imageEditorCrop();
-
-        _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
-        _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
-      } else {
-        $('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
-        updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-      }
-      imageEditorAdjustSize();
-    });
   }
 
   /**
@@ -503,12 +510,22 @@ jQuery(document).ready(function ($) {
       parent.jQuery('#fancybox-close').click(function() {
         _cropVisualAssistant.cropedAreaShow();
       });
+
+      $('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
+      updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
+    } else {
+      imageEditorCrop();
+
+      _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
+      _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
     }
 
-    $('#userImagePreview').fadeIn().ready(function () {
+    $('#userImagePreview').ready(function () {
       parent.jQuery('#fancybox-loading').fadeOut();
       $('#imageEditorInfoBar').show();
     });
+
+    imageEditorAdjustSize();
   });
 
   //button handlers

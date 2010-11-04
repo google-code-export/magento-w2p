@@ -25,8 +25,8 @@ function metadataAccessor (_storageElement, _productFormInput)
     var _metadata = this._storageElement.data('metadata');
     var _key_val_pairs = (_metadata==null) ? [] : _metadata.split(';');
     for (var _i in _key_val_pairs) {
-      [_key, _val] = _key_val_pairs[_i].split('=');
-      this.setProperty(_key, _val);
+      var key_val = _key_val_pairs[_i].split('=');
+      this.setProperty(key_val[0], key_val[1]);
     }
   }
 
