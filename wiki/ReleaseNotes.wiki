@@ -3,6 +3,7 @@
 = Future stable release (1.8.4.0) =
 == Issues ==
   * New fit-to-field feature in image editor dialog
+  * Update jQuery to 1.4.3 release and jQuery UI to 1.8.6 release
 
 == Release comments ==
 Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
@@ -11,7 +12,8 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css skin/frontend/default/zptheme/css/zp-style.css] file into your custom theme's CSS directory.
   * Copy [https://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery-jcrop-0.9.8.css skin/frontend/default/zptheme/css/jquery-jcrop-0.9.8.css] file into your custom theme's JS directory and remove _jquery.jcrop.css_ from it.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/jquery-jcrop-0.9.8.js skin/frontend/default/zptheme/js/jquery-jcrop-0.9.8.js] file into your custom theme's JS directory and remove _jquery-jcrop.min.js_ from it.
-  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.5-custom-min.js] file into your custom theme's JS directory.
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-1.4.3-min.js skin/frontend/default/zptheme/js/jquery-1.4.3-min.js.js] file into your custom theme's JS directory.
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.6-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.6-custom-min.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-image-edit.js skin/frontend/default/zptheme/js/zp-image-edit.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-metadata-accessor.js skin/frontend/default/zptheme/js/zp-metadata-accessor.js] file into your custom theme's JS directory.
