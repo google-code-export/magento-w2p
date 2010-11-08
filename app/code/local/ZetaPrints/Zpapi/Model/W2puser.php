@@ -26,8 +26,6 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
 
     $this->base = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $this->key = Mage::getStoreConfig('zpapi/settings/w2p_key');
-
-    zp_api_init($this->key, $this->base);
   }
 
   /**
@@ -61,8 +59,8 @@ class ZetaPrints_Zpapi_Model_W2pUser extends Mage_Api_Model_User {
       }
 
       //Not created, will create new account on ZP
-      $this->user = zp_api_common_uuid();
-      $this->pass = zp_api_common_pass();
+      $this->user = zetaprints_generate_guid();
+      $this->pass = zetaprints_generate_password();
 
       if (zetaprints_register_user($this->base, $this->key, $this->user, $this->pass)) {
         //Save SESSION
