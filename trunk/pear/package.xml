@@ -212,9 +212,7 @@ Extension developed by http://www.zetaprints.com/
             <file name="color-pickers-html.xslt" role="magelocal" />
             <file name="common-templates.xslt" role="magelocal" />
             <file name="FileUploadingLimit.php" role="magelocal" />
-            <file name="Importer.php" role="magelocal" />
             <file name="input-fields-html.xslt" role="magelocal" />
-            <file name="Itag.php" role="magelocal" />
             <file name="Observer.php" role="magelocal" />
             <file name="Optionstore.php" role="magelocal" />
             <file name="page-tabs-html.xslt" role="magelocal" />
