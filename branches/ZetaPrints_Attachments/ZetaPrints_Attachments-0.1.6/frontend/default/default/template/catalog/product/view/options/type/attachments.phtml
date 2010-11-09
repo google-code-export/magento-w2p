@@ -21,16 +21,12 @@
 <?php
 $_option = $this->getOption();
 ?>
-<dt class="zp-attachment"><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
+<dt class="zp-attachment"><label><?php echo  $this->htmlEscape($_option->getTitle()) ?>
+  <?php if ($_option->getIsRequire()): ?>
+  	<span class="required">&nbsp;*</span>
+	<?php endif; ?></label>
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
-<script type="text/javascript">
-if(undefined == window.AjaxUpload){
-  var au = document.createElement('script'); au.type = 'text/javascript';
-  au.src = '<?php echo $this->helper("attachments/upload")->getUploadJsUrl("js/ajaxupload.js")?>';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(au);
-}
-</script>
 <?php echo $this->helper('attachments/upload')->uploadControl($_option);?>
 <?php if ($_option->getFileExtension()): ?>
 <p class="no-margin"><?php echo Mage::helper('catalog')->__('Allowed file extensions to upload')?>: <strong><?php echo $_option->getFileExtension() ?></strong></p>

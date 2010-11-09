@@ -13,8 +13,8 @@
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-11-03</date>
- <time>15:34:32</time>
+ <date>2010-11-09</date>
+ <time>12:27:19</time>
  <version>
   <release>0.1.6</release>
   <api>1.0</api>
@@ -33,12 +33,14 @@ This still has more work to be done on product deletion and making it entirely i
     <dir name="frontend">
      <dir name="default">
       <dir name="default">
+       <dir name="css">
+        <file md5sum="9b5dbbc2d30d42e250795b6352a9a325" name="attachments.css" role="mageskin" />
+       </dir> <!-- ///frontend/default/default/css -->
        <dir name="js">
-        <file md5sum="54960b2b98a93f40a2f92d2bd4227aa3" name="ajaxupload.js" role="mageskin" />
-        <file md5sum="8d7fd7d399d40edbc65c08b419269a55" name="attachments.js" role="mageskin" />
+        <file md5sum="1096f00e820c4726a0efd624c299eac0" name="attachments.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
-        <file md5sum="685b763fd65427949820a8c176a80a61" name="attachments.xml" role="magedesign" />
+        <file md5sum="ceccddb29b34941f8c4500e03aab37c4" name="attachments.xml" role="magedesign" />
        </dir> <!-- ///frontend/default/default/layout -->
        <dir name="template">
         <dir name="catalog">
@@ -46,7 +48,7 @@ This still has more work to be done on product deletion and making it entirely i
           <dir name="view">
            <dir name="options">
             <dir name="type">
-             <file md5sum="15a109843512f1e42343849a82c59939" name="attachments.phtml" role="magedesign" />
+             <file md5sum="0e95b219eb5fc0e463d771893509f1f0" name="attachments.phtml" role="magedesign" />
             </dir> <!-- ///frontend/default/default/template/catalog/product/view/options/type -->
            </dir> <!-- ///frontend/default/default/template/catalog/product/view/options -->
           </dir> <!-- ///frontend/default/default/template/catalog/product/view -->
@@ -103,14 +105,14 @@ This still has more work to be done on product deletion and making it entirely i
        <dir name="Sales">
         <file md5sum="c083736d836ffd78bfad1a0326dd76c0" name="DownloadController.php" role="magelocal" />
        </dir> <!-- ///ZetaPrints/Attachments/controllers/Sales -->
-       <file md5sum="5df5948d8f172af2dd4975ba5d883538" name="IndexController.php" role="magelocal" />
+       <file md5sum="073db5360e2320537e0fd90e6c0ffb8c" name="IndexController.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachments/controllers -->
       <dir name="etc">
-       <file md5sum="b95152495a3565c5e3705c96d644deea" name="config.xml" role="magelocal" />
+       <file md5sum="2cc85630d029755b67d7e1e226b4bca0" name="config.xml" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachments/etc -->
       <dir name="Helper">
        <file md5sum="d19f38d8b561b94897564b84721d4270" name="Data.php" role="magelocal" />
-       <file md5sum="04599766e876053b74c931feeb3a2781" name="Upload.php" role="magelocal" />
+       <file md5sum="d55cd28fb8b19f752b84b7bc7b0a499a" name="Upload.php" role="magelocal" />
       </dir> <!-- ///ZetaPrints/Attachments/Helper -->
       <dir name="Model">
        <dir name="Events">
