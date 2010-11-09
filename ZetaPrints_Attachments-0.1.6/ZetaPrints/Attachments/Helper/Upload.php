@@ -43,32 +43,37 @@ class ZetaPrints_Attachments_Helper_Upload extends
      */
     public function uploadControl($option)
     {
+
         $id = $option->getId();
         $prId = $this->getProduct()->getId();
         $action = $this->_getUrl("attachments/index/upload/option_id/$id");
         $spinner = $this->getAjaxLoadImage('opc-ajax-loader.gif');
+        $maxLimit = ini_get('upload_max_filesize');
 ?>
 <div class="zp-upload" id="zp-file-upload-<?php echo $id;?>">
     <input type="hidden" name="attachment_hash[<?php echo $id;?>]" value="<?php echo $this->_getHash($prId, $id);?>" />
-    <span id="upload_group_<?php echo $id;?>">
-        <button class="submit btn-upload" disabled="disabled" id="zp-btn-upload-<?php echo $id;?>">
-            <span>Upload file</span>
-        </button>
-    </span>
-    <div id="attachmentss" style="display:none;">
+    <div class="attachments" style="display:none;">
         <h4><?php echo $this->__('Files attached:');?></h4>
-        <div id="attachments-list"></div>
+        <div id="zp-attachments-list-<?php echo $id;?>"></div>
     </div>
+    <input type="file" id="option_<?php echo $id;?>_file"  name="options_<?php echo $id;?>_file"
+				class="product-custom-option<?php echo $option->getIsRequire() ? ' required-entry' : '' ?>"
+				onchange="opConfig.reloadPrice()" />
+</div>
+<?php if($maxLimit):?>
+<div class="upload-max">(Max upload size is: <?php echo $maxLimit;?>, if your file exceeds this limit will still attempt upload but will not be saved.)</div>
+<?php endif;?>
     <script type="text/javascript">
+        var fileUpld = $('zp-btn-upload-<?php echo $id;?>');
+        var the_action = '<?php echo $action;?>';
+        var the_form = 'product_addtocart_form';
+        var the_spinner = '<?php echo $spinner;?>'
+        var attachment<?php echo $id;?> = new attachments(<?php echo $id;?>, the_action, the_form);
+        attachment<?php echo $id;?>.setOptions({spinner: the_spinner});
         Event.observe(window, 'load', function(e){
-            var fileUpld = $('zp-btn-upload-<?php echo $id;?>');
-            var the_action = '<?php echo $action;?>';
-            var the_form = 'product_addtocart_form';
-            var the_spinner = '<?php echo $spinner;?>'
-            addAttachment(fileUpld, the_action, the_form, the_spinner);
+            attachment<?php echo $id;?>.addFirstUpload();
         });
     </script>
-</div>
 <?php
     }
 

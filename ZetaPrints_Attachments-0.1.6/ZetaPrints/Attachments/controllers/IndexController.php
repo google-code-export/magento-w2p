@@ -111,7 +111,7 @@ class ZetaPrints_Attachments_IndexController
       $template = $this->errorSpan;
     }
     $error = new stdClass();
-    $error->title = sprintf($template, $msg);
+    $error->error = $msg;
     return $this->_jsonEncode($error);
   }
 
