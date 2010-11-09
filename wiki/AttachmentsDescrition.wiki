@@ -1,0 +1,28 @@
+#summary Description of Attachments extension
+#labels Development
+
+= Introduction =
+
+*Attachments* is Magento extension that allows asynchronous file uploading in product page.
+
+
+= Details =
+
+== Problems to solve ==
+  # Allow uploading multiple files per 1 custom product option in Magento.
+  # Upload files as you go, asynchronously using queue to avoid hi stress on internet bandwidth.
+  # Display list of uploaded files on every page where quote/order details are shown.
+  # In frontend show the list in plain text format (no links to download files)
+  # In admin order details page, display links to uploaded files so that admin user can download and use files.
+
+== How are problems solved ==
+
+  * Added to Magento is new custom option type 'attachment'. 
+  * Currently it overrides existing type 'file'. 
+  * Also added is product attribute 'use_ajax_upload' which is enabled/disabled type of attribute. When it is enabled, all attachment features are on, when disabled, the option functions as 'file'.
+  * Added single template file catalog/product/view/options/type/attachments.phtml which partially repeats file.phtml content, but instead of directly displaying file upload widget it uses attachments/upload helper.
+  * to implement asynchronous part a script called attachments.js is used. All functionality in it is implemented using Prototype framework http://www.prototypejs.org/api , this decision was made for some reasons, but most important is that Magento uses Prototype by default for its JS functionality so no new dependences are introduced.
+  * Displaying part of extension is done via extending and overriding some of Magento classes.
+   * Mage_Catalog_Model_Product_Option is overridden by ZetaPrints_Attachments_Model_Product_Option
+   * Mage_Catalog_Model_Product_Option_Type_File is extended from ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
+  * Since whole operation is asynchronous we cannot use usual methods for adding custom option to quote, so this is handled via Magento event system and ZetaPrints_Attachments_Model_Events_Observer
