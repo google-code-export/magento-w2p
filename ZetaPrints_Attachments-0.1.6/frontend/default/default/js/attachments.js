@@ -1,13 +1,20 @@
+/**
+ * @author      Petar Dzhambazov
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Attachments class prototype
+ */
 var attachments = Class.create({
-//  btn: undefined,       // button that will trigger file adding
-  action: undefined,    // form action
-  form: undefined,      // form from which we will get data
-  idx: undefined,       // Option index, very important for magento
+  action: undefined,    // form action, this is where all uploads will be submitted
+  form: undefined,      // form from which we will get data, this should be original Magento form ID from product page
+  idx: undefined,       // Option index, very important for magento, every custom option has this index, it is used to process options
   uploading: false,     // flag if there is upload going on at the moment
   nextId: 0,            // counter for this object's uploads. It should be increased with every added file
   container: undefined, // container to hold our forms
-  original: undefined,  // original DIV added server side
-  formempty: false,
+  original: undefined,  // original container Div that has original content which will be replaced by attachments forms
+  formempty: false,     // a flag showing if current visible file input has a file attached to it or not
  /*
   * This is file registry and queue. All files added to queue.
   * We use queue to keep the order and registry to keep AjaxUpload
@@ -21,19 +28,29 @@ var attachments = Class.create({
   */
   queue: undefined,
   registry: undefined,
-  settings: undefined,
+  settings: undefined,    // All UI options go here - IDs, classes, image paths
+  /**
+   * Initialize object
+   *
+   * Set initial values and options
+   *
+   * @param fileid int - option id
+   * @param action String - submit location
+   * @param form String - id of original magento form
+   * @param options Object - hash of key:value pairs that will be used for changing default settings.
+   */
   initialize:function(fileid, action, form, options){
     this.action = action;
     this.form = form;
     this.settings = {  // for proper inheritance to work, we need to assign values here
         placementDiv: 'zp-file-upload-',
         containerDiv: 'zp-form-container-',
-        origFileId: 'option_#{id}_file',
         containerDivClass: 'zp-form-container',
         attachmentsListName: 'zp-attachments-list-',
         formName: 'zp-attachments-form-',
         frameName: 'zp-attachments-frame-',
-        fileName: 'options_#{id}_file', // every file upload has to have the same name for Magento options to work
+        fileName: 'options_#{id}_file',       // every file upload has to have the same name for Magento options to work
+        origFileId: 'option_#{id}_file',      // original file upload ID template
         fileId: 'option_#{id}_file_#{queue}', // we add queue id so that we don't break html rules too much
         // if custom filename, file id strings are provided,
         // make sure they have #{id} and #{queue} in them respectively or this will not work
@@ -44,7 +61,7 @@ var attachments = Class.create({
         listId: '_file_list',
         listClass: 'zp-file-list',
         spinner: '../images/opc-ajax-loader.gif', // default spinner image
-        updateListEvent: 'attachment:listupdate'
+        updateListEvent: 'attachment:listupdate'  // custom event that we are firing to update containers positions
     };
     this.idx = fileid;
     this.registry = $H();
