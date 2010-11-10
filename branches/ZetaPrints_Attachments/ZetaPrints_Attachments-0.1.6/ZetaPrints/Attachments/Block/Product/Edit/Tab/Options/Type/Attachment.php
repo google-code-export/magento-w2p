@@ -1,11 +1,14 @@
 <?php
+/**
+ * @author 			Petar Dzhambazov
+ * @category    ZetaPrints
+ * @package     ZetaPrints_Attachments
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 /**
  * customers defined options
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class ZetaPrints_Attachments_Block_Product_Edit_Tab_Options_Type_Attachment extends

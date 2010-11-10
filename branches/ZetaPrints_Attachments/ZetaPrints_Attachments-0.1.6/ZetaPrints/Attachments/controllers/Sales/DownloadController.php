@@ -1,10 +1,14 @@
 <?php
 /**
+ * @author 			Petar Dzhambazov
+ * @category    ZetaPrints
+ * @package     ZetaPrints_Attachments
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
  * Sales controller for download purposes
  *
- * @category   ZetaPrints
- * @package    ZetaPrints_Attachment
- * @author     Petar Dzhambazov after Magento Core Team <core@magentocommerce.com>
  */
 
 class ZetaPrints_Attachments_Sales_DownloadController

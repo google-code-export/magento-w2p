@@ -13,8 +13,8 @@
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-11-09</date>
- <time>12:27:19</time>
+ <date>2010-11-10</date>
+ <time>11:51:40</time>
  <version>
   <release>0.1.6</release>
   <api>1.0</api>
@@ -34,13 +34,13 @@ This still has more work to be done on product deletion and making it entirely i
      <dir name="default">
       <dir name="default">
        <dir name="css">
-        <file md5sum="9b5dbbc2d30d42e250795b6352a9a325" name="attachments.css" role="mageskin" />
+        <file md5sum="1d038d154344a9f8bc2f2ff6bce7ae40" name="attachments.css" role="mageskin" />
        </dir> <!-- ///frontend/default/default/css -->
        <dir name="js">
-        <file md5sum="1096f00e820c4726a0efd624c299eac0" name="attachments.js" role="mageskin" />
+        <file md5sum="ba800034066e20c5a3b3714a7c11751e" name="attachments.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
-        <file md5sum="ceccddb29b34941f8c4500e03aab37c4" name="attachments.xml" role="magedesign" />
+        <file md5sum="8665a597880da87860fb95f785eba907" name="attachments.xml" role="magedesign" />
        </dir> <!-- ///frontend/default/default/layout -->
        <dir name="template">
         <dir name="catalog">
@@ -48,7 +48,7 @@ This still has more work to be done on product deletion and making it entirely i
           <dir name="view">
            <dir name="options">
             <dir name="type">
-             <file md5sum="0e95b219eb5fc0e463d771893509f1f0" name="attachments.phtml" role="magedesign" />
+             <file md5sum="0ed1222f7714f56c80a84152e3296f79" name="attachments.phtml" role="magedesign" />
             </dir> <!-- ///frontend/default/default/template/catalog/product/view/options/type -->
            </dir> <!-- ///frontend/default/default/template/catalog/product/view/options -->
           </dir> <!-- ///frontend/default/default/template/catalog/product/view -->
@@ -59,7 +59,7 @@ This still has more work to be done on product deletion and making it entirely i
      </dir> <!-- ///frontend/default -->
     </dir> <!-- ///frontend -->
     <dir name="modules">
-     <file md5sum="0b1bde677ad622eeb47dcfba0f662fda" name="ZetaPrints_Attachments.xml" role="mageetc" />
+     <file md5sum="705b1dc39f9ce6701dfa6186e83d8505" name="ZetaPrints_Attachments.xml" role="mageetc" />
     </dir> <!-- ///modules -->
     <dir name="ZetaPrints">
      <dir name="Attachments">
@@ -68,22 +68,22 @@ This still has more work to be done on product deletion and making it entirely i
         <dir name="Attachments">
          <dir name="Edit">
           <dir name="Tab">
-           <file md5sum="aed9461169f558d325cc23c8217c0c56" name="Form.php" role="magelocal" />
+           <file md5sum="3700bb27b3f62fa0ab77310765b40789" name="Form.php" role="magecommunity" />
           </dir> <!-- ///ZetaPrints/Attachments/Block/Adminhtml/Attachments/Edit/Tab -->
-          <file md5sum="c135abd1413ac85786b4173cc1357c92" name="Form.php" role="magelocal" />
-          <file md5sum="d9d88b7aeeafb3283b7de0207e4275f5" name="Tabs.php" role="magelocal" />
+          <file md5sum="1d1915ce1a804b334a3aea2717c27a42" name="Form.php" role="magecommunity" />
+          <file md5sum="0e16314b5322fede2f2252d4c90e4419" name="Tabs.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Attachments/Block/Adminhtml/Attachments/Edit -->
-         <file md5sum="2d403a50978dc1ecb2348bdb77b7feaf" name="Edit.php" role="magelocal" />
-         <file md5sum="f6a6857cd23153388cf0e0fed613e05f" name="Grid.php" role="magelocal" />
+         <file md5sum="6e061aed273d6e48d227ea816d457d8e" name="Edit.php" role="magecommunity" />
+         <file md5sum="15c8db92d76808dcb2b8cb94777bb0c7" name="Grid.php" role="magecommunity" />
         </dir> <!-- ///ZetaPrints/Attachments/Block/Adminhtml/Attachments -->
-        <file md5sum="231515dc6412bb3ef4d6414c326fcecc" name="Attachments.php" role="magelocal" />
+        <file md5sum="6cffe74704cafed998d0da940bd784df" name="Attachments.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Block/Adminhtml -->
        <dir name="Product">
         <dir name="Edit">
          <dir name="Tab">
           <dir name="Options">
            <dir name="Type">
-            <file md5sum="e338e8ae565a11e9fe2d0bfdfc626248" name="Attachment.php" role="magelocal" />
+            <file md5sum="b6e1d4aeffe0173e9bbdbe80ef16f95f" name="Attachment.php" role="magecommunity" />
            </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab/Options/Type -->
           </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab/Options -->
          </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab -->
@@ -91,61 +91,61 @@ This still has more work to be done on product deletion and making it entirely i
         <dir name="View">
          <dir name="Options">
           <dir name="Type">
-           <file md5sum="3334003e14a962769aeff93b99fcaec2" name="Attachments.php" role="magelocal" />
+           <file md5sum="c43b9c3eb6dc679eb635c141247ac308" name="Attachments.php" role="magecommunity" />
           </dir> <!-- ///ZetaPrints/Attachments/Block/Product/View/Options/Type -->
          </dir> <!-- ///ZetaPrints/Attachments/Block/Product/View/Options -->
         </dir> <!-- ///ZetaPrints/Attachments/Block/Product/View -->
        </dir> <!-- ///ZetaPrints/Attachments/Block/Product -->
-       <file md5sum="c4c6f1973e7e3b871d9ab554eff366c4" name="Attachments.php" role="magelocal" />
+       <file md5sum="a96cc4ffe6af4917e47b425d19b7227d" name="Attachments.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/Block -->
       <dir name="controllers">
        <dir name="Adminhtml">
-        <file md5sum="8e09485012b49cd61444c8e88730308d" name="AttachmentController.php" role="magelocal" />
+        <file md5sum="1453a8ed46979bcec876a2090b4543b1" name="AttachmentController.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/controllers/Adminhtml -->
        <dir name="Sales">
-        <file md5sum="c083736d836ffd78bfad1a0326dd76c0" name="DownloadController.php" role="magelocal" />
+        <file md5sum="3468f4d2d7ab092434f4d09bf3bcd014" name="DownloadController.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/controllers/Sales -->
-       <file md5sum="073db5360e2320537e0fd90e6c0ffb8c" name="IndexController.php" role="magelocal" />
+       <file md5sum="f742614bf55513114fef9322eed9e8d3" name="IndexController.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/controllers -->
       <dir name="etc">
-       <file md5sum="2cc85630d029755b67d7e1e226b4bca0" name="config.xml" role="magelocal" />
+       <file md5sum="2cc85630d029755b67d7e1e226b4bca0" name="config.xml" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/etc -->
       <dir name="Helper">
-       <file md5sum="d19f38d8b561b94897564b84721d4270" name="Data.php" role="magelocal" />
-       <file md5sum="d55cd28fb8b19f752b84b7bc7b0a499a" name="Upload.php" role="magelocal" />
+       <file md5sum="463bb79e3cf95101443db58ae2c10910" name="Data.php" role="magecommunity" />
+       <file md5sum="4d13c46548e6a9fdeda3a655ab5c385d" name="Upload.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/Helper -->
       <dir name="Model">
        <dir name="Events">
-        <file md5sum="b6dd9980e13fd74e56b2dfc09d240126" name="Observer.php" role="magelocal" />
+        <file md5sum="30a956d8e27841112b64f17e4ef4a021" name="Observer.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Model/Events -->
        <dir name="Mysql4">
         <dir name="Attachments">
-         <file md5sum="b6b865f27bd3af8bab87f5f5eb3751ff" name="Collection.php" role="magelocal" />
+         <file md5sum="7f6d8b9f0e492562033a84dd688359e6" name="Collection.php" role="magecommunity" />
         </dir> <!-- ///ZetaPrints/Attachments/Model/Mysql4/Attachments -->
-        <file md5sum="d57e1c4da697d36a52163b4df765afa9" name="Attachments.php" role="magelocal" />
+        <file md5sum="2632766cbef6c22d1d9431810a553f27" name="Attachments.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Model/Mysql4 -->
        <dir name="Product">
         <dir name="Option">
          <dir name="Type">
-          <file md5sum="56c645ea41a04c1918393090ec0237fc" name="Attachments.php" role="magelocal" />
+          <file md5sum="35d5724ade9a7f15cfd8b9ca77c17b2b" name="Attachments.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Attachments/Model/Product/Option/Type -->
         </dir> <!-- ///ZetaPrints/Attachments/Model/Product/Option -->
-        <file md5sum="927bb60804d6abdefe9c96da8ffd5bd8" name="Option.php" role="magelocal" />
+        <file md5sum="955a3d04113aec02dcf276822d8852a5" name="Option.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Model/Product -->
        <dir name="Resource">
-        <file md5sum="7331db93dba00bb852861ab28c1f90e7" name="Setup.php" role="magelocal" />
+        <file md5sum="d23de63cf25e6b4af960e2ae0789a218" name="Setup.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Model/Resource -->
-       <file md5sum="fc76719155e2dedce7eaded9d2f3bbb0" name="Attachments.php" role="magelocal" />
-       <file md5sum="6e7c201642c3750d89258ec327eb5366" name="Status.php" role="magelocal" />
+       <file md5sum="814e281381ccd184e4bc2843b2342930" name="Attachments.php" role="magecommunity" />
+       <file md5sum="66fb86b39c6bdc7068735fa848fcbce8" name="Status.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/Model -->
       <dir name="sql">
        <dir name="attachments_setup">
-        <file md5sum="c274d20a1ac428d51f07a8046b0fd3a9" name="mysql4-install-0.1.0.php" role="magelocal" />
-        <file md5sum="084facb8323524f120d2694384fd60fc" name="mysql4-upgrade-0.1.0-0.1.1.php" role="magelocal" />
-        <file md5sum="42c8b35390b6ac28687f0ad98fe6c4ea" name="mysql4-upgrade-0.1.1-0.1.2.php" role="magelocal" />
-        <file md5sum="ca13018c47934e318461576bad7109d1" name="mysql4-upgrade-0.1.2-0.1.3.php" role="magelocal" />
-        <file md5sum="4ed5842bcaf651ec3c6b3c46a3f168e3" name="mysql4-upgrade-0.1.3-0.1.4.php" role="magelocal" />
-        <file md5sum="7a7d06b446a79f80b891d3848d9cf983" name="mysql4-upgrade-0.1.4-0.1.5.php" role="magelocal" />
+        <file md5sum="cbd2f80c0522cd3178826dcfdb4e942e" name="mysql4-install-0.1.0.php" role="magecommunity" />
+        <file md5sum="7522a956d62ef7a4378ea8da80c161e2" name="mysql4-upgrade-0.1.0-0.1.1.php" role="magecommunity" />
+        <file md5sum="b18bea0cfc26fba42b4f31ab531d513a" name="mysql4-upgrade-0.1.1-0.1.2.php" role="magecommunity" />
+        <file md5sum="9cfbd981ece018f333885ac2fd5507fa" name="mysql4-upgrade-0.1.2-0.1.3.php" role="magecommunity" />
+        <file md5sum="21007b94db5b7d6f6a842efa92f034e7" name="mysql4-upgrade-0.1.3-0.1.4.php" role="magecommunity" />
+        <file md5sum="7353dc32c85bc7c9e6a5307a2b4a7496" name="mysql4-upgrade-0.1.4-0.1.5.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/sql/attachments_setup -->
       </dir> <!-- ///ZetaPrints/Attachments/sql -->
      </dir> <!-- ///ZetaPrints/Attachments -->

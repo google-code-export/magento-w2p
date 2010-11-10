@@ -1,10 +1,14 @@
 <?php
 /**
- * @package ZetaPrints
- * @category Attachement
- * @author Petar Dzhambazov
+ * @author 			Petar Dzhambazov
+ * @category    ZetaPrints
+ * @package     ZetaPrints_Attachments
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * @author Petar Dzhambazov
+ */
 class ZetaPrints_Attachments_Model_Events_Observer
 {
 
