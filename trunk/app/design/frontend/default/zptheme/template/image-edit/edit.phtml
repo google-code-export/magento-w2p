@@ -65,10 +65,27 @@
       <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
       <input type="hidden" name="Cropw" id="imageEditorCropW" />
       <input type="hidden" name="Croph" id="imageEditorCropH" />
-      <a href="javascript:void(0)" id="imageEditorApplyCrop">
-        <img border="0" src="<?php echo $design->getSkinUrl('images/image-edit/save.png'); ?>" alt="Save" />
-      </a>
     </form>
+
+    <div class="zetaprints-buttons-row">
+      <div class="row-part first">
+        <div id="restore-button" class="zetaprints-button restore-action">
+          <div class="icon"></div>
+          <span><?php echo $this->__('Reset'); ?></span>
+        </div>
+      </div>
+
+      <div class="row-part">
+        <div id="save-button" class="zetaprints-button save-action">
+          <div class="icon"></div>
+          <span><?php echo $this->__('Save'); ?></span>
+        </div>
+
+        <div class="reset"></div>
+      </div>
+
+      <div class="reset"></div>
+    </div>
   </div>
 
 </body>

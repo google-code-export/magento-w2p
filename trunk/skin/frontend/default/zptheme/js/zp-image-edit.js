@@ -12,6 +12,8 @@ jQuery(document).ready(function ($) {
     parent.document.getElementById('zetaprints-' + top.image_imageName)
   );
 
+  var $restore_button = $('#restore-button');
+
   /**
    * Initialize Jcrop api
    */
@@ -70,6 +72,7 @@ jQuery(document).ready(function ($) {
     }
 
     $('#imageEditorCropForm').show();
+    $('div.zetaprints-buttons-row').show();
   }
 
   /**
@@ -77,6 +80,9 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorHideCrop() {
     $('#imageEditorTooltip').hide();
+
+    $('div.zetaprints-buttons-row').hide();
+
     $('#imageEditorCropForm').hide();
     if (typeof(imageEditorJcropApi) != "undefined")
       imageEditorJcropApi.destroy();
@@ -531,17 +537,30 @@ jQuery(document).ready(function ($) {
   //button handlers
   $('#imageEditorCrop').click(function() {
     isCropFit = false;
+
+    $restore_button.addClass('hidden');
+
     clearCropMetadata();
     imageEditorCrop();
   });
   $('#imageEditorCropFit').click(function(){
     isCropFit = true;
+
+    $restore_button.removeClass('hidden');
+
     imageEditorLoadImage();
     imageEditorCrop();
   });
-  $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
+  $('#save-button').click(imageEditorApplyCrop);
 
   $('#imageEditorRestore').click(imageEditorRestore);
+
+  $restore_button.click(function () {
+    clearCropMetadata();
+
+    imageEditorLoadImage();
+    imageEditorCrop(); });
+
   $('#imageEditorRotateRight').click( function () {
     imageEditorDoRotate('r');
   });
