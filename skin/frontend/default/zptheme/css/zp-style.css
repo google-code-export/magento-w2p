@@ -636,3 +636,59 @@ div.thumbCropedAreaToolSet div img {
   cursor: se-resize;
 }*/
 
+/* Common CSS rules for button with icon and its container */
+div.zetaprints-buttons-row .zetaprints-button {
+  float: left;
+  margin: 0px 2px;
+}
+
+div.zetaprints-buttons-row div.reset {
+  clear: both;
+}
+
+div.zetaprints-buttons-row div.row-part {
+  width: 50%;
+  float: left;
+}
+
+div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
+  float: right;
+}
+
+.zetaprints-button {
+  display: block;
+  cursor: pointer;
+  height: 22px;
+  padding-left: 5px;
+  background-color: #93b4df;
+  border: 1px solid #7192bf;
+}
+
+.zetaprints-button.hidden {
+  visibility: hidden;
+}
+
+.zetaprints-button div.icon {
+  display: block;
+  float: left;
+  height: 22px;
+  width: 16px;
+  background-repeat: no-repeat;
+  background-image: url('../images/images-selector-sprites.png');
+}
+
+.zetaprints-button span {
+  margin: 0px 8px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.zetaprints-button.save-action div.icon {
+  background-position: -222px -41px;
+}
+
+.zetaprints-button.restore-action div.icon {
+  width: 13px;
+  background-position: -222px -61px;
+}

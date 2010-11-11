@@ -5,12 +5,6 @@ body {
   overflow: hidden;
 }
 
-#imageEditorApplyCrop {
-  display: block;
-  width: 68px;
-  margin: 5px auto 0 auto;
-}
-
 #imageEditorLeftSidebar {
   /*-moz-background-clip: border;
   -moz-background-inline-policy: continuous;
@@ -127,4 +121,8 @@ body {
 #infoBar #imageEditorHeightInfo {
   min-width: 30px;
   color: black;
+}
+
+div.zetaprints-buttons-row {
+  margin-top: 5px;
 }
