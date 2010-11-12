@@ -541,6 +541,11 @@ Extension developed by http://www.zetaprints.com/
         <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
       </dir>
 
+      <dir name="es_ES">
+        <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
+        <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
+      </dir>
+
       <dir name="ru_RU">
         <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
         <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
