@@ -26,3 +26,27 @@
    * Mage_Catalog_Model_Product_Option is overridden by ZetaPrints_Attachments_Model_Product_Option
    * Mage_Catalog_Model_Product_Option_Type_File is extended from ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
   * Since whole operation is asynchronous we cannot use usual methods for adding custom option to quote, so this is handled via Magento event system and ZetaPrints_Attachments_Model_Events_Observer
+
+== Use case ==
+
+Admin user adds a product that can use one or more customer files, such as visual templates, fonts, Photoshop brushes etc.
+
+To provide this admin adds custom option from product editing page.
+
+Admin can choose separate option for each type of files a product can use. For example, graphic designs, fonts, pdf files etc. 
+
+Each chosen option will present separate widget that allows queuing multiple files for that option.
+
+Uploading first file chosen for each option group starts immediately and each additional file is added to queue. 
+
+Next to each uploading file is presented a 'cancel' button, that allows the customer to stop the upload if needed.
+
+Upon canceling upload of a file, next in queue starts upload. Canceled file is removed from queue and if customer wants to re - add it , has to choose it again.
+
+Next to each queued file there is a 'remove' link which removes the file from queue. Clicking on that link will remove the file and its form from queue.
+
+If admin has set 'Use AJAX upload' to 'Yes' in general product attributes page all file upload options will be "ajaxified".
+
+By default Magento disallows uploading of .php and .exe files.
+
+During upload, all 'Add to cart' buttons of original Magento form are hidden from client to prevent accidental leaving of the page and by doing this canceling all pending and running uploads. If customer decides that he does not want to upload remaining files, he/she can cancel or remove them and 'Add to cart' buttons will be available again.
