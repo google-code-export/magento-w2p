@@ -29,7 +29,8 @@
       </updates>
     </layout>
   </frontend>
-  <admin>
+  <!--
+    <admin>
     <routers>
       <attachments>
         <use>admin</use>
@@ -77,6 +78,7 @@
       </updates>
     </layout>
   </adminhtml>
+  -->
   <global>
     <models>
       <attachments>
