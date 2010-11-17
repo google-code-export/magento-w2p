@@ -1,3 +1,4 @@
+window.uploadInProgress = [];// global flag register if there is upload going on at the moment
 /**
  * @author      Petar Dzhambazov
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -5,12 +6,16 @@
 
 /**
  * Attachments class prototype
+ *
+ * This is designed to upload files in Magento in AJAX like way.
+ * Principles used can be applied to any other web environment but
+ * using as it is will probably not work.
+ * this class uses Prototype JavaScript framework. See http://www.prototypejs.org/api for details
  */
 var attachments = Class.create({
   action: undefined,    // form action, this is where all uploads will be submitted
   form: undefined,      // form from which we will get data, this should be original Magento form ID from product page
   idx: undefined,       // Option index, very important for magento, every custom option has this index, it is used to process options
-  uploading: false,     // flag if there is upload going on at the moment
   nextId: 0,            // counter for this object's uploads. It should be increased with every added file
   container: undefined, // container to hold our forms
   original: undefined,  // original container Div that has original content which will be replaced by attachments forms
@@ -39,83 +44,81 @@ var attachments = Class.create({
    * @param form String - id of original magento form
    * @param options Object - hash of key:value pairs that will be used for changing default settings.
    */
-  initialize:function(fileid, action, form, options){
+  initialize:function(fileid, action, form, options){ // initialize instance
     this.action = action;
     this.form = form;
     this.settings = {  // for proper inheritance to work, we need to assign values here
-        placementDiv: 'zp-file-upload-',
-        containerDiv: 'zp-form-container-',
-        containerDivClass: 'zp-form-container',
-        attachmentsListName: 'zp-attachments-list-',
-        formName: 'zp-attachments-form-',
-        frameName: 'zp-attachments-frame-',
-        fileName: 'options_#{id}_file',       // every file upload has to have the same name for Magento options to work
-        origFileId: 'option_#{id}_file',      // original file upload ID template
-        fileId: 'option_#{id}_file_#{queue}', // we add queue id so that we don't break html rules too much
+        placementDiv: 'zp-file-upload-',            // this is container of sever side html
+        containerDiv: 'zp-form-container-',         // this is container where generated forms will be
+        containerDivClass: 'zp-form-container',     // this is class for all js containers that are used which helps in styling and posiotioning them
+        attachmentsListId: 'zp-attachments-list-',  // file list container id
+        formId: 'zp-attachments-form-',             // form ID
+        frameId: 'zp-attachments-frame-',           // iFrame ID
+        fileName: 'options_#{id}_file',             // every file upload has to have the same name for Magento options to work
+        origFileId: 'option_#{id}_file',            // original file upload ID template
+        fileId: 'option_#{id}_file_#{queue}',       // we add queue id so that we don't break html rules too much
         // if custom filename, file id strings are provided,
         // make sure they have #{id} and #{queue} in them respectively or this will not work
-        removeLinkClass: "zp-remove-file-link",
-        cancelLinkClass: "zp-cancel-file-link",
-        listItemId: '_list_item',
-        listItemClass: 'zp-file-list-item',
-        listId: '_file_list',
-        listClass: 'zp-file-list',
-        spinner: '../images/opc-ajax-loader.gif', // default spinner image
-        updateListEvent: 'attachment:listupdate'  // custom event that we are firing to update containers positions
+        removeLinkClass: "zp-remove-file-link",     // class name for remove links
+        cancelLinkClass: "zp-cancel-file-link",     // class name for cancel links
+        listItemId: '_list_item',                   // ilst item ID
+        listItemClass: 'zp-file-list-item',         // list item class
+        listId: '_file_list',                       // ul list ID
+        listClass: 'zp-file-list',                  // ul list class
+        spinner: '../images/opc-ajax-loader.gif',   // default spinner image
+        useskinnedupload: true,                     // use skinned version of the upload
+        updateListEvent: 'attachment:listupdate'    // custom event that we are firing to update containers positions
     };
     this.idx = fileid;
     this.registry = $H();
     this.queue = [];
+    window.uploadInProgress[this.idx] = false;
     this.setOptions(options);
   },
-  addFirstUpload:function(){
-    var cont = this.createContainer(this.idx);
-    this.original = $(this.settings.placementDiv + this.idx);
+  addFirstUpload:function(){ // after initilize, prepare container and add first form
+    var cont = this.createContainer(this.idx); // create form container
+    this.original = $(this.settings.placementDiv + this.idx); // get server side container
     var or = $(this.original);
-    cont.absolutize();
-    var dim = or.getDimensions();
-    or.setStyle({width: dim.width+'px', height: 'auto'});
-    cont.clonePosition(this.original);
-    cont.originalPosition = cont.positionedOffset();
-    this.hideOriginalContent();
-    this.addUpload();
+    cont.absolutize();  // make our container, absolutely positioned
+    var dim = or.getDimensions(); // get original container dimentions
+    or.setStyle({width: dim.width+'px', height: 'auto'}); // hard code original container width to avoid unwanted changes
+    cont.clonePosition(this.original); // then clone position and dimentions to our container. This places it on top of original
+    cont.originalPosition = cont.positionedOffset(); // save first position for future needs
+    this.hideOriginalContent(); // hide some of the original container content
+    this.addUpload(); // and add first form
   },
-  hideOriginalContent:function(){
+  hideOriginalContent:function(){ // hides some of the original container content
     var div = $(this.original);
-    if(div){
-      var originalFileId = this.settings.origFileId.sub('#{id}', this.idx);
-      var replDiv = new Element('div', {id: 'repl-' + originalFileId}).clonePosition($(originalFileId), {
+    if(div){ // if we have reference to original container
+      var originalFileId = this.settings.origFileId.sub('#{id}', this.idx); // get original file upload id
+      var replDiv = new Element('div', {id: 'repl-' + originalFileId}).clonePosition($(originalFileId), { // create replacement div with same width
         setLeft: false,  //clones source’s left CSS property onto element.
         setTop: false,  //clones source’s top CSS property onto element.
         setWidth: true,  //clones source’s width onto element.
         setHeight: false}
       ).update('&nbsp;');
-      var height = $(this.container).getHeight();
+      var height = $(this.container).getHeight(); // get height from container, so any remaining content is pushed below our form
+      height += 5; // make some space
       replDiv.setStyle({height: height + 'px'});
-      Element.replace(originalFileId, replDiv);
-      $(this.container).observe(this.settings.updateListEvent, function(e){
-        var div = 'repl-' + this.settings.origFileId.sub('#{id}', this.idx);
-        $(this.container).clonePosition($(div), {setLeft:false, setTop: true, setWidth:false, setheight:false});
+      var oldFile = Element.replace(originalFileId, replDiv); // replace original element with replacement div
+      $(this.container).observe(this.settings.updateListEvent, function(e){ // add listener for our custom event which fires whenever file list content changes so
+        var div = 'repl-' + this.settings.origFileId.sub('#{id}', this.idx);// that we can adjust position of the forms
+        $(this.container).clonePosition($(div), {setLeft: true, setTop: true, setWidth:false, setheight:false});
       }.bindAsEventListener(this));
     }
   },
-  showList:function(list){
+  showList:function(list){ // shows file list, when there is content in it
     var l = $(list);
     l.up().show();
-//    this.updateContainer(list);
-    this.fireListUpdate();
+    this.fireListUpdate(); // update attachments containers positions
   },
-  updateContainer: function(list){
-    var l = $(list.parentNode);
-    var listHeight = l.getHeight();
-    var offset = this.container.originalPosition;
-    var top = offset.top + listHeight;
-    this.container.setStyle({top: top + 'px'});
-  },
-  createContainer:function(id){
-    var cont = new Element('div', {id: this.settings.containerDiv + id, 'class': this.settings.containerDivClass});
-    document.body.appendChild(cont);
-    this.container = cont;
+  createContainer:function(id){ // create attachments container
+    var cont = new Element('div');
+    document.body.appendChild(cont); // add it to document
+    cont.id = this.settings.containerDiv + id;
+    cont.addClassName(this.settings.containerDivClass);
+    cont.setStyle({textAlign: 'left'});
+    this.container = cont; // save reference to it
     return this.container;
   },
   setOptions:function(options){
@@ -128,19 +131,19 @@ var attachments = Class.create({
   },
   getRemoveLink:function(id) // link to remove files from queue
   {
-    var link = new Element('a', {href: '#', "class": this.settings.removeLinkClass, id : this.getRemoveLinkId(id)}).update('Remove'); // compose remove link
+    var link = new Element('a', {href: '#', "class": this.settings.removeLinkClass, id : this.getRemoveLinkId(id)}).update('Remove'); // create remove link
     return link;
   },
   getStopLink:function(id) // link to stop files from upload
   {
-    var link = new Element('a', {href: '#', "class": this.settings.cancelLinkClass, id : this.getStopLinkId(id)}).update('Cancel'); // compose cancel link
+    var link = new Element('a', {href: '#', "class": this.settings.cancelLinkClass, id : this.getStopLinkId(id)}).update('Cancel'); // create cancel link
     return link;
   },
-  getRemoveLinkId:function(id) // following functions will help us add events to links by providing us with their ID's
+  getRemoveLinkId:function(id) // compose remove link id
   {
     return this.settings.removeLinkClass + "-" + this.idx + "-" + id;
   },
-  getStopLinkId:function(id){
+  getStopLinkId:function(id){// compose cancel link id
     return this.settings.cancelLinkClass + "-" + this.idx + "-" + id;
   },
   getAddedText:function(name, id) // text when file is added
@@ -159,7 +162,7 @@ var attachments = Class.create({
     spn.insert(this.getStopLink(id)).insert(this.getSpinner());
     return  spn;
   },
-  getUploadList:function(){
+  getUploadList:function(){ // get reference to file list container, alert pops up when elemnt ID is not found
     var list = this.getUploadListId(this.idx);
     var attachmentsList = $(list);
     if(undefined == attachmentsList){
@@ -168,10 +171,10 @@ var attachments = Class.create({
     }
     return attachmentsList;
   },
-  getUploadListId:function(id){
-    return this.settings.attachmentsListName + this.idx;
+  getUploadListId:function(id){ // compose list id, each option has single list so we only use option id for uniqueness
+    return this.settings.attachmentsListId + this.idx;
   },
-  getListItemId:function(id){
+  getListItemId:function(id){ // compose item id, to make it unique, include option id and nextid
     var liId = id + '_' + this.idx + this.settings.listItemId;
     return liId;
   },
@@ -198,19 +201,18 @@ var attachments = Class.create({
     this.fireListUpdate();
     return $(lid + this.settings.listItemId); // return LI reference
   },
-  fireListUpdate:function(){
-    var containers = $$('.' + this.settings.containerDivClass);
-    containers.each(function(c){
-      $(c).fire('attachment:listupdate');
-    });
+  fireListUpdate:function(){ // this functions handles correct positioning of div containers that hold the forms
+    var containers = $$('.' + this.settings.containerDivClass); // get a collection of containers
+    containers.each(function(c){ // make each of them fire custom update event
+      $(c).fire(this.settings.updateListEvent);
+    }.bind(this));
   },
   updateUploadsList:function(item, el_id){ // update el_id content
     return $(el_id).update(item);
   },
   removeFromUploadList:function(el_id){ // remove el_id from file list
     $(el_id).remove();
-//    this.updateContainer(this.getUploadList());
-    this.fireListUpdate();
+    this.fireListUpdate(); // update containers positioning
   },
   clearUploadList:function(){ // clear content of file list
     var attachmentsList = this.getUploadList();
@@ -219,19 +221,29 @@ var attachments = Class.create({
     }
     this.fireListUpdate();
   },
-  getFileName: function(file){
-    return file.replace(/.*(\/|\\)/, "");
+  getFileName: function(file){ // get base file name from file input value
+    return file.replace(/.*(\/|\\)/, "");// different browsers set different values for it so it is best to have just base file name, no folder path
   },
-  getNewForm:function(id, iFrame, data){
-    var form = new Element('form', {
+  getNewForm:function(id, iFrame, data){ // create and return form
+    var formName = this.getFormName(id);
+    var form = new Element('form', { // create form element
       id: this.getFormName(id),
       action: this.action,
-      enctype:"multipart/form-data",
-      target: iFrame.name,
-      method: 'post'
+      enctype:"multipart/form-data", // has to be like this
+      target: iFrame.name, // set its submit target
+      method: 'post' // file uploads work only with post
     });
-    var input = this.getUpload(id);
-    form.appendChild(input);
+    if(document.all){ //  ie hacks
+      form = toElement('<form method="post" enctype="multipart/form-data"></form>');
+      form = $(form);
+      form.id = formName;
+      form.action = this.action;
+      form.target = iFrame.name;
+    }
+    this.container.insert({top:form}); // add it to div container that handles positioning
+
+    var input = this.getFileInput(id); // get the file input
+    form.appendChild(input); // add it
     // Create hidden input element for each data key
     for (var prop in data) {
       if (data.hasOwnProperty(prop)){
@@ -239,142 +251,163 @@ var attachments = Class.create({
         form.insert(el);
       }
     }
-    this.container.insert({top:form});
+
     return form;
   },
-  getIframe:function(id){
-    var frame = new Element('iframe', {
-      id: this.getFrameName(id),
-      name: this.getFrameName(id),
-      src: 'javascript:false;',
-      style: 'display: none'
+  getIframe:function(id){ // create and return iFrame
+    var frName = this.getFrameName(id);
+    var frame = new Element('iframe', { // create new iFrame element
+      id: frName,
+      name: frName,
+      src: 'javascript:false;', // set empty source
+      style: 'display: none' // hide it
     });
-    document.body.appendChild(frame);
+    if(document.all){ //  ie hacks
+      frame = toElement('<iframe src="javascript:false;" name="' + frName + '" />');
+      frame = $(frame);
+      frame.id = frName;
+      frame.writeAttribute({style: 'display: none'});
+      frame.width = 0;
+      frame.height = 0;
+    }
+    document.body.appendChild(frame); // add it to document
     return frame;
   },
-  remFrame:function(id){
-    var frid = this.getFrameName(id);
+  remFrame:function(id){// remove an iFrame
+    var frid = this.getFrameName(id);// get the iFrame ID
     if($(frid)){
       $(frid).stopObserving(); // prevent any events from firing;
       $(frid).src = "about:blank"; // stop any uploads
       $(frid).remove(); // and remove iframe
     }
   },
-  remForm:function(id){
-    var frid = this.getFormName(id);
-    if($(frid)){
-      $(frid).remove();
+  remForm:function(id){ // remove a form
+    var frid = this.getFormName(id); // get the form ID
+    if($(frid)){ // if it exists
+      $(frid).remove(); // remove it from document
     }
   },
-  getUpload:function(id){
-    var upname = this.getUploadFileName();
-    var upid = this.getUploadId(id);
-    var input = new Element('input',{type: 'file', name: upname, id: upid});
+  getFileInput:function(id){
+    var upname = this.getUploadFileName(); // get inout name
+    var upid = this.getUploadId(id); // ID
+    if(this.settings.useskinnedupload == false){ // if not using skinned input, return normal HTML file input
+      var input = new Element('input',{type: 'file', name: upname, id: upid}); // create element
+    }else{
+      var options = { // build some options for widget
+          inputId: upid,   // real input id
+          inputName: upname
+      };
+      if(undefined != this.settings.icon){ // if you pass Icon path to constructor, it should get passed here
+        options.icon = this.settings.icon;
+      }
+      var skin = new SkinnableFileInput(options);
+      var input = skin.widget();
+    }
     return input;
   },
-  getUploadId:function(id){
+  getUploadId:function(id){// format file input ID and return it, it should be the unique for all files per option so we add nextid to it
     return this.settings.fileId.sub('#{id}', this.idx).sub('#{queue}', id);
   },
-  getUploadFileName:function(){
+  getUploadFileName:function(){ // format file input name and return it, it should be the same for all files per option
     return this.settings.fileName.sub('#{id}', this.idx);
   },
-  getFrameName:function(id){
-    return this.settings.frameName + this.idx + '-' + id;
+  getFrameName:function(id){// format iFrame name and return it. Format is made of a prefix plus current option ID, plus current file id for this option
+    return this.settings.frameId + this.idx + '-' + id;
   },
-  getFormName:function(id){
-    return this.settings.formName + this.idx + '-' + id;
+  getFormName:function(id){ // format form name and return it. Format is made of a prefix plus current option ID, plus current file id for this option
+    return this.settings.formId + this.idx + '-' + id;
   },
   getQueueItem:function(){ // get item from queue we use ONLY first item nothing else
     var length = this.queue.size();
-    if(length > 0){
+    if(length > 0){ // if there are ids in queue, get first in line
       return this.queue.shift();
     }
     return false;
   },
-  getRegistryItem:function(id){
+  getRegistryItem:function(id){ // get upload from registry
     return this.registry.get(id);
   },
   addToQueue:function(id){ // add upload id to queue, from where it will be taken on its time
-    if(this.queue.indexOf(id) != -1){
+    if(this.queue.indexOf(id) != -1){ // if this upload ID is not in queue - add it
       return false;
     }
     return this.queue.push(id);
   },
   addToRegistry:function(id, upload){ // register upload to registry, from where it will be submitted
-    if(undefined != this.registry.get(id)){
+    if(undefined != this.registry.get(id)){ // each upload object is added only once. It holds the form and its target
       return false;
     }
     return this.registry.set(id, upload);
   },
-  removeFromQueue:function(id){
-    if(this.queue.indexOf(id) != -1){
+  removeFromQueue:function(id){ // remove upload id from queue
+    if(this.queue.indexOf(id) != -1){ // check if it is in queue and then remove it
       var idx = this.queue.indexOf(id);
       this.queue.splice(idx, 1);
     }
   },
-  removeFromRegistry:function(id){ //
+  removeFromRegistry:function(id){ // clear upload from registry and also remove iFrame and form created, so that we do not polute document
     var upload = this.registry.unset(id);
     if(upload){
       this.remForm(id); // remove form
       this.remFrame(id); // remove frame
     }
   },
-  addUpload:function(){
-    var id = ++this.nextId;
-    var iFrame = this.getIframe(id);
-    var data = $(this.form).serialize(true);
-    var form = this.getNewForm(id, iFrame, data);
+  addUpload:function(){ // add upload form and frame to document
+    var id = ++this.nextId; // get unique id for this upload widget
+    var iFrame = this.getIframe(id); // create iFrame
+    var data = $(this.form).serialize(true); // get major form's data (it includes product id, option id and hash that we need)
+    var form = this.getNewForm(id, iFrame, data); // get the form
     // adding events should be done only after elements are added to screen.
-    $(form).observe('submit', this.onFormSubmit);
-    $(this.getUploadId(id)).observe('change', this.onFileChange.bindAsEventListener(this, {form: form, frame: iFrame}));
-    this.formempty = true;
+    $(form).observe('submit', this.onFormSubmit); // this is not working when submiting via JS
+    $(this.getUploadId(id)).observe('change', this.onFileChange.bindAsEventListener(this, {form: form, frame: iFrame})); // listen for when user selects a file and act accordingly
+    this.formempty = true; // set flag that the form is new so in event of last queue item is removed we do not add another form by accident
   },
-  updateFileList:function(id, content){
-    if(!$(id + this.settings.listItemId)){
+  updateFileList:function(id, content){ // proxy function to add content to file list
+    if(!$(id + this.settings.listItemId)){ // if list item does not exist, create it and add content
       this.addToUploadList(content, id);
-    }else{
+    }else{ // else simply update it
       this.updateUploadsList(content, id + this.settings.listItemId);
     }
   },
-  clearFromFileList:function(id){
+  clearFromFileList:function(id){ // clear file list
     if($(this.getListItemId(id))){
       this.removeFromUploadList(this.getListItemId(id));
     }
   },
-  removeUpload:function(id){
+  removeUpload:function(id){ // unregister upload
     this.removeFromQueue(id);
     this.removeFromRegistry(id);
   },
-  startUpload:function(id){
-    var upload = this.getRegistryItem(id);
+  startUpload:function(id){  // start upload of a queue item
+    var upload = this.getRegistryItem(id); // get upload pair, form + iFrame
     if(upload){
       var form = upload.form;
       var frame = upload.frame;
-      var name = this.getFileName(form[this.getUploadFileName()].value);
-      var uploadingText = this.getLoadingText(name, id);
-      this.updateFileList(id, uploadingText);
-      var params = {frame: frame, form: form, id: id, file: name};
-      $(frame).observe('load', this.onLoaded.bindAsEventListener(this, params));
-      var cancelLinkId = this.getStopLinkId(id);
-      $(cancelLinkId).observe('click', this.onCanceled.bindAsEventListener(this, params));
-      form.submit();
-      this.onFormSubmit();
-      this.uploading = true;
+//      var name = this.getFileName(form[this.getUploadFileName()].value); // get file name for display purposes
+      var name = this.getUploadId(id); // get file name for display purposes
+      name = $(name);
+      name = name.value;
+      var uploadingText = this.getLoadingText(name, id); // format message
+      this.updateFileList(id, uploadingText); // and display it for user
+      var params = {frame: frame, form: form, id: id, file: name}; // prepare params to pass to events
+      $(frame).observe('load', this.onLoaded.bindAsEventListener(this, params));  // set event listener to frame on when it is loaded
+      var cancelLinkId = this.getStopLinkId(id); // get id of cancel link
+      $(cancelLinkId).observe('click', this.onCanceled.bindAsEventListener(this, params)); // and add listener to it, with Prototype this should be done AFTER link is displayed
+      form.submit(); // submit upload
+      this.onFormSubmit(); // this shold of been listener for form, but it does not work when submitting via JS
+      this.hideAddtoCartButton(); // if we have strated upload, make sure all add to cart buttons are not visible.
+      window.uploadInProgress[this.idx] = true;// set flag that upload is in progress
     }
   },
-  cancelUpload:function(id){
-    var upload = this.getRegistryItem(id);
-    if(upload){
-      this.removeUpload(id);
-    }
-  },
-  isQueueEmpty:function(){
+  isQueueEmpty:function(){ // check if we have more items in queue
     return this.queue.size() > 0 ? false : true;
   },
-  nextInQueue:function(){
+  nextInQueue:function(){ // move queue forward
     var id = this.getQueueItem();
-    if(id !== false){
-      this.startUpload(id);
+    if(id !== false){ // if there is queued item
+      this.startUpload(id);  // start upload
+    }else{ // no ites in queue
+      this.showAddtoCartButton();  // we can show add to cart button
     }
   },
   deleteUpload:function(){
@@ -444,69 +477,91 @@ var attachments = Class.create({
     }
     return response;
   },
-  onFormSubmit:function(e){
-    var frm = $(this.getFormName(this.nextId));
-    frm.hide();
-    this.addUpload();
+  hideAddtoCartButton:function(){ // hide add to cart button  so that all uploads complete before continuing
+    var btns = $$('.btn-cart');   // 'btn-cart' is the class currently used in Magento, if this is not working lookup what has replaced the class
+    btns.each(function(btn){
+      $(btn).hide();              // loop each button and hide it
+    });
   },
-  onFileChange:function(e){
-    var upload = arguments[1];
-    var id = this.nextId;
-    this.addToQueue(this.nextId);
-    this.addToRegistry(this.nextId, upload);
-    this.formempty = false;
-    var name = this.getFileName(Event.element(e).value);
-    var content = this.getAddedText(name, this.nextId);
-    this.updateFileList(this.nextId, content);
-    var remLink = this.getRemoveLinkId(this.nextId);
-    var params = {id: this.nextId};
-    $(remLink).observe('click', this.onRemoved.bindAsEventListener(this, params));
-    if(this.uploading == false){ // if we are not uploading, strat
-      this.nextInQueue();
-    }else{
-      var item = Event.element(e);
-      if(item.value != ''){ // if we have file input with value - meaning a file was chosen
-        this.onFormSubmit(); // hide current form and add next
+  showAddtoCartButton:function(){ // show add to cart buttons when there are no more running uploads
+    var uploading = window.uploadInProgress; // get all uploading ids
+    var show = true; // show by default
+    uploading.each(function(u){
+      if(u == true){ // if any upload is still true
+        show = false; // don't show
       }
+    });
+    if(show){
+      var btns = $$('.btn-cart');
+      btns.each(function(btn){
+        $(btn).show();              // loop each button and show it
+      });
     }
   },
   // event handlers
-  onLoaded: function(e){
-    this.uploading = false;
-    var params = arguments[1];
+  onFormSubmit:function(e){ // this is supposed to be handler right before the upload starts
+    var frm = $(this.getFormName(this.nextId)); // get current form
+    frm.hide(); // hide it
+    this.addUpload(); // and add next
+  },
+  onFileChange:function(e){ // this handles file input change event, meaning that it is fired when user has chosen a file
+    var upload = arguments[1]; // we have passed some parameters upon registering as listener
+    var id = this.nextId; // get current file id
+    this.addToQueue(this.nextId); // add the id to queue
+    this.addToRegistry(this.nextId, upload); // and add upload object holding {form: form, frame: iframe} to registry
+    this.formempty = false; // form is not empty no more, so if this upoad is removed from queue, we will need to add new form
+    var name = this.getFileName(Event.element(e).value); // get file name for display list
+    var content = this.getAddedText(name, this.nextId);  // prepare text content
+    this.updateFileList(this.nextId, content);           // add it to file list
+    var remLink = this.getRemoveLinkId(this.nextId);     // get id of remove link
+    var params = {id: this.nextId};
+    $(remLink).observe('click', this.onRemoved.bindAsEventListener(this, params)); // add listener to remove upload from queue, passing correct upload id
+    if(window.uploadInProgress[this.idx] == false){ // if we are not uploading, strat
+      this.nextInQueue();
+    }else{
+      this.onFormSubmit();       // hide current form and add next
+    }
+  },
+  onLoaded: function(e){ // handles iframe load event
+    window.uploadInProgress[this.idx] = false; // set uploading flag to false
+    var params = arguments[1]; // get our params from arguments
     var frame = params.frame;
     var form = params.form;
     var uploadId = params.id;
     var fileName = params.file;
-    var response = this.getResponse(frame);
-    if(response == null){
-      return;
+    var response = this.getResponse(frame); // get response from iFrame
+    if(response == null){ // if something very bad has happened
+      return; // do nothing
     }
-    this.updateUploadsList(fileName, this.getListItemId(uploadId));
-    this.removeUpload(uploadId);
-    this.nextInQueue();
+    if(undefined != response.title){
+      this.updateUploadsList(response.title, this.getListItemId(uploadId)); // if title is set, that is valid response from server
+    }else{ // else an error is occured give out general message
+      this.updateUploadsList('A problem has occured, please try again', this.getListItemId(uploadId));
+    }
+    this.removeUpload(uploadId); // remove from queue
+    this.nextInQueue(); // continue with next
   },
-  onCanceled: function(e){
-    e.stop();
-    var params = arguments[1];
+  onCanceled: function(e){ // handles when running upload is canceled
+    e.stop(); // stop the event that caused it 'click' for example
+    var params = arguments[1]; // get params
     var uploadId = params.id;
-    this.removeUpload(uploadId);
-    this.clearFromFileList(uploadId);
-    this.uploading = false;
-    this.nextInQueue();
-    return false;
+    this.removeUpload(uploadId); // remove upload from queue
+    this.clearFromFileList(uploadId); // clear file list
+    window.uploadInProgress[this.idx] = false; // we are not uploading any more
+    this.nextInQueue();     // move queue
+    return false;           // should do the same as e.stop() for older browsers
   },
-  onRemoved: function(e){
-    e.stop();
-    var params = arguments[1];
+  onRemoved: function(e){  // handles when queued upload is removed from queue
+    e.stop(); // stop the event that caused it 'click' for example
+    var params = arguments[1]; // get params
     var uploadId = params.id;
-    var last = this.isLastInQueue(uploadId);
-    this.removeUpload(uploadId);
-    this.clearFromFileList(uploadId);
-    if(last && this.formempty == false){ // if we removed last queued item, there is no form, so we add one.
+    var last = this.isLastInQueue(uploadId); // check if this id is lat in queue, if it is removing its form will leave us without form
+    this.removeUpload(uploadId);  // remove it from queue
+    this.clearFromFileList(uploadId); // clear file list
+    if(last && this.formempty == false){ // if we removed last queued item, there is no form.
       this.addUpload();
     }
-    return false;
+    return false;           // should do the same as e.stop() for older browsers
   },
   isLastInQueue: function(id){ // determine if given ID is last in queue, which means that its form is currently displayed
     if(this.queue.indexOf(id) != -1){
@@ -519,3 +574,163 @@ var attachments = Class.create({
   }
 });
 
+// skinned file input
+// has to have the option to be skinned to much greater extent then normal file input
+// make this like a widget with possibe settings
+
+
+var SkinnableFileInput = Class.create({
+  _input: undefined,    // actual file input
+  _widget: undefined,   // widget container has to be relatively positioned
+  _value: undefined,    // text input to which we transfer file input value
+  _button: undefined,   // non clickable button to represent overall look, it is a div with desired visual appearance
+  _fakeinput: undefined,  // container for our fake input
+  inputId: undefined,   // real input id
+  inputClass: undefined,  // real input class
+  inputName: undefined,   // real input form name
+  widgetId: undefined,  // widget ID
+  widgetClass: undefined, // widget class
+  fakeInputClass: undefined, // fake input class
+  valueClass: undefined, // value text input class
+  valueName: undefined,  // value text form name
+  buttonClass: undefined, // button class
+  icon: undefined,  // icon to use in button
+  width_in_chars: undefined, // firefox uses size to set actual size of input, for customizing, it is try and error efford
+  initialize:function(options){
+    // add default optoins, override them with any user options
+    this.setDefaults().setOptions(options).prepareWidget();
+  },
+  setDefaults:function(){
+    // setting default widget ids, classes, and names,
+    // if only single widget will be used you may change them here
+    // but it is not recommended, pass what you need to change
+    // via options to constructor.
+    this.inputId =        'zp-file-input-id';
+    this.inputClass =     'zp-file-input-class';
+    this.inputName =      'zp-file-input-name';
+    this.widgetId =       'zp-skinnable-file-widget-id';
+    this.widgetClass =    'zp-skinnable-file-widget-class';
+    this.fakeInputClass = 'zp-file-fakeinput-class';
+    this.valueClass =     'zp-file-fake-value-class';
+    this.valueName =      'zp-file-fake-value-name';
+    this.buttonClass =    'zp-file-button-class';
+    this.width_in_chars = 20;
+    return this;
+  },
+  setOptions: function(options){
+    // Merge the users options with our defaults
+    for (var i in options) {
+      if(i == 'inputId'){
+        this.inputId = options[i];
+        this.widgetId += this.inputId;
+      }else if(options.hasOwnProperty(i)){
+        this[i] = options[i];
+      }
+    }
+    return this;
+  },
+  prepareWidget: function(){
+    var widget = this.getWidget();
+    var input = this.getInput();
+    var fake = this.getFakeInput();
+    widget.insert(input).insert(fake);
+  },
+  getWidget: function(){
+    if(this._widget == undefined){// @todo get widget, create one if not exists
+      var widget = new Element('div');
+      widget.id = this.widgetId;
+      widget.addClassName(this.widgetClass);
+      document.body.appendChild(widget);
+      widget.hide();
+      this._widget = widget;
+    }
+    return this._widget;
+  },
+  getInput: function(){
+    // get real file input, create one if not exists
+    if(undefined == this._input){
+      var input = new Element('input');
+      input.id = this.inputId;
+      input.type = 'file';
+      input.name = this.inputName;
+      input.size = this.width_in_chars;
+      input.addClassName(this.inputClass);
+      input.addClassName('invisible');
+      this._input = input;
+    }
+    return this._input;
+  },
+  getFakeInput: function(){
+    // get fake input, create one if not exists
+    if(undefined == this._fakeinput){
+      var fake = new Element('div');
+      fake.addClassName(this.fakeInputClass);
+      fake.insert(this.getValueInput()).insert(this.getButton());
+      if(this.icon != undefined){
+        this.setBtnIcon(this.icon);
+      }
+      this._fakeinput = fake;
+    }
+    return this._fakeinput;
+  },
+  getValueInput: function(){
+    // get value text input, create one if not exists
+    if(undefined == this._value){
+      var value = new Element('input');
+      value.type = 'text';
+      value.addClassName(this.valueClass);
+      value.addClassName('input-text');
+      this._value = value;
+    }
+    return this._value;
+  },
+  getButton: function(){
+    // get button, create one if not exists
+    if(undefined == this._button){
+      var btn = new Element('button');
+//      btn.type = 'button';
+      btn.writeAttribute({type: 'button'});
+      btn.addClassName('button'); // this is magento class
+      btn.addClassName(this.buttonClass);
+      btn.update('<span class="btn-label"><span>Browse</span></span>');
+      this._button = btn;
+    }
+    return this._button;
+  },
+  setBtnIcon: function(icon){ // icon to display in the browser button, should be full skin path
+    var btn = this.getButton();
+    var url = 'url(' + icon + ')';
+    btn.setStyle({backgroundImage: url});
+  },
+  widget:function(){ // return functional widget
+    var widget = this.getWidget(); // get the widget, show it
+    widget.show();
+    var input = this.getInput(); // add listeners to input so its value is transferred to text input
+    input.observe('change', this.updateValue.bindAsEventListener(this));
+    input.observe('change', this.updateValue.bindAsEventListener(this))
+         .observe('mouseout', this.updateValue.bindAsEventListener(this));
+    return widget.remove(); // removing element from dom returns that element, so we take it from where it was and pass it where we want it to be
+  },
+  updateValue: function(e){ // event handler
+    var input = Event.element(e);
+    var lbl = this.getValueInput();
+    lbl.value = input.value;
+  }
+});
+
+
+/**
+ * Creates and returns element from html chunk
+ * Uses innerHTML to create an element
+ *
+ * this is the only way to make form work in IE < 8
+ */
+var toElement = (function(){
+  var div = document.createElement('div');
+  return function(html){
+    div.innerHTML = html;
+    var element = div.firstChild;
+    div.removeChild(element);
+    return element;
+  };
+})();

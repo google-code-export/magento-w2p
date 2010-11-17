@@ -78,7 +78,21 @@ class ZetaPrints_Attachments_Helper_Upload extends
         attachment<?php echo $id;?>.setOptions({spinner: the_spinner});
         Event.observe(window, 'load', function(e){
             attachment<?php echo $id;?>.addFirstUpload();
+            var timer;
+            Event.observe(window, 'resize', function(e){ // handle positioning on resize
+              if(timer){
+                clearTimeout(timer);
+              }
+              timer = setTimeout(function(){
+                var contClass = '.' + this.settings.containerDivClass;
+                var containers = $$(contClass);
+                containers.each(function(c){
+                  $(c).fire(this.settings.updateListEvent);
+                }.bind(this));
+              }.bind(this), 100);
+            }.bindAsEventListener(attachment<?php echo $id;?>));
         });
+
     </script>
 <?php
     }

@@ -11,7 +11,7 @@
  *
  */
 
-class ZetaPrints_Attachments_Block_Product_Edit_Tab_Options_Type_Attachment extends
+class ZetaPrints_Attachments_Block_Product_Edit_Tab_Options_Type_Attachments extends
     Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Abstract
 {
     public function __construct()

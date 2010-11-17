@@ -9,23 +9,24 @@
  <description>This extension allows the customer to attach files to current order which will be uploaded via AJAX and not upon &apos;Add to Cart&apos; submit.</description>
  <lead>
   <name>Petar Dzhambazov</name>
-  <user>jamby77</user>
+  <user>ZetaPrints</user>
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-11-10</date>
- <time>11:51:40</time>
+ <date>2010-11-17</date>
+ <time>17:35:30</time>
  <version>
-  <release>0.1.6</release>
+  <release>0.1.10</release>
   <api>1.0</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>beta</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
  <notes>
-This still has more work to be done on product deletion and making it entirely independent custom option type.
+* Changed state to beta
+* Removed non used admin menu
  </notes>
  <contents>
   <dir name="/">
@@ -34,10 +35,10 @@ This still has more work to be done on product deletion and making it entirely i
      <dir name="default">
       <dir name="default">
        <dir name="css">
-        <file md5sum="1d038d154344a9f8bc2f2ff6bce7ae40" name="attachments.css" role="mageskin" />
+        <file md5sum="d4de407a845a09a50076633d0956d5b9" name="attachments.css" role="mageskin" />
        </dir> <!-- ///frontend/default/default/css -->
        <dir name="js">
-        <file md5sum="ba800034066e20c5a3b3714a7c11751e" name="attachments.js" role="mageskin" />
+        <file md5sum="904756711f4e0723f6f3aef93c7927db" name="attachments.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
         <file md5sum="8665a597880da87860fb95f785eba907" name="attachments.xml" role="magedesign" />
@@ -84,6 +85,7 @@ This still has more work to be done on product deletion and making it entirely i
           <dir name="Options">
            <dir name="Type">
             <file md5sum="b6e1d4aeffe0173e9bbdbe80ef16f95f" name="Attachment.php" role="magecommunity" />
+            <file md5sum="2f071c6e1fc2d32b761a590c1cafd590" name="Attachments.php" role="magecommunity" />
            </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab/Options/Type -->
           </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab/Options -->
          </dir> <!-- ///ZetaPrints/Attachments/Block/Product/Edit/Tab -->
@@ -108,11 +110,11 @@ This still has more work to be done on product deletion and making it entirely i
        <file md5sum="f742614bf55513114fef9322eed9e8d3" name="IndexController.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/controllers -->
       <dir name="etc">
-       <file md5sum="2cc85630d029755b67d7e1e226b4bca0" name="config.xml" role="magecommunity" />
+       <file md5sum="86a2d87b04d1a5ad28157d17047d02e8" name="config.xml" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/etc -->
       <dir name="Helper">
        <file md5sum="463bb79e3cf95101443db58ae2c10910" name="Data.php" role="magecommunity" />
-       <file md5sum="4d13c46548e6a9fdeda3a655ab5c385d" name="Upload.php" role="magecommunity" />
+       <file md5sum="52f942210e17db998f853113d0a2e423" name="Upload.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/Helper -->
       <dir name="Model">
        <dir name="Events">
