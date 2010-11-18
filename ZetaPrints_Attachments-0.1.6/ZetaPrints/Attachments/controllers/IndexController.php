@@ -6,8 +6,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class ZetaPrints_Attachments_IndexController
-  extends Mage_Core_Controller_Front_Action
+class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_Action
 {
   protected $errorSpan = '<span class=\'error\'>%s</span>';
 
@@ -15,6 +14,7 @@ class ZetaPrints_Attachments_IndexController
   {
     $this->setFlag('', 'no-renderLayout', TRUE);
   }
+
   public function uploadAction()
   {
     $this->setFlag('', 'no-renderLayout', TRUE);
@@ -32,16 +32,21 @@ class ZetaPrints_Attachments_IndexController
 
     $hash = $hash[$optId];
 
-    $product = Mage::getModel('catalog/product')
-                ->setStoreId(Mage::app()->getStore()->getId())
-                ->load($prid);
+    $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($prid);
+    $reqOptions = array ();
+    foreach ($product->getOptions() as $option) {                  // loop all product options
+      if ($option->getIsRequire() && $optId != $option->getId()) { // if the option is not the upload one,
+        $reqOptions[] = $option;                                   // and is required, make sure it will not
+        $option->setIsRequire(0);                                  // prevent processing our upload
+      }
+    }
     /*$var Mage_Catalog_Model_Product $product*/
-    $buyRequest = new Varien_Object(array ('qty' => 0, // try not to add product to cart yet
-                                  'product' => $product->getId()
-                                    ));
-    try{
+    $buyRequest = new Varien_Object(array ('qty' => 0,  // try not to add product to cart yet
+                                          'product' => $product->getId()
+    ));
+    try {
       $result = $product->getTypeInstance(true)->prepareForCart($buyRequest, $product);
-    }catch(Exception $e){
+    } catch (Exception $e) {
       $response->setBody(($this->_jsonError($e->getMessage())));
       return;
     }
@@ -57,17 +62,17 @@ class ZetaPrints_Attachments_IndexController
 
     $attachments = Mage::getModel('attachments/attachments');
 
-    $data = array(
-      ZetaPrints_Attachments_Model_Attachments::PR_ID => $prid,
-      ZetaPrints_Attachments_Model_Attachments::OPT_ID => $optId,
-      ZetaPrints_Attachments_Model_Attachments::ATT_HASH => $hash,
-      ZetaPrints_Attachments_Model_Attachments::ATT_VALUE => $value
+    $data = array (ZetaPrints_Attachments_Model_Attachments::PR_ID => $prid,
+                  ZetaPrints_Attachments_Model_Attachments::OPT_ID => $optId,
+                  ZetaPrints_Attachments_Model_Attachments::ATT_HASH => $hash,
+                  ZetaPrints_Attachments_Model_Attachments::ATT_VALUE => $value
     );
     /* @var $attachments ZetaPrints_Attachments_Model_Attachments */
     $attachments->addAtachment($data);
 
     $return = unserialize($value);
     $return['attachment_id'] = $attachments->getId();
+
     $response->setBody($this->_jsonEncode($return));
   }
 
@@ -79,29 +84,29 @@ class ZetaPrints_Attachments_IndexController
     $attachments = Mage::getModel('attachments/attachments');
     $option = Mage::getModel('sales/quote_item_option')->load($optionId);
     $files = unserialize($option->getValue());
-    $result = array();
+    $result = array ();
     foreach ($files as $key => $value) {
-      if($value['secret_key'] == $fileKey){
+      if ($value['secret_key'] == $fileKey) {
         $attachments->deleteFile($value);
         unset($files[$key]);
         $result[] = $value['title'];
       }
     }
-    if(empty($files)){
-//      $product = $option->getProduct();
-//      $option->delete(); // get product and remove option
-//      if($product->getCustomOption('option_ids')){
-//        $ids = explode(',', $product->getCustomOption('option_ids'));
-//        if (in_array($optionId, $ids)) {
-//          unset($ids[array_search($optionId, $ids)]);
-//        }
-//        $prOpt = empty($ids)?null:implode(',', $ids);
-//        $product->addCustomOption('option_ids', $prOpt);
-//      }
-    }else {
+    if (empty($files)) {
+      //      $product = $option->getProduct();
+    //      $option->delete(); // get product and remove option
+    //      if($product->getCustomOption('option_ids')){
+    //        $ids = explode(',', $product->getCustomOption('option_ids'));
+    //        if (in_array($optionId, $ids)) {
+    //          unset($ids[array_search($optionId, $ids)]);
+    //        }
+    //        $prOpt = empty($ids)?null:implode(',', $ids);
+    //        $product->addCustomOption('option_ids', $prOpt);
+    //      }
+    } else {
       $option->setValue(serialize($files))->save();
     }
-    if(empty($result)){
+    if (empty($result)) {
       $result[] = 'No files deleted.';
     }
     $this->getResponse()->setBody($this->_jsonEncode($result));
@@ -114,7 +119,7 @@ class ZetaPrints_Attachments_IndexController
    */
   protected function _jsonError($msg, $template = null)
   {
-    if(null == $template){
+    if (null == $template) {
       $template = $this->errorSpan;
     }
     $error = new stdClass();
@@ -122,7 +127,8 @@ class ZetaPrints_Attachments_IndexController
     return $this->_jsonEncode($error);
   }
 
-  protected function _jsonEncode($valueToEncode, $cycleCheck = false, $options = array()){
-    return Mage::helper('Core')->jsonEncode($valueToEncode, $cycleCheck = false, $options = array());
+  protected function _jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
+  {
+    return Mage::helper('Core')->jsonEncode($valueToEncode, $cycleCheck = false, $options = array ());
   }
 }
