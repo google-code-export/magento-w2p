@@ -26,6 +26,10 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/frame-handle.png skin/frontend/default/zptheme/images/image-edit/frame-handle.png] file into _image-edit_ directory in your custom theme's image directory.
 
+= Stable release (1.8.3.1) =
+== Issues ==
+  * Bug fixes (issue #339, issue #337, issue #334 and issue #322)
+
 = Stable release (1.8.3.0) =
 == Issues ==
   * Point product links in cart to already personalized products (issue #277)
