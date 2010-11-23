@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-10-01</date>
+  <date>2010-11-23</date>
 
   <version>
-    <release>1.8.3.0</release>
-    <api>1.8.3.0</api>
+    <release>1.8.3.1</release>
+    <api>1.8.3.1</api>
   </version>
 
   <stability>
@@ -52,13 +52,7 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-* Point product links in cart to already personalized products (issue #277)
-* Show arrows in fancybox all the time (issue #276)
-* Make all spinners in same color in zptheme (issue #255)
-* Memory consumption and speed improvements in product creation profile (issue #283)
-* Add support for ZetaPrints OrderApproval extension
-* Update jQuery UI library to 1.8.5 release
-* Bug fixes (issue #252, issue #278)
+* Bug fixes (issue #339, issue #337, issue #334 and issue #322)
   </notes>
 
   <contents>
@@ -572,6 +566,31 @@ Extension developed by http://www.zetaprints.com/
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.8.3.0</release>
+        <api>1.8.3.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-10-01</date>
+      <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
+
+      <notes>
+* Point product links in cart to already personalized products (issue #277)
+* Show arrows in fancybox all the time (issue #276)
+* Make all spinners in same color in zptheme (issue #255)
+* Memory consumption and speed improvements in product creation profile (issue #283)
+* Add support for ZetaPrints OrderApproval extension
+* Update jQuery UI library to 1.8.5 release
+* Bug fixes (issue #252, issue #278)
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.8.2.4</release>
