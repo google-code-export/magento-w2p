@@ -102,6 +102,8 @@ body {
   position: absolute;
   right: 5px;
   bottom: 90px;
+  padding: 5px;
+  overflow: hidden;
 }
 
 #fancy_content {
