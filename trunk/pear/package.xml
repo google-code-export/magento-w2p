@@ -560,6 +560,10 @@ Extension developed by http://www.zetaprints.com/
         <name>xsl</name>
       </extension>
 
+      <extension>
+        <name>curl</name>
+      </extension>
+
     </required>
   </dependencies>
 
