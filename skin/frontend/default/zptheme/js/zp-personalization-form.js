@@ -12,7 +12,6 @@ function personalization_form () {
   }
 
   function load_template_image_settings (image_name) {
-    console.log(image_name);
     image_name = unescape(image_name);
 
     //default value for JCrop
