@@ -410,6 +410,20 @@ div.selector-content div.tabs-wrapper div.upload {
   padding-left: 6px;
 }
 
+div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice {
+  bottom: 16px;
+  position: relative;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: -6px;
+  color: #909090;
+}
+
+div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice div.zetaprints-icon {
+  margin-right: 1px;
+}
+
 div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper div.upload {
   padding-left: 26px;
 }
@@ -635,6 +649,28 @@ div.thumbCropedAreaToolSet div img {
   left: -4px;
   cursor: se-resize;
 }*/
+
+div.zetaprints-notice.hidden {
+  display: none;
+}
+
+div.zetaprints-notice.to-update-preview {
+  text-align: right;
+}
+
+/* Common CSS rules for icons */
+div.zetaprints-icon {
+  display: block;
+  float: left;
+  height: 16px;
+  width: 16px;
+  background-repeat: no-repeat;
+  background-image: url('../images/images-selector-sprites.png');
+}
+
+div.zetaprints-icon.attention {
+  background-position: -89px -80px;
+}
 
 /* Common CSS rules for button with icon and its container */
 div.zetaprints-buttons-row .zetaprints-button {
