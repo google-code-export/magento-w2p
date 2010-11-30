@@ -28,7 +28,7 @@ function zetaprints_generate_user_password_hash ($password) {
 
   //Enter here your outside ip address
   //if it doesn't match your server address
-  //$ip = 'a.b.c.d';
+  $ip = '95.170.183.252';
 
   return md5($password.$ip);
 }
@@ -165,9 +165,12 @@ function zetaprints_parse_template_details ($xml) {
       'name' => (string) $page['Name'],
       'preview-image' => (string) $page['PreviewImage'],
       'thumb-image' => (string) $page['ThumbImage'],
-      'updated-preview-image' => (string) $page['PreviewImageUpdated'],
       'width-in' => (string) $page['WidthIn'],
       'height-in' => (string) $page['HeightIn'] );
+
+    if ((string) $page['PreviewImageUpdated'])
+      $template['pages'][$page_number]['updated-preview-image']
+                                        = (string) $page['PreviewImageUpdated'];
 
     if ($page->Shapes) {
       $template['pages'][$page_number]['shapes'] = array();
