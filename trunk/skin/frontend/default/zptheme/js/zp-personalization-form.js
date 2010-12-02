@@ -11,25 +11,8 @@ function personalization_form ($) {
     return true;
   }
 
-  function load_template_image_settings (image_name) {
-    image_name = unescape(image_name);
-
-    //default value for JCrop
-    image_aspectRatio = [0,0];
-    image_imageName = image_name;
-
-    $.each(images, function() {
-      var image = $(this);
-      if (image[0][image_name] != undefined) {
-        var image_dimensions = image[0][image_name];
-        image_aspectRatio = [image_dimensions['width'], image_dimensions['height']];
-      }
-    })
-  }
-
   function show_image_edit_dialog (image_name, src, thumb) {
-    load_template_image_settings(image_name);
-
+    image_imageName = unescape(image_name);
     userImageThumbSelected = thumb
 
     //open a modal window with editor pictures
