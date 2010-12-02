@@ -178,6 +178,7 @@ function zetaprints_parse_template_details ($xml) {
       foreach ($page->Shapes->Shape as $shape) {
         $name = (string) $shape['Name'];
         $template['pages'][$page_number]['shapes'][$name] = array(
+          'name' => $name,
           'x1' => (float) $shape['X1'],
           'y1' => (float) $shape['Y1'],
           'x2' => (float) $shape['X2'],
