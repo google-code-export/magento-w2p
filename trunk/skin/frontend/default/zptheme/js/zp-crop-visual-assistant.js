@@ -62,38 +62,32 @@ function cropVisualAssistant ()
    *
    * @attr: _templatePreviewElement - affected TemplatePreview image
    */
-  this.setTemplatePreview = function (_templatePreviewElement)
+  this.setTemplatePreview = function ($templatePreviewElement)
   {
-    for (var pageNum in top.shapes) {
-      if (top.shapes[pageNum][top.image_imageName] != undefined) {
-        _templatePreviewPlaceholder = top.shapes[pageNum][top.image_imageName];
+    var page = top.zp.template_details.pages[top.zp.current_page];
+    var shape = page.shapes[top.image_imageName];
 
-        //@Temporary plug for transform inches values to relative ones:
-        //(not used yet)
-        _templatePreviewPlaceholder['anchor-x'] = _templatePreviewPlaceholder['anchor-x'] / top.pages[pageNum]['width-in'];
-        _templatePreviewPlaceholder['anchor-y'] = _templatePreviewPlaceholder['anchor-y'] / top.pages[pageNum]['height-in'];
-      }
-    }
-    this.templatePreviewPlaceholder = _templatePreviewPlaceholder
+    if (shape) {
+      shape['anchor-x'] = shape['anchor-x'] / page['width-in'];
+      shape['anchor-y'] = shape['anchor-y'] / page['height-in'];
 
-    for (var pageNum in top.images) {
-      if (top.images[pageNum][top.image_imageName] != undefined) {
-        var image_data = top.images[pageNum][top.image_imageName];
-        _templateImage = {
-          clipped: (image_data['clipped']) ? true : false,
-          widthIn: top.pages[pageNum]['width-in'] * (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1),
-          widthPx: image_data['width'],
-          heightPx: image_data['height'],
-          aspectRatio: image_data['width'] / image_data['height']
-        };
-      }
+      this.templatePreviewPlaceholder = shape;
     }
-    this.templateImage = _templateImage;
+
+    var image = page.images[top.image_imageName]
+
+    if (image != undefined)
+      this.templateImage = {
+        clipped: (image['clipped']) ? true : false,
+        widthIn: page['width-in'] * (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1),
+        widthPx: image['width'],
+        heightPx: image['height'],
+        aspectRatio: image['width'] / image['height'] };
 
     this.templatePreview = {
-      element: _templatePreviewElement,
-      width: _templatePreviewElement.width(),
-      height: _templatePreviewElement.height()
+      element: $templatePreviewElement,
+      width: $templatePreviewElement.width(),
+      height: $templatePreviewElement.height()
     }
   }
 
