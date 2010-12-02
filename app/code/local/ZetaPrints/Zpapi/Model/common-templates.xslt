@@ -364,13 +364,19 @@
                 <xsl:with-param name="key">Click to show page</xsl:with-param>
               </xsl:call-template>
             </xsl:attribute>
-            <img rel="page-{position()}">
-              <xsl:attribute name="src">
-                <xsl:call-template name="produce-url-from-template">
-                  <xsl:with-param name="url-template" select="$thumbnail-url-template" />
-                  <xsl:with-param name="filename" select="substring(@ThumbImage, 7)" />
-                </xsl:call-template>
-              </xsl:attribute>
+            <img rel="page-{position()}" src="{@ThumbImageUpdated}">
+              <xsl:choose>
+                <xsl:when test="@ThumbImageUpdated">
+                  <xsl:attribute name="src">
+                    <xsl:value-of select="@ThumbImageUpdated" />
+                  </xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:attribute name="src">
+                    <xsl:value-of select="@ThumbImage" />
+                  </xsl:attribute>
+                </xsl:otherwise>
+              </xsl:choose>
             </img>
             <br />
             <span><xsl:value-of select="@Name" /></span>

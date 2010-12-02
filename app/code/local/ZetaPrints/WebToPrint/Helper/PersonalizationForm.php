@@ -104,6 +104,19 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         && Mage::registry('webtoprint-user-was-registered'))
       $this->add_user_images($xml);
 
+    if ($form_part === 'page-tabs') {
+      $this->update_preview_images_urls($xml);
+
+      $session = Mage::getSingleton('core/session');
+
+      if ($session->hasData('zetaprints-previews')) {
+        $previews = unserialize($session->getData('zetaprints-previews'));
+
+        if (is_array($previews))
+          $this->replace_preview_images($xml, $previews);
+      }
+    }
+
     $params = array_merge($params, array(
       'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
     ) );
@@ -327,10 +340,10 @@ jQuery(document).ready(function($) {
       $(this).select();
     }).select(function () {
       $.ajax({
-        url: preview_download_url,
+        url: zp.url.preview_download,
         type: 'POST',
         dataType: 'json',
-        data: 'guid=' + previews[current_page - 1],
+        data: 'guid=' + zp.previews[zp.current_page - 1],
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert(preview_sharing_link_error_text + ': ' + textStatus);
         },
@@ -740,12 +753,6 @@ jQuery(document).ready(function($) {
 
     $session = Mage::getSingleton('core/session');
 
-    $previews_array = null;
-    $previews = null;
-    $user_input = null;
-    $shapes = json_encode(false);
-    $images = json_encode(false);
-
     if (! $xml = Mage::registry('webtoprint-template-xml')) {
       $template = Mage::getModel('webtoprint/template')->loadById($template_id);
 
@@ -757,93 +764,84 @@ jQuery(document).ready(function($) {
         }
     }
 
-    if ($xml) {
-      $template_details = zetaprints_parse_template_details($xml);
-      $pages = array();
-      $shapes = array();
-      $images = array();
+    if (!$xml)
+      return false;
 
-      foreach ($template_details['pages'] as $page_number => $page_details)
-      {
-        $page_attributes = array();
+    $template_details = zetaprints_parse_template_details($xml);
 
-        foreach ($page_details as $key => $value)
-          if (!is_array($value))
-            $page_attributes[$key] = $value;
+    $template_details['pages_number'] = count( $template_details['pages']);
 
-        $pages[$page_number] = $page_attributes;
+    foreach ($template_details['pages'] as $page_number => &$page_details) {
+      $preview_guid = explode('preview/', $page_details['preview-image']);
+      $thumb_guid = explode('thumb/', $page_details['thumb-image']);
 
-        if (isset($page_details['shapes']))
-          $shapes[$page_number] = $page_details['shapes'];
-
-        if (isset($page_details['images']))
-          $images[$page_number] = $page_details['images'];
-      }
-
-      $pages = count($pages) ? json_encode($pages) : json_encode(false);
-      $shapes = count($shapes) ? json_encode($shapes) : json_encode(false);
-      $images = count($images) ? json_encode($images) : json_encode(false);
+      $page_details['preview-image'] = $this->get_preview_url($preview_guid[1]);
+      $page_details['thumb-image']
+                           = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
     }
 
-    if ($session->hasData('zetaprints-previews')) {
-      $previews = $session->getData('zetaprints-previews');
-      $previews_array = '\'' . str_replace(',', '\',\'', $previews) . '\'';
+    $previews_from_session = $session->hasData('zetaprints-previews');
+
+    if ($previews_from_session) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
-      $session->unsetData('zetaprints-previews');
-      $previews_from_session = true;
-    } else
-      if ($template_details) {
-        foreach ($template_details['pages'] as $page_details) {
-          $guid = explode('preview/', $page_details['preview-image']);
-          $previews_array .= '\'' . $this->get_preview_url($guid[1]) . '\', ';
+
+      $previews = unserialize($session->getData('zetaprints-previews'));
+
+      if (is_array($previews))
+        foreach ($template_details['pages'] as $page_number => &$page) {
+          $guid = explode('preview/', $previews[$page_number - 1]);
+
+          $page['updated-preview-image'] = $this->get_preview_url($guid[1]);
+          $page['updated-thumb-image']
+                                 = $this->get_thumbnail_url($guid[1], 100, 100);
         }
 
-        $previews_array = substr($previews_array, 0, -2);
-      }
+      $session->unsetData('zetaprints-previews');
+    }
 
-    //Check that the product page was opened from cart page or was
-    //requested with for-item parameter (need for automatic first preview
-    //update for cross-sell product)
-    if ($this->_getRequest()->has('for-item')
-        || strpos($session->getData('last_url'), 'checkout/cart') !== false
-        || (isset($_GET['update-first-preview'])
-            && $_GET['update-first-preview'] == '1') )
-      $update_first_preview_on_load = json_encode(true);
-    else
-      $update_first_preview_on_load = json_encode(false);
+    //Check that the product page was opened from cart page (need for automatic
+    //first preview update for cross-sell product) or was
+    //requested with for-item parameter.
+    $update_first_preview_on_load = $this->_getRequest()->has('for-item')
+      || strpos($session->getData('last_url'), 'checkout/cart') !== false
+      || (isset($_GET['update-first-preview'])
+          && $_GET['update-first-preview'] == '1');
+
+    $has_shapes = false;
+
+    foreach ($template_details['pages'] as $page)
+      if (isset($page['shapes']))
+        $has_shapes = true;
+
+    $zp_data = json_encode(array(
+      'template_details' => $template_details,
+      'previews_from_session' => $previews_from_session,
+      'is_personalization_step' => $this->is_personalization_step($context),
+      'update_first_preview_on_load' => $update_first_preview_on_load,
+      'has_shapes' => $has_shapes,
+      'w2p_url' => Mage::getStoreConfig('zpapi/settings/w2p_url'),
+      'url' => array(
+        'preview' => $this->_getUrl('web-to-print/preview'),
+        'preview_download' => $this->_getUrl('web-to-print/preview/download'),
+        'upload' => $this->_getUrl('web-to-print/upload'),
+        'image' => $this->_getUrl('web-to-print/image/update') ) ));
 ?>
 <script type="text/javascript">
 //<![CDATA[
 
 // Global vars go here
-var pages = <?php echo $pages; ?>;
-var shapes = <?php echo $shapes; ?>;
-var image_aspectRatio = [0,0];  //default values for image edit dialog box
 var image_imageName = '';  //currently edited template image
 var userImageThumbSelected = null;  //user selected image to edit
-var images = <?php echo $images; ?>;  //template images settings
 // Global vars end
 
 jQuery(document).ready(function($) {
   <?php
-  if ($user_input)
+  if (isset($user_input) && is_array($user_input))
     foreach ($user_input as $key => $value)
       echo "$('[name=$key]').val('$value');\n";
   ?>
 
-  previews = [<?php echo $previews_array; ?>];
-  template_id = '<?php echo $this->get_template_guid_from_product($context->getProduct()); ?>';
-  previews_from_session = <?php echo isset($previews_from_session) ? 'true' : 'false'; ?>;
-  is_personalization_step = <?php echo $this->is_personalization_step($context) ? 'true' : 'false' ?>;
-
-  update_first_preview_on_load = <?php echo $update_first_preview_on_load ?>;
-
-  w2p_url = '<?php echo Mage::getStoreConfig('zpapi/settings/w2p_url'); ?>';
-
-  preview_controller_url = '<?php echo $this->_getUrl('web-to-print/preview'); ?>';
-  preview_download_url = '<?php echo $this->_getUrl('web-to-print/preview/download'); ?>';
-  upload_controller_url = '<?php echo $this->_getUrl('web-to-print/upload'); ?>';
-  image_controller_url = '<?php echo $this->_getUrl('web-to-print/image/update'); ?>';
+  zp = <?php echo $zp_data ?>;
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
@@ -861,7 +859,7 @@ jQuery(document).ready(function($) {
   cant_delete_text = "<?php echo $this->__('Can\'t delete image'); ?>";
   delete_this_image_text = "<?php echo $this->__('Delete this image?'); ?>";
 
-  personalization_form();
+  personalization_form.apply(zp, [$]);
 });
 //]]>
 </script>
