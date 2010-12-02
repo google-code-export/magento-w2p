@@ -1,17 +1,17 @@
-function precalculate_shapes (shapes, preview_dimensions) {
-  for (var page in shapes)
-    for (var shape in shapes[page]) {
-      shapes[page][shape]._x1 = shapes[page][shape].x1;
-      shapes[page][shape].x1 = preview_dimensions[page].width * shapes[page][shape]._x1;
+function precalculate_shapes (template_details, preview_dimensions) {
+  for (var page in template_details.pages)
+    for (var name in template_details.pages[page].shapes) {
+      template_details.pages[page].shapes[name]._x1 = template_details.pages[page].shapes[name].x1;
+      template_details.pages[page].shapes[name].x1 = preview_dimensions[page].width * template_details.pages[page].shapes[name]._x1;
 
-      shapes[page][shape]._y1 = shapes[page][shape].y1;
-      shapes[page][shape].y1 = preview_dimensions[page].height * shapes[page][shape]._y1;
+      template_details.pages[page].shapes[name]._y1 = template_details.pages[page].shapes[name].y1;
+      template_details.pages[page].shapes[name].y1 = preview_dimensions[page].height * template_details.pages[page].shapes[name]._y1;
 
-      shapes[page][shape]._x2 = shapes[page][shape].x2
-      shapes[page][shape].x2 = preview_dimensions[page].width * shapes[page][shape]._x2;
+      template_details.pages[page].shapes[name]._x2 = template_details.pages[page].shapes[name].x2
+      template_details.pages[page].shapes[name].x2 = preview_dimensions[page].width * template_details.pages[page].shapes[name]._x2;
 
-      shapes[page][shape]._y2 = shapes[page][shape].y2;
-      shapes[page][shape].y2 = preview_dimensions[page].height * shapes[page][shape]._y2;
+      template_details.pages[page].shapes[name]._y2 = template_details.pages[page].shapes[name].y2;
+      template_details.pages[page].shapes[name].y2 = preview_dimensions[page].height * template_details.pages[page].shapes[name]._y2;
     }
 }
 
@@ -46,32 +46,34 @@ function place_shape (shape, container, shape_handler) {
     .appendTo(container);
 }
 
-function place_all_precalculated_shapes_for_page (page, shapes, container, shape_handler) {
-  if (shapes[page])
-    for (name in shapes[page])
+function place_all_precalculated_shapes_for_page (page, template_details, container, shape_handler) {
+  if (template_details.pages[page].shapes)
+    for (name in template_details.pages[page].shapes)
       place_shape({
-        left: shapes[page][name].x1,
-        top: shapes[page][name].y1,
-        width: shapes[page][name].x2 - shapes[page][name].x1,
-        height: shapes[page][name].y2 - shapes[page][name].y1,
+        left: template_details.pages[page].shapes[name].x1,
+        top: template_details.pages[page].shapes[name].y1,
+        width: template_details.pages[page].shapes[name].x2 - template_details.pages[page].shapes[name].x1,
+        height: template_details.pages[page].shapes[name].y2 - template_details.pages[page].shapes[name].y1,
         name: name,
-        edited: shapes[page][name].edited}, container, shape_handler);
+        edited: template_details.pages[page].shapes[name].edited}, container, shape_handler);
 }
 
-function place_all_shapes_for_page (page, shapes, image_dimension, container, shape_handler) {
-  if (shapes[page])
-    for (name in shapes[page]) {
-      var left =  shapes[page][name]._x1 * image_dimension.width;
-      var top = shapes[page][name]._y1 * image_dimension.height;
+function place_all_shapes_for_page (shapes, image_dimension, container, shape_handler) {
+  if (!shapes)
+    return;
 
-      place_shape({
-        left: left,
-        top: top,
-        width: shapes[page][name]._x2 * image_dimension.width - left,
-        height: shapes[page][name]._y2 * image_dimension.height - top,
-        name: name,
-        edited: shapes[page][name].edited }, container, shape_handler);
-    }
+  for (name in shapes) {
+    var left =  shapes[name]._x1 * image_dimension.width;
+    var top = shapes[name]._y1 * image_dimension.height;
+
+    place_shape({
+      left: left,
+      top: top,
+      width: shapes[name]._x2 * image_dimension.width - left,
+      height: shapes[name]._y2 * image_dimension.height - top,
+      name: name,
+      edited: shapes[name].edited }, container, shape_handler);
+  }
 }
 
 function remove_all_shapes (container) {
@@ -182,23 +184,23 @@ function popdown_field_by_name (name) {
   return name;
 }
 
-function mark_shape_as_edited (name, shapes, current_page) {
-  jQuery('div.zetaprints-field-shape[rel=' + name + ']').addClass('edited');
+function mark_shape_as_edited (shape) {
+  jQuery('div.zetaprints-field-shape[rel=' + shape.name + ']').addClass('edited');
 
-  shapes[current_page][name].edited = true;
+  shape.edited = true;
 }
 
-function unmark_shape_as_edited (name, shapes, current_page) {
-  jQuery('div.zetaprints-field-shape[rel=' + name + ']').removeClass('edited');
+function unmark_shape_as_edited (shape) {
+  jQuery('div.zetaprints-field-shape[rel=' + shape.name + ']').removeClass('edited');
 
-  shapes[current_page][name].edited = false;
+  shape.edited = false;
 }
 
-function mark_shapes_as_edited (shapes) {
+function mark_shapes_as_edited (template_details) {
   var fields = jQuery('div.zetaprints-page-input-fields, div.zetaprints-page-stock-images');
 
-  for (var page in shapes)
-    for (var name in shapes[page]) {
+  for (var page_number in template_details.pages)
+    for (var name in template_details.pages[page_number].shapes) {
       var field = jQuery('input[name=zetaprints-_' + name + ']:text, '
         + 'textarea[name=zetaprints-_' + name + '], '
         + 'select[name=zetaprints-_' + name + '], '
@@ -206,7 +208,7 @@ function mark_shapes_as_edited (shapes) {
         + 'input[name=zetaprints-#' + name + ']:checked', fields);
 
       if (field.length == 1 && field[0].value) {
-        shapes[page][name].edited = true;
+        template_details.pages[page_number].shapes[name].edited = true;
         continue;
       }
     }
@@ -224,7 +226,8 @@ function shape_handler (event) {
   var shape = jQuery(event.target).parent();
   if (event.type == 'click') {
     current_field_name = jQuery(shape).attr('rel');
-    jQuery('#preview-image-page-' + current_page, jQuery(shape).parent()).click();
+    jQuery('a.zetaprints-template-preview:visible', jQuery(shape).parent())
+      .click();
   } else if (event.type == 'mouseover') {
     jQuery('#zetaprints-preview-image-container > div.zetaprints-field-shape.bottom')
       .removeClass('highlighted');
