@@ -437,7 +437,6 @@ Extension developed by http://www.zetaprints.com/
               <file name="zp-image-edit.js" role="mageskin" />
               <file name="zp-in-preview-edit.js" role="mageskin" />
               <file name="zp-crop-visual-assistant.js" role="mageskin" />
-              <file name="zp-metadata-accessor.js" role="mageskin" />
               <file name="zp-text-field-resizer.js" role="mageskin" />
             </dir>
 
