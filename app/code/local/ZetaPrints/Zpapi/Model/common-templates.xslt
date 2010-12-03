@@ -80,7 +80,6 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
-      <input type="hidden" name="zetaprints-*#{@Name}" value="" id="zetaprints-{@Name}" />
       <div class="zetaprints-images-selector no-value minimized block" rel="zetaprints-#{@Name}">
         <div class="head block-title">
           <a class="image up-down" href="#"><span>
