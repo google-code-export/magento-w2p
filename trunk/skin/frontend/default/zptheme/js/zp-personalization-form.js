@@ -24,13 +24,25 @@ function personalization_form ($) {
       'hideOnOverlayClick': false,
       'hideOnContentClick': false,
       'centerOnScroll': false,
-      'showNavArrows': false });
-  }
+      'showNavArrows': false,
+      'onClosed': function () {
+        var $input = thumb.parents('td').children('input.zetaprints-images:checked');
 
-  function swap_metadata() {
-    var _metadata = $('img.userImageThumb', $(this).parents('td')).data('metadata');
-    _metadata = (_metadata==null) ? '' : _metadata;
-    document.getElementById('zetaprints-' + $(this).attr('name').split('#')[1]).value = _metadata;
+        if (!$input.length)
+          return;
+
+        var field = zp.template_details.pages[zp.current_page]
+                      .images[image_name];
+
+        var metadata = $input.data('metadata');
+
+        if (metadata) {
+          metadata['img-id'] = $input.attr('value');
+
+          zp_set_metadata(field, metadata);
+        } else
+          zp_clear_metadata(field);
+      } });
   }
 
   function export_previews_to_string (template_details) {
@@ -226,16 +238,36 @@ function personalization_form ($) {
     }
   }
 
+  function prepare_string_for_php (s) {
+    return s.replace(/\./g, '\x0A');
+  }
+
   function prepare_post_data_for_php (data) {
     var _data = '';
 
     data = data.split('&');
     for (var i = 0; i < data.length; i++) {
       var token = data[i].split('=');
-      _data += '&' + token[0].replace(/\./g, '\x0A') + '=' + token[1];
+      _data += '&' + prepare_string_for_php(token[0]) + '=' + token[1];
     }
 
     return _data.substring(1);
+  }
+
+  function prepare_metadata_from_page (page) {
+    var metadata = '';
+
+    for (name in page.images) {
+      var field_metadata = zp_convert_metadata_to_string(page.images[name]);
+
+      if (!field_metadata)
+        continue;
+
+      metadata += '&zetaprints-*#' + prepare_string_for_php(name) + '='
+                  + field_metadata + '&';
+    }
+
+    return metadata;
   }
 
   function update_preview (event, preserve_fields) {
@@ -254,12 +286,15 @@ function personalization_form ($) {
     //Remember page number
     var current_page = zp.current_page;
 
+    var metadata =
+         prepare_metadata_from_page(zp.template_details.pages[zp.current_page]);
+
     $.ajax({
       url: zp.url.preview,
       type: 'POST',
       dataType: 'json',
       data: prepare_post_data_for_php($('#product_addtocart_form').serialize())
-        + '&zetaprints-From=' + current_page + preserve_fields,
+        + '&zetaprints-From=' + current_page + preserve_fields + metadata,
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
         $(update_preview_button).show();
@@ -752,7 +787,21 @@ function personalization_form ($) {
     }
   });
 
-  $('input.zetaprints-images').click(swap_metadata);
+  $('input.zetaprints-images').click({ zp : this }, function (event) {
+    var $input = $(this);
+    var field = event.data.zp.template_details
+                  .pages[event.data.zp.current_page]
+                  .images[$input.attr('name').substring(12)];
+
+    var metadata = $input.data('metadata');
+
+    if (metadata) {
+      metadata['img-id'] = $input.attr('value');
+
+      zp_set_metadata(field, metadata);
+    } else
+      zp_clear_metadata(field);
+  });
 
   if (this.has_shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
