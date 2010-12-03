@@ -55,7 +55,6 @@
           <action method="addItem"><type>skin_js</type><name>js/jquery-ui-1.8.6-custom-min.js</name></action>
           <action method="addItem"><type>skin_js</type><name>js/jquery-powercrop.js</name></action>
           <action method="addItem"><type>skin_js</type><name>js/zp-image-edit.js</name></action>
-          <action method="addItem"><type>skin_js</type><name>js/zp-metadata-accessor.js</name></action>
           <action method="addItem"><type>skin_js</type><name>js/zp-crop-visual-assistant.js</name></action>
 
           <action method="addItem"><type>skin_css</type><name>css/jquery-powercrop.css</name></action>
