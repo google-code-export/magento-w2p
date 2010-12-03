@@ -6,10 +6,9 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
-  var _metadataAccessor = new metadataAccessor(
-    top.userImageThumbSelected,
-    parent.document.getElementById('zetaprints-' + top.image_imageName)
-  );
+  var $input = top.userImageThumbSelected
+              .parents('td')
+              .children('input.zetaprints-images');
 
   var $restore_button = $('#restore-button');
 
@@ -18,37 +17,36 @@ jQuery(document).ready(function ($) {
   function imageEditorCrop () {
     showImageEditorTooltip('Select visible part');
 
-    var width = Number($('#userImagePreview').width());
-    var height = Number($('#userImagePreview').height());
+    var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
 
-    _metadataAccessor.restoreFromStorage();
-
-    var cr_x1 = _metadataAccessor.getProperty('cr-x1');
-    var cr_y1 = _metadataAccessor.getProperty('cr-y1');
-    var cr_x2 = _metadataAccessor.getProperty('cr-x2');
-    var cr_y2 = _metadataAccessor.getProperty('cr-y2');
-
-     var data = {};
-
-    if (cr_x1 && cr_y1 && cr_x2 && cr_y2) {
-      data.selection = {
-        width: (cr_x2 - cr_x1) * width,
-        height: (cr_y2 - cr_y1) * height,
-        position: {
-          top: cr_y1 * height,
-          left: cr_x1 * width } };
-    } else {
-      var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
-
-      data.selection = {
+    var data = {
+      selection: {
         width: cropMetadata[2] - cropMetadata[0],
         height: cropMetadata[3] - cropMetadata[1],
         position: {
           top: cropMetadata[1],
-          left: cropMetadata[0] } };
-    }
+          left: cropMetadata[0] } } };
 
-    if (isCropFit) {
+    var metadata = $input.data('metadata');
+
+    if (isCropFit && metadata) {
+      var width = Number($('#userImagePreview').width());
+      var height = Number($('#userImagePreview').height());
+
+      var cr_x1 = metadata['cr-x1'];
+      var cr_y1 = metadata['cr-y1'];
+      var cr_x2 = metadata['cr-x2'];
+      var cr_y2 = metadata['cr-y2'];
+
+
+      if (cr_x1 && cr_y1 && cr_x2 && cr_y2)
+        data.selection = {
+          width: (cr_x2 - cr_x1) * width,
+          height: (cr_y2 - cr_y1) * height,
+          position: {
+            top: cr_y1 * height,
+            left: cr_x1 * width } };
+
       var selection_position = data.selection.position;
       var selection_size = {
         width: data.selection.width,
@@ -56,16 +54,16 @@ jQuery(document).ready(function ($) {
 
       data.image = {};
 
-      var sh_x = _metadataAccessor.getProperty('sh-x');
-      var sh_y = _metadataAccessor.getProperty('sh-y');
+      var sh_x = metadata['sh-x'];
+      var sh_y = metadata['sh-y'];
 
       if (sh_x && sh_y)
         data.image.position = {
           left: selection_position.left + selection_size.width / sh_x,
           top: selection_position.top + selection_size.height / sh_y };
 
-      var sz_x = _metadataAccessor.getProperty('sz-x');
-      var sz_y = _metadataAccessor.getProperty('sz-y');
+      var sz_x = metadata['sz-x'];
+      var sz_y = metadata['sz-y'];
 
       if (sz_x && sz_y) {
         data.image.width = selection_size.width / sz_x;
@@ -183,55 +181,47 @@ jQuery(document).ready(function ($) {
    * Store crop metadata for further usage
    */
   function storeCropMetadata() {
+    if (!(isCropFit && crop_data))
+      return;
+
     var width = Number($('#userImagePreview').width());
     var height = Number($('#userImagePreview').height());
 
-    var cr_x1 = $('#imageEditorCropX').val() / width;
-    var cr_x2 = $('#imageEditorCropX2').val() / width;
-    var cr_y1 = $('#imageEditorCropY').val() / height;
-    var cr_y2 = $('#imageEditorCropY2').val() / height;
+    var metadata = {
+      'cr-x1': $('#imageEditorCropX').val() / width,
+      'cr-x2': $('#imageEditorCropX2').val() / width,
+      'cr-y1': $('#imageEditorCropY').val() / height,
+      'cr-y2': $('#imageEditorCropY2').val() / height };
 
-    if (isCropFit && crop_data) {
-      _metadataAccessor.setProperty('cr-x1', cr_x1);
-      _metadataAccessor.setProperty('cr-x2', cr_x2);
-      _metadataAccessor.setProperty('cr-y1', cr_y1);
-      _metadataAccessor.setProperty('cr-y2', cr_y2);
-      _metadataAccessor.setProperty('img-id', imageEditorId);
+    var image_position = crop_data.image.position;
+    var selection_position = crop_data.selection.position;
 
-      var image_position = crop_data.image.position;
-      var selection_position = crop_data.selection.position;
+    var image_size = {
+      width: crop_data.image.width,
+      height: crop_data.image.height };
+    var selection_size = {
+      width: crop_data.selection.width,
+      height: crop_data.selection.height };
 
-      var image_size = {
-        width: crop_data.image.width,
-        height: crop_data.image.height };
-      var selection_size = {
-        width: crop_data.selection.width,
-        height: crop_data.selection.height };
+    metadata['sh-x'] =
+         selection_size.width / (image_position.left - selection_position.left);
+    metadata['sh-y'] =
+          selection_size.height / (image_position.top - selection_position.top);
 
-      _metadataAccessor.setProperty('sh-x',
-        selection_size.width / (image_position.left - selection_position.left) );
-      _metadataAccessor.setProperty('sh-y',
-        selection_size.height / (image_position.top - selection_position.top) );
+    metadata['sz-x'] = selection_size.width / image_size.width;
+    metadata['sz-y'] =  selection_size.height / image_size.height;
 
-      _metadataAccessor.setProperty('sz-x', selection_size.width / image_size.width);
-      _metadataAccessor.setProperty('sz-y', selection_size.height / image_size.height);
-    }
-
-    _metadataAccessor.storeAll();
+    $input.data('metadata', metadata);
   }
 
   function clearCropMetadata () {
     crop_data = null;
-    _metadataAccessor.clearAll();
+    $input.removeData('metadata');
 
     $('#' + _cropVisualAssistant.getUserImageThumbGuid(), parent.document).each(function(){
-      $(this).data('metadata', null);
+      //$(this).data('metadata', null);
       $(this).prev('div.thumbCropedAreaToolSet').remove();
     });
-
-    _metadataAccessor = new metadataAccessor(
-      top.userImageThumbSelected,
-      parent.document.getElementById('zetaprints-' + top.image_imageName) );
   }
 
   /**
