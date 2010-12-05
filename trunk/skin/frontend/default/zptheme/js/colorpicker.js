@@ -244,6 +244,8 @@
         cal.data('colorpicker').origColor = col;
         setCurrentColor(col, cal.get(0));
         cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
+
+        return false;
       },
                         enterCancel = function (ev) {
         $(this).addClass('colorpicker_focus');
@@ -257,6 +259,8 @@
         }
 
         $(document).unbind('mousedown', hide);
+
+        return false;
       },
       show = function (ev) {
         var cal = $('#' + $(this).data('colorpickerId'));
@@ -285,6 +289,8 @@
           }
           $(document).unbind('mousedown', hide);
         }
+
+        return false;
       },
       isChildOf = function(parentEl, el, container) {
         if (parentEl == el) {
