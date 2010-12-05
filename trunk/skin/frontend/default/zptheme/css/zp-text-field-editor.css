@@ -1,0 +1,99 @@
+div.zp-text-field-editor {
+  position: relative;
+  float: left;
+  display: block;
+  margin-right: 2px;
+  width: 20px;
+  height: 16px;
+  font-size: 10px;
+  color: #909090;
+}
+
+div.zp-text-field-editor-handle {
+  position: relative;
+  border: 1px solid transparent;
+  padding: 3px 0px 0px 3px;
+  z-index: 2;
+}
+
+div.zp-text-field-editor.opened div.zp-text-field-editor-handle {
+  border-color: #b6b6b6;
+  border-bottom-color: white;
+}
+
+div.zp-text-field-editor.opened div.zp-text-field-editor-icon.pen {
+  background-position: 0px -18px;
+}
+
+div.zp-text-field-editor-panel {
+  display: none;
+  position: absolute;
+  top: 17px;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid #b6b6b6;
+  padding: 1px 2px 1px 3px;
+  width: 123px;
+}
+
+div.zp-text-field-editor-panel span {
+  vertical-align: middle;
+}
+
+div.zp-text-field-editor.opened div.zp-text-field-editor-panel {
+  display: block;
+}
+
+div.zp-text-field-editor-row {
+  padding: 2px 0px 2px 0px;
+}
+
+div.zp-text-field-editor-clear {
+  clear: both;
+}
+
+div.zp-text-field-editor-row div.zp-text-field-editor-icon {
+  float: left;
+  margin-top: 2px;
+}
+
+div.zp-text-field-editor-icon {
+  background: url('../images/zp-text-field-editor/sprites.png') no-repeat;
+  height: 13px;
+  width: 13px;
+}
+
+div.zp-text-field-editor-icon.color-picker {
+  background-position: -19px -17px;
+}
+
+div.zp-text-field-editor-icon.pen {
+  background-position: 0px 0px;
+  cursor: pointer;
+}
+
+div.zp-text-field-editor-options {
+  margin-left: 10px;
+  float: left;
+}
+
+div.zp-text-field-editor-option {
+  float: left;
+}
+
+div.zp-text-field-editor-option:first-child {
+  margin-right: 8px;
+}
+
+div.zp-text-field-editor-option div {
+  float: left;
+  margin-right: 2px;
+}
+
+div.zp-text-field-editor-color-example {
+  width: 20px;
+  height: 14px;
+  border: 1px solid #b6b6b6;
+  background-color: white;
+  margin-left: 1px;
+}
