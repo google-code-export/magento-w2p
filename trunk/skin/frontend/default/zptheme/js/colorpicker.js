@@ -252,8 +252,11 @@
         $(this).removeClass('colorpicker_focus');
       },
       clickCancel = function (ev) {
-        var cal = $(this).parent();
-                          cal.hide();
+        if (ev.data.cal.data('colorpicker').onHide.apply(this, [ev.data.cal.get(0)]) != false) {
+          ev.data.cal.hide();
+        }
+
+        $(document).unbind('mousedown', hide);
       },
       show = function (ev) {
         var cal = $('#' + $(this).data('colorpickerId'));
@@ -473,7 +476,7 @@
                                                 cal.find('div.colorpicker_cancel')
               .bind('mouseenter', enterCancel)
               .bind('mouseleave', leaveCancel)
-              .bind('click', clickCancel);
+              .bind('click', {cal: cal}, clickCancel);
             fillRGBFields(options.color, cal.get(0));
             fillHSBFields(options.color, cal.get(0));
             fillHexFields(options.color, cal.get(0));
