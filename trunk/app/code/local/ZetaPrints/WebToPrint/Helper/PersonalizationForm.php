@@ -747,6 +747,14 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function addNoticeToUpdatePreview ($context, $text) {
+?>
+  <div class="zetaprints-notice to-update-preview">
+    <?php echo $this->__($text); ?>
+  </div>
+<?php
+  }
+
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;

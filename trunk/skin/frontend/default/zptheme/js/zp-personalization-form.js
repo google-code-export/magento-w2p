@@ -167,7 +167,9 @@ function personalization_form ($) {
       export_previews_to_string(this.template_details) + '" />')
       .appendTo($('#product_addtocart_form'));
 
-  if (!this.previews_from_session)
+  if (this.previews_from_session)
+    $('div.zetaprints-notice.to-update-preview').addClass('hidden');
+  else
     $('#zetaprints-add-to-cart-button').css('display', 'none');
 
   $('div.zetaprints-page-input-fields input.input-text,\
@@ -375,6 +377,7 @@ function personalization_form ($) {
             $('input[name=zetaprints-previews]')
               .val(zp.previews.join(','));
 
+            $('div.zetaprints-notice.to-update-preview').addClass('hidden');
             $('#zetaprints-add-to-cart-button').show();
             $('div.save-order span').css('display', 'none');
           }

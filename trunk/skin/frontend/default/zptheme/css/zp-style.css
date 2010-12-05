@@ -580,6 +580,16 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   top: 0px;
 }
 
+/* CSS rules for different notices */
+div.zetaprints-notice.hidden {
+  display: none;
+}
+
+div.zetaprints-notice.to-update-preview {
+  color: red;
+  text-align: right;
+}
+
 /* Fancybox tweaks */
 
 /* Move right arrow area to the right */
