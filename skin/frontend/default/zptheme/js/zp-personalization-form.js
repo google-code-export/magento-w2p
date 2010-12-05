@@ -267,6 +267,16 @@ function personalization_form ($) {
                   + field_metadata + '&';
     }
 
+    for (var name in page.fields) {
+      var field_metadata = zp_convert_metadata_to_string(page.fields[name]);
+
+      if (!field_metadata)
+        continue;
+
+      metadata += '&zetaprints-*_' + prepare_string_for_php(name) + '='
+                  + field_metadata + '&';
+    }
+
     return metadata;
   }
 
@@ -734,6 +744,25 @@ function personalization_form ($) {
                            $(link).children('img') );
 
     return false; });
+
+  $('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea').each(function () {
+    var $text_field = $(this);
+    var $button_container = $text_field.parents('dl').children('dt');
+
+    $text_field.text_field_editor({
+      button_parent: $button_container,
+
+      change: function (data) {
+        var field = zp.template_details.pages[zp.current_page]
+                                .fields[$text_field.attr('name').substring(12)];
+
+        var metadata = {
+          'col-f': data.color }
+
+        zp_set_metadata(field, metadata);
+      }
+    });
+  });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
