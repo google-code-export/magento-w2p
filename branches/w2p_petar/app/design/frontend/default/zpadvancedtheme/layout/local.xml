@@ -18,6 +18,11 @@
       <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-in-preview-edit.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-text-field-editor.css</name></action>
+            
+      <!-- Resizing resources -->
+      <action method="addItem"><type>skin_js</type><name>js/resizing.js</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/resizing.css</name></action>
+      <!-- End Resizing resources -->
     </reference>
   </catalog_product_view>
 </layout>
