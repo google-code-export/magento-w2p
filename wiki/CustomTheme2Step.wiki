@@ -22,9 +22,9 @@ Both steps (options, personalization) use the same page. The code in the theme m
   # Include params from _step 1_ into _Add to cart_ request at _step 2_
 
 == Functions ==
-  * `is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
-  * `get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
-  * `get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
+  * ` is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
+  * ` get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
+  * ` get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
 
 == Affected files ==
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml zp2steptheme/template/catalog/product/view.phtml] ===
