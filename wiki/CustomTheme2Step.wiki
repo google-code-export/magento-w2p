@@ -22,9 +22,9 @@ Both steps (options, personalization) use the same page. The code in the theme m
   # Include params from _step 1_ into _Add to cart_ request at _step 2_
 
 == Functions ==
-  * `function is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
-  * `function get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
-  * `function get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
+  * `is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
+  * `get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
+  * `get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
 
 == Affected files ==
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml zp2steptheme/template/catalog/product/view.phtml] ===
@@ -63,7 +63,13 @@ This file shows form for ordering on product page. This form contains product im
 <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
   }}}
 
-*Section 8*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+*Section 8*: display text at the bottom of personalization form to notice customer to update preview (_optional_)
+
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
+  }}}
+
+*Section 9*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
@@ -88,6 +94,7 @@ if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($
 else
   echo $_helper->productAttribute($_product, $_img, 'image');
   }}}
+
 == Application of 1- or 2-Step process ==
 You can have 2 identical themes with the only difference in 1 or 2 step process. Choose the most commonly used theme as the default and enable the other theme for some products only.
 
