@@ -7,16 +7,20 @@
 
 == Release comments ==
 Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
-  * Copy [http://magento-w2p.googlecode.com/svn/trunk/app/design/frontend/default/zptheme/layout/local.xml] file to your custom theme's _layout_ directory or copy its content into _local.xml_ file, if you already have one.
+  * Copy [http://magento-w2p.googlecode.com/svn/trunk/app/design/frontend/default/zptheme/layout/local.xml app/design/frontend/default/zptheme/layout/local.xml] file to your custom theme's _layout_ directory or copy its content into _local.xml_ file, if you already have one.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/image-edit/edit.phtml app/design/frontend/default/zptheme/template/image-edit/edit.phtml] file into _image-edit_ directory in your custom theme's template directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-style.css skin/frontend/default/zptheme/css/zp-style.css] file into your custom theme's CSS directory.
-  * Copy [https://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery-powercrop.css skin/frontend/default/zptheme/css/jquery-powercrop.css] file into your custom theme's JS directory and remove _jquery.jcrop.css_ from it.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/jquery-powercrop.css skin/frontend/default/zptheme/css/jquery-powercrop.css] file into your custom theme's CSS directory and remove _jquery.jcrop.css_ from it.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/colorpicker.css skin/frontend/default/zptheme/css/colorpicker.css] file into your custom theme's CSS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/css/zp-text-field-editor.css skin/frontend/default/zptheme/css/zp-text-field-editor.css] file into your custom theme's CSS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-text-field-editor.js skin/frontend/default/zptheme/js/zp-text-field-editor.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/colorpicker.js skin/frontend/default/zptheme/js/colorpicker.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/jquery-powercrop.js skin/frontend/default/zptheme/js/jquery-powercrop.js] file into your custom theme's JS directory and remove _jquery-jcrop.min.js_ from it.
   * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-1.4.3-min.js skin/frontend/default/zptheme/js/jquery-1.4.3-min.js.js] file into your custom theme's JS directory.
   * Copy [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/default/zptheme/js/jquery-ui-1.8.6-custom-min.js skin/frontend/default/zptheme/js/jquery-ui-1.8.6-custom-min.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js skin/frontend/default/zptheme/js/zp-crop-visual-assistant.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-image-edit.js skin/frontend/default/zptheme/js/zp-image-edit.js] file into your custom theme's JS directory.
-  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-metadata-accessor.js skin/frontend/default/zptheme/js/zp-metadata-accessor.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-metadata.js skin/frontend/default/zptheme/js/zp-metadata.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-text-fields-resizer.js skin/frontend/default/zptheme/js/zp-text-fields-resizer.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/ajaxupload.js skin/frontend/default/zptheme/js/ajaxupload.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-personalization-form.js skin/frontend/default/zptheme/js/zp-personalization-form.js] file into your custom theme's JS directory.
@@ -25,6 +29,7 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/frame-handle.png skin/frontend/default/zptheme/images/image-edit/frame-handle.png] file into _image-edit_ directory in your custom theme's image directory.
+  * Copy [https://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png] file into _zp-text-field-editor_ directory in your custom theme's image directory.
 
 = Stable release (1.8.3.1) =
 == Issues ==
