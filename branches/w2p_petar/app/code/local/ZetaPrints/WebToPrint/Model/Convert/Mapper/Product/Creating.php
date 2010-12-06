@@ -73,6 +73,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
       } catch (Zend_Http_Client_Exception $e) {
         $this->error("Error creating product from template: {$template->getGuid()}");
         $this->error($e->getMessage());
+
         continue;
       }
 
@@ -92,8 +93,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
   }
 
-  private function notice ($message)
-  {
+  private function error ($message) {
+    $this->addException($message, Mage_Dataflow_Model_Convert_Exception::ERROR);
+  }
+
+  private function notice ($message) {
     $this->addException($message, Mage_Dataflow_Model_Convert_Exception::NOTICE);
   }
 
@@ -106,11 +110,6 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
   {
     if ($this->debug)
       $this->notice($message);
-  }
-
-  private function error ($message)
-  {
-    $this->addException($message, Mage_Dataflow_Model_Convert_Exception::ERROR);
   }
 }
 

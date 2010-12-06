@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-  var imageEditorJcropApi;
   imageEditorLoadImage();
 
   var _cropVisualAssistant = new cropVisualAssistant ();
@@ -7,71 +6,103 @@ jQuery(document).ready(function ($) {
   _cropVisualAssistant.setUserImageThumb(top.userImageThumbSelected);
   _cropVisualAssistant.setTemplatePreview($('a.zetaprints-template-preview:visible>img', top.document).first());
 
-  var _metadataAccessor = new metadataAccessor(
-    top.userImageThumbSelected,
-    parent.document.getElementById('zetaprints-' + top.image_imageName)
-  );
+  var $input = top.userImageThumbSelected
+              .parents('td')
+              .children('input.zetaprints-images');
 
-  /**
-   * Initialize Jcrop api
-   */
+  var $restore_button = $('#restore-button');
+
+  var crop_data = null;
+
   function imageEditorCrop () {
-    imageEditorHideCrop();
     showImageEditorTooltip('Select visible part');
-    imageEditorJcropApi = $.Jcrop('#userImagePreview', { powerClip: isCropFit });
-    imageEditorJcropApi.setOptions( {
-      onSelect: imageEditorUpdateCropCoords,
-      onChange: imageEditorUpdateCropCoords,
-      onImageChange : imageEditorUpdateCropCoords
-    });
 
-    //inicialize aspectRatio setting for Jcrop, if not empty data
-    if (isCropFit && (top.image_aspectRatio[0] != 0) && (top.image_aspectRatio[1] != 0)) {
-      imageEditorJcropApi.setOptions({
-        aspectRatio: top.image_aspectRatio[0] / top.image_aspectRatio[1]
-      });
+    var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
+
+    var data = {
+      selection: {
+        width: cropMetadata[2] - cropMetadata[0],
+        height: cropMetadata[3] - cropMetadata[1],
+        position: {
+          top: cropMetadata[1],
+          left: cropMetadata[0] } } };
+
+    var metadata = $input.data('metadata');
+
+    if (isCropFit && metadata) {
+      var width = Number($('#userImagePreview').width());
+      var height = Number($('#userImagePreview').height());
+
+      var cr_x1 = metadata['cr-x1'];
+      var cr_y1 = metadata['cr-y1'];
+      var cr_x2 = metadata['cr-x2'];
+      var cr_y2 = metadata['cr-y2'];
+
+
+      if (cr_x1 && cr_y1 && cr_x2 && cr_y2)
+        data.selection = {
+          width: (cr_x2 - cr_x1) * width,
+          height: (cr_y2 - cr_y1) * height,
+          position: {
+            top: cr_y1 * height,
+            left: cr_x1 * width } };
+
+      var selection_position = data.selection.position;
+      var selection_size = {
+        width: data.selection.width,
+        height: data.selection.height };
+
+      data.image = {};
+
+      var sh_x = metadata['sh-x'];
+      var sh_y = metadata['sh-y'];
+
+      if (sh_x && sh_y)
+        data.image.position = {
+          left: selection_position.left + selection_size.width / sh_x,
+          top: selection_position.top + selection_size.height / sh_y };
+
+      var sz_x = metadata['sz-x'];
+      var sz_y = metadata['sz-y'];
+
+      if (sz_x && sz_y) {
+        data.image.width = selection_size.width / sz_x;
+        data.image.height = selection_size.height / sz_y;
+      }
     }
 
-    //set an initial selection area
-    var cropMetadata = fetchCropMetadata();
-    if (cropMetadata[0] && cropMetadata[1] && cropMetadata[2] && cropMetadata[3]) {
-      imageEditorJcropApi.setSelect(cropMetadata);
-    } else {
-      imageEditorJcropApi.setSelect(_cropVisualAssistant.getInitCroppedArea(0, 0));
-    }
+    $('#userImagePreview').power_crop({
+      simple: !isCropFit,
+      data: data,
+      crop: imageEditorUpdateCropCoords });
 
-    if (isCropFit) {
-      var selection_position = imageEditorJcropApi.get_selection_position();
-      var selection_size = imageEditorJcropApi.get_selection_size();
-
-      imageEditorJcropApi.set_image_position(
-        selection_position.left + selection_size.width / _metadataAccessor.getProperty('sh-x'),
-        selection_position.top + selection_size.height / _metadataAccessor.getProperty('sh-y') );
-
-      imageEditorJcropApi.set_image_size(
-        selection_size.width / _metadataAccessor.getProperty('sz-x'),
-        selection_size.height / _metadataAccessor.getProperty('sz-y') );
-    }
-
-    $('#imageEditorCropForm').css('display', 'block');
+    $('#imageEditorCropForm').show();
+    $('div.zetaprints-buttons-row').show();
   }
 
-  /**
-   * Remove Jcrop, if exists
-   */
   function imageEditorHideCrop() {
+    $('#userImagePreview').power_crop('destroy');
+
     $('#imageEditorTooltip').hide();
-    $('#imageEditorCropForm').css('display', 'none');
-    if (typeof(imageEditorJcropApi) != "undefined")
-      imageEditorJcropApi.destroy();
+
+    $('div.zetaprints-buttons-row').hide();
+
+    $('#imageEditorCropForm').hide();
 
     $('#imageEditorImageInfo').empty();
   }
 
-  /**
-   * Jcrop assign box coords
-   */
-  function imageEditorUpdateCropCoords (c) {
+  function imageEditorUpdateCropCoords (data) {
+    crop_data = data;
+
+    var c = {
+      x: data.selection.position.left,
+      y: data.selection.position.top,
+      x2: data.selection.position.left + data.selection.width,
+      y2: data.selection.position.top + data.selection.height,
+      w: data.selection.width,
+      h: data.selection.height }
+
     $('#imageEditorCropX').val(c.x);
     $('#imageEditorCropY').val(c.y);
     $('#imageEditorCropX2').val(c.x2);
@@ -80,7 +111,9 @@ jQuery(document).ready(function ($) {
     $('#imageEditorCropH').val(c.h);
 
     if (isCropFit) {
-      var image_size = imageEditorJcropApi.get_image_size();
+      var image_size = {
+        width: data.image.width,
+        height: data.image.height };
 
       var width = Math.round(image_size.width * _cropVisualAssistant.getPlaceholderInfo().widthPx / c.w);
       var height = Math.round(image_size.height * _cropVisualAssistant.getPlaceholderInfo().heightPx / c.h);
@@ -89,7 +122,7 @@ jQuery(document).ready(function ($) {
 
       _cropVisualAssistant.updateInfoBar(width, height);
 
-      var image_position = imageEditorJcropApi.get_image_position();
+      var image_position = data.image.position;
 
       var mx = Number($('#userImagePreview').width()) / image_size.width;
       var my = Number($('#userImagePreview').height()) / image_size.height;
@@ -145,66 +178,48 @@ jQuery(document).ready(function ($) {
   }
 
   /**
-   * Fetch stored crop metadata
-   */
-  function fetchCropMetadata() {
-    var width = Number($('#userImagePreview').width());
-    var height = Number($('#userImagePreview').height());
-
-    _metadataAccessor.restoreFromStorage();
-    var cropMetadata = [
-      Math.round(_metadataAccessor.getProperty('cr-x1') * width),
-      Math.round(_metadataAccessor.getProperty('cr-y1') * height),
-      Math.round(_metadataAccessor.getProperty('cr-x2') * width),
-      Math.ceil(_metadataAccessor.getProperty('cr-y2') * height),
-
-    ];
-
-    return cropMetadata;
-  }
-
-  /**
    * Store crop metadata for further usage
    */
   function storeCropMetadata() {
+    if (!(isCropFit && crop_data))
+      return;
+
     var width = Number($('#userImagePreview').width());
     var height = Number($('#userImagePreview').height());
 
-    var cr_x1 = $('#imageEditorCropX').val() / width;
-    var cr_x2 = $('#imageEditorCropX2').val() / width;
-    var cr_y1 = $('#imageEditorCropY').val() / height;
-    var cr_y2 = $('#imageEditorCropY2').val() / height;
+    var metadata = {
+      'cr-x1': $('#imageEditorCropX').val() / width,
+      'cr-x2': $('#imageEditorCropX2').val() / width,
+      'cr-y1': $('#imageEditorCropY').val() / height,
+      'cr-y2': $('#imageEditorCropY2').val() / height };
 
-    if (isCropFit) {
-      _metadataAccessor.setProperty('cr-x1', cr_x1);
-      _metadataAccessor.setProperty('cr-x2', cr_x2);
-      _metadataAccessor.setProperty('cr-y1', cr_y1);
-      _metadataAccessor.setProperty('cr-y2', cr_y2);
-      _metadataAccessor.setProperty('img-id', imageEditorId);
+    var image_position = crop_data.image.position;
+    var selection_position = crop_data.selection.position;
 
-      var image_position = imageEditorJcropApi.get_image_position();
-      var selection_position = imageEditorJcropApi.get_selection_position();
+    var image_size = {
+      width: crop_data.image.width,
+      height: crop_data.image.height };
+    var selection_size = {
+      width: crop_data.selection.width,
+      height: crop_data.selection.height };
 
-      var image_size = imageEditorJcropApi.get_image_size();
-      var selection_size = imageEditorJcropApi.get_selection_size();
+    metadata['sh-x'] =
+         selection_size.width / (image_position.left - selection_position.left);
+    metadata['sh-y'] =
+          selection_size.height / (image_position.top - selection_position.top);
 
-      _metadataAccessor.setProperty('sh-x',
-        selection_size.width / (image_position.left - selection_position.left) );
-      _metadataAccessor.setProperty('sh-y',
-        selection_size.height / (image_position.top - selection_position.top) );
+    metadata['sz-x'] = selection_size.width / image_size.width;
+    metadata['sz-y'] =  selection_size.height / image_size.height;
 
-      _metadataAccessor.setProperty('sz-x', selection_size.width / image_size.width);
-      _metadataAccessor.setProperty('sz-y', selection_size.height / image_size.height);
-    }
-
-    _metadataAccessor.storeAll();
+    $input.data('metadata', metadata);
   }
 
   function clearCropMetadata () {
-    _metadataAccessor.clearAll();
+    crop_data = null;
+    $input.removeData('metadata');
 
     $('#' + _cropVisualAssistant.getUserImageThumbGuid(), parent.document).each(function(){
-      $(this).data('metadata', null);
+      //$(this).data('metadata', null);
       $(this).prev('div.thumbCropedAreaToolSet').remove();
     });
   }
@@ -224,6 +239,7 @@ jQuery(document).ready(function ($) {
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
         showImageEditorTooltip('Image Cropped');
+        $('#userImagePreview').fadeIn();
       }
     });
   }
@@ -245,6 +261,7 @@ jQuery(document).ready(function ($) {
     success: function (data, textStatus) {
       imageEditorApplyImage(data);
       showImageEditorTooltip('Image Restored');
+      $('#userImagePreview').fadeIn();
     }
     });
   }
@@ -286,6 +303,7 @@ jQuery(document).ready(function ($) {
       success: function (data, textStatus) {
         imageEditorApplyImage(data);
         showImageEditorTooltip('Image Rotated');
+        $('#userImagePreview').fadeIn();
       }
     });
   }
@@ -295,9 +313,8 @@ jQuery(document).ready(function ($) {
    */
   function imageEditorApplyImage(xml)
   {
-    var userImageWidthPreview, userImageHeightPreview, userImageWidthActual, userImageHeightActual, uh, uw, src;
+    var userImageWidthActual, userImageHeightActual, uh, uw, src;
 
-    $('#userImagePreview').hide();
     $('#userImagePreview').attr("src", "");
     $('#imageEditorInfoBar').hide();
     parent.jQuery.fancybox.showActivity();
@@ -322,17 +339,18 @@ jQuery(document).ready(function ($) {
       return false;
     }
 
-    $('#userImagePreview').attr("src", userImageSrc);
-    $('#userImagePreview').width(userImageWidthPreview);
-    $('#userImagePreview').height(userImageHeightPreview);
-    updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-
     if (!userImageWidthActual || !userImageHeightActual) {
       alert(zetaprints_trans('Unknown error occured'));
       return false;
     } else {
       _cropVisualAssistant.setUserImage($('#userImagePreview'), userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
     }
+
+    $('#userImagePreview').attr("src", userImageSrc);
+    $('#userImagePreview').width(userImageWidthPreview);
+    $('#userImagePreview').height(userImageHeightPreview);
+
+    updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
 
     tmp1 = $('input[value=' + imageEditorId + ']', top.document).parent().find('img');
     if (tmp1.length == 0)
@@ -343,19 +361,6 @@ jQuery(document).ready(function ($) {
       tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
       tmp1.attr('src', userImageSrc);
-
-    $('#userImagePreview').bind('load', function() {
-      if (isCropFit) {
-        imageEditorCrop();
-
-        _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
-        _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
-      } else {
-        $('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
-        updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-      }
-      imageEditorAdjustSize();
-    });
   }
 
   /**
@@ -439,7 +444,7 @@ jQuery(document).ready(function ($) {
 
     var imageEditorWidth = (infoBarWidth > userImagePreviewWidth) ? infoBarWidth : userImagePreviewWidth;
     imageEditorWidth += leftSidebarWidth;
-    imageEditorWidth += 10;
+    imageEditorWidth += 20;
 
     var imageEditorHeight = userImagePreviewHeight + infoBarHeight;
     imageEditorHeight = (imageEditorHeight > leftSidebarHeight) ? imageEditorHeight : leftSidebarHeight;
@@ -454,7 +459,7 @@ jQuery(document).ready(function ($) {
       height: userImagePreviewHeight
     });
 
-    imageEditorHeight += 20;
+    imageEditorHeight += 30;
     // 20 = offset from top edge of fancybox (can be used for top fancybox caption)
 
     imageEditorWidth = Math.round(imageEditorWidth);
@@ -496,35 +501,59 @@ jQuery(document).ready(function ($) {
 
   //image load handler. Fade in on load, hide loading icon, show image caption
   $('#userImagePreview').load(function () {
-    // _cropVisualAssistant.cropedAreaRemove();
     if (!isCropFit) {
       _cropVisualAssistant.cropedAreaHide();
 
       parent.jQuery('#fancybox-close').click(function() {
         _cropVisualAssistant.cropedAreaShow();
       });
+
+      $('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
+      updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
+    } else {
+      imageEditorCrop();
+
+      _cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
+      _cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
     }
 
-    $('#userImagePreview').fadeIn().ready(function () {
+    $('#userImagePreview').ready(function () {
       parent.jQuery('#fancybox-loading').fadeOut();
       $('#imageEditorInfoBar').show();
     });
+
+    imageEditorAdjustSize();
   });
 
   //button handlers
   $('#imageEditorCrop').click(function() {
+    imageEditorHideCrop();
     isCropFit = false;
+
+    $restore_button.addClass('hidden');
+
     clearCropMetadata();
     imageEditorCrop();
   });
   $('#imageEditorCropFit').click(function(){
+    imageEditorHideCrop();
     isCropFit = true;
+
+    $restore_button.removeClass('hidden');
+
     imageEditorLoadImage();
-    imageEditorCrop();
   });
-  $('#imageEditorApplyCrop').click(imageEditorApplyCrop);
+  $('#save-button').click(imageEditorApplyCrop);
 
   $('#imageEditorRestore').click(imageEditorRestore);
+
+  $restore_button.click(function () {
+    imageEditorHideCrop();
+    clearCropMetadata();
+
+    imageEditorLoadImage();
+  });
+
   $('#imageEditorRotateRight').click( function () {
     imageEditorDoRotate('r');
   });

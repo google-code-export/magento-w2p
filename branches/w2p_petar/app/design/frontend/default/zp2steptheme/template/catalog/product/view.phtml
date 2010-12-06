@@ -167,19 +167,26 @@
 
         <!-- /****** ZP-CODE:7 End ******/ -->
 
-        <div class="clearer"></div>
+        <!-- /****** ZP-CODE:8 Print notice to personalize product ******/ -->
 
-        <!-- /****** ZP-CODE:8 Printing JavaScript for magento personalization form ******/ -->
-
-        <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
+        <?php $this->helper('webtoprint/personalization-form')
+                ->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
 
         <!-- /****** ZP-CODE:8 End ******/ -->
 
-        <!-- /****** ZP-CODE:9 Close 'if' opened in  ZP-CODE:2 ******/ -->
+        <div class="clearer"></div>
+
+        <!-- /****** ZP-CODE:9 Printing JavaScript for magento personalization form ******/ -->
+
+        <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
+
+        <!-- /****** ZP-CODE:9 End ******/ -->
+
+        <!-- /****** ZP-CODE:10 Close 'if' opened in  ZP-CODE:2 ******/ -->
 
         <?php endif; ?>
 
-        <!-- /****** ZP-CODE:9 End ******/ -->
+        <!-- /****** ZP-CODE:10 End ******/ -->
 
     </form>
     <script type="text/javascript">
