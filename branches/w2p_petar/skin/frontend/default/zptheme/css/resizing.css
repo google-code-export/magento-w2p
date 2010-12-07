@@ -29,3 +29,7 @@ and display options
 #fancybox-resize .restore {
 	background-position: -40px -233px;
 }
+
+#fancybox-close.resizer-tweaks {
+  background: url("../images/fancybox/fancybox.png") no-repeat transparent -68px -200px;
+}
