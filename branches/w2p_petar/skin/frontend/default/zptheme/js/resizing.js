@@ -21,25 +21,26 @@ function addResizeOption(opts)
   var width = img.width();
 
   // displayed dimensions
-  var img_width = opts.width;
-  var img_height = opts.height;
-
+  var img_orig_width = opts.width;
+  var img_orig_height = opts.height;
+  var parent = jQuery('#fancybox-resize');
   //check if displayed size is smaller than loaded image
   // if it is, add max/restore button, do it if fancybox loads image only; if needed will enable for
   // other tyes too, but they will need to have defined width and height
-  if (img_width > width && opts.type == 'image' && !jQuery('#fancybox-resize').length) {
+  if (img_orig_width > width && opts.type == 'image' && !parent.length) {
     var outer = jQuery('#fancybox-outer'); // get outer container
-    // add resizer HTML to it
-    outer.append(jQuery('<div id="fancybox-resize"><a class="maximize" style="display: none;"></a><a class="restore" style="display: none;"></a></div>'));
     // get reference of resizer container
-    var parent = jQuery('#fancybox-resize');
+    parent = jQuery('<div id="fancybox-resize"><a class="maximize" style="display: none;"></a><a class="restore" style="display: none;"></a></div>');
+    // add resizer to outer
+    outer.append(parent);
     // inject some usefull data in it (original image dimensions and current dimensions)
-    parent.data('h', height).data('w', width).data('orig_w', img_width).data('orig_h', img_height);
+    parent.data({'height': height,'width': width,'img_orig_width': img_orig_width, 'img_orig_height': img_orig_height});
     // update close icon to use custom background
-    jQuery('#fancybox-close').css('background-position', '-68px -200px');
+    // jQuery('#fancybox-close').css('background-position', '-68px -200px');
+    jQuery('#fancybox-close').addClass('resizer-tweaks');
 
     // cycle 'maximize'/'restore' links
-    jQuery('a', '#fancybox-resize').each(function()
+    jQuery('a', parent).each(function()
     {
       if (jQuery(this).hasClass('maximize')) { // if it is maximize show it
         jQuery(this).show();
@@ -49,33 +50,32 @@ function addResizeOption(opts)
         var self = jQuery(this); // get ref to clicked link
         self.hide(); // hide it
         var data = jQuery('#fancybox-resize').data(); // get stored data
-        var diff_x = data.orig_w - data.w; // calculate difference in real and displayed dimensions
-        var diff_y = data.orig_h - data.h;
+        var diff_x = data.img_orig_width - data.width; // calculate difference in real and displayed dimensions
+        var diff_y = data.img_orig_height - data.height;
         if (self.hasClass('maximize')) { // if we are maximizing
           fancyResize(diff_x, diff_y); // add diff
-          jQuery('a.restore', '#fancybox-resize').first().show(); // show restore link
+          jQuery('a.restore', parent).first().show(); // show restore link
         } else if (self.hasClass('restore')) { // if we are restoring
           fancyResize(-diff_x, -diff_y); // subtract diff
-          jQuery('a.maximize', '#fancybox-resize').first().show(); // show miximize link
+          jQuery('a.maximize', parent).first().show(); // show miximize link
         }
       });
     });
-  } else if (img_width == width) {
-    // picture is now with exatly same dimensions
-    if(jQuery('#fancybox-resize').length > 0){
-      // and tere is a resizer
-      jQuery('#fancybox-resize').remove(); // remove resizer
-      jQuery('#fancybox-close').css('background-position', '-40px 0px'); // reset close icon
-    }
-  } else {
+  } else if (parent.length > 0 && img_orig_height == width) {
+    // there is a resizer
+    // iamge and Fancybox are now with exatly same dimensions
+    parent.remove(); // remove resizer
+    // jQuery('#fancybox-close').css('background-position', '-40px 0px'); // reset close icon
+    jQuery('#fancybox-close').removeClass('resizer-tweaks');
+  } else if (img_orig_height > width) {
     // we have already created resizer and this is just reopening of the fancybox
     // we are updating data in resizer to acommodate for cases where browser
     // window has been resized in mean time and 'restore' dimensions are changed
-    jQuery('#fancybox-resize').data('w', width).data('h', height).show();
-
+    parent.data({'width': width, 'height': height}).show();
+    
     // make sure that 'maximize' handle is visible and restore hidden
-    jQuery('a.restore', '#fancybox-resize').hide();
-    jQuery('a.maximize', '#fancybox-resize').show();
+    jQuery('a.restore', parent).hide();
+    jQuery('a.maximize', parent).show();
   }
 }
 /**
@@ -128,10 +128,5 @@ function fancyResize(diff_x, diff_y)
  */
 function _get_content_container()
 {
-  if(document.getElementById('fancybox-content')){
-    return jQuery('#fancybox-content');
-  }else if(document.getElementById('fancybox-inner')){
-    return jQuery('#fancybox-inner');
-  }
-  throw ('Fancybix version not supported')
+  return jQuery('#fancybox-content, #fancybox-inner');
 }
