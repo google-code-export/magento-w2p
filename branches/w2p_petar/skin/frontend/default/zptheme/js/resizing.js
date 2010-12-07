@@ -71,12 +71,22 @@ function addResizeOption(opts)
     // we have already created resizer and this is just reopening of the fancybox
     // we are updating data in resizer to acommodate for cases where browser
     // window has been resized in mean time and 'restore' dimensions are changed
-    jQuery('#fancybox-resize').data('w', width).data('h', height);
+    jQuery('#fancybox-resize').data('w', width).data('h', height).show();
 
     // make sure that 'maximize' handle is visible and restore hidden
     jQuery('a.restore', '#fancybox-resize').hide();
     jQuery('a.maximize', '#fancybox-resize').show();
   }
+}
+/**
+ * Hide resize icons
+ *
+ * Does not do much it is just conveniance method
+ * to use in onCleanup hook of fancy box to hide resizing 
+ * icons with close icon.
+ */
+function hideResizeOption(){
+  jQuery('#fancybox-resize').hide();
 }
 
 /**
@@ -95,7 +105,11 @@ function addResizeOption(opts)
 function fancyResize(diff_x, diff_y)
 {
   // wrap height is set to auto by default so we need to update only width
-  jQuery('#fancybox-wrap').width(jQuery('#fancybox-wrap').width() + diff_x);
+  var wrap = jQuery('#fancybox-wrap');
+  wrap.width(wrap.width() + diff_x);
+  // the above is true for fancybox 1.3.4, but not guaranteed for earlier versions, so:
+  wrap.height(wrap.height() + diff_y);
+
   // get image container, it has both width and height set explicitly
   var container = _get_content_container();
   // add diffs to it.
