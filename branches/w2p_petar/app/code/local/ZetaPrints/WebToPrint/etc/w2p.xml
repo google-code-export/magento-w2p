@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- Sample options file, not to be included in extension distribution -->
+<config>
+  <cache type="user">
+    <enabled>0</enabled>
+  </cache>
+  <colorpicker>
+    <show>0</show>
+  </colorpicker>
+</config>
