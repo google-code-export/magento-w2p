@@ -27,11 +27,13 @@
    * Mage_Catalog_Model_Product_Option_Type_File is extended from ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
   * Since whole operation is asynchronous we cannot use usual methods for adding custom option to quote, so this is handled via Magento event system and ZetaPrints_Attachments_Model_Events_Observer
 
-== Use case ==
+== Usage ==
 
-Admin user adds a product that can use one or more customer files, such as visual templates, fonts, Photoshop brushes etc.
+Admin user adds or edits a product that can use one or more customer files, such as visual templates, fonts, Photoshop brushes etc.
 
 To provide this admin adds custom option from product editing page.
+
+http://picasaweb.google.com/jamby77/Www?authkey=Gv1sRgCIGWk9nGqsTcAQ#5549052083490292706
 
 Admin can choose separate option for each type of files a product can use. For example, graphic designs, fonts, pdf files etc. 
 
