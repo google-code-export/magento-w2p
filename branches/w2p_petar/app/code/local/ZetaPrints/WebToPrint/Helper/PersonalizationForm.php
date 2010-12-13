@@ -691,8 +691,8 @@ jQuery(document).ready(function($) {
   <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
-  $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
-  $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
+  // $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
+  // $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
 
   $('div.zetaprints-previews-box a.show-title').each(function () {
     $(this).click(function () {
