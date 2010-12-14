@@ -28,7 +28,7 @@ A sample configuration file content is:
 }}}
 
 The only required node is <config> everything between config can be retrieved using M. config api.
-In PersonalizationForm.php there is a method added to handle this. Method name is 
+In [http://code.google.com/p/magento-w2p/source/browse/branches/w2p_petar/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php?spec=svn1223&r=1223#888 PersonalizationForm.php] there is a method added to handle this. Method name is 
 
 {{{
 _get_w2p_custom_options($node = null)
@@ -65,4 +65,4 @@ To retrieve configuration for web_to_print only you will do
 {{{
 $this->_get_w2p_custom_options('web_to_print')
 }}}
- in PersonalizationForm.php
+ in [http://code.google.com/p/magento-w2p/source/browse/branches/w2p_petar/app/code/local/ZetaPrints/WebToPrint/Helper/PersonalizationForm.php?spec=svn1223&r=1223#840 PersonalizationForm.php]
