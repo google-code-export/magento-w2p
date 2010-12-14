@@ -51,12 +51,6 @@
   </div>
 
   <div id="imageEditorBottomPanel">
-    <table id="imageEditorInfoBar">
-      <tr>
-        <td id="imageEditorImageInfo"></td>
-        <td id="imageEditorTooltip"></td>
-      </tr>
-    </table>
 
     <form id="imageEditorCropForm">
       <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
@@ -66,6 +60,111 @@
       <input type="hidden" name="Cropw" id="imageEditorCropW" />
       <input type="hidden" name="Croph" id="imageEditorCropH" />
     </form>
+
+    <div class="info-bar">
+      <div class="wrapper">
+        <div class="additional-info">
+          <div class="column ">
+            <div class="row frame">Frame:</div>
+            <div class="row uploaded">Uploaded:</div>
+            <div class="row recommended">Recommended:</div>
+          </div>
+
+          <div class="column numbers">
+            <div id="frame-width" class="row frame"></div>
+            <div id="uploaded-width" class="row uploaded"></div>
+            <div id="recommended-width" class="row recommended"></div>
+          </div>
+
+          <div class="column">
+            <div class="row frame">&times;</div>
+            <div class="row uploaded">&times;</div>
+            <div class="row recommended">&times;</div>
+          </div>
+
+          <div class="column numbers">
+            <div id="frame-height" class="row frame"></div>
+            <div id="uploaded-height" class="row uploaded"></div>
+            <div id="recommended-height" class="row recommended"></div>
+          </div>
+
+          <div class="column left-text-position">
+            <div class="row frame">px at</div>
+            <div class="row uploaded">px</div>
+            <div class="row recommended">px at</div>
+          </div>
+
+          <div class="column numbers">
+            <div id="frame-dpi" class="row frame"></div>
+            <div id="uploaded-dpi" class="row uploaded"></div>
+            <div id="recommended-dpi" class="row recommended"></div>
+          </div>
+
+          <div class="column">
+            <div class="row  frame">dpi</div>
+            <div class="row uploaded"></div>
+            <div class="row recommended">dpi</div>
+          </div>
+
+          <div class="column notice-switchers">
+            <div class="row frame outer">
+              <div class="middle">
+                <div class="icon question-sign inner" rel="frame"></div>
+              </div>
+            </div>
+            <div class="row uploaded outer">
+              <div class="middle">
+                <div class="icon question-sign inner" rel="uploaded"></div>
+              </div>
+            </div>
+            <div class="row recommended outer">
+              <div class="middle">
+                <div class="icon question-sign inner" rel="recommended"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column left-text-position last notices">
+            <div class="row frame">
+              <span class="default-notice">Default notice</span>
+              <span class="low-resolution-notice">Drag the frame nodes to select a larger area or upload a larger image.</span>
+            </div>
+            <div class="row uploaded"></div>
+            <div class="row recommended">
+              <span class="default-notice">Required size for user uploaded image.</span>
+            </div>
+          </div>
+
+          <div class="reset"></div>
+        </div>
+
+        <div class="status">
+          <div class="info-link">
+            <div class="less-info outer">
+              <span><?php echo $this->__('Less info'); ?></span>
+              <div class="middle">
+                <div class="icon down-arrow inner"></div>
+              </div>
+            </div>
+            <div class="more-info outer">
+              <span><?php echo $this->__('More info'); ?></span>
+              <div class="middle">
+                <div class="icon up-arrow inner"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="message outer">
+            <span id="default-message">Move and resize the image and the frame to get the best fit.</span>
+            <span id="low-resolution-message">Visible area resolution is too low.</span>
+
+            <div class="middle">
+              <div class="icon question-sign inner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="zetaprints-buttons-row">
       <div class="row-part first">
