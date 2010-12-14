@@ -404,7 +404,7 @@ Extension developed by http://www.zetaprints.com/
                 <file name="rotate_l.png" role="mageskin" />
                 <file name="rotate_r.png" role="mageskin" />
                 <file name="frame-handle.png" role="mageskin" />
-                <file name="status-bar-sprite.png.png" role="mageskin" />
+                <file name="status-bar-sprite.png" role="mageskin" />
               </dir>
 
               <dir name="media">
