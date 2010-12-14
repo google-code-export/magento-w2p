@@ -65,6 +65,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
               ->setDescription($template->getDescription())
               ->setShortDescription($template->getDescription())
               ->setVisibility(0)
+              ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED) // added to saticfy 1.4.2 product collection building, sets status to disabled by default
               ->setRequiredOptions(true)
               ->setWebtoprintTemplate($template->getGuid());
 
