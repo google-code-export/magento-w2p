@@ -18,7 +18,7 @@
           <products-updating>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating</products-updating>
         </rewrite>
       </webtoprint>
-      
+
       <webtoprint_mysql4>
         <class>ZetaPrints_WebToPrint_Model_Mysql4</class>
 
@@ -181,16 +181,6 @@
         </states>
       </order>
     </sales>
-    
-    <cache>
-        <types>
-           <w2p_customoptions module="w2p_customoptions" translate="label description">
-              <label>Web to print custom options.</label>
-              <description>Customers personal options with web to print</description>
-              <tags>W2P</tags>
-           </w2p_customoptions>
-        </types>
-    </cache>
   </global>
 
   <frontend>

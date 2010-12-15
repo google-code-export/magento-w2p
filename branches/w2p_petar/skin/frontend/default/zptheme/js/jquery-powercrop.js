@@ -206,6 +206,11 @@
     }
 
     function update_position (data) {
+      if (!settings.simple)
+        $container.css({
+          width: data.selection.width,
+          height: data.selection.height });
+
       $image_wrapper.css({
         width: data.image.width,
         height: data.image.height,

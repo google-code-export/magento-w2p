@@ -694,7 +694,6 @@ function personalization_form ($) {
     'hideOnContentClick': true,
     'showNavArrows': false,
     'onComplete': function () {
-      addResizeOption(this);
       $('img#fancybox-img').attr('title', click_to_close_text);
 
       if (!(zp.has_shapes && window.place_all_shapes_for_page
