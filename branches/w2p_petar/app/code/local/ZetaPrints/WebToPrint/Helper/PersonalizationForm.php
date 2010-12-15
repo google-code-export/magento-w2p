@@ -11,8 +11,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
   private function get_template_guid_from_product ($product) {
 
-    //Get template GUID from webtoprint_template attribute if such attribute exists
-    //and contains value, otherwise use product SKU as template GUID
+    // Get template GUID from webtoprint_template attribute if such attribute exists
+    // and contains value, otherwise use product SKU as template GUID
     if (!($product->hasWebtoprintTemplate() && $template_guid = $product->getWebtoprintTemplate()))
       $template_guid = $product->getSku();
 
@@ -691,8 +691,8 @@ jQuery(document).ready(function($) {
   <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
-  $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
-  $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
+  // $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
+  // $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
 
   $('div.zetaprints-previews-box a.show-title').each(function () {
     $(this).click(function () {
@@ -833,6 +833,11 @@ jQuery(document).ready(function($) {
         'preview_download' => $this->_getUrl('web-to-print/preview/download'),
         'upload' => $this->_getUrl('web-to-print/upload'),
         'image' => $this->_getUrl('web-to-print/image/update') ) ));
+
+    /*
+     * Custom config get all custom config options
+     */
+    $zp_custom = json_encode($this->_get_w2p_custom_options());
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -850,7 +855,7 @@ jQuery(document).ready(function($) {
   ?>
 
   zp = <?php echo $zp_data ?>;
-
+  zp_custom = <?php echo $zp_custom; // give all custom options at once?>;
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
 
@@ -872,6 +877,18 @@ jQuery(document).ready(function($) {
 //]]>
 </script>
 <?php
+  }
+
+
+  /**
+   * Get custom cofig options
+   *
+   * Provides feature to load custom settings from etc/w2p.xml
+   */
+  protected function _get_w2p_custom_options($node = null)
+  {
+    $config = Mage::getSingleton('webtoprint/config')->getNode($node);
+    return $config;
   }
 }
 ?>
