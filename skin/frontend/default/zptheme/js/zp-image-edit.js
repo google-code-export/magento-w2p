@@ -55,7 +55,7 @@ jQuery(document).ready(function ($) {
     var height_factor = placeholder.height / container_height;
 
     container_to_image_factor
-                  = width_factor > height_factor ? width_factor : height_factor;
+                  = width_factor < height_factor ? width_factor : height_factor;
 
     frame_width = Math.round(placeholder.width / container_to_image_factor);
     var frame_height = Math.round(placeholder.height / container_to_image_factor);
@@ -67,7 +67,7 @@ jQuery(document).ready(function ($) {
     var height_factor = placeholder.height / _cropVisualAssistant.userImage.heightActualPx;
 
     var image_to_placeholder_factor
-                  = width_factor > height_factor ? width_factor : height_factor;
+                  = width_factor < height_factor ? width_factor : height_factor;
 
     var resized_image_width = image_width * image_to_placeholder_factor;
     var resized_image_height = image_height * image_to_placeholder_factor;
