@@ -44,12 +44,12 @@ jQuery(document).ready(function ($) {
 
   function imageEditorCrop () {
     set_info_bar_warning();
-    set_info_bar_state ();
+    set_info_bar_state();
 
     var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
 
-    var container_width = _cropVisualAssistant.userImage.widthPreviewPx;
-    var container_height = _cropVisualAssistant.userImage.heightPreviewPx;
+    var container_width = 600; //_cropVisualAssistant.userImage.widthPreviewPx;
+    var container_height = 450; //_cropVisualAssistant.userImage.heightPreviewPx;
 
     var width_factor = placeholder.width / container_width;
     var height_factor = placeholder.height / container_height;
@@ -63,6 +63,22 @@ jQuery(document).ready(function ($) {
     image_width = Math.round(_cropVisualAssistant.userImage.widthActualPx / container_to_image_factor);
     var image_height = Math.round(_cropVisualAssistant.userImage.heightActualPx / container_to_image_factor);
 
+    var width_factor = placeholder.width / _cropVisualAssistant.userImage.widthActualPx;
+    var height_factor = placeholder.height / _cropVisualAssistant.userImage.heightActualPx;
+
+    var image_to_placeholder_factor
+                  = width_factor > height_factor ? width_factor : height_factor;
+
+    var resized_image_width = image_width * image_to_placeholder_factor;
+    var resized_image_height = image_height * image_to_placeholder_factor;
+
+    var dpi = Math.round(image_dpi / image_to_placeholder_factor);
+
+    set_info_bar_value('current', 'dpi', dpi);
+
+    if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
+          set_info_bar_warning('low-resolution-warning');
+
     var data = {
       selection: {
         width: frame_width,
@@ -71,8 +87,8 @@ jQuery(document).ready(function ($) {
           top: 0,
           left: 0 } },
       image: {
-        width: image_width,
-        height: image_height,
+        width: resized_image_width,
+        height: resized_image_height,
         position: {
           top: 0,
           left: 0 } } };
