@@ -75,8 +75,8 @@ body {
 #imageEditorBottomPanel {
   position: absolute;
   bottom: 5px;
-  min-width: 600px;
-  right: 15px;
+  min-width: 610px;
+  right: 10px;
 }
 
 #userImagePreviewContainer {
@@ -85,39 +85,18 @@ body {
   bottom: 90px;
   padding: 5px;
   overflow: hidden;
-  width: 600px;
-  height: 450px;
 }
 
 div.info-bar {
-  position: relative;
   font: bold 8pt tahoma;
-  height: 1.5em;
   line-height: 1.5em;
-  background-color: red;
-  padding: 1px 0px;
   color: #204a87;
-}
-
-div.info-bar #default-message {
-  display: inline;
+  background-color: #93b4df;
+  padding: 1px 5px;
 }
 
 div.info-bar div.icon {
   background: transparent url(../images/image-edit/status-bar-sprite.png) no-repeat;
-}
-
-div.info-bar div.down-arrow, div.info-bar.opened.warning div.down-arrow {
-  background-position: 0px 0px;
-}
-
-div.info-bar div.up-arrow {
-  background-position: -14px 0px;
-}
-
-div.info-bar div.status div.question-sign,
-div.info-bar.warning.opened div.status div.question-sign {
-  display: none;
 }
 
 div.info-bar div.outer {
@@ -129,156 +108,63 @@ div.info-bar div.middle {
   vertical-align: middle;
 }
 
-div.info-bar.opened div.additional-info {
-  display: block;
-}
-
-div.info-bar.opened div.less-info {
-  display: table;
-}
-
-div.info-bar div.less-info, div.info-bar.opened div.more-info {
-  display: none;
-}
-
-div.info-bar.warning div.status {
+div.info-bar.low-resolution-warning div.numbers div.current {
   color: #db0d0d;
 }
 
-div.info-bar.opened.warning div.less-info {
-  color: #204a87;
-}
-
-div.info-bar.warning div.down-arrow {
-  background-position: 0px -11px;
-}
-
-div.info-bar.warning div.up-arrow {
-  background-position: -14px -11px;
-}
-
-div.info-bar.warning div.status div.question-sign {
-  display: block;
-  background-position: -28px -34px;
-}
-
-div.info-bar.low-resolution-warning div.numbers div.frame {
-  color: #db0d0d;
-}
-
-div.info-bar.low-resolution-warning div.notice-switchers div.frame div.question-sign {
+div.info-bar.low-resolution-warning div.notice-switchers div.current div.question-sign {
   background-position: -28px 0px;
 }
 
+div.info-bar.cropped-state div.titles span.cropped-title,
 div.info-bar.low-resolution-warning span.low-resolution-notice,
-div.info-bar.low-resolution-warning #low-resolution-message {
+div.column.notices span.default-notice {
   display: inline;
 }
 
-div.info-bar.low-resolution-warning div.notices div.frame span.default-notice,
-div.info-bar.low-resolution-warning #default-message {
+div.info-bar div.titles span.cropped-title,
+div.info-bar.cropped-state div.titles span.uploaded-title,
+div.info-bar.low-resolution-warning div.notices span.default-notice,
+div.column.notices span {
   display: none;
 }
 
-
-
-div.info-bar div.wrapper {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  z-index: 2000;
-}
-
-div.info-bar div.status {
-  background-color: #93b4df;
-  padding: 1px 5px;
-}
-
-div.info-bar div.info-link {
-  float: right;
-  cursor: pointer;
-  font-weight: normal;
-}
-
-div.info-bar div.additional-info {
-  display: none;
-  background-color: rgba(147, 180, 223, 0.8);
-  padding-left: 5px;
-}
-
-div.status, div.status div {
-  height: 1.5em;
-}
-
-div.status div.message {
-  color: #db0d0d;
-}
-
-div.status div.message span {
-  display: none;
-}
-
-div.info-link span {
-  vertical-align: middle;
-}
-
-div.info-link div.icon {
-  margin-left: 3px;
-  width: 9px;
-  height: 5px;
-}
-
-div.message div.icon {
-  margin-left: 7px;
-  width: 12px;
-  height: 12px;
-}
-
-div.additional-info div.column {
+div.info-bar div.column {
   float: left;
   margin-right: 5px;
   text-align: right;
   overflow: hidden;
 }
 
-div.additional-info div.column.numbers {
+div.info-bar div.column.numbers {
   color: white;
 }
 
-div.additional-info div.column.left-text-position {
+div.info-bar div.column.left-text-position {
   text-align: left;
 }
 
-div.additional-info div.column.last {
+div.info-bar div.column.last {
   float: none;
 }
 
-div.additional-info div.row {
+div.info-bar div.reset {
+  clear: both;
+}
+
+div.info-bar div.row {
   padding: 1px 0px;
   height: 1.5em;
 }
 
-div.additional-info div.icon {
+div.info-bar div.question-sign {
   width: 12px;
   height: 12px;
-  cursor: pointer;
-}
-
-div.additional-info div.question-sign {
   background-position: -28px -17px;
 }
 
-div.additional-info div.question-sign.hover {
+div.info-bar div.question-sign:hover {
   background-position: -28px 0px;
-}
-
-
-div.column.notices span {
-  display: none;
-}
-
-div.row.notice span.default-notice {
- display: inline;
 }
 
 #fancy_content {
