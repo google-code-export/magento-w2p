@@ -87,17 +87,13 @@
 
       onShow: function (colpkr) {
         $(colpkr).fadeIn(500);
-        console.log('onSHow');
+
         return false;
       },
 
       onHide: function (colpkr) {
         $(colpkr).fadeOut(500);
-        console.log(this);
 
-        //!!! Ugly, but I have not found better way to bind new click handler
-        //!!! outside current click event
-        //setTimeout(function () { $(window).click(out_editor_click) }, 100);
         $(window).click({ colorpicker: true }, out_editor_click);
         return false;
       },
@@ -117,17 +113,10 @@
         return;
       }
 
-      console.log('namespace: ', event.namespace);
       var editor = $editor.get(0);
       var child_parent = $(event.target)
                           .parents('div.zp-text-field-editor')
                           .get(0);
-
-      console.log(editor);
-      console.log(child_parent);
-
-      console.log(editor == child_parent);
-
 
       if (!((event.target == editor) || (child_parent == editor))) {
         $handle.click();
