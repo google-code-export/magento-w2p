@@ -227,7 +227,7 @@ Extension developed by http://www.zetaprints.com/
           <dir name="zptheme">
 
             <dir name="css">
-              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
+              <file name="jquery.fancybox-1.3.4.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
             </dir>
 
@@ -246,6 +246,10 @@ Extension developed by http://www.zetaprints.com/
                 <file name="fancy_shadow_se.png" role="mageskin" />
                 <file name="fancy_shadow_sw.png" role="mageskin" />
                 <file name="fancy_shadow_w.png" role="mageskin" />
+                <file name="fancy_title_left.png" role="mageskin" />
+                <file name="fancy_title_main.png" role="mageskin" />
+                <file name="fancy_title_over.png" role="mageskin" />
+                <file name="fancy_title_right.png" role="mageskin" />
                 <file name="fancybox-x.png" role="mageskin" />
                 <file name="fancybox-y.png" role="mageskin" />
                 <file name="fancybox.png" role="mageskin" />
@@ -256,7 +260,7 @@ Extension developed by http://www.zetaprints.com/
 
             <dir name="js">
               <file name="jquery-1.4.4-min.js" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
+              <file name="jquery-fancybox-1.3.4-pack.js" role="mageskin" />
             </dir>
 
             <dir name="layout">
@@ -331,7 +335,7 @@ Extension developed by http://www.zetaprints.com/
 
             <dir name="css">
               <file name="colorpicker.css" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
+              <file name="jquery.fancybox-1.3.4.css" role="mageskin" />
               <file name="jquery-powercrop.css" role="mageskin" />
               <file name="zp-image-edit.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
@@ -383,6 +387,10 @@ Extension developed by http://www.zetaprints.com/
                 <file name="fancy_shadow_se.png" role="mageskin" />
                 <file name="fancy_shadow_sw.png" role="mageskin" />
                 <file name="fancy_shadow_w.png" role="mageskin" />
+                <file name="fancy_title_left.png" role="mageskin" />
+                <file name="fancy_title_main.png" role="mageskin" />
+                <file name="fancy_title_over.png" role="mageskin" />
+                <file name="fancy_title_right.png" role="mageskin" />
                 <file name="fancybox-x.png" role="mageskin" />
                 <file name="fancybox-y.png" role="mageskin" />
                 <file name="fancybox.png" role="mageskin" />
@@ -436,7 +444,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="jquery-powercrop.js" role="mageskin" />
               <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
               <file name="jquery-ui-1.8.7-custom-min.js" role="mageskin" />
-              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
+              <file name="jquery-fancybox-1.3.4-pack.js" role="mageskin" />
               <file name="zp-personalization-form.js" role="mageskin" />
               <file name="zp-image-edit.js" role="mageskin" />
               <file name="zp-in-preview-edit.js" role="mageskin" />
