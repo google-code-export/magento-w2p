@@ -253,6 +253,13 @@
         $container.css({
           width: $viewport.outerWidth(),
           height: $viewport.outerHeight() });
+      else {
+        $container.css({
+          width: $viewport.outerWidth() > $image.outerWidth()
+                                 ? $viewport.outerWidth() : $image.outerWidth(),
+          height: $viewport.outerHeight() > $image.outerHeight()
+                              ? $viewport.outerHeight() : $image.outerHeight() });
+      }
 
       viewport_position = data.selection.position;
 
