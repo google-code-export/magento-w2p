@@ -60,6 +60,10 @@ div.zetaprints-image-edit-container {
   margin: 1px 0px 0px 1px;
 }
 
+#zetaprints-image-edit-user-image.zetaprints-hidden {
+  display: none !important;
+}
+
 #fit-to-field-button {
   background-image: url(../images/image-edit/fit-to-field-crop-icon.png);
 }
@@ -89,6 +93,7 @@ div.info-bar {
   line-height: 1.5em;
   color: #204a87;
   padding: 1px 5px;
+  width: 607px;
 }
 
 div.info-bar div.icon {

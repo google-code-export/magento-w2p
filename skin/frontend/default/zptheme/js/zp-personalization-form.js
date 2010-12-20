@@ -12,6 +12,8 @@ function personalization_form ($) {
   }
 
   function show_image_edit_dialog (image_name, src, $thumb) {
+    var image_name = unescape(image_name);
+
     $.fancybox({
       'padding': 0,
       'titleShow': false,

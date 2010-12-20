@@ -546,11 +546,11 @@ function imageEditorCrop () {
     thumb_to_container_factor
                   = width_factor < height_factor ? width_factor : height_factor;
 
-    $user_image.attr('src', '');
-
-    $user_image.css('width', userImageWidthPreview * thumb_to_container_factor);
-    $user_image.css('height', userImageHeightPreview * thumb_to_container_factor);
-    $user_image.attr('src', userImageSrc);
+    $user_image
+      .addClass('zetaprints-hidden')
+      .attr('src', userImageSrc)
+      .css('width', userImageWidthPreview * thumb_to_container_factor)
+      .css('height', userImageHeightPreview * thumb_to_container_factor);
 
     tmp1 = $('input[value=' + context.image_id + ']').parent().find('img');
     if (tmp1.length == 0)
@@ -661,6 +661,8 @@ function imageEditorCrop () {
 
   //image load handler. Fade in on load, hide loading icon, show image caption
   $user_image.load(function () {
+    $user_image.removeClass('zetaprints-hidden')
+
     if (!isCropFit) {
       _cropVisualAssistant.cropedAreaHide();
 
