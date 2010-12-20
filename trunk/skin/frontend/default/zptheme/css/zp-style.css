@@ -710,7 +710,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   border: 1px solid #7192bf;
 }
 
-.zetaprints-button.hidden {
+.zetaprints-button.zetaprints-hidden {
   visibility: hidden;
 }
 
