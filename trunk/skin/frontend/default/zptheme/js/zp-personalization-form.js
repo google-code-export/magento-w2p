@@ -11,37 +11,47 @@ function personalization_form ($) {
     return true;
   }
 
-  function show_image_edit_dialog (image_name, src, thumb) {
-    image_imageName = unescape(image_name);
-    userImageThumbSelected = thumb
-
-    //open a modal window with editor pictures
+  function show_image_edit_dialog (image_name, src, $thumb) {
     $.fancybox({
       'padding': 0,
       'titleShow': false,
-      'type': 'iframe',
+      'type': 'ajax',
       'href': src,
       'hideOnOverlayClick': false,
       'hideOnContentClick': false,
       'centerOnScroll': false,
       'showNavArrows': false,
+      'onComplete': function () {
+        zp.image_edit = {
+          'url': {
+            'image': zp.url.image,
+            'user_image_template': zp.url['user-image-template'] },
+          '$selected_thumbnail': $thumb,
+           //!!! Temp solution
+          '$input': $thumb.parents().children('input.zetaprints-images'),
+          'image_id': $thumb.attr('id'),
+          'placeholder': zp.template_details.pages[zp.current_page]
+                                                          .images[image_name],
+          'shape': zp.template_details.pages[zp.current_page]
+                                                          .shapes[image_name] };
+
+        zetaprint_image_editor.apply(zp.image_edit, [$]);
+      },
+
       'onClosed': function () {
-        var $input = thumb.parents('td').children('input.zetaprints-images:checked');
+        var $input = zp.image_edit.$input;
 
         if (!$input.length)
           return;
-
-        var field = zp.template_details.pages[zp.current_page]
-                      .images[image_name];
 
         var metadata = $input.data('metadata');
 
         if (metadata) {
           metadata['img-id'] = $input.attr('value');
 
-          zp_set_metadata(field, metadata);
+          zp_set_metadata(zp.image_edit.placeholder, metadata);
         } else
-          zp_clear_metadata(field);
+          zp_clear_metadata(zp.image_edit.placeholder);
       } });
   }
 

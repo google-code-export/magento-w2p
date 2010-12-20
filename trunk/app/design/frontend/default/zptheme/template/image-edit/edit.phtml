@@ -1,65 +1,47 @@
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div class="zetaprints-image-edit">
+  <ul class='zetaprints-image-edit-menu'>
+    <li>
+      <div id="fit-to-field-button" class="button"
+           title="<?php echo $this->__('Fit image in field'); ?>">
+        <?php echo $this->__('Fit in field'); ?>
+      </div>
+    </li>
+    <li>
+      <div id="rotate-right-button" class="button"
+           title="<?php echo $this->__('Rotate Image Right'); ?>">
+        <?php echo $this->__('Rotate right'); ?>
+      </div>
+    </li>
+    <li>
+      <div id="rotate-left-button" class="button"
+           title="<?php echo $this->__('Rotate Image Left'); ?>">
+        <?php echo $this->__('Rotate left'); ?>
+      </div>
+    </li>
+    <li>
+      <div id="crop-button" class="button"
+           title="<?php echo $this->__('Crop Image'); ?>">
+        <?php echo $this->__('Crop'); ?>
+      </div>
+    </li>
+    <li class="hidden">
+      <div id="undo-button" class="button"
+           title="<?php echo $this->__('Undo all changes'); ?>">
+        <?php echo $this->__('Restore'); ?>
+      </div>
+    </li>
+    <li class="last">
+      <div id="delete-button" class="button"
+           title="<?php echo $this->__('Delete Image'); ?>">
+        <?php echo $this->__('Delete'); ?>
+      </div>
+    </li>
+  </ul>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xml:lang="<?php echo $this->getLang(); ?>"
-      lang="<?php echo $this->getLang(); ?>">
-
-<head>
-<?php echo $this->getChildHtml('head') ?>
-</head>
-
-<body>
-  <?php $design = Mage::getDesign(); ?>
-
-  <script type="text/javascript">
-    var skinUrl="<?php echo $design->getSkinUrl('images/image-edit/'); ?>";
-  </script>
-
-    <div id="imageEditorLeftSidebar">
-      <ul>
-          <li id="imageEditorCropFit" title="<?php echo $this->__('Fit image in field'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/fit-to-field-crop-icon.png'); ?>" alt="" />
-            <span><?php echo $this->__('Fit in field'); ?></span>
-          </li>
-          <li id="imageEditorRotateRight" title="<?php echo $this->__('Rotate Image Right'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_r.png'); ?>" alt="" />
-            <span><?php echo $this->__('Rotate right'); ?></span>
-          </li>
-          <li id="imageEditorRotateLeft" title="<?php echo $this->__('Rotate Image Left'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/rotate_l.png'); ?>" alt="" />
-            <span><?php echo $this->__('Rotate left'); ?></span>
-          </li>
-          <li id="imageEditorCrop" title="<?php echo $this->__('Crop Image'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/crop.png'); ?>" alt="" />
-            <span><?php echo $this->__('Crop'); ?></span>
-          </li>
-          <li id="imageEditorRestore" title="<?php echo $this->__('Undo all changes'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/restore.png'); ?>" alt="" />
-            <span><?php echo $this->__('Restore'); ?></span>
-          </li>
-          <li id="imageEditorDelete" title="<?php echo $this->__('Delete Image'); ?>">
-            <img src="<?php echo $design->getSkinUrl('images/image-edit/delete.png'); ?>" alt="" />
-            <span><?php echo $this->__('Delete'); ?></span>
-          </li>
-      </ul>
+  <div class='zetaprints-image-edit-wrapper'>
+    <div class="zetaprints-image-edit-container">
+      <img id="zetaprints-image-edit-user-image" />
     </div>
-
-  <div id="userImagePreviewContainer">
-    <img src="" id="userImagePreview" />
-  </div>
-
-  <div id="imageEditorBottomPanel">
-
-    <form id="imageEditorCropForm">
-      <input type="hidden" name="zetaprints-CropX1" id="imageEditorCropX" />
-      <input type="hidden" name="zetaprints-CropY1" id="imageEditorCropY" />
-      <input type="hidden" name="zetaprints-CropX2" id="imageEditorCropX2" />
-      <input type="hidden" name="zetaprints-CropY2" id="imageEditorCropY2" />
-      <input type="hidden" name="Cropw" id="imageEditorCropW" />
-      <input type="hidden" name="Croph" id="imageEditorCropH" />
-    </form>
 
     <div class="info-bar">
       <div class="column titles">
@@ -142,5 +124,5 @@
     </div>
   </div>
 
-</body>
-</html>
+  <div style="clear: both;"></div>
+</div>

@@ -832,7 +832,9 @@ jQuery(document).ready(function($) {
         'preview' => $this->_getUrl('web-to-print/preview'),
         'preview_download' => $this->_getUrl('web-to-print/preview/download'),
         'upload' => $this->_getUrl('web-to-print/upload'),
-        'image' => $this->_getUrl('web-to-print/image/update') ) ));
+        'image' => $this->_getUrl('web-to-print/image/update'),
+        'user-image-template'
+                 => $this->get_photo_thumbnail_url('image-guid.image-ext') ) ));
 ?>
 <script type="text/javascript">
 //<![CDATA[

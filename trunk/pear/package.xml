@@ -490,7 +490,6 @@ Extension developed by http://www.zetaprints.com/
 
               <dir name="image-edit">
                 <file name="edit.phtml" role="magedesign" />
-                <file name="head.phtml" role="magedesign" />
               </dir>
 
               <dir name="sales">

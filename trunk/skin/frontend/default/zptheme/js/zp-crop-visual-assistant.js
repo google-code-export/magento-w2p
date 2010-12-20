@@ -7,10 +7,8 @@ function cropVisualAssistant ()
 {
   this.userImage = {}
   this.userImageThumb = {};
-  this.templatePreview = {};
   this.templatePreviewPlaceholder = {}
   this.templateImage = {}
-  // $ = jQuery;
 
   /**
    * Init settings for the UserImage
@@ -21,10 +19,9 @@ function cropVisualAssistant ()
    * @attr: _widthPreview - preview width of user image
    * @attr: _heightPreview - preview height of user image
    */
-  this.setUserImage = function (_element, _widthActual, _heightActual, _widthPreview, _heightPreview)
+  this.setUserImage = function (_widthActual, _heightActual, _widthPreview, _heightPreview)
   {
     this.userImage = {
-      element: _element,
       widthActualPx: _widthActual,
       heightActualPx: _heightActual,
       widthPreviewPx: _widthPreview,
@@ -62,10 +59,8 @@ function cropVisualAssistant ()
    *
    * @attr: _templatePreviewElement - affected TemplatePreview image
    */
-  this.setTemplatePreview = function ($templatePreviewElement)
-  {
-    var page = top.zp.template_details.pages[top.zp.current_page];
-    var shape = page.shapes[top.image_imageName];
+  this.setTemplatePreview = function (image, shape) {
+    var page = zp.template_details.pages[zp.current_page];
 
     if (shape) {
       shape['anchor-x'] = shape['anchor-x'] / page['width-in'];
@@ -74,8 +69,6 @@ function cropVisualAssistant ()
       this.templatePreviewPlaceholder = shape;
     }
 
-    var image = page.images[top.image_imageName]
-
     if (image != undefined)
       this.templateImage = {
         clipped: (image['clipped']) ? true : false,
@@ -83,12 +76,6 @@ function cropVisualAssistant ()
         widthPx: image['width'],
         heightPx: image['height'],
         aspectRatio: image['width'] / image['height'] };
-
-    this.templatePreview = {
-      element: $templatePreviewElement,
-      width: $templatePreviewElement.width(),
-      height: $templatePreviewElement.height()
-    }
   }
 
   /**
@@ -143,13 +130,13 @@ function cropVisualAssistant ()
   this.getInitCroppedArea = function ()
   {
     // not used ------------
-    var userImage_AnchorX = this.userImage.widthPreviewPx * this.templatePreviewPlaceholder['anchor-x'];
-    var userImage_AnchorY = this.userImage.heightPreviewPx * this.templatePreviewPlaceholder['anchor-y'];
+    //var userImage_AnchorX = this.userImage.widthPreviewPx * this.templatePreviewPlaceholder['anchor-x'];
+    //var userImage_AnchorY = this.userImage.heightPreviewPx * this.templatePreviewPlaceholder['anchor-y'];
 
-    var placeholderToImageRel = this.templateImage.widthPx / (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1);
+    //var placeholderToImageRel = this.templateImage.widthPx / (this.templatePreviewPlaceholder.x2 - this.templatePreviewPlaceholder.x1);
 
-    var imageAnchorXPx = this.templatePreviewPlaceholder.anchorx * placeholderToImageRel;
-    var imageAnchorYPx = this.templatePreviewPlaceholder.anchory * placeholderToImageRel;
+    //var imageAnchorXPx = this.templatePreviewPlaceholder.anchorx * placeholderToImageRel;
+    //var imageAnchorYPx = this.templatePreviewPlaceholder.anchory * placeholderToImageRel;
     // not used (end) ------
 
     // temporary solution:
