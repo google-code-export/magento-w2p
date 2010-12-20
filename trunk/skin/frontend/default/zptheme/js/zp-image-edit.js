@@ -39,7 +39,7 @@ function zetaprint_image_editor ($) {
 
   var user_image_container_size = {
     width: $user_image_container.width() - 2,
-    height: $user_image_container.height() - 2,
+    height: $user_image_container.height() - 2
   }
 
   var $info_bar = $container.find('div.info-bar');
