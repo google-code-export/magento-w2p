@@ -335,7 +335,7 @@ Extension developed by http://www.zetaprints.com/
 
             <dir name="css">
               <file name="colorpicker.css" role="mageskin" />
-              <file name="jquery.fancybox-1.3.4.css" role="mageskin" />
+              <file name="jquery-fancybox-1.3.4.css" role="mageskin" />
               <file name="jquery-powercrop.css" role="mageskin" />
               <file name="zp-image-edit.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
