@@ -38,6 +38,9 @@
       .wrap('<div class="powercrop-container" />')
       .parent();
 
+    if (settings.simple)
+      $container.addClass('simple')
+
     this.hide().after($container).data('power-crop-container', $container);
 
     if (!settings.simple) {

@@ -8,6 +8,11 @@ img.powercrop-image {
   opacity: .3;
 }
 
+div.powercrop-container.simple img.powercrop-image,
+div.powercrop-container.simple img.powercrop-image-top {
+  border: 1px solid transparent;
+}
+
 div.powercrop-viewport {
   position: absolute;
   border: 1px solid #fff;
