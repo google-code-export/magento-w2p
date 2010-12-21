@@ -26,11 +26,27 @@ div.powercrop-viewport-inner {
 }
 
 div.powercrop-viewport-handle {
-  background: url('../images/image-edit/frame-handle.png') no-repeat;
-  width: 59px;
-  height: 26px;
+  background: url('../images/powercrop/cursor-move.png') no-repeat center;
+  width: 33px;
+  height: 33px;
   position: absolute;
-  top: 0px;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0px 0px -16px;
+  display: none;
+}
+
+div.powercrop-viewport:hover div.powercrop-viewport-handle {
+  display: block;
+}
+
+div.powercrop-viewport-label {
+  background: url('../images/powercrop/viewport-label.png') no-repeat;
+  width: 33px;
+  height: 9px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
 }
 
 img.powercrop-image-top {
