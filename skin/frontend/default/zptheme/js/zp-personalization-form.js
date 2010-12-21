@@ -470,7 +470,7 @@ function personalization_form ($) {
                 + response[0] + '" />\
               <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
                 title="' + click_to_edit_text + '">\
-                <img src="' + response[2] + '" />\
+                <img id="' + response[0] + '" src="' + response[2] + '" />\
               </a>\
               <div class="buttons-row">\
                 <a class="button delete" href="javascript:void(0)"\
