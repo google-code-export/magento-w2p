@@ -63,7 +63,7 @@ function imageEditorCrop () {
                 = context.placeholder.height / user_image_container_size.height;
 
     container_to_image_factor
-                  = width_factor < height_factor ? width_factor : height_factor;
+                  = width_factor > height_factor ? width_factor : height_factor;
 
     frame_width = Math.round(context.placeholder.width
                                                    / container_to_image_factor);
