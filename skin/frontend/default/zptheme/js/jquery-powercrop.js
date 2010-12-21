@@ -123,6 +123,9 @@
         containment: $container,
         handles: 'ne, nw, se, sw',
         resize: function (event, ui) {
+          if (ui.position.left < 0)
+            return;
+
           $image_top_wrapper.css({
             top: image_position.top - ui.position.top - 1,
             left: image_position.left - ui.position.left - 1 });
