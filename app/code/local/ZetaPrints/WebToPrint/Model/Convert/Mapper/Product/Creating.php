@@ -62,6 +62,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
         ->setName($template->getTitle())
         ->setDescription($template->getDescription())
         ->setShortDescription($template->getDescription())
+        ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
         ->setVisibility(0)
         ->setRequiredOptions(true)
         ->setWebtoprintTemplate($template->getGuid());
