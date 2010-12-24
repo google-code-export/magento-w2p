@@ -388,6 +388,18 @@ function imageEditorCrop () {
       //$(this).data('metadata', null);
       $(this).prev('div.thumbCropedAreaToolSet').remove();
     });
+
+    var image_width_in = _cropVisualAssistant.userImage.widthActualPx
+                         / context.placeholder.width
+                         * _cropVisualAssistant.templateImage.widthIn;
+    image_dpi = Math.round(_cropVisualAssistant.userImage.widthActualPx
+                                                              / image_width_in);
+
+    set_info_bar_value('current', 'width',
+                                  _cropVisualAssistant.userImage.widthActualPx);
+    set_info_bar_value('current', 'height',
+                                 _cropVisualAssistant.userImage.heightActualPx);
+    set_info_bar_value('current', 'dpi', image_dpi);
   }
 
   /**
@@ -708,7 +720,7 @@ function imageEditorCrop () {
     $info_bar.removeClass('hidden');
     $restore_button.removeClass('zetaprints-hidden');
 
-    load_image();
+    imageEditorCrop();
   });
 
   $('#save-button').click(imageEditorApplyCrop);
@@ -718,18 +730,6 @@ function imageEditorCrop () {
   $restore_button.click(function () {
     imageEditorHideCrop();
     clearCropMetadata();
-
-    //Need to wrap it to a function.
-    var image_width_in = _cropVisualAssistant.userImage.widthActualPx
-                         / context.placeholder.width
-                         * _cropVisualAssistant.templateImage.widthIn;
-    image_dpi = Math.round(_cropVisualAssistant.userImage.widthActualPx
-                                                              / image_width_in);
-
-    set_info_bar_value('current', 'width', _cropVisualAssistant.userImage.widthActualPx);
-    set_info_bar_value('current', 'height', _cropVisualAssistant.userImage.heightActualPx);
-    set_info_bar_value('current', 'dpi', image_dpi);
-
     imageEditorCrop();
   });
 
