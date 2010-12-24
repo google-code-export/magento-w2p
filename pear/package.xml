@@ -186,6 +186,7 @@ Extension developed by http://www.zetaprints.com/
               <file name="mysql4-upgrade-5-6.php" role="magelocal" />
               <file name="mysql4-upgrade-6-7.php" role="magelocal" />
               <file name="mysql4-upgrade-7-8.php" role="magelocal" />
+              <file name="mysql4-data-upgrade-8-9.php" role="magelocal" />
             </dir>
 
           </dir>
