@@ -63,13 +63,8 @@ div.zetaprints-page-input-fields.hidden {
 }
 
 /**/
-div.zetaprints-page-input-fields input.input-text {
+div.zetaprints-page-input-fields input.input-text, div.zetaprints-page-input-fields textarea {
   width: 100%;
-}
-
-div.zetaprints-page-input-fields textarea {
-  width: 100%;
-  height: 45px;
 }
 
 /**/
@@ -167,33 +162,29 @@ div.images-scroller a.edit-dialog {
   text-decoration:none;
 }
 
-div.images-scroller div.buttons-row {
-  position: relative;
-  bottom: 20px;
+div.images-scroller div.edit-button {
+  position:relative;
+  cursor:pointer;
+  float:left;
+  top:-19px;
+  *top:-14px;
+  height:14px;
+  background:#5284C2;
+  margin-right:5px;
+  color:#FFFFFF;
+  font-weight:bold;
+  padding:0 5px;
 }
 
-div.images-scroller .button {
-  cursor: pointer;
-  float: right;
-  margin-left: 5px;
-}
-
-div.images-scroller div.button.edit {
-  background: #5284C2;
-  color: #FFFFFF;
-  font-weight: bold;
-  line-height: 15px;
-  padding: 0 4px;
-  margin: 0;
-}
-
-div.images-scroller a.button.delete {
-  display: block;
-  width: 17px;
-  height: 15px;
-  color: transparent;
-  background: url(../images/images-selector-sprites.png) -222px -22px no-repeat;
-  font-size: 0; /* IE do not understand 'color: transparent' rule above */
+div.images-scroller div.delete-button {
+  position:relative;
+  cursor:pointer;
+  float:left;
+  top:-19px;
+  *top:-14px;
+  width:16px;
+  height:14px;
+  background:url(../images/images-selector-sprites.png) -222px -23px no-repeat;
 }
 
 div.zetaprints-images-selector {
@@ -204,7 +195,6 @@ div.zetaprints-images-selector {
 
 div.zetaprints-images-selector.expanded {
   position: relative;
-  z-index: 1; /* Used to place expanded box upper than preview image */
 }
 
 div.zetaprints-images-selector a.image {
@@ -360,6 +350,9 @@ div.selector-content ul.tab-buttons li.last {
   border-left: none;
   height: 100%;
   background-color: transparent;
+}
+
+div.selector-content ul.tab-buttons li.last {
   font-weight: normal;
 }
 
@@ -410,20 +403,6 @@ div.selector-content div.tabs-wrapper div.upload {
   padding-left: 6px;
 }
 
-div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice {
-  bottom: 16px;
-  position: relative;
-  line-height: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-left: -6px;
-  color: #909090;
-}
-
-div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice div.zetaprints-icon {
-  margin-right: 1px;
-}
-
 div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper div.upload {
   padding-left: 26px;
 }
@@ -459,19 +438,15 @@ div.selector-content div.tabs-wrapper div.upload div.button.disabled {
 }
 
 div.selector-content div.tabs-wrapper div.upload div.button.choose-file {
-  background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
-}
-
-div.selector-content div.tabs-wrapper div.upload div.button.choose-file.disabled {
   background: url('../images/images-selector-sprites.png') -115px 0px no-repeat;
 }
 
-div.selector-content div.tabs-wrapper div.upload div.button.cancel-upload {
-  background: url('../images/images-selector-sprites.png') -115px -84px no-repeat;
+div.selector-content div.tabs-wrapper div.upload div.button.upload-file {
+  background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
 }
 
-div.selector-content div.tabs-wrapper div.upload div.button.cancel-upload.disabled {
-  background: url('../images/images-selector-sprites.png') -115px -56px no-repeat;
+div.selector-content div.tabs-wrapper div.upload div.button.upload-file.disabled {
+  background: url('../images/images-selector-sprites.png') -115px -28px no-repeat;
 }
 
 div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
@@ -580,16 +555,6 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   top: 0px;
 }
 
-/* CSS rules for different notices */
-div.zetaprints-notice.hidden {
-  display: none;
-}
-
-div.zetaprints-notice.to-update-preview {
-  color: red;
-  text-align: right;
-}
-
 /* Fancybox tweaks */
 
 /* Move right arrow area to the right */
@@ -615,126 +580,4 @@ a#fancybox-left span {
 a#fancybox-right span {
   left: auto;
   right: 20px;
-}
-
-/* Extracted from js code of image_edit branch */
-div.thumbCropedAreaToolSet {
-  position: relative;
-  background-color: black;
-  opacity: .7;
-}
-
-div.thumbCropedAreaToolSet div {
-  position: absolute;
-  overflow: hidden;
-  opacity: 1;
-  backgroud-color: white;
-  width: 100%;
-}
-
-div.thumbCropedAreaToolSet div img {
-  position: absolute;
-  opacity: 1;
-}
-
-/* ZetaPrints text field resizer */
-.zp-resize-handle {
-  background: url('../images/zp-text-field-resizer/left-handle.gif') center no-repeat;
-  cursor: sw-resize;
-  position: relative;
-  width: 10px;
-  height: 10px;
-  top: -10px;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Uncomment following CSS rule to switch to right
-   position of a resizing handler */
-/*.zp-resize-handle {
-  background: url('../images/zp-text-field-resizer/right-handle.gif') center no-repeat;
-  cursor: se-resize;
-  margin-left: 100%;
-  left: -4px;
-  cursor: se-resize;
-}*/
-
-div.zetaprints-notice.hidden {
-  display: none;
-}
-
-div.zetaprints-notice.to-update-preview {
-  text-align: right;
-}
-
-/* Common CSS rules for icons */
-div.zetaprints-icon {
-  display: block;
-  float: left;
-  height: 16px;
-  width: 16px;
-  background-repeat: no-repeat;
-  background-image: url('../images/images-selector-sprites.png');
-}
-
-div.zetaprints-icon.attention {
-  background-position: -89px -80px;
-}
-
-/* Common CSS rules for button with icon and its container */
-div.zetaprints-buttons-row .zetaprints-button {
-  float: left;
-  margin: 0px 2px;
-}
-
-div.zetaprints-buttons-row div.reset {
-  clear: both;
-}
-
-div.zetaprints-buttons-row div.row-part {
-  width: 50%;
-  float: left;
-}
-
-div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
-  float: right;
-}
-
-.zetaprints-button {
-  display: block;
-  cursor: pointer;
-  height: 22px;
-  padding-left: 5px;
-  background-color: #93b4df;
-  border: 1px solid #7192bf;
-}
-
-.zetaprints-button.zetaprints-hidden {
-  visibility: hidden;
-}
-
-.zetaprints-button div.icon {
-  display: block;
-  float: left;
-  height: 22px;
-  width: 16px;
-  background-repeat: no-repeat;
-  background-image: url('../images/images-selector-sprites.png');
-}
-
-.zetaprints-button span {
-  margin: 0px 8px;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.zetaprints-button.save-action div.icon {
-  background-position: -222px -41px;
-}
-
-.zetaprints-button.restore-action div.icon {
-  width: 13px;
-  background-position: -222px -61px;
 }

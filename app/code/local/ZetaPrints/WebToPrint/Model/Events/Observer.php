@@ -226,10 +226,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
       $product = $observer->getEvent()->getProduct();
 
       if ($product->hasWebtoprintTemplate() && $product->getWebtoprintTemplate()) {
-        Mage::getSingleton('catalog/session')->addNotice(
-          Mage::helper('webtoprint')->__('Please specify the product\'s '
-                                . 'required option(s) and/or personalize it') );
-
+        $notice = $product->getTypeInstance(true)->getSpecifyOptionMessage();
+        Mage::getSingleton('catalog/session')->addNotice($notice . ' and/or personalize it');
         $request->setParam('options', 0);
       }
     }

@@ -1,170 +1,105 @@
-div.zetaprints-image-edit {
-  font-family: Arial;
-  font-size: 12px;
-  background-color: #93B4DF;
-  text-align: left;
-  zoom: 1;
+body {
+  padding: 0;
+  margin: 0;
+  background: #93B4DF;
+  overflow: hidden;
 }
 
-div.zetaprints-image-edit div.zetaprints-buttons-row {
-  background-color: white;
-  padding: 5px 0px;
+#imageEditorApplyCrop {
+  margin-left:40%;
+  display:block;
+  padding-top:5px;
 }
 
-ul.zetaprints-image-edit-menu {
-  float: left;
-  padding: 5px 15px;
+#imageEditorLeft {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: #93B4DF none repeat scroll 0 0;
+  height: 100%;
   margin: 0;
   text-align: center;
+}
+
+#imageEditorLeft ul li {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: transparent url(../images/image-edit/line.png) no-repeat scroll center bottom;
   list-style-image: none;
+  list-style-position: outside;
   list-style-type: none;
-  font-weight: bold;
-  color: white;
-}
-
-ul.zetaprints-image-edit-menu li {
-  background: transparent url(../images/image-edit/line.png) no-repeat bottom;
-  margin-top: 8px;
-  padding: 0px 0px 14px 0px;
-}
-
-ul.zetaprints-image-edit-menu li.last {
-  padding-bottom: 0px;
-  background-image: none;
-}
-
-ul.zetaprints-image-edit-menu li.hidden {
-  display: none;
-}
-
-ul.zetaprints-image-edit-menu div.button {
+  padding: 12px 0;
   cursor: pointer;
-  padding: 26px 0px 0px 0px;
-  background: transparent no-repeat top;
+  cursor: hand;
+}
+#imageEditorLeft ul {
+  margin: 0;
+  padding: 0;
 }
 
-div.zetaprints-image-edit-wrapper {
-  float: left;
+#imageEditorLeft ul li span {
+  color: #FFFFFF;
+  display: block;
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px;
 }
 
-div.zetaprints-image-edit-container {
-  width: 602px;
-  height: 452px;
-  background-color: white;
-  padding: 5px;
-  overflow: hidden;
-  border-top: 10px solid white;
-  border-right: 5px solid white;
+#imageEditorLeft ul .last {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  background: transparent none repeat scroll 0 0;
 }
 
-#zetaprints-image-edit-user-image {
-  margin: 1px 0px 0px 1px;
+#imageEditorRight {
+  padding: 10px 10px 4000px 10px;
+  background: #FFFFFF;
 }
 
-#zetaprints-image-edit-user-image.zetaprints-hidden {
-  display: none !important;
-}
-
-#fit-to-field-button {
-  background-image: url(../images/image-edit/fit-to-field-crop-icon.png);
-}
-
-#rotate-right-button {
-  background-image: url(../images/image-edit/rotate_r.png);
-}
-
-#rotate-left-button {
-  background-image: url(../images/image-edit/rotate_l.png);
-}
-
-#crop-button {
-  background-image: url(../images/image-edit/crop.png);
-}
-
-#undo-button {
-  background-image: url(../images/image-edit/restore.png);
-}
-
-#delete-button {
-  background-image: url(../images/image-edit/delete.png);
-}
-
-div.info-bar {
-  font: bold 8pt tahoma;
-  line-height: 1.5em;
-  color: #204a87;
-  padding: 1px 5px;
-  width: 607px;
-}
-
-div.info-bar div.icon {
-  background: transparent url(../images/image-edit/status-bar-sprite.png) no-repeat;
-}
-
-div.info-bar div.outer {
-  display: table;
-}
-
-div.info-bar div.middle {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-div.info-bar.low-resolution-warning div.numbers div.current {
-  color: #db0d0d;
-}
-
-div.info-bar.low-resolution-warning div.notice-switchers div.current div.question-sign {
-  background-position: -28px 0px;
-}
-
-div.info-bar.cropped-state div.titles span.cropped-title,
-div.info-bar.low-resolution-warning span.low-resolution-notice,
-div.column.notices span.default-notice {
-  display: inline;
-}
-
-div.info-bar div.titles span.cropped-title,
-div.info-bar.cropped-state div.titles span.uploaded-title,
-div.info-bar.low-resolution-warning div.notices span.default-notice,
-div.column.notices span {
+#imageEditorCropForm {
   display: none;
+  padding: 0px;
+  margin: 0px;
 }
 
-div.info-bar div.column {
-  float: left;
-  margin-right: 5px;
-  text-align: right;
-  overflow: hidden;
+.handler {
+  width: 15px;
+  height: 10px;
+  border-right: solid 1px #888888;
+  border-bottom: solid 1px #888888;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  cursor: nw-resize;
+}
+#imageEditorCaption {
+  display:none;
+  padding: 5px;
+  background-color: #93B4DF;
+  font-family: Arial;
+  font-size: 12px;
+  margin-right:5px;
+  *margin-top: -5px; /*msie bug*/
+  white-space:nowrap;
+  position:relative;
+}
+#imageEditorCaption span {
+  color: #FFFFFF;
+  margin-left:10px;
+}
+#imageEditorCaption span span {
+  color: #000000;
+  margin-left:0px;
+}
+#imageEditorCaption #imageEditorInfo {
+  color: #DB0D0D;
+  font-weight: bold;
+  float: right;
 }
 
-div.info-bar div.column.numbers {
-  color: white;
-}
-
-div.info-bar div.column.left-text-position {
-  text-align: left;
-}
-
-div.info-bar div.column.last {
-  float: none;
-}
-
-div.info-bar div.reset {
-  clear: both;
-}
-
-div.info-bar div.row {
-  padding: 1px 0px;
-  height: 1.5em;
-}
-
-div.info-bar div.question-sign {
-  width: 12px;
-  height: 12px;
-  background-position: -28px -17px;
-}
-
-div.info-bar div.question-sign:hover {
-  background-position: -28px 0px;
+#fancy_content {
+  cursor: auto;
 }

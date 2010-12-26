@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-11-23</date>
+  <date>2010-12-26</date>
 
   <version>
-    <release>1.8.3.1</release>
-    <api>1.8.3.1</api>
+    <release>1.8.3.2</release>
+    <api>1.8.3.2</api>
   </version>
 
   <stability>
@@ -52,7 +52,9 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-* Bug fixes (issue #339, issue #337, issue #334 and issue #322)
+* Add support for M. 1.4.2.0 version (issue #382)
+
+NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from project's svn repo.
   </notes>
 
   <contents>
@@ -194,6 +196,10 @@ Extension developed by http://www.zetaprints.com/
 
         <dir name="Zpapi">
 
+          <dir name="Block">
+            <file name="W2pUser.php" role="magelocal" />
+          </dir>
+
           <dir name="etc">
             <file name="config.xml" role="magelocal" />
             <file name="system.xml" role="magelocal" />
@@ -207,7 +213,9 @@ Extension developed by http://www.zetaprints.com/
             <file name="color-pickers-html.xslt" role="magelocal" />
             <file name="common-templates.xslt" role="magelocal" />
             <file name="FileUploadingLimit.php" role="magelocal" />
+            <file name="Importer.php" role="magelocal" />
             <file name="input-fields-html.xslt" role="magelocal" />
+            <file name="Itag.php" role="magelocal" />
             <file name="Observer.php" role="magelocal" />
             <file name="Optionstore.php" role="magelocal" />
             <file name="page-tabs-html.xslt" role="magelocal" />
@@ -228,7 +236,7 @@ Extension developed by http://www.zetaprints.com/
           <dir name="zptheme">
 
             <dir name="css">
-              <file name="jquery-fancybox-1.3.4.css" role="mageskin" />
+              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
             </dir>
 
@@ -247,10 +255,6 @@ Extension developed by http://www.zetaprints.com/
                 <file name="fancy_shadow_se.png" role="mageskin" />
                 <file name="fancy_shadow_sw.png" role="mageskin" />
                 <file name="fancy_shadow_w.png" role="mageskin" />
-                <file name="fancy_title_left.png" role="mageskin" />
-                <file name="fancy_title_main.png" role="mageskin" />
-                <file name="fancy_title_over.png" role="mageskin" />
-                <file name="fancy_title_right.png" role="mageskin" />
                 <file name="fancybox-x.png" role="mageskin" />
                 <file name="fancybox-y.png" role="mageskin" />
                 <file name="fancybox.png" role="mageskin" />
@@ -260,24 +264,12 @@ Extension developed by http://www.zetaprints.com/
             </dir>
 
             <dir name="js">
-              <file name="jquery-1.4.4-min.js" role="mageskin" />
-              <file name="jquery-fancybox-1.3.4-pack.js" role="mageskin" />
+              <file name="jquery-1.4.2.min.js" role="mageskin" />
+              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
             </dir>
 
             <dir name="layout">
               <file name="local.xml" role="magedesign" />
-            </dir>
-
-            <dir name="locale">
-
-              <dir name="en_US">
-                <file name="translate.csv" role="magedesign" />
-              </dir>
-
-              <dir name="ru_RU">
-                <file name="translate.csv" role="magedesign" />
-              </dir>
-
             </dir>
 
             <dir name="template">
@@ -336,12 +328,11 @@ Extension developed by http://www.zetaprints.com/
 
             <dir name="css">
               <file name="colorpicker.css" role="mageskin" />
-              <file name="jquery-fancybox-1.3.4.css" role="mageskin" />
-              <file name="jquery-powercrop.css" role="mageskin" />
+              <file name="jquery.fancybox-1.3.1.css" role="mageskin" />
+              <file name="jquery.jcrop.css" role="mageskin" />
               <file name="zp-image-edit.css" role="mageskin" />
               <file name="zp-style.css" role="mageskin" />
               <file name="zp-in-preview-edit.css" role="mageskin" />
-              <file name="zp-text-field-editor.css" role="mageskin" />
             </dir>
 
             <dir name="images">
@@ -388,10 +379,6 @@ Extension developed by http://www.zetaprints.com/
                 <file name="fancy_shadow_se.png" role="mageskin" />
                 <file name="fancy_shadow_sw.png" role="mageskin" />
                 <file name="fancy_shadow_w.png" role="mageskin" />
-                <file name="fancy_title_left.png" role="mageskin" />
-                <file name="fancy_title_main.png" role="mageskin" />
-                <file name="fancy_title_over.png" role="mageskin" />
-                <file name="fancy_title_right.png" role="mageskin" />
                 <file name="fancybox-x.png" role="mageskin" />
                 <file name="fancybox-y.png" role="mageskin" />
                 <file name="fancybox.png" role="mageskin" />
@@ -400,7 +387,7 @@ Extension developed by http://www.zetaprints.com/
 
               <dir name="image-edit">
                 <file name="crop.png" role="mageskin" />
-                <file name="fit-to-field-crop-icon.png" role="mageskin" />
+                <file name="crop_to_fit.png" role="mageskin" />
                 <file name="delete.png" role="mageskin" />
                 <file name="edit.png" role="mageskin" />
                 <file name="flip_h.png" role="mageskin" />
@@ -412,25 +399,11 @@ Extension developed by http://www.zetaprints.com/
                 <file name="restore.png" role="mageskin" />
                 <file name="rotate_l.png" role="mageskin" />
                 <file name="rotate_r.png" role="mageskin" />
-                <file name="status-bar-sprite.png" role="mageskin" />
+                <file name="save.png" role="mageskin" />
               </dir>
 
               <dir name="media">
                 <file name="download-webtoprint-extension.jpg" role="mageskin" />
-              </dir>
-
-              <dir name="powercrop">
-                <file name="cursor-move.png" role="mageskin" />
-                <file name="viewport-label.png" role="mageskin" />
-              </dir>
-
-              <dir name="zp-text-field-resizer">
-                <file name="left-handle.gif" role="mageskin" />
-                <file name="right-handle.gif" role="mageskin" />
-              </dir>
-
-              <dir name="zp-text-field-editor">
-                <file name="sprites.png" role="mageskin" />
               </dir>
 
               <file name="images-selector-sprites.png" role="mageskin" />
@@ -445,18 +418,14 @@ Extension developed by http://www.zetaprints.com/
             <dir name="js">
               <file name="ajaxupload.js" role="mageskin" />
               <file name="colorpicker.js" role="mageskin" />
-              <file name="jquery-1.4.4-min.js" role="mageskin" />
-              <file name="jquery-powercrop.js" role="mageskin" />
+              <file name="jquery-1.4.2.min.js" role="mageskin" />
+              <file name="jquery-jcrop.min.js" role="mageskin" />
               <file name="jquery-qtip-1.0.0-rc3.min.js" role="mageskin" />
-              <file name="jquery-ui-1.8.7-custom-min.js" role="mageskin" />
-              <file name="jquery-fancybox-1.3.4-pack.js" role="mageskin" />
+              <file name="jquery-ui-1.8.5-custom-min.js" role="mageskin" />
+              <file name="jquery.fancybox-1.3.1.pack.js" role="mageskin" />
               <file name="zp-personalization-form.js" role="mageskin" />
               <file name="zp-image-edit.js" role="mageskin" />
               <file name="zp-in-preview-edit.js" role="mageskin" />
-              <file name="zp-crop-visual-assistant.js" role="mageskin" />
-              <file name="zp-text-field-resizer.js" role="mageskin" />
-              <file name="zp-text-field-editor.js" role="mageskin" />
-              <file name="zp-metadata.js" role="mageskin" />
             </dir>
 
             <dir name="layout">
@@ -495,6 +464,7 @@ Extension developed by http://www.zetaprints.com/
 
               <dir name="image-edit">
                 <file name="edit.phtml" role="magedesign" />
+                <file name="head.phtml" role="magedesign" />
               </dir>
 
               <dir name="sales">
@@ -547,14 +517,8 @@ Extension developed by http://www.zetaprints.com/
         </dir>
       </dir>
 
-      <dir name="en_US">
-        <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
-        <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
-      </dir>
-
       <dir name="ru_RU">
-        <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
-        <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
+        <file name="zetaprints_w2p.csv" role="magelocale" />
       </dir>
 
     </dir>
@@ -575,10 +539,6 @@ Extension developed by http://www.zetaprints.com/
 
       <extension>
         <name>xsl</name>
-      </extension>
-
-      <extension>
-        <name>curl</name>
       </extension>
 
     </required>

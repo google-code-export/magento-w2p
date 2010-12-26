@@ -80,6 +80,7 @@
     <xsl:param name="page" />
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
+    	<input type="hidden" name="zetaprints-*#{@Name}" value="" id="zetaprints-{@Name}" />
       <div class="zetaprints-images-selector no-value minimized block" rel="zetaprints-#{@Name}">
         <div class="head block-title">
           <a class="image up-down" href="#"><span>
@@ -198,7 +199,7 @@
                     <xsl:with-param name="key">Choose file</xsl:with-param>
                   </xsl:call-template>
                 </span></div>
-                <div class="button cancel-upload disabled"><span>
+                <div class="button upload-file disabled"><span>
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">Upload file</xsl:with-param>
                   </xsl:call-template>
@@ -206,18 +207,7 @@
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
-              <div class="clear recommended-size-notice">
-                <div class="zetaprints-icon attention" />
-                  <span>
-                    <xsl:call-template name="trans">
-                      <xsl:with-param name="key">Recommended size:</xsl:with-param>
-                    </xsl:call-template>&#160;<xsl:value-of select="@Width" />
-                    &#215;
-                    <xsl:value-of select="@Height" />&#160;<xsl:call-template name="trans">
-                      <xsl:with-param name="key">px</xsl:with-param>
-                    </xsl:call-template>
-                  </span>
-              </div>
+              <!--<div class="clear"><span>&#x0A;</span></div>-->
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
@@ -237,30 +227,22 @@
                       </xsl:attribute>
                       <img src="{@thumbnail}" id="{@guid}" />
                     </a>
-                    <div class="buttons-row">
-                      <a class="button delete" href="javascript:void(0)">
-                        <xsl:attribute name="title">
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Click to delete</xsl:with-param>
-                          </xsl:call-template>
-                        </xsl:attribute>
-
+                    <div style="float:right;">
+                    <a class="edit-dialog" style="float:left" href="{@edit-link}" target="_blank" rel="{@guid}">
+                      <xsl:attribute name="title">
                         <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Delete</xsl:with-param>
+                          <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
-                      </a>
-
-                      <div class="button edit">
-                        <xsl:attribute name="title">
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Click to edit</xsl:with-param>
-                          </xsl:call-template>
-                        </xsl:attribute>
-
+                      </xsl:attribute>
+                      <div class="edit-button">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Edit</xsl:with-param>
                         </xsl:call-template>
                       </div>
+                    </a>
+                    <a class="delete-button" href="javascript:void(1)">
+                      <div class="delete-button"></div>
+                    </a>
                     </div>
                   </td>
                 </xsl:for-each>
@@ -340,7 +322,7 @@
                   </xsl:call-template>
                 </a>
                 <xsl:call-template name="trans">
-                  <xsl:with-param name="key"> and click Select to fill the place of the photo.</xsl:with-param>
+                  <xsl:with-param name="key">and click Select to fill the place of the photo.</xsl:with-param>
                 </xsl:call-template>
               </span>
             </div>
@@ -363,19 +345,13 @@
                 <xsl:with-param name="key">Click to show page</xsl:with-param>
               </xsl:call-template>
             </xsl:attribute>
-            <img rel="page-{position()}" src="{@ThumbImageUpdated}">
-              <xsl:choose>
-                <xsl:when test="@ThumbImageUpdated">
-                  <xsl:attribute name="src">
-                    <xsl:value-of select="@ThumbImageUpdated" />
-                  </xsl:attribute>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:attribute name="src">
-                    <xsl:value-of select="@ThumbImage" />
-                  </xsl:attribute>
-                </xsl:otherwise>
-              </xsl:choose>
+            <img rel="page-{position()}">
+              <xsl:attribute name="src">
+                <xsl:call-template name="produce-url-from-template">
+                  <xsl:with-param name="url-template" select="$thumbnail-url-template" />
+                  <xsl:with-param name="filename" select="substring(@ThumbImage, 7)" />
+                </xsl:call-template>
+              </xsl:attribute>
             </img>
             <br />
             <span><xsl:value-of select="@Name" /></span>

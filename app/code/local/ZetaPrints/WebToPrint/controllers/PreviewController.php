@@ -80,14 +80,13 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
     $helper = Mage::helper('webtoprint');
 
     //Generate URLs for preview and thumbnail images
-    foreach ($templates_details['pages'] as &$page)
-      if (isset($page['updated-preview-image'])) {
-        $page['updated-preview-url'] = $helper
+    foreach ($templates_details['pages'] as &$page) {
+      $page['updated-preview-url'] = $helper
                   ->get_preview_url(substr($page['updated-preview-image'], 8));
-        $page['updated-thumb-url'] = $helper
+      $page['updated-thumb-url'] = $helper
                   ->get_thumbnail_url(substr($page['updated-preview-image'], 8),
                                       100, 100);
-      }
+    }
 
     echo json_encode($templates_details);
   }
