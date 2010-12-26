@@ -37,11 +37,11 @@ Extension developed by http://www.zetaprints.com/
     <active>yes</active>
   </lead>
 
-  <date>2010-11-23</date>
+  <date>2010-12-26</date>
 
   <version>
-    <release>1.8.3.1</release>
-    <api>1.8.3.1</api>
+    <release>1.8.3.2</release>
+    <api>1.8.3.3</api>
   </version>
 
   <stability>
@@ -52,7 +52,9 @@ Extension developed by http://www.zetaprints.com/
   <license uri="http://www.opensource.org/licenses/mit-license.php">MIT License</license>
 
   <notes>
-* Bug fixes (issue #339, issue #337, issue #334 and issue #322)
+* Add support for M. 1.4.2.0 version (issue #382)
+
+NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from project's svn repo.
   </notes>
 
   <contents>
