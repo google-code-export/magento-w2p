@@ -1,6 +1,7 @@
 div.powercrop-container {
   background-color: #fff;
   position: relative;
+  cursor: pointer;
 }
 
 img.powercrop-image {
