@@ -124,7 +124,10 @@
         handles: 'ne, nw, se, sw',
         resize: function (event, ui) {
           if (ui.position.left < 0)
-            return;
+            ui.position.left = 0;
+
+          if (ui.position.top < 0)
+            ui.position.top = 0;
 
           $image_top_wrapper.css({
             top: image_position.top - ui.position.top - 1,
