@@ -1,7 +1,6 @@
 div.powercrop-container {
   background-color: #fff;
   position: relative;
-  cursor: pointer;
 }
 
 img.powercrop-image {
@@ -12,6 +11,10 @@ img.powercrop-image {
 div.powercrop-container.simple img.powercrop-image,
 div.powercrop-container.simple img.powercrop-image-top {
   border: 1px solid transparent;
+}
+
+div.powercrop-container.no-resizing-action .ui-draggable {
+  cursor: pointer;
 }
 
 div.powercrop-viewport {
@@ -37,7 +40,8 @@ div.powercrop-viewport-handle {
   display: none;
 }
 
-div.powercrop-viewport:hover div.powercrop-viewport-handle {
+div.powercrop-viewport:hover div.powercrop-viewport-handle,
+div.powercrop-viewport.ui-resizable-resizing div.powercrop-viewport-handle {
   display: block;
 }
 
