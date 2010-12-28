@@ -65,14 +65,15 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
 
     //reset($params);
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
-
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = Mage::helper('webtoprint')
+                          ->get_zetaprints_credentials();
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $templates_details = zetaprints_update_preview(
-      Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $templates_details = zetaprints_update_preview($url, $key, $params);
 
     if (!$templates_details)
       return;

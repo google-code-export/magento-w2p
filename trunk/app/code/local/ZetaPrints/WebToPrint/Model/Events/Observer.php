@@ -39,9 +39,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $params['TemplateID'] = $options['zetaprints-TemplateID'];
     $params['Previews'] = $options['zetaprints-previews'];
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
-
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = Mage::helper('webtoprint')
+                          ->get_zetaprints_credentials();
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
@@ -303,6 +302,24 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
 
     //Set generated URL and then save item object
     $item->setRedirectUrl($url)->save();
+  }
+
+  public function restore_credentials_in_customer ($observer) {
+    $session = Mage::getSingleton('customer/session');
+
+    if ($id = $session->getZetaprintsUser())
+      $credentials = array('id' => $id,
+                           'password' => $session->getZetaprintsPassword() );
+    else
+      $credentials = Mage::helper('webtoprint')
+                       ->get_credentials_from_zp_cookie();
+
+    if ($credentials) {
+      $customer = $observer->getEvent()->getDataObject();
+
+      $customer->setZetaprintsUser($credentials['id']);
+      $customer->setZetaprintsPassword($credentials['password']);
+    }
   }
 }
 

@@ -217,7 +217,6 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
             <file name="TemplateDeletingBehaviour.php" role="magelocal" />
             <file name="template-details-to-preview-html.xslt" role="magelocal" />
             <file name="template_details_to_preview_html.xslt" role="magelocal" />
-            <file name="W2puser.php" role="magelocal" />
             <file name="zp_api.php" role="magelocal" />
             <file name="mage-logging.php" role="magelocal" />
           </dir>

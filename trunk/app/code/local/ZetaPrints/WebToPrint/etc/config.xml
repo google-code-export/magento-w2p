@@ -160,6 +160,16 @@
           </webtoprint-save-product-url>
         </observers>
       </sales_quote_item_save_after>
+
+      <customer_save_before>
+        <observers>
+          <webtoprint-restore-credentials-in-customer>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>restore_credentials_in_customer</method>
+          </webtoprint-restore-credentials-in-customer>
+        </observers>
+      </customer_save_before>
     </events>
 
     <sales>
