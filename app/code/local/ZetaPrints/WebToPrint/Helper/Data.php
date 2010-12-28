@@ -4,6 +4,9 @@
  */
 class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
+  //ZetaPrints cookie life time in seconds (180 days)
+  const COOKIE_LIFETIME = 15552000;
+
   public function _getUrl($route, $params = array()) {
     if ($this->_getRequest()->getScheme() == Zend_Controller_Request_Http::SCHEME_HTTPS) {
       $params['_secure'] = true;
@@ -145,5 +148,109 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
       $page['PreviewImage'] = $this->get_preview_url($preview_guid[1]);
       $page['ThumbImage'] = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
     }
+  }
+
+  function get_zetaprints_credentials () {
+    $session = Mage::getSingleton('customer/session');
+
+    if ($has_customer = $session->isLoggedIn()) {
+      $customer = $session->getCustomer();
+
+      if ($id = $customer->getZetaprintsUser()) {
+        $this->restore_zp_cookie($id);
+
+        return array('id' => $id,
+                     'password' => $customer->getZetaprintsPassword() );
+      }
+    }
+
+    $credentials = null;
+
+    if ($id = $session->getData('w2puser')) {
+      $session->setZetaprintsUser($id);
+      $session->setZetaprintsPassword($session->getData('w2ppass'));
+
+      $session->unsetData('w2puser');
+      $session->unsetData('w2ppass');
+    }
+
+    if ($id = $session->getZetaprintsUser())
+      $credentials = array('id' => $id,
+                           'password' => $session->getZetaprintsPassword() );
+    else
+      $credentials = $this->get_credentials_from_zp_cookie();
+
+    if (!$credentials) {
+      $id = zetaprints_generate_guid();
+      $password = zetaprints_generate_password();
+
+      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+      if (zetaprints_register_user($url, $key, $id, $password)) {
+        $credentials = array('id' => $id, 'password' => $password);
+
+        $this->set_credentials_to_zp_cookie($credentials);
+      }
+    } else
+      $this->restore_zp_cookie($credentials['id']);
+
+    if (!$credentials)
+      return null;
+
+    if ($has_customer) {
+      $customer->setZetaprintsUser($credentials['id']);
+      $customer->setZetaprintsPassword($credentials['password']);
+
+      $customer->save();
+    } else {
+      $session->setZetaprintsUser($credentials['id']);
+      $session->setZetaprintsPassword($credentials['password']);
+    }
+
+    return $credentials;
+  }
+
+  function get_credentials_from_zp_cookie () {
+    //Get ZetaPrints user id from cookie
+    $id = Mage::getSingleton('core/cookie')->get('ZP_ID');
+
+    if (!$id)
+      return false;
+
+    //connecting to DB
+    $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+
+    //Get password for user from DB
+    $password = $db
+      ->fetchOne("select pass from zetaprints_cookies where user_id=?",
+                 array($id));
+
+    //If there's no password for user in DB then...
+    if (strlen($password) != 6) {
+      //... remove cookie
+      Mage::getSingleton('core/cookie')->delete('ZP_ID');
+
+      return false;
+    }
+
+    return array('id' => $id, 'password' => $password);
+  }
+
+  function set_credentials_to_zp_cookie ($credentials) {
+    Mage::getSingleton('core/cookie')->set('ZP_ID',
+                                           $credentials['id'],
+                                           self::COOKIE_LIFETIME );
+
+    //connecting to DB
+    $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+    //adding password to DB
+    $db->insert('zetaprints_cookies',
+                array('user_id' => $credentials['id'],
+                      'pass'=> $credentials['password']) );
+  }
+
+  function restore_zp_cookie ($id) {
+    Mage::getSingleton('core/cookie')->set('ZP_ID', $id, self::COOKIE_LIFETIME);
   }
 }

@@ -39,15 +39,12 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //  return false;
 
     if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      $w2p_user = Mage::getModel('zpapi/w2puser');
-
       //This flag shows a status of web-to-print user registration
       $user_was_registered = true;
 
       //Check a status of web-to-print user registration on ZetaPrints
       //and if it's not then set user_was_registered flag to false
-      if (!($w2p_user->getW2pUserId()
-           || $w2p_user->get_credentials_from_zp_cookie() !== false)) {
+      if (!($user_credentials = $this->get_zetaprints_credentials())) {
         $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
         if ($template->getId())
@@ -61,8 +58,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       if ($user_was_registered) {
         $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
         $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
-
-        $user_credentials = $w2p_user->get_credentials();
 
         $data = array(
           'ID' => $user_credentials['id'],
@@ -416,9 +411,7 @@ jQuery(document).ready(function($) {
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
-
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = $this->get_zetaprints_credentials();
 
     $data = array(
       'ID' => $user_credentials['id'],
