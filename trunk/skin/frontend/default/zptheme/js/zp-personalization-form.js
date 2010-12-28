@@ -498,16 +498,16 @@ function personalization_form ($) {
             var img = this;
 
             $('a.edit-dialog, div.button.edit', tr).click(function () {
-              var link = this;
+              var $link = $(this);
 
               //If customer clicks on Edit button then...
               if (this.tagName == 'DIV')
                 //... get link to the image edit dialog and use its attributes
-                var link = $(this).parents('td').children('a');
+                var $link = $(this).parents('td').children('a');
 
               show_image_edit_dialog(image_name,
-                                     $(link).attr('href'),
-                                     $(link).find('img') );
+                                     $link.attr('href'),
+                                     $link.find('img') );
 
               return false;
             });
