@@ -505,7 +505,9 @@ function personalization_form ($) {
                 //... get link to the image edit dialog and use its attributes
                 var link = $(this).parents('td').children('a');
 
-              show_image_edit_dialog(image_name, $(link).attr('href'), $(img));
+              show_image_edit_dialog(image_name,
+                                     $(link).attr('href'),
+                                     $(link).find('img') );
 
               return false;
             });
