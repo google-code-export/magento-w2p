@@ -35,7 +35,7 @@
 
     var $container = $image
       .addClass('powercrop-image')
-      .wrap('<div class="powercrop-container" />')
+      .wrap('<div class="powercrop-container no-resizing-action" />')
       .parent();
 
     if (settings.simple)
@@ -47,6 +47,8 @@
       $image.resizable({
         aspectRatio: true,
         handles: 'ne, nw, se, sw',
+        start: function (event, ui) {
+          $container.removeClass('no-resizing-action'); },
         resize: function (event, ui) {
           $image_top_wrapper.css({
             width: ui.size.width,
@@ -63,6 +65,8 @@
           invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           image_position = $image_wrapper.position();
+
+          $container.addClass('no-resizing-action');
 
           var image_width = Math.round(ui.size.width);
           var image_height = Math.round(ui.size.height);
@@ -122,6 +126,8 @@
         aspectRatio: !settings.simple,
         containment: $container,
         handles: 'ne, nw, se, sw',
+        start: function (event, ui) {
+          $container.removeClass('no-resizing-action'); },
         resize: function (event, ui) {
           if (ui.position.left < 0)
             ui.position.left = 0;
@@ -138,6 +144,8 @@
           invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           viewport_position = $viewport.position();
+
+          $container.addClass('no-resizing-action');
 
           $image_top_wrapper.css({
             top: image_position.top - viewport_position.top - 1,
