@@ -142,6 +142,7 @@ Users without a nominated approver can check out as usual.
 
             <dir name="orderapproval_setup">
               <file name="mysql4-install-1.php" role="magecommunity" />
+              <file name="mysql4-data-upgrade-1-2.php" role="magecommunity" />
             </dir>
 
           </dir>
