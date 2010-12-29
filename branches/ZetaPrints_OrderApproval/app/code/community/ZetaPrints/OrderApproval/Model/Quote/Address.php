@@ -7,47 +7,83 @@ class  ZetaPrints_OrderApproval_Model_Quote_Address
     if (!$this->getQuote()->getIncludeApproved())
       return parent::getAllItems();
 
-    $quoteItems = $this->getQuote()->getAllItemsCollection();
-    $addressItems = $this->getItemsCollection();
+    //We calculate item list once and cache it in three arrays - all items,
+    //nominal, non-nominal
+    $key = 'cached_items_' . ($this->_nominalOnly ?
+               'nominal'
+             : ($this->_nominalOnly === false ? 'nonnominal' : 'all'));
 
-    $items = array();
+    if (!$this->hasData($key)) {
+      //For compatibility  we will use $this->_filterNominal to divide
+      //nominal items from non-nominal (because it can be overloaded)
+      //So keep current flag $this->_nominalOnly and restore it after cycle
+      $wasNominal = $this->_nominalOnly;
 
-    if ($this->getQuote()->getIsMultiShipping() && $addressItems->count() > 0)
-      foreach ($addressItems as $aItem) {
-        if ($aItem->isDeleted()
-            // Work around for M. versions < 1.4.1.0
-            || (method_exists($this, 'filterNominal')
-                && !$this->_filterNominal($aItem)))
-          continue;
+      //Now $this->_filterNominal() will return positive values
+      //for nominal items
+      $this->_nominalOnly = true;
 
-        if (!$aItem->getQuoteItemImported()) {
-          $qItem = $this->getQuote()->getItemById($aItem->getQuoteItemId(), true);
+      $quoteItems = $this->getQuote()->getAllItemsCollection();
+      $addressItems = $this->getItemsCollection();
 
-          if ($qItem)
-            $aItem->importQuoteItem($qItem);
+      $items = array();
+      $nominalItems = array();
+      $nonNominalItems = array();
+
+      if ($this->getQuote()->getIsMultiShipping()
+          && $addressItems->count() > 0) {
+        foreach ($addressItems as $aItem) {
+          if ($aItem->isDeleted())
+            continue;
+
+          if (!$aItem->getQuoteItemImported()) {
+            $qItem = $this->getQuote()->getItemById($aItem->getQuoteItemId());
+
+            if ($qItem)
+              $aItem->importQuoteItem($qItem);
+          }
+
+          $items[] = $aItem;
+
+          if ($this->_filterNominal($aItem))
+            $nominalItems[] = $aItem;
+          else
+            $nonNominalItems[] = $aItem;
         }
+      } else {
+        //For virtual quote we assign items only to billing address,
+        //otherwise - only to shipping address
 
-        $items[] = $aItem;
-      }
-    else {
-      $isQuoteVirtual = $this->getQuote()->isVirtual();
+        $addressType = $this->getAddressType();
+        $canAddItems = $this->getQuote()->isVirtual() ?
+                           ($addressType == self::TYPE_BILLING)
+                         : ($addressType == self::TYPE_SHIPPING);
 
-      foreach ($quoteItems as $qItem) {
-        if ($qItem->isDeleted()
-            // Work around for M. versions < 1.4.1.0
-            || (method_exists($this, 'filterNominal')
-                && !$this->_filterNominal($qItem)))
-          continue;
+        if ($canAddItems) {
+          foreach ($quoteItems as $qItem) {
+            if ($qItem->isDeleted())
+              continue;
 
-        //For virtual quote we assign all items to billing address
-        if ($isQuoteVirtual) {
-          if ($this->getAddressType() == self::TYPE_BILLING)
             $items[] = $qItem;
-        } else
-          if ($this->getAddressType() == self::TYPE_SHIPPING)
-            $items[] = $qItem;
+
+            if ($this->_filterNominal($qItem))
+              $nominalItems[] = $qItem;
+            else
+              $nonNominalItems[] = $qItem;
+          }
+        }
       }
+
+      //Cache calculated lists
+      $this->setData('cached_items_all', $items);
+      $this->setData('cached_items_nominal', $nominalItems);
+      $this->setData('cached_items_nonnominal', $nonNominalItems);
+
+      //Restore original value before we changed it
+      $this->_nominalOnly = $wasNominal;
     }
+
+    $items = $this->getData($key);
 
     return $items;
   }

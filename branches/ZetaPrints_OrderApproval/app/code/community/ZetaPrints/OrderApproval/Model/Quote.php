@@ -83,6 +83,8 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
       return parent::removeItem($itemId);
 
     if ($item = $this->getItemById($itemId, true)) {
+      $item->setQuote($this);
+
       //If we remove item from quote - we can't use multishipping mode
       $this->setIsMultiShipping(false);
       $item->isDeleted(true);
