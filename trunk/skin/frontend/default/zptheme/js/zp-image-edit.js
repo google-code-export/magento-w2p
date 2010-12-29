@@ -564,7 +564,7 @@ function imageEditorCrop () {
       .css('width', userImageWidthPreview * thumb_to_container_factor)
       .css('height', userImageHeightPreview * thumb_to_container_factor);
 
-    tmp1 = $('input[value=' + context.image_id + ']').parent().find('img');
+    var tmp1 = $('input[value=' + context.image_id + ']').parent().find('img');
     if (tmp1.length == 0)
       tmp1 = $('#img' + context.image_id);
     if (tmp1.length == 0)
