@@ -218,7 +218,7 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
 
     if (!$active
         && $this->getAllItemsCount() != count($this->getAllVisibleItems()))
-      return this;
+      return $this;
 
     return parent::setIsActive($active);
   }
