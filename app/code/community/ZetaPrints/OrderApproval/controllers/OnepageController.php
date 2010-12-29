@@ -70,11 +70,13 @@ class ZetaPrints_OrderApproval_OnepageController
                 }
               } else {
                 //... else create additional options with approval status option
-                //in the item
-                $item->addOption(array(
-                        'code' => 'additional_options',
-                        'value' => serialize(
-                          array('approval_status' => $option) )) )
+                //for the item
+                Mage::getModel('sales/quote_item_option')
+                  ->setData(array(
+                              'code' => 'additional_options',
+                              'value' => serialize(
+                                array('approval_status' => $option) )) )
+                  ->setItem($item)
                   ->save();
               }
             }
