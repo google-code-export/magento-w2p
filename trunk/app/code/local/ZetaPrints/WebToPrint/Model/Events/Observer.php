@@ -44,8 +44,10 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $order_details = zetaprints_create_order(
-      Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $order_details = zetaprints_create_order($url, $key, $params);
 
     if (!$order_details)
       Mage::throwException('ZetaPrints error');
