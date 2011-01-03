@@ -13,10 +13,10 @@
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-11-25</date>
- <time>15:55:24</time>
+ <date>2010-12-29</date>
+ <time>12:52:43</time>
  <version>
-  <release>0.1.14</release>
+  <release>0.1.15</release>
   <api>1.0</api>
  </version>
  <stability>
@@ -27,6 +27,7 @@
  <notes>
 * cleaned up some not needed files
 * fixed magento bug with exception throwing
+* Store switching bug fixed.
  </notes>
  <contents>
   <dir name="/">
@@ -44,7 +45,7 @@
         <file md5sum="bafd0335c9cb19d7e673d96def0bb04f" name="attachments.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
-        <file md5sum="8665a597880da87860fb95f785eba907" name="attachments.xml" role="magedesign" />
+        <file md5sum="04d759c6a20a736bbc6f28cade2180b0" name="attachments.xml" role="magedesign" />
        </dir> <!-- ///frontend/default/default/layout -->
        <dir name="template">
         <dir name="catalog">
@@ -113,11 +114,11 @@
        <file md5sum="57ce60bd3b247e178ea3ba20842cf2ab" name="IndexController.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/controllers -->
       <dir name="etc">
-       <file md5sum="b94ba5c095dc04ad7d0077950b5e7b6a" name="config.xml" role="magecommunity" />
+       <file md5sum="f2414e62e68881ded5ffb2e95d2100ea" name="config.xml" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/etc -->
       <dir name="Helper">
        <file md5sum="574c65bd69117b435d633c7e23b82333" name="Data.php" role="magecommunity" />
-       <file md5sum="52f942210e17db998f853113d0a2e423" name="Upload.php" role="magecommunity" />
+       <file md5sum="be859437f7cb57403c87b11448c5156e" name="Upload.php" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Attachments/Helper -->
       <dir name="Model">
        <dir name="Events">
@@ -135,7 +136,7 @@
           <file md5sum="797cc59ec23a81ea37c46515606efb54" name="Attachments.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Attachments/Model/Product/Option/Type -->
         </dir> <!-- ///ZetaPrints/Attachments/Model/Product/Option -->
-        <file md5sum="955a3d04113aec02dcf276822d8852a5" name="Option.php" role="magecommunity" />
+        <file md5sum="e39dcf8000f747cc5b560aa95854e294" name="Option.php" role="magecommunity" />
        </dir> <!-- ///ZetaPrints/Attachments/Model/Product -->
        <dir name="Resource">
         <file md5sum="d23de63cf25e6b4af960e2ae0789a218" name="Setup.php" role="magecommunity" />

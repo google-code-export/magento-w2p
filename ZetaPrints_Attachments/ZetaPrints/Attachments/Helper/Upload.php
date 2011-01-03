@@ -112,18 +112,16 @@ class ZetaPrints_Attachments_Helper_Upload extends
       return $spinnerUrl;
     }
 
-    public function getUseAjax()
+    public function getUseAjax(Mage_Catalog_Model_Product $product)
     {
         if($this->_useAjax === null) {
-            $product = $this->getProduct();
-            $_useAjax = $product->getAttributeText(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
-            if(self::YES == strtolower($_useAjax)) {
+            $_useAjax = $product->getData(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
+            if($_useAjax) {
                 $this->_useAjax = true;
             }else {
                 $this->_useAjax = false;
             }
         }
-
         return $this->_useAjax;
     }
 
