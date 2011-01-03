@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<!--
-/**
- * @author      Petar Dzhambazov
- * @category    design
- * @package     ZetaPrints_Attachments
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+<!-- 
+/** 
+  * @author     Petar Dzhambazov
+  * @category   design 
+  * @package    ZetaPrints_Attachments 
+  * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0) 
+  */ 
 -->
 <layout version="0.1.0">
   <checkout_cart_index>
@@ -16,33 +16,34 @@
       </action>
     </reference>
   </checkout_cart_index>
-    <catalog_product_view>
-        <reference name="head">
-        <!--
-            <action method="addItem"><type>skin_js</type><name>js/attachments.js</name></action>
-            <action method="addItem"><type>skin_js</type><name>js/ajaxupload2.js</name></action>
-         -->
-            <action method="addItem"><type>skin_js</type><name>js/attachments.js</name></action>
-            <action method="addItem"><type>skin_css</type><name>css/attachments.css</name></action>
+  <catalog_product_view>
+    <reference name="head">
+      <!-- <action method="addItem"><type>skin_js</type><name>js/attachments.js</name></action> 
+        <action method="addItem"><type>skin_js</type><name>js/ajaxupload2.js</name></action> -->
+      <action method="addItem">
+        <type>skin_js</type>
+        <name>js/attachments.js</name>
+      </action>
+      <action method="addItem">
+        <type>skin_css</type>
+        <name>css/attachments.css</name>
+      </action>
+    </reference>
+    <reference name="content">
+      <reference name="product.info">
+        <!-- <reference name="alert.urls"> <block type="attachments/attachments" 
+          name="order.attachments" template="attachments/attachments.phtml" as="order_attachments" 
+          after="-"/> </reference> -->
+        <reference name="product.info.options.wrapper">
+          <reference name="product.info.options">
+            <action method="addOptionRenderer">
+              <type>attachments</type>
+              <block>attachments/product_view_options_type_attachments</block>
+              <template>catalog/product/view/options/type/attachments.phtml</template>
+            </action>
+          </reference>
         </reference>
-        <reference name="content">
-            <reference name="product.info">
-                <!--
-                <reference name="alert.urls">
-                    <block type="attachments/attachments" name="order.attachments"
-                        template="attachments/attachments.phtml" as="order_attachments" after="-"/>
-                </reference>
-                -->
-                <reference name="product.info.options.wrapper">
-                  <reference name="product.info.options">
-                    <action method="addOptionRenderer">
-                      <type>attachments</type>
-                      <block>attachments/product_view_options_type_attachments</block>
-                      <template>catalog/product/view/options/type/attachments.phtml</template>
-                    </action>
-                  </reference>
-                </reference>
-            </reference>
-        </reference>
-    </catalog_product_view>
+      </reference>
+    </reference>
+  </catalog_product_view>
 </layout>

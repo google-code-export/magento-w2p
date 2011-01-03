@@ -8,7 +8,7 @@
 <config>
   <modules>
     <ZetaPrints_Attachments>
-      <version>0.1.14</version>
+      <version>0.1.15</version>
     </ZetaPrints_Attachments>
   </modules>
   <frontend>
