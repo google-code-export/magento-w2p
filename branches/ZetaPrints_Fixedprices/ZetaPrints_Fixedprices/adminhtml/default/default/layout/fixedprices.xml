@@ -1,0 +1,7 @@
+<layout version="0.1.0">
+    <adminhtml_catalog_product_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>fixedprices.css</name></action>
+        </reference>
+    </adminhtml_catalog_product_edit>
+</layout>
