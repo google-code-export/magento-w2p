@@ -172,6 +172,7 @@ via email with bugs reports and feature requests.
               <file name="mysql4-install-1.php" role="magecommunity" />
               <file name="mysql4-upgrade-1-2.php" role="magecommunity" />
               <file name="mysql4-upgrade-2-3.php" role="magecommunity" />
+              <file name="mysql4-upgrade-3-4.php" role="magecommunity" />
             </dir>
 
           </dir>

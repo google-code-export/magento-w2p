@@ -206,7 +206,8 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
    * @return boolean
    */
   public function is_extension_enabled () {
-    return (bool) $this->get_store_config_value('extension_status');
+    return ((bool) $this->get_store_config_value('extension_status'))
+           && Mage::app()->getRequest()->getModuleName() !== 'api';
   }
 
   /**
@@ -245,28 +246,51 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
   public function get_access_groups_for_category ($category) {
     $accessGroups = $category->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
 
-    if (!isset($access_groups) || $access_groups === '')
+
+
+    if (!isset($accessGroups) || $accessGroups === ''
+        && !Mage::helper('catalog/category_flat')->isEnabled()) {
       //Try to load that attribute in case it's just not loaded
       //I do that on a clone so the store view name doesn't get overwritten
       //UGLY hack but it works until I find a better way
-      $access_groups = $category->setStoreId(Mage::app()->getStore()->getId())->load($category->getId())->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
+      //$access_groups = $category->setStoreId(Mage::app()->getStore()->getId())->load($category->getId())->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
 
-    //for reference:
-    // from moshe:
-    //$attr = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'your_attribute');
-    //will give you all the info about attribute, including table and attribute_id,
-    //which you can use to populate objects in category collection, so basically you could load
-    //records for all category ids and attribute_id from table_name and
-    //foreach ($collection as $o) $o->setData('your_attribute', $rows[$o->getId()]); :)
+      $attribute = $category->getResource()
+                     ->getAttribute(self::ACCESS_GROUPS_ATTRIBUTE_ID);
+
+      $select = $category->getResource()->getReadConnection()->select()
+                  ->from($attribute->getBackendTable(), 'value')
+                  ->where('entity_type_id = ?',
+                             $category->getResource()->getEntityType()->getId())
+                  ->where('attribute_id = ?', $attribute->getId())
+                  ->where('entity_id = ?', $category->getId());
+
+      $select2 = clone $select;
+
+      $select->where('store_id = ?', Mage::app()->getStore()->getId());
+
+      if (!($accessGroups = (string) $item->getResource()
+                                       ->getReadConnection()
+                                       ->fetchOne($select))) {
+        $select2->where('store_id = ?', 0);
+
+        $accessGroups = (string) $item->getResource()
+                                   ->getReadConnection()
+                                   ->fetchOne($select2);
+      }
+
+      $category->setDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID,
+                                                                 $accessGroups);
+    }
 
     //if it really isn't set fall back to use store default
-    if (!isset($access_groups) || $access_groups === '')
+    if (!isset($accessGroups) || $accessGroups === '')
       return array(self::USE_DEFAULT);
 
-    if (is_string($access_groups))
-      return explode(',', $access_groups);
+    if (is_string($accessGroups))
+      return explode(',', $accessGroups);
 
-    return $access_groups;
+    return $accessGroups;
   }
 }
 

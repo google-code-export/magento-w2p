@@ -46,6 +46,42 @@ class ZetaPrints_AccessControl_Model_Observer extends Mage_Core_Model_Abstract {
   }
 
   /**
+   * Add accesscontrol_show_group property to category collections
+   * when the flat catalog is enabled
+   *
+   * @param Varien_Event_Observer $observer
+   * @return null
+   */
+  public function coreCollectionAbstractLoadBefore($observer) {
+    if (!Mage::helper('accesscontrol')->is_extension_enabled()
+        || $this->_is_api_request())
+      return;
+
+    $collection = $observer->getEvent()->getCollection();
+
+    if ($collection instanceof
+                Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection)
+      $collection->addAttributeToSelect('accesscontrol_show_group');
+  }
+
+  /**
+   * Add accesscontrol_show_group property to category collections
+   * when the flat catalog is disabled
+   *
+   * @param Varien_Event_Observer $observer
+   * @return null
+   */
+  public function catalogCategoryCollectionLoadBefore($observer) {
+    if (!Mage::helper('accesscontrol')->is_extension_enabled()
+        || $this->_is_api_request())
+      return;
+
+    $observer->getEvent()
+      ->getCategoryCollection()
+      ->addAttributeToSelect('accesscontrol_show_group');
+  }
+
+  /**
    * Return true if the reqest is made via the api
    *
    * @return boolean
