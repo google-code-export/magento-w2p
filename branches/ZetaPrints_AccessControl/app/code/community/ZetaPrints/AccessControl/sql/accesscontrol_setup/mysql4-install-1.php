@@ -33,9 +33,9 @@ $this->addAttribute('catalog_category', 'accesscontrol_show_group', array(
   'backend'         => 'accesscontrol/entity_attribute_backend_customergroups',
   'backend_model'   => 'accesscontrol/entity_attribute_backend_customergroups',
   'global'          => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-  'required'        => true,
+  'required'        => 1,
   'default'         => ZetaPrints_AccessControl_Helper_Data::USE_DEFAULT,
-  'user_defined'    => 1,
+  'user_defined'    => 0,
 ));
 
 $this->endSetup();
