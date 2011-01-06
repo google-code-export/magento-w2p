@@ -7,7 +7,7 @@ Event.observe(window, 'load', hideQtys);
 function hideQtys()
 {
   var qtys = $$('.qty');
-  if(undefinded == qtys){
+  if(undefined == qtys){
     return;
   }
   var qty = qtys[0];
