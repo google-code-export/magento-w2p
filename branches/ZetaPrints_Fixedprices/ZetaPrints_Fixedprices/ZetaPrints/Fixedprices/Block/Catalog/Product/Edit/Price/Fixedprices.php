@@ -20,12 +20,6 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Price_Fixedprices
    */
   protected function _sortTierPrices($a, $b)
   {
-    if ($a['website_id'] != $b['website_id']) {
-      return $a['website_id'] < $b['website_id'] ? -1 : 1;
-    }
-    if ($a['units'] != $b['units']) {
-      return strcasecmp($a['units'], $b['units']) > 0 ? -1 : 1;
-    }
     if ($a['price_qty'] != $b['price_qty']) {
       return $a['price_qty'] < $b['price_qty'] ? -1 : 1;
     }

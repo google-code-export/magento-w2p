@@ -19,19 +19,21 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
   <email>jamby77@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2011-01-05</date>
- <time>20:05:05</time>
+ <date>2011-01-06</date>
+ <time>14:54:23</time>
  <version>
   <release>0.2.1</release>
   <api>1.0</api>
  </version>
  <stability>
-  <release>devel</release>
-  <api>devel</api>
+  <release>alpha</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
  <notes>
 * initial dev release
+
+* alpha stability
  </notes>
  <contents>
   <dir name="/">
@@ -47,7 +49,7 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
          <dir name="product">
           <dir name="edit">
            <dir name="price">
-            <file md5sum="f71b935713ae58156be8c8b6dfbcb107" name="fixedprices.phtml" role="magedesign" />
+            <file md5sum="25215f443c8ec8dcdc82dae6ff21ffcd" name="fixedprices.phtml" role="magedesign" />
            </dir> <!-- ///adminhtml/default/default/template/catalog/product/edit/price -->
           </dir> <!-- ///adminhtml/default/default/template/catalog/product/edit -->
          </dir> <!-- ///adminhtml/default/default/template/catalog/product -->
@@ -64,7 +66,7 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
         <file md5sum="a27b13437876ae85196fd16da422ebc1" name="fixedprices.css" role="mageskin" />
        </dir> <!-- ///frontend/default/default/css -->
        <dir name="js">
-        <file md5sum="7f46c28a852c0b4924b7f57e16f74614" name="fixedprices.js" role="mageskin" />
+        <file md5sum="8448dae182b879afe3b2f3187947fa9e" name="fixedprices.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
         <file md5sum="bacd4d8ff8e2aa9d75d6a9fdacc086d5" name="fixedprices.xml" role="magedesign" />
@@ -91,7 +93,7 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
         <dir name="Product">
          <dir name="Edit">
           <dir name="Price">
-           <file md5sum="cd3c66ebfb58fb8eea87f70053716fb8" name="Fixedprices.php" role="magecommunity" />
+           <file md5sum="e04b783c31f6e30bd513a8fd98768f46" name="Fixedprices.php" role="magecommunity" />
           </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog/Product/Edit/Price -->
           <file md5sum="8e4d588d23370761873d2699ed2c29d8" name="Fixedprices.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog/Product/Edit -->

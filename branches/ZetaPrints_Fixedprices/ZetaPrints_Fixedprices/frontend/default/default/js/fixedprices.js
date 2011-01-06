@@ -6,7 +6,11 @@ Event.observe(window, 'load', hideQtys);
 
 function hideQtys()
 {
-  var qty = $$('.qty')[0];
+  var qtys = $$('.qty');
+  if(undefinded == qtys){
+    return;
+  }
+  var qty = qtys[0];
   var name = qty.name;
   if(name.match(/^cart\[/)){
     $$('input').invoke('hide');
