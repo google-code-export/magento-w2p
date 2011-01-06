@@ -37,8 +37,7 @@ class ZetaPrints_AccessControl_Model_Observer extends Mage_Core_Model_Abstract {
    */
   public function catalogCategoryCollectionLoadAfter ($observer) {
     if (!Mage::helper('accesscontrol')->is_extension_enabled()
-      || $this->_is_api_request())
-
+        || $this->_is_api_request())
       return;
 
     Mage::helper('accesscontrol')
