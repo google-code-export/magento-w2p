@@ -41,6 +41,31 @@ class ZetaPrints_AccessControl_Helper_Category extends
     return parent::canShow($category)
       && Mage::helper('accesscontrol')->has_customer_group_access_to_category($category);
   }
+
+  /**
+   * If the flat catalog is enabled there is no event that we can attach to :-/
+   * So we need to load the store categories as a collection and return the items array
+   * if expexted, that way the event that filters the categories is triggered.
+   *
+   * @param bool $sorted
+   * @param bool $asCollection
+   * @param bool $toLoad
+   * @return array
+   */
+  public function getStoreCategories($sorted = false, $asCollection = false,
+                                     $toLoad = true) {
+    if (!Mage::helper('catalog/category_flat')->isEnabled())
+      return parent::getStoreCategories($sorted, $asCollection, $toLoad);
+
+    //Allways load as a collection so the filter in the event is applied
+
+    if ($asCollection)
+      return parent::getStoreCategories($sorted, true, $toLoad);
+
+    return parent::getStoreCategories($sorted, true, $toLoad)
+             ->load()
+             ->getItems();
+  }
 }
 
 ?>

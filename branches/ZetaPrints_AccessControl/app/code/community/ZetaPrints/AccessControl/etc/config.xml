@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_AccessControl>
-      <version>3</version>
+      <version>4</version>
     </ZetaPrints_AccessControl>
   </modules>
 
@@ -65,7 +65,7 @@
       <accesscontrol_setup>
         <setup>
           <module>ZetaPrints_AccessControl</module>
-          <class>Mage_Eav_Model_Entity_Setup</class>
+          <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
         </setup>
         <connection>
           <use>default_setup</use>
@@ -100,6 +100,30 @@
           </accesscontrol>
         </observers>
       </catalog_category_collection_load_after>
+
+      <!-- Add accesscontrol_show_group attribute to category collections
+           with flat tables enabled -->
+      <core_collection_abstract_load_before>
+        <observers>
+          <accesscontrol>
+            <type>singleton</type>
+            <class>ZetaPrints_AccessControl_Model_Observer</class>
+            <method>coreCollectionAbstractLoadBefore</method>
+          </accesscontrol>
+        </observers>
+      </core_collection_abstract_load_before>
+
+      <!-- Add accesscontrol_show_group attribute to category collections
+           with flat tables disabled -->
+      <catalog_category_collection_load_before>
+        <observers>
+          <accesscontrol>
+            <type>singleton</type>
+            <class>ZetaPrints_AccessControl_Model_Observer</class>
+            <method>catalogCategoryCollectionLoadBefore</method>
+          </accesscontrol>
+        </observers>
+      </catalog_category_collection_load_before>
     </events>
 
     <routers>
