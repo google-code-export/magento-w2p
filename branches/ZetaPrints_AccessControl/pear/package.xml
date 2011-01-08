@@ -76,6 +76,16 @@ via email with bugs reports and feature requests.
               <file name="Result.php" role="magecommunity" />
             </dir>
 
+            <dir name="Catalog">
+              <dir name="Product">
+
+                <dir name="Helper">
+                  <file name="Customergroup.php" role="magecommunity" />
+                </dir>
+
+              </dir>
+            </dir>
+
             <dir name="Layer">
               <file name="View.php" role="magecommunity" />
             </dir>

@@ -43,9 +43,9 @@ class ZetaPrints_AccessControl_Helper_Category extends
   }
 
   /**
-   * If the flat catalog is enabled there is no event that we can attach to :-/
-   * So we need to load the store categories as a collection and return the items array
-   * if expexted, that way the event that filters the categories is triggered.
+   * There is no event that we can attach to then flat catalog option is enabled
+   * So we need to load store categories as a collection and return items array
+   * if expected, that way an event that filters categories will be triggered.
    *
    * @param bool $sorted
    * @param bool $asCollection
@@ -54,17 +54,20 @@ class ZetaPrints_AccessControl_Helper_Category extends
    */
   public function getStoreCategories($sorted = false, $asCollection = false,
                                      $toLoad = true) {
-    if (!Mage::helper('catalog/category_flat')->isEnabled())
-      return parent::getStoreCategories($sorted, $asCollection, $toLoad);
+    $collection = parent::getStoreCategories($sorted, $asCollection, $toLoad);
 
-    //Allways load as a collection so the filter in the event is applied
+    if (!Mage::helper('catalog/category_flat')->isEnabled() || $asCollection)
+      return $collection;
 
-    if ($asCollection)
-      return parent::getStoreCategories($sorted, true, $toLoad);
+    $result = array();
 
-    return parent::getStoreCategories($sorted, true, $toLoad)
-             ->load()
-             ->getItems();
+    //We need to filter out categories if flat catalog option is enabled and
+    //store categories are not loaded as 3a collection
+    foreach ($collection as $category)
+      if ($this->canShow($category))
+        $result[$category->getId()] = $category;
+
+    return $result;
   }
 }
 
