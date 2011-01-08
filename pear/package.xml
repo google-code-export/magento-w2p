@@ -80,7 +80,7 @@ via email with bugs reports and feature requests.
               <dir name="Product">
 
                 <dir name="Helper">
-                  <file name="Customergroup.php" role="magecommunity" />
+                  <file name="Customergroups.php" role="magecommunity" />
                 </dir>
 
               </dir>
