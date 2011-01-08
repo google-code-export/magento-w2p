@@ -246,42 +246,9 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
   public function get_access_groups_for_category ($category) {
     $accessGroups = $category->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
 
-
-
-    if (!isset($accessGroups) || $accessGroups === ''
-        && !Mage::helper('catalog/category_flat')->isEnabled()) {
-      //Try to load that attribute in case it's just not loaded
-      //I do that on a clone so the store view name doesn't get overwritten
-      //UGLY hack but it works until I find a better way
-      //$access_groups = $category->setStoreId(Mage::app()->getStore()->getId())->load($category->getId())->getDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID);
-
-      $attribute = $category->getResource()
-                     ->getAttribute(self::ACCESS_GROUPS_ATTRIBUTE_ID);
-
-      $select = $category->getResource()->getReadConnection()->select()
-                  ->from($attribute->getBackendTable(), 'value')
-                  ->where('entity_type_id = ?',
-                             $category->getResource()->getEntityType()->getId())
-                  ->where('attribute_id = ?', $attribute->getId())
-                  ->where('entity_id = ?', $category->getId());
-
-      $select2 = clone $select;
-
-      $select->where('store_id = ?', Mage::app()->getStore()->getId());
-
-      if (!($accessGroups = (string) $item->getResource()
-                                       ->getReadConnection()
-                                       ->fetchOne($select))) {
-        $select2->where('store_id = ?', 0);
-
-        $accessGroups = (string) $item->getResource()
-                                   ->getReadConnection()
-                                   ->fetchOne($select2);
-      }
-
-      $category->setDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID,
-                                                                 $accessGroups);
-    }
+    //Try to load that attribute in case it's just not loaded
+    if (!isset($accessGroups) || $accessGroups === '')
+      $accessGroups = $this->_loadAttributeValue($category);
 
     //if it really isn't set fall back to use store default
     if (!isset($accessGroups) || $accessGroups === '')
@@ -291,6 +258,60 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
       return explode(',', $accessGroups);
 
     return $accessGroups;
+  }
+
+  /**
+   * Load value of accesscontrol_show_group attribute,
+   * set the attribute on the item and return loaded attribute value.
+   *
+   * @param Mage_Catalog_Model_Abstract $item
+   * @return mixed
+   */
+  protected function _loadAttributeValue ($category) {
+    $resource = $category->getResource();
+    $connection = $resource->getReadConnection();
+    $select = $connection->select()->reset();
+
+    $categoryId = $category->getId();
+
+    if (Mage::helper('catalog/category_flat')->isEnabled())
+      $select->from($resource->getMainTable(), self::ACCESS_GROUPS_ATTRIBUTE_ID)
+        ->where('entity_id = ?', $categoryId);
+    else {
+      $attribute = $resource->getAttribute(self::ACCESS_GROUPS_ATTRIBUTE_ID);
+
+      $table = $attribute->getBackendTable();
+      $attributeId = $attribute->getId();
+      $typeId = $resource->getTypeId();
+
+      $select->from(array('default_value' => $table), array())
+        ->where('default_value.attribute_id = ?', $attributeId)
+        ->where('default_value.entity_type_id = ? ', $typeId)
+        ->where('default_value.entity_id = ? ', $categoryId)
+        ->where('default_value.store_id = 0');
+
+      $joinCondition = $connection->quoteInto('store_value.attribute_id  = ?',
+                                              $attributeId)
+        . ' AND '
+        . $connection->quoteInto('store_value.entity_type_id = ?', $typeId)
+        . ' AND '
+        . $connection->quoteInto('store_value.entity_id = ?', $categoryId)
+        . ' AND '
+        . $connection->quoteInto('store_value.store_id = ?',
+                                 Mage::app()->getStore()->getId());
+
+      $select->joinLeft(array('store_value' => $table),
+                        $joinCondition,
+                        array('attr_value' =>
+                                'IFNULL(store_value.value, default_value.value)',
+                              'default_value.attribute_id') );
+    }
+
+    $result = (string) $connection->fetchOne($select);
+
+    $category->setDataUsingMethod(self::ACCESS_GROUPS_ATTRIBUTE_ID, $result);
+
+    return $result;
   }
 }
 

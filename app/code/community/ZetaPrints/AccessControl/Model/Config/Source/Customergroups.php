@@ -122,19 +122,31 @@ class ZetaPrints_AccessControl_Model_Config_Source_Customergroups
   }
 
   /**
-   * Bugfix for Magento 1.3 - do not return the option array entry,
-   * only the label.
+   * Get a text for option value
    *
-   * @param mixed $value
+   * @param string|integer $value
    * @return string
    */
   public function getOptionText ($value) {
-    $option = parent::getOptionText($value);
+    $options = $this->getAllOptions();
 
-    if (is_array($option) && isset($option['label']))
-      return $option['label'];
+    if (strpos($value, ',')) {
+      $values = explode(',', $value);
 
-    return $option;
+      $optionText = array();
+
+      foreach ($options as $option)
+        if (in_array($option['value'], $values))
+          $optionText[] = $option['label'];
+
+      return $optionText;
+    }
+
+    foreach ($options as $option)
+      if ($option['value'] == $value)
+        return $option['label'];
+
+    return false;
   }
 }
 
