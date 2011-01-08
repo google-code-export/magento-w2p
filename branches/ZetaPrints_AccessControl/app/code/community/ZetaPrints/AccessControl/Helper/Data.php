@@ -131,9 +131,9 @@ class ZetaPrints_AccessControl_Helper_Data extends Mage_Core_Helper_Abstract {
     if (!$this->is_extension_enabled() || $this->is_in_admin_panel())
       return true;
 
-    foreach ($collection as $item)
+    foreach ($collection as $key => $item)
       if (!$this->has_customer_group_access_to_category($item))
-        $collection->removeItemByKey($item->getId());
+        $collection->removeItemByKey($key);
   }
 
   /**
