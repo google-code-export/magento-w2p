@@ -43,11 +43,11 @@ via email with bugs reports and feature requests.
     <active>yes</active>
   </lead>
 
-  <date>2010-05-31</date>
+  <date>2010-11-07</date>
 
   <version>
-    <release>1.0.0.0</release>
-    <api>1.0.0.0</api>
+    <release>1.0.1.0</release>
+    <api>1.0.1.0</api>
   </version>
 
   <stability>
@@ -57,7 +57,11 @@ via email with bugs reports and feature requests.
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>First stable release</notes>
+  <notes>
+* Remove hidden categories and products from sitemap list (issue #289)
+* Remove hidden products from search results;
+  correct products counting (issue #256)
+  </notes>
 
   <contents>
 
