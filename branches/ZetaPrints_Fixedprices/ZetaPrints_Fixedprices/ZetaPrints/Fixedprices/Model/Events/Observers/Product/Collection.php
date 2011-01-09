@@ -20,7 +20,7 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection
             // then we probably have fixed price
             $fixedPrice = $item->getFixedPrice();
             if($fixedPrice){
-              $item->setMinPrice($price)->setMinimalPrice($price)->setFinalPrice($price)->setMaxPrice($price);
+              $item->setMinPrice($price)->setMinimalPrice($price)->setMaxPrice($price)->setFinalPrice($price);
             }
           }
         }
