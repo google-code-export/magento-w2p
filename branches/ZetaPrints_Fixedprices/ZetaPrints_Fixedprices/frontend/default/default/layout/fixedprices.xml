@@ -3,8 +3,8 @@
   <fixedprices_js_css translate="label">
     <label>Fixed pricing javascript and css updates.</label>
     <reference name="head">
-      <action method="addItem" ifconfig="catalog/price/use_fixed"><type>skin_js</type><name>js/fixedprices.js</name></action>
-      <action method="addItem" ifconfig="catalog/price/use_fixed"><type>skin_css</type><name>css/fixedprices.css</name></action>
+      <action method="addItem"><type>skin_js</type><name>js/fixedprices.js</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/fixedprices.css</name></action>
     </reference>
   </fixedprices_js_css>
   <catalog_product_view>

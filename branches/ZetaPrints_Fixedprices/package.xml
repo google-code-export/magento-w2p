@@ -20,9 +20,9 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
   <active>yes</active>
  </lead>
  <date>2011-01-09</date>
- <time>17:23:44</time>
+ <time>18:34:25</time>
  <version>
-  <release>0.2.4</release>
+  <release>0.2.6</release>
   <api>1.0</api>
  </version>
  <stability>
@@ -36,6 +36,10 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
 * alpha stability
 
 * Fixed method signature to avoid Strict messages
+
+* Upped PHP maximum version
+
+* Added price update in product view.
  </notes>
  <contents>
   <dir name="/">
@@ -68,10 +72,10 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
         <file md5sum="a27b13437876ae85196fd16da422ebc1" name="fixedprices.css" role="mageskin" />
        </dir> <!-- ///frontend/default/default/css -->
        <dir name="js">
-        <file md5sum="63ea13d446fb2ae5cc35d62b91be63f2" name="fixedprices.js" role="mageskin" />
+        <file md5sum="3091e0ad0e90844cf24b2615f9bb39e2" name="fixedprices.js" role="mageskin" />
        </dir> <!-- ///frontend/default/default/js -->
        <dir name="layout">
-        <file md5sum="bacd4d8ff8e2aa9d75d6a9fdacc086d5" name="fixedprices.xml" role="magedesign" />
+        <file md5sum="962528aa747c0ec643abb8a7fa5dde25" name="fixedprices.xml" role="magedesign" />
        </dir> <!-- ///frontend/default/default/layout -->
        <dir name="template">
         <dir name="catalog">
@@ -100,13 +104,13 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
           <file md5sum="8e4d588d23370761873d2699ed2c29d8" name="Fixedprices.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog/Product/Edit -->
          <dir name="View">
-          <file md5sum="38ef5e4d12d228e8a1ba84d2a20fac5f" name="Fixedprices.php" role="magecommunity" />
+          <file md5sum="598d5c05aafd60d5efd7598373bac0f0" name="Fixedprices.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog/Product/View -->
         </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog/Product -->
        </dir> <!-- ///ZetaPrints/Fixedprices/Block/Catalog -->
       </dir> <!-- ///ZetaPrints/Fixedprices/Block -->
       <dir name="etc">
-       <file md5sum="66178ea4435fcf351c964f59dd65e3e6" name="config.xml" role="magecommunity" />
+       <file md5sum="268e9a1efc335d6deabb4dc1355a8a65" name="config.xml" role="magecommunity" />
       </dir> <!-- ///ZetaPrints/Fixedprices/etc -->
       <dir name="Helper">
        <file md5sum="6ae5b8a7cdca39d55f399c2711ce9a32" name="Data.php" role="magecommunity" />
@@ -115,7 +119,7 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
        <dir name="Events">
         <dir name="Observers">
          <dir name="Product">
-          <file md5sum="39542d7d4f9bf526f782645f138e102a" name="Collection.php" role="magecommunity" />
+          <file md5sum="f109da16026ef305a5050a049b5818b5" name="Collection.php" role="magecommunity" />
           <file md5sum="1e30bdd419af632b52c8424e2d4481ce" name="Tab.php" role="magecommunity" />
          </dir> <!-- ///ZetaPrints/Fixedprices/Model/Events/Observers/Product -->
         </dir> <!-- ///ZetaPrints/Fixedprices/Model/Events/Observers -->
@@ -161,7 +165,7 @@ To prevent possible errors, quantity field for customer is disabled.</descriptio
   <required>
    <php>
     <min>5.2.4</min>
-    <max>5.3</max>
+    <max>6.0</max>
    </php>
    <pearinstaller>
     <min>1.6.2</min>

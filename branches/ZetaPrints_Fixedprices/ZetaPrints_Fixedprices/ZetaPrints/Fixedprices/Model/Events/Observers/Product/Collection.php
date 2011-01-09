@@ -13,20 +13,21 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection {
     $collection = $observer->getCollection();
 
     /*@var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-    foreach ($collection as $item) {
-      /* @var $item Mage_Catalog_Model_Product */
-      if (!Mage::helper('fixedprices')->isFixedPriceEnabled($item))
-        continue;
-
-      $price = $item->getPrice();
-
-      // if price returned from method is different than raw 'price' data
-      // and we have fixed price
-      if ($price != $item->getData('price') && $item->getFixedPrice())
-        $item->setMinPrice($price)
-          ->setMinimalPrice($price)
-          ->setMaxPrice($price)
-          ->setFinalPrice($price);
-    }
+      foreach ($collection as $item) {
+        /* @var $item Mage_Catalog_Model_Product */
+        if(Mage::helper('fixedprices')->isFixedPriceEnabled($item)){
+          $price = $item->getPrice();
+          if($price != $item->getData('price')){ // if price returned from method is different than raw 'price' data
+            // then we probably have fixed price
+            $fixedPrice = $item->getFixedPrice();
+            if($fixedPrice){
+              $item->setMinPrice($price);
+              $item->setMinimalPrice($price);
+              $item->setFinalPrice($price);
+              $item->setMaxPrice($price);
+            }
+          }
+        }
+      }
   }
 }

@@ -10,7 +10,7 @@
 <config>
   <modules>
     <ZetaPrints_Fixedprices>
-      <version>0.2.3</version>
+      <version>0.2.6</version>
     </ZetaPrints_Fixedprices>
   </modules>
   <frontend>

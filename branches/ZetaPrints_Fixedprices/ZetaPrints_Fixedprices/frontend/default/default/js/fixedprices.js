@@ -73,23 +73,26 @@ function updateQtys(e)
 function setRadioToQty(qty, radio, fixedPrices)
 {
   var fake_qty = $('fake-qty');
-  
+
   if(radio.checked && qty){
     var value;
     var price;
+    var prid;
     var idx = parceFixedOptionId($(radio).identify());
     $A(fixedPrices).each(function(idx, fp){
       if(fp.price_id == idx){
         value = fp.price_qty;
-        price = fp.price;
+        price = fp.formated_price;
+        prid = fp.product_id;
       }
     }.curry(idx));
+
     if(undefined !== value && undefined !== fake_qty){
       fake_qty.value = qty.value = value;
     }
+
     if(undefined !== price){
-      var price_boxes = $$('.price-box .price');
-      //@todo change price value as well
+      priceSwitcher(prid, price);
     }
   }
 }
@@ -97,4 +100,20 @@ function setRadioToQty(qty, radio, fixedPrices)
 function parceFixedOptionId(fpId){
   var idx = fpId.sub('fixed-price-', '');
   return idx;
+}
+
+function priceSwitcher(productId, formattedPrice)
+{
+  var containers = new Array();
+  containers[0] = 'product-price-' + productId;
+  containers[1] = 'bundle-price-' + productId;
+  containers[2] = 'price-including-tax-' + productId;
+  containers[3] = 'price-excluding-tax-' + productId;
+  containers[4] = 'old-price-' + productId;
+
+  $H(containers).each(function(pair) {
+    if ($(pair.value)){
+      $(pair.value).innerHTML = formattedPrice;
+    }
+  });
 }
