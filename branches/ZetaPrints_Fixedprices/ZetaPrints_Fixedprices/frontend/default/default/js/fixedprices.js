@@ -7,7 +7,7 @@ Event.observe(window, 'load', hideQtys);
 function hideQtys()
 {
   var qtys = $$('.qty');
-  if(undefined == qtys){
+  if(qtys.size() == 0){
     return;
   }
   var qty = qtys[0];
@@ -73,16 +73,23 @@ function updateQtys(e)
 function setRadioToQty(qty, radio, fixedPrices)
 {
   var fake_qty = $('fake-qty');
+  
   if(radio.checked && qty){
     var value;
+    var price;
     var idx = parceFixedOptionId($(radio).identify());
     $A(fixedPrices).each(function(idx, fp){
       if(fp.price_id == idx){
         value = fp.price_qty;
+        price = fp.price;
       }
     }.curry(idx));
-    if(undefined !== value){
+    if(undefined !== value && undefined !== fake_qty){
       fake_qty.value = qty.value = value;
+    }
+    if(undefined !== price){
+      var price_boxes = $$('.price-box .price');
+      //@todo change price value as well
     }
   }
 }

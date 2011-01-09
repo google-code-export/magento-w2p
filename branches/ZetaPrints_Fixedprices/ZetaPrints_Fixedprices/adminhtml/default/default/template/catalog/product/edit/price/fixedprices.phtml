@@ -56,7 +56,7 @@ var fixedPriceRowTemplate = '<tr>'
     + '<td><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="fixed_price_row_{{index}}_price" /></td>'
     + '<td><input class="<?php echo $_htmlClass ?> default" type="radio" name="<?php echo $_htmlName ?>[active]" value="{{index}}" id="fixed_price_row_{{index}}_default" /></td>'
     + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="fixed_price_row_{{index}}_delete" />'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Delete Tier") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
+    + '<button title="<?php echo Mage::helper("catalog")->__("Delete Price") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
     + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
     + '</tr>';
 

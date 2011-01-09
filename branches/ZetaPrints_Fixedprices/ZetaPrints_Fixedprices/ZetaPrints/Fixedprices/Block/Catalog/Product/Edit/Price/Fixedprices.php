@@ -39,7 +39,7 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Price_Fixedprices
     $button = $this->getLayout()->
                 createBlock('adminhtml/widget_button')->
                 setData(array (
-                 'label' => Mage::helper('fixedprices')->__('Add Stack'),
+                 'label' => Mage::helper('fixedprices')->__('Add Price'),
                  'onclick' => 'return fixedPriceControl.addItem()',
                  'class' => 'add'
                 ));

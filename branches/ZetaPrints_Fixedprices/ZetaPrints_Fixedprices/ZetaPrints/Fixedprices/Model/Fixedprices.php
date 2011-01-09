@@ -6,7 +6,7 @@ class ZetaPrints_Fixedprices_Model_Fixedprices extends Mage_Catalog_Model_Produc
    * @see Mage_Catalog_Model_Product_Type_Price::getPrice()
    * @param $product Mage_Catalog_Model_Product
    */
-  public function getPrice(Mage_Catalog_Model_Product $product)
+  public function getPrice($product)
   {
     $price = parent::getPrice($product);
     if(Mage::helper('fixedprices')->isFixedPriceEnabled($product)){
