@@ -821,6 +821,7 @@ jQuery(document).ready(function($) {
       'update_first_preview_on_load' => $update_first_preview_on_load,
       'has_shapes' => $has_shapes,
       'w2p_url' => Mage::getStoreConfig('zpapi/settings/w2p_url'),
+      'options' => $this->getCustomOptions(),
       'url' => array(
         'preview' => $this->_getUrl('web-to-print/preview'),
         'preview_download' => $this->_getUrl('web-to-print/preview/download'),

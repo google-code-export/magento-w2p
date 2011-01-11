@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_WebToPrint>
-      <version>9</version>
+      <version>8</version>
     </ZetaPrints_WebToPrint>
   </modules>
 
@@ -191,6 +191,17 @@
         </states>
       </order>
     </sales>
+
+    <cache>
+      <types>
+        <webtoprint-custom-options module="webtoprint"
+                                   translate="label,description">
+          <label>ZetaPrints web-to-print options</label>
+          <description>Customer's personal options for web-to-print extension.</description>
+          <tags>WEBTOPRINT_CUSTOM_OPTIONS</tags>
+        </webtoprint-custom-options>
+      </types>
+    </cache>
   </global>
 
   <frontend>
