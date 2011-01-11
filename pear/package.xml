@@ -558,6 +558,11 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
         <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
       </dir>
 
+      <dir name="es_ES">
+        <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
+        <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
+      </dir>
+
       <dir name="ru_RU">
         <file name="ZetaPrints_WebToPrint.csv" role="magelocale" />
         <file name="ZetaPrints_Zpapi.csv" role="magelocale" />
