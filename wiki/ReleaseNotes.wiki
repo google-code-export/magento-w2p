@@ -28,7 +28,7 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-text-fields-resizer.js skin/frontend/default/zptheme/js/zp-text-fields-resizer.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/ajaxupload.js skin/frontend/default/zptheme/js/ajaxupload.js] file into your custom theme's JS directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/zp-personalization-form.js skin/frontend/default/zptheme/js/zp-personalization-form.js] file into your custom theme's JS directory.
-* Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/fancybox-resizing.js skin/frontend/default/zptheme/js/fancybox-resizing.js] file into your custom theme's JS directory.
+  * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/js/fancybox-resizing.js skin/frontend/default/zptheme/js/fancybox-resizing.js] file into your custom theme's JS directory.
   * Remove _crop_to_fit.png_ file from _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/fit-to-field-crop-icon.png skin/frontend/default/zptheme/images/image-edit/fit-to-field-crop-icon.png] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_red.gif] file into _image-edit_ directory in your custom theme's image directory.
@@ -37,6 +37,12 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png] file into _zp-text-field-editor_ directory in your custom theme's image directory.
   Copy [htts://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/fancybox/fancybox.png skin/frontend/default/zptheme/images/fancybox/fancybox] file into _fancybox_ directory in your custom theme's image directory.
 
+= Stable release (1.8.3.2) =
+== Issues ==
+  * Add support for M. 1.4.2.0 release (issue #382)
+
+== Release comments ==
+Code for the release can be obtained by _web-to-print-1.8.3.2_ tag from project's SVN repo.
 
 = Stable release (1.8.3.1) =
 == Issues ==
