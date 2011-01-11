@@ -63,5 +63,5 @@ For example above file could be changed like this:
 
 To retrieve configuration for web_to_print only you will do 
 {{{
-Mage::helper('webtoprint')->getCustomOptions('web_to_print')
+Mage::helper('webtoprint')->getCustomOptions('web_to_print');
 }}}
