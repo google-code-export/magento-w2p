@@ -6,6 +6,7 @@
       <action method="addItem"><type>skin_js</type><name>js/colorpicker.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/jquery-qtip-1.0.0-rc3.min.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/jquery-fancybox-1.3.4-pack.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>js/fancybox-resizing.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/ajaxupload.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/zp-text-field-resizer.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/zp-text-field-editor.js</name></action>
@@ -18,6 +19,7 @@
 
       <action method="addItem"><type>skin_css</type><name>css/colorpicker.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/jquery-fancybox-1.3.4.css</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/fancybox-resizing.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-in-preview-edit.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-text-field-editor.css</name></action>
