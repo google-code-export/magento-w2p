@@ -710,6 +710,9 @@ function personalization_form ($) {
     'onComplete': function () {
       $('img#fancybox-img').attr('title', click_to_close_text);
 
+      if (window.fancybox_resizing_add)
+        fancybox_resizing_add(this);
+
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
         && window.fancy_shape_handler))
@@ -733,6 +736,9 @@ function personalization_form ($) {
       zp.current_field_name = null;
     },
     'onCleanup': function () {
+      if (window.fancybox_resizing_hide)
+        fancybox_resizing_hide();
+
       if (zp.has_shapes && window.popdown_field_by_name) {
         $('div.zetaprints-field-shape', $('div#fancybox-inner')).removeClass('highlighted');
         popdown_field_by_name();
