@@ -43,7 +43,7 @@
 
       <sales>
         <rewrite>
-          <service_quote>ZetaPrints_NoBillingAddress_Model_Services_Quote</service_quote>
+          <service_quote>ZetaPrints_NoBillingAddress_Model_Service_Quote</service_quote>
         </rewrite>
       </sales>
     </models>
