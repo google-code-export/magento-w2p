@@ -18,17 +18,28 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
       if (strpos($key, 'zetaprints-') !== 0)
         continue;
 
+      //Remove prefix from the key
       $_key = substr($key, 11);
 
+      //Text and image template fields distinguish by prefix in its name
+      //Prefix for text fields is '_' sign, for image fields is '#' sign.
+      //Metadata fields for text and image fields prepends prefix
+      //with '*' sign, i.e. '*_' for text fields and '*#' for image fields.
+      //So POST fields have 1- or 2-letter prefixes.
+
+      //Determine length of field prefix
       $prefix_length = 1;
       if (strpos($_key, '*_') === 0)
         $prefix_length = 2;
 
-       $_key = substr($_key, 0, $prefix_length)
+      //Process field name (key), restore original symbols
+      $_key = substr($_key, 0, $prefix_length)
               . str_replace( array('_', "\x0A"),
                              array(' ', '.'),
                              substr($_key, $prefix_length) );
 
+      //Add token to the array, convert ending of field value to style
+      //required by HTTP
       $params[$_key] = str_replace("\n", "\r\n", $value);
     }
 
