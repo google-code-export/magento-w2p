@@ -16,8 +16,16 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
     foreach ($this->getRequest()->getParams() as $key => $value) {
       if (strpos($key, 'zetaprints-') !== false) {
         $_key = substr($key, 11);
-        $_key = substr($_key, 0, 1)
-          . str_replace(array('_', "\x0A"), array(' ', '.'), substr($_key, 1));
+
+        $prefix_length = 1;
+        if (strpos($_key, '*_') === 0)
+          $prefix_length = 2;
+
+        $_key = substr($_key, 0, $prefix_length)
+                . str_replace( array('_', "\x0A"),
+                               array(' ', '.'),
+                               substr($_key, $prefix_length) );
+
         $params[$_key] = str_replace("\n", "\r\n", $value);
       }
     }
