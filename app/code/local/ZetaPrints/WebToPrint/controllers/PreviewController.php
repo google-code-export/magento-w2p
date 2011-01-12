@@ -29,7 +29,7 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
 
       //Determine length of field prefix
       $prefix_length = 1;
-      if (strpos($_key, '*_') === 0)
+      if (strpos($_key, '*') === 0)
         $prefix_length = 2;
 
       //Process field name (key), restore original symbols
