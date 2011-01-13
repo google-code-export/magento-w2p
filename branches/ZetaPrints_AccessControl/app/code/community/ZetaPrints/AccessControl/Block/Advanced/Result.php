@@ -20,7 +20,7 @@
  *
  * @category    ZetaPrints
  * @package     ZetaPrints_AccessControl
- * @copyright   Copyright (c) 2010 ZetaPrints Ltd. http://www.zetaprints.com/
+ * @copyright   Copyright (c) 2011 ZetaPrints Ltd. http://www.zetaprints.com/
  * @attribution Magento Core Team <core@magentocommerce.com>
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
