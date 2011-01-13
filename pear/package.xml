@@ -46,8 +46,8 @@ via email with bugs reports and feature requests.
   <date>2011-01-13</date>
 
   <version>
-    <release>1.0.2.0</release>
-    <api>1.0.2.0</api>
+    <release>1.0.2.1</release>
+    <api>1.0.2.1</api>
   </version>
 
   <stability>
@@ -58,9 +58,7 @@ via email with bugs reports and feature requests.
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Synchronize code with Vinnai Kung's GroupsCatalog extension
-  up to 0.3.9 release
-* Add support for M. 1.4.2.0 release.
+* Include accidentally forgotten changes. Sorry.
   </notes>
 
   <contents>
@@ -216,6 +214,27 @@ via email with bugs reports and feature requests.
   <phprelease />
 
   <changelog>
+    <release>
+      <version>
+        <release>1.0.2.0</release>
+        <api>1.0.2.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2011-01-13</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>
+* Synchronize code with Vinnai Kung's GroupsCatalog extension
+  up to 0.3.9 release
+* Add support for M. 1.4.2.0 release.
+      </notes>
+    </release>
+
     <release>
       <version>
         <release>1.0.1.0</release>
