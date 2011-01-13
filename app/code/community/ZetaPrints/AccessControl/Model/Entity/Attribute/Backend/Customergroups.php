@@ -143,6 +143,19 @@ class ZetaPrints_AccessControl_Model_Entity_Attribute_Backend_Customergroups
       Mage::helper('groupscatalog')->__('The db field size is %s bytes to small to save the group permissions. Please enable the configuration setting to dynamicaly grow the field length and try again.',
         ($requiredLength - $fieldLength > 0 ? $requiredLength - $fieldLength : 0) ) );
   }
+
+  public function validate ($object) {
+    $attribute = $this->getAttribute();
+    $value = $object->getData($attribute->getAttributeCode());
+
+    if (is_null($value) || '' === $value) {
+      $label = $attribute->getFrontend()->getLabel();
+      Mage::throwException(Mage::helper('eav')->__('The value of attribute "%s" must be unique.', $label));
+    }
+
+    return true;
+  }
+
 }
 
 ?>
