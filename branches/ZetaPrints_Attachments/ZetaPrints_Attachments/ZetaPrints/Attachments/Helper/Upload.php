@@ -74,7 +74,10 @@ class ZetaPrints_Attachments_Helper_Upload extends
         onchange="opConfig.reloadPrice()" />
 </div>
 <?php if($maxLimit):?>
-<div class="upload-max">(Max upload size is: <?php echo $maxLimit;?>, if your file exceeds this limit will still attempt upload but will not be saved.)</div>
+<div class="upload-max">
+  <?php echo $this->__('Max file size: %dMB. You can upload multiple files.',
+                       $maxLimit); ?>
+</div>
 <?php endif;?>
     <script type="text/javascript">
         var fileUpld = $('zp-btn-upload-<?php echo $id;?>');
