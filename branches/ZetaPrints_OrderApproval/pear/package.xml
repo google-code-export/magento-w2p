@@ -40,11 +40,11 @@ Users without a nominated approver can check out as usual.
     <active>yes</active>
   </lead>
 
-  <date>2010-10-01</date>
+  <date>2011-01-14</date>
 
   <version>
-    <release>0.1.0.0</release>
-    <api>0.1.0.0</api>
+    <release>0.1.1.0</release>
+    <api>0.1.1.0</api>
   </version>
 
   <stability>
@@ -54,7 +54,9 @@ Users without a nominated approver can check out as usual.
 
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
-  <notes>First stable release</notes>
+  <notes>
+* Add support for M. 1.4.2.0 release (issue #400)
+  </notes>
 
   <contents>
 
@@ -243,4 +245,23 @@ Users without a nominated approver can check out as usual.
   </dependencies>
 
   <phprelease />
+
+  <changelog>
+    <release>
+      <version>
+        <release>0.1.0.0</release>
+        <api>0.1.0.0</api>
+      </version>
+
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+
+      <date>2010-10-01</date>
+      <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+      <notes>First stable release</notes>
+    </release>
+  </changelog>
 </package>
