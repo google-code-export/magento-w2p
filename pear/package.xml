@@ -43,8 +43,8 @@ Users without a nominated approver can check out as usual.
   <date>2011-01-14</date>
 
   <version>
-    <release>0.1.1.0</release>
-    <api>0.1.1.0</api>
+    <release>0.1.0.1</release>
+    <api>0.1.0.1</api>
   </version>
 
   <stability>
