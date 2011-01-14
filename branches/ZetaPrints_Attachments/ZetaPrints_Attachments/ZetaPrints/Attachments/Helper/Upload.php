@@ -1,6 +1,6 @@
 <?php
 /**
- * @author 			Petar Dzhambazov
+ * @author      Petar Dzhambazov
  * @category    ZetaPrints
  * @package     ZetaPrints_Attachments
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -16,16 +16,19 @@ class ZetaPrints_Attachments_Helper_Upload extends
 {
     const YES = 'yes';
     const NO = 'no';
+
     /**
      * Use ajax or normal form
      * @var boolean
      */
     protected $_useAjax = null;
+
     /**
      * Current product
      * @var Mage_Catalog_Model_Product
      */
     protected $_product;
+
     /**
      *
      * @return Mage_Catalog_Model_Product
@@ -35,7 +38,8 @@ class ZetaPrints_Attachments_Helper_Upload extends
         if(!isset($this->_product)) {
             $_product = Mage::registry('product');
             if(!$_product || !$_product instanceof Mage_Catalog_Model_Product) {
-                throw new Exception(__CLASS__ . ' should be used only on product page.');
+                throw new Exception(__CLASS__
+                                     . ' should be used only on product page.');
             }
 
             $this->_product = $_product;
@@ -57,14 +61,17 @@ class ZetaPrints_Attachments_Helper_Upload extends
         $maxLimit = ini_get('upload_max_filesize');
 ?>
 <div class="zp-upload" id="zp-file-upload-<?php echo $id;?>">
-    <input type="hidden" name="attachment_hash[<?php echo $id;?>]" value="<?php echo $this->_getHash($prId, $id);?>" />
+    <input type="hidden" name="attachment_hash[<?php echo $id;?>]"
+           value="<?php echo $this->_getHash($prId, $id);?>" />
     <div class="attachments" style="display:none;">
         <h4><?php echo $this->__('Files attached:');?></h4>
         <div id="zp-attachments-list-<?php echo $id;?>"></div>
     </div>
-    <input type="file" id="option_<?php echo $id;?>_file"  name="options_<?php echo $id;?>_file"
-				class="product-custom-option<?php echo $option->getIsRequire() ? ' required-entry' : '' ?>"
-				onchange="opConfig.reloadPrice()" />
+    <input type="file" id="option_<?php echo $id;?>_file"
+        name="options_<?php echo $id;?>_file"
+        class="product-custom-option
+               <?php echo $option->getIsRequire() ? ' required-entry' : '' ?>"
+        onchange="opConfig.reloadPrice()" />
 </div>
 <?php if($maxLimit):?>
 <div class="upload-max">(Max upload size is: <?php echo $maxLimit;?>, if your file exceeds this limit will still attempt upload but will not be saved.)</div>
@@ -74,12 +81,17 @@ class ZetaPrints_Attachments_Helper_Upload extends
         var the_action = '<?php echo $action;?>';
         var the_form = 'product_addtocart_form';
         var the_spinner = '<?php echo $spinner;?>'
-        var attachment<?php echo $id;?> = new attachments(<?php echo $id;?>, the_action, the_form);
+        var attachment<?php echo $id;?> = new attachments(<?php echo $id;?>,
+                                                          the_action,
+                                                          the_form);
+
         attachment<?php echo $id;?>.setOptions({spinner: the_spinner});
         Event.observe(window, 'load', function(e){
             attachment<?php echo $id;?>.addFirstUpload();
             var timer;
-            Event.observe(window, 'resize', function(e){ // handle positioning on resize
+
+            // handle positioning on resize
+            Event.observe(window, 'resize', function(e){
               if(timer){
                 clearTimeout(timer);
               }
@@ -115,7 +127,9 @@ class ZetaPrints_Attachments_Helper_Upload extends
     public function getUseAjax(Mage_Catalog_Model_Product $product)
     {
         if($this->_useAjax === null) {
-            $_useAjax = $product->getData(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
+            $_useAjax = $product
+                  ->getData(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
+
             if($_useAjax) {
                 $this->_useAjax = true;
             }else {
