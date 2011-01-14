@@ -43,11 +43,11 @@ via email with bugs reports and feature requests.
     <active>yes</active>
   </lead>
 
-  <date>2011-01-13</date>
+  <date>2011-01-14</date>
 
   <version>
-    <release>1.0.2.1</release>
-    <api>1.0.2.1</api>
+    <release>1.0.2.2</release>
+    <api>1.0.2.2</api>
   </version>
 
   <stability>
@@ -58,7 +58,7 @@ via email with bugs reports and feature requests.
   <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
 
   <notes>
-* Include accidentally forgotten changes. Sorry.
+* Include accidentally forgotten changes. Sorry. Yet another attempt :-(
   </notes>
 
   <contents>
