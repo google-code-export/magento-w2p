@@ -1,16 +1,34 @@
 (function ($) {
-  $.fn.text_field_editor = function (options) {
+  var methods = {
+    hide : function () {
+      $editor = this.data('text-field-editor');
+
+      if ($editor)
+        $editor.removeClass('opened');
+    }
+  };
+
+  $.fn.text_field_editor = function (method) {
     var settings = {
       button_parent: null,
       change: function (data) {}
     };
 
-    $.extend(settings, options);
+    if (methods[method])
+      return methods[method]
+               .apply(this, Array.prototype.slice.call(arguments, 1));
+    else if (typeof method === 'object' || ! method)
+      $.extend(settings, method);
+    else
+      $.error('Method ' +  method +
+              ' does not exist on jQuery.text_field_editor');
 
     var $field = this;
 
     var $editor = $('<div class="zp-text-field-editor" />')
                     .prependTo(settings.button_parent);
+
+    $field.data('text-field-editor', $editor);
 
     var $handle = $('<div class="zp-text-field-editor-handle">' +
                       '<div class="zp-text-field-editor-icon pen" />' +
@@ -52,9 +70,11 @@
 
         $(window).unbind('click', out_editor_click);
       } else {
+        $('div.zp-text-field-editor').removeClass('opened');
+
         $editor.addClass('opened');
 
-        $(window).click({ colorpicker: false }, out_editor_click);
+        $(window).click(out_editor_click);
       }
 
       return false;
@@ -71,11 +91,13 @@
         settings.change({ color: value } );
     });
 
+    var color_picker_on = false;
+
     $color_picker.ColorPicker({
       color: '#804080',
 
       onBeforeShow: function (colpkr) {
-        $(window).unbind('click', out_editor_click);
+        color_picker_on = true;
 
         var colour = $radio_button.val();
         if (colour)
@@ -94,7 +116,8 @@
       onHide: function (colpkr) {
         $(colpkr).fadeOut(500);
 
-        $(window).click({ colorpicker: true }, out_editor_click);
+        color_picker_on = false;
+
         return false;
       },
 
@@ -108,10 +131,8 @@
     });
 
     function out_editor_click (event) {
-      if (event.data.colorpicker) {
-        event.data.colorpicker = false;
+      if (color_picker_on)
         return;
-      }
 
       var editor = $editor.get(0);
       var child_parent = $(event.target)
