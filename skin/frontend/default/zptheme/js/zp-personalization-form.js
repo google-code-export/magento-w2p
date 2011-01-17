@@ -300,6 +300,12 @@ function personalization_form ($) {
 
     var update_preview_button = $('button.update-preview').hide();
 
+    $('div.zetaprints-page-input-fields input,' +
+      'div.zetaprints-page-input-fields textarea').each(function () {
+
+      $(this).text_field_editor('hide');
+    });
+
     //Convert preserve_field parameter to query parameter
     var preserve_fields = typeof(preserve_fields) != 'undefined'
       && preserve_fields ? '&zetaprints-Preserve=yes' : preserve_fields = '';
