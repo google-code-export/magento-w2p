@@ -14,7 +14,6 @@
 class ZetaPrints_Attachments_Sales_DownloadController
   extends Mage_Core_Controller_Front_Action
 {
-
     /**
      * Custom options downloader
      */
@@ -49,13 +48,20 @@ class ZetaPrints_Attachments_Sales_DownloadController
                     }
                 }
 
+                $disposition = 'attachment';  // set default file disposition to attachment
+                if(strpos($info['type'], 'image/') === 0){ // if we have image file, change it to inline
+                  $disposition = 'inline';
+                  if($info['type'] == 'image/pjpeg')
+                    $info['type'] = 'image/jpeg'; // if file has been uploaded via IE, set correct jpeg header
+                }
+
                 $this->getResponse()
                     ->setHttpResponseCode(200)
                     ->setHeader('Pragma', 'public', true)
                     ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
                     ->setHeader('Content-type', $info['type'], true)
                     ->setHeader('Content-Length', $info['size'])
-                    ->setHeader('Content-Disposition', 'inline' . '; filename='.$info['title']);
+                    ->setHeader('Content-Disposition', $disposition . '; filename='.$info['title']);
 
                 $this->getResponse()
                     ->clearBody();
