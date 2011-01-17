@@ -67,7 +67,8 @@ var attachments = Class.create({
         listClass: 'zp-file-list',                  // ul list class
         spinner: '../images/opc-ajax-loader.gif',   // default spinner image
         useskinnedupload: true,                     // use skinned version of the upload
-        updateListEvent: 'attachment:listupdate'    // custom event that we are firing to update containers positions
+        updateListEvent: 'attachment:listupdate',    // custom event that we are firing to update containers positions
+        addtoHide: 'zp-att-hidden'
     };
     this.idx = fileid;
     this.registry = $H();
@@ -362,7 +363,7 @@ var attachments = Class.create({
     var data = $(this.form).serialize(true); // get major form's data (it includes product id, option id and hash that we need)
     var form = this.getNewForm(id, iFrame, data); // get the form
     // adding events should be done only after elements are added to screen.
-    $(form).observe('submit', this.onFormSubmit); // this is not working when submiting via JS
+    // $(form).observe('submit', this.onFormSubmit); // this is not working when submiting via JS
     $(this.getUploadId(id)).observe('change', this.onFileChange.bindAsEventListener(this, {form: form, frame: iFrame})); // listen for when user selects a file and act accordingly
     this.formempty = true; // set flag that the form is new so in event of last queue item is removed we do not add another form by accident
   },
@@ -387,7 +388,6 @@ var attachments = Class.create({
     if(upload){
       var form = upload.form;
       var frame = upload.frame;
-//      var name = this.getFileName(form[this.getUploadFileName()].value); // get file name for display purposes
       var name = this.getUploadId(id); // get file name for display purposes
       name = $(name);
       name = name.value;
@@ -483,9 +483,7 @@ var attachments = Class.create({
   },
   hideAddtoCartButton:function(){ // hide add to cart button  so that all uploads complete before continuing
     var btns = $$('.btn-cart');   // 'btn-cart' is the class currently used in Magento, if this is not working lookup what has replaced the class
-    btns.each(function(btn){
-      $(btn).hide();              // loop each button and hide it
-    });
+    btns.invoke('addClassName', this.settings.addtoHide); // add class to hide button, hopefully this will prevent collisions with W2P
   },
   showAddtoCartButton:function(){ // show add to cart buttons when there are no more running uploads
     var uploading = window.uploadInProgress; // get all uploading ids
@@ -497,9 +495,7 @@ var attachments = Class.create({
     });
     if(show){
       var btns = $$('.btn-cart');
-      btns.each(function(btn){
-        $(btn).show();              // loop each button and show it
-      });
+      btns.invoke('removeClassName', this.settings.addtoHide); // remove hide class
     }
   },
   // event handlers
@@ -540,6 +536,7 @@ var attachments = Class.create({
     if(undefined != response.title){
       this.updateUploadsList(response.title, this.getListItemId(uploadId)); // if title is set, that is valid response from server
     }else{ // else an error is occured give out general message
+      console.warn(response.error);
       this.updateUploadsList('A problem has occured, please try again', this.getListItemId(uploadId));
     }
     this.removeUpload(uploadId); // remove from queue

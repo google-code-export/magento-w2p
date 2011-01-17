@@ -106,7 +106,6 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
    * Format option html so that it allows file download.
    * @param string|array $optionValue Serialized string of option data or its data array
    * @return string
-   * @todo Refactor both html methods here
    */
   protected function _getAreaHtml($optionValue, $format = self::FRONTEND_AREA_TPL)
   {
@@ -116,6 +115,9 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
       $value = $optionValue;
     }
     try {
+      if(!is_array($value)){
+        throw new Exception();
+      }
       $sizes = $this->_sizes($value);
       switch ($format) {
         case self::ADMIN_AREA_TPL:
@@ -148,6 +150,9 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
   protected function _getDeleteLinkHtml($value, $format)
   {
     try {
+      if(!is_array($value)){
+        throw new Exception();
+      }
       $url = $this->_getOptionDownloadUrl($value['delete_url']['route'], $value['delete_url']['params']);
       return sprintf($format, $url);
     } catch (Exception $e) {
