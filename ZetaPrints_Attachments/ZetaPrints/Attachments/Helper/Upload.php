@@ -30,7 +30,12 @@ class ZetaPrints_Attachments_Helper_Upload extends
     protected $_product;
 
     /**
+     * Get current product
+     * Try to get current product from registry,
+     * since moment that user clicks on a product somewhere in website
+     * this product is stored in registry for reusing.
      *
+     * @throws Exception if product is not in registry
      * @return Mage_Catalog_Model_Product
      */
     public function getProduct()
@@ -41,19 +46,17 @@ class ZetaPrints_Attachments_Helper_Upload extends
                 throw new Exception(__CLASS__
                                      . ' should be used only on product page.');
             }
-
             $this->_product = $_product;
         }
         return $this->_product;
     }
 
     /**
-     *
+     * Display upload controll
      * @return string
      */
     public function uploadControl($option)
     {
-
         $id = $option->getId();
         $prId = $this->getProduct()->getId();
         $action = $this->_getUrl("attachments/index/upload/option_id/$id");

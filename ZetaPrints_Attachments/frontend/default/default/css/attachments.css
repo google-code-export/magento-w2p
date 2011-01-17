@@ -100,3 +100,12 @@ button.zp-file-button-class .btn-label span {
   -khtml-opacity: 0.0;
   -moz-opacity: 0.0;
 }
+
+
+/*
+Attachments hidden button class
+*/
+
+.zp-att-hidden {
+	display: none;
+}
