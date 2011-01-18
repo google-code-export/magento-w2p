@@ -61,7 +61,7 @@ class ZetaPrints_Attachments_Sales_DownloadController
                     ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
                     ->setHeader('Content-type', $info['type'], true)
                     ->setHeader('Content-Length', $info['size'])
-                    ->setHeader('Content-Disposition', $disposition . '; filename='.$info['title']);
+                    ->setHeader('Content-Disposition', $disposition . '; filename="' . $info['title'] . '"');
 
                 $this->getResponse()
                     ->clearBody();
