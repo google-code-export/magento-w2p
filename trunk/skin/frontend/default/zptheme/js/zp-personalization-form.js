@@ -68,9 +68,34 @@ function personalization_form ($) {
     return previews.substring(1);
   }
 
+  function add_fake_add_to_cart_button ($original_button) {
+    var title = $original_button.attr('title')
+
+    var $fake_button_with_notice = $(
+      '<div id="zetaprints-fake-add-to-cart-button-with-notice"' +
+        '<span class="zetaprints-notice to-update-preview">' +
+          window.notice_to_update_preview_text +
+        '</span>' +
+        '<button id="zetaprints-fake-add-to-cart-button"' +
+                'class="button disabled" type="button"' +
+                'title="' + title + '">' +
+          '<span><span>' + title + '</span></span>' +
+        '</button>' +
+      '</div>' );
+
+    $original_button.addClass('hidden').after($fake_button_with_notice);
+  }
+
+  function remove_fake_add_to_cart_button ($original_button) {
+    $('#zetaprints-fake-add-to-cart-button-with-notice').remove();
+    $original_button.removeClass('hidden');
+  }
+
   var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
+
+  var $add_to_cart_button = $('#zetaprints-add-to-cart-button');
 
   //If base image is not set
   if (!has_image_zoomer)
@@ -182,7 +207,7 @@ function personalization_form ($) {
   if (this.previews_from_session)
     $('div.zetaprints-notice.to-update-preview').addClass('hidden');
   else
-    $('#zetaprints-add-to-cart-button').css('display', 'none');
+    add_fake_add_to_cart_button($add_to_cart_button);
 
   $('div.zetaprints-page-input-fields input.input-text,\
      div.zetaprints-page-input-fields textarea').text_field_resizer();
@@ -396,7 +421,7 @@ function personalization_form ($) {
               .val(zp.previews.join(','));
 
             $('div.zetaprints-notice.to-update-preview').addClass('hidden');
-            $('#zetaprints-add-to-cart-button').show();
+            remove_fake_add_to_cart_button($add_to_cart_button);
             $('div.save-order span').css('display', 'none');
           }
         }

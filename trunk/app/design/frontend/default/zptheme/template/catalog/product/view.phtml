@@ -122,13 +122,6 @@
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
 
-        <!-- /****** ZP-CODE:4 Print notice to personalize product ******/ -->
-
-        <?php $this->helper('webtoprint/personalization-form')
-                ->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
-
-        <!-- /****** ZP-CODE:4 End ******/ -->
-
     </form>
     <script type="text/javascript">
     //<![CDATA[
@@ -150,8 +143,8 @@
     </div>
 </div>
 
-<!-- /****** ZP-CODE:5 Printing JavaScript for magento personalization form ******/ -->
+<!-- /****** ZP-CODE:4 Printing JavaScript for magento personalization form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
-<!-- /****** ZP-CODE:5 End ******/ -->
+<!-- /****** ZP-CODE:4 End ******/ -->
