@@ -580,12 +580,16 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   top: 0px;
 }
 
+#zetaprints-fake-add-to-cart-button-with-notice {
+  float: left;
+}
+
 /* CSS rules for different notices */
-div.zetaprints-notice.hidden {
+.zetaprints-notice.hidden {
   display: none;
 }
 
-div.zetaprints-notice.to-update-preview {
+.zetaprints-notice.to-update-preview {
   color: red;
   text-align: right;
 }
@@ -659,14 +663,6 @@ div.thumbCropedAreaToolSet div img {
   left: -4px;
   cursor: se-resize;
 }*/
-
-div.zetaprints-notice.hidden {
-  display: none;
-}
-
-div.zetaprints-notice.to-update-preview {
-  text-align: right;
-}
 
 /* Common CSS rules for icons */
 div.zetaprints-icon {

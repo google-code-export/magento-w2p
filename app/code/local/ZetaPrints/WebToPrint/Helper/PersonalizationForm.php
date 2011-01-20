@@ -740,14 +740,6 @@ jQuery(document).ready(function($) {
 <?php
   }
 
-  public function addNoticeToUpdatePreview ($context, $text) {
-?>
-  <div class="zetaprints-notice to-update-preview">
-    <?php echo $this->__($text); ?>
-  </div>
-<?php
-  }
-
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
@@ -854,6 +846,7 @@ jQuery(document).ready(function($) {
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
+  notice_to_update_preview_text = "<?php echo $this->__('Update preview'); ?>";
 
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";
