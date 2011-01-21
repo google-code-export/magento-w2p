@@ -9,6 +9,7 @@
  * not update restore dimensions.
  * Restore dimensions WILL be updated when fancybox is closed and
  * reopened.
+ * 
  * @param opts
  */
 function addResizeOption(opts)
@@ -24,6 +25,7 @@ function addResizeOption(opts)
   var img_orig_width = opts.width;
   var img_orig_height = opts.height;
   var parent = jQuery('#fancybox-resize');
+  
   //check if displayed size is smaller than loaded image
   // if it is, add max/restore button, do it if fancybox loads image only; if needed will enable for
   // other tyes too, but they will need to have defined width and height
