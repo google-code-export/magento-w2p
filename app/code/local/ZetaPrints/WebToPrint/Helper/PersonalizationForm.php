@@ -853,7 +853,7 @@ jQuery(document).ready(function($) {
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
-  notice_to_update_preview_text = "<?php echo $this->__('Update preview'); ?>";
+  notice_to_update_preview_text = "<?php echo $this->__('Update all previews first!'); ?>";
 
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";

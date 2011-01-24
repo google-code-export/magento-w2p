@@ -580,18 +580,16 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   top: 0px;
 }
 
-#zetaprints-fake-add-to-cart-button-with-notice {
-  float: left;
-}
-
 /* CSS rules for different notices */
 .zetaprints-notice.hidden {
   display: none;
 }
 
+/* Warning for fake Add to cart button */
 .zetaprints-notice.to-update-preview {
-  color: red;
-  text-align: right;
+  color: #fd0039;
+  clear: both;
+  float: right;
 }
 
 /* Fancybox tweaks */
