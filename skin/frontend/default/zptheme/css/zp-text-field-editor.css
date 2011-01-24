@@ -1,5 +1,4 @@
 div.zp-text-field-editor {
-  position: relative;
   float: left;
   display: block;
   margin-right: 2px;
@@ -13,7 +12,6 @@ div.zp-text-field-editor-handle {
   position: relative;
   border: 1px solid transparent;
   padding: 3px 0px 0px 3px;
-  z-index: 2;
 }
 
 div.zp-text-field-editor.opened div.zp-text-field-editor-handle {
@@ -33,7 +31,7 @@ div.zp-text-field-editor-panel {
   background-color: white;
   border: 1px solid #b6b6b6;
   padding: 1px 2px 1px 3px;
-  width: 123px;
+  width: 140px;
 }
 
 div.zp-text-field-editor-panel span {
