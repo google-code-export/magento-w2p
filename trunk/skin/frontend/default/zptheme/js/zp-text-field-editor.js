@@ -3,8 +3,10 @@
     hide : function () {
       $editor = this.data('text-field-editor');
 
-      if ($editor)
+      if ($editor) {
         $editor.removeClass('opened');
+        $(document).unbind('click.text-field-editor');
+      }
     }
   };
 
@@ -35,6 +37,7 @@
                     '</div>').appendTo($editor);
 
     var $panel = $('<div class="zp-text-field-editor-panel" />')
+                   .css('top', $handle.offset().top + $handle.outerHeight() - 1)
                    .appendTo($editor);
 
     var $row = $('<div class="zp-text-field-editor-row">' +
@@ -65,16 +68,16 @@
       .append($color_picker).appendTo($options);
 
     $handle.click(function () {
-      if ($editor.hasClass('opened')) {
-        $editor.removeClass('opened');
+      $(document).unbind('click.text-field-editor');
 
-        $(window).unbind('click', out_editor_click);
-      } else {
+      if ($editor.hasClass('opened'))
+        $editor.removeClass('opened');
+      else {
         $('div.zp-text-field-editor').removeClass('opened');
 
         $editor.addClass('opened');
 
-        $(window).click(out_editor_click);
+        $(document).bind('click.text-field-editor', out_editor_click);
       }
 
       return false;
