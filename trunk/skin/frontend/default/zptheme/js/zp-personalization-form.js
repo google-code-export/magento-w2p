@@ -72,23 +72,23 @@ function personalization_form ($) {
     var title = $original_button.attr('title')
 
     var $fake_button_with_notice = $(
-      '<div id="zetaprints-fake-add-to-cart-button-with-notice"' +
-        '<span class="zetaprints-notice to-update-preview">' +
-          window.notice_to_update_preview_text +
-        '</span>' +
         '<button id="zetaprints-fake-add-to-cart-button"' +
                 'class="button disabled" type="button"' +
                 'title="' + title + '">' +
           '<span><span>' + title + '</span></span>' +
         '</button>' +
-      '</div>' );
+        '<span id="zetaprints-fake-add-to-cart-warning"' +
+              'class="zetaprints-notice to-update-preview">' +
+          window.notice_to_update_preview_text +
+        '</span>' );
 
-    $original_button.addClass('hidden').after($fake_button_with_notice);
+    $original_button.addClass('no-display').after($fake_button_with_notice);
   }
 
   function remove_fake_add_to_cart_button ($original_button) {
-    $('#zetaprints-fake-add-to-cart-button-with-notice').remove();
-    $original_button.removeClass('hidden');
+    $('#zetaprints-fake-add-to-cart-button, ' +
+      '#zetaprints-fake-add-to-cart-warning').remove();
+    $original_button.removeClass('no-display');
   }
 
   var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
