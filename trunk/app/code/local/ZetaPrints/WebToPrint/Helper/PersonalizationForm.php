@@ -764,6 +764,8 @@ jQuery(document).ready(function($) {
 
     $template_details['pages_number'] = count( $template_details['pages']);
 
+    $product_name = $context->getProduct()->getName();
+
     foreach ($template_details['pages'] as $page_number => &$page_details) {
       $preview_guid = explode('preview/', $page_details['preview-image']);
       $thumb_guid = explode('thumb/', $page_details['thumb-image']);
@@ -771,6 +773,11 @@ jQuery(document).ready(function($) {
       $page_details['preview-image'] = $this->get_preview_url($preview_guid[1]);
       $page_details['thumb-image']
                            = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
+
+      echo sprintf('<img src="http://zetaprints.com/preview/%s"' .
+                        'alt="Printable %s" class="hidden" />',
+                   $preview_guid[1],
+                   $product_name );
     }
 
     $previews_from_session = $session->hasData('zetaprints-previews');
