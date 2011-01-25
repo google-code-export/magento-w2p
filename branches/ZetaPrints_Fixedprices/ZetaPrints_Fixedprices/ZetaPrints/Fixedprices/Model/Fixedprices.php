@@ -1,6 +1,6 @@
 <?php
-
-class ZetaPrints_Fixedprices_Model_Fixedprices extends Mage_Catalog_Model_Product_Type_Price
+class ZetaPrints_Fixedprices_Model_Fixedprices
+ extends Mage_Catalog_Model_Product_Type_Price
 {
   /**
    * @see Mage_Catalog_Model_Product_Type_Price::getPrice()
@@ -45,5 +45,32 @@ class ZetaPrints_Fixedprices_Model_Fixedprices extends Mage_Catalog_Model_Produc
       }
     }
     return max(0, $finalPrice);
+  }
+
+  /**
+   * When using fixed prices, disable tier prices.
+   * @see Mage_Catalog_Model_Product_Type_Price::getFormatedTierPrice()
+   */
+  public function getFormatedTierPrice($qty = null, $product){
+    if (Mage::helper('fixedprices')->isFixedPriceEnabled($product)) {
+      return array();
+    }
+    return parent::getFormatedTierPrice($qty, $product);
+  }
+
+  public function getTierPrice($qty = null, $product)
+  {
+    if (Mage::helper('fixedprices')->isFixedPriceEnabled($product)) {
+      return array ();
+    }
+    return parent::getTierPrice($qty, $product);
+  }
+
+  public function getTierPriceCount($product)
+  {
+    if (Mage::helper('fixedprices')->isFixedPriceEnabled($product)) {
+      return 0;
+    }
+    return parent::getTierPriceCount($product);
   }
 }
