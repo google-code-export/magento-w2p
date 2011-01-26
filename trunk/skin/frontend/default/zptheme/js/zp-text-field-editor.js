@@ -36,7 +36,9 @@
                       '<div class="zp-text-field-editor-icon pen" />' +
                     '</div>').appendTo($editor);
 
-    var $panel = $('<div class="zp-text-field-editor-panel" />')
+    var $panel = $('<div class="zp-text-field-editor-panel">' +
+                     '<div class="white-line" />' +
+                   '</div>')
                    .css('top', $handle.offset().top + $handle.outerHeight() - 1)
                    .appendTo($editor);
 
