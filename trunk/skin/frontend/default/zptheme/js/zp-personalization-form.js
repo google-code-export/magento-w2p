@@ -68,8 +68,15 @@ function personalization_form ($) {
     return previews.substring(1);
   }
 
-  function add_fake_add_to_cart_button ($original_button) {
+  function add_fake_add_to_cart_button ($original_button,
+                                        is_multipage_template) {
+
     var title = $original_button.attr('title')
+
+    if (is_multipage_template)
+      var notice = window.notice_to_update_preview_text_for_multipage_template;
+    else
+      var notice = window.notice_to_update_preview_text;
 
     var $fake_button_with_notice = $(
         '<button id="zetaprints-fake-add-to-cart-button"' +
@@ -79,7 +86,7 @@ function personalization_form ($) {
         '</button>' +
         '<span id="zetaprints-fake-add-to-cart-warning"' +
               'class="zetaprints-notice to-update-preview">' +
-          window.notice_to_update_preview_text +
+          notice +
         '</span>' );
 
     $original_button.addClass('no-display').after($fake_button_with_notice);
@@ -207,7 +214,8 @@ function personalization_form ($) {
   if (this.previews_from_session)
     $('div.zetaprints-notice.to-update-preview').addClass('hidden');
   else
-    add_fake_add_to_cart_button($add_to_cart_button);
+    add_fake_add_to_cart_button($add_to_cart_button,
+                                this.template_details.pages['2'] != undefined);
 
   $('div.zetaprints-page-input-fields input.input-text,\
      div.zetaprints-page-input-fields textarea').text_field_resizer();
