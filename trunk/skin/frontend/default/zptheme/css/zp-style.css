@@ -590,6 +590,7 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
   color: #fd0039;
   clear: both;
   float: right;
+  *float: left;
 }
 
 /* Fancybox tweaks */
