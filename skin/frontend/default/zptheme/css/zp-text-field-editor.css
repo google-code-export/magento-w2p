@@ -48,6 +48,13 @@ div.zp-text-field-editor-panel span {
   vertical-align: middle;
 }
 
+div.zp-text-field-editor-panel input[type=radio] {
+  max-width: 15px;
+  max-height: 15px;
+  *width: 15px;
+  *height: 15px;
+}
+
 div.zp-text-field-editor.opened div.zp-text-field-editor-panel {
   display: block;
 }
