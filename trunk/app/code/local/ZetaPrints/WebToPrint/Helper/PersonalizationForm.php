@@ -770,13 +770,14 @@ jQuery(document).ready(function($) {
       $preview_guid = explode('preview/', $page_details['preview-image']);
       $thumb_guid = explode('thumb/', $page_details['thumb-image']);
 
-      $page_details['preview-image'] = $this->get_preview_url($preview_guid[1]);
+      $preview_url = $this->get_preview_url($preview_guid[1]);
+
+      $page_details['preview-image'] = $preview_url;
       $page_details['thumb-image']
                            = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
 
-      echo sprintf('<img src="http://zetaprints.com/preview/%s"' .
-                        'alt="Printable %s" class="hidden" />',
-                   $preview_guid[1],
+      echo sprintf('<img src="%s" alt="Printable %s" class="hidden" />',
+                   $preview_url,
                    $product_name );
     }
 
