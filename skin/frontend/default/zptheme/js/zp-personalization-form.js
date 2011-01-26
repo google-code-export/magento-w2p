@@ -80,7 +80,7 @@ function personalization_form ($) {
 
     var $fake_button_with_notice = $(
         '<button id="zetaprints-fake-add-to-cart-button"' +
-                'class="button disabled" type="button"' +
+                'class="button disable" type="button"' +
                 'title="' + title + '">' +
           '<span><span>' + title + '</span></span>' +
         '</button>' +

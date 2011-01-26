@@ -123,6 +123,11 @@ input.disable, button.disable {
   cursor: default;
 }
 
+button.disable span {
+  background-color: #bbb;
+  border-color: #909090;
+}
+
 div.save-order span {
   margin-right: 10px;
   font-size: 85%;
