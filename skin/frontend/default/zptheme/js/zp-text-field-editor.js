@@ -39,7 +39,9 @@
     var $panel = $('<div class="zp-text-field-editor-panel">' +
                      '<div class="white-line" />' +
                    '</div>')
-                   .css('top', $handle.offset().top + $handle.outerHeight() - 1)
+                   .css({
+                     top: $handle.offset().top + $handle.outerHeight() - 1,
+                     left: $handle.offset().left })
                    .appendTo($editor);
 
     var $row = $('<div class="zp-text-field-editor-row">' +
