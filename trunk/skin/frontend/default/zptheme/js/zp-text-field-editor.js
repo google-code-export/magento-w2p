@@ -39,9 +39,6 @@
     var $panel = $('<div class="zp-text-field-editor-panel">' +
                      '<div class="white-line" />' +
                    '</div>')
-                   .css({
-                     top: $handle.offset().top + $handle.outerHeight() - 1,
-                     left: $handle.offset().left })
                    .appendTo($editor);
 
     var $row = $('<div class="zp-text-field-editor-row">' +
@@ -78,6 +75,10 @@
         $editor.removeClass('opened');
       else {
         $('div.zp-text-field-editor').removeClass('opened');
+
+        $panel.css({
+          top: $handle.offset().top + $handle.outerHeight() - 1,
+          left: $handle.offset().left });
 
         $editor.addClass('opened');
 
