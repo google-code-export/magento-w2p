@@ -34,10 +34,10 @@
  */
 class ZetaPrints_AccessControl_Block_Layer_View extends Mage_Catalog_Block_Layer_View {
 
-  /**
-   * Set the module translaton namespace
-   */
   public function _construct () {
+    parent::_construct ();
+
+    //Set translaton namespace to Catalog module
     $this->setData('module_name', 'Mage_Catalog');
   }
 
