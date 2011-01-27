@@ -14,24 +14,34 @@
         </dt>
         <dd>
           <xsl:choose>
-            <xsl:when test="@Multiline">
-              <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
-                <xsl:if test="string-length(@Hint)!=0">
-                  <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
+            <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
+              <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
+              <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}">
+                <xsl:if test="@Value=Value[1]">
+                  <xsl:attribute name="checked">1</xsl:attribute>
                 </xsl:if>
-                <xsl:choose>
-                  <xsl:when test="@Value and string-length(@Value)!=0">
-                    <xsl:value-of select="@Value" />
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:text>&#x0A;</xsl:text>
-                  </xsl:otherwise>
-                </xsl:choose>
-              </textarea>
+              </input>
             </xsl:when>
-            <xsl:otherwise>
+
+            <xsl:when test="count(Value)=0">
               <xsl:choose>
-                <xsl:when test="count(Value)=0">
+                <xsl:when test="@Multiline">
+                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
+                    <xsl:if test="string-length(@Hint)!=0">
+                      <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
+                    </xsl:if>
+                    <xsl:choose>
+                      <xsl:when test="@Value and string-length(@Value)!=0">
+                        <xsl:value-of select="@Value" />
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:text>&#x0A;</xsl:text>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </textarea>
+                </xsl:when>
+
+                <xsl:otherwise>
                   <input type="text" id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" class="input-text">
                     <xsl:if test="@MaxLen">
                       <xsl:attribute name="maxlength"><xsl:value-of select="@MaxLen" /></xsl:attribute>
@@ -43,32 +53,21 @@
                       <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
                     </xsl:if>
                   </input>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:choose>
-                    <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
-                      <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
-                      <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}">
-                        <xsl:if test="@Value=Value[1]">
-                          <xsl:attribute name="checked">1</xsl:attribute>
-                        </xsl:if>
-                      </input>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
-                        <xsl:for-each select="Value">
-                          <option>
-                            <xsl:if test=".=../@Value">
-                              <xsl:attribute name="selected">1</xsl:attribute>
-                            </xsl:if>
-                            <xsl:value-of select="." />
-                          </option>
-                        </xsl:for-each>
-                      </select>
-                    </xsl:otherwise>
-                  </xsl:choose>
                 </xsl:otherwise>
               </xsl:choose>
+            </xsl:when>
+
+            <xsl:otherwise>
+              <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
+                <xsl:for-each select="Value">
+                  <option>
+                    <xsl:if test=".=../@Value">
+                      <xsl:attribute name="selected">1</xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="." />
+                  </option>
+                </xsl:for-each>
+              </select>
             </xsl:otherwise>
           </xsl:choose>
         </dd>
