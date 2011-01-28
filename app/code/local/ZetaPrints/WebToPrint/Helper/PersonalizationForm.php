@@ -259,10 +259,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       $src = $this->get_thumbnail_url($image);
 
       if ($first_image) {
-        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
+        echo "<a class=\"in-dialog product-image\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
         $first_image = false;
       } else
-        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
+        echo "<a class=\"in-dialog product-image\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
 
       echo "<img src=\"$src\" style=\"max-width: 75px;\" />";
       echo "</a>";
