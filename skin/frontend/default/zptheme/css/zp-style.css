@@ -117,9 +117,7 @@ div.save-order div.inner {
   float: right;
 }
 
-input.disable, button.disable {
-  background-color: rgb(187, 187, 187);
-  border-color: rgb(187, 187, 187);
+button.disable {
   cursor: default;
 }
 
