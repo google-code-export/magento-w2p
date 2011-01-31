@@ -630,7 +630,6 @@ jQuery(document).ready(function($) {
       return;
 
     $previews = explode(',', $options['zetaprints-previews']);
-    $width = count($previews) * 155;
     $group = 'group-' . mt_rand();
 
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
@@ -643,7 +642,7 @@ jQuery(document).ready(function($) {
             <a class="hide-title">&minus;&nbsp;<span><?php echo $this->__('Hide previews');?></span></a>
           </div>
           <div class="content">
-            <ul style="width: <?php echo $width ?>px;">
+            <ul>
             <?php foreach ($previews as $preview): ?>
               <li>
                 <a class="in-dialog" href="<?php echo $this->get_preview_url($preview); ?>" target="_blank" rel="<?php echo $group; ?>">
@@ -684,16 +683,32 @@ jQuery(document).ready(function($) {
   <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
-  $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
-  $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
+  var $boxes = $('div.zetaprints-previews-box');
 
-  $('div.zetaprints-previews-box a.show-title').each(function () {
+  $(window).load(function () {
+    $boxes.each(function () {
+      var width = 0;
+
+      $(this).find('li').each(function () {
+        width += $(this).outerWidth(true);
+      });
+
+      $(this).find('ul').width(width);
+    });
+  });
+
+  var width = $('#my-orders-table tr.zetaprints-previews td').width() - 1;
+
+  $boxes.find('div.content').width(width);
+  $boxes.removeClass('hidden');
+
+  $boxes.find('a.show-title').each(function () {
     $(this).click(function () {
       $(this).parents('div.zetaprints-previews-box').removeClass('hide');
     });
   });
 
-  $('div.zetaprints-previews-box a.hide-title').each(function () {
+   $boxes.find('a.hide-title').each(function () {
     $(this).click(function () {
       $(this).parents('div.zetaprints-previews-box').addClass('hide');
     });
