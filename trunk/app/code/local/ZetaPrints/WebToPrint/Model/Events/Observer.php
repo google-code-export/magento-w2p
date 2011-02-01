@@ -307,6 +307,11 @@ class ZetaPrints_WebToPrint_Model_Events_Observer {
   }
 
   public function restore_credentials_in_customer ($observer) {
+    //Do not restore credentials if customer's info was updated in admin
+    //interface
+    if (Mage::app()->getStore()->isAdmin())
+      return;
+
     $session = Mage::getSingleton('customer/session');
 
     if ($id = $session->getZetaprintsUser())
