@@ -19,7 +19,7 @@ div.powercrop-container.no-resizing-action .ui-draggable {
 
 div.powercrop-viewport {
   position: absolute;
-  border: 1px solid #fff;
+  border: 1px dashed black;
 }
 
 div.powercrop-viewport-inner {
