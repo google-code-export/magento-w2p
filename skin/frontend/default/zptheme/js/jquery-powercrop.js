@@ -118,8 +118,8 @@
       .append($image_top)
       .appendTo($viewport);
 
-    $viewport.append('<div class="powercrop-viewport-label" />'
-                   + '<div class="powercrop-viewport-handle" />');
+    $viewport.append('<div class="powercrop-viewport-handle" ' +
+                          'title="Click and drag to move the frame" />');
 
     $viewport
       .resizable({
