@@ -226,6 +226,19 @@
     </routers>
   </frontend>
 
+
+  <admin>
+    <routers>
+      <ZetaPrints_WebToPrint>
+        <use>admin</use>
+          <args>
+            <module>ZetaPrints_WebToPrint</module>
+            <frontName>web-to-print</frontName>
+          </args>
+      </ZetaPrints_WebToPrint>
+    </routers>
+  </admin>
+
   <stores>
     <admin>
       <design>
