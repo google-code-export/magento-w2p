@@ -426,7 +426,6 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
 
               <dir name="powercrop">
                 <file name="cursor-move.png" role="mageskin" />
-                <file name="viewport-label.png" role="mageskin" />
               </dir>
 
               <dir name="zp-text-field-resizer">

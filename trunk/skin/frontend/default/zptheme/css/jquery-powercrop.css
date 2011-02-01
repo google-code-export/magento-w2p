@@ -45,15 +45,6 @@ div.powercrop-viewport.ui-resizable-resizing div.powercrop-viewport-handle {
   display: block;
 }
 
-div.powercrop-viewport-label {
-  background: url('../images/powercrop/viewport-label.png') no-repeat;
-  width: 33px;
-  height: 9px;
-  position: absolute;
-  top: 8px;
-  left: 8px;
-}
-
 img.powercrop-image-top {
   position: absolute;
 }
