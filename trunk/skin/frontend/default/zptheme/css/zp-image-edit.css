@@ -110,25 +110,36 @@ div.info-bar div.middle {
   vertical-align: middle;
 }
 
-div.info-bar.low-resolution-warning div.numbers div.current {
+div.info-bar.small-image-warning div.numbers div.current,
+div.info-bar.low-cropped-resolution-warning div.numbers div.current,
+div.info-bar.low-full-resolution-warning div.numbers div.current {
   color: #db0d0d;
 }
 
-div.info-bar.low-resolution-warning div.notice-switchers div.current div.question-sign {
+div.info-bar.low-cropped-resolution-warning div.notice-switchers div.current div.question-sign,
+iv.info-bar.low-full-resolution-warning div.notice-switchers div.current div.question-sign,
+div.info-bar.small-image-warning div.notice-switchers div.current div.question-sign {
   background-position: -28px 0px;
 }
 
 div.info-bar.cropped-state div.titles span.cropped-title,
-div.info-bar.low-resolution-warning span.low-resolution-notice,
+div.info-bar.low-cropped-resolution-warning span.low-cropped-resolution-notice,
+div.info-bar.low-full-resolution-warning span.low-full-resolution-notice,
+div.info-bar.small-image-warning span.small-image-notice,
 div.column.notices span.default-notice {
   display: inline;
 }
 
-div.info-bar div.titles span.cropped-title,
-div.info-bar.cropped-state div.titles span.uploaded-title,
-div.info-bar.low-resolution-warning div.notices span.default-notice,
+div.info-bar .cropped-title, div.info-bar.cropped-state .uploaded-title,
+div.info-bar.low-cropped-resolution-warning span.default-notice,
+div.info-bar.low-full-resolution-warning span.default-notice,
+div.info-bar.small-image-warning span.default-notice,
 div.column.notices span {
   display: none;
+}
+
+div.info-bar.cropped-state div.notice-switchers div.cropped-title {
+  display: block;
 }
 
 div.info-bar div.column {

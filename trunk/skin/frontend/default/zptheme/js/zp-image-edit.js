@@ -91,7 +91,7 @@ function imageEditorCrop () {
     set_info_bar_value('current', 'dpi', dpi);
 
     if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-      set_info_bar_warning('low-resolution-warning');
+      set_info_bar_warning('small-image-warning');
 
     var data = {
       selection: {
@@ -279,6 +279,11 @@ function imageEditorCrop () {
 
         var dpi = Math.round(image_dpi / croped_factor);
 
+        set_info_bar_warning();
+
+        if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
+          set_info_bar_warning('low-cropped-resolution-warning');
+
         set_info_bar_state('cropped', true);
       } else {
         var image_factor = data.image.width / image_width;
@@ -289,6 +294,11 @@ function imageEditorCrop () {
         var height = _cropVisualAssistant.userImage.heightActualPx;
 
         var dpi = Math.round(image_dpi / factor);
+
+        set_info_bar_warning();
+
+        if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
+          set_info_bar_warning('low-full-resolution-warning');
 
         set_info_bar_state('cropped', false);
       }
@@ -304,15 +314,15 @@ function imageEditorCrop () {
       //if (image.clipped == true || width > image.width
       //    || height > image.height) {
 
-        //var factor = data.selection.width / image_size.width;
-        //var dpi = Math.round(_cropVisualAssistant.getPlaceholderInfo().resolution * factor);
+      //  var factor = data.selection.width / image_size.width;
+      //  var dpi = Math.round(_cropVisualAssistant.getPlaceholderInfo().resolution * factor);
 
-        //var dpi = Math.round(width / _cropVisualAssistant.templateImage.widthIn);
+      //  var dpi = Math.round(width / _cropVisualAssistant.templateImage.widthIn);
 
-        if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-          set_info_bar_warning('low-resolution-warning');
-        else
-          set_info_bar_warning();
+      //  if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
+      //    set_info_bar_warning('small-image-warning');
+      //  else
+      //    set_info_bar_warning();
 
       //} else {
       //  var dpi =  _cropVisualAssistant.getPlaceholderInfo().resolution;
@@ -614,7 +624,9 @@ function imageEditorCrop () {
     if (warning)
       $info_bar.addClass('warning ' + warning);
     else
-      $info_bar.removeClass('warning low-resolution-warning');
+      $info_bar.removeClass('warning low-resolution-warning ' +
+                            'low-cropped-resolution-warning ' +
+                            'low-full-resolution-warning small-image-warning');
   }
 
   function set_info_bar_state (state, on) {
