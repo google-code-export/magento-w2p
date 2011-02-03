@@ -85,19 +85,36 @@
       <div class="column notice-switchers">
         <div class="row current outer">
           <div class="middle">
-            <div class="icon question-sign inner" rel="current"></div>
+            <div class="icon question-sign inner uploaded-title" rel="current"
+                 title="Size and resolution of the uploaded image as it will be shown in the design.">
+            </div>
+            <div class="icon question-sign inner cropped-title" rel="current"
+                 title="Size and resolution of the selected image area as it will be shown in the design.">
+            </div>
           </div>
         </div>
         <div class="row recommended outer">
           <div class="middle">
-            <div class="icon question-sign inner" rel="recommended" title="Required size for user uploaded image."></div>
+            <div class="icon question-sign inner" rel="recommended"
+                 title="Best image size for fit and quality.">
+            </div>
           </div>
         </div>
       </div>
 
       <div class="column left-text-position last notices">
-        <span class="default-notice">Move and resize the image and the frame to get the best fit.</span>
-        <span class="low-resolution-notice">Drag the frame nodes to select a larger area or upload a larger image.</span>
+        <span class="default-notice">
+          Move, resize and crop the image for the best fit and resolution.
+        </span>
+        <span class="low-cropped-resolution-notice">
+          The selected area is too small for quality output.
+        </span>
+        <span class="low-full-resolution-notice">
+          The image resolution is too small for quality output. Try resizing here or upload a larger image.
+        </span>
+        <span class="small-image-notice">
+          The image is too small. Upload a larger image or move, resize and crop this one for the best fit.
+        </span>
       </div>
 
       <div class="reset"></div>
