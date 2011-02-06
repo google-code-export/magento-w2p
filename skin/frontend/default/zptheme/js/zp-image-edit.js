@@ -366,12 +366,6 @@ function imageEditorCrop () {
     var width = Number($user_image.width());
     var height = Number($user_image.height());
 
-    var metadata = {
-      'cr-x1': context.x / width,
-      'cr-x2': context.x2 / width,
-      'cr-y1': context.y / height,
-      'cr-y2': context.y2 / height };
-
     var image_position = crop_data.image.position;
     var selection_position = crop_data.selection.position;
 
@@ -381,6 +375,20 @@ function imageEditorCrop () {
     var selection_size = {
       width: crop_data.selection.width,
       height: crop_data.selection.height };
+
+    var in_frame = image_position.left >= selection_position.left &&
+      image_position.left + image_size.width <= selection_position.left + selection_size.width &&
+      image_position.top >= selection_position.top &&
+      image_position.top + image_size.height <= selection_position.top + selection_size.height;
+
+    var metadata = {};
+
+    if (!in_frame)
+      var metadata = {
+        'cr-x1': context.x / width,
+        'cr-x2': context.x2 / width,
+        'cr-y1': context.y / height,
+        'cr-y2': context.y2 / height };
 
     metadata['sh-x'] =
          selection_size.width / (image_position.left - selection_position.left);
