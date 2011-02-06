@@ -115,13 +115,16 @@ function imageEditorCrop () {
       var cr_x2 = metadata['cr-x2'];
       var cr_y2 = metadata['cr-y2'];
 
-      if (cr_x1 && cr_y1 && cr_x2 && cr_y2)
+      if (cr_x1 && cr_y1 && cr_x2 && cr_y2) {
         data.selection = {
           width: (cr_x2 - cr_x1) * data.selection.width,
           height: (cr_y2 - cr_y1) * data.selection.height,
           position: {
             top: cr_y1 * data.selection.width,
             left: cr_x1 * data.selection.height } };
+
+        data.container = user_image_container_size;
+      }
 
       var selection_position = data.selection.position;
       var selection_size = {
