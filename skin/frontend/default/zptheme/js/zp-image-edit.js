@@ -376,10 +376,16 @@ function imageEditorCrop () {
       width: crop_data.selection.width,
       height: crop_data.selection.height };
 
+    image_position.right = image_position.left + image_size.width;
+    image_position.bottom = image_position.top + image_size.height;
+
+    selection_position.right = selection_position.left + selection_size.width;
+    selection_position.bottom = selection_position.top + selection_size.height;
+
     var in_frame = image_position.left >= selection_position.left &&
-      image_position.left + image_size.width <= selection_position.left + selection_size.width &&
-      image_position.top >= selection_position.top &&
-      image_position.top + image_size.height <= selection_position.top + selection_size.height;
+                   image_position.right <= selection_position.right &&
+                   image_position.top >= selection_position.top &&
+                   image_position.bottom <= selection_position.bottom;
 
     var metadata = {};
 
