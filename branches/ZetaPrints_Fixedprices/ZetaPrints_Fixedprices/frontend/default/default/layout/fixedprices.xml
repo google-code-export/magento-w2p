@@ -18,16 +18,12 @@
       </reference>
     </reference>
   </catalog_product_view>
-  <catalog_category_default>
-    <update handle="fixedprices_js_css"/>
-  </catalog_category_default>
   <checkout_cart_index>
     <update handle="fixedprices_js_css"/>
   </checkout_cart_index>
-  <!--<checkout_multishipping>
+<!--
+  <catalog_category_default>
     <update handle="fixedprices_js_css"/>
-  </checkout_multishipping>
-  <checkout_onepage_index>
-    <update handle="fixedprices_js_css"/>
-  </checkout_onepage_index>
---></layout> 
+  </catalog_category_default>
+-->
+</layout> 

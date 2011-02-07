@@ -7,7 +7,7 @@
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
 <?php $_editWebsite = $this->isAllowChangeWebsite(); ?>
-<?php $_priceValueValidation = $this->getPriceValidation('validate-greater-than-zero'); ?>
+<?php $_priceValueValidation = $this->getPriceValidation('validate-zero-or-greater'); ?>
 
 
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
@@ -41,7 +41,10 @@
             </tr>
         </tfoot>
     </table>
-
+    <p class="note"><?php echo $this->__('Units: Free text, e.g. 100 cards, 3 months, big box');?></p>
+    <p class="note"><?php echo $this->__('Qty: Base quantity for inventory management, e.g. 100, 3, 1');?></p>
+    <p class="note"><?php echo $this->__('Price: Price for the listed quantity');?></p>
+    <p class="note"><?php echo $this->__('Fixed quantities extension by ZetaPrints. <a href="http://www.zetaprints.com/magentohelp/category/fixed-quantities-plugin/" title="Help and suppot">Help and suppot</a>');?></p>
 <script type="text/javascript">
 //<![CDATA[
 var fixedPriceRowTemplate = '<tr>'

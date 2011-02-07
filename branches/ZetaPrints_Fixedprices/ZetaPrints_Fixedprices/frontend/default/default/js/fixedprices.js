@@ -21,7 +21,7 @@ function updateQtys(e)
 {
   // if fixed prices are not defined on the page, there is nothing to do
   if(undefined == window.fixedPriceData){
-    console.warn('Fixed prices not found.');
+    console.info('Fixed prices not found.'); // debugging message
     return;
   }
   // fixed prices should be an array of objects with fixed prices data,
@@ -41,7 +41,7 @@ function updateQtys(e)
       'top': offsets.top + 'px'
     });
     document.body.appendChild(tooltip);
-    qty_box.writeAttribute('type', 'hidden');
+    qty_box.hide();
     var fake_qty = '<input class="qty input-text" type="text" value="' + qty_box.value + '" id="fake-qty" name="fake-qty"/>';
     var form = $(qty_box.form);
     var temp = Element.replace(qty_box, fake_qty);
@@ -53,6 +53,7 @@ function updateQtys(e)
       tooltip.show();
     }).observe('blur', function(e){
       tooltip.hide();
+      this.value = $('qty').value;
     });
   }
 

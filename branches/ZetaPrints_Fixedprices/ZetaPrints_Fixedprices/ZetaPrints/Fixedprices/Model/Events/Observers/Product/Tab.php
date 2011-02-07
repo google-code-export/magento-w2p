@@ -15,7 +15,7 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Tab
     if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs) {
       if ($this->_getRequest()->getActionName() == 'edit' || $this->_getRequest()->getParam('type')) {
         $block->addTab(ZetaPrints_Fixedprices_Helper_Data::TAB_NAME, array(
-          'label'     => 'Fixed Prices',
+          'label'     => 'Fixed Quantities',
           'content'   => $block->getLayout()->createBlock('fixedprices/catalog_product_edit_fixedprices')->toHtml(),
         ));
       }

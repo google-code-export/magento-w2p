@@ -1,6 +1,6 @@
 <?php
-class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection {
-
+class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection
+{
   /**
    * Update some of the prices in product collection
    *
@@ -9,9 +9,8 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection {
    *
    * @param Varien_Event_Observer $observer
    */
-  public function updatePrices (Varien_Event_Observer $observer) {
+  public function updatePrices(Varien_Event_Observer $observer){
     $collection = $observer->getCollection();
-
     /*@var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
       foreach ($collection as $item) {
         /* @var $item Mage_Catalog_Model_Product */
@@ -30,4 +29,5 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Collection {
         }
       }
   }
+
 }

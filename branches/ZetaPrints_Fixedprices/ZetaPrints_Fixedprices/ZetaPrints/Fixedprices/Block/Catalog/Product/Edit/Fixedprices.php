@@ -16,7 +16,7 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Fixedprices
         $form->setDataObject($product);
         $fieldset = $form->addFieldset('fixed_price_fieldset',
                                       array(
-                                      	'legend'=>Mage::helper('fixedprices')->__('Fixed fixedprices'),
+                                      	'legend'=>Mage::helper('fixedprices')->__('Fixed Quantities'),
                                         'class' => 'fieldset-wide'
                                       ));
         $this->_setFieldset($attributes, $fieldset);

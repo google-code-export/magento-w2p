@@ -10,7 +10,7 @@
 <config>
   <modules>
     <ZetaPrints_Fixedprices>
-      <version>0.2.6</version>
+      <version>0.2.9</version>
     </ZetaPrints_Fixedprices>
   </modules>
   <frontend>
@@ -35,9 +35,9 @@
   <adminhtml>
     <layout>
       <updates>
-        <attachments>
+        <fixedprices>
           <file>fixedprices.xml</file>
-        </attachments>
+        </fixedprices>
       </updates>
     </layout>
     <events>
