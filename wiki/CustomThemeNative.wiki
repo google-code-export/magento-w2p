@@ -243,6 +243,13 @@ Here is list of CSS class name selectors for links added by the extension:
     * `div.zetaprints-previews-box a.show-title` - selector for "Show previews" links
     * `div.zetaprints-previews-box a.hide-title` - selector for "Hide previews" links
 
+= Fake Add to cart button =
+The extension hides original Add to cart button to prevent adding not personalized products to a customer's cart. Absence of original button may produce a bad user-experience in some cases. So, fake Add to cart button is added to leave store interface consistent.
+
+Use following CSS selectors to style fake Add to cart button and text notice under it:
+  * `#zetaprints-fake-add-to-cart-button` - for the button
+  * `#zetaprints-fake-add-to-cart-warning` - for the notice
+
 = NOSCRIPT =
 Product personalisation form requires JavaScript. The form won't load fully if JS is disabled. Make sure your theme has `<NOSCRIPT>` area to warn customers about the requirement in a visible and informative way.
 
