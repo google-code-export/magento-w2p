@@ -79,7 +79,7 @@ function fancybox_resizing_add (opts) {
         }
       });
     });
-  } else if ($parent.length > 0 && img_orig_height == width) {
+  } else if ($parent.length > 0 && img_orig_height == height) {
     // there is a resizer
     // image and Fancybox are now with exatly same dimensions
     $parent.remove(); // remove resizer
@@ -87,12 +87,17 @@ function fancybox_resizing_add (opts) {
     // reset close icon
     // jQuery('#fancybox-close').css('background-position', '-40px 0px');
     jQuery('#fancybox-close').removeClass('resizer-tweaks');
-  } else if (img_orig_height > width) {
+  } else if (img_orig_height > height) {
     // we have already created resizer and
     // this is just reopening of the fancybox
     // we are updating data in resizer to acommodate for cases where browser
     // window has been resized in mean time and 'restore' dimensions are changed
-    $parent.data({ 'width': width, 'height': height }).show();
+    $parent
+      .data({ 'width': width,
+              'height': height,
+              'img_orig_width': img_orig_width,
+              'img_orig_height': img_orig_height })
+      .show();
 
     // make sure that 'maximize' handle is visible and restore hidden
     jQuery('a.restore', $parent).hide();
