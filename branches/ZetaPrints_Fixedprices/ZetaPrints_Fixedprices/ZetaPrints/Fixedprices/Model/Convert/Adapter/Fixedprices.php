@@ -69,15 +69,8 @@ class ZetaPrints_Fixedprices_Model_Convert_Adapter_Fixedprices extends Mage_Cata
     }
 
     unset($importData['sku']); // got the product, do not need sku
-    $useFixed = 1;
-    if(isset($importData['enabled'])){  // enable FQ by default
-      $useFixed = $importData['enabled'];
-      unset($importData['enabled']);
-    }
 
     $data = $this->_parseFq($importData);
-
-    $product->setData(ZetaPrints_Fixedprices_Helper_Data::USE_FIXED_PRICE, $useFixed);
 
     $product->setData(ZetaPrints_Fixedprices_Helper_Data::FIXED_PRICE, $data);
 

@@ -7,7 +7,7 @@ class ZetaPrints_Fixedprices_Model_Convert_Parser_Product
  */
   public function unparse()
   {
-    $entityIds = $this->getData();
+    $entityIds = $this->getData(); // list of product IDs
     foreach ($entityIds as $i => $entityId) {
       $product = $this->getProductModel()
           ->setStoreId($this->getStoreId())
@@ -18,10 +18,8 @@ class ZetaPrints_Fixedprices_Model_Convert_Parser_Product
 
       $position = Mage::helper('catalog')->__('Line %d, SKU: %s', ($i+1), $product->getSku());
       $this->setPosition($position);
-      $useFixed = $product->getUseFixedPrice();
       $fixedPrices = $product->getFixedPrice();
       $row['sku'] = $product->getSku();
-      $row['enabled'] = $useFixed;
       foreach ($fixedPrices as $i => $fp) {
         $row['qty' . $i] = $fp['price_qty'];
         $row['label' . $i] = $fp['units'];

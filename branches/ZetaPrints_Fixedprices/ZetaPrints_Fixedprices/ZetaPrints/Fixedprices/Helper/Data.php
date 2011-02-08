@@ -69,10 +69,10 @@ class ZetaPrints_Fixedprices_Helper_Data extends Mage_Core_Helper_Abstract
   }
 
   public function isFixedPriceEnabled(Mage_Catalog_Model_Product $product){
-    if(!$product->hasData(self::USE_FIXED_PRICE) && $product->getId()){
+    if(!$product->hasData(self::FIXED_PRICE) && $product->getId()){
       $product->load($product->getId());
     }
-    $use = $product->getData(self::USE_FIXED_PRICE);
-    return $use;
+    $use = $product->getData(self::FIXED_PRICE);
+    return !empty($use);
   }
 }

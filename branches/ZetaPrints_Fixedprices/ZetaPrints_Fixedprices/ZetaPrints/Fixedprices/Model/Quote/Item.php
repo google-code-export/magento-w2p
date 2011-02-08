@@ -6,17 +6,28 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
   public function calcRowTotal()
   {
     $product = $this->getProduct();
-    if (Mage::helper('fixedprices')->isFixedPriceEnabled($product)) {
+    $orig_qty = 1;
+    $is_fixed = Mage::helper('fixedprices')->isFixedPriceEnabled($product);
+    if ($is_fixed) {
+      $orig_qty = $this->getTotalQty(); // save orig qty
+      $this->setData('qty', 1); // replace with one unit
+      /*
       $fixedPrice = Mage::helper('fixedprices')->getFixedPrice($product, $this->getQty());
       if ($fixedPrice !== false) {
+
         $total = $this->getStore()->convertPrice($fixedPrice);
         $baseTotal = $fixedPrice;
         $this->setRowTotal($this->getStore()->roundPrice($total));
         $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
         return $this;
+
       }
+      */
     }
-    parent::calcRowTotal();
+    parent::calcRowTotal(); // calculate totals
+    if($is_fixed){
+      $this->setData('qty', $orig_qty); // restore actual qty
+    }
   }
 
   public function representProduct($product)
@@ -45,7 +56,7 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
   public function getProduct()
   {
     $product = parent::getProduct();
-    if(!$product->hasData(self::FIXED_NAME)){
+    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product)){
       $this->_setName($this->getQty(), $product);
     }
     return $product;

@@ -42,6 +42,13 @@ class ZetaPrints_Fixedprices_Model_Fixedprices
       $fixedPrice = Mage::helper('fixedprices')->getFixedPrice($product, $qty);
       if($fixedPrice !== false){
         $finalPrice = $fixedPrice;
+        $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+        $product->setFinalPrice($finalPrice);
+
+        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product, 'qty' => $qty));
+
+        $finalPrice = $product->getData('final_price');
+        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
       }
     }
     return max(0, $finalPrice);

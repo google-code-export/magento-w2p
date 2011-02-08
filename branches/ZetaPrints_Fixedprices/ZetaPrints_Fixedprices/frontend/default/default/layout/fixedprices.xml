@@ -21,7 +21,7 @@
   <checkout_cart_index>
     <update handle="fixedprices_js_css"/>
   </checkout_cart_index>
-<!--
+  <!--
   <catalog_category_default>
     <update handle="fixedprices_js_css"/>
   </catalog_category_default>

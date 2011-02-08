@@ -2,7 +2,6 @@
 class ZetaPrints_Fixedprices_Block_Catalog_Product_View_Fixedprices
  extends Mage_Catalog_Block_Product_Price
  {
-   protected $_useFixedCode;
    protected $_fixedCode;
 
    /**
@@ -21,13 +20,12 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_View_Fixedprices
    {
      parent::_construct();
      // save some typing
-     $this->_useFixedCode = ZetaPrints_Fixedprices_Helper_Data::USE_FIXED_PRICE;
      $this->_fixedCode = ZetaPrints_Fixedprices_Helper_Data::FIXED_PRICE;
    }
 
    public function useFixedPrices()
    {
-     $return = $this->getProduct()->getData($this->_useFixedCode);
+     $return = Mage::helper('fixedprices')->isFixedPriceEnabled($this->getProduct());
      return $return;
    }
 
