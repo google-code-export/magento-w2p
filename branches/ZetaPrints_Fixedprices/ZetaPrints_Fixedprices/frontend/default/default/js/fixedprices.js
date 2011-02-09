@@ -92,7 +92,7 @@ function setRadioToQty(qty, radio, fixedPrices)
     $A(fixedPrices).each(function(idx, fp){
       if(fp.price_id == idx){
         value = fp.price_qty;
-        price = fp.formated_price;
+        price = fp.price; // we're reusing Magento functionality, so formatting is not needed
         prid = fp.product_id;
       }
     }.curry(idx));
@@ -102,7 +102,7 @@ function setRadioToQty(qty, radio, fixedPrices)
     }
 
     if(undefined !== price){
-      priceSwitcher(prid, price);
+      priceSwitcher(price);
     }
   }
 }
@@ -112,20 +112,22 @@ function parceFixedOptionId(fpId){
   return idx;
 }
 
-function priceSwitcher(productId, formattedPrice)
+/**
+ * Update prices
+ * When switching FQ options, we need to
+ * set appropriate price to Varien optionsPrice
+ * object. Then it takes care of all needed changes.
+ *
+ * @param formattedPrice float
+ */
+function priceSwitcher(formattedPrice)
 {
-  var containers = new Array();
-  containers[0] = 'product-price-' + productId;
-  containers[1] = 'bundle-price-' + productId;
-  containers[2] = 'price-including-tax-' + productId;
-  containers[3] = 'price-excluding-tax-' + productId;
-  containers[4] = 'old-price-' + productId;
-
-  $H(containers).each(function(pair) {
-    if ($(pair.value)){
-      $(pair.value).innerHTML = formattedPrice;
-    }
-  });
+  if(optionsPrice){ // if optionsPrice exists, pass new price to it.
+    optionsPrice.productPrice = formattedPrice;
+    optionsPrice.reload();
+  }else{
+    throw Error('Are you using this in Magento? If yes look up the name of Product.OptionsPrice object.');
+  }
 }
 
 // copied from http://www.w3schools.com/JS/js_cookies.asp
