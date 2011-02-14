@@ -5,7 +5,8 @@
  * @package     ZetaPrints_Attachments
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ZetaPrints_Attachments_Model_Attachments extends Mage_Core_Model_Abstract
+class ZetaPrints_Attachments_Model_Attachments
+  extends Mage_Core_Model_Abstract
 {
 
   const PR_ID     = 'product_id';
@@ -14,6 +15,7 @@ class ZetaPrints_Attachments_Model_Attachments extends Mage_Core_Model_Abstract
   const ATT_HASH  = 'attachment_hash';
   const ATT_VALUE = 'attachment_value';
   const ATT_CODE  = 'use_ajax_upload';
+  const ATT_CREATED = 'created';
 
   const ATT_SESS  = 'zp_att_'; // session variable prefix
 
@@ -96,22 +98,30 @@ class ZetaPrints_Attachments_Model_Attachments extends Mage_Core_Model_Abstract
         $this->load($found);
       }
     } else { // there is no attachments for this combo yet so we set our values and move on.
-      $this->setData($data)->setAttachmentValue($value)
-            ->save();
+      $this->setData($data)->setAttachmentValue($value);
+            $this->save();
     }
     return $this;
+  }
+
+  public function save()
+  {
+    if(!$this->hasData(self::ATT_CREATED)){
+      $this->setData(self::ATT_CREATED, new Zend_Db_Expr('NOW()'));
+    }
+    parent::save();
   }
 
   /**
    * Get collection of attachmentss filtered
    * @see self::addAttachment for possibe filter keys
    * @param array $filters
+   * @return ZetaPrints_Attachments_Model_Mysql4_Attachment_Collection
    */
   public function getAttachmentCollection(array $filters = array())
   {
     $collection = $this->getCollection();
-    /* @var $collection ZetaPrints_Attachments_Model_Mysql4_Attachment_Collection */
-//    $collection->addFieldToSelect('*'); // older versions of Magento don't have this
+    /* @var $collection ZetaPrints_Attachments_Model_Mysql4_Attachments_Collection */
     foreach ($filters as $field => $value) {
       $collection->addFieldToFilter($field, $value);
     }
@@ -119,22 +129,59 @@ class ZetaPrints_Attachments_Model_Attachments extends Mage_Core_Model_Abstract
     return $collection;
   }
 
-  public function deleteFile($value)
+  /**
+   * Delete uploaded file
+   * Use this function to delete uploaded file.
+   * @param array $value
+   * @return ZetaPrints_Attachments_Model_Attachments
+   */
+  public function deleteFile($value = null)
   {
+    if($value == null){
+      $value = unserialize($this->getAttachmentValue());
+    }
     $filePath = Mage::getBaseDir() . $value['order_path'];
-    if (!is_file($filePath) || !is_readable($filePath)) {
-      // try get file from quote
-      $filePath = Mage::getBaseDir() . $value['quote_path'];
-      if (!is_file($filePath) || !is_readable($filePath)) {
-        return;
-      }
+    if (is_file($filePath) && is_writable($filePath)) {
+      @unlink($filePath);
     }
-    @unlink($filePath);
-    if(isset($value['attachment_id'])){
+    $filePath = Mage::getBaseDir() . $value['quote_path'];
+    if (is_file($filePath) && is_writable($filePath)) {
+      @unlink($filePath);
+    }
+    $this->delete();
+    return $this;
+  }
+
+  public function addOrderId($order_id)
+  {
+    if($this->hasData(self::ORD_ID) && $this->getData(self::ORD_ID))
+    {
+      return true;
+    }
+    $this->setData(self::ORD_ID, (int)$order_id)->save();
+  }
+
+  public function loadFromOptionArray($option)
+  {
+    if(!is_array($option)){
       try {
-        $this->load($value['attachment_id'])->delete();
+        $option = unserialize($option);
       } catch (Exception $e) {
+        return false;
       }
     }
+    $value = unserialize($option['option_value']);
+    if(is_array($value)){
+      $filters = array();
+      foreach ($value as $att) {
+        $id = isset($att['attachment_id'])?$att['attachment_id']:null;
+        if($id !== null){
+          $filters['attachment_id'][] = $id;
+        }
+      }
+      $collection = $this->getAttachmentCollection($filters);
+      return $collection;
+    }
+    return false;
   }
 }
