@@ -6,9 +6,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * @author Petar Dzhambazov
- */
 class ZetaPrints_Attachments_Model_Events_Observer
 {
 
@@ -17,8 +14,10 @@ class ZetaPrints_Attachments_Model_Events_Observer
    *
    * Since we are going to handle file upload asynchronously
    * we need a way to attach files and orders.
+   * @event checkout_cart_product_add_after
+   * @param Varien_Event_Observer $observer
    */
-  public function addAttachemntsToOrder($observer)
+  public function addAttachemntsToQuote($observer)
   {
     $quote_item = $observer->getEvent()->getQuoteItem();
     /*@var $quote_item Mage_Sales_Model_Quote_Item */
@@ -60,10 +59,6 @@ class ZetaPrints_Attachments_Model_Events_Observer
             $optionIDs[] = $optId;
             $this->_setItemOptionIds($quote_item, $optionIDs);
           }
-//          Mage::log('File: ' . __FILE__);
-//          Mage::log('Line: ' . __LINE__);
-//          Mage::log('Method: ' . __METHOD__);
-//          Mage::log('Options: ' . print_r($optionIDs, true));
         }
       }
     }
@@ -95,6 +90,8 @@ class ZetaPrints_Attachments_Model_Events_Observer
 
   /**
    * Store attachment keys into session
+   * @event controller_action_predispatch_checkout_cart_add
+   * @param Varien_Event_Observer $observer
    */
   public function storeAttachments($observer)
   {
@@ -102,11 +99,9 @@ class ZetaPrints_Attachments_Model_Events_Observer
 
     $prid = $request->getParam('product'); // get product id
     $hash = $request->getParam('attachment_hash');
-//    $files = $request->getParam('attached_files');
     // to locate correct attachments we need all 3 keys
     if (isset($prid, $hash)) {
       $sess = Mage::getSingleton('core/session');
-//      $sess->setData('attached_files', $files);
       foreach ($hash as $opt_id => $hash_value) {
         $key = ZetaPrints_Attachments_Model_Attachments::ATT_SESS . '_' . $hash_value; // make unique option key
         $sess->setData($key, array ( // save it in session
@@ -119,19 +114,49 @@ class ZetaPrints_Attachments_Model_Events_Observer
   }
 
   /**
-   * Handle case of cancelled orders
-   *
-   * In case that order has been cancelled or discarded
-   * for any reason, we could make sure that we delete all
-   * attached files. Some design files can get quite large
-   * so having housekeeping function like this might be good
-   * idea.
+   * Update order id in attachment table
+   * @event sales_order_save_after
+   * @param Varien_Event_Observer $observer
    */
-  public function deleteAttachemnts($observer)
+  public function updateAttachmentOrder($observer)
   {
     $order = $observer->getEvent()->getDataObject();
-    // for now we deal deleting manually via controller action
-    return;
+    /* @var $order Mage_Sales_Model_Order  */
+    $items = $order->getAllItems();
+    foreach ($items as $item) {
+      $this->_addOrderId($item);
+    }
+  }
+
+  protected function _addOrderId(Mage_Sales_Model_Order_Item $item)
+  {
+    $product_options = $item->getProductOptions(); // get product options
+    $product = $item->getProduct(); // get product
+    $order_id = $item->getOrder()->getRealOrderId(); // get order id as shown to user
+    if ($product_options) {
+      if (is_array($product_options) && isset($product_options['options'])) {
+        foreach ($product_options['options'] as $option) {
+          if ($this->_isOptionAttachment($option, $product)) {
+            $atColl = Mage::getModel('attachments/attachments')->loadFromOptionArray($option);
+            if($atColl && $atColl instanceof ZetaPrints_Attachments_Model_Mysql4_Attachments_Collection){
+              foreach ($atColl as $atModel) {
+                $atModel->addOrderId($order_id);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  protected function _isOptionAttachment($option, $product)
+  {
+    if(!isset($option['option_type'])){
+      return false;
+    }
+    $return = $option['option_type'] == ZetaPrints_Attachments_Model_Product_Option::OPTION_TYPE_ATTACHMENT
+                                              && Mage::helper('attachments/upload')->getUseAjax($product);
+    return $return;
   }
 }
 
