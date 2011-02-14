@@ -1,16 +1,16 @@
-<?xml version="1.0"?>
-<!-- 
-/** 
-  * @category ZetaPrints 
-  * @package ZetaPrints_Attachments 
-  * @author ModuleCreator 
-  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0) 
-  */ 
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+  * @category ZetaPrints
+  * @package ZetaPrints_Attachments
+  * @author ModuleCreator
+  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+  */
 -->
 <config>
   <modules>
     <ZetaPrints_Attachments>
-      <version>1</version>
+      <version>1.0.1</version>
     </ZetaPrints_Attachments>
   </modules>
   <frontend>
@@ -51,6 +51,15 @@
       </attachments>
     </routers>
   </admin>
+  <adminhtml>
+    <layout>
+      <updates>
+        <attachments>
+          <file>attachments.xml</file>
+        </attachments>
+      </updates>
+    </layout>
+  </adminhtml>
   <global>
     <models>
       <attachments>
@@ -110,7 +119,7 @@
           <attachments-order-creation-observer>
             <type>singleton</type>
             <class>ZetaPrints_Attachments_Model_Events_Observer</class>
-            <method>addAttachemntsToOrder</method>
+            <method>addAttachemntsToQuote</method>
           </attachments-order-creation-observer>
         </observers>
       </checkout_cart_product_add_after>
@@ -128,7 +137,7 @@
           <attachments-order-complete>
             <type>singleton</type>
             <class>ZetaPrints_Attachments_Model_Events_Observer</class>
-            <method>deleteAttachemnts</method>
+            <method>updateAttachmentOrder</method>
           </attachments-order-complete>
         </observers>
       </sales_order_save_after>
@@ -163,4 +172,14 @@
       </zetaprints_attachments_admin>
     </rewrite>
   </global>
+  <default>
+    <attachments>
+      <settings>
+        <att_delete_orphaned>1</att_delete_orphaned>
+        <att_delete_old>0</att_delete_old>
+        <att_orphan_days>30</att_orphan_days>
+        <att_old_days>30</att_old_days>
+      </settings>
+    </attachments>
+  </default>
 </config>
