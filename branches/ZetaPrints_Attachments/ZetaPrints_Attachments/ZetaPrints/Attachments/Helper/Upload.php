@@ -64,25 +64,20 @@ class ZetaPrints_Attachments_Helper_Upload extends
         $maxLimit = ini_get('upload_max_filesize');
 ?>
 <div class="zp-upload" id="zp-file-upload-<?php echo $id;?>">
-    <input type="hidden" name="attachment_hash[<?php echo $id;?>]"
-           value="<?php echo $this->_getHash($prId, $id);?>" />
-    <div class="attachments" style="display:none;">
-        <h4><?php echo $this->__('Files attached:');?></h4>
-        <div id="zp-attachments-list-<?php echo $id;?>"></div>
-    </div>
-    <input type="file" id="option_<?php echo $id;?>_file"
-        name="options_<?php echo $id;?>_file"
-        class="product-custom-option
-               <?php echo $option->getIsRequire() ? ' required-entry' : '' ?>"
-        onchange="opConfig.reloadPrice()" />
+  <input type="hidden" name="attachment_hash[<?php echo $id;?>]" value="<?php echo $this->_getHash($prId, $id);?>" />
+<div class="attachments" style="display: none;">
+<h4><?php echo $this->__('Files attached:');?></h4>
+<div id="zp-attachments-list-<?php echo $id;?>"></div>
 </div>
+<input type="file" id="option_<?php echo $id;?>_file" name="options_<?php echo $id;?>_file" class="product-custom-option
+               <?php echo $option->getIsRequire() ? ' required-entry' : '' ?>" onchange="opConfig.reloadPrice()" /></div>
 <?php if($maxLimit):?>
 <div class="upload-max">
   <?php echo $this->__('Max file size: %dMB. You can upload multiple files.',
                        $maxLimit); ?>
 </div>
 <?php endif;?>
-    <script type="text/javascript">
+<script type="text/javascript">
         var fileUpld = $('zp-btn-upload-<?php echo $id;?>');
         var the_action = '<?php echo $action;?>';
         var the_form = 'product_addtocart_form';
@@ -130,19 +125,22 @@ class ZetaPrints_Attachments_Helper_Upload extends
       return $spinnerUrl;
     }
 
-    public function getUseAjax(Mage_Catalog_Model_Product $product)
+    public function getUseAjax($product)
     {
-        if($this->_useAjax === null) {
-            $_useAjax = $product
-                  ->getData(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
+      if (!$product instanceof Mage_Catalog_Model_Product) {
+        return false;
+      }
 
-            if($_useAjax) {
-                $this->_useAjax = true;
-            }else {
-                $this->_useAjax = false;
-            }
+      if ($this->_useAjax === null) {
+        $_useAjax = $product->getData(ZetaPrints_Attachments_Model_Attachments::ATT_CODE);
+
+        if ($_useAjax) {
+          $this->_useAjax = true;
+        } else {
+          $this->_useAjax = false;
         }
-        return $this->_useAjax;
+      }
+      return $this->_useAjax;
     }
 
     /**
