@@ -92,7 +92,10 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
           // try get file from quote
           $filePath = Mage::getBaseDir() . $value['quote_path'];
           if (!is_file($filePath) || !is_readable($filePath)) {
-            throw new Exception();
+             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('attachments')
+                                                                     ->__('Attachment ID %d: <em>%s</em>  is not found.', $attachmentId, $value['title']));
+             $this->_redirect('*/*/index');
+            return;
           }
         }
 

@@ -40,7 +40,7 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
         $option->setIsRequire(0);                                  // prevent processing our upload
       }
     }
-    /*$var Mage_Catalog_Model_Product $product*/
+    /* @var $product Mage_Catalog_Model_Product */
     $buyRequest = new Varien_Object(array ('qty' => 0,  // try not to add product to cart yet
                                           'product' => $product->getId()
     ));
@@ -50,7 +50,7 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
       $response->setBody(($this->_jsonError($e->getMessage())));
       return;
     }
-    /**
+    /*
      * Error message
      */
 
@@ -72,44 +72,28 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
 
     $return = unserialize($value);
     $return['attachment_id'] = $attachments->getId();
+    $return['delete_url'] = Mage::getUrl('attachments/index/delete', array('id' => $return['attachment_id']));
 
     $response->setBody($this->_jsonEncode($return));
   }
 
   public function deleteAction()
   {
-    $optionId = $this->getRequest()->getParam('id');
-    $fileKey = $this->getRequest()->getParam('key');
+    $this->setFlag('', 'no-renderLayout', TRUE);
+    $id = $this->getRequest()->getParam('id');
 
     $attachments = Mage::getModel('attachments/attachments');
-    $option = Mage::getModel('sales/quote_item_option')->load($optionId);
-    $files = unserialize($option->getValue());
-    $result = array ();
-    foreach ($files as $key => $value) {
-      if ($value['secret_key'] == $fileKey) {
-        $attachments->deleteFile($value);
-        unset($files[$key]);
-        $result[] = $value['title'];
+    $attachments->load($id);
+    if($attachments->getId()){
+      try{
+        $attachments->deleteFile();
+      }catch(Exception $e){
+        $this->getResponse()->setHttpResponseCode(403)->setBody('File not found.');
+        return;
       }
     }
-    if (empty($files)) {
-      //      $product = $option->getProduct();
-    //      $option->delete(); // get product and remove option
-    //      if($product->getCustomOption('option_ids')){
-    //        $ids = explode(',', $product->getCustomOption('option_ids'));
-    //        if (in_array($optionId, $ids)) {
-    //          unset($ids[array_search($optionId, $ids)]);
-    //        }
-    //        $prOpt = empty($ids)?null:implode(',', $ids);
-    //        $product->addCustomOption('option_ids', $prOpt);
-    //      }
-    } else {
-      $option->setValue(serialize($files))->save();
-    }
-    if (empty($result)) {
-      $result[] = 'No files deleted.';
-    }
-    $this->getResponse()->setBody($this->_jsonEncode($result));
+
+    $this->getResponse()->setBody('File deleted.')->setHttpResponseCode(200);
   }
 
   /**

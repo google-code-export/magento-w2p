@@ -22,34 +22,20 @@
           <sort_order>1</sort_order>
           <show_in_default>1</show_in_default>
           <fields>
-            <att_delete_old>
-              <label>Delete Old Files</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <comment><![CDATA[Should files be deleted after set period of time?]]></comment>
-              <sort_order>1</sort_order>
-              <show_in_default>1</show_in_default>
-            </att_delete_old>
-            <att_delete_orphaned>
-              <label>Delete Orphaned Files</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <comment><![CDATA[Should orphaned files(files that do not belong to an order) be deleted after set period of time?]]></comment>
-              <sort_order>2</sort_order>
-              <show_in_default>1</show_in_default>
-            </att_delete_orphaned>
             <att_orphan_days>
               <label>Orphaned files (days)</label>
               <frontend_type>text</frontend_type>
-              <comment><![CDATA[Period in days after which orphaned files should be deleted.]]></comment>
-              <sort_order>3</sort_order>
+              <comment><![CDATA[Max number of days to keep files uploaded and not attached to any orders.
+              Leave blank or zero for manual deletion only.]]></comment>
+              <sort_order>1</sort_order>
               <show_in_default>1</show_in_default>
             </att_orphan_days>
             <att_old_days>
               <label>Old files (days)</label>
               <frontend_type>text</frontend_type>
-              <comment><![CDATA[Period in days after which files should be deleted.]]></comment>
-              <sort_order>4</sort_order>
+              <comment><![CDATA[Max number of days to keep any uploaded files.
+              Leave blank or zero for manual deletion only.]]></comment>
+              <sort_order>2</sort_order>
               <show_in_default>1</show_in_default>
             </att_old_days>
           </fields>

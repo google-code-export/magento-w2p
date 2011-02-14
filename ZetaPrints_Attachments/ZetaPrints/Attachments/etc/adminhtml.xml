@@ -13,7 +13,7 @@
         <settings module="attachments">
           <title>Attachments Settings</title>
           <sort_order>2</sort_order>
-          <action>adminhtml/system_config/edit/section/attachments_options/</action>
+          <action>adminhtml/system_config/edit/section/attachments/</action>
         </settings>
       </children>
     </attachments>

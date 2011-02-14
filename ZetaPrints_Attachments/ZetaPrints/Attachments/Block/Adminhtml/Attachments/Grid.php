@@ -7,13 +7,13 @@
  */
 
 
-class ZetaPrints_Attachments_Block_Adminhtml_Attachment_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
   public function __construct()
   {
       parent::__construct();
       $this->setId('attachmentsGrid');
-      $this->setDefaultSort('attachments_id');
+      $this->setDefaultSort('attachment_id');
       $this->setDefaultDir('ASC');
       $this->setSaveParametersInSession(true);
   }
@@ -27,37 +27,36 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachment_Grid extends Mage_Adminh
 
   protected function _prepareColumns()
   {
-      $this->addColumn('attachments_id', array(
-          'header'    => Mage::helper('attachments')->__('ID'),
+      $this->addColumn('attachment_id', array(
+          'header'    => Mage::helper('attachments')->__('Attachment ID'),
           'align'     =>'right',
+          'width'     => '100px',
+          'index'     => 'attachment_id',
+      ));
+
+      $this->addColumn('product_id', array(
+          'header'    => Mage::helper('attachments')->__('Product ID'),
+          'align'     =>'right',
+          'index'     => 'product_id',
+          'width'     => '100px',
+          'renderer'  => 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Product'
+      ));
+
+      $this->addColumn('order_id', array(
+          'header'    => Mage::helper('attachments')->__('Used in order'),
+          'align'     => 'center',
           'width'     => '50px',
-          'index'     => 'attachments_id',
+          'index'     => 'order_id',
+          'default'		=> 'N/A',
+          'renderer'  => 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Order'
       ));
 
-      $this->addColumn('title', array(
-          'header'    => Mage::helper('attachments')->__('Title'),
-          'align'     =>'left',
-          'index'     => 'title',
-      ));
-
-	  /*
-      $this->addColumn('content', array(
-			'header'    => Mage::helper('attachments')->__('Item Content'),
-			'width'     => '150px',
-			'index'     => 'content',
-      ));
-	  */
-
-      $this->addColumn('status', array(
-          'header'    => Mage::helper('attachments')->__('Status'),
-          'align'     => 'left',
-          'width'     => '80px',
-          'index'     => 'status',
-          'type'      => 'options',
-          'options'   => array(
-              1 => 'Enabled',
-              2 => 'Disabled',
-          ),
+      $this->addColumn('att_value', array(
+        'header'  => Mage::helper('attachments')->__('File'),
+        'align'		=> 'left',
+        'width'		=> '200px',
+        'index'		=> 'attachment_value',
+        'renderer'=> 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Attachment'
       ));
 
         $this->addColumn('action',
@@ -68,9 +67,10 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachment_Grid extends Mage_Adminh
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('attachments')->__('Edit'),
-                        'url'       => array('base'=> '*/*/edit'),
-                        'field'     => 'id'
+                        'caption'   => Mage::helper('attachments')->__('Delete'),
+                        'url'       => array('base'=> '*/*/delete'),
+                        'field'     => 'attachment_id',
+                        'confirm'  => Mage::helper('attachments')->__('Are you sure you want to delete this file?'),
                     )
                 ),
                 'filter'    => false,
@@ -79,45 +79,32 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachment_Grid extends Mage_Adminh
                 'is_system' => true,
         ));
 
-		$this->addExportType('*/*/exportCsv', Mage::helper('attachments')->__('CSV'));
-		$this->addExportType('*/*/exportXml', Mage::helper('attachments')->__('XML'));
+//		$this->addExportType('*/*/exportCsv', Mage::helper('attachments')->__('CSV'));
+//		$this->addExportType('*/*/exportXml', Mage::helper('attachments')->__('XML'));
 
       return parent::_prepareColumns();
   }
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('attachments_id');
+        $this->setMassactionIdField('attachment_id');
         $this->getMassactionBlock()->setFormFieldName('attachments');
+        $_helper = Mage::helper('attachments');
 
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('attachments')->__('Delete'),
-             'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('attachments')->__('Are you sure?')
-        ));
-
-        $statuses = Mage::getSingleton('attachments/status')->getOptionArray();
-
-        array_unshift($statuses, array('label'=>'', 'value'=>''));
-        $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('attachments')->__('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
-             'additional' => array(
-                    'visibility' => array(
-                         'name' => 'status',
-                         'type' => 'select',
-                         'class' => 'required-entry',
-                         'label' => Mage::helper('attachments')->__('Status'),
-                         'values' => $statuses
-                     )
-             )
-        ));
+        $this->getMassactionBlock()
+             ->addItem('delete', array(
+               'label'    => $_helper->__('Delete'),
+               'url'      => $this->getUrl('*/*/massDelete'),
+               'confirm'  => $_helper->__('Are you sure you want to delete selected files?'),
+            	 'selected' => true,
+               ));
         return $this;
     }
 
   public function getRowUrl($row)
   {
-      return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+      return '';
+//      return $this->getUrl('*/*/delete', array('attachment_id' => $row->getId()));
   }
 
 }
