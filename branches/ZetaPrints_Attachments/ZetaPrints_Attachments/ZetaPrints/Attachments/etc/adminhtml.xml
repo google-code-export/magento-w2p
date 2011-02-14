@@ -5,6 +5,11 @@
       <title>Attachments</title>
       <sort_order>70</sort_order>
       <children>
+        <items module="attachments">
+          <title>Manage Attachments</title>
+          <sort_order>1</sort_order>
+          <action>adminhtml/attachments</action>
+        </items>
         <settings module="attachments">
           <title>Attachments Settings</title>
           <sort_order>2</sort_order>
