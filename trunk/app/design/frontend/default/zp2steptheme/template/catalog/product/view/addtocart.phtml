@@ -25,8 +25,8 @@
  */
 ?>
 
-<?php $_product = $this->getProduct() ?>
-
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
 <?php if($_product->isSaleable()): ?>
 
     <!-- /****** ZP-CODE:1 Check if current step is step 1 (options)
@@ -39,7 +39,7 @@
     <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
         <label for="qty"><?php echo $this->__('Qty:') ?></label>
-        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
         <?php endif; ?>
         <button type="button" title="<?php echo $this->__('Personalize') ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__('Personalize') ?></span></span></button>
     </div>
@@ -51,7 +51,7 @@
     <!-- /****** ZP-CODE:2 End ******/ -->
 
     <div class="add-to-cart">
-        <button id="zetaprints-add-to-cart-button" type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+        <button id="zetaprints-add-to-cart-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
     </div>
 
     <!-- /****** ZP-CODE:3 Close 'if' opened in ZP-CODE:1 ******/ -->
