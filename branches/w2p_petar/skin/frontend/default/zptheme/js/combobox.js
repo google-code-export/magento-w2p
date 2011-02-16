@@ -14,8 +14,10 @@
                     source: function(request, response){
                         var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
                         response(select.children("option").map(function(){
-                            var text = $(this).text();
-                            if (this.value && (!request.term || matcher.test(text))) 
+                            var $opt = $(this);
+                            var text = $opt.text();
+                            var value = this.value ? this.value : $.trim(text);
+                            if (value && (!request.term || matcher.test(text))) 
                                 return {
                                     label: text.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" +
                                     $.ui.autocomplete.escapeRegex(request.term) +
@@ -84,23 +86,30 @@
                 }
             });
             
-            this.button = $("<button type='button'>&nbsp;</button>").attr("tabIndex", -1).attr("title", "Show All Items").insertAfter(input).button({
-                icons: {
-                    primary: "ui-icon-triangle-1-s"
-                },
-                text: false
-            }).removeClass("ui-corner-all").addClass("ui-corner-right ui-button-icon").click(function(){
-                // close if already visible
-                if (input.autocomplete("widget").is(":visible")) {
-                    input.autocomplete("close");
-                    return;
-                }
-                
-                // pass empty string as value to search for, displaying all results
-                input.autocomplete("search", "");
-                input.focus();
-            });
-        },
+            this.button = $("<button type='button'>&nbsp;</button>")
+                          .attr("tabIndex", -1)
+                          .attr("title", "Show All Items")
+                          .insertAfter(input)
+                          .button({
+                              icons: {
+                                  primary: "ui-icon-triangle-1-s"
+                              },
+                              text: false
+                          })
+                          .removeClass("ui-corner-all")
+                          .addClass("ui-corner-right ui-button-icon")
+                          .click(function(){
+                              // close if already visible
+                              if (input.autocomplete("widget").is(":visible")) {
+                                  input.autocomplete("close");
+                                  return;
+                              }
+                              
+                              // pass empty string as value to search for, displaying all results
+                              input.autocomplete("search", "");
+                              input.focus();
+                          });
+            },
         
         destroy: function(){
             this.input.remove();
