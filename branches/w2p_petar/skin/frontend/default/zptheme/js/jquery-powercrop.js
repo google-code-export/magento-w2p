@@ -14,7 +14,8 @@
     var settings = {
       simple: false,
       data: null,
-      crop: function () {}
+      crop: function () {},
+      stop: function () {}
     };
 
     if (methods[method])
@@ -34,8 +35,11 @@
 
     var $container = $image
       .addClass('powercrop-image')
-      .wrap('<div class="powercrop-container" />')
+      .wrap('<div class="powercrop-container no-resizing-action" />')
       .parent();
+
+    if (settings.simple)
+      $container.addClass('simple')
 
     this.hide().after($container).data('power-crop-container', $container);
 
@@ -43,6 +47,8 @@
       $image.resizable({
         aspectRatio: true,
         handles: 'ne, nw, se, sw',
+        start: function (event, ui) {
+          $container.removeClass('no-resizing-action'); },
         resize: function (event, ui) {
           $image_top_wrapper.css({
             width: ui.size.width,
@@ -52,9 +58,15 @@
 
           $image_top.css({
             width: ui.size.width,
-            height: ui.size.height }); },
+            height: ui.size.height });
+
+          image_position = $image_wrapper.position();
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           image_position = $image_wrapper.position();
+
+          $container.addClass('no-resizing-action');
 
           var image_width = Math.round(ui.size.width);
           var image_height = Math.round(ui.size.height);
@@ -77,17 +89,21 @@
             width: image_width,
             height: image_height });
 
-          invoke_on_crop(); } });
+          invoke_on_event(settings.stop); } });
 
       var $image_wrapper = $image.parent().draggable({
         drag: function (event, ui) {
           $image_top_wrapper.css({
             top: ui.position.top - viewport_position.top - 1,
-            left: ui.position.left - viewport_position.left - 1 }); },
+            left: ui.position.left - viewport_position.left - 1 });
+
+          image_position = ui.position;
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           image_position = ui.position;
 
-          invoke_on_crop(); } });
+          invoke_on_event(settings.stop); } });
 
       $container.css({
         width: $image_wrapper.outerWidth(),
@@ -102,37 +118,55 @@
       .append($image_top)
       .appendTo($viewport);
 
-    $viewport.append('<div class="powercrop-viewport-handle" />');
+    $viewport.append('<div class="powercrop-viewport-handle" ' +
+                          'title="Click and drag to move the frame" />');
 
     $viewport
       .resizable({
         aspectRatio: !settings.simple,
-        //containment: $container,
+        containment: $container,
         handles: 'ne, nw, se, sw',
+        start: function (event, ui) {
+          $container.removeClass('no-resizing-action'); },
         resize: function (event, ui) {
+          if (ui.position.left < 0)
+            ui.position.left = 0;
+
+          if (ui.position.top < 0)
+            ui.position.top = 0;
+
           $image_top_wrapper.css({
             top: image_position.top - ui.position.top - 1,
-            left: image_position.left - ui.position.left - 1 }); },
+            left: image_position.left - ui.position.left - 1 });
+
+          viewport_position = $viewport.position();
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           viewport_position = $viewport.position();
+
+          $container.addClass('no-resizing-action');
 
           $image_top_wrapper.css({
             top: image_position.top - viewport_position.top - 1,
             left: image_position.left - viewport_position.left - 1 });
 
-          invoke_on_crop(); } })
+          invoke_on_event(settings.stop); } })
       .draggable({
         containment: $container,
         handle: 'div.powercrop-viewport-handle',
         drag: function (event, ui) {
           $image_top_wrapper.css({
             top: image_position.top - ui.position.top - 1,
-            left: image_position.left - ui.position.left - 1
-          }); },
+            left: image_position.left - ui.position.left - 1 });
+
+          viewport_position = ui.position;
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           viewport_position = ui.position;
 
-          invoke_on_crop(); } });
+          invoke_on_event(settings.stop); } });
 
     if (!settings.simple) {
       $image_top.resizable({
@@ -147,7 +181,9 @@
 
           $image.css({
             width: ui.size.width,
-            height: ui.size.height }); },
+            height: ui.size.height });
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           var image_top_position = $image_top_wrapper.position();
 
@@ -172,17 +208,21 @@
             width: image_width,
             height: image_height });
 
-          invoke_on_crop(); } });
+          invoke_on_event(settings.stop); } });
 
       var $image_top_wrapper = $image_top.parent().draggable({
         drag: function (event, ui) {
           $image_wrapper.css({
             top: viewport_position.top + ui.position.top + 1,
-            left: viewport_position.left + ui.position.left + 1 }); },
+            left: viewport_position.left + ui.position.left + 1 });
+
+          image_position = $image_wrapper.position();
+
+          invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           image_position = $image_wrapper.position();
 
-          invoke_on_crop(); } });
+          invoke_on_event(settings.stop); } });
     } else
       var $image_top_wrapper = $image_top;
 
@@ -206,11 +246,6 @@
     }
 
     function update_position (data) {
-      if (!settings.simple)
-        $container.css({
-          width: data.selection.width,
-          height: data.selection.height });
-
       $image_wrapper.css({
         width: data.image.width,
         height: data.image.height,
@@ -229,6 +264,21 @@
         top: data.selection.position.top,
         left: data.selection.position.left });
 
+      if (data.container)
+        $container.css(data.container);
+      else
+        if (!settings.simple)
+          $container.css({
+            width: $viewport.outerWidth(),
+            height: $viewport.outerHeight() });
+        else {
+          $container.css({
+            width: $viewport.outerWidth() > $image.outerWidth()
+                                 ? $viewport.outerWidth() : $image.outerWidth(),
+            height: $viewport.outerHeight() > $image.outerHeight()
+                            ? $viewport.outerHeight() : $image.outerHeight() });
+        }
+
       viewport_position = data.selection.position;
 
       $image_top_wrapper.css({
@@ -242,8 +292,8 @@
         height: data.image.height });
     }
 
-    function invoke_on_crop () {
-      settings.crop({
+    function invoke_on_event (callback) {
+      callback({
         image: {
           width: $image.width(),
           height: $image.height(),

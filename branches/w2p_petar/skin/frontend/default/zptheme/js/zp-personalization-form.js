@@ -11,37 +11,49 @@ function personalization_form ($) {
     return true;
   }
 
-  function show_image_edit_dialog (image_name, src, thumb) {
-    image_imageName = unescape(image_name);
-    userImageThumbSelected = thumb
+  function show_image_edit_dialog (image_name, src, $thumb) {
+    var image_name = unescape(image_name);
 
-    //open a modal window with editor pictures
     $.fancybox({
       'padding': 0,
       'titleShow': false,
-      'type': 'iframe',
+      'type': 'ajax',
       'href': src,
       'hideOnOverlayClick': false,
       'hideOnContentClick': false,
       'centerOnScroll': false,
       'showNavArrows': false,
+      'onComplete': function () {
+        zp.image_edit = {
+          'url': {
+            'image': zp.url.image,
+            'user_image_template': zp.url['user-image-template'] },
+          '$selected_thumbnail': $thumb,
+           //!!! Temp solution
+          '$input': $thumb.parents().children('input.zetaprints-images'),
+          'image_id': $thumb.attr('id'),
+          'placeholder': zp.template_details.pages[zp.current_page]
+                                                          .images[image_name],
+          'shape': zp.template_details.pages[zp.current_page]
+                                                          .shapes[image_name] };
+
+        zetaprint_image_editor.apply(zp.image_edit, [$]);
+      },
+
       'onClosed': function () {
-        var $input = thumb.parents('td').children('input.zetaprints-images:checked');
+        var $input = zp.image_edit.$input;
 
         if (!$input.length)
           return;
-
-        var field = zp.template_details.pages[zp.current_page]
-                      .images[image_name];
 
         var metadata = $input.data('metadata');
 
         if (metadata) {
           metadata['img-id'] = $input.attr('value');
 
-          zp_set_metadata(field, metadata);
+          zp_set_metadata(zp.image_edit.placeholder, metadata);
         } else
-          zp_clear_metadata(field);
+          zp_clear_metadata(zp.image_edit.placeholder);
       } });
   }
 
@@ -56,9 +68,41 @@ function personalization_form ($) {
     return previews.substring(1);
   }
 
+  function add_fake_add_to_cart_button ($original_button,
+                                        is_multipage_template) {
+
+    var title = $original_button.attr('title')
+
+    if (is_multipage_template)
+      var notice = window.notice_to_update_preview_text_for_multipage_template;
+    else
+      var notice = window.notice_to_update_preview_text;
+
+    var $fake_button_with_notice = $(
+        '<button id="zetaprints-fake-add-to-cart-button"' +
+                'class="button disable" type="button"' +
+                'title="' + title + '">' +
+          '<span><span>' + title + '</span></span>' +
+        '</button>' +
+        '<span id="zetaprints-fake-add-to-cart-warning"' +
+              'class="zetaprints-notice to-update-preview">' +
+          notice +
+        '</span>' );
+
+    $original_button.addClass('no-display').after($fake_button_with_notice);
+  }
+
+  function remove_fake_add_to_cart_button ($original_button) {
+    $('#zetaprints-fake-add-to-cart-button, ' +
+      '#zetaprints-fake-add-to-cart-warning').remove();
+    $original_button.removeClass('no-display');
+  }
+
   var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
+
+  var $add_to_cart_button = $('#zetaprints-add-to-cart-button');
 
   //If base image is not set
   if (!has_image_zoomer)
@@ -170,7 +214,8 @@ function personalization_form ($) {
   if (this.previews_from_session)
     $('div.zetaprints-notice.to-update-preview').addClass('hidden');
   else
-    $('#zetaprints-add-to-cart-button').css('display', 'none');
+    add_fake_add_to_cart_button($add_to_cart_button,
+                                this.template_details.pages['2'] != undefined);
 
   $('div.zetaprints-page-input-fields input.input-text,\
      div.zetaprints-page-input-fields textarea').text_field_resizer();
@@ -288,6 +333,12 @@ function personalization_form ($) {
 
     var update_preview_button = $('button.update-preview').hide();
 
+    $('div.zetaprints-page-input-fields input,' +
+      'div.zetaprints-page-input-fields textarea').each(function () {
+
+      $(this).text_field_editor('hide');
+    });
+
     //Convert preserve_field parameter to query parameter
     var preserve_fields = typeof(preserve_fields) != 'undefined'
       && preserve_fields ? '&zetaprints-Preserve=yes' : preserve_fields = '';
@@ -378,7 +429,7 @@ function personalization_form ($) {
               .val(zp.previews.join(','));
 
             $('div.zetaprints-notice.to-update-preview').addClass('hidden');
-            $('#zetaprints-add-to-cart-button').show();
+            remove_fake_add_to_cart_button($add_to_cart_button);
             $('div.save-order span').css('display', 'none');
           }
         }
@@ -458,7 +509,7 @@ function personalization_form ($) {
                 + response[0] + '" />\
               <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
                 title="' + click_to_edit_text + '">\
-                <img src="' + response[2] + '" />\
+                <img id="' + response[0] + '" src="' + response[2] + '" />\
               </a>\
               <div class="buttons-row">\
                 <a class="button delete" href="javascript:void(0)"\
@@ -486,14 +537,16 @@ function personalization_form ($) {
             var img = this;
 
             $('a.edit-dialog, div.button.edit', tr).click(function () {
-              var link = this;
+              var $link = $(this);
 
               //If customer clicks on Edit button then...
               if (this.tagName == 'DIV')
                 //... get link to the image edit dialog and use its attributes
-                var link = $(this).parents('td').children('a');
+                var $link = $(this).parents('td').children('a');
 
-              show_image_edit_dialog(image_name, $(link).attr('href'), $(img));
+              show_image_edit_dialog(image_name,
+                                     $link.attr('href'),
+                                     $link.find('img') );
 
               return false;
             });
@@ -696,6 +749,9 @@ function personalization_form ($) {
     'onComplete': function () {
       $('img#fancybox-img').attr('title', click_to_close_text);
 
+      if (window.fancybox_resizing_add)
+        fancybox_resizing_add(this);
+
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
         && window.fancy_shape_handler))
@@ -719,6 +775,9 @@ function personalization_form ($) {
       zp.current_field_name = null;
     },
     'onCleanup': function () {
+      if (window.fancybox_resizing_hide)
+        fancybox_resizing_hide();
+
       if (zp.has_shapes && window.popdown_field_by_name) {
         $('div.zetaprints-field-shape', $('div#fancybox-inner')).removeClass('highlighted');
         popdown_field_by_name();

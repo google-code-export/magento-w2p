@@ -1,4 +1,12 @@
 <?php
+
+if (!defined('ZP_API_VER')) {
+  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
+
+  if (file_exists($zetaprints_api_file))
+    require $zetaprints_api_file;
+}
+
 class ZetaPrints_WebToPrint_UploadController
   extends Mage_Core_Controller_Front_Action {
 
@@ -10,7 +18,6 @@ class ZetaPrints_WebToPrint_UploadController
       return;
     }
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
     $media_config = Mage::getModel('catalog/product_media_config');
 
     $extension = substr($uploaded_file['name'], strrpos($uploaded_file['name'], '.'));
@@ -25,8 +32,8 @@ class ZetaPrints_WebToPrint_UploadController
       return;
     }
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = Mage::helper('webtoprint')
+                          ->get_zetaprints_credentials();
 
     //FIXME fast n dirty image upload fix
     $img_url = $media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}");
@@ -42,7 +49,10 @@ class ZetaPrints_WebToPrint_UploadController
       'Hash' => zetaprints_generate_user_password_hash($user_credentials['password']),
       'URL' => $img_url);
 
-    $image = zetaprints_download_customer_image($url, $w2p_user->key, $params);
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $image = zetaprints_download_customer_image($url, $key, $params);
 
     unlink($file_path);
 

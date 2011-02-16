@@ -117,10 +117,13 @@ div.save-order div.inner {
   float: right;
 }
 
-input.disable, button.disable {
-  background-color: rgb(187, 187, 187);
-  border-color: rgb(187, 187, 187);
+button.disable {
   cursor: default;
+}
+
+button.disable span {
+  background-color: #bbb;
+  border-color: #909090;
 }
 
 div.save-order span {
@@ -518,8 +521,9 @@ div.zetaprints-previews-box div.title a.show-title {
 }
 
 div.zetaprints-previews-box div.content {
-  overflow: auto;
-  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 20px 0;
 }
 
 div.zetaprints-previews-box div.content ul {
@@ -581,13 +585,16 @@ div.zetaprints-big-spinner.zetaprints-over-image-spinner {
 }
 
 /* CSS rules for different notices */
-div.zetaprints-notice.hidden {
+.zetaprints-notice.hidden {
   display: none;
 }
 
-div.zetaprints-notice.to-update-preview {
-  color: red;
-  text-align: right;
+/* Warning for fake Add to cart button */
+.zetaprints-notice.to-update-preview {
+  color: #fd0039;
+  clear: both;
+  float: right;
+  *float: left;
 }
 
 /* Fancybox tweaks */
@@ -660,14 +667,6 @@ div.thumbCropedAreaToolSet div img {
   cursor: se-resize;
 }*/
 
-div.zetaprints-notice.hidden {
-  display: none;
-}
-
-div.zetaprints-notice.to-update-preview {
-  text-align: right;
-}
-
 /* Common CSS rules for icons */
 div.zetaprints-icon {
   display: block;
@@ -710,7 +709,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   border: 1px solid #7192bf;
 }
 
-.zetaprints-button.hidden {
+.zetaprints-button.zetaprints-hidden {
   visibility: hidden;
 }
 

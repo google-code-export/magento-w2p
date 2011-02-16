@@ -11,8 +11,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
 
   private function get_template_guid_from_product ($product) {
 
-    // Get template GUID from webtoprint_template attribute if such attribute exists
-    // and contains value, otherwise use product SKU as template GUID
+    //Get template GUID from webtoprint_template attribute if such attribute exists
+    //and contains value, otherwise use product SKU as template GUID
     if (!($product->hasWebtoprintTemplate() && $template_guid = $product->getWebtoprintTemplate()))
       $template_guid = $product->getSku();
 
@@ -39,15 +39,12 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
     //  return false;
 
     if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      $w2p_user = Mage::getModel('zpapi/w2puser');
-
       //This flag shows a status of web-to-print user registration
       $user_was_registered = true;
 
       //Check a status of web-to-print user registration on ZetaPrints
       //and if it's not then set user_was_registered flag to false
-      if (!($w2p_user->getW2pUserId()
-           || $w2p_user->get_credentials_from_zp_cookie() !== false)) {
+      if (!($user_credentials = $this->get_zetaprints_credentials())) {
         $template = Mage::getModel('webtoprint/template')->load($template_guid);
 
         if ($template->getId())
@@ -61,8 +58,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       if ($user_was_registered) {
         $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
         $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
-
-        $user_credentials = $w2p_user->get_credentials();
 
         $data = array(
           'ID' => $user_credentials['id'],
@@ -264,10 +259,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
       $src = $this->get_thumbnail_url($image);
 
       if ($first_image) {
-        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
+        echo "<a class=\"in-dialog product-image\" href=\"$href\" rel=\"{$group}\" title=\"{$message}\">";
         $first_image = false;
       } else
-        echo "<a class=\"in-dialog\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
+        echo "<a class=\"in-dialog product-image\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
 
       echo "<img src=\"$src\" style=\"max-width: 75px;\" />";
       echo "</a>";
@@ -416,9 +411,7 @@ jQuery(document).ready(function($) {
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
     $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
-
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = $this->get_zetaprints_credentials();
 
     $data = array(
       'ID' => $user_credentials['id'],
@@ -637,7 +630,6 @@ jQuery(document).ready(function($) {
       return;
 
     $previews = explode(',', $options['zetaprints-previews']);
-    $width = count($previews) * 155;
     $group = 'group-' . mt_rand();
 
     $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
@@ -650,7 +642,7 @@ jQuery(document).ready(function($) {
             <a class="hide-title">&minus;&nbsp;<span><?php echo $this->__('Hide previews');?></span></a>
           </div>
           <div class="content">
-            <ul style="width: <?php echo $width ?>px;">
+            <ul>
             <?php foreach ($previews as $preview): ?>
               <li>
                 <a class="in-dialog" href="<?php echo $this->get_preview_url($preview); ?>" target="_blank" rel="<?php echo $group; ?>">
@@ -691,16 +683,32 @@ jQuery(document).ready(function($) {
   <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function($) {
-  // $('div.zetaprints-previews-box').width($('div#sales_order_view').width());
-  // $('div.zetaprints-previews-box').width($('table#my-orders-table tr.zetaprints-previews td').width()).removeClass('hidden');
+  var $boxes = $('div.zetaprints-previews-box');
 
-  $('div.zetaprints-previews-box a.show-title').each(function () {
+  $(window).load(function () {
+    $boxes.each(function () {
+      var width = 0;
+
+      $(this).find('li').each(function () {
+        width += $(this).outerWidth(true);
+      });
+
+      $(this).find('ul').width(width);
+    });
+  });
+
+  var width = $('#my-orders-table tr.zetaprints-previews td').width() - 1;
+
+  $boxes.find('div.content').width(width);
+  $boxes.removeClass('hidden');
+
+  $boxes.find('a.show-title').each(function () {
     $(this).click(function () {
       $(this).parents('div.zetaprints-previews-box').removeClass('hide');
     });
   });
 
-  $('div.zetaprints-previews-box a.hide-title').each(function () {
+   $boxes.find('a.hide-title').each(function () {
     $(this).click(function () {
       $(this).parents('div.zetaprints-previews-box').addClass('hide');
     });
@@ -747,14 +755,6 @@ jQuery(document).ready(function($) {
 <?php
   }
 
-  public function addNoticeToUpdatePreview ($context, $text) {
-?>
-  <div class="zetaprints-notice to-update-preview">
-    <?php echo $this->__($text); ?>
-  </div>
-<?php
-  }
-
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
@@ -779,13 +779,21 @@ jQuery(document).ready(function($) {
 
     $template_details['pages_number'] = count( $template_details['pages']);
 
+    $product_name = $context->getProduct()->getName();
+
     foreach ($template_details['pages'] as $page_number => &$page_details) {
       $preview_guid = explode('preview/', $page_details['preview-image']);
       $thumb_guid = explode('thumb/', $page_details['thumb-image']);
 
-      $page_details['preview-image'] = $this->get_preview_url($preview_guid[1]);
+      $preview_url = $this->get_preview_url($preview_guid[1]);
+
+      $page_details['preview-image'] = $preview_url;
       $page_details['thumb-image']
                            = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
+
+      echo sprintf('<img src="%s" alt="Printable %s" class="hidden" />',
+                   $preview_url,
+                   $product_name );
     }
 
     $previews_from_session = $session->hasData('zetaprints-previews');
@@ -828,16 +836,14 @@ jQuery(document).ready(function($) {
       'update_first_preview_on_load' => $update_first_preview_on_load,
       'has_shapes' => $has_shapes,
       'w2p_url' => Mage::getStoreConfig('zpapi/settings/w2p_url'),
+      'options' => $this->getCustomOptions(),
       'url' => array(
         'preview' => $this->_getUrl('web-to-print/preview'),
         'preview_download' => $this->_getUrl('web-to-print/preview/download'),
         'upload' => $this->_getUrl('web-to-print/upload'),
-        'image' => $this->_getUrl('web-to-print/image/update') ) ));
-
-    /*
-     * Custom config get all custom config options
-     */
-    $zp_custom = json_encode($this->_get_w2p_custom_options());
+        'image' => $this->_getUrl('web-to-print/image/update'),
+        'user-image-template'
+                 => $this->get_photo_thumbnail_url('image-guid.image-ext') ) ));
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -855,7 +861,7 @@ jQuery(document).ready(function($) {
   ?>
 
   zp = <?php echo $zp_data ?>;
-  zp_custom = <?php echo $zp_custom; // give all custom options at once?>;
+
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
 
@@ -863,6 +869,8 @@ jQuery(document).ready(function($) {
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
+  notice_to_update_preview_text = "<?php echo $this->__('Update preview first!'); ?>";
+  notice_to_update_preview_text_for_multipage_template = "<?php echo $this->__('Update all previews first!'); ?>";
 
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";
@@ -877,18 +885,6 @@ jQuery(document).ready(function($) {
 //]]>
 </script>
 <?php
-  }
-
-
-  /**
-   * Get custom cofig options
-   *
-   * Provides feature to load custom settings from etc/w2p.xml
-   */
-  protected function _get_w2p_custom_options($node = null)
-  {
-    $config = Mage::getSingleton('webtoprint/config')->getNode($node);
-    return $config;
   }
 }
 ?>

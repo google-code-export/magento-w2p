@@ -1,22 +1,44 @@
 (function ($) {
-  $.fn.text_field_editor = function (options) {
+  var methods = {
+    hide : function () {
+      $editor = this.data('text-field-editor');
+
+      if ($editor) {
+        $editor.removeClass('opened');
+        $(document).unbind('click.text-field-editor');
+      }
+    }
+  };
+
+  $.fn.text_field_editor = function (method) {
     var settings = {
       button_parent: null,
       change: function (data) {}
     };
 
-    $.extend(settings, options);
+    if (methods[method])
+      return methods[method]
+               .apply(this, Array.prototype.slice.call(arguments, 1));
+    else if (typeof method === 'object' || ! method)
+      $.extend(settings, method);
+    else
+      $.error('Method ' +  method +
+              ' does not exist on jQuery.text_field_editor');
 
     var $field = this;
 
     var $editor = $('<div class="zp-text-field-editor" />')
                     .prependTo(settings.button_parent);
 
+    $field.data('text-field-editor', $editor);
+
     var $handle = $('<div class="zp-text-field-editor-handle">' +
                       '<div class="zp-text-field-editor-icon pen" />' +
                     '</div>').appendTo($editor);
 
-    var $panel = $('<div class="zp-text-field-editor-panel" />')
+    var $panel = $('<div class="zp-text-field-editor-panel">' +
+                     '<div class="white-line" />' +
+                   '</div>')
                    .appendTo($editor);
 
     var $row = $('<div class="zp-text-field-editor-row">' +
@@ -47,14 +69,20 @@
       .append($color_picker).appendTo($options);
 
     $handle.click(function () {
-      if ($editor.hasClass('opened')) {
-        $editor.removeClass('opened');
+      $(document).unbind('click.text-field-editor');
 
-        $(window).unbind('click', out_editor_click);
-      } else {
+      if ($editor.hasClass('opened'))
+        $editor.removeClass('opened');
+      else {
+        $('div.zp-text-field-editor').removeClass('opened');
+
+        $panel.css({
+          top: $handle.offset().top + $handle.outerHeight() - 1,
+          left: $handle.offset().left });
+
         $editor.addClass('opened');
 
-        $(window).click({ colorpicker: false }, out_editor_click);
+        $(document).bind('click.text-field-editor', out_editor_click);
       }
 
       return false;
@@ -71,11 +99,13 @@
         settings.change({ color: value } );
     });
 
+    var color_picker_on = false;
+
     $color_picker.ColorPicker({
       color: '#804080',
 
       onBeforeShow: function (colpkr) {
-        $(window).unbind('click', out_editor_click);
+        color_picker_on = true;
 
         var colour = $radio_button.val();
         if (colour)
@@ -87,18 +117,15 @@
 
       onShow: function (colpkr) {
         $(colpkr).fadeIn(500);
-        console.log('onSHow');
+
         return false;
       },
 
       onHide: function (colpkr) {
         $(colpkr).fadeOut(500);
-        console.log(this);
 
-        //!!! Ugly, but I have not found better way to bind new click handler
-        //!!! outside current click event
-        //setTimeout(function () { $(window).click(out_editor_click) }, 100);
-        $(window).click({ colorpicker: true }, out_editor_click);
+        color_picker_on = false;
+
         return false;
       },
 
@@ -112,22 +139,13 @@
     });
 
     function out_editor_click (event) {
-      if (event.data.colorpicker) {
-        event.data.colorpicker = false;
+      if (color_picker_on)
         return;
-      }
 
-      console.log('namespace: ', event.namespace);
       var editor = $editor.get(0);
       var child_parent = $(event.target)
                           .parents('div.zp-text-field-editor')
                           .get(0);
-
-      console.log(editor);
-      console.log(child_parent);
-
-      console.log(editor == child_parent);
-
 
       if (!((event.target == editor) || (child_parent == editor))) {
         $handle.click();

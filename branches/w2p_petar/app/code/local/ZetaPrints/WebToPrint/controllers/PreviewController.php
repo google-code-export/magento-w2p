@@ -14,12 +14,33 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
 
      //Preparing params for image generating request to zetaprints
     foreach ($this->getRequest()->getParams() as $key => $value) {
-      if (strpos($key, 'zetaprints-') !== false) {
-        $_key = substr($key, 11);
-        $_key = substr($_key, 0, 1)
-          . str_replace(array('_', "\x0A"), array(' ', '.'), substr($_key, 1));
-        $params[$_key] = str_replace("\n", "\r\n", $value);
-      }
+      //Ignore key if it doesn't start with 'zetaprints-' prefix
+      if (strpos($key, 'zetaprints-') !== 0)
+        continue;
+
+      //Remove prefix from the key
+      $_key = substr($key, 11);
+
+      //Text and image template fields distinguish by prefix in its name
+      //Prefix for text fields is '_' sign, for image fields is '#' sign.
+      //Metadata fields for text and image fields prepends prefix
+      //with '*' sign, i.e. '*_' for text fields and '*#' for image fields.
+      //So POST fields have 1- or 2-letter prefixes.
+
+      //Determine length of field prefix
+      $prefix_length = 1;
+      if (strpos($_key, '*') === 0)
+        $prefix_length = 2;
+
+      //Process field name (key), restore original symbols
+      $_key = substr($_key, 0, $prefix_length)
+              . str_replace( array('_', "\x0A"),
+                             array(' ', '.'),
+                             substr($_key, $prefix_length) );
+
+      //Add token to the array, convert ending of field value to style
+      //required by HTTP
+      $params[$_key] = str_replace("\n", "\r\n", $value);
     }
 
     if(count($params) == 0)
@@ -65,14 +86,15 @@ class ZetaPrints_WebToPrint_PreviewController extends Mage_Core_Controller_Front
 
     //reset($params);
 
-    $w2p_user = Mage::getModel('zpapi/w2puser');
-
-    $user_credentials = $w2p_user->get_credentials();
+    $user_credentials = Mage::helper('webtoprint')
+                          ->get_zetaprints_credentials();
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $templates_details = zetaprints_update_preview(
-      Mage::getStoreConfig('zpapi/settings/w2p_url'), $w2p_user->key, $params);
+    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+
+    $templates_details = zetaprints_update_preview($url, $key, $params);
 
     if (!$templates_details)
       return;

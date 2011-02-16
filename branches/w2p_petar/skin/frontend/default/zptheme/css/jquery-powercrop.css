@@ -8,9 +8,18 @@ img.powercrop-image {
   opacity: .3;
 }
 
+div.powercrop-container.simple img.powercrop-image,
+div.powercrop-container.simple img.powercrop-image-top {
+  border: 1px solid transparent;
+}
+
+div.powercrop-container.no-resizing-action .ui-draggable {
+  cursor: pointer;
+}
+
 div.powercrop-viewport {
   position: absolute;
-  border: 1px solid #fff;
+  border: 1px dashed black;
 }
 
 div.powercrop-viewport-inner {
@@ -21,11 +30,19 @@ div.powercrop-viewport-inner {
 }
 
 div.powercrop-viewport-handle {
-  background: url('../images/image-edit/frame-handle.png') no-repeat;
-  width: 59px;
-  height: 26px;
+  background: url('../images/powercrop/cursor-move.png') no-repeat center;
+  width: 33px;
+  height: 33px;
   position: absolute;
-  top: 0px;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0px 0px -16px;
+  display: none;
+}
+
+div.powercrop-viewport:hover div.powercrop-viewport-handle,
+div.powercrop-viewport.ui-resizable-resizing div.powercrop-viewport-handle {
+  display: block;
 }
 
 img.powercrop-image-top {
