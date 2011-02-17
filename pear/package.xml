@@ -1,0 +1,609 @@
+<?xml version="1.0"?>
+<package>
+
+  <name>web_to_print_store_incl_theme</name>
+  <channel>community</channel>
+
+  <summary>Magento extension for ZetaPrints web-to-print API And Theme</summary>
+  <description>
+Add web-to-print and image personalization to your merchandize.
+Add design personalization to your products if you sell items such as cards,
+invitations, t-shirts, business cards, posters, banners,
+anything else where users may need to change text and upload their own photos
+in design templates.
+
+This extension uses ZetaPrints API to generate preview images and PDF files.
+
+Demo site: http://www.zetaprints.com/magento/
+Help and manuals: http://www.zetaprints.com/help/category/magento/
+Source code: http://code.google.com/p/magento-w2p/
+Technical support: admin@zetaprints.com
+Extension developed by http://www.zetaprints.com/
+  </description>
+
+  <authors>
+    <author>
+      <name>Anatoly A. Kazantsev</name>
+      <user>jimcrow</user>
+      <email>anatoly.kazantsev@gmail.com</email>
+    </author>
+  </authors>
+
+  <license>mixed</license>
+
+  <date>2010-12-26</date>
+
+  <version>1.8.3.2</version>
+  <stability>stable</stability>
+
+  <extends/>
+
+  <notes>
+* Add support for M. 1.4.2.0 version (issue #382)
+
+NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from project's svn repo.
+  </notes>
+
+  <contents>
+
+    <target name="mageetc">
+      <dir name="modules">
+        <file name="ZetaPrints_All.xml" hash="a068dcb5e370bf21510678d29c15c293"/>
+      </dir>
+    </target>
+
+    <target name="magelocal">
+      <dir name="ZetaPrints">
+
+        <dir name="WebToPrint">
+
+          <dir name="Block">
+
+            <dir name="Catalog">
+              <dir name="Product">
+                <dir name="Edit">
+
+                  <dir name="Tab">
+                    <dir name="Templates">
+                      <file name="Radiobutton.php"/>
+                    </dir>
+
+                    <file name="Templates.php"/>
+                  </dir>
+
+                  <file name="Tabs.php" hash="5968de3fb36e8f309d025a3a11afc93d"/>
+
+                </dir>
+              </dir>
+            </dir>
+
+            <dir name="Html">
+              <file name="Footer.php"/>
+            </dir>
+
+          </dir>
+
+          <dir name="Helper">
+            <file name="Data.php"/>
+            <file name="PersonalizationForm.php"/>
+          </dir>
+
+          <dir name="Model">
+
+            <dir name="Convert">
+
+              <dir name="Mapper">
+
+                <dir name="Product">
+                  <file name="Creating.php"/>
+                  <file name="Updating.php"/>
+                </dir>
+
+              </dir>
+
+              <dir name="Parser">
+                <file name="Template.php"/>
+              </dir>
+
+            </dir>
+
+            <dir name="Events">
+              <file name="Observer.php"/>
+            </dir>
+
+            <dir name="Mysql4">
+
+              <dir name="Template">
+                <file name="Collection.php"/>
+              </dir>
+
+              <file name="Template.php"/>
+
+            </dir>
+
+            <dir name="Profile">
+              <file name="History.php"/>
+            </dir>
+
+            <dir name="Quote">
+              <file name="Item.php"/>
+            </dir>
+
+            <dir name="Resource">
+              <dir name="Mysql4">
+                <file name="Setup.php"/>
+              </dir>
+            </dir>
+
+            <dir name="System">
+              <dir name="Config">
+                <dir name="Backend">
+                  <file name="ZetaPrintsUrl.php"/>
+                </dir>
+              </dir>
+            </dir>
+
+            <file name="Config.php"/>
+            <file name="Template.php"/>
+
+          </dir>
+
+          <dir name="controllers">
+
+            <dir name="Catalog">
+              <file name="ProductController.php"/>
+            </dir>
+
+            <file name="ImageController.php"/>
+            <file name="PhotothumbnailController.php"/>
+            <file name="PreviewController.php"/>
+            <file name="ThumbnailController.php"/>
+            <file name="TransController.php"/>
+            <file name="UploadController.php"/>
+
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml"/>
+            <file name="convert.xml"/>
+          </dir>
+
+          <dir name="sql">
+            <dir name="webtoprint_setup">
+              <file name="mysql4-data-upgrade-8-9.php"/>
+              <file name="mysql4-install-1.php"/>
+              <file name="mysql4-upgrade-1-2.php"/>
+              <file name="mysql4-upgrade-2-3.php"/>
+              <file name="mysql4-upgrade-3-4.php"/>
+              <file name="mysql4-upgrade-4-5.php"/>
+              <file name="mysql4-upgrade-5-6.php"/>
+              <file name="mysql4-upgrade-6-7.php"/>
+              <file name="mysql4-upgrade-7-8.php"/>
+            </dir>
+          </dir>
+
+        </dir>
+
+        <dir name="Zpapi">
+
+          <dir name="Helper">
+            <file name="Data.php"/>
+          </dir>
+
+          <dir name="Model">
+            <file name="FileUploadingLimit.php"/>
+            <file name="Observer.php"/>
+            <file name="Optionstore.php"/>
+            <file name="TemplateDeletingBehaviour.php"/>
+            <file name="color-pickers-html.xslt"/>
+            <file name="common-templates.xslt"/>
+            <file name="input-fields-html.xslt"/>
+            <file name="mage-logging.php"/>
+            <file name="page-tabs-html.xslt"/>
+            <file name="stock-images-html.xslt"/>
+            <file name="template-details-to-preview-html.xslt"/>
+            <file name="template_details_to_preview_html.xslt"/>
+            <file name="zp_api.php"/>
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml"/>
+            <file name="system.xml"/>
+          </dir>
+
+        </dir>
+
+      </dir>
+    </target>
+
+    <target name="magedesign">
+
+      <dir name="adminhtml">
+        <dir name="default">
+          <dir name="zptheme">
+
+            <dir name="layout">
+              <file name="local.xml"/>
+            </dir>
+
+            <dir name="locale">
+
+              <dir name="en_US">
+                <file name="translate.csv"/>
+              </dir>
+
+              <dir name="ru_RU">
+                <file name="translate.csv"/>
+              </dir>
+
+            </dir>
+
+            <dir name="template">
+
+              <dir name="catalog">
+                <dir name="product">
+                  <dir name="tab">
+                    <dir name="templates">
+                      <file name="radiobutton.phtml"/>
+                    </dir>
+                  </dir>
+                </dir>
+              </dir>
+
+              <dir name="sales">
+
+                <dir name="items">
+                  <dir name="column">
+                    <file name="name.phtml" hash="1c0a2972d9477e7b70db182f211f458f"/>
+                  </dir>
+                </dir>
+
+                <dir name="order">
+                  <dir name="view">
+
+                    <dir name="items">
+                      <dir name="renderer">
+                        <file name="default.phtml"/>
+                      </dir>
+                    </dir>
+
+                    <dir name="tab">
+                      <file name="info.phtml"/>
+                    </dir>
+
+                  </dir>
+                </dir>
+
+              </dir>
+
+            </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
+      <dir name="frontend">
+        <dir name="default">
+
+          <dir name="zptheme">
+
+            <dir name="layout">
+              <file name="local.xml"/>
+            </dir>
+
+            <dir name="template">
+
+              <dir name="callouts">
+                <file name="right_col.phtml"/>
+              </dir>
+
+              <dir name="catalog">
+                <dir name="product">
+
+                  <dir name="view">
+                    <file name="addto.phtml"/>
+                    <file name="addtocart.phtml"/>
+                    <file name="media.phtml"/>
+                  </dir>
+
+                  <file name="view.phtml"/>
+
+                </dir>
+              </dir>
+
+              <dir name="checkout">
+                <dir name="cart">
+                  <dir name="item">
+                    <file name="default.phtml"/>
+                  </dir>
+                </dir>
+              </dir>
+
+              <dir name="image-edit">
+                <file name="edit.phtml"/>
+              </dir>
+
+              <dir name="sales">
+                <dir name="order">
+
+                  <dir name="items">
+                    <dir name="renderer">
+                      <file name="default.phtml"/>
+                    </dir>
+                  </dir>
+
+                  <file name="items.phtml"/>
+
+                </dir>
+              </dir>
+
+            </dir>
+          </dir>
+
+          <dir name="zp2steptheme">
+            <dir name="template">
+              <dir name="catalog">
+                <dir name="product">
+
+                  <dir name="view">
+                    <file name="addto.phtml"/>
+                    <file name="addtocart.phtml"/>
+                    <file name="media.phtml"/>
+                  </dir>
+
+                  <file name="view.phtml"/>
+
+                </dir>
+              </dir>
+            </dir>
+          </dir>
+
+          <dir name="zpadvancedtheme">
+            <dir name="layout">
+              <file name="local.xml"/>
+            </dir>
+          </dir>
+
+        </dir>
+      </dir>
+
+    </target>
+
+    <target name="mageskin">
+
+      <dir name="adminhtml">
+        <dir name="default">
+          <dir name="zptheme">
+
+            <dir name="css">
+              <file name="fancybox-resizing.css"/>
+              <file name="jquery-fancybox-1.3.4.css"/>
+              <file name="zp-style.css"/>
+            </dir>
+
+            <dir name="images">
+              <dir name="fancybox">
+                <file name="blank.gif"/>
+                <file name="fancy_close.png"/>
+                <file name="fancy_loading.png"/>
+                <file name="fancy_nav_left.png"/>
+                <file name="fancy_nav_right.png"/>
+                <file name="fancy_shadow_e.png"/>
+                <file name="fancy_shadow_n.png"/>
+                <file name="fancy_shadow_ne.png"/>
+                <file name="fancy_shadow_nw.png"/>
+                <file name="fancy_shadow_s.png"/>
+                <file name="fancy_shadow_se.png"/>
+                <file name="fancy_shadow_sw.png"/>
+                <file name="fancy_shadow_w.png"/>
+                <file name="fancy_title_left.png"/>
+                <file name="fancy_title_main.png"/>
+                <file name="fancy_title_over.png"/>
+                <file name="fancy_title_right.png"/>
+                <file name="fancybox-x.png"/>
+                <file name="fancybox-y.png"/>
+                <file name="fancybox.png"/>
+              </dir>
+            </dir>
+
+            <dir name="js">
+              <file name="fancybox-resizing.js"/>
+              <file name="jquery-1.4.4-min.js"/>
+              <file name="jquery-fancybox-1.3.4-pack.js"/>
+            </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
+      <dir name="frontend">
+        <dir name="default">
+          <dir name="zptheme">
+
+            <dir name="css">
+              <file name="colorpicker.css"/>
+              <file name="fancybox-resizing.css"/>
+              <file name="jquery-fancybox-1.3.4.css"/>
+              <file name="jquery-powercrop.css"/>
+              <file name="zp-image-edit.css"/>
+              <file name="zp-in-preview-edit.css"/>
+              <file name="zp-style.css"/>
+              <file name="zp-text-field-editor.css"/>
+            </dir>
+
+            <dir name="images">
+
+              <dir name="colorpicker">
+                <file name="blank.gif"/>
+                <file name="colorpicker_background.png"/>
+                <file name="colorpicker_hex.png"/>
+                <file name="colorpicker_hsb_b.png"/>
+                <file name="colorpicker_hsb_h.png"/>
+                <file name="colorpicker_hsb_s.png"/>
+                <file name="colorpicker_indic.gif"/>
+                <file name="colorpicker_overlay.png"/>
+                <file name="colorpicker_rgb_b.png"/>
+                <file name="colorpicker_rgb_g.png"/>
+                <file name="colorpicker_rgb_r.png"/>
+                <file name="colorpicker_select.gif"/>
+                <file name="colorpicker_submit.png"/>
+                <file name="custom_background.png"/>
+                <file name="custom_hex.png"/>
+                <file name="custom_hsb_b.png"/>
+                <file name="custom_hsb_h.png"/>
+                <file name="custom_hsb_s.png"/>
+                <file name="custom_indic.gif"/>
+                <file name="custom_rgb_b.png"/>
+                <file name="custom_rgb_g.png"/>
+                <file name="custom_rgb_r.png"/>
+                <file name="custom_submit.png"/>
+                <file name="select.png"/>
+                <file name="select2.png"/>
+                <file name="slider.png"/>
+              </dir>
+
+              <dir name="fancybox">
+                <file name="blank.gif"/>
+                <file name="fancy_close.png"/>
+                <file name="fancy_loading.png"/>
+                <file name="fancy_nav_left.png"/>
+                <file name="fancy_nav_right.png"/>
+                <file name="fancy_shadow_e.png"/>
+                <file name="fancy_shadow_n.png"/>
+                <file name="fancy_shadow_ne.png"/>
+                <file name="fancy_shadow_nw.png"/>
+                <file name="fancy_shadow_s.png"/>
+                <file name="fancy_shadow_se.png"/>
+                <file name="fancy_shadow_sw.png"/>
+                <file name="fancy_shadow_w.png"/>
+                <file name="fancy_title_left.png"/>
+                <file name="fancy_title_main.png"/>
+                <file name="fancy_title_over.png"/>
+                <file name="fancy_title_right.png"/>
+                <file name="fancybox-x.png"/>
+                <file name="fancybox-y.png"/>
+                <file name="fancybox.png"/>
+              </dir>
+
+              <dir name="image-edit">
+                <file name="crop.png"/>
+                <file name="delete.png"/>
+                <file name="edit.png"/>
+                <file name="fit-to-field-crop-icon.png"/>
+                <file name="flip_h.png"/>
+                <file name="flip_v.png"/>
+                <file name="line.png"/>
+                <file name="move.png"/>
+                <file name="pen.png"/>
+                <file name="resize.png"/>
+                <file name="restore.png"/>
+                <file name="rotate_l.png"/>
+                <file name="rotate_r.png"/>
+                <file name="status-bar-sprite.png"/>
+              </dir>
+
+              <dir name="media">
+                <file name="download-webtoprint-extension.jpg"/>
+              </dir>
+
+              <dir name="powercrop">
+                <file name="cursor-move.png"/>
+              </dir>
+
+              <dir name="zp-text-field-editor">
+                <file name="sprites.png"/>
+              </dir>
+
+              <dir name="zp-text-field-resizer">
+                <file name="left-handle.gif"/>
+                <file name="right-handle.gif"/>
+              </dir>
+
+              <file name="big-spinner.gif"/>
+              <file name="edited-shape-background.png"/>
+              <file name="images-selector-sprites.png"/>
+              <file name="save-button.png"/>
+              <file name="spinner.gif"/>
+              <file name="transparent-background.gif"/>
+
+            </dir>
+
+            <dir name="js">
+              <file name="ajaxupload.js"/>
+              <file name="colorpicker.js"/>
+              <file name="fancybox-resizing.js"/>
+              <file name="jquery-1.4.4-min.js"/>
+              <file name="jquery-fancybox-1.3.4-pack.js"/>
+              <file name="jquery-powercrop.js"/>
+              <file name="jquery-qtip-1.0.0-rc3.min.js"/>
+              <file name="jquery-ui-1.8.7-custom-min.js"/>
+              <file name="zp-crop-visual-assistant.js"/>
+              <file name="zp-image-edit.js"/>
+              <file name="zp-in-preview-edit.js"/>
+              <file name="zp-metadata.js"/>
+              <file name="zp-personalization-form.js"/>
+              <file name="zp-text-field-editor.js"/>
+              <file name="zp-text-field-resizer.js"/>
+            </dir>
+
+          </dir>
+        </dir>
+      </dir>
+
+    </target>
+
+    <target name="magelocale">
+
+      <dir name="bg_BG">
+        <file name="ZetaPrints_WebToPrint.csv"/>
+        <file name="ZetaPrints_Zpapi.csv"/>
+      </dir>
+
+      <dir name="en_US">
+        <file name="ZetaPrints_WebToPrint.csv"/>
+        <file name="ZetaPrints_Zpapi.csv"/>
+      </dir>
+
+      <dir name="es_ES">
+        <file name="ZetaPrints_WebToPrint.csv"/>
+        <file name="ZetaPrints_Zpapi.csv"/>
+      </dir>
+
+      <dir name="ru_RU">
+        <file name="ZetaPrints_WebToPrint.csv"/>
+        <file name="ZetaPrints_Zpapi.csv"/>
+      </dir>
+
+    </target>
+
+  </contents>
+
+  <compatible/>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <package>
+        <name>Mage_Core_Modules</name>
+        <channel>community</channel>
+        <min>1.5.0.0</min>
+        <max>1.6.0.0</max>
+      </package>
+
+      <extension>
+        <name>curl</name>
+      </extension>
+
+      <extension>
+        <name>xsl</name>
+      </extension>
+
+    </required>
+  </dependencies>
+
+</package>
