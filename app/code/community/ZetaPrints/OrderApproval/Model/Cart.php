@@ -45,63 +45,6 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
     return $this;
   }
 
-
-  public function addProduct($product, $info = null) {
-    $product = $this->_getProduct($product);
-    $request = $this->_getProductRequest($info);
-
-    //Check if current product already exists in cart
-    $productId = $product->getId();
-
-    $items = $this->getQuote()->getAllItems(true);
-
-    $quoteProduct = null;
-
-    foreach ($items as $item)
-      if ($item->getProductId() == $productId) {
-        $quoteProduct = $item;
-        break;
-      }
-
-    if ($product->getStockItem()) {
-      $minimumQty = $product->getStockItem()->getMinSaleQty();
-
-      //If product was not found in cart and there is set minimal qty for it
-      if ($minimumQty && $minimumQty > 0 && $request->getQty() < $minimumQty
-          && $quoteProduct === null)
-        $request->setQty($minimumQty);
-    }
-
-    if ($product->getId()) {
-      try {
-        $result = $this->getQuote()->addProduct($product, $request);
-      } catch (Mage_Core_Exception $e) {
-        $this->getCheckoutSession()->setUseNotice(false);
-        $result = $e->getMessage();
-      }
-
-      //String we can get if prepare process has error
-      if (is_string($result)) {
-        $this->getCheckoutSession()->setRedirectUrl($product->getProductUrl());
-
-        if ($this->getCheckoutSession()->getUseNotice() === null)
-          $this->getCheckoutSession()->setUseNotice(true);
-
-        Mage::throwException($result);
-      }
-    } else
-      Mage::throwException(Mage::helper('checkout')
-        ->__('The product does not exist.'));
-
-    Mage::dispatchEvent('checkout_cart_product_add_after',
-                            array('quote_item' => $result,
-                                  'product' => $product ) );
-
-    $this->getCheckoutSession()->setLastAddedProductId($product->getId());
-
-    return $this;
-  }
-
   public function updateItems ($data) {
     Mage::dispatchEvent('checkout_cart_update_items_before',
                                           array('cart'=>$this, 'info'=>$data));
@@ -221,5 +164,53 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
     }
 
     return $data;
+  }
+
+  public function updateItem ($itemId, $requestInfo = null,
+                              $updatingParams = null) {
+    try {
+      $item = $this->getQuote()->getItemById($itemId, true);
+
+      if (!$item)
+        Mage::throwException(Mage::helper('checkout')
+                                            ->__('Quote item does not exist.'));
+
+      $productId = $item->getProduct()->getId();
+      $product = $this->_getProduct($productId);
+      $request = $this->_getProductRequest($requestInfo);
+
+      if ($product->getStockItem()) {
+        $minimumQty = $product->getStockItem()->getMinSaleQty();
+
+        // If product was not found in cart and there is set minimal qty for it
+        if ($minimumQty && ($minimumQty > 0)
+            && ($request->getQty() < $minimumQty)
+            && !$this->getQuote()->hasProductId($productId))
+          $request->setQty($minimumQty);
+      }
+
+      $result = $this
+                  ->getQuote()
+                  ->updateItem($itemId, $request, $updatingParams);
+    } catch (Mage_Core_Exception $e) {
+      $this->getCheckoutSession()->setUseNotice(false);
+
+      $result = $e->getMessage();
+    }
+
+    //We can get string if updating process had some errors
+    if (is_string($result)) {
+      if ($this->getCheckoutSession()->getUseNotice() === null)
+        $this->getCheckoutSession()->setUseNotice(true);
+
+      Mage::throwException($result);
+    }
+
+    Mage::dispatchEvent('checkout_cart_product_update_after',
+                        array('quote_item' => $result, 'product' => $product));
+
+    $this->getCheckoutSession()->setLastAddedProductId($productId);
+
+    return $result;
   }
 }

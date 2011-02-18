@@ -82,7 +82,9 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
     if (!$incl_unapproved)
       return parent::removeItem($itemId);
 
-    if ($item = $this->getItemById($itemId, true)) {
+    $item = $this->getItemById($itemId, true);
+
+    if ($item) {
       $item->setQuote($this);
 
       //If we remove item from quote - we can't use multishipping mode
@@ -223,6 +225,70 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
       return $this;
 
     return parent::setIsActive($active);
+  }
+
+  public function hasProductId ($productId) {
+    foreach ($this->getAllItems(true) as $item)
+      if ($item->getProductId() == $productId)
+        return true;
+
+    return false;
+  }
+
+  public function updateItem ($itemId, $buyRequest, $params = null) {
+    $item = $this->getItemById($itemId, true);
+
+    if (!$item)
+      Mage::throwException(Mage::helper('sales')
+                          ->__('Wrong quote item id to update configuration.'));
+
+    $productId = $item->getProduct()->getId();
+
+    //We need to create new clear product instance with same $productId
+    //to set new option values from $buyRequest
+    $product = Mage::getModel('catalog/product')
+                 ->setStoreId($this->getStore()->getId())
+                 ->load($productId);
+
+    if (!$params)
+      $params = new Varien_Object();
+    else if (is_array($params))
+      $params = new Varien_Object($params);
+
+    $params->setCurrentConfig($item->getBuyRequest());
+    $buyRequest = Mage::helper('catalog/product')
+                    ->addParamsToBuyRequest($buyRequest, $params);
+
+    $resultItem = $this->addProduct($product, $buyRequest);
+
+    if (is_string($resultItem))
+      Mage::throwException($resultItem);
+
+    if ($resultItem->getParentItem())
+      $resultItem = $resultItem->getParentItem();
+
+    if ($resultItem->getId() != $itemId) {
+      //Product configuration didn't stick to original quote item
+      //It either has same configuration as some other quote
+      //item's product or completely new configuration
+      $this->removeItem($itemId);
+
+      $items = $this->getAllItems(true);
+
+      foreach ($items as $item)
+        if (($item->getProductId() == $productId)
+            && ($item->getId() != $resultItem->getId()))
+          if ($resultItem->compare($item)) {
+            // Product configuration is same as in other quote item
+            $resultItem->setQty($resultItem->getQty() + $item->getQty());
+            $this->removeItem($item->getId());
+
+            break;
+          }
+    } else
+      $resultItem->setQty($buyRequest->getQty());
+
+    return $resultItem;
   }
 }
 
