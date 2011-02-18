@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package>
+
+  <name>Order_approval</name>
+  <channel>community</channel>
+
+  <summary>Items can be added to cart, but cannot be checked out until a nominated approver checks the order.</summary>
+  <description>
+Another useful extension by web-to-print and dynamic imaging guys.
+It's in an early stage yet, but we are working on it. Watch this space.
+
+How it works
+
+Nominate one approver per user.
+
+Any purchases made by a user with an approver have to go through
+an additional approval step. Any items can be added to cart, but only
+approved items can be checked out.
+
+When a user tried to check out a shopping cart it checks
+for any new unapproved items and sends an email to the nominated approver.
+The approver can log in, view the list of items and then either approve or
+cancel the purchase.
+
+Users without a nominated approver can check out as usual.
+  </description>
+
+  <authors>
+    <author>
+      <name>Anatoly A. Kazantsev</name>
+      <user>jimcrow</user>
+      <email>anatoly.kazantsev@gmail.com</email>
+    </author>
+  </authors>
+
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+  <date>2011-01-14</date>
+
+  <version>0.1.0.1</version>
+  <stability>stable</stability>
+
+  <extends/>
+
+  <notes>
+* Add support for M. 1.4.2.0 release (issue #400)
+  </notes>
+
+  <contents>
+
+    <target name="mageetc">
+      <dir name="modules">
+        <file name="ZetaPrints_OrderApproval.xml" />
+      </dir>
+    </target>
+
+    <target name="magecommunity">
+      <dir name="ZetaPrints">
+        <dir name="OrderApproval">
+
+          <dir name="Block">
+
+            <dir name="Cart">
+
+              <dir name="Edit">
+
+                <dir name="Grid">
+                  <dir name="Column">
+
+                    <dir name="Renderer">
+                      <file name="Image.php" />
+                      <file name="Productoptions.php" />
+                      <file name="Price.php" />
+                      <file name="Qty.php" />
+                      <file name="Subtotal.php" />
+                      <file name="Abstract.php" />
+                    </dir>
+
+                  </dir>
+                </dir>
+
+                <file name="Grid.php" />
+
+              </dir>
+
+              <file name="Edit.php" />
+
+            </dir>
+
+            <file name="Cart.php" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Data.php" />
+          </dir>
+
+          <dir name="Model">
+
+            <dir name="Entity">
+             <dir name="Attribute">
+
+                <dir name="Source">
+                  <file name="Approvers.php" />
+                </dir>
+
+              </dir>
+            </dir>
+
+            <dir name="Events">
+              <file name="Observer.php" />
+            </dir>
+
+            <dir name="Quote">
+              <file name="Address.php" />
+            </dir>
+
+            <file name="Cart.php" />
+            <file name="Quote.php" />
+
+          </dir>
+
+          <dir name="controllers">
+            <file name="CartController.php" />
+            <file name="OnepageController.php" />
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" />
+            <file name="system.xml" />
+          </dir>
+
+          <dir name="sql">
+
+            <dir name="orderapproval_setup">
+              <file name="mysql4-install-1.php" />
+              <file name="mysql4-data-upgrade-1-2.php" />
+            </dir>
+
+          </dir>
+
+        </dir>
+      </dir>
+    </target>
+
+    <target name="magelocale">
+      <dir name="en_US">
+        <dir name="template">
+          <dir name="email">
+
+              <dir name="sales">
+                <file name="new-items-to-approve.txt" />
+              </dir>
+
+          </dir>
+        </dir>
+      </dir>
+    </target>
+
+    <target name="magedesign">
+      <dir name="frontend">
+        <dir name="base">
+          <dir name="default">
+
+            <dir name="template">
+
+              <dir name="checkout">
+                <dir name="cart">
+
+                  <dir name="edit">
+                    <dir name="grid">
+                      <dir name="column">
+                        <dir name="renderer">
+                          <file name="qty.phtml" />
+                          <file name="subtotal.phtml" />
+                          <file name="product-options.phtml" />
+                          <file name="image.phtml" />
+                          <file name="price.phtml" />
+                        </dir>
+                      </dir>
+                    </dir>
+                  </dir>
+
+                  <file name="edit.phtml" />
+
+                </dir>
+              </dir>
+
+              <dir name="widget">
+
+                <dir name="grid">
+                  <file name="container.phtml" />
+                  <file name="massaction.phtml" />
+                </dir>
+
+                <file name="grid.phtml" />
+
+              </dir>
+
+            </dir>
+
+            <dir name="layout">
+
+              <dir name="checkout">
+                <file name="cart-edit.xml" />
+              </dir>
+
+            </dir>
+          </dir>
+        </dir>
+      </dir>
+    </target>
+
+    <target name="magedesign">
+      <dir name="frontend">
+        <dir name="base">
+          <dir name="default">
+            <dir name="css">
+              <dir name="order-approval">
+                <file name="styles.css" />
+              </dir>
+            </dir>
+          </dir>
+        </dir>
+      </dir>
+    </target>
+
+  </contents>
+
+  <compatible/>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <package>
+        <name>Mage_Core_Modules</name>
+        <channel>community</channel>
+        <min>1.5.0.0</min>
+        <max>1.6.0.0</max>
+      </package>
+
+    </required>
+  </dependencies>
+
+</package>
