@@ -48,7 +48,7 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
 
     <target name="mageetc">
       <dir name="modules">
-        <file name="ZetaPrints_All.xml" hash="a068dcb5e370bf21510678d29c15c293"/>
+        <file name="ZetaPrints_All.xml" />
       </dir>
     </target>
 
@@ -71,7 +71,7 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
                     <file name="Templates.php"/>
                   </dir>
 
-                  <file name="Tabs.php" hash="5968de3fb36e8f309d025a3a11afc93d"/>
+                  <file name="Tabs.php" />
 
                 </dir>
               </dir>
@@ -254,7 +254,7 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
 
                 <dir name="items">
                   <dir name="column">
-                    <file name="name.phtml" hash="1c0a2972d9477e7b70db182f211f458f"/>
+                    <file name="name.phtml" />
                   </dir>
                 </dir>
 
