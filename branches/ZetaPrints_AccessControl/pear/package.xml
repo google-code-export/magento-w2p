@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package>
+
+  <name>category_access_control</name>
+  <channel>community</channel>
+
+  <summary>Control access to products and categories using user groups.</summary>
+  <description>
+Features:
+
+* allow access to categories for selected user groups only
+* users see products and categories only if allowed
+* default category settings can be changed individually per category or
+  for the whole store
+* built-in groups for ALL (no access control applies), NONE (no access),
+  REGISTERED (any registered user)
+
+It's pretty easy to configure, but if you are looking for serious access control
+you need to use Magento Enterprise Edition.
+
+This extension is based on the excellent work by Vinnai Kung
+(http://www.magentocommerce.com/extension/reviews/module/635).
+We used his code to change the functionality and simplify the interface.
+
+We actively develop and support this extension please, report any bugs here.
+Our existing customers using our web-to-print and dynamic
+imaging extension (http://www.magentocommerce.com/extension/1586) can contact us
+via email with bugs reports and feature requests.
+  </description>
+
+  <authors>
+    <author>
+      <name>Anatoly A. Kazantsev</name>
+      <user>jimcrow</user>
+      <email>anatoly.kazantsev@gmail.com</email>
+    </author>
+  </authors>
+
+  <date>2011-01-14</date>
+
+  <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+
+  <version>1.0.2.2</version>
+  <stability>stable</stability>
+
+  <notes>
+* Include accidentally forgotten changes. Sorry. Yet another attempt :-(
+  </notes>
+
+  <contents>
+
+    <target name="mageetc">
+      <dir name="modules">
+        <file name="ZetaPrints_AccessControl.xml" />
+      </dir>
+    </target>
+
+    <target name="magecommunity">
+      <dir name="ZetaPrints">
+        <dir name="AccessControl">
+
+          <dir name="Block">
+
+            <dir name="Advanced">
+              <file name="Result.php" />
+            </dir>
+
+            <dir name="Catalog">
+              <dir name="Product">
+
+                <dir name="Helper">
+                  <file name="Customergroups.php" />
+                </dir>
+
+              </dir>
+            </dir>
+
+            <dir name="Layer">
+              <file name="View.php" />
+            </dir>
+
+            <dir name="Seo">
+
+              <dir name="Sitemap">
+                <file name="Category.php" />
+                <file name="Product.php" />
+              </dir>
+
+            </dir>
+
+            <dir name="Product">
+
+              <dir name="List">
+                <file name="Toolbar.php" />
+              </dir>
+
+            </dir>
+
+            <file name="Navigation.php" />
+
+          </dir>
+
+          <dir name="controllers">
+            <file name="AjaxController.php" />
+          </dir>
+
+          <dir name="etc">
+            <file name="config.xml" />
+            <file name="system.xml" />
+          </dir>
+
+          <dir name="Helper">
+            <file name="Category.php" />
+            <file name="Data.php" />
+            <file name="Product.php" />
+          </dir>
+
+          <dir name="Model">
+
+            <dir name="Config">
+
+                <dir name="Data">
+                  <file name="Customergroups.php" />
+                </dir>
+
+                <dir name="Source">
+
+                  <dir name="Customergroups">
+                    <file name="Category.php" />
+                  </dir>
+
+                  <file name="Customergroups.php" />
+
+                </dir>
+
+            </dir>
+
+            <dir name="Entity">
+              <dir name="Attribute">
+
+                <dir name="Backend">
+                  <file name="Customergroups.php" />
+                </dir>
+
+              </dir>
+            </dir>
+
+            <dir name="Resource">
+
+              <dir name="Sitemap">
+
+                <dir name="Mysql4">
+                  <file name="Category.php" />
+                  <file name="Product.php" />
+                </dir>
+
+              </dir>
+
+              <file name="Setup.php" />
+
+            </dir>
+
+            <file name="Layer.php" />
+            <file name="Observer.php" />
+
+          </dir>
+
+          <dir name="sql">
+
+            <dir name="accesscontrol_setup">
+              <file name="mysql4-install-1.php" />
+              <file name="mysql4-upgrade-1-2.php" />
+              <file name="mysql4-upgrade-2-3.php" />
+              <file name="mysql4-upgrade-3-4.php" />
+            </dir>
+
+          </dir>
+
+        </dir>
+      </dir>
+    </target>
+
+  </contents>
+
+  <compatible/>
+
+  <dependencies>
+    <required>
+
+      <php>
+        <min>5.2.0</min>
+        <max>6.0.0</max>
+      </php>
+
+      <package>
+        <name>Mage_Core_Modules</name>
+        <channel>community</channel>
+        <min>1.5.0.0</min>
+        <max>1.6.0.0</max>
+      </package>
+
+    </required>
+  </dependencies>
+
+</package>
