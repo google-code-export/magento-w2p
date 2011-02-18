@@ -186,6 +186,9 @@ function zetaprints_parse_template_details ($xml) {
           'anchor-x' => (float) $shape['AnchorX'],
           'anchor-y' => (float) $shape['AnchorY'] );
       }
+
+      $template['pages'][$page_number]['shapes'] =
+                      array_reverse($template['pages'][$page_number]['shapes']);
     }
 
     $page_number++;
