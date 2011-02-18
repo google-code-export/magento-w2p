@@ -724,6 +724,22 @@ function personalization_form ($) {
         }
       });
     });
+    
+    $('select').each(function(){
+        var $self = $(this);
+        var isCombo = false;
+        var $children = $self.children('option');
+        $children.each(function(){
+            var $opt = jQuery(this);
+            if ($.trim($opt.text()) == '-') {
+                isCombo = true;
+                $opt.remove();
+            }
+        });
+        if (isCombo) {
+            $self.wrap('<div class="ui-widget"/>').combobox();
+        }
+    });
   });
 
   $('div.zetaprints-next-page-button').click({zp: this}, function (event) {
@@ -896,4 +912,7 @@ function personalization_form ($) {
 
   if (this.has_shapes && window.add_in_preview_edit_handlers)
     add_in_preview_edit_handlers();
+    
+    
+  
 }

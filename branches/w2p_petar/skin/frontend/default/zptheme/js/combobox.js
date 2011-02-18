@@ -120,21 +120,3 @@
     });
 })(jQuery);
 
-jQuery(function(){
-    var $selects = jQuery('select');
-    $selects.each(function(){
-        var $self = jQuery(this);
-        var isCombo = false;
-        var $children = $self.children('option');
-        $children.each(function(){
-            var $opt = jQuery(this);
-            if (jQuery.trim($opt.text()) == '-') {
-                isCombo = true;
-                $opt.remove();
-            }
-        });
-        if (isCombo) {
-            $self.wrap('<div class="ui-widget"/>').combobox();
-        }
-    });
-});
