@@ -230,7 +230,9 @@ function get_current_shapes_container () {
 function shape_handler (event) {
   var shape = jQuery(event.target).parent();
   if (event.type == 'click') {
-    current_field_name = jQuery(shape).attr('rel');
+    jQuery('#current-shape').attr('id', '');
+    jQuery(shape).attr('id', 'current-shape');
+
     jQuery('a.zetaprints-template-preview:visible', jQuery(shape).parent())
       .click();
   } else if (event.type == 'mouseover') {

@@ -767,9 +767,11 @@ function personalization_form ($) {
       place_all_shapes_for_page (zp.template_details.pages[zp.current_page].shapes,
                                  dimension, fancy_inner, fancy_shape_handler);
 
-      if (typeof(zp.current_field_name) != 'undefined' && zp.current_field_name != null && zp.current_field_name.length != 0) {
-        highlight_shape_by_name(zp.current_field_name, fancy_inner);
-        popup_field_by_name(zp.current_field_name);
+      var $current_shape = jQuery('#current-shape');
+
+      if ($current_shape.length) {
+        highlight_shape_by_name($current_shape.attr('rel'), fancy_inner);
+        popup_field_by_name($current_shape.attr('rel'));
       }
 
       zp.current_field_name = null;
