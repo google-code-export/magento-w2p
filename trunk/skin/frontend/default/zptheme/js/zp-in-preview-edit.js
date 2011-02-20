@@ -139,8 +139,6 @@ function popup_field_by_name (name, position) {
   var height = jQuery(box).outerHeight();
   var width = jQuery(box).outerWidth();
 
-  console.log(position);
-
   if (!position) {
     position = jQuery(shape).offset();
     position.top += jQuery(shape).outerHeight() - 10;
