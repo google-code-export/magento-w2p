@@ -97,7 +97,7 @@ function dehighlight_field_by_name (name) {
 }
 
 function popup_field_by_name (name, position) {
-  var shape = jQuery('div.zetaprints-field-shape[rel=' + name + ']', jQuery('div#fancybox-inner'))[0];
+  var shape = jQuery('div.zetaprints-field-shape[rel=' + name + ']', jQuery('div#fancybox-content'))[0];
   var field = jQuery(':input[name=zetaprints-_'+ name +']');
 
   if (field.length) {
@@ -163,9 +163,9 @@ function popup_field_by_name (name, position) {
 
 function popdown_field_by_name (name) {
   if (name)
-    var field = jQuery(':input[value~='+ name +']', jQuery('div#fancybox-inner'));
+    var field = jQuery(':input[value~='+ name +']', jQuery('div#fancybox-content'));
   else
-    var field = jQuery(':input', jQuery('div#fancybox-inner'));
+    var field = jQuery(':input', jQuery('div#fancybox-content'));
 
   if (!field.length)
     return;
@@ -215,7 +215,7 @@ function mark_shapes_as_edited (template_details) {
 }
 
 function get_current_shapes_container () {
-  var container = jQuery('div#fancybox-inner:visible');
+  var container = jQuery('div#fancybox-content:visible');
   if (container.length)
     return container[0];
 
@@ -248,7 +248,7 @@ function fancy_shape_handler (event) {
     if (jQuery(shape).children().length > 1)
       return false;
 
-    jQuery('div#fancybox-inner div.zetaprints-field-shape.highlighted[rel!=' + jQuery(shape).attr('rel') + ']').removeClass('highlighted');
+    jQuery('div#fancybox-content div.zetaprints-field-shape.highlighted[rel!=' + jQuery(shape).attr('rel') + ']').removeClass('highlighted');
     popdown_field_by_name();
     popup_field_by_name(jQuery(shape).attr('rel'), { top: event.pageY, left: event.pageX });
 
@@ -256,7 +256,7 @@ function fancy_shape_handler (event) {
   }
 
   if (event.type == 'mouseover') {
-    var highlighted = jQuery('div#fancybox-inner > div.zetaprints-field-shape.highlighted');
+    var highlighted = jQuery('div#fancybox-content > div.zetaprints-field-shape.highlighted');
     if (jQuery(highlighted).children().length <= 1)
       jQuery(highlighted).removeClass('highlighted');
 
@@ -281,7 +281,7 @@ function add_in_preview_edit_handlers () {
   });
 
   jQuery('img#fancybox-img').live('click', function () {
-    jQuery('div.zetaprints-field-shape.bottom', jQuery('div#fancybox-inner')).removeClass('highlighted');
+    jQuery('div.zetaprints-field-shape.bottom', jQuery('div#fancybox-content')).removeClass('highlighted');
     popdown_field_by_name();
   });
 
