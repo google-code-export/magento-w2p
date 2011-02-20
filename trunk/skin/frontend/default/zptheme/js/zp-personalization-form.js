@@ -757,7 +757,7 @@ function personalization_form ($) {
         && window.fancy_shape_handler))
         return;
 
-      var fancy_inner = $('div#fancybox-inner')[0];
+      var fancy_inner = $('div#fancybox-content')[0];
       var fancy_image = $('img#fancybox-img', fancy_inner)[0];
 
       var dimension = {
@@ -779,7 +779,7 @@ function personalization_form ($) {
         fancybox_resizing_hide();
 
       if (zp.has_shapes && window.popdown_field_by_name) {
-        $('div.zetaprints-field-shape', $('div#fancybox-inner')).removeClass('highlighted');
+        $('div.zetaprints-field-shape', $('div#fancybox-content')).removeClass('highlighted');
         popdown_field_by_name();
       }
     } });
