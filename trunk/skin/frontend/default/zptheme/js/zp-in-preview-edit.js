@@ -105,7 +105,7 @@ function popup_field_by_name (name, position) {
     var full_name = 'zetaprints-_'+ name;
 
     jQuery(field).css({
-      borderWidth: '0px' });
+      borderWidth: '0px' }).parent().css('position', 'static');
 
     var width = jQuery(shape).outerWidth();
     if (width <= 150)
@@ -138,6 +138,8 @@ function popup_field_by_name (name, position) {
 
   var height = jQuery(box).outerHeight();
   var width = jQuery(box).outerWidth();
+
+  console.log(position);
 
   if (!position) {
     position = jQuery(shape).offset();
@@ -178,6 +180,9 @@ function popdown_field_by_name (name) {
   var element = jQuery('div.zetaprints-page-input-fields :input[name=' + full_name + '], div.zetaprints-images-selector[rel=' + full_name + '] div.selector-content')
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
+
+  if (!jQuery(element).parent().hasClass('zetaprints-images-selector'))
+    jQuery(element).parent().css('position', 'relative');
 
   jQuery(field).remove();
 
