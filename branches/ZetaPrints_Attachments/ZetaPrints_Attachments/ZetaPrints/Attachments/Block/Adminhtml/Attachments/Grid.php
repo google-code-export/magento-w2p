@@ -7,7 +7,8 @@
  */
 
 
-class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid
+  extends Mage_Adminhtml_Block_Widget_Grid
 {
   public function __construct()
   {

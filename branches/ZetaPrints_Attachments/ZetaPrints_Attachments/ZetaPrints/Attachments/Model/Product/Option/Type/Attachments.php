@@ -14,6 +14,8 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
   const ADMIN_AREA_TPL = '<a class="zp-download-file" href="%s" target="_blank">%s</a> %s';
   const FRONTEND_AREA_TPL = '<span class="zp-attachment-file">%s</span> %s';
 
+  protected $attachments;
+
   public function getFormattedOptionValue($optionValue)
   {
     if ($this->_formattedOptionValue === null) {
@@ -45,18 +47,18 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
 
   protected function _setFullValues($value)
   {
-    if ($this->_setFullValues && $this->getQuoteItemOption()) {
-      $this->getQuoteItemOption()->setValue(serialize($value));
+    if ($this->_setFullValues && $this->getConfigurationItemOption()) {
+      $this->getConfigurationItemOption()->setValue(serialize($value));
     }
     return $this;
   }
 
   protected function _setUrl($value, $key, $route)
   {
-    if(!isset($value[$key]) && $this->getQuoteItemOption()){
+    if(!isset($value[$key]) && $this->getConfigurationItemOption()){
       $value[$key] = array ('route' => $route,
                             'params' => array (
-                            'id' => $this->getQuoteItemOption()->getId(),
+                            'id' => $this->getConfigurationItemOption()->getId(),
                             'key' => $value['secret_key']
                            ));
       $this->_setFullValues = true;
@@ -172,5 +174,104 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
       return $optionInfo['value'];
     }
     Mage::throwException(Mage::helper('catalog')->__("File options values are not valid."));
+  }
+
+  protected function _prepareAttachments($request)
+  {
+    if ($request->getData('attachment_hash')) { // if this is main form submit we have this key in request
+      if(!isset($this->attachments)){
+        $product_id = $this->getProduct()->getId();
+        $attachments = Mage::helper('attachments')->getSessionAttachments($product_id, false);
+        $hash = $request->getData('attachment_hash');
+        foreach ($attachments as $att_value) {
+          // if error has occurred before there might be some hashes left,
+          // so we filter to get only current files
+          $h = $att_value[ZetaPrints_Attachments_Model_Attachments::ATT_HASH];
+          if (in_array($h, $hash)) {
+            $this->attachments[] = $att_value; // store attachments data in instance
+          }
+        }
+      }
+    }
+  }
+  /**
+   * Set process mode
+   *
+   * Process mode is new flag added for 1.5 series.
+   * It has 2 values currently - these are 'full' and 'lite'.
+   * When full mode is used and we have AJAX attachment files,
+   * we have a problem - product does not get added to cart.
+   * To overcome the problem we need to set this mode to lite
+   * so that Magento ignores options for which no values are passed
+   * at moment of adding product to cart.
+   * @param  $processMode
+   * @return ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
+   */
+  public function setProcessMode($processMode)
+  {
+    $request = $this->getRequest();
+    $this->_prepareAttachments($request);
+    if($this->attachments){
+      $processMode = Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE;
+    }
+    return parent::setProcessMode($processMode);
+  }
+
+  /**
+   * Override parent method
+   *
+   * Since we are dealing with multiple files per option, we need to do
+   * some data preparation before the option data is added to product/quote/order
+   *
+   * @return mixed|null|string
+   */
+  public function prepareForCart()
+  {
+    $request = $this->getRequest(); // get buy info request
+    $this->_prepareAttachments($request);
+    if ($this->attachments) { // if we have found any attachments in this request, prepare data
+      $option = $this->getOption();
+      $optionId = $option->getId();
+      $buyRequest = $this->getRequest();
+      // Prepare value and fill buyRequest with option
+      $requestOptions = $buyRequest->getOptions();
+      $orderAtt = array();
+      foreach ($this->attachments as $data) {
+        if($data['option_id'] != $optionId){
+          continue;
+        }
+        $atCollection = Mage::getModel('attachments/attachments')
+              ->getAttachmentCollection($data); // get all uploads for give option
+        foreach ($atCollection as $att) { // collect all uploads in common array
+          $orderAttValue = unserialize($att->getAttachmentValue());
+          $orderAttValue['attachment_id'] = $att->getId();
+          $orderAtt[] = $orderAttValue;
+        }
+      }
+      if($orderAtt){
+        $result = serialize($orderAtt);
+        $requestOptions[$optionId] = $orderAtt;
+      } else {
+        /*
+        * Clear option info from request, so it won't be stored in our db upon
+        * unsuccessful validation. Otherwise some bad file data can happen in buyRequest
+        * and be used later in reorders and reconfigurations.
+        */
+        if (is_array($requestOptions)) {
+          unset($requestOptions[$optionId]);
+        }
+        $result = null;
+      }
+      $buyRequest->setOptions($requestOptions);
+
+      // Clear action key from buy request - we won't need it anymore
+      $optionActionKey = 'options_' . $optionId . '_file_action';
+      $buyRequest->unsetData($optionActionKey);
+
+      return $result;
+    }
+
+    // else pass control to parent
+    return parent::prepareForCart();
   }
 }

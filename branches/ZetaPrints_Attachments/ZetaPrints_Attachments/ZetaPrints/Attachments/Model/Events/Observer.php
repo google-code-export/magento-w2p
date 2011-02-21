@@ -14,6 +14,8 @@ class ZetaPrints_Attachments_Model_Events_Observer
    *
    * Since we are going to handle file upload asynchronously
    * we need a way to attach files and orders.
+   *
+   * @deprecated after 1.4.2
    * @event checkout_cart_product_add_after
    * @param Varien_Event_Observer $observer
    */
@@ -24,15 +26,7 @@ class ZetaPrints_Attachments_Model_Events_Observer
     $product_id = $quote_item->getProductId();
     $product = $quote_item->getProduct();
 
-    $attachments = array ();
-    foreach (Mage::getSingleton('core/session')->getData() as $key => $value) {
-      if (strpos($key, ZetaPrints_Attachments_Model_Attachments::ATT_SESS) !== false) { // this is attachment data
-        if ($value[ZetaPrints_Attachments_Model_Attachments::PR_ID] == $product_id) { // and is for current product
-          $attachments[] = $value;
-          Mage::getSingleton('core/session')->unsetData($key);
-        }
-      }
-    }
+    $attachments = Mage::helper('attachments')->getSessionAttachments($product_id);
 
     $orderAtt = array ();
     foreach ($attachments as $data) {
@@ -101,15 +95,7 @@ class ZetaPrints_Attachments_Model_Events_Observer
     $hash = $request->getParam('attachment_hash');
     // to locate correct attachments we need all 3 keys
     if (isset($prid, $hash)) {
-      $sess = Mage::getSingleton('core/session');
-      foreach ($hash as $opt_id => $hash_value) {
-        $key = ZetaPrints_Attachments_Model_Attachments::ATT_SESS . '_' . $hash_value; // make unique option key
-        $sess->setData($key, array ( // save it in session
-            ZetaPrints_Attachments_Model_Attachments::PR_ID => $prid,
-            ZetaPrints_Attachments_Model_Attachments::OPT_ID => $opt_id,
-            ZetaPrints_Attachments_Model_Attachments::ATT_HASH => $hash_value
-        ));
-      }
+      Mage::helper('attachments')->setSessionAttachments($prid, $hash);
     }
   }
 
@@ -182,14 +168,14 @@ class ZetaPrints_Attachments_Model_Events_Observer
    * orders, so if you specify value for old files that is equal or less
    * than the value for orphaned files, the latter is simply ignored since ALL files
    * will be deleted by the former setting anyway.
-   * 
+   *
    * This is run using Magento cron tab. Recomennded setting for cron tab
    * in production environment is: * /5 * * * * /path/to/php /path/to/magento/cron.php >/dev/null 2>&1
-   * for testing and debugging purposes last portion of the line 
+   * for testing and debugging purposes last portion of the line
    * could be changed to a log file:
    * * /5 * * * * /path/to/php /path/to/magento/cron.php >>/path/to/magento/var/log/cron.log
    * This way all output from the operation will be logged.
-   * 
+   *
    * @return void
    */
   public function cleanUpOldFiles()
@@ -266,14 +252,14 @@ class ZetaPrints_Attachments_Model_Events_Observer
 
     return $select;
   }
-  
+
   /**
    * Echo debug value
-   * 
+   *
    * Only echo in developer mode.
    */
   protected function _debug($value)
-  {      
+  {
     echo date('r') . ' [DEBUG]: ' . $value . PHP_EOL;
     /*
     if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
