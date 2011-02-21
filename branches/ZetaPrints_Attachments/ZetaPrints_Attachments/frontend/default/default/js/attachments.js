@@ -551,6 +551,9 @@ var attachments = Class.create({
       var delLink = $(this.getRemoveLinkId(uploadId));
       delLink.observe('click', function(e){
         Event.stop(e);
+        if(!confirm('Are you sure you want to delete this file?')){
+          return false;
+        }
         var url = this.href;
         var id = $(this).identify();
         new Ajax.Request(url, {
@@ -559,7 +562,7 @@ var attachments = Class.create({
             var link = $(id);
             var parent = link.up('li');
             var content = parent.innerHTML;
-            parent.update('<strike>' + content + '</strike>&nbsp;' + transp.responseText);
+            parent.update('<del>' + content + '</del>&nbsp;' + transp.responseText);
           },
           onFailure: function(transp){
             var link = $(id);
