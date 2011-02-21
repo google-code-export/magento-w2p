@@ -104,8 +104,12 @@ function popup_field_by_name (name, position) {
     field = field[0];
     var full_name = 'zetaprints-_'+ name;
 
-    jQuery(field).css({
-      borderWidth: '0px' }).parent().css('position', 'static');
+    jQuery(field)
+      .css({
+        borderWidth: '0px' })
+      .data('original-value', jQuery(field).val())
+      .parent()
+      .css('position', 'static')
 
     var width = jQuery(shape).outerWidth();
     if (width <= 150)
@@ -115,6 +119,8 @@ function popup_field_by_name (name, position) {
 
     if (!field.length)
       return;
+
+    field.data('original-value', field.find('input:checked').val());
 
     field = field[0];
 
@@ -130,7 +136,12 @@ function popup_field_by_name (name, position) {
   jQuery('<input type="hidden" name="field" value="' + full_name + '" />').appendTo(shape);
 
   var box = jQuery(field).wrap('<div class="field" />').parent().wrap('<div class="fieldbox-wrapper" />')
-    .parent().prepend('<div class="fieldbox-head"><a href="#" rel="' + full_name + '" /><span>' + name + ':</span></div>')
+    .parent()
+    .prepend('<div class="fieldbox-head">' +
+                '<a class="button save" href="#" rel="' + full_name + '" />' +
+                '<a class="button close href="#" />' +
+                '<span>' + name + ':</span>' +
+              '</div>')
     .wrap('<div class="fieldbox" />').parent().css({
     zIndex: '10000',
     position: 'absolute',
@@ -179,6 +190,8 @@ function popdown_field_by_name (name) {
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
+  jQuery(element).data('original-value', undefined);
+
   if (!jQuery(element).parent().hasClass('zetaprints-images-selector'))
     jQuery(element).parent().css('position', 'relative');
 
@@ -215,6 +228,22 @@ function mark_shapes_as_edited (template_details) {
         continue;
       }
     }
+}
+
+function mark_fieldbox_as_edited (name) {
+  jQuery(':input[name=zetaprints-_' + name + '], ' +
+         'div.zetaprints-images-selector[rel=zetaprints-#' + name +
+         '] div.selector-content')
+    .parents('div.fieldbox')
+    .addClass('fieldbox-changed-state');
+}
+
+function unmark_fieldbox_as_edited (name) {
+  jQuery(':input[name=zetaprints-_' + name + '], ' +
+         'div.zetaprints-images-selector[rel=zetaprints-#' + name +
+         '] div.selector-content')
+    .parents('div.fieldbox')
+    .removeClass('fieldbox-changed-state');
 }
 
 function get_current_shapes_container () {

@@ -440,7 +440,7 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
               <file name="images-selector-sprites.png" role="mageskin" />
               <file name="transparent-background.gif" role="mageskin" />
               <file name="edited-shape-background.png" role="mageskin" />
-              <file name="save-button.png" role="mageskin" />
+              <file name="in-preview-edit-sprite.png" role="mageskin" />
               <file name="big-spinner.gif" role="mageskin" />
               <file name="spinner.gif" role="mageskin" />
 

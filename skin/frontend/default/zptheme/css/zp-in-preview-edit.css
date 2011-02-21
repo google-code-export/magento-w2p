@@ -70,14 +70,32 @@ div.fieldbox.ui-draggable div.fieldbox-head {
   cursor: move;
 }
 
-div.fieldbox div.fieldbox-head a {
-  display: block;
-  background-image: url('../images/save-button.png');
+div.fieldbox div.fieldbox-head a.button {
+  background-image: url('../images/in-preview-edit-sprite.png');
   float: right;
   text-decoration: none;
-  width: 44px;
-  height: 16px;
   margin-top: 1px;
+  height: 16px;
+  cursor: pointer;
+}
+
+div.fieldbox div.fieldbox-head a.button.save {
+  width: 48px;
+}
+
+div.fieldbox div.fieldbox-head a.button.close {
+  background-position: 0px -20px;
+  width: 17px;
+}
+
+div.fieldbox a.button.save,
+div.fieldbox.fieldbox-changed-state a.button.close {
+  display: none;
+}
+
+div.fieldbox a.button.close,
+div.fieldbox.fieldbox-changed-state a.button.save {
+  display: block;
 }
 
 div.fieldbox div.field {
