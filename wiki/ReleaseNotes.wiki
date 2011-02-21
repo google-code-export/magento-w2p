@@ -35,7 +35,7 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif skin/frontend/default/zptheme/images/image-edit/infobar_icon_tooltip_white.gif] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/image-edit/frame-handle.png skin/frontend/default/zptheme/images/image-edit/frame-handle.png] file into _image-edit_ directory in your custom theme's image directory.
   * Copy [http://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png skin/frontend/default/zptheme/images/zp-text-field-editor/sprites.png] file into _zp-text-field-editor_ directory in your custom theme's image directory.
-  Copy [htts://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/fancybox/fancybox.png skin/frontend/default/zptheme/images/fancybox/fancybox] file into _fancybox_ directory in your custom theme's image directory.
+  Copy [htt://code.google.com/p/magento-w2p/source/browse/trunk/skin/frontend/default/zptheme/images/fancybox/fancybox.png skin/frontend/default/zptheme/images/fancybox/fancybox.png] file into _fancybox_ directory in your custom theme's image directory.
 
 = Stable release (1.8.3.2) =
 == Issues ==
