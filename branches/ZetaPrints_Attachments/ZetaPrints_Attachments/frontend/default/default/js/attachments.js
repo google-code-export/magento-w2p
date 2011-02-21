@@ -144,6 +144,18 @@ var attachments = Class.create({
     link.className = this.settings.cancelLinkClass;
     return link;
   },
+  getDeleteLink:function(response, id){ // link to trigger file deletion
+    var href = response.delete_url;
+    var link = '';
+    if(href && response.title){
+      link = response.title + '&nbsp;<a href="' + href + '" title="Delete ' + response.title + '" ';
+      link += 'id="' + this.getRemoveLinkId(id) + '" ';
+      link += 'class="' + this.settings.removeLinkClass + '">Delete</a>';
+    }else if (response.title) {
+      link = response.title;
+    }
+    return link;
+  },
   getRemoveLinkId:function(id) // compose remove link id
   {
     return this.settings.removeLinkClass + "-" + this.idx + "-" + id;
@@ -534,7 +546,29 @@ var attachments = Class.create({
       return; // do nothing
     }
     if(undefined != response.title){
-      this.updateUploadsList(response.title, this.getListItemId(uploadId)); // if title is set, that is valid response from server
+      var loadedText = this.getDeleteLink(response, uploadId);
+      this.updateUploadsList(loadedText, this.getListItemId(uploadId)); // if title is set, that is valid response from server
+      var delLink = $(this.getRemoveLinkId(uploadId));
+      delLink.observe('click', function(e){
+        Event.stop(e);
+        var url = this.href;
+        var id = $(this).identify();
+        new Ajax.Request(url, {
+          method: 'get',
+          onSuccess: function(transp){
+            var link = $(id);
+            var parent = link.up('li');
+            var content = parent.innerHTML;
+            parent.update('<strike>' + content + '</strike>&nbsp;' + transp.responseText);
+          },
+          onFailure: function(transp){
+            var link = $(id);
+            var parent = link.up('li');
+            parent.insert('&nbsp;' + transp.responseText);
+          }
+        });
+        return false;
+      });
     }else{ // else an error is occured give out general message
       console.warn(response.error);
       this.updateUploadsList('A problem has occured, please try again', this.getListItemId(uploadId));
