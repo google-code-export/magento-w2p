@@ -561,6 +561,7 @@ var attachments = Class.create({
           onSuccess: function(transp){
             var link = $(id);
             var parent = link.up('li');
+            link.hide();
             var content = parent.innerHTML;
             parent.update('<del>' + content + '</del>&nbsp;' + transp.responseText);
           },
