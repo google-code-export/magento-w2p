@@ -4,7 +4,8 @@
             var self = this, 
                 select = this.element.hide(), 
                 selected = select.children(":selected"), 
-                value = selected.val() ? selected.text() : "";
+                value = selected.val() ? selected.text() : "",
+                title = select.attr('title');
             var input = $("<input>")
                 .insertAfter(select)
                 .val(value)
@@ -55,6 +56,8 @@
                         }
                     }
             }).addClass("ui-widget ui-widget-content ui-corner-left");
+            var tooltip = '(Select or enter a value)';
+            setTooltip(input, title, tooltip);
             
             this.input = input;
             
@@ -118,5 +121,30 @@
             $.Widget.prototype.destroy.call(this);
         }
     });
+    
+    function setTooltip($el, title, tooltip)
+    {
+        var content = '';
+        
+        if($.trim(title)){
+            content += title;
+        }
+        
+        if($.trim(tooltip)){
+            if(content){
+                content += '<br/>';
+            }
+            content += '<small>' + tooltip + '</small>';
+        }
+        
+        if (content) {
+            $el.qtip({
+                content: content,
+                position: { corner: { target: 'topLeft', tooltip: 'bottomLeft' } },
+                show: { delay: 1, solo: true, when: { event: 'focus' } },
+                hide: { when: { event: 'unfocus' } }
+            });
+        }
+    }
 })(jQuery);
 

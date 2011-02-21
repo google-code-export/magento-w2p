@@ -27,7 +27,6 @@
       <!-- Changes for combobox ui -->
       <action method="addItem"><type>skin_js</type><name>js/combobox.js</name></action>
 
-      <action method="addItem"><type>skin_css</type><name>jquery/base/jquery.ui.all.min.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/combobox.css</name></action>
       <!-- Changes for combobox ui -->
     </reference>
