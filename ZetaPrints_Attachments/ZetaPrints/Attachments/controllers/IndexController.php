@@ -32,7 +32,9 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
 
     $hash = $hash[$optId];
 
-    $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($prid);
+    $product = Mage::getModel('catalog/product')
+                ->setStoreId(Mage::app()->getStore()->getId())
+                ->load($prid);
     $reqOptions = array ();
     foreach ($product->getOptions() as $option) {                  // loop all product options
       if ($option->getIsRequire() && $optId != $option->getId()) { // if the option is not the upload one,

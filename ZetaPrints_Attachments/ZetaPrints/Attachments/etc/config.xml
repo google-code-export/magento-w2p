@@ -9,7 +9,7 @@
 <config>
   <modules>
     <ZetaPrints_Attachments>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </ZetaPrints_Attachments>
   </modules>
   <frontend>
@@ -113,7 +113,7 @@
       </attachments>
     </helpers>
     <events>
-      <checkout_cart_product_add_after>
+<!--      <checkout_cart_product_add_after>
         <observers>
           <attachments-order-creation-observer>
             <type>singleton</type>
@@ -121,7 +121,7 @@
             <method>addAttachemntsToQuote</method>
           </attachments-order-creation-observer>
         </observers>
-      </checkout_cart_product_add_after>
+      </checkout_cart_product_add_after>-->
       <controller_action_predispatch_checkout_cart_add>
         <observers>
           <attachments-values-observer>
