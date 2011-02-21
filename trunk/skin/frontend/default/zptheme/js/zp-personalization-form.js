@@ -599,11 +599,13 @@ function personalization_form ($) {
   })
 
   function image_field_select_handler (event) {
-    $(event.target).parents('div.zetaprints-images-selector')
-      .removeClass('no-value');
+    $selector = $(event.target)
+                  .parents('div.zetaprints-images-selector')
+                  .removeClass('no-value');
 
     //If ZetaPrints advanced theme is enabled then...
-    if (window.mark_shape_as_edited && window.unmark_shape_as_edited) {
+    if (window.mark_shape_as_edited && window.unmark_shape_as_edited
+        && window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
       var zp = event.data.zp;
 
       if ($(event.target).val().length)
@@ -614,6 +616,15 @@ function personalization_form ($) {
         //or unmark shape then Leave blank is selected
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
+
+      //Check that the value of a field was changed...
+      if ($(event.target).val()
+                != $selector.find('.selector-content').data('original-value'))
+        //... then mark a field box as edited
+        mark_fieldbox_as_edited($(event.target).attr('name').substring(12));
+      else
+        //... else unmark the field box as edited
+        unmark_fieldbox_as_edited($(event.target).attr('name').substring(12));
     }
   }
 
@@ -847,7 +858,8 @@ function personalization_form ($) {
 
   //If ZetaPrints advanced theme is enabled then...
   if (this.has_shapes && window.mark_shape_as_edited
-      && window.unmark_shape_as_edited) {
+      && window.unmark_shape_as_edited && window.mark_fieldbox_as_edited
+      && window.unmark_fieldbox_as_edited) {
     $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
       var zp = event.data.zp;
 
@@ -859,6 +871,14 @@ function personalization_form ($) {
         // or unmark it if input field is empty
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
+
+      //Check that the value of a field was changed...
+      if ($(this).val() != $(this).data('original-value'))
+        //... then mark a field box as edited
+        mark_fieldbox_as_edited($(this).attr('name').substring(12));
+      else
+         //... else unmark the field box as edited
+        unmark_fieldbox_as_edited($(this).attr('name').substring(12));
     });
   }
 
