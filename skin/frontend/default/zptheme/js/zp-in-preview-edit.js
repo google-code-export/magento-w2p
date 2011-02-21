@@ -169,6 +169,12 @@ function popup_field_by_name (name, position) {
     left: position.left,
     top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
+  //!!! Workaround and temp. solution
+  if (jQuery(field).hasClass('selector-content'))
+     zp.scroll_strip(jQuery(parent
+                             .find('ul.tab-buttons li.ui-tabs-selected a')
+                             .attr('href') ));
+
   jQuery(field).focus();
 }
 

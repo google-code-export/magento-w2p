@@ -11,6 +11,8 @@ function personalization_form ($) {
     return true;
   }
 
+  zp.scroll_strip = scroll_strip;
+
   function show_image_edit_dialog (image_name, src, $thumb) {
     var image_name = unescape(image_name);
 
