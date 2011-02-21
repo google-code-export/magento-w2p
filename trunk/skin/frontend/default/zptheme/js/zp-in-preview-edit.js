@@ -197,6 +197,8 @@ function popdown_field_by_name (name) {
 
   jQuery(field).remove();
 
+  jQuery('#current-shape').attr('id', '');
+
   return name;
 }
 
