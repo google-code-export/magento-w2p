@@ -16,12 +16,14 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments extends Mage_Adminhtml_
     parent::__construct();
 
     $this->removeButton('add');
+    $delAll = $this->__('This will delete ALL files! Do you want to do continue?');
+    $delOrph = $this->__('This will delete orphaned files. Do you want to do continue?');
     $this->_addButton('deleteall', array ('label' => 'Delete All',
-                                    'onclick' => 'setLocation(\'' . $this->getUrl('*/*/deleteAll') . '\')',
+                                    'onclick' => 'if(confirm(\'' . $delAll . '\')){setLocation(\'' . $this->getUrl('*/*/deleteAll') . '\')}',
                                     'class' => 'delete'
     ));
     $this->_addButton('deleteorphaned', array ('label' => 'Delete Orphaned',
-                                    'onclick' => 'setLocation(\'' . $this->getUrl('*/*/deleteOrphaned') . '\')',
+                                    'onclick' => 'if(confirm(\'' . $delOrph . '\')){setLocation(\'' . $this->getUrl('*/*/deleteOrphaned') . '\')}',
                                     'class' => 'delete'
     ));
   }

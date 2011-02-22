@@ -25,6 +25,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
           ->_addBreadcrumb(Mage::helper('adminhtml')->__('Attachments Manager'),
                            Mage::helper('adminhtml')->__('Attachments Manager'));
 
+    $this->_title('Attachments');
     return $this;
   }
 
@@ -38,7 +39,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
   {
     if ($this->getRequest()->getParam('attachment_id') > 0) {
       try {
-        $model = Mage::getModel('attachments/attachments');
+        $model = $this->_getAttachment();
         /* @var $model ZetaPrints_Attachments_Model_Attachments */
         $model->load($this->getRequest()->getParam('attachment_id'))->deleteFile();
 
@@ -61,11 +62,9 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
                                              ->__('Please select attachment(s)'));
     } else {
       try {
-        foreach ($attachmentsIds as $attachmentsId) {
-          $attachments = Mage::getModel('attachments/attachments')->load($attachmentsId);
-          /* @var $attachments ZetaPrints_Attachments_Model_Attachments */
-          $attachments->deleteFile();
-        }
+        $attachments = $this->_getAttCollection();
+        $attachments->addFieldToFilter(ZetaPrints_Attachments_Model_Attachments::ATT_ID, array('in' => $attachmentsIds));
+        $attachments->walk('deleteFile');
         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')
                                                ->__('Total of %d record(s) were successfully deleted', count($attachmentsIds)));
       } catch (Exception $e) {
@@ -75,11 +74,44 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
     $this->_redirect('*/*/index');
   }
 
+  public function deleteOrphanedAction()
+  {
+    try{
+      $attachments = $this->_getAttCollection();
+      $attachments->addFieldToFilter(ZetaPrints_Attachments_Model_Attachments::ORD_ID, array('null' => true));
+      $count = $attachments->count();
+      $attachments->walk('delete');
+      Mage::getSingleton('adminhtml/session')
+            ->addSuccess(Mage::helper('adminhtml')
+                               ->__('Total of %d record(s) were successfully deleted', $count));
+    }catch(Exception $e){
+      Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+    }
+    $this->_redirect('*/*/index');
+  }
+
+  public function deleteAllAction()
+  {
+    try{
+      $attachments = $this->_getAttCollection();
+      $count = $attachments->count();
+      $attachments->walk('deleteFile');
+      Mage::getSingleton('adminhtml/session')
+            ->addSuccess(Mage::helper('adminhtml')
+                               ->__('Total of %d record(s) were successfully deleted', $count))
+            ->addSuccess(Mage::helper('attachments')
+                               ->__('All attachments deleted.'));
+    }catch(Exception $e){
+      Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+    }
+    $this->_redirect('*/*/index');
+  }
+
   public function downloadAction()
   {
     $attachmentId = $this->getRequest()->getParam('id');
     $hash = $this->getRequest()->getParam('key');
-    $att = Mage::getModel('attachments/attachments')->load($attachmentId);
+    $att = $this->_getAttachment($attachmentId);
     if ($att) {
       try {
         $value = unserialize($att->getAttachmentValue());
@@ -124,5 +156,27 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
     } else {
       $this->_forward('noRoute');
     }
+  }
+
+  /**
+   * @param int $id
+   * @return ZetaPrints_Attachments_Model_Attachments
+   */
+  protected function _getAttachment($id = NULL)
+  {
+    $att = Mage::getModel('attachments/attachments');
+    if($id){
+      $att->load($id);
+    }
+    return $att;
+  }
+
+  /**
+   * @return ZetaPrints_Attachments_Model_Mysql4_Attachments_Collection
+   */
+  protected function _getAttCollection()
+  {
+    $collection = $this->_getAttachment()->getCollection();
+    return $collection;
   }
 }
