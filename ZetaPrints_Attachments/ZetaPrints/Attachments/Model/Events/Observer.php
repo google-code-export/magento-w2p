@@ -183,35 +183,33 @@ class ZetaPrints_Attachments_Model_Events_Observer
     $baseNode = 'attachments/settings/';
     $oldFiles = $baseNode . 'att_old_days';
     $orphanFiles = $baseNode . 'att_orphan_days';
-    $oldNode = Mage::getStoreConfig($oldFiles);
-    $orphanNode = Mage::getStoreConfig($orphanFiles);
-    $this->_debug('Old files period: ' . $oldNode);
-    $this->_debug('Orphan files period: ' . $orphanNode);
+    $oldFilesPeriod = Mage::getStoreConfig($oldFiles);
+    $orphanFilesPeriod = Mage::getStoreConfig($orphanFiles);
+    $this->_debug('Old files period: ' . $oldFilesPeriod);
+    $this->_debug('Orphan files period: ' . $orphanFilesPeriod);
 
     // var_dump($oldNode, $orphanNode);
-    if($oldNode && is_numeric($oldNode) && $oldNode > 0 ||
-          $orphanNode && is_numeric($orphanNode) && $orphanNode > 0){ // if any of the periods is set
+    if($oldFilesPeriod && is_numeric($oldFilesPeriod) && $oldFilesPeriod > 0 ||
+          $orphanFilesPeriod && is_numeric($orphanFilesPeriod) && $orphanFilesPeriod > 0){ // if any of the periods is set
 
 
       $model = Mage::getModel('attachments/attachments');
 
       $collection = $model->getCollection();
+      $order_filed = ZetaPrints_Attachments_Model_Attachments::ORD_ID;
       $collection->addFieldToSelect('*');
       $select = $collection->getSelect();
-
-      $this->_setConditions($oldNode, $orphanNode, $select);
+      $helper = Mage::helper('attachments');
+      /* @var ZetaPrints_Attachments_Helper_Data $helper */
+      $select = $helper->setFileDeleteConditions($oldFilesPeriod, $orphanFilesPeriod, $select);
 
       $this->_debug('Query executed' . $select);
 
       $collection->load();
       $this->_debug(count($collection) . ' files will be deleted');
       try{
-        $counter = 0;
-        foreach($collection as $item){
-          // $item->deleteFile();
-          $counter++;
-        }
-        $this->_debug($counter . ' items deleted');
+        $collection->walk('deleteFile');
+        $this->_debug($collection->count() . ' items deleted');
       }catch(Exception $e){
         $this->_debug($e->getMessage());
       }
@@ -220,38 +218,7 @@ class ZetaPrints_Attachments_Model_Events_Observer
     }
   }
 
-  /**
-   * Add appropriate condition to selection
-   *
-   * @param  integer $old - Old files period
-   * @param  integer $orphaned - Orphaned files period
-   * @param Varien_Db_Select $select - DB Select Object
-   * @return Varien_Db_Select
-   */
-  protected function _setConditions($old, $orphaned, Varien_Db_Select $select)
-  {
-    $periodField = ZetaPrints_Attachments_Model_Attachments::ATT_CREATED; // table field 'created'
-    $orderField = ZetaPrints_Attachments_Model_Attachments::ORD_ID; // table field 'order_id'
-    $orphanedWhere = "DATE_SUB(CURDATE(),INTERVAL ? DAY) > `{$periodField}` AND `{$orderField}` IS NULL"; // orphaned condition
-    $oldWhere = "DATE_SUB(CURDATE(),INTERVAL ? DAY) > `{$periodField}`"; // old condition
 
-    if ($old && $orphaned) { // if both periods are greater than 0 - add both conditions
-
-      if($orphaned < $old){  // if $orphaned period is sooner then $old, add them both
-        $select->where($orphanedWhere, $orphaned)
-              ->orWhere($oldWhere, $old);
-      }else{ // else add just old
-        $select->where($oldWhere, $old);
-      }
-
-    } else if ($orphaned) { // else add which ever is set
-      $select->where($orphanedWhere, $orphaned);
-    } else {
-      $select->where($oldWhere, $old);
-    }
-
-    return $select;
-  }
 
   /**
    * Echo debug value

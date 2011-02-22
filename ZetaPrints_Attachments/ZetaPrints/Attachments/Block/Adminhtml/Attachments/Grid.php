@@ -31,22 +31,22 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid
       $this->addColumn('attachment_id', array(
           'header'    => Mage::helper('attachments')->__('Attachment ID'),
           'align'     =>'right',
-          'width'     => '100px',
+          'width'     => '50px',
           'index'     => 'attachment_id',
       ));
 
       $this->addColumn('product_id', array(
-          'header'    => Mage::helper('attachments')->__('Product ID'),
-          'align'     =>'right',
+          'header'    => Mage::helper('attachments')->__('Product'),
+          'align'     =>'left',
           'index'     => 'product_id',
-          'width'     => '100px',
+          'width'     => '150px',
           'renderer'  => 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Product'
       ));
 
       $this->addColumn('order_id', array(
           'header'    => Mage::helper('attachments')->__('Used in order'),
           'align'     => 'center',
-          'width'     => '50px',
+          'width'     => '100px',
           'index'     => 'order_id',
           'default'		=> 'N/A',
           'renderer'  => 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Order'
@@ -55,7 +55,6 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid
       $this->addColumn('att_value', array(
         'header'  => Mage::helper('attachments')->__('File'),
         'align'		=> 'left',
-        'width'		=> '200px',
         'index'		=> 'attachment_value',
         'renderer'=> 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Attachment'
       ));
@@ -63,7 +62,7 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid
         $this->addColumn('action',
             array(
                 'header'    =>  Mage::helper('attachments')->__('Action'),
-                'width'     => '100',
+                'width'     => '100px',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(

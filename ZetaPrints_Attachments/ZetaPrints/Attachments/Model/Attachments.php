@@ -12,6 +12,7 @@ class ZetaPrints_Attachments_Model_Attachments
   const PR_ID     = 'product_id';
   const ORD_ID    = 'order_id';
   const OPT_ID    = 'option_id';
+  const ATT_ID    = 'attachment_id';
   const ATT_HASH  = 'attachment_hash';
   const ATT_VALUE = 'attachment_value';
   const ATT_CODE  = 'use_ajax_upload';
@@ -140,6 +141,13 @@ class ZetaPrints_Attachments_Model_Attachments
     if($value == null){
       $value = unserialize($this->getAttachmentValue());
     }
+
+    if($this->getData(self::ORD_ID)){ // if this is part of an order and we fail to update it
+      if(!Mage::helper('attachments')->deleteFromOrder($this->getData(self::ORD_ID), $this)){
+        return $this; // don't delete
+      }
+    }
+
     $filePath = Mage::getBaseDir() . $value['order_path'];
     if (is_file($filePath) && is_writable($filePath)) {
       @unlink($filePath);
@@ -170,11 +178,14 @@ class ZetaPrints_Attachments_Model_Attachments
         return false;
       }
     }
-    $value = unserialize($option['option_value']);
+    $value = null;
+    if(is_array($option) && isset($option['option_value'])){
+      $value = unserialize($option['option_value']);
+    }
     if(is_array($value)){
       $filters = array();
       foreach ($value as $att) {
-        $id = isset($att['attachment_id'])?$att['attachment_id']:null;
+        $id = isset($att['attachment_id'])? $att['attachment_id']: null;
         if($id !== null){
           $filters['attachment_id'][] = $id;
         }
