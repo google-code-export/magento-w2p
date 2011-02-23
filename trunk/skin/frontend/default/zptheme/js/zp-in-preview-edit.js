@@ -81,24 +81,24 @@ function remove_all_shapes (container) {
 }
 
 function highlight_shape_by_name (name, container) {
-  jQuery('div.zetaprints-field-shape[rel=' + name +']', container).addClass('highlighted');
+  jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).addClass('highlighted');
 }
 
 function dehighlight_shape_by_name (name, container) {
-  jQuery('div.zetaprints-field-shape[rel=' + name +']', container).removeClass('highlighted');
+  jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).removeClass('highlighted');
 }
 
 function highlight_field_by_name (name) {
-  jQuery(':input[name=zetaprints-_'+ name +'], div.zetaprints-images-selector[rel=zetaprints-#' + name + '] div.head').addClass('highlighted');
+  jQuery(':input[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').addClass('highlighted');
 }
 
 function dehighlight_field_by_name (name) {
-  jQuery(':input[name=zetaprints-_'+ name +'], div.zetaprints-images-selector[rel=zetaprints-#' + name + '] div.head').removeClass('highlighted');
+  jQuery(':input[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').removeClass('highlighted');
 }
 
 function popup_field_by_name (name, position) {
-  var shape = jQuery('div.zetaprints-field-shape[rel=' + name + ']', jQuery('div#fancybox-content'))[0];
-  var field = jQuery(':input[name=zetaprints-_'+ name +']');
+  var shape = jQuery('div.zetaprints-field-shape[rel="' + name + '"]', jQuery('div#fancybox-content'))[0];
+  var field = jQuery(':input[name="zetaprints-_'+ name +'"]');
 
   if (field.length) {
     field = field[0];
@@ -115,7 +115,7 @@ function popup_field_by_name (name, position) {
     if (width <= 150)
       width = 150;
   } else {
-    field = jQuery('div.zetaprints-images-selector[rel=zetaprints-#' + name + '] div.selector-content');
+    field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
 
     if (!field.length)
       return;
@@ -180,7 +180,7 @@ function popup_field_by_name (name, position) {
 
 function popdown_field_by_name (name) {
   if (name)
-    var field = jQuery(':input[value~='+ name +']', jQuery('div#fancybox-content'));
+    var field = jQuery(':input[value~="'+ name +'"]', jQuery('div#fancybox-content'));
   else
     var field = jQuery(':input', jQuery('div#fancybox-content'));
 
@@ -192,7 +192,7 @@ function popdown_field_by_name (name) {
 
   full_name = jQuery(field).attr('value');
 
-  var element = jQuery('div.zetaprints-page-input-fields :input[name=' + full_name + '], div.zetaprints-images-selector[rel=' + full_name + '] div.selector-content')
+  var element = jQuery('div.zetaprints-page-input-fields :input[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
@@ -209,13 +209,13 @@ function popdown_field_by_name (name) {
 }
 
 function mark_shape_as_edited (shape) {
-  jQuery('div.zetaprints-field-shape[rel=' + shape.name + ']').addClass('edited');
+  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').addClass('edited');
 
   shape.edited = true;
 }
 
 function unmark_shape_as_edited (shape) {
-  jQuery('div.zetaprints-field-shape[rel=' + shape.name + ']').removeClass('edited');
+  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').removeClass('edited');
 
   shape.edited = false;
 }
@@ -225,11 +225,11 @@ function mark_shapes_as_edited (template_details) {
 
   for (var page_number in template_details.pages)
     for (var name in template_details.pages[page_number].shapes) {
-      var field = jQuery('input[name=zetaprints-_' + name + ']:text, '
-        + 'textarea[name=zetaprints-_' + name + '], '
-        + 'select[name=zetaprints-_' + name + '], '
-        + 'input[name=zetaprints-_' + name + ']:checked, '
-        + 'input[name=zetaprints-#' + name + ']:checked', fields);
+      var field = jQuery('input[name="zetaprints-_' + name + '"]:text, '
+        + 'textarea[name="zetaprints-_' + name + '"], '
+        + 'select[name="zetaprints-_' + name + '"], '
+        + 'input[name="zetaprints-_' + name + '"]:checked, '
+        + 'input[name="zetaprints-#' + name + '"]:checked', fields);
 
       if (field.length == 1 && field[0].value) {
         template_details.pages[page_number].shapes[name].edited = true;
@@ -239,17 +239,17 @@ function mark_shapes_as_edited (template_details) {
 }
 
 function mark_fieldbox_as_edited (name) {
-  jQuery(':input[name=zetaprints-_' + name + '], ' +
-         'div.zetaprints-images-selector[rel=zetaprints-#' + name +
-         '] div.selector-content')
+  jQuery(':input[name="zetaprints-_' + name + '"], ' +
+         'div.zetaprints-images-selector[rel="zetaprints-#' + name +
+         '"] div.selector-content')
     .parents('div.fieldbox')
     .addClass('fieldbox-changed-state');
 }
 
 function unmark_fieldbox_as_edited (name) {
-  jQuery(':input[name=zetaprints-_' + name + '], ' +
-         'div.zetaprints-images-selector[rel=zetaprints-#' + name +
-         '] div.selector-content')
+  jQuery(':input[name="zetaprints-_' + name + '"], ' +
+         'div.zetaprints-images-selector[rel="zetaprints-#' + name +
+         '"] div.selector-content')
     .parents('div.fieldbox')
     .removeClass('fieldbox-changed-state');
 }
@@ -290,7 +290,7 @@ function fancy_shape_handler (event) {
     if (jQuery(shape).children().length > 1)
       return false;
 
-    jQuery('div#fancybox-content div.zetaprints-field-shape.highlighted[rel!=' + jQuery(shape).attr('rel') + ']').removeClass('highlighted');
+    jQuery('div#fancybox-content div.zetaprints-field-shape.highlighted[rel!="' + jQuery(shape).attr('rel') + '"]').removeClass('highlighted');
     popdown_field_by_name();
     popup_field_by_name(jQuery(shape).attr('rel'), { top: event.pageY, left: event.pageX });
 
