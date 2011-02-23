@@ -29,7 +29,7 @@ Easiest way to edit csv files is to open them in spreadsheet program - Excel, Op
 
 There are 2 profiles that handle task of importing/exporting. They can be found in Magento admin section under System > Import/Export > Advanced Profiles (until 1.5) or Dataflow - Advanced Profiles (afetr 1.5)
 
-Profiles are called ZetaPrints Fixed Quantities Export and ZetaPrints Fixed Quantities Import.
+Profiles are called *ZetaPrints Fixed Quantities Export* and *ZetaPrints Fixed Quantities Import*.
 
 Export profile will save results in */var/export/fixed_qtys_data.csv* by default. Import profile will look for file  */var/import/fixed_qtys_data.csv* by default.
 The paths can be changed in admin by altering profile's xml, this however requires good knowledge of how profiles work.
