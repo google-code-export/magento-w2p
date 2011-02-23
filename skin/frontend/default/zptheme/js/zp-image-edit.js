@@ -591,11 +591,11 @@ function imageEditorCrop () {
       .css('width', userImageWidthPreview * thumb_to_container_factor)
       .css('height', userImageHeightPreview * thumb_to_container_factor);
 
-    var tmp1 = $('input[value=' + context.image_id + ']').parent().find('img');
+    var tmp1 = $('input[value="' + context.image_id + '"]').parent().find('img');
     if (tmp1.length == 0)
       tmp1 = $('#img' + context.image_id);
     if (tmp1.length == 0)
-      tmp1 = $('input[value=' + context.image_id + ']').parent().find('img');
+      tmp1 = $('input[value="' + context.image_id + '"]').parent().find('img');
     if (userImageSrc.match(/\.jpg/m))
       tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
@@ -619,7 +619,7 @@ function imageEditorCrop () {
         success: function (data, textStatus) {
           clearCropMetadata();
           //remove image from strip and close fancybox
-          $('input[value=' + context.image_id +']').parent().remove();
+          $('input[value="' + context.image_id +'"]').parent().remove();
           //also try to remove every element with imageEditorId
           $('#' + context.image_id).remove();
 
