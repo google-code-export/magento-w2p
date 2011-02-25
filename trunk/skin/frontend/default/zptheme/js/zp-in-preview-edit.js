@@ -89,16 +89,16 @@ function dehighlight_shape_by_name (name, container) {
 }
 
 function highlight_field_by_name (name) {
-  jQuery(':input[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').addClass('highlighted');
+  jQuery('*[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').addClass('highlighted');
 }
 
 function dehighlight_field_by_name (name) {
-  jQuery(':input[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').removeClass('highlighted');
+  jQuery('*[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').removeClass('highlighted');
 }
 
 function popup_field_by_name (name, position) {
   var shape = jQuery('div.zetaprints-field-shape[rel="' + name + '"]', jQuery('div#fancybox-content'))[0];
-  var field = jQuery(':input[name="zetaprints-_'+ name +'"]');
+  var field = jQuery('*[name="zetaprints-_'+ name +'"]');
 
   if (field.length) {
     field = field[0];
@@ -180,7 +180,7 @@ function popup_field_by_name (name, position) {
 
 function popdown_field_by_name (name) {
   if (name)
-    var field = jQuery(':input[value~="'+ name +'"]', jQuery('div#fancybox-content'));
+    var field = jQuery('*[value~="'+ name +'"]', jQuery('div#fancybox-content'));
   else
     var field = jQuery(':input', jQuery('div#fancybox-content'));
 
@@ -192,7 +192,7 @@ function popdown_field_by_name (name) {
 
   full_name = jQuery(field).attr('value');
 
-  var element = jQuery('div.zetaprints-page-input-fields :input[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
+  var element = jQuery('div.zetaprints-page-input-fields input[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
@@ -239,7 +239,7 @@ function mark_shapes_as_edited (template_details) {
 }
 
 function mark_fieldbox_as_edited (name) {
-  jQuery(':input[name="zetaprints-_' + name + '"], ' +
+  jQuery('*[name="zetaprints-_' + name + '"], ' +
          'div.zetaprints-images-selector[rel="zetaprints-#' + name +
          '"] div.selector-content')
     .parents('div.fieldbox')
@@ -247,7 +247,7 @@ function mark_fieldbox_as_edited (name) {
 }
 
 function unmark_fieldbox_as_edited (name) {
-  jQuery(':input[name="zetaprints-_' + name + '"], ' +
+  jQuery('*[name="zetaprints-_' + name + '"], ' +
          'div.zetaprints-images-selector[rel="zetaprints-#' + name +
          '"] div.selector-content')
     .parents('div.fieldbox')
@@ -290,7 +290,11 @@ function fancy_shape_handler (event) {
     if (jQuery(shape).children().length > 1)
       return false;
 
-    jQuery('div#fancybox-content div.zetaprints-field-shape.highlighted[rel!="' + jQuery(shape).attr('rel') + '"]').removeClass('highlighted');
+    jQuery('div#fancybox-content div.zetaprints-field-shape.highlighted')
+      .removeClass('highlighted');
+
+    shape.addClass("highlighted");
+
     popdown_field_by_name();
     popup_field_by_name(jQuery(shape).attr('rel'), { top: event.pageY, left: event.pageX });
 
