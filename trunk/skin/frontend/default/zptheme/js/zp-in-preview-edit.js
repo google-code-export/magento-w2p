@@ -192,7 +192,7 @@ function popdown_field_by_name (name) {
 
   full_name = jQuery(field).attr('value');
 
-  var element = jQuery('div.zetaprints-page-input-fields input[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
+  var element = jQuery('div.zetaprints-page-input-fields *[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
   jQuery(element).removeAttr('style').unwrap().prev().remove();
   jQuery(element).unwrap().unwrap();
 
