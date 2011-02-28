@@ -752,7 +752,13 @@ function personalization_form ($) {
         onSubmit: function (hsb, hex, rgb, el) {
           $(top_element).removeClass('no-value');
           $(color_sample).css('backgroundColor', '#' + hex);
-          $(input).val('#' + hex).attr('checked', 1).attr('disabled', 0);
+
+          $(input)
+            .attr('disabled', 0)
+            .val('#' + hex)
+            .change()
+            .attr('checked', 1);
+
           $(el).ColorPickerHide();
         }
       });
