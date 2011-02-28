@@ -204,6 +204,18 @@ function personalization_form ($) {
   //??? Do we need it anymore?
   this.changed_pages = new Array(this.template_details.pages_number + 1);
 
+  if (!this.previews)
+    this.previews = [];
+
+  for (var number in this.template_details.pages)
+    if (this.template_details.pages[number].static) {
+      this.previews[number - 1] = this.template_details
+                                    .pages[number]['preview-image']
+                                    .split('/preview/')[1];
+
+      this.changed_pages[number] = true;
+    }
+
   //Create array for preview images sharing links
   if (window.place_preview_image_sharing_link)
     this.preview_sharing_links
@@ -251,6 +263,14 @@ function personalization_form ($) {
 
     //Remember number of selected page
     event.data.zp.current_page = page.split('-')[1] * 1;
+
+    //Check if page is static then...
+    if (event.data.zp.template_details.pages[event.data.zp.current_page].static)
+      //... hide Update preview button
+      $('button.update-preview').addClass('hidden');
+    else
+      //... otherwise show it
+      $('button.update-preview').removeClass('hidden');
 
     //Set preview images sharing link for the current page
     if (window.place_preview_image_sharing_link)
