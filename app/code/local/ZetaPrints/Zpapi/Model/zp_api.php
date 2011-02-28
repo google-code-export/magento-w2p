@@ -143,8 +143,6 @@ function zetaprints_parse_template_details ($xml) {
                      'url' => (string) $xml['AccessURL'],
                      'product-reference' => (string) $xml['ProductReference'],
                      'download' => $download,
-                     'static' => isset($xml['Static'])
-                                  ? (bool) $xml['Static'] : false,
                      'pdf' => isset($xml['GeneratePdf'])
                                   ? (bool) $xml['GeneratePdf'] : false,
                      'jpeg' => isset($xml['GenerateJpg'])
@@ -167,6 +165,7 @@ function zetaprints_parse_template_details ($xml) {
       'name' => (string) $page['Name'],
       'preview-image' => (string) $page['PreviewImage'],
       'thumb-image' => (string) $page['ThumbImage'],
+      'static' => isset($page['Static']) ? (bool) $page['Static'] : false,
       'width-in' => (string) $page['WidthIn'],
       'height-in' => (string) $page['HeightIn'] );
 
