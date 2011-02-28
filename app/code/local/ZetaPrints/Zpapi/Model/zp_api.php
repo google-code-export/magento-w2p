@@ -143,6 +143,8 @@ function zetaprints_parse_template_details ($xml) {
                      'url' => (string) $xml['AccessURL'],
                      'product-reference' => (string) $xml['ProductReference'],
                      'download' => $download,
+                     'static' => isset($xml['Static'])
+                                  ? (bool) $xml['Static'] : false,
                      'pdf' => isset($xml['GeneratePdf'])
                                   ? (bool) $xml['GeneratePdf'] : false,
                      'jpeg' => isset($xml['GenerateJpg'])
