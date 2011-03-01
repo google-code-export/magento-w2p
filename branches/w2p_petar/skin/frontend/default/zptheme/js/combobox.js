@@ -55,7 +55,7 @@
                             }
                         }
                     }
-            }).addClass("ui-widget ui-widget-content ui-corner-left");
+            }).addClass("ui-widget ui-widget-content");
             var tooltip = '(Select or enter a value)';
             setTooltip(input, title, tooltip);
             
@@ -100,7 +100,7 @@
                               text: false
                           })
                           .removeClass("ui-corner-all")
-                          .addClass("ui-corner-right ui-button-icon")
+                          .addClass("ui-button-icon")
                           .click(function(){
                               // close if already visible
                               if (input.autocomplete("widget").is(":visible")) {
