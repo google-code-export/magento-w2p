@@ -38,7 +38,7 @@ div.zetaprints-previews-box div.title a.show-title {
 
 div.zetaprints-previews-box div.content {
   overflow: auto;
-  padding: 0;
+  padding: 0 0 20px 0;
 }
 
 div.zetaprints-previews-box div.content ul {
