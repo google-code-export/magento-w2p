@@ -685,22 +685,40 @@ jQuery(document).ready(function($) {
 jQuery(document).ready(function($) {
   var $boxes = $('div.zetaprints-previews-box');
 
-  $(window).load(function () {
-    $boxes.each(function () {
-      var width = 0;
+  function set_width_for_boxes () {
+    var width = $('#my-orders-table, table.order-tables')
+                  .find('tr.zetaprints-previews td')
+                  .width();
 
-      $(this).find('li').each(function () {
-        width += $(this).outerWidth(true);
+    if (width != 0) {
+      $boxes
+        .find('div.content')
+        .width(width - 1)
+        .end()
+        .removeClass('hidden');
+    } else
+      setTimeout(set_width_for_boxes, 1000);
+  }
+
+  function set_width_for_ul () {
+    if ($('a.in-dialog img:visible').length != 0)
+      $boxes.each(function () {
+        var width = 0;
+
+        $(this).find('li').each(function () {
+          width += $(this).outerWidth(true);
+        });
+
+        $(this).find('ul').width(width);
       });
+    else
+      setTimeout(set_width_for_ul, 1000);
+  }
 
-      $(this).find('ul').width(width);
-    });
+  $(window).load(function () {
+    set_width_for_boxes();
+    set_width_for_ul();
   });
-
-  var width = $('#my-orders-table tr.zetaprints-previews td').width() - 1;
-
-  $boxes.find('div.content').width(width);
-  $boxes.removeClass('hidden');
 
   $boxes.find('a.show-title').each(function () {
     $(this).click(function () {
