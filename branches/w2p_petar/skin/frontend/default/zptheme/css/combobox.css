@@ -33,68 +33,11 @@
     font-size: 12px;
 }
 
+/*
 .ui-button {
     left: -20px;
 }
-/*
-.ui-corner-tl {
-    -moz-border-radius-topleft: 4px;
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-}
-.ui-corner-tr { 
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
-}
-.ui-corner-bl {
-    -moz-border-radius-bottomleft: 4px;
-    -webkit-border-bottom-left-radius: 4px;
-    border-bottom-left-radius: 4px; 
-}
-.ui-corner-br { 
-    -moz-border-radius-bottomright: 4px;
-    -webkit-border-bottom-right-radius: 4px;
-    border-bottom-right-radius: 4px; 
-}
-.ui-corner-top { 
-    -moz-border-radius-topleft: 4px;
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-right-radius: 4px; 
-    border-top-right-radius: 4px;
-}
-.ui-corner-bottom { 
-    -moz-border-radius-bottomleft: 4px; 
-    -webkit-border-bottom-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -webkit-border-bottom-right-radius: 4px; 
-    border-bottom-right-radius: 4px; 
-}
-.ui-corner-right {
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -webkit-border-bottom-right-radius: 4px;
-    border-bottom-right-radius: 4px; 
-}
-.ui-corner-left {
-    -moz-border-radius-topleft: 4px;
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-bottomleft: 4px; 
-    -webkit-border-bottom-left-radius: 4px; 
-    border-bottom-left-radius: 4px;
-}
 */
-.ui-corner-all { 
-    -moz-border-radius: 4px; 
-    -webkit-border-radius: 4px;
-    border-radius: 4px; 
-}
 
 .ui-button-icon-only .ui-icon,
 .ui-button-text-icon-primary .ui-icon, 
@@ -165,9 +108,9 @@ button.ui-state-active.ui-state-hover .ui-icon-triangle-1-s {
 }
 
 .ui-autocomplete-input {
-    margin: 0;
+    margin: 0 -20px 0 0;
     padding: 2px 0 3px 3px;
-    width: 330px; /* default magento width */
+    width: 325px; /* default magento width */
 }
 @-moz-document url-prefix(){
     .ui-button-icon-only .ui-icon {
