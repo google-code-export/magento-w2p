@@ -141,6 +141,7 @@ button.ui-state-hover .ui-icon-triangle-1-s {
     padding-right: 20px;
     position: absolute;
     cursor: default;
+    max-width: 325px;
 }
 
 /* IE 6 doesn't support max-height
