@@ -283,8 +283,9 @@ function personalization_form ($) {
         && window.shape_handler)
       place_all_precalculated_shapes_for_page(event.data.zp.current_page, event.data.zp.template_details , product_image_box, shape_handler);
 
-    if (event.data.zp.changed_pages[event.data.zp.current_page]
-        && event.data.zp.current_page < event.data.zp.template_details.pages_number)
+    if (event.data.zp.current_page < event.data.zp.template_details.pages_number
+        && (event.data.zp.template_details.pages[event.data.zp.current_page].static
+            || event.data.zp.changed_pages[event.data.zp.current_page]))
       $('div.zetaprints-next-page-button').show();
     else
       $('div.zetaprints-next-page-button').hide();
