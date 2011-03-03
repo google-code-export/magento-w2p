@@ -95,13 +95,6 @@ button.ui-state-hover .ui-icon-triangle-1-s {
     background-position: 0px -10px 
 }
 
-button.ui-state-active  .ui-icon-triangle-1-s {
-    background-position: -13px 0; 
-}
-
-button.ui-state-active.ui-state-hover .ui-icon-triangle-1-s {
-    background-position: -13px -10px 
-}
 .ui-button-icon-only .ui-icon {
     left: 50%;
     margin-left: -3px;
@@ -109,8 +102,8 @@ button.ui-state-active.ui-state-hover .ui-icon-triangle-1-s {
 
 .ui-autocomplete-input {
     margin: 0 -20px 0 0;
-    padding: 2px 0 3px 3px;
-    width: 325px; /* default magento width */
+    padding: 2px 20px 3px 3px;
+    width: 305px; /* default magento width */
 }
 @-moz-document url-prefix(){
     .ui-button-icon-only .ui-icon {
@@ -164,6 +157,7 @@ button.ui-state-active.ui-state-hover .ui-icon-triangle-1-s {
     margin: 0;
     display:block;
     float: left;
+    border-top: 0 none;
 }
 
 .ui-menu .ui-menu {
