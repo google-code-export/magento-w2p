@@ -1,0 +1,53 @@
+#summary Important test cases for file uploader
+#labels Development
+
+= Introduction =
+
+With further developing of file uploader, more and more use cases emerge. This is a list of things to test for attachments extension. When more issues are being solved more test cases should be added here. It is good to have some brief explanation of problems being solved as well.
+
+
+= Details =
+
+Problem: 
+ The new feature we added to the Attachments extension allowing customers to delete files they've uploaded before checking out has a flaw.
+ * Go to http://ec2-174-129-95-130.compute-1.amazonaws.com/mageimage/index.php/test/multi-upload-product.html
+ * Upload some files in both fields and make sure you have one file uploaded in both fields (identical_files.png)
+ * After they finish uploading, delete the duplicate file from one of the fields and place the order.
+ Go to admin and try to download the same file that was uploaded through the other field. You'll get a 404 page.
+
+In case that user selects the same file more than once it will be uploaded to server
+but it will not be saved more than once (no additional disk space will be taken).
+Unfortunately JavaScript does not allow to get full file name and path on user 
+computer. So for example C:\images\big\image1.jpg and C:\images\thumbnails\image1.jpg 
+are probably different sizes of same picture but when uploading them browser only 
+sees image1.jpg and has no way to tell for sure if it is the same file or not. There is no  way with only JavaScript to prevent repeating uploads. So
+the responsibility of which files to upload and keep goes to the user and then to admin
+of the store.
+
+Magento does not store files with their names. It creates an md5 hash out of file content 
+and uses it as base file name and adds file extension. It then puts the file into custom
+folder path made out of 2 folders which are named after first 2 letters of original file 
+name. So file image.jpg will be saved in relative path /i/m/ujhfljdslkuwihf784ri432.jpg
+This means that if a user uploads same file in 2 separate products or orders, the file 
+will be saved over any previous upload of the same file. This preserves space on disk
+but also means that if file is physically deleted it will be deleted for all resources
+that refer to it (all orders or attachment records).
+
+The things to test for uploader are:
+  # You can upload file with any widget on the page.
+  # You can add more files while once already added are uploading.
+  # You can upload the same file more than once per widget.
+  # In admin table of attachments you should see records for each uploaded file, even if it is the same. 
+  # In admin you should be able to download any listed file by clicking on its name. If file is image it might be opened instead of pop up download dialog.
+  # In frontend after file is being uploaded you should be able to click on delete icon. When deleting from frontend, the file is not physically deleted, but detached from order process. So in admin it should still be listed in the table.
+  # When adding product to cart no deleted files should appear as part of the order.
+  # You should be able to complete the order as usual and see order details in customer's account page as usual.
+  # In admin you should be able to click on any file delete link. This should delete the record from file table. If there is more than one file with the same name it should not be affected. Repeating file should still be listed and available for download.
+  # Clicking on order id link(if there is one) should lead to order details page.
+  # Clicking on product link should lead to product editing page.
+  # Selecting one or more file records by their check boxes and clicking submit button in top right of the table should delete selected records.
+  # Clicking 'Delete orphaned' button in top right of the page should delete all files that are not part of an order. I would not recommend doing this in production environment because this will delete also files that are being just uploaded by a customer that is still shopping.
+  # Clicking 'Delete All Old' will delete all files that pass old threshold as set in Attachments settings. By setting appropriate values for orphaned files (like 14 days) you may be sure that no files that are in process of being ordered will be deleted.
+  # "Refresh File Hashes" is a button that will be of use to people having older versions of the extension. Clicking it will refresh duplicate files hashes in database table and will allow safe work of the extension with files that have been previously uploaded.
+
+If you think of more aspects to test, please add them to above list.
