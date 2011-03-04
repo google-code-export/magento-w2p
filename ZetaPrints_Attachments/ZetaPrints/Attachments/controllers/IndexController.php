@@ -85,10 +85,11 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
     $id = $this->getRequest()->getParam('id');
 
     $attachments = Mage::getModel('attachments/attachments');
+    /*@var $attachments ZetaPrints_Attachments_Model_Attachments */
     $attachments->load($id);
     if($attachments->getId()){
       try{
-        $attachments->deleteFile();
+        $attachments->detachFromSession();
       }catch(Exception $e){
         $this->getResponse()->setHttpResponseCode(403)->setBody('File not found.');
         return;

@@ -1,21 +1,21 @@
 <?php
 /**
- * @author 			Petar Dzhambazov
+ * @author       Petar Dzhambazov
  * @category    ZetaPrints
  * @package     ZetaPrints_Attachments
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 class ZetaPrints_Attachments_Adminhtml_AttachmentsController
- extends Mage_Adminhtml_Controller_Action
+  extends Mage_Adminhtml_Controller_Action
 {
-  protected $images = array (
+  protected $images = array(
     'image/jpeg',
     'image/pjpeg',
     'image/gif',
-  	'image/png',
-  	'image/x-ms-bmp',
-  	'image/x-bmp'
+    'image/png',
+    'image/x-ms-bmp',
+    'image/x-bmp'
   );
 
   protected function _initAction($menu = 'attachments/items')
@@ -32,7 +32,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
   public function indexAction()
   {
     $this->_initAction()
-         ->renderLayout();
+          ->renderLayout();
   }
 
   public function deleteAction()
@@ -44,11 +44,11 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
         $model->load($this->getRequest()->getParam('attachment_id'))->deleteFile();
 
         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')
-                                                ->__('Attachment was successfully deleted'));
+                                                                  ->__('Attachment was successfully deleted'));
         $this->_redirect('*/*/');
       } catch (Exception $e) {
         Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-        $this->_redirect('*/*/edit', array ('id' => $this->getRequest()->getParam('id')));
+        $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
       }
     }
     $this->_redirect('*/*/');
@@ -59,14 +59,14 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
     $attachmentsIds = $this->getRequest()->getParam('attachments');
     if (!is_array($attachmentsIds)) {
       Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')
-                                             ->__('Please select attachment(s)'));
+                                                              ->__('Please select attachment(s)'));
     } else {
       try {
         $attachments = $this->_getAttCollection();
         $attachments->addFieldToFilter(ZetaPrints_Attachments_Model_Attachments::ATT_ID, array('in' => $attachmentsIds));
         $attachments->walk('deleteFile');
         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')
-                                               ->__('Total of %d record(s) were successfully deleted', count($attachmentsIds)));
+                                                                  ->__('Total of %d record(s) were successfully deleted', count($attachmentsIds)));
       } catch (Exception $e) {
         Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
       }
@@ -76,7 +76,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
 
   public function deleteOrphanedAction()
   {
-    try{
+    try {
       $attachments = $this->_getAttCollection();
       $attachments->addFieldToFilter(ZetaPrints_Attachments_Model_Attachments::ORD_ID, array('null' => true));
       $count = $attachments->count();
@@ -84,7 +84,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
       Mage::getSingleton('adminhtml/session')
             ->addSuccess(Mage::helper('adminhtml')
                                ->__('Total of %d record(s) were successfully deleted', $count));
-    }catch(Exception $e){
+    } catch (Exception $e) {
       Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
     }
     $this->_redirect('*/*/index');
@@ -92,16 +92,30 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
 
   public function deleteAllAction()
   {
-    try{
+    try {
+      /*
       $attachments = $this->_getAttCollection();
       $count = $attachments->count();
       $attachments->walk('deleteFile');
-      Mage::getSingleton('adminhtml/session')
-            ->addSuccess(Mage::helper('adminhtml')
-                               ->__('Total of %d record(s) were successfully deleted', $count))
-            ->addSuccess(Mage::helper('attachments')
-                               ->__('All attachments deleted.'));
-    }catch(Exception $e){
+      */
+      $observer = new ZetaPrints_Attachments_Model_Events_Observer();
+      $count = $observer->cleanUpOldFiles();
+      $url = Mage::getUrl('adminhtml/system_config/edit/section/attachments');
+      $helper = Mage::helper('attachments');
+      if($url){
+        $link = '<a href="' . $url . '" title="' . $helper->__('Attachments Settings') . '">';
+        $link .= $helper->__('Change settings here.');
+        $link .= '</a>';
+      }
+      $session = Mage::getSingleton('adminhtml/session');
+      if ($count > 0) {
+        $session->addSuccess(Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted', $count))
+                ->addSuccess($helper->__('All old attachments deleted.'));
+      } else {
+        $session->addNotice($helper->__('No old enough files found.'));
+      }
+      $session->addNotice($link);
+    } catch (Exception $e) {
       Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
     }
     $this->_redirect('*/*/index');
@@ -110,7 +124,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
   public function downloadAction()
   {
     $attachmentId = $this->getRequest()->getParam('id');
-    $hash = $this->getRequest()->getParam('key');
+    $hash = $this->getRequest()->getParam('att');
     $att = $this->_getAttachment($attachmentId);
     if ($att) {
       try {
@@ -124,9 +138,9 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
           // try get file from quote
           $filePath = Mage::getBaseDir() . $value['quote_path'];
           if (!is_file($filePath) || !is_readable($filePath)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('attachments')
-                                                                     ->__('Attachment ID %d: <em>%s</em>  is not found.', $attachmentId, $value['title']));
-             $this->_redirect('*/*/index');
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('attachments')
+                                                                    ->__('Attachment ID %d: <em>%s</em>  is not found.', $attachmentId, $value['title']));
+            $this->_redirect('*/*/index');
             return;
           }
         }
@@ -139,12 +153,12 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
         }
 
         $this->getResponse()
-             ->setHttpResponseCode(200)
-             ->setHeader('Pragma', 'public', true)
-             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-             ->setHeader('Content-type', $value['type'], true)
-             ->setHeader('Content-Length', $value['size'])
-             ->setHeader('Content-Disposition', $disposition . '; filename="' . $value['title'] . '"');
+              ->setHttpResponseCode(200)
+              ->setHeader('Pragma', 'public', true)
+              ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+              ->setHeader('Content-type', $value['type'], true)
+              ->setHeader('Content-Length', $value['size'])
+              ->setHeader('Content-Disposition', $disposition . '; filename="' . $value['title'] . '"');
 
         $this->getResponse()->clearBody();
         $this->getResponse()->sendHeaders();
@@ -158,6 +172,14 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
     }
   }
 
+  public function refreshAction()
+  {
+    Mage::getModel('attachments/attachments')->getCollection()->rehashFiles();
+    Mage::getSingleton('adminhtml/session')
+          ->addSuccess(Mage::helper('attachments')->__('File hashes refreshed.'));
+    $this->_redirect('*/*/index');
+  }
+
   /**
    * @param int $id
    * @return ZetaPrints_Attachments_Model_Attachments
@@ -165,7 +187,7 @@ class ZetaPrints_Attachments_Adminhtml_AttachmentsController
   protected function _getAttachment($id = NULL)
   {
     $att = Mage::getModel('attachments/attachments');
-    if($id){
+    if ($id) {
       $att->load($id);
     }
     return $att;

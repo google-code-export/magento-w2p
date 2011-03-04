@@ -16,9 +16,9 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments extends Mage_Adminhtml_
     parent::__construct();
 
     $this->removeButton('add');
-    $delAll = $this->__('This will delete ALL files! Do you want to do continue?');
+    $delAll = $this->__('This will delete ALL old files! Do you want to do continue?');
     $delOrph = $this->__('This will delete orphaned files. Do you want to do continue?');
-    $this->_addButton('deleteall', array ('label' => 'Delete All',
+    $this->_addButton('deleteall', array ('label' => 'Delete All Old',
                                     'onclick' => 'if(confirm(\'' . $delAll . '\')){setLocation(\'' . $this->getUrl('*/*/deleteAll') . '\')}',
                                     'class' => 'delete'
     ));
@@ -26,5 +26,9 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments extends Mage_Adminhtml_
                                     'onclick' => 'if(confirm(\'' . $delOrph . '\')){setLocation(\'' . $this->getUrl('*/*/deleteOrphaned') . '\')}',
                                     'class' => 'delete'
     ));
+    $this->_addButton('refreshashes', array('label' => 'Refresh File Hashes',
+                                      'onclick' => 'setLocation(\'' . $this->getUrl('*/*/refresh') . '\')',
+                                      )
+    );
   }
 }

@@ -149,9 +149,13 @@ class ZetaPrints_Attachments_Helper_Upload extends
      */
     protected function _getHash($product_id, $option_id)
     {
+      $coresession = Mage::getSingleton('core/session');
+      $visitor = $coresession->getVisitorData();
+      $remoteaddr = long2ip($visitor['remote_addr']);
+      $sess_id = $visitor['session_id'];
       $hash = uniqid(__CLASS__, true);
       $hash .= microtime(true);
-      $hash .= $product_id . $option_id;
+      $hash .= $product_id . $option_id . $remoteaddr . $sess_id;
       return md5($hash);
     }
 }
