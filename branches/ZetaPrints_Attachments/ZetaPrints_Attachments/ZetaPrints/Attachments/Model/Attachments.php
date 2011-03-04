@@ -14,6 +14,7 @@ class ZetaPrints_Attachments_Model_Attachments
   const OPT_ID    = 'option_id';
   const ATT_ID    = 'attachment_id';
   const ATT_HASH  = 'attachment_hash';
+  const FILE_HASH = 'file_hash';
   const ATT_VALUE = 'attachment_value';
   const ATT_CODE  = 'use_ajax_upload';
   const ATT_CREATED = 'created';
@@ -70,38 +71,42 @@ class ZetaPrints_Attachments_Model_Attachments
    */
   public function addAtachment($data)
   {
+    /*
     if(isset($data[self::ATT_VALUE])){
       $value = $data[self::ATT_VALUE];
+      $check = md5($value); // hash file info, for same files it should always be the same
+      $data[self::FILE_HASH] = $check;
       unset($data[self::ATT_VALUE]);
     }
     $collection = $this->getAttachmentCollection($data);
-
+    $data[self::ATT_VALUE] = $value;
     if ($collection->count() > 0 && $value != null) { // if there is already such product / hash combo
       //      $attachments->load($collection[0]);
       $atValues = array ();
-      $check = md5($value);
       foreach ($collection as $att) {
-        $atValue = $att->getAttachmentValue();
         $atId = $att->getId();
-        $atValues[$atId] = md5($atValue);
+        $atValues[$atId] = $att->getData(self::FILE_HASH);
       }
       $found = array_search($check, $atValues);
       if (false === $found) { // if no option value is set then we are behind the add to cart event, so add the value
         $firstEmptyAtt = array_search(null, $atValues);
         if (false !== $firstEmptyAtt) { // if there is attachments added from cart with empty value
           $this->load($firstEmptyAtt);
-          $this->setAttachmentValue($value)->save();
+          $this->setData($data)->save();
         } else { // this is new attachments for this combo
-          $this->setData($data)->setAttachmentValue($value)
-                ->save();
+          $this->setData($data)->save();
         }
       }else {
         $this->load($found);
       }
     } else { // there is no attachments for this combo yet so we set our values and move on.
-      $this->setData($data)->setAttachmentValue($value);
-            $this->save();
+      $this->setData($data)->save();
     }
+     */
+    if(!isset($data[self::PR_ID], $data[self::ATT_VALUE], $data[self::ATT_HASH], $data[self::OPT_ID])){
+      throw new InvalidArgumentException('Data provided misses mandatory fields.');
+    }
+    $this->setData($data)->save();
     return $this;
   }
 
@@ -110,6 +115,10 @@ class ZetaPrints_Attachments_Model_Attachments
     if(!$this->hasData(self::ATT_CREATED)){
       $this->setData(self::ATT_CREATED, new Zend_Db_Expr('NOW()'));
     }
+    if(!$this->getData(self::FILE_HASH)){ // precaution to make sure that hash value is set
+      $file_hash = $this->getData(self::ATT_VALUE);
+      $this->setData(self::FILE_HASH, md5($file_hash));
+    }
     parent::save();
   }
 
@@ -117,7 +126,7 @@ class ZetaPrints_Attachments_Model_Attachments
    * Get collection of attachmentss filtered
    * @see self::addAttachment for possibe filter keys
    * @param array $filters
-   * @return ZetaPrints_Attachments_Model_Mysql4_Attachment_Collection
+   * @return ZetaPrints_Attachments_Model_Mysql4_Attachments_Collection
    */
   public function getAttachmentCollection(array $filters = array())
   {
@@ -138,8 +147,13 @@ class ZetaPrints_Attachments_Model_Attachments
    */
   public function deleteFile($value = null)
   {
+//    $this->rehashAttachments();
     if($value == null){
       $value = unserialize($this->getAttachmentValue());
+    }
+
+    if(!$this->isLastReference()){
+      return $this->delete();
     }
 
     if($this->getData(self::ORD_ID)){ // if this is part of an order and we fail to update it
@@ -194,5 +208,51 @@ class ZetaPrints_Attachments_Model_Attachments
       return $collection;
     }
     return false;
+  }
+
+  /**
+   * Rehash file hash
+   *
+   * Get all attachments and make sure their file hash is up to date.
+   * If $emptyOnly is false all attachments will be rechashed, else
+   * only ones that have no hashes will be rehashed.
+   *
+   * @param bool $emptyOnly
+   * @return void
+   */
+  protected function rehashAttachments($emptyOnly = true)
+  {
+    $filters = array();
+    if($emptyOnly){
+      // only get fields with null
+      $filters[self::FILE_HASH] = array('null' => true);
+    }
+    $collection = $this->getAttachmentCollection($filters)->rehashFiles();
+  }
+
+  /**
+   * Is this attachment last reference to file
+   * @return bool
+   */
+  public function isLastReference()
+  {
+    $this->save(); // make sure current file is written to DB
+    $filters = array(self::FILE_HASH => $this->getData(self::FILE_HASH));
+    $count = $this->getAttachmentCollection($filters)->count();
+    $return = ($count == 1); // if collection has 1 item, then this is last one;
+    return $return;
+  }
+
+  /**
+   * Detach file from session
+   *
+   * Purpose of this is prevent adding to order files
+   * that are marked as deleted from frontend user.
+   * @return void
+   */
+  public function detachFromSession()
+  {
+    $this->setData(self::ATT_HASH, '');
+    return $this->save();
   }
 }

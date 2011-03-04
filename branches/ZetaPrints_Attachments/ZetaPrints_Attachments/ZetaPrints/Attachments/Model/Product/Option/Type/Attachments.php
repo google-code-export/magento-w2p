@@ -45,20 +45,34 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
     return $this->_formattedOptionValue;
   }
 
+  /**
+   * In next version will have to replace
+   * getQuoteItemOption with getConfigurationItemOption
+   * @param array $value
+   * @return ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
+   */
   protected function _setFullValues($value)
   {
-    if ($this->_setFullValues && $this->getConfigurationItemOption()) {
-      $this->getConfigurationItemOption()->setValue(serialize($value));
+    if ($this->_setFullValues && $this->getQuoteItemOption()) {
+      $this->getQuoteItemOption()->setValue(serialize($value));
     }
     return $this;
   }
 
+  /**
+   * In next version will have to replace
+   * getQuoteItemOption with getConfigurationItemOption
+   * @param array $value
+   * @param string $key
+   * @param string $route
+   * @return array
+   */
   protected function _setUrl($value, $key, $route)
   {
-    if(!isset($value[$key]) && $this->getConfigurationItemOption()){
+    if(!isset($value[$key]) && $this->getQuoteItemOption()){
       $value[$key] = array ('route' => $route,
                             'params' => array (
-                            'id' => $this->getConfigurationItemOption()->getId(),
+                            'id' => $this->getQuoteItemOption()->getId(),
                             'key' => $value['secret_key']
                            ));
       $this->_setFullValues = true;
@@ -86,6 +100,9 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
    */
   protected function _unserialize($value)
   {
+    if(is_array($value)){
+      return $value;
+    }
     $_value = unserialize($value);
     if (!$_value) {
       throw new Exception(print_r($value, true));
@@ -274,4 +291,39 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
     // else pass control to parent
     return parent::prepareForCart();
   }
+
+  /**
+     * Quote item to order item copy process
+     *
+     * @return ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
+     */
+    public function copyQuoteToOrder()
+    {
+      $quoteOption = $this->getQuoteItemOption();
+//      $quoteOption = $this->getConfigurationItemOption();
+      try {
+        $files = unserialize($quoteOption->getValue());
+        foreach($files as $value){
+          try{
+            if (!isset($value['quote_path'])) {
+              throw new Exception();
+            }
+            $quoteFileFullPath = Mage::getBaseDir() . $value['quote_path'];
+            if (!is_file($quoteFileFullPath) || !is_readable($quoteFileFullPath)) {
+              throw new Exception();
+            }
+            $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
+            $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
+            $this->_createWriteableDir($dir);
+            Mage::helper('core/file_storage_database')->copyFile($quoteFileFullPath, $orderFileFullPath);
+            @copy($quoteFileFullPath, $orderFileFullPath);
+          }catch(Exception $e){
+            continue;
+          }
+        }
+      } catch (Exception $e) {
+        return $this;
+      }
+      return $this;
+    }
 }

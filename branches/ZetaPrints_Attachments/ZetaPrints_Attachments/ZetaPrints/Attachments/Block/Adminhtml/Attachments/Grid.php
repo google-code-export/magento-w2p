@@ -35,6 +35,14 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid
           'index'     => 'attachment_id',
       ));
 
+      $this->addColumn('option_id', array(
+          'header'    => Mage::helper('attachments')->__('Option Title'),
+          'align'     =>'right',
+          'width'     => '150px',
+          'index'     => 'option_id',
+          'renderer'  => 'ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_Option'
+      ));
+
       $this->addColumn('product_id', array(
           'header'    => Mage::helper('attachments')->__('Product'),
           'align'     =>'left',

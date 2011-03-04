@@ -176,7 +176,7 @@ class ZetaPrints_Attachments_Model_Events_Observer
    * * /5 * * * * /path/to/php /path/to/magento/cron.php >>/path/to/magento/var/log/cron.log
    * This way all output from the operation will be logged.
    *
-   * @return void
+   * @return integer
    */
   public function cleanUpOldFiles()
   {
@@ -187,6 +187,7 @@ class ZetaPrints_Attachments_Model_Events_Observer
     $orphanFilesPeriod = Mage::getStoreConfig($orphanFiles);
     $this->_debug('Old files period: ' . $oldFilesPeriod);
     $this->_debug('Orphan files period: ' . $orphanFilesPeriod);
+    $count = 0;
 
     // var_dump($oldNode, $orphanNode);
     if($oldFilesPeriod && is_numeric($oldFilesPeriod) && $oldFilesPeriod > 0 ||
@@ -206,16 +207,19 @@ class ZetaPrints_Attachments_Model_Events_Observer
       $this->_debug('Query executed' . $select);
 
       $collection->load();
-      $this->_debug(count($collection) . ' files will be deleted');
+      $count = count($collection);
+      $this->_debug($count . ' files will be deleted');
       try{
         $collection->walk('deleteFile');
-        $this->_debug($collection->count() . ' items deleted');
+        $this->_debug($count . ' items deleted');
       }catch(Exception $e){
         $this->_debug($e->getMessage());
       }
     }else{
       $this->_debug('No files found');
     }
+
+    return $count;
   }
 
 
