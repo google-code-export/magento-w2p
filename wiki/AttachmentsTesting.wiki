@@ -18,20 +18,9 @@ Problem:
 In case that user selects the same file more than once it will be uploaded to server
 but it will not be saved more than once (no additional disk space will be taken).
 Unfortunately JavaScript does not allow to get full file name and path on user 
-computer. So for example C:\images\big\image1.jpg and C:\images\thumbnails\image1.jpg 
-are probably different sizes of same picture but when uploading them browser only 
-sees image1.jpg and has no way to tell for sure if it is the same file or not. There is no  way with only JavaScript to prevent repeating uploads. So
-the responsibility of which files to upload and keep goes to the user and then to admin
-of the store.
+computer. So for example *C:\images\big\image1.jpg* and *C:\images\thumbnails\image1.jpg* are probably different sizes of same picture but when uploading them browser only sees *image1.jpg* and has no way to tell for sure if it is the same file or not. There is no  way with only *JavaScript* to prevent repeating uploads. So the responsibility of which files to upload and keep goes to the user and then to admin of the store.
 
-Magento does not store files with their names. It creates an md5 hash out of file content 
-and uses it as base file name and adds file extension. It then puts the file into custom
-folder path made out of 2 folders which are named after first 2 letters of original file 
-name. So file image.jpg will be saved in relative path /i/m/ujhfljdslkuwihf784ri432.jpg
-This means that if a user uploads same file in 2 separate products or orders, the file 
-will be saved over any previous upload of the same file. This preserves space on disk
-but also means that if file is physically deleted it will be deleted for all resources
-that refer to it (all orders or attachment records).
+Magento does not store files with their names. It creates an md5 hash out of file content and uses it as base file name and adds file extension. It then puts the file into custom folder path made out of 2 folders which are named after first 2 letters of original file name. So file *image.jpg* will be saved in relative path */i/m/ujhfljdslkuwihf784ri432.jpg* This means that if a user uploads same file in 2 separate products or orders, the file will be saved over any previous upload of the same file. This preserves space on disk but also means that if file is physically deleted it will be deleted for all resources that refer to it (all orders or attachment records).
 
 The things to test for uploader are:
   # You can upload file with any widget on the page.
