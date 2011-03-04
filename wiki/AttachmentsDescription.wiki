@@ -31,6 +31,8 @@
 
 Admin user adds or edits a product that can use one or more customer files, such as visual templates, fonts, Photoshop brushes etc.
 
+
+
 To provide this admin adds custom option from product editing page.
 
 http://lh3.ggpht.com/_FUsMOYf2KgU/TQIxeESUg-I/AAAAAAAAAHE/jkKNsNyAsbw/admin_product_custom_option.png
@@ -61,6 +63,13 @@ Upon canceling upload of a file, next in queue starts upload. Canceled file is r
 
 Next to each queued file there is a 'remove' link which removes the file from queue. Clicking on that link will remove the file and its form from queue.
 
+In case that user selects the same file more than once it will be uploaded to server
+but it will not be saved more than once (no additional disk space will be taken).
+Unfortunately JavaScript does not allow to get full file name and path on user 
+computer. So for example *C:\images\big\image1.jpg* and *C:\images\thumbnails\image1.jpg* are probably different sizes of same picture but when uploading them browser only sees *image1.jpg* and has no way to tell for sure if it is the same file or not. There is no  way with only *JavaScript* to prevent repeating uploads. So the responsibility of which files to upload and keep goes to the user and then to admin of the store.
+
+Magento does not store files with their names. It creates an md5 hash out of file content and uses it as base file name and adds file extension. It then puts the file into custom folder path made out of 2 folders which are named after first 2 letters of original file name. So file *image.jpg* will be saved in relative path */i/m/ujhfljdslkuwihf784ri432.jpg* This means that if a user uploads same file in 2 separate products or orders, the file will be saved over any previous upload of the same file. This preserves space on disk but also means that if file is physically deleted it will be deleted for all resources that refer to it (all orders or attachment records).
+
 During upload, all 'Add to cart' buttons of original Magento form are hidden from client to prevent accidental leaving of the page and by doing this canceling all pending and running uploads. If customer decides that he does not want to upload remaining files, he/she can cancel or remove them and 'Add to cart' buttons will be available again.
 
 After product has been added to cart, all uploaded files are listed in shopping cart, and then in checkout page. Upon order placing if customer is registered, she can see the list of uploaded files in order details page too.
@@ -76,3 +85,11 @@ http://lh3.ggpht.com/_FUsMOYf2KgU/TQIxlJOYXFI/AAAAAAAAAHQ/O7g-dmSyXpU/s800/file_
 When examining the order in Admin - users are presented with download links to all files attached to order.
 
 http://lh4.ggpht.com/_FUsMOYf2KgU/TQIxdw0673I/AAAAAAAAAG8/Ywf8PNB7dgw/admin_order_view.png
+
+
+In latest versions, an admin management interface is made to help deleting old and unneeded file from file system. This is implemented as a dedicated menu item in admin backend of Magento. The menu has 2 entries - 'Manage attachments' and 'Attachment settings'.
+
+First entry lists all uploaded files in a table that has options to delete individual files, selected number of files, all orphaned files (files that are not part of an order) and all old files (what is considered 'old' file is set in settings).
+
+Second entry leads to System Configuration tab for Attachments settings. There you can set number of days after which a file is considered 'old'. There are 2 options - *Orphaned files* and *Old files*. Orphaned are any files that did not end up as part of an  order. Old files are all uploaded files including those that are part of an order. If you set any of the options to 0 (zero) it will be skipped. The most logical way of setting those options is to set orphaned days to be less than old days. That will leave files that are used in an order untouched and available for reorder. If you want not to delete order files at all, set old files days to 0.
+If you want to delete all files regardless of being part of an order or not at the same time, set orphaned to 0 and old days to what ever number of days you want.
