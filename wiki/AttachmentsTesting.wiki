@@ -24,5 +24,5 @@ The things to test for uploader are:
   # Clicking 'Delete orphaned' button in top right of the page should delete all files that are not part of an order. I would not recommend doing this in production environment because this will delete also files that are being just uploaded by a customer that is still shopping.
   # Clicking 'Delete All Old' will delete all files that pass old threshold as set in Attachments settings. By setting appropriate values for orphaned files (like 14 days) you may be sure that no files that are in process of being ordered will be deleted.
   # "Refresh File Hashes" is a button that will be of use to people having older versions of the extension. Clicking it will refresh duplicate files hashes in database table and will allow safe work of the extension with files that have been previously uploaded.
-
+  # Test if deleting file that is part of an order affects order display in admin and frontend. In both places, deleted file should not be shown as part of the order. In admin a comment should be shown with names of files that are deleted.
 If you think of more aspects to test, please add them to above list.
