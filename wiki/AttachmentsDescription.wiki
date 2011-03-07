@@ -70,6 +70,8 @@ computer. So for example *C:\images\big\image1.jpg* and *C:\images\thumbnails\im
 
 Magento does not store files with their names. It creates an md5 hash out of file content and uses it as base file name and adds file extension. It then puts the file into custom folder path made out of 2 folders which are named after first 2 letters of original file name. So file *image.jpg* will be saved in relative path */i/m/ujhfljdslkuwihf784ri432.jpg* This means that if a user uploads same file in 2 separate products or orders, the file will be saved over any previous upload of the same file. This preserves space on disk but also means that if file is physically deleted it will be deleted for all resources that refer to it (all orders or attachment records).
 
+After file is uploaded it has a delete button displayed next to it (same as remove btn), by clicking on it, the file will not be added to order process. This will not however physically delete the file.
+
 During upload, all 'Add to cart' buttons of original Magento form are hidden from client to prevent accidental leaving of the page and by doing this canceling all pending and running uploads. If customer decides that he does not want to upload remaining files, he/she can cancel or remove them and 'Add to cart' buttons will be available again.
 
 After product has been added to cart, all uploaded files are listed in shopping cart, and then in checkout page. Upon order placing if customer is registered, she can see the list of uploaded files in order details page too.
