@@ -87,16 +87,18 @@ class ZetaPrints_Attachments_Helper_Data extends Mage_Core_Helper_Abstract
       $unset = array();
       if (count($items)) {
         foreach ($items as $item) {
+          $found = false; // for each item we want to delete only one file
           $productOptions = unserialize($item->getData('product_options'));
           if (isset($productOptions)) {
             $option_id = $att->getData(ZetaPrints_Attachments_Model_Attachments::OPT_ID);
             if (isset($productOptions['options'])) { // if we have options added to  this order we check them
               foreach ($productOptions['options'] as $key => $option) {
-
+                
                 if ($option_id == $option['option_id']) { // if any of those is our option id, delete it.
                   $opt_value = unserialize($option['option_value']);
                   foreach($opt_value as $okey => $file){ // loop all files and delete the one that matches
-                    if($file['secret_key'] == $secret){
+                    if($file['secret_key'] == $secret && !$found){
+                      $found = true;
                       unset($opt_value[$okey]);
                       $unset[] = $file['title'];
                     }
@@ -119,9 +121,9 @@ class ZetaPrints_Attachments_Helper_Data extends Mage_Core_Helper_Abstract
                     }
                   }
 
-                }
+                } // end if any of those is our option id, delete it.
 
-              } // end foreach
+              } // end foreach $productOptions['options']
 
             } // end if $productOptions['options']
             $item->setData('product_options', serialize($productOptions))->save(); // set back data and save item
