@@ -27,5 +27,26 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Fixedprices
     $path = str_ireplace($path, '', $fullpath);
     setcookie(self::COOKIE_NAME, $cookie, 0, $path);
   }
+
+  /**
+   * Set product to have required options
+   *
+   * If product has fixed prices, set it as if it has required options,
+   * this way client cannot add to cart from product list page, but has to
+   * pick a FQ.
+   *
+   * @param  Varien_Event_Observer $observer
+   * @return void
+   */
+  public function setRequiredOption($observer)
+  {
+    $product = $observer->getEvent()->getProduct();
+    /*
+     * @var $product Mage_Catalog_Model_Product
+     */
+    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product)){
+      $product->setRequiredOprions(TRUE);
+    }
+  }
 }
 

@@ -10,7 +10,7 @@
 <config>
   <modules>
     <ZetaPrints_Fixedprices>
-      <version>0.3</version>
+      <version>0.3.5</version>
     </ZetaPrints_Fixedprices>
   </modules>
   <frontend>
@@ -67,6 +67,14 @@
           </zetaprints_fixedprices_add_fixed_prices>
         </observers>
       </core_block_abstract_prepare_layout_after>
+      <catalog_product_save_before>
+        <observers>
+          <zetaprints_fixedprices_add_required>
+            <class>fixedprices/events_observers_fixedprices</class>
+            <method>setRequiredOption</method>
+          </zetaprints_fixedprices_add_required>
+        </observers>
+      </catalog_product_save_before>
     </events>
   </adminhtml>
   <global>

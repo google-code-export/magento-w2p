@@ -22,7 +22,7 @@ class ZetaPrints_Fixedprices_Model_Product_Attribute_Backend_Fixedprices
     }
 
     /**
-     * Validate tier price data
+     * Validate fixed qtys price data
      *
      * @param Mage_Catalog_Model_Product $object
      * @throws Mage_Core_Exception
@@ -253,7 +253,7 @@ class ZetaPrints_Fixedprices_Model_Product_Attribute_Backend_Fixedprices
               $object->addAttributeUpdate('minimal_price', $active, 0);
             }
         }
-
+        $object->setRequiredOptions(true);
         return $this;
     }
 
