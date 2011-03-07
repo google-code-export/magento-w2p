@@ -152,14 +152,14 @@ class ZetaPrints_Attachments_Model_Attachments
       $value = unserialize($this->getAttachmentValue());
     }
 
-    if(!$this->isLastReference()){
-      return $this->delete();
-    }
-
     if($this->getData(self::ORD_ID)){ // if this is part of an order and we fail to update it
       if(!Mage::helper('attachments')->deleteFromOrder($this->getData(self::ORD_ID), $this)){
         return $this; // don't delete
       }
+    }
+
+    if(!$this->isLastReference()){
+      return $this->delete();
     }
 
     $filePath = Mage::getBaseDir() . $value['order_path'];
