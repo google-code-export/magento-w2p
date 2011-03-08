@@ -38,6 +38,7 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Fixedprices
    * this way client cannot add to cart from product list page, but has to
    * pick a FQ.
    *
+   * @event catalog_product_save_before
    * @param  Varien_Event_Observer $observer
    * @return void
    */
