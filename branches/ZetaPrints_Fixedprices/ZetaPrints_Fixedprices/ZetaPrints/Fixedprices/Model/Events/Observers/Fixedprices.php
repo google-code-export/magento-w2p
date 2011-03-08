@@ -22,10 +22,13 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Fixedprices
     } // end foreach
 
     $cookie = implode(',', $ids);
-    $path = rtrim(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK), '/');
-    $fullpath = Mage::getUrl('checkout/cart');
-    $path = str_ireplace($path, '', $fullpath);
-    setcookie(self::COOKIE_NAME, $cookie, 0, $path);
+//    $path = rtrim(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK), '/');
+//    $fullpath = Mage::getUrl('checkout/cart');
+//    $path = str_ireplace($path, '', $fullpath);
+//    setcookie(self::COOKIE_NAME, $cookie, 0, $path);
+    $session = Mage::getSingleton('checkout/session');
+    /* @var $session Mage_Checkout_Model_Session */
+    $session->setData(self::COOKIE_NAME, $cookie);
   }
 
   /**

@@ -6,10 +6,8 @@ Event.observe(window, 'load', hideCartQtys);
 
 function hideCartQtys()
 {
-  var c_name = 'fp_items'; // cookie name same as ZetaPrints_Fixedprices_Model_Events_Observers_Fixedprices::COOKIE_NAME
-  var cookie = getCookie(c_name);
-  if(cookie){
-    var item_ids = $A(cookie.split(','));
+  if(typeof disabledQtys !== 'undefined'){
+    var item_ids = $A(disabledQtys);
     var qtys = $$('.qty');
     if(qtys.size() == 0){
       return;
