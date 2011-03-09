@@ -23,7 +23,7 @@ var attachments = Class.create({
  /*
   * This is file registry and queue. All files added to queue.
   * We use queue to keep the order and registry to keep AjaxUpload
-  * objsects them selves. Items in queue corespond to keys in
+  * objects them selves. Items in queue correspond to keys in
   * registry.
   * So we have in queue [file_1, file_2, file_3]  and
   * {file_1:upload1, file_3:upload3, file_2:upload2}
@@ -50,7 +50,7 @@ var attachments = Class.create({
     this.settings = {  // for proper inheritance to work, we need to assign values here
         placementDiv: 'zp-file-upload-',            // this is container of sever side html
         containerDiv: 'zp-form-container-',         // this is container where generated forms will be
-        containerDivClass: 'zp-form-container',     // this is class for all js containers that are used which helps in styling and posiotioning them
+        containerDivClass: 'zp-form-container',     // this is class for all js containers that are used which helps in styling and positioning them
         attachmentsListId: 'zp-attachments-list-',  // file list container id
         formId: 'zp-attachments-form-',             // form ID
         frameId: 'zp-attachments-frame-',           // iFrame ID
@@ -76,17 +76,18 @@ var attachments = Class.create({
     window.uploadInProgress[this.idx] = false;
     this.setOptions(options);
   },
-  addFirstUpload:function(){ // after initilize, prepare container and add first form
+  addFirstUpload:function(){ // after initialize, prepare container and add first form
     var cont = this.createContainer(this.idx); // create form container
     this.original = $(this.settings.placementDiv + this.idx); // get server side container
     var or = $(this.original);
     cont.absolutize();  // make our container, absolutely positioned
-    var dim = or.getDimensions(); // get original container dimentions
+
+    var dim = or.getDimensions(); // get original container dimensions
     or.setStyle({width: dim.width+'px', height: 'auto'}); // hard code original container width to avoid unwanted changes
-    cont.clonePosition(this.original); // then clone position and dimentions to our container. This places it on top of original
+    cont.clonePosition(this.original); // then clone position and dimensions to our container. This places it on top of original
     cont.originalPosition = cont.positionedOffset(); // save first position for future needs
-    this.hideOriginalContent(); // hide some of the original container content
     this.addUpload(); // and add first form
+    this.hideOriginalContent(); // hide some of the original container content
   },
   hideOriginalContent:function(){ // hides some of the original container content
     var div = $(this.original);
@@ -179,7 +180,7 @@ var attachments = Class.create({
     spn.insert(this.getStopLink(id)).insert(this.getSpinner());
     return  spn;
   },
-  getUploadList:function(){ // get reference to file list container, alert pops up when elemnt ID is not found
+  getUploadList:function(){ // get reference to file list container, alert pops up when element ID is not found
     var list = this.getUploadListId(this.idx);
     var attachmentsList = $(list);
     if(undefined == attachmentsList){
@@ -773,3 +774,39 @@ var toElement = (function(){
     return element;
   };
 })();
+
+function updatePosition(att) {
+  var resize_timer;
+  // handle positioning on resize
+  Event.observe(window, 'resize', function(e){
+    if(resize_timer){
+      clearTimeout(resize_timer);
+    }
+    resize_timer = setTimeout(function(){
+      var contClass = '.' + this.settings.containerDivClass;
+      var containers = $$(contClass);
+      containers.each(function(c){
+        $(c).fire(this.settings.updateListEvent);
+      }.bind(this));
+    }.bind(this), 100);
+  }.bindAsEventListener(att));
+
+  var redraw_timer;
+  var parent_el = $(att.original).up('form');
+  var parent_dims = parent_el.getDimensions();
+  redraw_timer = new PeriodicalExecuter(function(){
+    var el = att;
+    var orig_dims = parent_dims;
+    var curr_parent_dims = parent_el.getDimensions();
+    if(orig_dims.height != curr_parent_dims.height ||
+          orig_dims.width != curr_parent_dims.width){
+      parent_dims = curr_parent_dims;
+      var contClass = '.' + el.settings.containerDivClass;
+      var containers = $$(contClass);
+      containers.each(function(c){
+        $(c).fire(this.settings.updateListEvent);
+      }.bind(el));
+    }
+  }, 0.1);
+}
+
