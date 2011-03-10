@@ -1,0 +1,9 @@
+.order-about dd{
+  background-color: #dee5e8;
+  border: 1px solid #D9DDE3;
+  padding: 2px 5px;
+}
+.order-about dd.customer-comment {
+  border: 2px solid #BEBCB7;
+  padding: 1px 4px;
+}
