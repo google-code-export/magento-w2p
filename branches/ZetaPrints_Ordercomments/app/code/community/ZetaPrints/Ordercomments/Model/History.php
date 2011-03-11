@@ -16,11 +16,11 @@ class ZetaPrints_Ordercomments_Model_History
   protected $customerCommentTpl = '%s...customer';
   public function getComment()
   {
-    $comment = parent::getComment();
+    $comment = nl2br(parent::getComment());
     $id = $this->getId();
     $customerComment = Mage::getModel('ordercomments/comment')->load($id, 'comment_id');
     if($customerComment->getId()){
-      $comment = sprintf($this->customerCommentTpl, nl2br($comment));
+      $comment = sprintf($this->customerCommentTpl, $comment);
     }
     return $comment;
   }
