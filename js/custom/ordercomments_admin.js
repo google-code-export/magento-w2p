@@ -10,6 +10,14 @@ if (typeof Prototype != 'undefined') { // check that Prototype is loaded
       if (cont.match(/\.{3}customer\s*$/)) {
         cont = cont.gsub(/\.{3}customer\s*$/, '');
         comm.addClassName('customer-comment').update(cont).insert({top: '<strong>Customer:</strong><br/>'});
+        var small = comm.down('small'); // customer notified messages are in a small tag
+        if (small) {
+          var br = small.next('br'); // they also have a br after them
+          if (br) { // we need to hide/remove both
+            br.remove();
+          }
+          small.hide();
+        }
       }
     });
   }
