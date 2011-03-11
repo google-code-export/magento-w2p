@@ -97,5 +97,14 @@
         <to>/ordercomments/index/addComment/</to>
       </ordercomments_front_addcomment>
     </rewrite>
+    <template>
+      <email>
+        <customer_order_comment module = "ZetaPrints_Ordercomments">
+          <label>Ordercomments Customer Comment</label>
+          <file>customer_order_template.html</file>
+          <type>html</type>
+        </customer_order_comment>
+      </email>
+    </template>
   </global>
 </config>

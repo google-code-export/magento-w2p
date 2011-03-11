@@ -131,11 +131,12 @@ class ZetaPrints_Ordercomments_Model_Comment
     $copyMethod = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
     $from = $order->getCustomerEmail();
     $toIdentity = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId);
-    $to = Mage::getStoreConfig('trans_email/ident_' . $toIdentity .'/email', $storeId);
-    $admin = Mage::getStoreConfig('trans_email/ident_' . $toIdentity .'/name', $storeId);
+    $to = Mage::getStoreConfig('trans_email/ident_' . $toIdentity . '/email', $storeId);
+    $admin = Mage::getStoreConfig('trans_email/ident_' . $toIdentity . '/name', $storeId);
+    $orderUrl = Mage::getModel('adminhtml/url')->getUrl('adminhtml/sales_order/view', array('order_id' => $order->getId()));
 
     // Retrieve corresponding email template id and customer name
-    $templateId = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
+    $templateId = Mage::getConfig()->getNode('global/template/email/customer_order_comment')->getName();
     $customerName = $order->getCustomerName();
 
     /**
@@ -160,9 +161,10 @@ class ZetaPrints_Ordercomments_Model_Comment
     $mailer->setStoreId($storeId);
     $mailer->setTemplateId($templateId);
     $mailer->setTemplateParams(array(
-                                    'order' => $order,
+                                    'order'   => $order,
                                     'comment' => $comment,
-                                    'billing' => $order->getBillingAddress()
+                                    'billing' => $order->getBillingAddress(),
+                                    'orderUrl'=> $orderUrl
                                )
     );
     $mailer->send();

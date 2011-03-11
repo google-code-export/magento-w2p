@@ -20,7 +20,7 @@ class ZetaPrints_Ordercomments_Model_History
     $id = $this->getId();
     $customerComment = Mage::getModel('ordercomments/comment')->load($id, 'comment_id');
     if($customerComment->getId()){
-      $comment = sprintf($this->customerCommentTpl, $comment);
+      $comment = sprintf($this->customerCommentTpl, nl2br($comment));
     }
     return $comment;
   }
