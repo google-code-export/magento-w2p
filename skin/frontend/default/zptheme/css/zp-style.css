@@ -1,8 +1,10 @@
 /**/
 div.zetaprints-image-tabs {
   display: none;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 /**/
