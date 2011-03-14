@@ -1,17 +1,10 @@
 function precalculate_shapes (template_details, preview_dimensions) {
   for (var page in template_details.pages)
     for (var name in template_details.pages[page].shapes) {
-      template_details.pages[page].shapes[name]._x1 = template_details.pages[page].shapes[name].x1;
-      template_details.pages[page].shapes[name].x1 = preview_dimensions[page].width * template_details.pages[page].shapes[name]._x1;
-
-      template_details.pages[page].shapes[name]._y1 = template_details.pages[page].shapes[name].y1;
-      template_details.pages[page].shapes[name].y1 = preview_dimensions[page].height * template_details.pages[page].shapes[name]._y1;
-
-      template_details.pages[page].shapes[name]._x2 = template_details.pages[page].shapes[name].x2
-      template_details.pages[page].shapes[name].x2 = preview_dimensions[page].width * template_details.pages[page].shapes[name]._x2;
-
-      template_details.pages[page].shapes[name]._y2 = template_details.pages[page].shapes[name].y2;
-      template_details.pages[page].shapes[name].y2 = preview_dimensions[page].height * template_details.pages[page].shapes[name]._y2;
+      template_details.pages[page].shapes[name]._x1 = preview_dimensions[page].width * template_details.pages[page].shapes[name].x1;
+      template_details.pages[page].shapes[name]._y1 = preview_dimensions[page].height * template_details.pages[page].shapes[name].y1;
+      template_details.pages[page].shapes[name]._x2 = preview_dimensions[page].width * template_details.pages[page].shapes[name].x2;
+      template_details.pages[page].shapes[name]._y2 = preview_dimensions[page].height * template_details.pages[page].shapes[name].y2;
     }
 }
 
@@ -50,10 +43,10 @@ function place_all_precalculated_shapes_for_page (page, template_details, contai
   if (template_details.pages[page].shapes)
     for (name in template_details.pages[page].shapes)
       place_shape({
-        left: template_details.pages[page].shapes[name].x1,
-        top: template_details.pages[page].shapes[name].y1,
-        width: template_details.pages[page].shapes[name].x2 - template_details.pages[page].shapes[name].x1,
-        height: template_details.pages[page].shapes[name].y2 - template_details.pages[page].shapes[name].y1,
+        left: template_details.pages[page].shapes[name]._x1,
+        top: template_details.pages[page].shapes[name]._y1,
+        width: template_details.pages[page].shapes[name]._x2 - template_details.pages[page].shapes[name]._x1,
+        height: template_details.pages[page].shapes[name]._y2 - template_details.pages[page].shapes[name]._y1,
         name: name,
         edited: template_details.pages[page].shapes[name].edited}, container, shape_handler);
 }
@@ -63,14 +56,14 @@ function place_all_shapes_for_page (shapes, image_dimension, container, shape_ha
     return;
 
   for (name in shapes) {
-    var left =  shapes[name]._x1 * image_dimension.width;
-    var top = shapes[name]._y1 * image_dimension.height;
+    var left =  shapes[name].x1 * image_dimension.width;
+    var top = shapes[name].y1 * image_dimension.height;
 
     place_shape({
       left: left,
       top: top,
-      width: shapes[name]._x2 * image_dimension.width - left,
-      height: shapes[name]._y2 * image_dimension.height - top,
+      width: shapes[name].x2 * image_dimension.width - left,
+      height: shapes[name].y2 * image_dimension.height - top,
       name: name,
       edited: shapes[name].edited }, container, shape_handler);
   }
