@@ -37,12 +37,20 @@ function zetaprint_image_editor ($) {
 
   var $user_image = $('#zetaprints-image-edit-user-image');
 
-  var user_image_container_size = {
+  var container_size = {
     width: $user_image_container.width() - 2,
     height: $user_image_container.height() - 2
   }
 
   var $info_bar = $container.find('div.info-bar');
+
+  //Use this factor to convert container's dimension to
+  //original one (multiply by the factor) or vice versa (divide by the factor)
+  var container_to_placeholder_factor
+        = get_factor_a_to_b(context.placeholder.width,
+                            context.placeholder.height,
+                            container_size.width,
+                            container_size.height)
 
   var container_to_image_factor = null;
   var thumb_to_container_factor = null;
@@ -57,23 +65,80 @@ function imageEditorCrop () {
   //var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
 
   if (isCropFit) {
+    var data = {
+      selection: {
+        position: {
+          top: 0,
+          left: 0 } },
+      image: {
+        position: {
+          top: 0, left: 0 } } };
+
+    console.log('container_size.width', container_size.width);
+
     var width_factor
-                  = context.placeholder.width / user_image_container_size.width;
+                  = context.placeholder.width / container_size.width;
     var height_factor
-                = context.placeholder.height / user_image_container_size.height;
+                = context.placeholder.height / container_size.height;
 
     container_to_image_factor
                   = width_factor > height_factor ? width_factor : height_factor;
 
-    frame_width = Math.round(context.placeholder.width
+    var metadata = context.$input.data('metadata');
+
+    data.selection.width = Math.round(context.placeholder.width
                                                    / container_to_image_factor);
-    var frame_height = Math.round(context.placeholder.height
+    data.selection.height = Math.round(context.placeholder.height
                                                    / container_to_image_factor);
 
-    image_width = Math.round(_cropVisualAssistant.userImage.widthActualPx
+    console.log('data.selection.width', data.selection.width);
+
+    //!!! Move to bottom
+    frame_width = data.selection.width;
+
+    console.log(metadata);
+
+    if (metadata) {
+      console.log('cr-x2: ', metadata['cr-x2'], ' cr-x1: ', metadata['cr-x1']);
+
+      data.selection.width = (metadata['cr-x2'] - metadata['cr-x1'])
+                                                         * data.selection.width;
+      data.selection.height = (metadata['cr-y2'] - metadata['cr-y1'])
+                                                        * data.selection.height;
+
+      data.selection.position.left = metadata['cr-x1'] * data.selection.height;
+      data.selection.position.top = metadata['cr-y1'] * data.selection.width;
+
+      data.container = container_size;
+    }
+
+    console.log('data.selection.width', data.selection.width);
+
+    if (metadata) {
+      data.image.width = data.selection.width / metadata['sz-x'];
+      data.image.height = data.selection.height / metadata['sz-y'];
+    } else {
+      data.image.width = Math.round(_cropVisualAssistant.userImage.widthActualPx
                                                    / container_to_image_factor);
-    var image_height = Math.round(_cropVisualAssistant.userImage.heightActualPx
-                                                   / container_to_image_factor);
+      data.image.height = Math.round(
+                            _cropVisualAssistant.userImage.heightActualPx /
+                            container_to_image_factor);
+    }
+
+    //!!! Move to bottom
+    image_width = data.image.width;
+
+    //image_width = Math.round(_cropVisualAssistant.userImage.widthActualPx
+    //                                               / container_to_image_factor);
+    //var image_height = Math.round(_cropVisualAssistant.userImage.heightActualPx
+    //                                               / container_to_image_factor);
+
+    if (metadata) {
+      data.image.position.left = data.selection.position.left +
+                                        data.selection.width / metadata['sh-x'];
+      data.image.position.top = data.selection.position.top +
+                                       data.selection.height / metadata['sh-y'];
+    }
 
     var width_factor = context.placeholder.width
                                  / _cropVisualAssistant.userImage.widthActualPx;
@@ -83,8 +148,8 @@ function imageEditorCrop () {
     var image_to_placeholder_factor
                   = width_factor < height_factor ? width_factor : height_factor;
 
-    var resized_image_width = image_width * image_to_placeholder_factor;
-    var resized_image_height = image_height * image_to_placeholder_factor;
+    var resized_image_width = data.image.width * image_to_placeholder_factor;
+    var resized_image_height = data.image.height * image_to_placeholder_factor;
 
     var dpi = Math.round(image_dpi / image_to_placeholder_factor);
 
@@ -93,60 +158,58 @@ function imageEditorCrop () {
     if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
       set_info_bar_warning('small-image-warning');
 
-    var data = {
-      selection: {
-        width: frame_width,
-        height: frame_height,
-        position: {
-          top: 0,
-          left: 0 } },
-      image: {
-        width: resized_image_width,
-        height: resized_image_height,
-        position: {
-          top: 0,
-          left: 0 } } };
+    //var data = {
+    //  selection: {
+    //    width: frame_width,
+    //    height: frame_height,
+    //    position: {
+    //      top: 0,
+    //      left: 0 } },
+    //  image: {
+    //    width: resized_image_width,
+    //    height: resized_image_height,
+    //    position: {
+    //      top: 0,
+    //      left: 0 } } };
 
-    var metadata = context.$input.data('metadata');
+    //if (metadata) {
+    //  var cr_x1 = metadata['cr-x1'];
+    //  var cr_y1 = metadata['cr-y1'];
+    //  var cr_x2 = metadata['cr-x2'];
+    //  var cr_y2 = metadata['cr-y2'];
 
-    if (metadata) {
-      var cr_x1 = metadata['cr-x1'];
-      var cr_y1 = metadata['cr-y1'];
-      var cr_x2 = metadata['cr-x2'];
-      var cr_y2 = metadata['cr-y2'];
+    //  if (cr_x1 && cr_y1 && cr_x2 && cr_y2) {
+    //    data.selection = {
+    //      width: (cr_x2 - cr_x1) * data.selection.width,
+    //      height: (cr_y2 - cr_y1) * data.selection.height,
+    //      position: {
+    //        top: cr_y1 * data.selection.width,
+    //        left: cr_x1 * data.selection.height } };
 
-      if (cr_x1 && cr_y1 && cr_x2 && cr_y2) {
-        data.selection = {
-          width: (cr_x2 - cr_x1) * data.selection.width,
-          height: (cr_y2 - cr_y1) * data.selection.height,
-          position: {
-            top: cr_y1 * data.selection.width,
-            left: cr_x1 * data.selection.height } };
+    //    data.container = user_image_container_size;
+    //  }
 
-        data.container = user_image_container_size;
-      }
+    //  var selection_position = data.selection.position;
+    //  var selection_size = {
+    //    width: data.selection.width,
+    //    height: data.selection.height };
 
-      var selection_position = data.selection.position;
-      var selection_size = {
-        width: data.selection.width,
-        height: data.selection.height };
+    //  var sh_x = metadata['sh-x'];
+    //  var sh_y = metadata['sh-y'];
 
-      var sh_x = metadata['sh-x'];
-      var sh_y = metadata['sh-y'];
+    //  if (sh_x && sh_y)
+    //    data.image.position = {
+    //      left: selection_position.left + selection_size.width / sh_x,
+    //      top: selection_position.top + selection_size.height / sh_y };
 
-      if (sh_x && sh_y)
-        data.image.position = {
-          left: selection_position.left + selection_size.width / sh_x,
-          top: selection_position.top + selection_size.height / sh_y };
+    //  var sz_x = metadata['sz-x'];
+    //  var sz_y = metadata['sz-y'];
 
-      var sz_x = metadata['sz-x'];
-      var sz_y = metadata['sz-y'];
-
-      if (sz_x && sz_y) {
-        data.image.width = selection_size.width / sz_x;
-        data.image.height = selection_size.height / sz_y;
-      }
-    }
+    //  if (sz_x && sz_y) {
+    //    data.image.width = selection_size.width / sz_x;
+    //    data.image.height = selection_size.height / sz_y;
+    //  }
+    //}
   } else {
     var data = {
       selection: {
@@ -382,27 +445,56 @@ function imageEditorCrop () {
     selection_position.right = selection_position.left + selection_size.width;
     selection_position.bottom = selection_position.top + selection_size.height;
 
+    var in_image = image_position.left < selection_position.left &&
+                       image_position.right > selection_position.right &&
+                       image_position.top < selection_position.top &&
+                       image_position.bottom > selection_position.bottom;
+
     var in_frame = image_position.left >= selection_position.left &&
                    image_position.right <= selection_position.right &&
                    image_position.top >= selection_position.top &&
                    image_position.bottom <= selection_position.bottom;
 
-    var metadata = {};
+    var metadata = {
+      'cr-x1': 0,
+      'cr-x2': 1,
+      'cr-y1': 0,
+      'cr-y2': 1 };
 
-    if (!in_frame)
+    if (in_image)
       var metadata = {
-        'cr-x1': context.x / width,
-        'cr-x2': context.x2 / width,
-        'cr-y1': context.y / height,
-        'cr-y2': context.y2 / height };
+        'cr-x1': selection_position.left / image_size.width,
+        'cr-x2': selection_position.right / image_size.width,
+        'cr-y1': selection_position.top / image_size.height,
+        'cr-y2': selection_position.bottom / image_size.height,
+        'sh-x': 0,
+        'sh-y': 0,
+        'sz-x': 1,
+        'sz-y': 1 };
 
-    metadata['sh-x'] =
-         selection_size.width / (image_position.left - selection_position.left);
-    metadata['sh-y'] =
-          selection_size.height / (image_position.top - selection_position.top);
+    if (in_frame)
+      var metadata = {
+        'cr-x1': 0,
+        'cr-x2': 1,
+        'cr-y1': 0,
+        'cr-y1': 1,
+        'sh-x': selection_position.left - image_position.left,
+        'sh-y': selection_position.top - image_position.top
+      };
 
-    metadata['sz-x'] = selection_size.width / image_size.width;
-    metadata['sz-y'] =  selection_size.height / image_size.height;
+    //else {
+
+    //metadata['sh-x'] =
+    //     selection_size.width / (image_position.left - selection_position.left);
+    //metadata['sh-y'] =
+    //      selection_size.height / (image_position.top - selection_position.top);
+
+    //metadata['sz-x'] = selection_size.width / image_size.width;
+    //metadata['sz-y'] =  selection_size.height / image_size.height;
+
+    //}
+
+    //console.log(metadata);
 
     context.$input.data('metadata', metadata);
   }
@@ -579,8 +671,8 @@ function imageEditorCrop () {
 
     set_info_bar_value('current', 'dpi', image_dpi);
 
-    var width_factor = user_image_container_size.width / userImageWidthPreview;
-    var height_factor = user_image_container_size.height / userImageHeightPreview;
+    var width_factor = container_size.width / userImageWidthPreview;
+    var height_factor = container_size.height / userImageHeightPreview;
 
     thumb_to_container_factor
                   = width_factor < height_factor ? width_factor : height_factor;
@@ -674,6 +766,13 @@ function imageEditorCrop () {
       end_a = end_b;
 
     return end_a - start_a;
+  }
+
+  function get_factor_a_to_b (width_a, height_a, width_b, height_b) {
+    var width_factor = width_a / width_b;
+    var height_factor = height_a / height_b;
+
+    return width_factor < height_factor ? width_factor : height_factor;
   }
 
   // Check if zetaprints_trans function exists, if not exists create dummy one
