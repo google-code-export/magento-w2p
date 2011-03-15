@@ -13,7 +13,7 @@
       <reference name="product.info">
         <reference name="alert.urls">
           <block type="fixedprices/catalog_product_view_fixedprices" name="fixedprices"
-            as="fixedprice" after="-" template="catalog/product/view/fixedprices.phtml" />
+            as="fixedprice" after="-" template="fixedprices/product/view/fixedprices.phtml" />
         </reference>
       </reference>
     </reference>
