@@ -22,6 +22,10 @@ div.powercrop-viewport {
   border: 1px dashed black;
 }
 
+div.powercrop-viewport.no-moving-action div.powercrop-viewport-handle {
+  display: none !important;
+}
+
 div.powercrop-viewport-inner {
   overflow: hidden;
   width: 100%;

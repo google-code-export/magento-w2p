@@ -151,6 +151,8 @@
             top: image_position.top - viewport_position.top - 1,
             left: image_position.left - viewport_position.left - 1 });
 
+          check_viewport_moving();
+
           invoke_on_event(settings.stop); } })
       .draggable({
         containment: $container,
@@ -165,6 +167,8 @@
           invoke_on_event(settings.crop); },
         stop: function (event, ui) {
           viewport_position = ui.position;
+
+          check_viewport_moving();
 
           invoke_on_event(settings.stop); } });
 
@@ -230,6 +234,8 @@
     var viewport_position = null;
 
     update_position(complete_data(settings.data));
+
+    check_viewport_moving();
 
     function complete_data (data) {
       var default_data = {
@@ -302,6 +308,14 @@
           width: $viewport.width(),
           height: $viewport.height(),
           position: viewport_position } });
+    }
+
+    function check_viewport_moving () {
+      if ($viewport.outerWidth() == $container.width()
+          && $viewport.outerHeight() == $container.height())
+        $viewport.addClass('no-moving-action');
+      else
+        $viewport.removeClass('no-moving-action');
     }
 
     return this;
