@@ -17,7 +17,7 @@ function hideCartQtys()
       if(name.match(/^cart\[(\d+)\]\[qty\]/)){
         var id = name.match(/^cart\[(\d+)\]\[qty\]/)[1];
         if(item_ids.indexOf(id) != -1){
-          $(qty).hide();
+          $(qty).disable();
         }
       }
     });
