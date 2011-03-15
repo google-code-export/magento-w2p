@@ -32,12 +32,15 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_View_Fixedprices
    public function getFixedPrices()
    {
      if (!$this->hasData($this->_fixedCode)){
-       $prices = $this->getProduct()->getData($this->_fixedCode);
+       $product = $this->getProduct();
+       $prices = $product->getData($this->_fixedCode);
        $prid = $this->getProduct()->getId();
+       $store = Mage::app()->getStore();
        foreach ($prices as $key => $price)
        {
          $prices[$key]['website_price'] = $price['price'];
-         $prices[$key]['formated_price'] = Mage::app()->getStore()->convertPrice($prices[$key]['website_price'], true);
+         $prices[$key]['formated_price'] = $store->formatPrice($store->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
+         $prices[$key]['formated_price_incl_tax'] = $store->formatPrice($store->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
          $prices[$key]['product_id'] = $prid;
        }
        $this->setData($this->_fixedCode, $prices);

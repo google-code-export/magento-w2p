@@ -15,12 +15,14 @@ class ZetaPrints_Fixedprices_Model_Fixedprices
       if(!empty($fixedPrices)){
         if(is_array($fixedPrices) && isset($fixedPrices[0])){
           $temp = false; // no default price
+          $qty = $fixedPrices[0]['price_qty'];
           foreach ($fixedPrices as $idx => $fPrice) {
             if($fPrice['active'] == 1){
               $temp = $idx;
+              $qty = $fPrice['price_qty'];
             }
           }
-          $price = ($temp !== false) ? $fixedPrices[$temp]['price'] : $fixedPrices[0]['price'];
+          $price = ($temp !== false) ? $fixedPrices[$temp]['price']/$qty : $fixedPrices[0]['price']/$qty;
         }else{
           $price = $fixedPrices;
         }
@@ -51,7 +53,7 @@ class ZetaPrints_Fixedprices_Model_Fixedprices
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
       }
     }
-    return max(0, $finalPrice);
+      return max(0, $finalPrice);
   }
 
   /**

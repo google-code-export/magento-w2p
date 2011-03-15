@@ -3,33 +3,6 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
 {
   const FIXED_NAME = 'fixed_name_set';
 
-  public function calcRowTotal()
-  {
-    $product = $this->getProduct();
-    $orig_qty = 1;
-    $is_fixed = Mage::helper('fixedprices')->isFixedPriceEnabled($product);
-    if ($is_fixed) {
-      $orig_qty = $this->getTotalQty(); // save orig qty
-      $this->setData('qty', 1); // replace with one unit
-      /*
-      $fixedPrice = Mage::helper('fixedprices')->getFixedPrice($product, $this->getQty());
-      if ($fixedPrice !== false) {
-
-        $total = $this->getStore()->convertPrice($fixedPrice);
-        $baseTotal = $fixedPrice;
-        $this->setRowTotal($this->getStore()->roundPrice($total));
-        $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
-        return $this;
-
-      }
-      */
-    }
-    parent::calcRowTotal(); // calculate totals
-    if($is_fixed){
-      $this->setData('qty', $orig_qty); // restore actual qty
-    }
-  }
-
   public function representProduct($product)
   {
     // fixed price is not base for 2 separate products or product versions to be added to cart
@@ -56,7 +29,7 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
   public function getProduct()
   {
     $product = parent::getProduct();
-    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product)){
+    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product) && !$product->hasFixedNameSet()){
       $this->_setName($this->getQty(), $product);
     }
     return $product;
@@ -75,7 +48,8 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
 
     if($qty > 0 && $product instanceof Mage_Catalog_Model_Product) {
       $name = Mage::helper('fixedprices')->getFixedUnits($product, $this->getQty());
-      if ($name !== false) {
+      if ($name !== false && !$product->hasFixedNameSet()) {
+        $name = $product->getName() . ' - ' . $name;
         $this->setName($name);
         $product->setName($name);
         $product->setData(self::FIXED_NAME, 1);

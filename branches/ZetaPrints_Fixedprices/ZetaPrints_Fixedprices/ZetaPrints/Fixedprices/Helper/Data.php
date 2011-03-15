@@ -6,6 +6,7 @@ class ZetaPrints_Fixedprices_Helper_Data extends Mage_Core_Helper_Abstract
     self::FIXED_PRICE,
     self::USE_FIXED_PRICE,
   );
+  
   const FIXED_PRICE = 'fixed_price';
   const USE_FIXED_PRICE = 'use_fixed_price';
   const TAB_NAME = 'fixed_price_tab';
@@ -20,7 +21,7 @@ class ZetaPrints_Fixedprices_Helper_Data extends Mage_Core_Helper_Abstract
 
     foreach ($prices as $price) {
       if ($price['price_qty'] == $qty){ // if price qty is matched, return that price, else return false
-        return $price['price'];
+        return $price['price']/$qty;
       }
     }
 
