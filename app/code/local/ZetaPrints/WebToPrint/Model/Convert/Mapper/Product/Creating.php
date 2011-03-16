@@ -13,6 +13,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
     //Always print debug information. Issue #80
     $this->debug = true;
 
+    $this->warning('Product type: ' .
+                       $this->getAction()->getParam('product-type', 'simple') );
+
     //Get all web-to-print templates
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
@@ -58,7 +61,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_
 
       $product_model->setAttributeSetId($product_model->getDefaultAttributeSetId())
         ->setSku(zetaprints_generate_guid() . '-rename-me')
-        ->setTypeId('simple')
+        ->setTypeId($this->getAction()->getParam('product-type', 'simple'))
         ->setName($template->getTitle())
         ->setDescription($template->getDescription())
         ->setShortDescription($template->getDescription())
