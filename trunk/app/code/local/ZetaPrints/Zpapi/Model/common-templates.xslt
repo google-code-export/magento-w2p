@@ -8,7 +8,11 @@
       <dl>
         <dt>
           <label for="page-{$page}-field-{position()}">
-            <xsl:value-of select="@FieldName" />
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">
+                <xsl:value-of select="@FieldName" />
+              </xsl:with-param>
+            </xsl:call-template>
             <xsl:text>:</xsl:text>
           </label>
         </dt>
@@ -16,10 +20,17 @@
           <xsl:choose>
             <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
               <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
-              <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" title="{@Hint}">
+              <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}">
                 <xsl:if test="@Value=Value[1]">
                   <xsl:attribute name="checked">1</xsl:attribute>
                 </xsl:if>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">
+                      <xsl:value-of select="@Hint" />
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:attribute>
               </input>
             </xsl:when>
 
@@ -28,7 +39,13 @@
                 <xsl:when test="@Multiline">
                   <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
                     <xsl:if test="string-length(@Hint)!=0">
-                      <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
+                      <xsl:attribute name="title">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">
+                            <xsl:value-of select="@Hint" />
+                          </xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:attribute>
                     </xsl:if>
                     <xsl:choose>
                       <xsl:when test="@Value and string-length(@Value)!=0">
@@ -47,7 +64,13 @@
                       <xsl:attribute name="maxlength"><xsl:value-of select="@MaxLen" /></xsl:attribute>
                     </xsl:if>
                     <xsl:if test="string-length(@Hint)!=0">
-                      <xsl:attribute name="title"><xsl:value-of select="@Hint" /></xsl:attribute>
+                      <xsl:attribute name="title">
+                        <xsl:call-template name="trans">
+                          <xsl:with-param name="key">
+                            <xsl:value-of select="@Hint" />
+                          </xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:attribute>
                     </xsl:if>
                     <xsl:if test="@Value">
                       <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
@@ -58,7 +81,15 @@
             </xsl:when>
 
             <xsl:otherwise>
-              <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" title="{@Hint}">
+              <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
+                <xsl:attribute name="title">
+                  <xsl:call-template name="trans">
+                    <xsl:with-param name="key">
+                      <xsl:value-of select="@Hint" />
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:attribute>
+
                 <xsl:for-each select="Value">
                   <option>
                     <xsl:if test=".=../@Value">
@@ -97,7 +128,13 @@
             </xsl:call-template>:
           </span></div>
           <div class="title">
-            <label><xsl:value-of select="@Name" /></label>
+            <label>
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">
+                  <xsl:value-of select="@Name" />
+                </xsl:with-param>
+              </xsl:call-template>
+            </label>
           </div>
         </div>
         <div id="page-{$page}-tabs-{position()}" class="selector-content">
@@ -377,7 +414,13 @@
               </xsl:choose>
             </img>
             <br />
-            <span><xsl:value-of select="@Name" /></span>
+            <span>
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">
+                  <xsl:value-of select="@Name" />
+                </xsl:with-param>
+              </xsl:call-template>
+            </span>
           </li>
         </xsl:for-each>
       </ul>
