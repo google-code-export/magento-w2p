@@ -651,6 +651,11 @@ function personalization_form ($) {
     }
   }
 
+  zp.show_user_images = function ($image_field)  {
+    if ($image_field.find('input.zetaprints-images').length > 0)
+      $image_field.data('tabs').tabs('select', 1);
+  }
+
   $(window).load({ zp: this }, function (event) {
     var zp = event.data.zp;
 
@@ -686,6 +691,8 @@ function personalization_form ($) {
             scroll_strip(ui.panel);
               }
       });
+
+      $(top_element).data('tabs', tabs);
 
       $('input', this).change({ zp: zp }, image_field_select_handler);
 
