@@ -110,6 +110,9 @@ function popup_field_by_name (name, position) {
   } else {
     field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
 
+    //Remember checked radio button for IE7 workaround
+    $input = field.find(':checked');
+
     if (!field.length)
       return;
 
@@ -139,6 +142,9 @@ function popup_field_by_name (name, position) {
     zIndex: '10000',
     position: 'absolute',
     width: width });
+
+  //!!! Stupid work around for stupid IE7
+  $input.change().attr('checked', 1);
 
   var height = jQuery(box).outerHeight();
   var width = jQuery(box).outerWidth();
@@ -187,8 +193,18 @@ function popdown_field_by_name (name) {
   full_name = jQuery(field).attr('value');
 
   var element = jQuery('div.zetaprints-page-input-fields *[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
-  jQuery(element).removeAttr('style').unwrap().prev().remove();
-  jQuery(element).unwrap().unwrap();
+
+  //Remember checked radio button for IE7 workaround
+  var $input = element.find(':checked');
+
+  element.removeAttr('style');
+
+  //!!! This line checks back initially selected radio button
+  //!!! Don't know why it happens
+  element.parents('.fieldbox').replaceWith(element);
+
+  //!!! Stupid work around for stupid IE7
+  $input.change().attr('checked', 1);
 
   jQuery(element).data('original-value', undefined);
 
