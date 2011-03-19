@@ -254,7 +254,7 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     Mage::getSingleton('core/cookie')->set('ZP_ID', $id, self::COOKIE_LIFETIME);
   }
 
-  function getCustomOptions ($node = null) {
-    return Mage::getSingleton('webtoprint/config')->getNode($node);
+  function getCustomOptions ($path = null) {
+    return Mage::getSingleton('webtoprint/config')->getOptions($path);
   }
 }
