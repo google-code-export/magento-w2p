@@ -1,11 +1,19 @@
+<?php
+
+$in_context = Mage::helper('webtoprint')
+                ->getCustomOptions('image-edit/in-context@enabled=yes');
+?>
+
 <div class="zetaprints-image-edit">
   <ul class='zetaprints-image-edit-menu'>
+    <?php if ($in_context): ?>
     <li>
       <div id="fit-to-field-button" class="button"
            title="<?php echo $this->__('Fit image in field'); ?>">
         <?php echo $this->__('Fit in field'); ?>
       </div>
     </li>
+    <?php endif; ?>
     <li>
       <div id="rotate-right-button" class="button"
            title="<?php echo $this->__('Rotate Image Right'); ?>">

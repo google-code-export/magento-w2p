@@ -37,7 +37,9 @@ function personalization_form ($) {
           'placeholder': zp.template_details.pages[zp.current_page]
                                                           .images[image_name],
           'shape': zp.template_details.pages[zp.current_page]
-                                                          .shapes[image_name] };
+                                                          .shapes[image_name],
+          'options': zp.options['image-edit']
+                       ?  zp.options['image-edit'] : {} };
 
         zetaprint_image_editor.apply(zp.image_edit, [$]);
       },
