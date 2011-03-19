@@ -69,8 +69,38 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
 
   public function getOptions ($path = null) {
     if ($path === null)
-      return $this::getNode(self::WEBTOPRINT_NODE_NAME);
+      $options =  $this::getNode(self::WEBTOPRINT_NODE_NAME)->asArray();
+    else
+      $options = $this::getNode(self::WEBTOPRINT_NODE_NAME)
+                   ->descend($path)
+                   ->asArray();
 
-    return parent::getNode(self::WEBTOPRINT_NODE_NAME)->descend($path);
+    return $this->_prepareOptions($options);
+  }
+
+  private function _prepareOptions ($options) {
+    //Remove 0 => "" array element for empty tags
+    unset($options[0]);
+
+    //Walk throw sub-options
+    foreach ($options as $name => $suboptions)
+      //If sub option is array and is not array of tag attributes...
+      if ($name !== '@' && is_array($suboptions))
+        //... the run the function for the sub-option
+        $options[$name] = $this->_prepareOptions($suboptions);
+
+    //If the option has tag attributes...
+    if (isset($options['@'])) {
+      //Move all attributes to the options
+      //and prepend their names with @ symbol
+      foreach($options['@'] as $name => $value)
+        $options["@{$name}"] = $value;
+
+      //Remove array of tag attributes from the option
+      unset($options['@']);
+    }
+
+    //Return processed options
+    return $options;
   }
 }
