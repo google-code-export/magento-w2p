@@ -76,6 +76,11 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
     if (!$options)
       return $options;
 
+    $options = $options->asArray();
+
+    if (!is_array($options))
+      return array();
+
     return $this->_prepareOptions($options->asArray());
   }
 
