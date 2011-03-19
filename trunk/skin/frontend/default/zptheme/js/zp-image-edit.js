@@ -797,7 +797,8 @@ function imageEditorCrop () {
       return false;
   }
 
-  var isCropFit = true;
+  var isCropFit = context.options['in-context']
+                   ? context.options['in-context']['@enabled'] == 'yes' : false;
 
   //image load handler. Fade in on load, hide loading icon, show image caption
   $user_image.load(function () {
