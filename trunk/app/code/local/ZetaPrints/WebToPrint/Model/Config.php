@@ -28,10 +28,7 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
    *
    * @var string
    */
-  const CONFIG_TEMPLATE = '<?xml version="1.0"?>' .
-                          '<config>' .
-                            '<webtoprint />' .
-                          '</config>';
+  const CONFIG_TEMPLATE = '<?xml version="1.0"?><config><webtoprint /></config>';
 
   /**
    * Web-to-print options node name
