@@ -28,7 +28,17 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
    *
    * @var string
    */
-  const CONFIG_TEMPLATE = '<?xml version="1.0"?><config></config>';
+  const CONFIG_TEMPLATE = '<?xml version="1.0"?>' .
+                          '<config>' .
+                            '<webtoprint />' .
+                          '</config>';
+
+  /**
+   * Web-to-print options node name
+   *
+   * @var string
+   */
+  const WEBTOPRINT_NODE_NAME = 'webtoprint';
 
   /**
    * Constructor
@@ -58,5 +68,12 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
         Mage::app()->saveCache($xmlString, self::CACHE_KEY, $tags);
       }
     }
+  }
+
+  public function getOptions ($path = null) {
+    if ($path === null)
+      return $this::getNode(self::WEBTOPRINT_NODE_NAME);
+
+    return parent::getNode(self::WEBTOPRINT_NODE_NAME)->descend($path);
   }
 }
