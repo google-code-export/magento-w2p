@@ -69,13 +69,14 @@ class ZetaPrints_WebToPrint_Model_Config extends Mage_Core_Model_Config_Base {
 
   public function getOptions ($path = null) {
     if ($path === null)
-      $options =  $this::getNode(self::WEBTOPRINT_NODE_NAME)->asArray();
+      $options =  $this::getNode(self::WEBTOPRINT_NODE_NAME);
     else
-      $options = $this::getNode(self::WEBTOPRINT_NODE_NAME)
-                   ->descend($path)
-                   ->asArray();
+      $options = $this::getNode(self::WEBTOPRINT_NODE_NAME)->descend($path);
 
-    return $this->_prepareOptions($options);
+    if (!$options)
+      return $options;
+
+    return $this->_prepareOptions($options->asArray());
   }
 
   private function _prepareOptions ($options) {
