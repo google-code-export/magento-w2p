@@ -18,30 +18,34 @@ A sample configuration file content is:
 <?xml version="1.0"?>
 <!-- Sample options file, not to be included in extension distribution -->
 <config>
-  <cache type="user">
-    <enabled>0</enabled>
-  </cache>
-  <colorpicker>
-    <show>0</show>
-  </colorpicker>
+  <webtoprint>
+    <cache type="user">
+      <enabled>0</enabled>
+    </cache>
+    <colorpicker>
+      <show>0</show>
+    </colorpicker>
+  </webtoprint>
 </config>
 }}}
 
-The only required node is <config> everything between config can be retrieved using M. config api.
+The only required nodes are _`<config>`_ and _`<webtoprint>`_. Everything between _`<webtoprint>`_ can be retrieved using _getOptions_ method of _ZetaPrints_WebToPrint_Model_Config_ class.
 In [http://code.google.com/p/magento-w2p/source/browse/trunk/app/code/local/ZetaPrints/WebToPrint/Helper/Data.php app/code/local/ZetaPrints/WebToPrint/Helper/Data.php] file there is a method added to handle this. Method name is 
 
 {{{
-getCustomOptions($node = null)
+getCustomOptions($path = null)
 }}}
 
 
-It accepts optional parameter $node that allows to search for specific config node.
+It accepts optional parameter _$path_ that allows to search for specific config node.
 For example from above file, to search for enabled node of cache node you should pass 
 'cache/enabled' as parameter of the above method. Currently as it was requested the 
 method is used to retrieve all stored values.
 Configuration is returned as SimpleXMLElement object that has all nodes as public members and can be encoded to JSON without modification. 
 
-_custom-options.xml_ should not be added as part of the content of any extension, this way there is no chance that it will be overwritten or deleted upon extension update or uninstall.
+_custom-options.xml_ should not be added as part of the content of the extension, this way there is no chance that it will be overwritten or deleted upon extension update or uninstall.
+
+<wiki:comment>
 
 The way Magento treats configuration files is that every type of configuration file is collected in one configuration object. That means that all config.xml files are merged and any repeating nodes override previous. For this case this means that you can have _custom-options.xml_ file in any extension but to prevent accidental overwriting you should use unique node name after config and put all extension configuration in it.
 For example above file could be changed like this:
@@ -65,3 +69,5 @@ To retrieve configuration for web_to_print only you will do
 {{{
 Mage::helper('webtoprint')->getCustomOptions('web_to_print');
 }}}
+
+</wiki:comment>
