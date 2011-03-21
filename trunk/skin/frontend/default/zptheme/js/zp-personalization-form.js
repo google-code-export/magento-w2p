@@ -780,9 +780,6 @@ function personalization_form ($) {
 
     $('div.zetaprints-image-tabs li img[rel="page-' + next_page_number +'"]').parent().click();
 
-    if (next_page_number >= event.data.zp.template_details.pages_number);
-      $(this).hide();
-
     return false;
   });
 
