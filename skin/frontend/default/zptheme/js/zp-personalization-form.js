@@ -778,7 +778,9 @@ function personalization_form ($) {
   $('div.zetaprints-next-page-button').click({zp: this}, function (event) {
     var next_page_number = event.data.zp.current_page + 1;
 
-    $('div.zetaprints-image-tabs li img[rel="page-' + next_page_number +'"]').parent().click();
+    $('div.zetaprints-image-tabs li img[rel="page-' + next_page_number +'"]')
+      .parent()
+      .click();
 
     return false;
   });
