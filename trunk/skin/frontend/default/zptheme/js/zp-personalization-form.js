@@ -531,7 +531,7 @@ function personalization_form ($) {
           var td = $(
             '<td>\
               <input type="radio" name="zetaprints-#' + image_name + '" value="'
-                + response[0] + '" />\
+                + response[0] + '" class="zetaprints-images" />\
               <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
                 title="' + click_to_edit_text + '">\
                 <img id="' + response[0] + '" src="' + response[2] + '" />\
