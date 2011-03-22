@@ -111,6 +111,7 @@ NB: Code for the release can be obtained by web-to-print-1.8.3.2 tag from projec
           <dir name="etc">
             <file name="config.xml" role="magelocal" />
             <file name="convert.xml" role="magelocal" />
+            <file name="custom-options.xsd" role="magelocal" />
           </dir>
 
           <dir name="Helper">
