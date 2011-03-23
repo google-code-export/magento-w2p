@@ -394,17 +394,18 @@ div.selector-content div.tabs-wrapper div.color-picker div.color-sample {
 }
 
 div.selector-content div.tabs-wrapper div.upload {
-  padding-top: 26px;
   padding-left: 6px;
+  position: relative;
+  height: 100%;
 }
 
 div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice {
-  bottom: 16px;
-  position: relative;
+  position: absolute;
+  bottom: 0px;
   line-height: 16px;
   white-space: nowrap;
   overflow: hidden;
-  margin-left: -6px;
+  margin: 0px 0px 4px -6px;
   color: #909090;
 }
 
@@ -418,7 +419,8 @@ div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper di
 
 div.selector-content div.tabs-wrapper div.upload div.column {
   float: left;
-  width: 50%;
+  width: 49%;
+  margin-top: 26px;
 }
 
 div.selector-content div.tabs-wrapper div.upload input.file-name {
