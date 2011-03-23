@@ -42,26 +42,9 @@ div.zetaprints-image-tabs ul li img {
   max-width: 100px;
 }
 
-/* Use to hide template preview */
-a.zetaprints-template-preview.hidden {
-  position: absolute;
-  left: -100000px;
-}
-
 a.zetaprints-template-preview img {
   max-width: 265px;
   cursor: pointer;
-}
-
-/**/
-div.zetaprints-page-stock-images.hidden {
-  position: absolute;
-  left: -100000px;
-}
-
-div.zetaprints-page-input-fields.hidden {
-  position: absolute;
-  left: -100000px;
 }
 
 /**/
@@ -738,4 +721,9 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .zetaprints-button.restore-action div.icon {
   width: 13px;
   background-position: -222px -61px;
+}
+
+/* Workaround for IE7 */
+.hidden * {
+  display: none !important;
 }
