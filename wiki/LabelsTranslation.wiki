@@ -15,7 +15,7 @@ Format of the file is a simple CSV. Also, it should be saved with UTF-8 codepage
 Example:
 {{{
 "Phrase to translate","Translation of the phrase"
-"Word","Terme"
+"Word","Term"
 }}}
 
 The only requirement is a name of the file. It must be called as ZetaPrints_WebToPrintCustomTranslations.csv
