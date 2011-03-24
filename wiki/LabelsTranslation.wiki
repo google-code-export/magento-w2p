@@ -31,3 +31,5 @@ You have to enable necessary language (locale) after you create and upload file 
 Read how to create separate store per language (locale) at http://www.zetaprints.com/magentohelp/magento-web-to-print-localization/
 
 Or you can switch language (locale) globally in System -> Configuration -> General tab -> Locale Options in admin interface.
+
+*Note.* Be sure to clear Magento cache for the changes to take place.
