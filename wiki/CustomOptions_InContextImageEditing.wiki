@@ -1,0 +1,43 @@
+#summary Description of in-context image editing option
+
+= Introduction =
+
+In-context image editing is disable by default because if its development state. But customers can enable it throw [ZetaPrintsCustomConfigurationFile custom options] to try it on their M. installations.
+
+
+= Details =
+
+== Using custom options first time ==
+
+You have to create config file if you use custom options first time.
+
+  # Open your preferred text editor
+  # Put following content into it
+  # Save save as custom-options.xml
+  # Upload the file to app/code/local/ZetaPrints/WebToPrint/etc directory on your M. installation.
+
+Content of custom-options.xml file:
+{{{
+<config>
+  <webtoprint>
+    <image-edit>
+      <in-context enabled="yes" />
+    </image-edit>
+  </webtoprint>
+</config>
+}}}
+
+== Adding option to existing config file ==
+
+You just have to add option to your config file.
+
+  # Open custom-options.xml file in your editor (you may need to download the file from your M. installation)
+  # If `<image-edit>` tag exist in the file then just add `<in-context enabled="yes" />`, otherwise add `<image-edit>` and `<in-context enabled="yes" />` tags into `<webtoprint>` one.
+  # Save and upload config file.
+
+After editing the content between `<webtoprint>` and `</webtoprint>` tags in your config file should be similar to:
+{{{
+<image-edit>
+  <in-context enabled="yes" />
+</image-edit>
+}}}
