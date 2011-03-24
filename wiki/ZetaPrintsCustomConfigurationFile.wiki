@@ -45,6 +45,11 @@ Configuration is returned as SimpleXMLElement object that has all nodes as publi
 
 _custom-options.xml_ should not be added as part of the content of the extension, this way there is no chance that it will be overwritten or deleted upon extension update or uninstall.
 
+== XML scheme ==
+Users who use special XML editors could use XSD file as a helper while editing custom-options.xml file.
+
+Scheme is available at http://magento-w2p.googlecode.com/svn/trunk/app/code/local/ZetaPrints/WebToPrint/etc/custom-options.xsd
+
 <wiki:comment>
 
 The way Magento treats configuration files is that every type of configuration file is collected in one configuration object. That means that all config.xml files are merged and any repeating nodes override previous. For this case this means that you can have _custom-options.xml_ file in any extension but to prevent accidental overwriting you should use unique node name after config and put all extension configuration in it.
