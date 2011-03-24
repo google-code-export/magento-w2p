@@ -2,18 +2,18 @@
 
 = Introduction =
 
-In-context image editing is disable by default because if its development state. But customers can enable it throw [ZetaPrintsCustomConfigurationFile custom options] to try it on their M. installations.
+In-context image editing is disabled by default because of its development state. Store admins can enable it through [ZetaPrintsCustomConfigurationFile custom options] to try it on their M. installations.
 
 
 = Details =
 
-== Using custom options first time ==
+== Using custom options for the first time ==
 
-You have to create config file if you use custom options first time.
+If you're using custom options for the first time, you have to create a config file.
 
   # Open your preferred text editor
   # Put following content into it
-  # Save save as custom-options.xml
+  # Save as custom-options.xml
   # Upload the file to app/code/local/ZetaPrints/WebToPrint/etc directory on your M. installation.
 
 Content of custom-options.xml file:
@@ -27,7 +27,7 @@ Content of custom-options.xml file:
 </config>
 }}}
 
-== Adding option to existing config file ==
+== Adding option to an existing config file ==
 
 You just have to add option to your config file.
 
