@@ -2,14 +2,14 @@
 
 = Introduction =
 
-Product creation profiles are used to create M. products for templates which was imported from ZetaPrints account. Products are created with general set of properties. Admin should update other properties using bulk edit to make them operational.
+Product creation profiles are used to create M. products for templates which were imported from ZetaPrints account. Products are created with general set of properties. Admin should update other properties using bulk edit to make them operational.
 
 
 = Details =
 
-Product is created for every template which hasn't been assigned already. Products are created with general set of properties. Admin should update other properties using bulk edit to make them operational.
+Product is created for every template which hasn't been assigned already.
 
-There're two separate profiles for creation "simple" and "virtual" M. products:
+There're two separate profiles for creating "simple" and "virtual" M. products:
   * ZetaPrints simple products creation - use this profile to create "simple" M. products for all un-assigned templates
   * ZetaPrints virtual products creation - use this profile for "virtual" M. products
 
