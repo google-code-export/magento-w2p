@@ -279,6 +279,7 @@ div.zetaprints-images-selector.expanded div.head a.image.collapse-expand:hover {
 
 div.selector-content {
   height: 140px;
+  *height: 146px;
   background-color: #ffffff;
 }
 
