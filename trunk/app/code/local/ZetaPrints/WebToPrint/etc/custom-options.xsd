@@ -22,7 +22,7 @@
                     <xsd:complexType>
                       <xsd:attribute name="allow" use="optional" fixed="1">
                         <xsd:annotation>
-                          <xsd:documentation>Users are allowed to download files regardless of ZP template setting if set to 1. Otherwise ZP template setting is used, which is the default setting.</xsd:documentation>
+                          <xsd:documentation>Users are allowed to download files regardless of ZP template setting if set to 1. Otherwise ZP template setting is used, which is the default setting. The option is applied for existing and future orders.</xsd:documentation>
                         </xsd:annotation>
                       </xsd:attribute>
                     </xsd:complexType>
