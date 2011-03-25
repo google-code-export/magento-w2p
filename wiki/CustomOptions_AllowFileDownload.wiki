@@ -4,6 +4,8 @@
 
 This options allows users download files regardless of ZP template setting.
 
+*Note:* the option is applied for existing and future orders.
+
 = Details =
 
 == Using custom options for the first time ==
