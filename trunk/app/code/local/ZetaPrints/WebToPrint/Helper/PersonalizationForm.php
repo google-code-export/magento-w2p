@@ -576,7 +576,7 @@ jQuery(document).ready(function($) {
       return;
 
     //Check that downloading generated files is allowed for users
-    if ($item && isset($options['zetaprints-TemplateID']))   {
+    if ($item)   {
       $template = Mage::getModel('webtoprint/template')
                                       ->load($options['zetaprints-TemplateID']);
 
