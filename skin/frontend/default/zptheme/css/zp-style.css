@@ -284,8 +284,7 @@ div.selector-content {
 }
 
 div.zetaprints-images-selector.minimized div.selector-content {
-  position: absolute;
-  left: -100000px;
+  display: none;
 }
 
 div.selector-content ul.tab-buttons div.icon {
