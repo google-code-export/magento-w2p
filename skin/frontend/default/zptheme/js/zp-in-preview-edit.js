@@ -111,7 +111,7 @@ function popup_field_by_name (name, position) {
     field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
 
     //Remember checked radio button for IE7 workaround
-    $input = field.find(':checked');
+    var $input = field.find(':checked');
 
     if (!field.length)
       return;
@@ -144,7 +144,8 @@ function popup_field_by_name (name, position) {
     width: width });
 
   //!!! Stupid work around for stupid IE7
-  $input.change().attr('checked', 1);
+  if ($input)
+    $input.change().attr('checked', 1);
 
   var height = jQuery(box).outerHeight();
   var width = jQuery(box).outerWidth();
@@ -169,11 +170,13 @@ function popup_field_by_name (name, position) {
     top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
   //!!! Workaround and temp. solution
-  zp.show_user_images(parent);
-  if (jQuery(field).hasClass('selector-content'))
-     zp.scroll_strip(jQuery(parent
-                             .find('ul.tab-buttons li.ui-tabs-selected a')
-                             .attr('href') ));
+  if (jQuery(field).hasClass('selector-content')) {
+    zp.show_user_images(parent);
+
+    zp.scroll_strip(jQuery(parent
+                            .find('ul.tab-buttons li.ui-tabs-selected a')
+                            .attr('href') ));
+  }
 
   jQuery(field).focus();
 }
