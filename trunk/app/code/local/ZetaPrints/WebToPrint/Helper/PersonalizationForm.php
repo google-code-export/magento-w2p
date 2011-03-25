@@ -580,21 +580,23 @@ jQuery(document).ready(function($) {
       $template = Mage::getModel('webtoprint/template')
                                       ->load($options['zetaprints-TemplateID']);
 
-      if ($template->getId()) {
-        try {
-          $xml = new SimpleXMLElement($template->getXml());
-        } catch (Exception $e) {
-          zetaprints_debug("Exception: {$e->getMessage()}");
-          return;
-        }
+      if (!$template->getId())
+        return;
 
-        if ($xml) {
-          $template_details = zetaprints_parse_template_details($xml);
+      try {
+        $xml = new SimpleXMLElement($template->getXml());
+      } catch (Exception $e) {
+        zetaprints_debug("Exception: {$e->getMessage()}");
+        return;
+      }
 
-          if (!$template_details['download'])
-            return;
-        } else return;
-      } else return;
+      if (!$xml)
+        return;
+
+      $template_details = zetaprints_parse_template_details($xml);
+
+      if (!$template_details['download'])
+        return;
     }
 
     $webtoprint_links = "";
