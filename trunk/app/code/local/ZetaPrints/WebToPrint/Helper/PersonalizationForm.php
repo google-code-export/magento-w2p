@@ -131,7 +131,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToP
         $locale = @file_get_contents($locale_file)
                   . @file_get_contents($custom_translations_file);
 
-        preg_match_all('/"(.*?)","(.*?)"(:?\r|\n)/', $locale, $array, PREG_PATTERN_ORDER);
+        preg_match_all('/"(.*?)","(.*?)"(:?\r|\n|$)/', $locale, $array, PREG_PATTERN_ORDER);
 
         if (is_array($array) && count($array[1]) > 0) {
           $out = '<trans>';
