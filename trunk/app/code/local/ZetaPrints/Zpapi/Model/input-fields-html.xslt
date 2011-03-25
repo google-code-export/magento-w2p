@@ -14,7 +14,7 @@
       <xsl:variable name="page-number" select="position()" />
 
       <xsl:if test="//Fields/Field[@Page=$page-number]">
-        <div id="input-fields-page-{$page-number}" class="zetaprints-page-input-fields hidden">
+        <div id="input-fields-page-{$page-number}" class="zetaprints-page-input-fields zp-hidden">
           <xsl:call-template name="fields-for-page">
             <xsl:with-param name="page" select="$page-number" />
           </xsl:call-template>
