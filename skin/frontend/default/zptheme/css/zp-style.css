@@ -724,3 +724,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   width: 13px;
   background-position: -222px -61px;
 }
+
+.zp-hidden {
+  display: none;
+}

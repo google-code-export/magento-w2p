@@ -17,7 +17,7 @@
       <xsl:variable name="page-number" select="position()" />
 
       <xsl:if test="//Images/Image[@Page=$page-number]">
-        <div id="stock-images-page-{$page-number}" class="zetaprints-page-stock-images hidden">
+        <div id="stock-images-page-{$page-number}" class="zetaprints-page-stock-images zp-hidden">
           <xsl:call-template name="stock-images-for-page">
             <xsl:with-param name="page" select="$page-number" />
           </xsl:call-template>

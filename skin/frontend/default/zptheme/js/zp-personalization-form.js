@@ -124,13 +124,13 @@ function personalization_form ($) {
   //Add placeholders with spinners for preview images to the product page
   for (var page_number in this.template_details.pages)
     $('<div id="zp-placeholder-for-preview-' + page_number +
-      '" class="zetaprints-preview-placeholder hidden"><div class=' +
+      '" class="zetaprints-preview-placeholder zp-hidden"><div class=' +
       '"zetaprints-big-spinner" /></div>').appendTo(product_image_element);
 
   //If no image zoomer on the page
   if (!has_image_zoomer)
     //then show placeholder and spinner for the first page
-    $('#zp-placeholder-for-preview-1').removeClass('hidden');
+    $('#zp-placeholder-for-preview-1').removeClass('zp-hidden');
 
   //Set current template page to the first (1-based index)
   this.current_page = 1;
@@ -143,7 +143,7 @@ function personalization_form ($) {
   if (this.update_first_preview_on_load) {
     //Add over-image spinner for the first preview
     $('<div id="zetaprints-first-preview-update-spinner" class="' +
-      'zetaprints-big-spinner zetaprints-over-image-spinner hidden" />')
+      'zetaprints-big-spinner zetaprints-over-image-spinner zp-hidden" />')
       .appendTo(product_image_box);
 
     //Update preview for the first page
@@ -161,28 +161,28 @@ function personalization_form ($) {
     var zp = this;
 
     $('<a id="preview-image-page-' + page_number +
-      '" class="zetaprints-template-preview  hidden" href="' + url +
+      '" class="zetaprints-template-preview zp-hidden" href="' + url +
       '"><img title="' + click_to_view_in_large_size + '" src="' + url +
       '" /></a>')
     .children()
     .bind('load', {page_number: page_number}, function (event) {
       //Hide placeholder and spinner after image has loaded
       $('#zp-placeholder-for-preview-' + event.data.page_number)
-        .addClass('hidden');
+        .addClass('zp-hidden');
 
       //If no image zoomer on the page and image is for the first page
       //and first page was opened
       if (!has_image_zoomer && event.data.page_number == 1
           && zp.current_page == 1)
         //then show preview for the first page
-        $('#preview-image-page-1').removeClass('hidden');
+        $('#preview-image-page-1').removeClass('zp-hidden');
 
       //If update_first_preview_on_load parameter was set and
       //first default preview has already been loaded then...
       if (zp.update_first_preview_on_load && event.data.page_number == 1)
         //...show over-image spinner
         $('div#zetaprints-first-preview-update-spinner')
-          .removeClass('hidden');
+          .removeClass('zp-hidden');
     }).end().appendTo(product_image_element);
   }
 
@@ -191,7 +191,7 @@ function personalization_form ($) {
       $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
-  $('#stock-images-page-1, #input-fields-page-1').removeClass('hidden');
+  $('#stock-images-page-1, #input-fields-page-1').removeClass('zp-hidden');
   $('div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
@@ -228,20 +228,20 @@ function personalization_form ($) {
       .appendTo($('#product_addtocart_form'));
 
   if (this.previews_from_session)
-    $('div.zetaprints-notice.to-update-preview').addClass('hidden');
+    $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
   else
     add_fake_add_to_cart_button($add_to_cart_button,
                                 this.template_details.pages['2'] != undefined);
 
-  $('div.zetaprints-page-input-fields input.input-text,\
-     div.zetaprints-page-input-fields textarea').text_field_resizer();
+  $('div.zetaprints-page-input-fields input.input-text, ' +
+    'div.zetaprints-page-input-fields textarea').text_field_resizer();
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
     //Hide preview image, preview placeholder with spinner, text fields
     //and image fields for the current page
-    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields, div.zetaprints-preview-placeholder').addClass('hidden');
+    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields, div.zetaprints-preview-placeholder').addClass('zp-hidden');
 
     //Remove shapes for current page
     if (event.data.zp.has_shapes && window.remove_all_shapes)
@@ -261,7 +261,7 @@ function personalization_form ($) {
     //Show preview image, preview placeholder with spinner, text fields
     //and image fields for the selected page
     $('#preview-image-' + page + ', #stock-images-' + page + ', #input-fields-'
-      + page + ', #zp-placeholder-for-preview-' + page).removeClass('hidden');
+      + page + ', #zp-placeholder-for-preview-' + page).removeClass('zp-hidden');
 
     //Remember number of selected page
     event.data.zp.current_page = page.split('-')[1] * 1;
@@ -269,10 +269,10 @@ function personalization_form ($) {
     //Check if page is static then...
     if (event.data.zp.template_details.pages[event.data.zp.current_page].static)
       //... hide Update preview button
-      $('button.update-preview').addClass('hidden');
+      $('button.update-preview').addClass('zp-hidden');
     else
       //... otherwise show it
-      $('button.update-preview').removeClass('hidden');
+      $('button.update-preview').removeClass('zp-hidden');
 
     //Set preview images sharing link for the current page
     if (window.place_preview_image_sharing_link)
@@ -437,7 +437,7 @@ function personalization_form ($) {
             $('#image, #track_hint, div.zoom').remove();
             has_image_zoomer = false;
             //and show preview image for the current page
-            $('#preview-image-page-' + current_page).removeClass('hidden');
+            $('#preview-image-page-' + current_page).removeClass('zp-hidden');
 
             //Add all shapes to personalization form after first preview
             //update
@@ -453,7 +453,7 @@ function personalization_form ($) {
             $('input[name="zetaprints-previews"]')
               .val(zp.previews.join(','));
 
-            $('div.zetaprints-notice.to-update-preview').addClass('hidden');
+            $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
             remove_fake_add_to_cart_button($add_to_cart_button);
             $('div.save-order span').css('display', 'none');
           }
