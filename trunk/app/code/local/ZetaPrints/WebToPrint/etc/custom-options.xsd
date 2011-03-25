@@ -8,6 +8,28 @@
           </xsd:annotation>
           <xsd:complexType>
             <xsd:sequence>
+              <xsd:element name="file-download" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>File download options</xsd:documentation>
+                </xsd:annotation>
+
+                <xsd:complexType>
+                  <xsd:element name="users" minOccurs="0">
+                    <xsd:annotation>
+                      <xsd:documentation>File download options for frontend interface</xsd:documentation>
+                    </xsd:annotation>
+
+                    <xsd:complexType>
+                      <xsd:attribute name="allow" use="optional" fixed="1">
+                        <xsd:annotation>
+                          <xsd:documentation>Users are allowed to download files regardless of ZP template setting if set to 1. Otherwise ZP template setting is used, which is the default setting.</xsd:documentation>
+                        </xsd:annotation>
+                      </xsd:attribute>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:complexType>
+              </xsd:element>
+
               <xsd:element name="image-edit" minOccurs="0">
                 <xsd:annotation>
                   <xsd:documentation>Image editing options.</xsd:documentation>

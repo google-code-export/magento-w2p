@@ -575,8 +575,13 @@ jQuery(document).ready(function($) {
       //... just return from the function.
       return;
 
+    //Get value of custom option which allows users download files
+    //regardless of ZP template setting
+    $is_user_allowed_download = Mage::helper('webtoprint')
+                              ->getCustomOptions('file-download/users@allow=1');
+
     //Check that downloading generated files is allowed for users
-    if ($item)   {
+    if ($item && !$is_user_allowed_download) {
       $template = Mage::getModel('webtoprint/template')
                                       ->load($options['zetaprints-TemplateID']);
 
