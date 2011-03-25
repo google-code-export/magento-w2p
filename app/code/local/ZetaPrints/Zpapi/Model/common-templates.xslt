@@ -95,7 +95,11 @@
                     <xsl:if test=".=../@Value">
                       <xsl:attribute name="selected">1</xsl:attribute>
                     </xsl:if>
-                    <xsl:value-of select="." />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">
+                        <xsl:value-of select="." />
+                      </xsl:with-param>
+                    </xsl:call-template>
                   </option>
                 </xsl:for-each>
               </select>
