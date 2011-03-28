@@ -2,11 +2,19 @@
 
 = Future stable release (1.8.4.0) =
 == Issues ==
-  * New fit-to-field feature in image editor dialog
+  * Add support for M. 1.5 (issue #458)
+  * New fit-to-field feature in image editor dialog (disabled by default because of development state)
   * Update jQuery to 1.4.4 release and jQuery UI to 1.8.7 release
   * Add support for custom options in separate XML file (issue #259)
   * Fancybox resizing capabilities (issue #251)
-  * Add Spain localization
+  * Add Spain and Bulgarian localizations
+  * Implement fake Add to cart button (issue #374)
+  * Hide Update button on static pages (issue #273)
+  * Add support for creation of virtual products (issue #478)
+  * Add support for translation of template's titles, hints and field names (issue #479)
+  * Implement custom option to allow users download files regardless of ZP template setting (issue #491)
+  * Bug fixes and improvements (issue #440, issue #436, issue #437, issue #450, issue #188, issue #292, issue #179, issue #483, issue #469 and issue #438)
+  
 
 == Release comments ==
 Please, do following step if you don't use zptheme as default in Magento (e.i. if you copied everything from zptheme into the custom theme):
