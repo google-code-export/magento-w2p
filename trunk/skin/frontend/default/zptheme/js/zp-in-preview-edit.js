@@ -120,7 +120,9 @@ function popup_field_by_name (name, position) {
 
     field = field[0];
 
-    var parent = jQuery(field).parents('div.zetaprints-images-selector');
+    var parent = jQuery(field).parents('div.zetaprints-images-selector')
+                   .removeClass('minimized');
+
     if (jQuery(parent).hasClass('expanded'))
       jQuery('a.collapse-expand', parent).click();
 
