@@ -1,0 +1,15 @@
+.map-canvas {
+    height: 100%;
+    width: 100%;
+    min-height: 400px;
+    min-width: 580px;
+    margin: 0px auto;
+    border: 4px double #E4E4E4;
+}
+.search-container {
+    margin: 5px;
+}
+.product-options dd input.search-input {
+    width: 70%;
+    margin-right: 5px;
+}

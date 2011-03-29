@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout>
+    <map_css>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/distromap.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>custom/distromap.js</script>
+            </action>
+        </reference>
+    </map_css>
+    <map_static>
+        <update handle="map_css"/>
+        <reference name="head">
+            <block type="distro_map/map_static" template="distromap/maps/static.phtml" name="map_static"/>
+        </reference>
+    </map_static>
+    <catalog_product_view>
+        <update handle="map_css"/>
+        <reference name="head">
+            <block type="distro_map/map_dynamic" template="distromap/maps/dynamic.phtml" name="map_dynamic"/>
+        </reference>
+    </catalog_product_view>
+    <checkout_cart_index>
+        <update handle="map_static"/>
+    </checkout_cart_index>
+    <checkout_multishipping_overview>
+        <update handle="map_static"/>
+    </checkout_multishipping_overview>
+    <checkout_onepage_review>
+        <update handle="map_css"/>
+        <reference name="root">
+            <reference name="checkout.onepage.review.info.items.after">
+                <block type="distro_map/map_static" template="distromap/maps/static.phtml" name="map_static" as="map_static"/>
+            </reference>
+        </reference>
+    </checkout_onepage_review>
+    <sales_order_view>
+        <update handle="map_static"/>
+    </sales_order_view>
+</layout>

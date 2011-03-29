@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version = "0.1.0">
+  <adminhtml_sales_order_view>
+    <reference name = "head">
+        <action method="addCss"><name>distromap.css</name></action>
+    </reference>
+      <reference name="content">
+          <block type="distro_map/map_static" template="distromap/maps/admin.phtml" name="map_admin" as="map_admin"/>
+      </reference>
+  </adminhtml_sales_order_view>
+</layout>
