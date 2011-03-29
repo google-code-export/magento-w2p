@@ -2,8 +2,6 @@
 class ZetaPrints_DistributionMap_Block_Map_Dynamic
     extends ZetaPrints_DistributionMap_Block_Map_Abstract
 {
-
-  const API_VERSION = '3.4';
   public function escapeHint($hint)
   {
     $hint = $this->escapeHtml($hint);
@@ -19,21 +17,5 @@ class ZetaPrints_DistributionMap_Block_Map_Dynamic
   public function trim(&$item)
   {
     $item = trim($item);
-  }
-
-
-
-  public function getMapApi()
-  {
-    return self::API_VERSION;
-  }
-
-
-
-
-  public function getMarkerIconUrl()
-  {
-    $url = $this->getSkinUrl('images/pencil_marker.png');
-    return $url;
   }
 }
