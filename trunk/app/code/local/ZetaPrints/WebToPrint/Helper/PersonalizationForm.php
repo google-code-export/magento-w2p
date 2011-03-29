@@ -822,7 +822,7 @@ jQuery(document).ready(function($) {
       $page_details['thumb-image']
                            = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
 
-      echo sprintf('<img src="%s" alt="Printable %s" class="hidden" />',
+      echo sprintf('<img src="%s" alt="Printable %s" class="zp-hidden" />',
                    $preview_url,
                    $product_name );
     }
