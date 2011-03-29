@@ -59,7 +59,7 @@ function addMarker(polygon, coord, icon) {
 
         var opts = {
             map: map,
-            title: 'Click to delete vertex'
+            title: 'Click to delete last line'
         };
         polygon.marker = new google.maps.Marker(opts);
         if(icon) {
