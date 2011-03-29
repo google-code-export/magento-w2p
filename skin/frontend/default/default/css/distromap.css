@@ -1,0 +1,28 @@
+.map-canvas {
+    height: 100%;
+    width: 100%;
+    margin: 0px auto;
+    border: 4px double #E4E4E4;
+}
+.search-container {
+    margin: 5px;
+}
+.product-options dd input.search-input {
+    width: 70%;
+    margin-right: 5px;
+}
+
+.usage-hint {
+    width: 88%;
+    height: 88%;
+    background: #ffffff;
+    z-index: 100;
+    padding: 2%;
+    position: absolute;
+    text-align: left;
+    font-size: 150%;
+    left: 4%;
+    top: 4%;
+}
+
+.usage-hint a { cursor: pointer; text-align: center; display: block; margin: 50px 0;}

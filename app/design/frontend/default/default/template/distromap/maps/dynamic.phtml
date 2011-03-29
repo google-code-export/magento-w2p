@@ -1,0 +1,66 @@
+<?php
+/** @var $this ZetaPrints_DistributionMap_Block_Map_Dynamic */
+$_baseurl = $this->getMapUrl();
+$_sensor = $this->getSensor(); //'true';
+// we may decide this dynamically at later stage
+$_libraries = 'geometry';
+$_language = $this->getLanguage(); // $_store -> getConfig('general/locale/code');
+$_region = $this->getRegion(); // $_store -> getConfig('general/country/default');
+$_api = $this->getMapApi(); // '3.4';
+$height = $this->getMapHeight('product'); // 400;
+$width = $this->getMapWidth('product'); // 580;
+$_url_params = array('sensor' => $_sensor, 'libraries' => $_libraries, 'language' => $_language, 'region' => $_region, 'v' => $_api);
+$_url = $_baseurl . '?' . http_build_query($_url_params);
+
+// dynamic google map url
+
+// default hint text
+
+$hint = $this->__('Search for your location and click on the map multiple times to select an area.
+The selection will be saved with the order.
+Click on the marker to edit selection or click on the selection to start over.
+');
+$hint = $this->escapeHint($hint);
+?>
+<script type="text/javascript" src="<?php echo $_url;?>">
+</script>
+<script type="text/javascript">
+    Event.observe(window, 'load', function(e) {
+        var wrapper = $('product-options-wrapper');
+        var labels = wrapper.select('dl dt'); // option label is here
+        var options = [];
+        var regex = new RegExp('\\*\\*\\*kml\\*\\*\\*\s*$', 'i');
+        labels.each( function(l) {
+            var self =  $(l);
+            var content = self.down('label').innerHTML; // original label
+            var clean = content.stripTags().strip(); // get label content stripped of tags and white space
+            if(regex.test(clean)) {
+                var opt = self.next('dd').down('input[type=text]');
+                options.push(opt);
+                console.log(content);
+                content = content.replace(regex, '');
+                self.down('label').update(content);
+            }
+        });
+        options.each( function(o) {
+            var opt = $(o);
+            var id = /^\w+_(\d{1,})_\w+/.exec(opt.identify())[1];
+            if(id){
+              var width = <?php echo (int)$width;?> + 'px';
+              var height = <?php echo (int)$height;?> + 'px';
+                var config = {};
+                config.element = 'map_canvas_' + id;
+                config.storage = opt.identify();
+                config.marker_icon = '<?php echo $this->getMarkerIconUrl();?>';
+                var top = opt.getHeight();
+                var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="top: -' + top + 'px;'
+              + 'width: ' + width + '; height: ' + height + '"></div>';
+                opt.up().insert(map_canvas);
+                var map = new Distromap(config);
+                var hint_text = new Element('p', {'class': 'hint-text'}).update('<?php echo $hint;?>');
+              var link_text = '<?php echo $this->__('Start now');?>';
+              map.addHintOverlay(hint_text, link_text);
+            }
+        });
+    });
+</script>
