@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: pp
+ * Date: 3/29/11
+ * Time: 4:37 PM
+ */
+
+/** @var $this ZetaPrints_DistributionMap_Block_Map_Static */
+
+$_baseurl = $this->getMapUrl();
+$_sensor = $this->getSensor(); //'true';
+// we may decide this dynamically at later stage
+$_libraries = 'geometry';
+$_language = $this->getLanguage(); // $_store -> getConfig('general/locale/code');
+$_region = $this->getRegion(); // $_store -> getConfig('general/country/default');
+$_api = $this->getMapApi(); // '3.4';
+$_url_params = array('sensor' => $_sensor, 'libraries' => $_libraries, 'language' => $_language, 'region' => $_region, 'v' => $_api);
+$_url = $_baseurl . '?' . http_build_query($_url_params);
+//$_url .= '&callback=addMaps'; // we will load gmaps only if such option is present
+?>
+
+<script type="text/javascript" src="<?php echo $_url;?>"></script>

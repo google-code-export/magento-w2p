@@ -1,94 +1,95 @@
 <?php
 /** @var $this ZetaPrints_DistributionMap_Block_Map_Static */
-$url = $this->getBaseGoogleUrl();
+//$url = $this->getBaseGoogleUrl();
+$_baseurl = $this->getMapUrl();
+$_sensor = $this->getSensor(); //'true';
+// we may decide this dynamically at later stage
+$_libraries = 'geometry';
+$_language = $this->getLanguage(); // $_store -> getConfig('general/locale/code');
+$_region = $this->getRegion(); // $_store -> getConfig('general/country/default');
+$_api = $this->getMapApi(); // '3.4';
+$height = $this->getMapHeight('admin'); // 640;
+$width = $this->getMapWidth('admin'); // 480;
+$_url_params = array('sensor' => $_sensor, 'libraries' => $_libraries, 'language' => $_language, 'region' => $_region, 'v' => $_api);
+$_url = $_baseurl . '?' . http_build_query($_url_params);
+$_url .= '&callback=addMaps'; // we will load gmaps only if such option is present
+
 ?>
+
 <!-- <?php echo get_class($this);?> -->
 <script type="text/javascript">
   Event.observe(window, 'load', replaceStaticMap);
   var kmls = null;
-  var base_url = '<?php echo $url;?>';
+  var randid = 1;
   <?php if($kml = $this->renderKml()):?>
-    kmls = <?php echo $kml;?>
+    kmls = <?php echo $kml;?>;
   <?php endif;?>
-
+  var options = [];
 
   function replaceStaticMap() {
     var labels = $$('div.item-text .item-options > dt'); // option label is here
-    var options = [];
-    var regex = new RegExp('\\*\\*\\*kml\\*\\*\\*\s*$', 'i');
-    if(!labels || labels.length == 0){
+    var regex = new RegExp('\\*\\*\\*kml\\*\\*\\*\s*$', 'i'); // this is regex for map
+    if(!labels || labels.length == 0){ // no options, then stop
       return;
     }
-    labels.each(function(l) {
+    labels.each(function(l) { // check each option
       var self = $(l);
-      var map = '';
       var content = self.innerHTML; // original label
       var clean = content.stripTags().strip(); // get label content stripped of tags and white space
       if (regex.test(clean)) {
         var opt = self.next('dd');
         var truncated_full = opt.innerHTML;
-        if(truncated_full.indexOf('... <span ') != -1){
-          opt.stopObserving('mouseover').stopObserving('mouseout');
+        if(truncated_full.indexOf('... <span ') != -1){ // if content length is more than 50 chars it is truncated
+          opt.stopObserving('mouseover').stopObserving('mouseout'); // some events are observed,
+          // which will trigger errors if not removed
           var span = opt.down('span');
           var script = opt.down('script');
-          Element.replace(span, '');
+          Element.replace(span, ''); // clean unwanted html elements
           Element.replace(script,'');
         }
-        truncated_full = opt.innerHTML.strip().unescapeHTML();
-        if (truncated_full) {
-          var full_value = truncated_full.replace(/\s*\.\.\.\s*$/im,'').unescapeHTML();
+        truncated_full = opt.innerHTML.strip().unescapeHTML(); // get actual option value - it is being escaped so we
+        // need to unescape it back
+        if (truncated_full) { // if there is something left
+          var full_value = truncated_full.replace(/\s*\.\.\.\s*$/im,'').unescapeHTML(); // get it
           try{
             var obj = full_value.evalJSON(true);
-            var nodes = [];
-            for( var i in obj) {
-              var co = obj[i];
-              var lat = co.lat;
-              var lng = co.lng;
-              nodes.push(lat + ',' + lng);
-            }
-            nodes.push(nodes[0]);
-            nodes = nodes.join('|');
-            var src = base_url + encodeURIComponent(nodes);
-            map = '<img alt="Map" src="' + src + '" />';
+            opt.map_nodes = obj;
           }catch(e){
             alert('JavaScript error. Cannot render map.');
             return;
           }
-          opt.innerHTML = (map == '')? full_value: map;
+          opt.innerHTML = '<?php echo $this->__('Loading Google map');?>';
           opt.kml = addKml(kmls, full_value);
         }
         options.push(opt);
-        console.log(content);
         content = content.replace(regex, '');
         self.update(content);
       }
     });
-    options.each(function(o) {
-//      o.innerHTML = o.innerHTML.unescapeHTML();
-      if(o.kml) {
-        $(o).insert('<br/>' + o.kml);
-      }
-    });
+    if(options.length > 0) {
+      loadScript('<?php echo $_url;?>');
+    }
   }
 
-  function addKml(kmls, value) {
-    try{
-      var result = '';
-      if(kmls && kmls.size()){
-        kmls.each(function(kml){
-          if(result) {
-            return;
-          }
-          var opt = kml.option.strip().unescapeHTML();
-          var val = value.strip().unescapeHTML();
-          if(opt == val){
-            result = kml.kml;
-          }
-        });
-      }
-    }catch(e) {
-      console.warn(e);
+  function addMaps()
+  {
+    if(options.length > 0){
+      options.each(function(o) {
+        var opt = $(o);
+        var id = randid++;
+        var width = <?php echo (int)$width;?> + 'px';
+        var height = <?php echo (int)$height;?> + 'px';
+        var config = {};
+        config.element = 'map_canvas_' + id;
+        config.coords = opt.map_nodes;
+        var top = opt.getHeight();
+        var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="width: ' + width + '; height: ' + height + '"></div>';
+        opt.update(map_canvas);
+        var map = new Distromap(config, true);
+        if(opt.kml) {
+          opt.insert('<br/>' + o.kml);
+        }
+      });
     }
-    return result;
   }
 </script>

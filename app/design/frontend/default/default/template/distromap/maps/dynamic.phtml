@@ -11,7 +11,6 @@ $height = $this->getMapHeight('product'); // 400;
 $width = $this->getMapWidth('product'); // 580;
 $_url_params = array('sensor' => $_sensor, 'libraries' => $_libraries, 'language' => $_language, 'region' => $_region, 'v' => $_api);
 $_url = $_baseurl . '?' . http_build_query($_url_params);
-
 // dynamic google map url
 
 // default hint text
@@ -22,8 +21,7 @@ Click on the marker to edit selection or click on the selection to start over.
 ');
 $hint = $this->escapeHint($hint);
 ?>
-<script type="text/javascript" src="<?php echo $_url;?>">
-</script>
+<script type="text/javascript" src="<?php echo $_url;?>"></script>
 <script type="text/javascript">
     Event.observe(window, 'load', function(e) {
         var wrapper = $('product-options-wrapper');

@@ -44,7 +44,8 @@ function loadScript(src) {
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = src;
-    document.body.appendChild(script);
+    var head = $(document.body).previous('head');
+    head.insert(script);
 }
 
 /**
@@ -62,7 +63,10 @@ function addMarker(polygon, coord, icon) {
         };
         polygon.marker = new google.maps.Marker(opts);
         if(icon) {
-            polygon.marker.setIcon(icon);
+            var image = new google.maps.MarkerImage(icon, new google.maps.Size(26, 23),
+                                                    new google.maps.Point(0, 0),
+                                                    new google.maps.Point(0, 20));
+            polygon.marker.setIcon(image);
         }
         google.maps.event.addListener(polygon.marker, 'click', function() {
             var mark = polygon.marker;
@@ -115,6 +119,28 @@ function setSearch(map) {
     });
 }
 
+function addKml(kmls, value) {
+    try{
+      var result = '';
+      if(kmls && kmls.size()){
+        kmls.each(function(kml){
+          if(result) {
+            return;
+          }
+          var opt = kml.option.strip().unescapeHTML();
+          var val = value.strip().unescapeHTML();
+          if(opt == val){
+            result = kml.kml;
+          }
+        });
+      }
+    }catch(e) {
+      console.warn(e);
+    }
+    return result;
+}
+
+
 /**
  * Google maps for magento
  */
@@ -128,8 +154,10 @@ var Distromap = Class.create({
         storage: null
     },
     map: null,
-    initialize : function(config) {
-        var config = config || {};
+    static: false, // should map be interactive
+    initialize : function(config, static) {
+        config = config || {};
+        this.static = static || false;
         this.config.zoom = config.zoom || 15;
         this.config.mapTypeId = config.maptype
                 || google.maps.MapTypeId.ROADMAP;
@@ -141,11 +169,16 @@ var Distromap = Class.create({
         this.config.center = initialLocation; // this.getUserLocation(this.map);
 
         this.map = new google.maps.Map($(this.config.element_id), {
-            zoom: this.config.zoom,
             mapTypeId: this.config.mapTypeId,
+            zoom: this.config.zoom,
             center: this.config.center
         });
-
+        if(this.static) {
+            if(typeof config.coords != 'undefined') {
+                this.addStaticArea(config.coords);
+            }
+            return;
+        }
 
         var polyOptions = {
             clickable: true,
@@ -173,6 +206,30 @@ var Distromap = Class.create({
             }
         });
         setSearch(this.map);
+    },
+    addStaticArea: function(coords){
+        var polyOptions = {
+            clickable: false,
+            geodesic: true,
+            strokeColor: '#ff0000',
+            strokeWeight: 2,
+            strokeOpacity: 0.8,
+            map: this.map
+        };
+        var poly = new google.maps.Polygon(polyOptions);
+        var path = [];
+        var bounds = new google.maps.LatLngBounds();
+        for (var i in coords) {
+            var c = coords[i];
+            var latlng = new google.maps.LatLng(c.lat, c.lng);
+            bounds.extend(latlng);
+            path.push(latlng);
+        }
+        poly.setPath(path);
+        var center = bounds.getCenter();
+
+        this.map.panToBounds(bounds);
+        this.map.setCenter(center);
     },
     getUserLocation : function(map) {
         var nav = navigator;

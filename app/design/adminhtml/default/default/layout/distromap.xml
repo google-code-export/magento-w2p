@@ -3,6 +3,7 @@
   <adminhtml_sales_order_view>
     <reference name = "head">
         <action method="addCss"><name>distromap.css</name></action>
+        <action method="addJs"><script>custom/distromap.js</script></action>
     </reference>
       <reference name="content">
           <block type="distro_map/map_static" template="distromap/maps/admin.phtml" name="map_admin" as="map_admin"/>

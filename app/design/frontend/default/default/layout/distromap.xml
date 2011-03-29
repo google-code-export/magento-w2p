@@ -14,6 +14,7 @@
     <map_static>
         <update handle="map_css"/>
         <reference name="head">
+            <block type="distro_map/map_static" template="distromap/maps/onepage.phtml" name="map_top"/>
             <block type="distro_map/map_static" template="distromap/maps/static.phtml" name="map_static"/>
         </reference>
     </map_static>
@@ -29,8 +30,10 @@
     <checkout_multishipping_overview>
         <update handle="map_static"/>
     </checkout_multishipping_overview>
+    <checkout_onepage_index>
+        <update handle="map_static"/>
+    </checkout_onepage_index>
     <checkout_onepage_review>
-        <update handle="map_css"/>
         <reference name="root">
             <reference name="checkout.onepage.review.info.items.after">
                 <block type="distro_map/map_static" template="distromap/maps/static.phtml" name="map_static" as="map_static"/>
