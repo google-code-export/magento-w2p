@@ -213,6 +213,7 @@ div.zetaprints-images-selector div.head {
   margin: 0px;
   text-align: left;
   cursor: pointer;
+  padding: 2px 9px;
 }
 
 div.zetaprints-images-selector div.head div.icon {
