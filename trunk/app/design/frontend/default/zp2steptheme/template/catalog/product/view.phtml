@@ -40,9 +40,17 @@
 <div class="product-view">
     <div class="product-essential">
 
+    <?php
+      //Use 'getSubmitUrl' method for M. >= 1.5 and 'getAddToCartUrl' one
+      //for previous releases.
+      $actionUrl = method_exists($this, 'getSubmitUrl')
+                     ? $this->getSubmitUrl($_product))
+                       : $this->getAddToCartUrl($_product);
+    ?>
+
     <!-- /****** ZP-CODE:1 Checking for current step and outputting link for a next step ******/ -->
 
-    <form action="<?php if (!$this->helper('webtoprint/personalization-form')->get_next_step_url($this)) echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+    <form action="<?php if (!$this->helper('webtoprint/personalization-form')->get_next_step_url($this)) echo $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
     <!-- /****** ZP-CODE:1 End ******/ -->
 

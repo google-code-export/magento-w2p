@@ -39,7 +39,16 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="product-essential">
-    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+
+    <?php
+      //Use 'getSubmitUrl' method for M. >= 1.5 and 'getAddToCartUrl' one
+      //for previous releases.
+      $actionUrl = method_exists($this, 'getSubmitUrl')
+                     ? $this->getSubmitUrl($_product))
+                       : $this->getAddToCartUrl($_product);
+    ?>
+
+    <form action="<?php echo $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
 
