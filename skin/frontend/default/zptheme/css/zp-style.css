@@ -729,3 +729,10 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .zp-hidden {
   display: none;
 }
+
+/* Image container must have same size as images in it.
+   So no margin and padding for child element */
+#zetaprints-preview-image-container .product-image {
+  margin: 0 !important;
+  padding: 0 !important;
+}
