@@ -281,9 +281,9 @@ function personalization_form ($) {
 
     //Add shapes for selected page
     if (event.data.zp.has_shapes
-        && window.place_all_precalculated_shapes_for_page
+        && window.place_all_shapes_for_page
         && window.shape_handler)
-      place_all_precalculated_shapes_for_page(event.data.zp.current_page, event.data.zp.template_details , product_image_box, shape_handler);
+      place_all_shapes_for_page(event.data.zp.template_details.pages[event.data.zp.current_page].shapes, product_image_box, shape_handler);
 
     if (event.data.zp.current_page < event.data.zp.template_details.pages_number
         && (event.data.zp.template_details.pages[event.data.zp.current_page].static
@@ -441,12 +441,11 @@ function personalization_form ($) {
 
             //Add all shapes to personalization form after first preview
             //update
-            if (zp.has_shapes && window.place_all_precalculated_shapes_for_page
+            if (zp.has_shapes && window.place_all_shapes_for_page
                 && window.shape_handler)
-              place_all_precalculated_shapes_for_page(current_page,
-                                                      zp.template_details,
-                                                      product_image_box,
-                                                      shape_handler);
+              place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
+                                        product_image_box,
+                                        shape_handler);
           }
 
           if (zp.previews.length == zp.template_details.pages_number) {
@@ -663,19 +662,17 @@ function personalization_form ($) {
 
     if (zp.has_shapes && window.mark_shapes_as_edited
         && window.precalculate_shapes
-        && window.place_all_precalculated_shapes_for_page && shape_handler) {
+        && window.place_all_shapes_for_page && shape_handler) {
 
       mark_shapes_as_edited(zp.template_details);
-      precalculate_shapes(zp.template_details,
-                      get_preview_dimensions(zp.template_details.pages_number));
+      precalculate_shapes(zp.template_details);
 
       //Add all shapes only then there's no base image.
       //Shapes will be added after first preview update then base image exists
       if (!has_image_zoomer)
-        place_all_precalculated_shapes_for_page(zp.current_page,
-                                                zp.template_details,
-                                                product_image_box,
-                                                shape_handler);
+        place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
+                                  product_image_box,
+                                  shape_handler);
     }
 
     $('div.zetaprints-images-selector').each(function () {
@@ -806,14 +803,9 @@ function personalization_form ($) {
         return;
 
       var fancy_inner = $('div#fancybox-content')[0];
-      var fancy_image = $('img#fancybox-img', fancy_inner)[0];
 
-      var dimension = {
-        width: $(fancy_image).width(),
-        height: $(fancy_image).height() };
-
-      place_all_shapes_for_page (zp.template_details.pages[zp.current_page].shapes,
-                                 dimension, fancy_inner, fancy_shape_handler);
+      place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
+                                fancy_inner, fancy_shape_handler);
 
       var $current_shape = jQuery('#current-shape');
 
