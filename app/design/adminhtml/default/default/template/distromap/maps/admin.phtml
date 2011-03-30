@@ -39,18 +39,27 @@ $_url .= '&callback=addMaps'; // we will load gmaps only if such option is prese
       if (regex.test(clean)) {
         var opt = self.next('dd');
         var truncated_full = opt.innerHTML;
+        var truncated = '';
         if(truncated_full.indexOf('... <span ') != -1){ // if content length is more than 50 chars it is truncated
           opt.stopObserving('mouseover').stopObserving('mouseout'); // some events are observed,
           // which will trigger errors if not removed
           var span = opt.down('span');
+          truncated = span.innerHTML.unescapeHTML().strip();
           var script = opt.down('script');
           Element.replace(span, ''); // clean unwanted html elements
           Element.replace(script,'');
         }
-        truncated_full = opt.innerHTML.strip().unescapeHTML(); // get actual option value - it is being escaped so we
+        truncated_full = opt.innerHTML;
+        truncated_full = truncated_full.unescapeHTML().unescapeHTML().strip(); // get actual option value - it is being escaped so we
+        if(truncated) {
+          truncated_full = truncated_full.replace(truncated.unescapeHTML(), '');
+        }
         // need to unescape it back
         if (truncated_full) { // if there is something left
           var full_value = truncated_full.replace(/\s*\.\.\.\s*$/im,'').unescapeHTML(); // get it
+          if(truncated){
+            full_value += truncated.unescapeHTML();
+          }
           try{
             var obj = full_value.evalJSON(true);
             opt.map_nodes = obj;
