@@ -44,7 +44,7 @@
       //Use 'getSubmitUrl' method for M. >= 1.5 and 'getAddToCartUrl' one
       //for previous releases.
       $actionUrl = method_exists($this, 'getSubmitUrl')
-                     ? $this->getSubmitUrl($_product))
+                     ? $this->getSubmitUrl($_product)
                        : $this->getAddToCartUrl($_product);
     ?>
 
