@@ -133,6 +133,9 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
   public function isHeadScript()
   {
     $parent = $this->getParentBlock();
+    if(!$parent){
+      return false;
+    }
     return $parent->getNameInLayout() == 'head';
   }
 

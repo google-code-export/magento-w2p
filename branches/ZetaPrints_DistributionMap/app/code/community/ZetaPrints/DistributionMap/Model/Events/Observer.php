@@ -23,7 +23,7 @@ class ZetaPrints_DistributionMap_Model_Events_Observer
     /** @var $product Mage_Catalog_Model_Product */
     $product = $item->getProduct();
     $options = $product->getOptions();
-    $maps = $this->_addQuoteItemId($this->_getMaps($options), $item);
+    $maps = $this->_addQuoteItemId($this->_getMaps($options, $product), $item);
     $this->_saveMaps($maps);
     // $this->_updateOptions();
   }
@@ -32,11 +32,11 @@ class ZetaPrints_DistributionMap_Model_Events_Observer
    * @param array $options
    * @return array
    */
-  protected function _getMaps(array $options)
+  protected function _getMaps(array $options, $prodcut = null)
   {
     $maps = array();
     foreach ($options as $option) {
-      $map = $this->_getMap($option);
+      $map = $this->_getMap($option, $prodcut);
       if($map != false){
         $maps[] = $map;
       }
@@ -48,12 +48,15 @@ class ZetaPrints_DistributionMap_Model_Events_Observer
    * @param  Mage_Catalog_Model_Product_Option $option
    * @return string | false
    */
-  protected function _getMap($option)
+  protected function _getMap($option, $product = null)
   {
     $map = false;
     if ($option instanceof Mage_Catalog_Model_Product_Option && $this->_isMap($option)) {
-      $custom_option = $option->getProduct()
-          ->getCustomOption('option_' . $option->getId());
+      $product = ($product instanceof Mage_Catalog_Model_Product)? $product: $option->getProduct();
+      if(!$product) {
+        throw new Exception('No product found.');
+      }
+      $custom_option = $product->getCustomOption('option_' . $option->getId());
       if(!$custom_option) {
         return $map; // option not added, bail out
       }
