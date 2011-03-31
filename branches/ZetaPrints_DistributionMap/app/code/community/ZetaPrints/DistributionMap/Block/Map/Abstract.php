@@ -123,7 +123,8 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
       foreach ($option_ids as $opt) {
         $params['optid'] = $opt['id'];
         $url = $this->getUrl($route, $params);
-        $link = '<a href="' . $url . '" title="Distribution map KML">Option KML file</a>';
+        $link = '<a href="' . $url . '" title="' . $this->__('Distribution map KML') . '">' .
+                $this->__('Download KML file') . '</a>';
         $result[] = array('kml' => $link, 'option' => $opt['value']);
       }
     }
