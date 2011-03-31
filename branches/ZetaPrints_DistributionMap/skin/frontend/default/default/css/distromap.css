@@ -8,7 +8,7 @@
     margin: 5px;
 }
 .product-options dd input.search-input {
-    width: 70%;
+    width: 65%;
     margin-right: 5px;
 }
 
@@ -23,6 +23,7 @@
     font-size: 150%;
     left: 4%;
     top: 4%;
+    overflow: auto;
 }
 
-.usage-hint a { cursor: pointer; text-align: center; display: block; margin: 50px 0;}
+.usage-hint a { cursor: pointer; text-align: center; display: block; margin: 3em 0 0;}

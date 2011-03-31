@@ -87,12 +87,12 @@ function setSearch(map) {
         padding: '5px auto',
         width: '250px'
                               });
-    var sub = new Element('button', {type: 'button', 'class': 'button search-button'}).update
+    var sub = new Element('button', {type: 'button', className: 'button search-button'}).update
             ('<span><span>Search</span></span>');
     var input = new Element('input', {type: 'text', name: 'search', 'class': 'input-text search-input'});
     search_container.insert(input).insert(sub);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(search_container);
-    sub.observe('click', function(e) {
+    var doSearch = function(e) {
         Event.stop(e);
         var el = input;
         var params = {};
@@ -116,6 +116,13 @@ function setSearch(map) {
                                                         });
             infowindow.open(map);
         });
+    };
+    sub.observe('click', doSearch);
+    input.observe('keypress', function(e){
+        if(e.keyCode == Event.KEY_RETURN) {
+            doSearch(e);
+            return false;
+        }
     });
 }
 
@@ -129,6 +136,10 @@ function addKml(kmls, value) {
           }
           var opt = kml.option.strip().unescapeHTML();
           var val = value.strip().unescapeHTML();
+            var opt_obj = opt.evalJSON();
+            var val_obj = val.evalJSON();
+            opt = Object.toJSON(opt_obj);
+            val = Object.toJSON(val_obj);
           if(opt == val){
             result = kml.kml;
           }
@@ -265,13 +276,38 @@ var Distromap = Class.create({
     },
     addHintOverlay: function(text, link_text) {
         var hint = new Element('div', {'class': 'usage-hint'}).update(text);
+        hint.setStyle({
+                        zIndex: 100,
+                        width: '88%',
+                        height: '88%',
+                        background: '#ffffff',
+                        padding: '2%',
+                        position: 'absolute',
+                        textAlign: 'left',
+                        fontSize: '150%',
+                        left: '4%',
+                        top: '4%',
+                        overflow: 'auto'
+                      });
         link_text = link_text || 'Close';
         hint.setOpacity(0.8);
         hint.insert({bottom: '<a title="' + link_text +'" class="close-handle">' + link_text + '</a>'});
-        hint.down('a.close-handle').observe('click', function(e){
+
+        $(this.config.element_id).insert({top: hint});
+        var link = hint.down('a.close-handle');
+        link.setStyle({
+                        display: 'block',
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                        margin: '3em 0 0'
+                      });
+        hint.observe('click', function(e){
             hint.remove();
         });
-        $(this.config.element_id).insert({bottom: hint});
+        link.observe('click', function(e){
+            if(hint.parentNode)
+                hint.remove();
+        });
     }
 });
 
