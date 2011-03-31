@@ -224,6 +224,26 @@
         </args>
       </ZetaPrints_WebToPrint>
     </routers>
+
+    <layout>
+      <updates>
+        <webtoprint>
+          <file>web-to-print.xml</file>
+        </webtoprint>
+
+        <catalog-web-to-print-product>
+          <file>catalog/web-to-print-product.xml</file>
+        </catalog-web-to-print-product>
+
+        <checkout-web-to-print-cart>
+          <file>checkout/web-to-print-cart.xml</file>
+        </checkout-web-to-print-cart>
+
+        <sales-web-to-print-order>
+          <file>sales/web-to-print-order.xml</file>
+        </sales-web-to-print-order>
+      </updates>
+    </layout>
   </frontend>
 
 
