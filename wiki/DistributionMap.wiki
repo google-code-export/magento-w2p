@@ -14,7 +14,7 @@ Distribution map (DM) is implemented in Magento as a JavaScript custom option.
 That means that most of its frontend functionality is done using JavaScript to replace some content on the web page with a map.
 Reason for this is that custom options in Magento are not very extendable, put simply they are hard coded and adding new options would mean overwriting core classes and template files. This approach is prone to problems with future updates of core files, and also the possibility to have another extension, which will need to override same files, installed alongside.
 The way DM is done does not override any core files. It depends on magento sales system to provide needed data
-To make a DM custom option you have to login to backend as admin. Go to product of choice. Add custom option to the product. The custom option should be of type *file* and have a title ending on *`*``*``*`kml`*``*``*`*. 
+To make a DM custom option you have to login to backend as admin. Go to product of choice. Add custom option to the product. The custom option should be of type *field* and have a title ending on *`*``*``*`kml`*``*``*`*. 
 
 Example: _Distribution map `*``*``*`kml`*``*``*`_
 
