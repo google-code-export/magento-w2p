@@ -1,8 +1,6 @@
 .map-canvas {
     height: 100%;
     width: 100%;
-    min-height: 400px;
-    min-width: 580px;
     margin: 0px auto;
     border: 4px double #E4E4E4;
 }
