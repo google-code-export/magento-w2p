@@ -40,27 +40,28 @@ $hint = $this->getHint();
             }
         });
         options.each( function(o) {
-            var opt = $(o);
-            var id = /^\w+_(\d{1,})_\w+/.exec(opt.identify())[1];
-            if(id){
-              var width = <?php echo (int)$width;?> + 'px';
-              var height = <?php echo (int)$height;?> + 'px';
-              var config = {};
-              config.element = 'map_canvas_' + id;
-              config.storage = opt.identify();
-              config.zoom = <?php echo $zoom;?>;
-              config.lat = <?php echo $lat;?>;
-              config.lng = <?php echo $lng;?>;
-              config.marker_icon = '<?php echo $this->getMarkerIconUrl();?>';
-              var top = opt.getHeight();
-              var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="top: -' + top + 'px;'
-            + 'width: ' + width + '; height: ' + height + '"></div>';
-              opt.up().insert(map_canvas);
-              var map = new Distromap(config);
-                var hint_text = new Element('p', {'class': 'hint-text'}).update('<?php echo $hint;?>');
-              var link_text = '<?php echo $this->__('Start now');?>';
-              map.addHintOverlay(hint_text, link_text);
-            }
+          var opt = $(o);
+          opt.setStyle({visibility: 'hidden'});
+          var id = /^\w+_(\d{1,})_\w+/.exec(opt.identify())[1];
+          if(id){
+            var width = <?php echo (int)$width;?> + 'px';
+            var height = <?php echo (int)$height;?> + 'px';
+            var config = {};
+            config.element = 'map_canvas_' + id;
+            config.storage = opt.identify();
+            config.zoom = <?php echo $zoom;?>;
+            config.lat = <?php echo $lat;?>;
+            config.lng = <?php echo $lng;?>;
+            config.marker_icon = '<?php echo $this->getMarkerIconUrl();?>';
+            var top = opt.getHeight();
+            var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="top: -' + top + 'px;'
+          + 'width: ' + width + '; height: ' + height + '"></div>';
+            opt.up().insert(map_canvas);
+            var map = new Distromap(config);
+              var hint_text = new Element('p', {'class': 'hint-text'}).update('<?php echo $hint;?>');
+            var link_text = '<?php echo $this->__('Start now');?>';
+            map.addHintOverlay(hint_text, link_text);
+          }
         });
     });
 </script>
