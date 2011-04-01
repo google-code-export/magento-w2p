@@ -18,4 +18,10 @@ class ZetaPrints_DistributionMap_Block_Map_Dynamic
   {
     $item = trim($item);
   }
+
+  public function getHint()
+  {
+    $hint = $this->maphelper()->getProductPageHint();
+    return $this->escapeHint($hint);
+  }
 }

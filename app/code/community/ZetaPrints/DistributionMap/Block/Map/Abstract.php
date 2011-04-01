@@ -10,65 +10,37 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
   extends Mage_Core_Block_Template
 {
   /**
-   * @var Mage_Core_Model_Store
+   * @var ZetaPrints_DistributionMap_Helper_Data
    */
-  protected $store;
-
-  const API_VERSION = '3.4';
-  protected $map_src = array(
-    'secure' => 'https://maps-api-ssl.google.com/maps/api/js',
-    'base' => 'http://maps.google.com/maps/api/js'
-  );
-
-  protected $pages = array(
-    'product',
-    'cart',
-    'admin'
-  );
-
-  const CONFIG_PATH = 'google/distro_map/';
-
-  public function _construct()
-  {
-    $this->store = Mage::app()->getStore();
-  }
-
+  protected $helper;
   public function getMapUrl()
   {
-    $_secure = $this->getRequest()->isSecure();
-    $url = $_secure ? $this->map_src['secure'] : $this->map_src['base'];
-    return $url;
+    return $this->maphelper()->getBaseJsUrl();
   }
 
   public function getSensor()
   {
-    return $this->store->getConfig(self::CONFIG_PATH . 'sensor') ? 'true' : 'false';
+    return $this->maphelper()->getSensor();
   }
 
   public function getRegion()
   {
-    return $this->store->getConfig('general/country/default');
+    return $this->maphelper()->getRegion();
   }
 
   public function getLanguage()
   {
-    return $this->store->getConfig('general/locale/code');
+    return $this->maphelper()->getLanguage();
   }
 
   public function getMapHeight($page)
   {
-    if (!in_array($page, $this->pages)) {
-      return false;
-    }
-    return $this->store->getConfig(self::CONFIG_PATH . $page . '_height');
+    return $this->maphelper()->getMapHeight($page);
   }
 
   public function getMapWidth($page)
   {
-    if (!in_array($page, $this->pages)) {
-      return false;
-    }
-    return $this->store->getConfig(self::CONFIG_PATH . $page . '_width');
+    return $this->maphelper()->getMapWidth($page);
   }
 
 
@@ -81,6 +53,14 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
     return $order;
   }
 
+  /**
+   * Get KML urls
+   *
+   * Parses all order items for product options.
+   * If options found and are map options, a link is
+   * build that will download KML file to user computer.
+   * @return array|null
+   */
   protected function getKmlUrls()
   {
     $order = $this->getOrder();
@@ -96,11 +76,14 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
     $option_ids = array();
     $items = $order->getAllVisibleItems();
     foreach ($items as $item) {
-      /** @var $item Mage_Sales_Model_Order_Item */
+      /** @var $item Mage_Sales_Model_Order_Item
+       * @var $product Mage_Catalog_Model_Product
+       */
       $product = Mage::getModel('catalog/product')->load($item->getProductId());
       $options = $product->getOptions();
       foreach ($options as $opt) {
-        if (Mage::helper('distro_map')->isMap($opt)) {
+        /** @var $opt Mage_Catalog_Model_Product_Option */
+        if ($this->maphelper()->isMap($opt)) {
           $id = $opt->getId();
           $proptions = $item->getProductOptions();
           $params['qiid'] = $item->getQuoteItemId();
@@ -131,6 +114,10 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
     return $result;
   }
 
+  /**
+   * Is block executed in head part of document, or loaded after page load
+   * @return bool
+   */
   public function isHeadScript()
   {
     $parent = $this->getParentBlock();
@@ -140,6 +127,12 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
     return $parent->getNameInLayout() == 'head';
   }
 
+  /**
+   * Prepare kml JS objects
+   *
+   * This method is fired only when viewing order details.
+   * @return null|string
+   */
   public function renderKml()
   {
     $request = $this->getRequest();
@@ -158,12 +151,22 @@ class ZetaPrints_DistributionMap_Block_Map_Abstract
 
   public function getMapApi()
   {
-    return self::API_VERSION;
+    return $this->maphelper()->getMapApi();
   }
 
   public function getMarkerIconUrl()
   {
     $url = $this->getSkinUrl('images/pencil_marker.png');
     return $url;
+  }
+
+  /**
+   * @return ZetaPrints_DistributionMap_Helper_Data
+   */
+  public function maphelper(){
+    if(!isset($this->helper)) {
+      $this->helper = parent::helper('distro_map');
+    }
+    return $this->helper;
   }
 }

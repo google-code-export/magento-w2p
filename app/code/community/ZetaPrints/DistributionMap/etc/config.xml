@@ -22,6 +22,15 @@
                 </distro_map>
             </updates>
         </layout>
+        <translate>
+          <modules>
+            <ZetaPrints_DistributionMap>
+              <files>
+                <default>ZetaPrints_DistributionMap.csv</default>
+              </files>
+            </ZetaPrints_DistributionMap>
+          </modules>
+        </translate>
         <events>
             <sales_quote_item_save_after>
                 <observers>
@@ -108,7 +117,7 @@
             </distro_map>
         </helpers>
     </global>
-    <default>
+    <default><!-- Some default settings -->
         <google>
             <distro_map>
                 <sensor>1</sensor>
@@ -118,6 +127,12 @@
                 <cart_height>200</cart_height>
                 <admin_width>640</admin_width>
                 <admin_height>480</admin_height>
+                <hint_text><![CDATA[Search for your location and click on the map multiple times to select an area.
+The selection will be saved with the order.
+Click on the marker to edit selection or click on the selection to start over.]]></hint_text>
+                <map_lat>40.698470</map_lat>
+                <map_lng>-73.951442</map_lng>
+                <map_zoom>15</map_zoom>
             </distro_map>
         </google>
     </default>

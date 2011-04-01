@@ -70,6 +70,44 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </admin_height>
+                        <hint_text>
+                            <label>Hint to display to user</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Some text to explain to user what to do with map.]]></comment>
+                        </hint_text>
+                        <map_lat>
+                            <label>Initial latitude</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[A decimal number between -90 degrees and +90 degrees.]]></comment>
+                        </map_lat>
+                        <map_lng>
+                            <label>Initial longitude</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[A decimal number between -180 degrees and +180 degrees. Current
+                        coordinates represent New York City]]></comment>
+                        </map_lng>
+                        <map_zoom>
+                            <label>Initial zoom level</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[A number between 0 and 20. 0 is entire earth,
+                            20 greatest resolution. 15 is ususaly detailed enough map of a city]]></comment>
+                        </map_zoom>
                     </fields>
                     <comment><![CDATA[<strong>Set map sizes here</strong><br/><small>All sizes are in
                     pixels</small>]]></comment>

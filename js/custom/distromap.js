@@ -174,8 +174,8 @@ var Distromap = Class.create({
                 || google.maps.MapTypeId.ROADMAP;
         this.config.element_id = config.element || 'map_canvas';
         this.config.storage = config.storage || 'options_1_file'; // we should really never have to use this default.
-        var lat = 40.698470; //
-        var lng = -73.951442; //
+        var lat = config.lat || 40.698470; //
+        var lng = config.lng || -73.951442; //
         var initialLocation = new google.maps.LatLng(lat, lng);
         this.config.center = initialLocation; // this.getUserLocation(this.map);
 
@@ -239,8 +239,9 @@ var Distromap = Class.create({
         poly.setPath(path);
         var center = bounds.getCenter();
 
-        this.map.panToBounds(bounds);
-        this.map.setCenter(center);
+//        this.map.panToBounds(bounds);
+//        this.map.setCenter(center);
+        this.map.fitBounds(bounds);
     },
     getUserLocation : function(map) {
         var nav = navigator;
