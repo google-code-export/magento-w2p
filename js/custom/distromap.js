@@ -82,14 +82,14 @@ function addMarker(polygon, coord, icon) {
 }
 
 function setSearch(map) {
-    var search_container = new Element('div', {'class': 'search-container'});
+    var search_container = new Element('div', {className: 'search-container'});
     search_container.setStyle({
         padding: '5px auto',
         width: '250px'
                               });
     var sub = new Element('button', {type: 'button', className: 'button search-button'}).update
             ('<span><span>Search</span></span>');
-    var input = new Element('input', {type: 'text', name: 'search', 'class': 'input-text search-input'});
+    var input = new Element('input', {type: 'text', className: 'input-text search-input'});
     search_container.insert(input).insert(sub);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(search_container);
     var doSearch = function(e) {
@@ -303,11 +303,11 @@ var Distromap = Class.create({
                         margin: '3em 0 0'
                       });
         hint.observe('click', function(e){
-            hint.remove();
+            Element.remove(hint);
         });
         link.observe('click', function(e){
-            if(hint.parentNode)
-                hint.remove();
+            if(hint && hint.parentNode)
+                Element.remove(hint);
         });
     }
 });
