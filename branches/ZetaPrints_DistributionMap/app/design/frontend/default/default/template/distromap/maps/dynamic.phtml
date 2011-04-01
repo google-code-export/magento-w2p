@@ -1,5 +1,6 @@
 <?php
 /** @var $this ZetaPrints_DistributionMap_Block_Map_Dynamic */
+// dynamic google map url
 $_baseurl = $this->getMapUrl();
 $_sensor = $this->getSensor(); //'true';
 // we may decide this dynamically at later stage
@@ -9,17 +10,15 @@ $_region = $this->getRegion(); // $_store -> getConfig('general/country/default'
 $_api = $this->getMapApi(); // '3.4';
 $height = $this->getMapHeight('product'); // 400;
 $width = $this->getMapWidth('product'); // 580;
+$zoom = $this->maphelper()->getInitialZoom(); // 12
+$lat = $this->maphelper()->getInitialLat();
+$lng = $this->maphelper()->getInitialLng();
+
 $_url_params = array('sensor' => $_sensor, 'libraries' => $_libraries, 'language' => $_language, 'region' => $_region, 'v' => $_api);
 $_url = $_baseurl . '?' . http_build_query($_url_params);
-// dynamic google map url
 
 // default hint text
-
-$hint = $this->__('Search for your location and click on the map multiple times to select an area.
-The selection will be saved with the order.
-Click on the marker to edit selection or click on the selection to start over.
-');
-$hint = $this->escapeHint($hint);
+$hint = $this->getHint();
 ?>
 <script type="text/javascript" src="<?php echo $_url;?>"></script>
 <script type="text/javascript">
@@ -46,15 +45,18 @@ $hint = $this->escapeHint($hint);
             if(id){
               var width = <?php echo (int)$width;?> + 'px';
               var height = <?php echo (int)$height;?> + 'px';
-                var config = {};
-                config.element = 'map_canvas_' + id;
-                config.storage = opt.identify();
-                config.marker_icon = '<?php echo $this->getMarkerIconUrl();?>';
-                var top = opt.getHeight();
-                var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="top: -' + top + 'px;'
-              + 'width: ' + width + '; height: ' + height + '"></div>';
-                opt.up().insert(map_canvas);
-                var map = new Distromap(config);
+              var config = {};
+              config.element = 'map_canvas_' + id;
+              config.storage = opt.identify();
+              config.zoom = <?php echo $zoom;?>;
+              config.lat = <?php echo $lat;?>;
+              config.lng = <?php echo $lng;?>;
+              config.marker_icon = '<?php echo $this->getMarkerIconUrl();?>';
+              var top = opt.getHeight();
+              var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="top: -' + top + 'px;'
+            + 'width: ' + width + '; height: ' + height + '"></div>';
+              opt.up().insert(map_canvas);
+              var map = new Distromap(config);
                 var hint_text = new Element('p', {'class': 'hint-text'}).update('<?php echo $hint;?>');
               var link_text = '<?php echo $this->__('Start now');?>';
               map.addHintOverlay(hint_text, link_text);

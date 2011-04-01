@@ -20,6 +20,7 @@ class ZetaPrints_DistributionMap_Model_Map
   const QUOTID = 'quote_item_id'; // every product added to cart has one
   const CREATED = 'created';
 
+  const API_VERSION = '3.4';
   protected function _construct(){
     $this->_init('distro_map/map');
   }

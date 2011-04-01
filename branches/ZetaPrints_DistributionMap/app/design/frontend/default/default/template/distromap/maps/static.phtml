@@ -3,6 +3,7 @@
 
 $height = $this->getMapHeight('cart'); // 640;
 $width = $this->getMapWidth('cart'); // 480;
+$zoom = $this->maphelper()->getInitialZoom();// 12
 ?>
 <script type="text/javascript">
   Event.observe(window, 'load', replaceStaticMap);
@@ -32,7 +33,7 @@ $width = $this->getMapWidth('cart'); // 480;
             var obj = full_value.evalJSON(true);
             opt.map_nodes = obj;
           }catch(e){
-            alert('JavaScript error. Cannot render map.');
+            alert('<?php echo $this->__('JavaScript error. Cannot render map.');?>');
             return;
           }
           opt.innerHTML = '<?php echo $this->__('Loading Google map');?>';
@@ -59,6 +60,7 @@ $width = $this->getMapWidth('cart'); // 480;
         var config = {};
         config.element = 'map_canvas_' + id;
         config.coords = opt.map_nodes;
+        config.zoom = <?php echo $zoom;?>;
         var top = opt.getHeight();
         var map_canvas = '<div class="map-canvas" id="' + config.element + '" style="width: ' + width + '; height: ' + height + '"></div>';
         opt.update(map_canvas);
