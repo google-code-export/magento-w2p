@@ -155,9 +155,9 @@ class ZetaPrints_DistributionMap_Helper_Data
   public function getMapWidth($page)
   {
     if (!in_array($page, $this->pages)) {
-      return $this->store->getConfig(self::CONFIG_PATH . 'product_width');
+      return $this->getStore()->getConfig(self::CONFIG_PATH . 'product_width');
     }
-    return $this->store->getConfig(self::CONFIG_PATH . $page . '_width');
+    return $this->getStore()->getConfig(self::CONFIG_PATH . $page . '_width');
   }
 
   /**
@@ -168,20 +168,21 @@ class ZetaPrints_DistributionMap_Helper_Data
    */
   public function getMapHeight($page)
   {
+    Mage::log($page);
     if (!in_array($page, $this->pages)) {
-      return $this->store->getConfig(self::CONFIG_PATH . 'product_height');
+      return $this->getStore()->getConfig(self::CONFIG_PATH . 'product_height');
     }
-    return $this->store->getConfig(self::CONFIG_PATH . $page . '_height');
+    return $this->getStore()->getConfig(self::CONFIG_PATH . $page . '_height');
   }
 
   public function getLanguage()
   {
-    return $this->store->getConfig('general/locale/code');
+    return $this->getStore()->getConfig('general/locale/code');
   }
 
   public function getRegion()
   {
-    return $this->store->getConfig('general/country/default');
+    return $this->getStore()->getConfig('general/country/default');
   }
 
   /**
