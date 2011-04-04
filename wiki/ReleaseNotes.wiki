@@ -17,6 +17,9 @@
   
 
 == Release comments ==
+
+It's recommended to uninstall previous versions of the extension firstly.
+
 Please, do following step if you don't use zptheme as default in Magento (e.i. if you previously copied everything from zptheme into the custom theme):
 
   * *Remove all previously copied files from the custom theme!*
