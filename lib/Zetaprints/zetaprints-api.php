@@ -33,7 +33,7 @@ function zetaprints_generate_user_password_hash ($password) {
   return md5($password.$ip);
 }
 
-function _string_to_date ($value) {
+function _zetaprints_string_to_date ($value) {
   if (!$value)
     return date('Y-m-d h:i:s');
 
@@ -54,7 +54,7 @@ function zetaprints_get_html_from_xml ($xml, $xslt, $params) {
     $xml_dom = $xml;
 
   $xslt_dom = new DOMDocument();
-  $xslt_dom->load(dirname(__FILE__).'/' . $xslt . '-html.xslt');
+  $xslt_dom->load(dirname(__FILE__).'/xslt/' . $xslt . '-html.xslt');
 
   $proc = new XSLTProcessor();
   $proc->importStylesheet($xslt_dom);
@@ -120,7 +120,8 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
                          'guid' => (string)$item->id,
                          'catalog_guid' => (string)$item->cid,
                          'description' => (string)$item->description,
-                         'date' => _string_to_date($item->lastModified),
+                         'date'
+                             => _zetaprints_string_to_date($item->lastModified),
                          'thumbnail' => (string)$item->thumbnail,
                          'image' => (string)$item->image);
 
@@ -138,7 +139,7 @@ function zetaprints_parse_template_details ($xml) {
 
   $template = array('guid' => (string) $xml['TemplateID'],
                      'corporate-guid' => (string) $xml['CorporateID'],
-                     'created' => _string_to_date($xml['Created']),
+                     'created' => _zetaprints_string_to_date($xml['Created']),
                      'comments' => (string) $xml['Comments'],
                      'url' => (string) $xml['AccessURL'],
                      'product-reference' => (string) $xml['ProductReference'],
@@ -297,9 +298,9 @@ function zetaprints_parse_order_details ($xml) {
   $order = array(
     'guid' => (string) $xml['OrderID'],
     'created-by' => (string) $xml['CreatedBy'],
-    'created' => _string_to_date($xml['Created']),
+    'created' => _zetaprints_string_to_date($xml['Created']),
     'status' => (string) $xml['Status'],
-    'billed-by-zp' => _string_to_date($xml['BilledByZP']),
+    'billed-by-zp' => _zetaprints_string_to_date($xml['BilledByZP']),
     'status-history' => (string) $xml['StatusHistory'],
     'product-price' => (float) $xml['ProductPrice'],
     'product-name' => (string) $xml['ProductName'],
@@ -421,9 +422,11 @@ function zetaprints_get_user_images ($url, $key, $data) {
   foreach ($xml->Image as $image)
     $images[] = array('folder' => (string)$image['Folder'],
                       'guid' => (string)$image['ImageID'],
-                      'created' => _string_to_date($image['Created']),
-                      'used' => _string_to_date($image['Used']),
-                      'updated' => _string_to_date($image['Updated']),
+                      'created'
+                               => _zetaprints_string_to_date($image['Created']),
+                      'used' => _zetaprints_string_to_date($image['Used']),
+                      'updated' =>
+                                  _zetaprints_string_to_date($image['Updated']),
                       'file_guid' => (string)$image['FileID'],
                       'mime' => (string)$image['MIME'],
                       'thumbnail' => (string)$image['Thumb'],
@@ -464,9 +467,11 @@ function zetaprints_download_customer_image ($url, $key, $data) {
   foreach ($xml->Image as $image)
     $images[] = array('folder' => (string)$image['Folder'],
                       'guid' => (string)$image['ImageID'],
-                      'created' => _string_to_date($image['Created']),
-                      'used' => _string_to_date($image['Used']),
-                      'updated' => _string_to_date($image['Updated']),
+                      'created' =>
+                                  _zetaprints_string_to_date($image['Created']),
+                      'used' => _zetaprints_string_to_date($image['Used']),
+                      'updated' =>
+                                  _zetaprints_string_to_date($image['Updated']),
                       'file_guid' => (string)$image['FileID'],
                       'mime' => (string)$image['MIME'],
                       'thumbnail' => (string)$image['Thumb'],
@@ -572,7 +577,7 @@ function zetaprints_register_user ($url, $key, $user_id, $password, $corporate_i
   return strpos($response['content']['body'], '<ok />') !== false ? true : false;
 }
 
-function _parse_http_headers ($headers_string) {
+function _zetaprints_parse_http_headers ($headers_string) {
   $lines = explode("\r\n", $headers_string);
 
   $headers = array();
@@ -589,16 +594,16 @@ function _parse_http_headers ($headers_string) {
   return $headers;
 }
 
-function _return ($content, $error = false) {
+function _zetaprints_return ($content, $error = false) {
   return array('error' => $error, 'content' => $content);
 }
 
-function ok ($content) {
-  return _return($content);
+function _zetaprints_ok ($content) {
+  return _zetaprints_return($content);
 }
 
-function error ($message) {
-  return _return($message, true);
+function _zetaprints_error ($message) {
+  return _zetaprints_return($message, true);
 }
 
 function zetaprints_has_error ($response) {
@@ -629,7 +634,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
 
   if (!curl_setopt_array($curl, $options)) {
     zetaprints_debug("Can't set options for curl");
-    return error("Can't set options for curl");
+    return _zetaprints_error("Can't set options for curl");
   }
 
   $output = curl_exec($curl);
@@ -644,7 +649,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
       if (function_exists('http_parse_headers'))
         $headers = http_parse_headers($output[0]);
       else
-        $headers = _parse_http_headers($output[0]);
+        $headers = _zetaprints_parse_http_headers($output[0]);
 
       $zetaprins_message = (is_array($headers) && isset($headers['X-ZP-API-Error-Msg'])) ? $headers['X-ZP-API-Error-Msg'] : '';
     }
@@ -653,7 +658,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     curl_close($curl);
 
     zetaprints_debug(array('Error' => $curl_error_message, 'Curl info' => $info, 'Data' => $output));
-    return error('Zetaprints error: ' . $zetaprins_message . '; Curl error: ' . $curl_error_message);
+    return _zetaprints_error('Zetaprints error: ' . $zetaprins_message . '; Curl error: ' . $curl_error_message);
   }
 
   curl_close($curl);
@@ -663,7 +668,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
   if (function_exists('http_parse_headers'))
     $headers = http_parse_headers($headers);
   else
-    $headers = _parse_http_headers($headers);
+    $headers = _zetaprints_parse_http_headers($headers);
 
   if (isset($info['content_type'])) {
     $type = explode('/', $info['content_type']);
@@ -675,7 +680,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
   } else
     zetaprints_debug(array('header' => $headers, 'body' => $content));
 
-  return ok(array('header' => $headers, 'body' => $content));
+  return _zetaprints_ok(array('header' => $headers, 'body' => $content));
 }
 
 ?>
