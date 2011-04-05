@@ -1,6 +1,6 @@
 <?php
 
-function zetaprints_debug ($msg = null) {
+function _zetaprints_debug ($msg = null) {
   $backtrace = debug_backtrace();
 
   $callee_name = $backtrace[1]['function'];

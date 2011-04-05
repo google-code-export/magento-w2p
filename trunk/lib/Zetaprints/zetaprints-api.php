@@ -64,7 +64,7 @@ function zetaprints_get_html_from_xml ($xml, $xslt, $params) {
 }
 
 function zetaprints_get_list_of_catalogs ($url, $key) {
-  zetaprints_debug();
+  _zetaprints_debug();
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-catalogs;ApiKey=$key");
 
   if (zetaprints_has_error($response))
@@ -73,7 +73,7 @@ function zetaprints_get_list_of_catalogs ($url, $key) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -92,13 +92,13 @@ function zetaprints_get_list_of_catalogs ($url, $key) {
                         'public' => (string)$item->access == 'public' ? true : false,
                         'keywords' => (string)$item->keywords);
 
-  zetaprints_debug(array('catalogs' => $catalogs));
+  _zetaprints_debug(array('catalogs' => $catalogs));
 
   return $catalogs;
 }
 
 function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-templates;CorporateID=$catalog_guid;ApiKey=$key");
 
@@ -108,7 +108,7 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -125,7 +125,7 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
                          'thumbnail' => (string)$item->thumbnail,
                          'image' => (string)$item->image);
 
-  zetaprints_debug(array('templates' => $templates));
+  _zetaprints_debug(array('templates' => $templates));
 
   return $templates;
 }
@@ -152,7 +152,7 @@ function zetaprints_parse_template_details ($xml) {
                                   ? (bool) $xml['GenerateGifPng'] : false );
 
   if (!$xml->Pages->Page) {
-    zetaprints_debug("No pages in tempalate [{$template['guid']}]");
+    _zetaprints_debug("No pages in tempalate [{$template['guid']}]");
 
     return $template;
   }
@@ -259,13 +259,13 @@ function zetaprints_parse_template_details ($xml) {
                                                                 = $field_array;
   }
 
-  zetaprints_debug(array('template' => $template));
+  _zetaprints_debug(array('template' => $template));
 
   return $template;
 }
 
 function zetaprints_get_template_detailes ($url, $key, $template_guid) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key");
 
@@ -275,7 +275,7 @@ function zetaprints_get_template_detailes ($url, $key, $template_guid) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -284,7 +284,7 @@ function zetaprints_get_template_detailes ($url, $key, $template_guid) {
 
 function zetaprints_get_template_details_as_xml ($url, $key, $template_guid,
                                                  $data = null) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-template;TemplateID=$template_guid;ApiKey=$key", $data);
 
@@ -328,13 +328,13 @@ function zetaprints_parse_order_details ($xml) {
   $order['template-details'] =
                       zetaprints_parse_template_details($xml->TemplateDetails);
 
-  zetaprints_debug(array('order' => $order));
+  _zetaprints_debug(array('order' => $order));
 
   return $order;
 }
 
 function zetaprints_get_order_details ($url, $key, $order_id) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order;ApiKey=$key;OrderID=$order_id");
 
@@ -344,7 +344,7 @@ function zetaprints_get_order_details ($url, $key, $order_id) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -352,7 +352,7 @@ function zetaprints_get_order_details ($url, $key, $order_id) {
 }
 
 function zetaprints_change_order_status ($url, $key, $order_id, $old_status, $new_status) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-order-status;ApiKey=$key;OrderID=$order_id",
                                               array('Status' => $new_status,
@@ -364,7 +364,7 @@ function zetaprints_change_order_status ($url, $key, $order_id, $old_status, $ne
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -372,7 +372,7 @@ function zetaprints_change_order_status ($url, $key, $order_id, $old_status, $ne
 }
 
 function zetaprints_update_preview ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $data['Xml'] = 1;
 
@@ -384,7 +384,7 @@ function zetaprints_update_preview ($url, $key, $data) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -392,7 +392,7 @@ function zetaprints_update_preview ($url, $key, $data) {
 }
 
 function zetaprints_get_preview_image_url ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-preview;ApiKey=$key", $data);
 
@@ -403,7 +403,7 @@ function zetaprints_get_preview_image_url ($url, $key, $data) {
 }
 
 function zetaprints_get_user_images ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-imgs;ApiKey=$key", $data);
 
@@ -413,7 +413,7 @@ function zetaprints_get_user_images ($url, $key, $data) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -437,13 +437,13 @@ function zetaprints_get_user_images ($url, $key, $data) {
                       'description' => (string)$image['Description'],
                       'length' => (int)$image['Length'] );
 
-  zetaprints_debug(array('images' => $images));
+  _zetaprints_debug(array('images' => $images));
 
   return $images;
 }
 
 function zetaprints_download_customer_image ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/API.aspx?page=api-img-new;ApiKey=$key", $data);
 
@@ -453,12 +453,12 @@ function zetaprints_download_customer_image ($url, $key, $data) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
   if (count($xml->Image) != 1) {
-    zetaprints_debug('Number of uploaded customer images is ' . count($xml->Image));
+    _zetaprints_debug('Number of uploaded customer images is ' . count($xml->Image));
     return null;
   }
 
@@ -482,16 +482,16 @@ function zetaprints_download_customer_image ($url, $key, $data) {
                       'description' => (string)$image['Description'],
                       'length' => (int)$image['Length'] );
 
-  zetaprints_debug(array('images' => $images));
+  _zetaprints_debug(array('images' => $images));
 
   return $images;
 }
 
 function zetaprints_get_edited_image_url ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   if (!isset($data['action']) || strlen($data['action']) == 0) {
-    zetaprints_debug('No picture edit action specified');
+    _zetaprints_debug('No picture edit action specified');
 
     return null;
   }
@@ -508,7 +508,7 @@ function zetaprints_get_edited_image_url ($url, $key, $data) {
 }
 
 function zetaprints_create_order ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $data['Xml'] = 1;
 
@@ -520,7 +520,7 @@ function zetaprints_create_order ($url, $key, $data) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -528,7 +528,7 @@ function zetaprints_create_order ($url, $key, $data) {
 }
 
 function zetaprints_get_order_id ($url, $key, $data) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $response = zetaprints_get_content_from_url("$url/api.aspx?page=api-order-save;ApiKey=$key", $data);
 
@@ -539,7 +539,7 @@ function zetaprints_get_order_id ($url, $key, $data) {
 }
 
 function zetaprints_complete_order ($url, $key, $order_guid, $new_guid = null) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   if ($new_guid)
     $new_guid_parameter = ";IDs={$new_guid}";
@@ -554,7 +554,7 @@ function zetaprints_complete_order ($url, $key, $order_guid, $new_guid = null) {
   try {
     $xml = new SimpleXMLElement($response['content']['body']);
   } catch (Exception $e) {
-    zetaprints_debug("Exception: {$e->getMessage()}");
+    _zetaprints_debug("Exception: {$e->getMessage()}");
     return null;
   }
 
@@ -562,7 +562,7 @@ function zetaprints_complete_order ($url, $key, $order_guid, $new_guid = null) {
 }
 
 function zetaprints_register_user ($url, $key, $user_id, $password, $corporate_id = null) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $request_url = "$url/api.aspx?page=api-user-new;ApiKey=$key;UserID=$user_id;Password=$password";
 
@@ -611,7 +611,7 @@ function zetaprints_has_error ($response) {
 }
 
 function zetaprints_get_content_from_url ($url, $data = null) {
-  zetaprints_debug();
+  _zetaprints_debug();
 
   $options = array(CURLOPT_URL => $url,
                    CURLOPT_HEADER => true,
@@ -628,12 +628,12 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     $options[CURLOPT_POSTFIELDS] = implode('&', $data_encoded);
   }
 
-  zetaprints_debug(array('curl options' => $options));
+  _zetaprints_debug(array('curl options' => $options));
 
   $curl = curl_init();
 
   if (!curl_setopt_array($curl, $options)) {
-    zetaprints_debug("Can't set options for curl");
+    _zetaprints_debug("Can't set options for curl");
     return _zetaprints_error("Can't set options for curl");
   }
 
@@ -657,7 +657,7 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     $curl_error_message = curl_error($curl);
     curl_close($curl);
 
-    zetaprints_debug(array('Error' => $curl_error_message, 'Curl info' => $info, 'Data' => $output));
+    _zetaprints_debug(array('Error' => $curl_error_message, 'Curl info' => $info, 'Data' => $output));
     return _zetaprints_error('Zetaprints error: ' . $zetaprins_message . '; Curl error: ' . $curl_error_message);
   }
 
@@ -674,11 +674,11 @@ function zetaprints_get_content_from_url ($url, $data = null) {
     $type = explode('/', $info['content_type']);
 
     if ($type[0] == 'image')
-      zetaprints_debug(array('header' => $headers, 'body' => 'Image'));
+      _zetaprints_debug(array('header' => $headers, 'body' => 'Image'));
     else
-      zetaprints_debug(array('header' => $headers, 'body' => $content));
+      _zetaprints_debug(array('header' => $headers, 'body' => $content));
   } else
-    zetaprints_debug(array('header' => $headers, 'body' => $content));
+    _zetaprints_debug(array('header' => $headers, 'body' => $content));
 
   return _zetaprints_ok(array('header' => $headers, 'body' => $content));
 }
