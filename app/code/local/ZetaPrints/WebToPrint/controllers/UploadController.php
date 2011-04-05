@@ -1,14 +1,8 @@
 <?php
 
-if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
-
-  if (file_exists($zetaprints_api_file))
-    require $zetaprints_api_file;
-}
-
 class ZetaPrints_WebToPrint_UploadController
-  extends Mage_Core_Controller_Front_Action {
+  extends Mage_Core_Controller_Front_Action
+  implements ZetaPrints_Api {
 
   public function indexAction () {
     $uploaded_file = $_FILES['customer-image'];

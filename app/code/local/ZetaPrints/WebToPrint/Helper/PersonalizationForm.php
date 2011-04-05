@@ -1,13 +1,8 @@
 <?php
 
-if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
-
-  if (file_exists($zetaprints_api_file))
-    require $zetaprints_api_file;
-}
-
-class ZetaPrints_WebToPrint_Helper_PersonalizationForm extends ZetaPrints_WebToPrint_Helper_Data {
+class ZetaPrints_WebToPrint_Helper_PersonalizationForm
+  extends ZetaPrints_WebToPrint_Helper_Data
+  implements ZetaPrints_Api {
 
   private function get_template_guid_from_product ($product) {
 
