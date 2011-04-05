@@ -1,13 +1,8 @@
 <?php
 
-if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
-
-  if (file_exists($zetaprints_api_file))
-    require $zetaprints_api_file;
-}
-
-class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating extends  Mage_Dataflow_Model_Convert_Mapper_Abstract {
+class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
+  extends  Mage_Dataflow_Model_Convert_Mapper_Abstract
+  implements ZetaPrints_Api {
 
   public function map () {
     //Always print debug information. Issue #80

@@ -1,11 +1,6 @@
 <?php
 
-if (!defined('ZP_API_VER')) {
-  $zetaprints_api_file = Mage::getRoot().'/code/local/ZetaPrints/Zpapi/Model/zp_api.php';
-
-  if (file_exists($zetaprints_api_file))
-    require $zetaprints_api_file;
-}
+require_once Mage::getRoot() . '/lib/ZetaPrints/zetaprints-api.php'
 
 $dir_name = zetaprints_generate_guid();
 
