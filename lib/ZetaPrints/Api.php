@@ -2,6 +2,6 @@
 
 require_once 'zetaprints-api.php';
 
-interface Zetaprints_Api {}
+interface ZetaPrints_Api {}
 
 ?>
