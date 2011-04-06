@@ -95,18 +95,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[A decimal number between -180 degrees and +180 degrees. Current
-                        coordinates represent New York City]]></comment>
+                            <comment><![CDATA[A decimal number between -180 degrees and +180 degrees.]]></comment>
                         </map_lng>
                         <map_zoom>
                             <label>Initial zoom level</label>
-                            <frontend_type>text</frontend_type>
+                            <frontend_type>select</frontend_type>
+                            <source_model>distro_map/source_zoom</source_model>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[A number between 0 and 20. 0 is entire earth,
-                            20 greatest resolution. 15 is ususaly detailed enough map of a city]]></comment>
+                            <comment><![CDATA[A number between 0 and 20.]]></comment>
                         </map_zoom>
                     </fields>
                     <comment><![CDATA[<strong>Set map sizes here</strong><br/><small>All sizes are in
