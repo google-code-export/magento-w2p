@@ -170,6 +170,18 @@
           </webtoprint-restore-credentials-in-customer>
         </observers>
       </customer_save_before>
+
+      <checkout_type_onepage_save_order_after>
+      <!--checkout_onepage_controller_success_action-->
+        <observers>
+          <webtoprint-complete-zetaprints-order>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>complete_zetaprints_order</method>
+          </webtoprint-complete-zetaprints-order>
+        </observers>
+      <!--/checkout_onepage_controller_success_action-->
+      </checkout_type_onepage_save_order_after>
     </events>
 
     <sales>

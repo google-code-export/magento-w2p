@@ -112,7 +112,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
     ) );
 
     //Append translations to xml
-    $locale_file = Mage::getBaseDir('locale').DS.Mage::app()->getLocale()->getLocaleCode().DS.'ZetaPrints_Zpapi.csv';
+    $locale_file = Mage::getBaseDir('locale') . DS
+                   . Mage::app()->getLocale()->getLocaleCode() .DS
+                   .'ZetaPrints_WebToPrint.csv';
 
     $custom_translations_file = Mage::getBaseDir('locale') . DS
                                 . Mage::app()->getLocale()->getLocaleCode() . DS
