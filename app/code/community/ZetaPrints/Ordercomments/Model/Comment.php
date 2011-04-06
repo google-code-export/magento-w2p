@@ -106,8 +106,9 @@ class ZetaPrints_Ordercomments_Model_Comment
       $this->setCommentId($comment_id);
       $this->setCustomerId($customer_id);
       $this->save();
+      $comment = $history->getData('comment');
 
-      $this->notifyAdmin($order, $history->getData('comment'));
+      $this->notifyAdmin($order, $comment);
     }
 
     return $history;

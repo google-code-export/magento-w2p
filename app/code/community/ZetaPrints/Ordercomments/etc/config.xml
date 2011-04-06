@@ -104,7 +104,28 @@
           <file>customer_order_template.html</file>
           <type>html</type>
         </customer_order_comment>
+        <zp_email_order_comment_template translate="label" module="ZetaPrints_Ordercomments">
+           <label>Order Comment Update</label>
+           <file>sales/zp_order_update.html</file>
+           <type>html</type>
+        </zp_email_order_comment_template>
+        <zp_email_order_comment_guest_template translate="label" module="ZetaPrints_Ordercomments">
+           <label>Order Comment Update for Guest</label>
+           <file>sales/zp_order_update_guest.html</file>
+           <type>html</type>
+        </zp_email_order_comment_guest_template>
       </email>
     </template>
   </global>
+  <default>
+    <sales_email>
+      <order_comment>
+        <enabled>1</enabled>
+        <template>zp_email_order_comment_template</template>
+        <guest_template>zp_email_order_comment_guest_template</guest_template>
+        <identity>sales</identity>
+        <copy_method>bcc</copy_method>
+      </order_comment>
+    </sales_email>
+  </default>
 </config>
