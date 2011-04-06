@@ -10,15 +10,7 @@ class ZetaPrints_DistributionMap_Model_Source_Zoom
 {
   /**
    * Return formatted zoom levels
-   *       1 => 'Entire earth',
-      3 => 'Continent - North America',
-      4 => 'Big country - US, China, Russia, Australia',
-      8 => 'State',
-      10 => 'Big city',
-      12 => 'Town, suburb',
-      15 => 'Neighbourhood',
-      18 => 'Street block',
-      20 => 'Individual building',
+   *      
    * @return array
    */
   public function toOptionArray()
