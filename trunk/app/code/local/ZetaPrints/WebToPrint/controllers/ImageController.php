@@ -29,8 +29,8 @@ class ZetaPrints_WebToPrint_ImageController
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     echo zetaprints_get_edited_image_url($url, $key, $params);
   }

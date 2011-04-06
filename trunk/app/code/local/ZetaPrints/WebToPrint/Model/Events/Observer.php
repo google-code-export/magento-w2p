@@ -37,8 +37,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     $order_details = zetaprints_create_order($url, $key, $params);
 
@@ -179,9 +179,9 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
       if ($image_exists) break;
 
       $client = new Varien_Http_Client(
-                                  Mage::getStoreConfig('zpapi/settings/w2p_url')
-                                  . '/'
-                                  . (string)$page['PreviewImage']);
+                                 Mage::getStoreConfig('webtoprint/settings/url')
+                                 . '/'
+                                 . (string)$page['PreviewImage']);
 
       $filename = Mage::getBaseDir('var') . "/tmp/zetaprints_{$image_id}";
 
@@ -237,8 +237,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
        || $order->getState() == Mage_Sales_Model_Order::STATE_CANCELED))
       return;
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     //For every item in the order
     foreach ($order->getAllItems() as $item) {
@@ -337,8 +337,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
           && $options['info_buyRequest']['zetaprints-reordered'] === true)
         continue;
 
-      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+      $url = Mage::getStoreConfig('webtoprint/settings/url');
+      $key = Mage::getStoreConfig('webtoprint/settings/key');
 
       //GUID for ZetaPrints order which was saved on Add to cart step
       $current_order_id = $options['info_buyRequest']['zetaprints-order-id'];

@@ -51,8 +51,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       Mage::register('webtoprint-user-was-registered', $user_was_registered);
 
       if ($user_was_registered) {
-        $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-        $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+        $url = Mage::getStoreConfig('webtoprint/settings/url');
+        $key = Mage::getStoreConfig('webtoprint/settings/key');
 
         $data = array(
           'ID' => $user_credentials['id'],
@@ -107,9 +107,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       }
     }
 
-    $params = array_merge($params, array(
-      'zetaprints-api-url' => Mage::getStoreConfig('zpapi/settings/w2p_url') . '/',
-    ) );
+    $params = array_merge(
+      $params,
+      array('zetaprints-api-url'
+                      => Mage::getStoreConfig('webtoprint/settings/url') . '/' )
+    );
 
     //Append translations to xml
     $locale_file = Mage::getBaseDir('locale') . DS
@@ -273,7 +275,9 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
 
     //If item has low resolution link to PDF...
     if (isset($options['zetaprints-order-lowres-pdf'])) {
-      $href = Mage::getStoreConfig('zpapi/settings/w2p_url') . $options['zetaprints-order-lowres-pdf'];
+      $href = Mage::getStoreConfig('webtoprint/settings/url')
+              . $options['zetaprints-order-lowres-pdf'];
+
       $title = $this->__('PDF Proof');
 
       //... show it
@@ -411,8 +415,8 @@ jQuery(document).ready(function($) {
   }
 
   private function add_user_images ($xml) {
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     $user_credentials = $this->get_zetaprints_credentials();
 
@@ -447,8 +451,8 @@ jQuery(document).ready(function($) {
   }
 
   private function replace_user_input_from_order_details($template, $order_guid) {
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     $order_details = zetaprints_get_order_details($url, $key, $order_guid);
 
@@ -620,8 +624,9 @@ jQuery(document).ready(function($) {
     //interface) and ZetaPrints Order ID option is in the item then...
     if (!$item && isset($options['zetaprints-order-id'])) {
       //... create URL to order details on web-to-print site
-      $zp_order_url = Mage::getStoreConfig('zpapi/settings/w2p_url')
-        . '?page=order-details;OrderID=' . $options['zetaprints-order-id'];
+      $zp_order_url = Mage::getStoreConfig('webtoprint/settings/url')
+                      . '?page=order-details;OrderID='
+                      . $options['zetaprints-order-id'];
 
       //Display it on the page
       $webtoprint_links .=" <a target=\"_blank\" href=\"{$zp_order_url}\">ZP order</a>";
@@ -642,7 +647,7 @@ jQuery(document).ready(function($) {
     $previews = explode(',', $options['zetaprints-previews']);
     $group = 'group-' . mt_rand();
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
 ?>
     <tr class="border zetaprints-previews">
       <td class="last" colspan="<?php echo $item ? 5 : 10; ?>">
@@ -863,7 +868,7 @@ jQuery(document).ready(function($) {
       'is_personalization_step' => $this->is_personalization_step($context),
       'update_first_preview_on_load' => $update_first_preview_on_load,
       'has_shapes' => $has_shapes,
-      'w2p_url' => Mage::getStoreConfig('zpapi/settings/w2p_url'),
+      'w2p_url' => Mage::getStoreConfig('webtoprint/settings/url'),
       'options' => $this->getCustomOptions(),
       'url' => array(
         'preview' => $this->_getUrl('web-to-print/preview'),

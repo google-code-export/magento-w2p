@@ -271,6 +271,28 @@
     </routers>
   </admin>
 
+  <adminhtml>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <webtoprint>
+                      <title>ZetaPrints Web-to-print Integration</title>
+                    </webtoprint>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+
   <stores>
     <admin>
       <design>
@@ -284,4 +306,11 @@
     </admin>
   </stores>
 
+  <default>
+    <webtoprint>
+      <settings>
+        <templates-removing-behaviour>-1</templates-removing-behaviour>
+      </settings>
+    </webtoprint>
+  </default>
 </config>

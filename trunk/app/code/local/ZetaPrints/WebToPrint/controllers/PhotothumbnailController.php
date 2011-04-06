@@ -22,7 +22,8 @@ class ZetaPrints_WebToPrint_PhotothumbnailController
     if (($width + $height) != 0)
       $guid = str_replace('.', "_{$width}x{$height}.", $guid);
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url') . '/photothumbs/' . $guid;
+    $url = Mage::getStoreConfig('webtoprint/settings/url') . '/photothumbs/'
+           . $guid;
 
     $response = zetaprints_get_content_from_url($url);
 

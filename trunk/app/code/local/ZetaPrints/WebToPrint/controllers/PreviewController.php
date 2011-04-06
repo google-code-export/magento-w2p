@@ -86,8 +86,8 @@ class ZetaPrints_WebToPrint_PreviewController
     $params['ID'] = $user_credentials['id'];
     $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     $templates_details = zetaprints_update_preview($url, $key, $params);
 
@@ -115,7 +115,8 @@ class ZetaPrints_WebToPrint_PreviewController
 
     $guid = $this->getRequest()->get('guid');
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url') . '/preview/' . $guid;
+    $url = Mage::getStoreConfig('webtoprint/settings/url') . '/preview/'
+           . $guid;
 
     $response = zetaprints_get_content_from_url($url);
 
@@ -166,7 +167,8 @@ class ZetaPrints_WebToPrint_PreviewController
       return;
     }
 
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url') . '/preview/' . $guid;
+    $url = Mage::getStoreConfig('webtoprint/settings/url') . '/preview/'
+           . $guid;
 
     //Download preview image from ZetaPrinrs
     $response = zetaprints_get_content_from_url($url);
