@@ -49,9 +49,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
             continue;
           }
 
-          $behaviour = (int) Mage::getStoreConfig('zpapi/settings/templates-removing-behaviour');
+          $behaviour = (int) Mage::getStoreConfig('webtoprint/settings/templates-removing-behaviour');
 
-          if ($behaviour == ZetaPrints_Zpapi_Model_TemplateDeletingBehaviour::NONE) {
+          if ($behaviour == ZetaPrints_WebToPrint_Model_System_Config_Source_TemplateDeletingBehaviour::NONE) {
             foreach ($products as $product) {
               $full_product = $product_model->load($product->getId());
 
@@ -68,7 +68,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
 
             $template->delete();
 
-          } elseif ($behaviour == ZetaPrints_Zpapi_Model_TemplateDeletingBehaviour::DELETE) {
+          } elseif ($behaviour == ZetaPrints_WebToPrint_Model_System_Config_Source_TemplateDeletingBehaviour::DELETE) {
             foreach ($products as $product) {
               $full_product = $product_model->load($product->getId());
 

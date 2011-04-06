@@ -21,7 +21,8 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
       return parent::_getUrl('web-to-print/preview/get',
                               array('guid' => $guid, '_secure' => true) );
 
-    return Mage::getStoreConfig('zpapi/settings/w2p_url') . '/preview/' . $guid;
+    return Mage::getStoreConfig('webtoprint/settings/url') . '/preview/'
+           . $guid;
   }
 
   public function get_thumbnail_url ($guid, $width = 0, $height = 0) {
@@ -34,7 +35,7 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     if (($width + $height) != 0)
       $guid = str_replace('.', "_{$width}x{$height}.", $guid);
 
-    return Mage::getStoreConfig('zpapi/settings/w2p_url') . '/thumb/' . $guid;
+    return Mage::getStoreConfig('webtoprint/settings/url') . '/thumb/' . $guid;
   }
 
   public function get_photo_thumbnail_url ($guid, $width = 0, $height = 0) {
@@ -47,7 +48,8 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     if (($width + $height) != 0)
       $guid = str_replace('.', "_{$width}x{$height}.", $guid);
 
-    return Mage::getStoreConfig('zpapi/settings/w2p_url') . '/photothumbs/' . $guid;
+    return Mage::getStoreConfig('webtoprint/settings/url') . '/photothumbs/'
+           . $guid;
   }
 
   public function get_image_editor_url ($guid) {
@@ -184,8 +186,8 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
       $id = zetaprints_generate_guid();
       $password = zetaprints_generate_password();
 
-      $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-      $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+      $url = Mage::getStoreConfig('webtoprint/settings/url');
+      $key = Mage::getStoreConfig('webtoprint/settings/key');
 
       if (zetaprints_register_user($url, $key, $id, $password)) {
         $credentials = array('id' => $id, 'password' => $password);

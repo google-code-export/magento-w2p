@@ -5,8 +5,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template
   implements ZetaPrints_Api {
 
   public function parse() {
-    $url = Mage::getStoreConfig('zpapi/settings/w2p_url');
-    $key = Mage::getStoreConfig('zpapi/settings/w2p_key');
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
 
     //Always print debug information. Issue #80
     $this->debug = true;
@@ -21,7 +21,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Template
     else
       $this->error("ZetaPrints API Key is empty");
 
-    $refresh_templates = (bool)(int)Mage::getStoreConfig('zpapi/settings/w2p_refresh');
+    $refresh_templates
+         = (bool) Mage::getStoreConfig('webtoprint/settings/refresh-templates');
+
     if ($refresh_templates)
       $this->warning('Refresh all templates');
 
