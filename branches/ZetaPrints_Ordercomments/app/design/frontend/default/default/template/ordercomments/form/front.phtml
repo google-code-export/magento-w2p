@@ -45,7 +45,8 @@ $_helper = Mage::helper('ordercomments');
               dl = commentsStack[0];
             }
             var comment_date = new Element('dt').update(result.created);
-            var comment = new Element('dd', {'class': 'customer-comment'}).update("<strong>You:</strong> " + result.comment.escapeHTML());
+            var comment_text = result.comment.escapeHTML().split('\n').join('<br/>');
+            var comment = new Element('dd', {'class': 'customer-comment'}).update("<strong>You:</strong><br/> " + comment_text);
                               // Wrap customer comments in span to style them
             dl.insert({top: comment}).insert({top: comment_date});
             comment_date.scrollTo();

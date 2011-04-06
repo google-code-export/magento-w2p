@@ -9,12 +9,12 @@ if (typeof Prototype != 'undefined') { // check that Prototype is loaded
         var cont = comm.innerHTML;
         var br = /&lt;br\s*?\/?&gt;/;
         cont = cont.gsub(br, '<br/>');
-        if (cont.endsWith('...customer')) {
-          var l = cont.length - '...customer'.length;
-          cont = cont.substr(0, l);
+        var costumer_regex = /\.\.\.customer\s*/;
+        if (cont.match(costumer_regex)) {
+          cont = cont.replace(costumer_regex, '');
           comm.addClassName('customer-comment').update(cont).insert({top: '<strong>You:</strong><br/>'});
         }else{
-          comm.insert({top: '<strong>Admin:</strong><br/>'});
+          comm.update(cont).insert({top: '<strong>Admin:</strong><br/>'});
         }
       });
       dl.removeClassName('hide');
