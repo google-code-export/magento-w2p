@@ -71,10 +71,11 @@ div.fieldbox.ui-draggable div.fieldbox-head {
 }
 
 div.fieldbox div.fieldbox-head a.button {
+  display: block;
   background-image: url('../images/in-preview-edit-sprite.png');
   float: right;
   text-decoration: none;
-  margin-top: 1px;
+  margin: 1px 0px 0px 3px;
   height: 16px;
   width: 16px;
   cursor: pointer;
@@ -84,13 +85,11 @@ div.fieldbox div.fieldbox-head a.button.close {
   background-position: 0px -20px;
 }
 
-div.fieldbox a.button.save,
-div.fieldbox.fieldbox-changed-state a.button.close {
+div.fieldbox div.fieldbox-head a.button.save {
   display: none;
 }
 
-div.fieldbox a.button.close,
-div.fieldbox.fieldbox-changed-state a.button.save {
+div.fieldbox.fieldbox-changed-state div.fieldbox-head a.button.save {
   display: block;
 }
 

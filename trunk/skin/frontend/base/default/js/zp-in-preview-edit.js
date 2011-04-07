@@ -153,7 +153,7 @@ function popup_field_by_name (name, position) {
   jQuery(field).focus();
 }
 
-function popdown_field_by_name (name) {
+function popdown_field_by_name (name, reset_value) {
   if (name)
     var field = jQuery('*[value="'+ name +'"]', jQuery('div#fancybox-content'));
   else
@@ -181,10 +181,17 @@ function popdown_field_by_name (name) {
   //!!! Stupid work around for stupid IE7
   $input.change().attr('checked', 1);
 
-  jQuery(element).data('original-value', undefined);
+  if (!jQuery(element).parent().hasClass('zetaprints-images-selector')) {
+    if (reset_value)
+      element.val(element.data('original-value')).keyup();
 
-  if (!jQuery(element).parent().hasClass('zetaprints-images-selector'))
     jQuery(element).parent().css('position', 'relative');
+  } else if (reset_value)
+    element.find('*[value="' + element.data('original-value') +'"]')
+      .change()
+      .attr('checked', 1)
+
+  jQuery(element).data('original-value', undefined);
 
   jQuery(field).remove();
 
@@ -317,7 +324,7 @@ function add_in_preview_edit_handlers () {
   });
 
   jQuery('div.fieldbox-head a').live('click', function () {
-    popdown_field_by_name(jQuery(this).attr('rel'));
+    popdown_field_by_name(jQuery(this).attr('rel'), jQuery(this).hasClass('close'));
     dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
     return false;
   });
