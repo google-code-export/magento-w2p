@@ -30,13 +30,14 @@ function place_all_shapes_for_page (shapes, container, shape_handler) {
     return;
 
   for (name in shapes)
-    place_shape({
-      left: shapes[name]._x1,
-      top: shapes[name]._y1,
-      width: shapes[name]._x2 - shapes[name]._x1,
-      height: shapes[name]._y2 - shapes[name]._y1,
-      name: name,
-      edited: shapes[name].edited }, container, shape_handler);
+    if (!shapes[name].hidden)
+      place_shape({
+        left: shapes[name]._x1,
+        top: shapes[name]._y1,
+        width: shapes[name]._x2 - shapes[name]._x1,
+        height: shapes[name]._y2 - shapes[name]._y1,
+        name: name,
+        edited: shapes[name].edited }, container, shape_handler);
 }
 
 function remove_all_shapes (container) {
