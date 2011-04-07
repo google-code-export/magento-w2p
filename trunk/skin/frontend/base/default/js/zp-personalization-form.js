@@ -170,6 +170,12 @@ function personalization_form ($) {
       '" /></a>')
     .children()
     .bind('load', {page_number: page_number}, function (event) {
+
+      //Hide notice about image loading
+      $('div.zetaprints-preview-button span.text, ' +
+          'div.zetaprints-preview-button img.ajax-loader')
+            .css('display', 'none');
+
       //Hide placeholder and spinner after image has loaded
       $('#zp-placeholder-for-preview-' + event.data.page_number)
         .addClass('zp-hidden');
@@ -473,10 +479,6 @@ function personalization_form ($) {
         if (zp.update_first_preview_on_load)
           //.. remove over-image spinner
           $('div#zetaprints-first-preview-update-spinner').remove();
-
-        $('div.zetaprints-preview-button span.text, ' +
-          'div.zetaprints-preview-button img.ajax-loader')
-            .css('display', 'none');
 
         $(update_preview_button).show(); }
     });
