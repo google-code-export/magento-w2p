@@ -67,7 +67,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       try {
         $xml = new SimpleXMLElement($template_xml);
       } catch (Exception $e) {
-        zetaprints_debug("Exception: {$e->getMessage()}");
+        Mage::log("Exception: {$e->getMessage()}");
+
         return false;
       }
 
@@ -592,7 +593,8 @@ jQuery(document).ready(function($) {
       try {
         $xml = new SimpleXMLElement($template->getXml());
       } catch (Exception $e) {
-        zetaprints_debug("Exception: {$e->getMessage()}");
+        Mage::log("Exception: {$e->getMessage()}");
+
         return;
       }
 
@@ -801,7 +803,7 @@ jQuery(document).ready(function($) {
         try {
           $xml = new SimpleXMLElement($xml = $template->getXml());
         } catch (Exception $e) {
-          zetaprints_debug("Exception: {$e->getMessage()}");
+          Mage::log("Exception: {$e->getMessage()}");
         }
     }
 
