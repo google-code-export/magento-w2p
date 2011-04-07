@@ -186,7 +186,8 @@ function zetaprints_parse_template_details ($xml) {
           'x2' => (float) $shape['X2'],
           'y2' => (float) $shape['Y2'],
           'anchor-x' => (float) $shape['AnchorX'],
-          'anchor-y' => (float) $shape['AnchorY'] );
+          'anchor-y' => (float) $shape['AnchorY'],
+          'hidden' => $page_number > 1 );
       }
 
       $template['pages'][$page_number]['shapes'] =
@@ -257,6 +258,11 @@ function zetaprints_parse_template_details ($xml) {
 
     $template['pages'][$page_number]['fields'][(string) $field['FieldName']]
                                                                 = $field_array;
+
+    if ($page_number > 1)
+      foreach ($template['pages'][$page_number]['shapes'] as $shape)
+        if ($shape['name'] == $field_array['name'])
+          $shape['hidden'] = false;
   }
 
   _zetaprints_debug(array('template' => $template));
