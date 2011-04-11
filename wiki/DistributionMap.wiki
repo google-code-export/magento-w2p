@@ -22,8 +22,7 @@ Rest of the settings are as usual - price correction, sku, order etc.
 
 It is crucial to have title in above format, this is what DM code uses to detect a map option both in frontend and backend code.
 
-When product page is opened with a custom option following above rules, DM JavaScript starts and puts a map above default text field and effectively hides it.
-It must be noted that original text field is not hidden using css rules but just by putting the map on top of it. This is important to know when setting map size in admin. Map should be wide enough to hide the text field.
+When product page is opened with a custom option following above rules, DM JavaScript starts and puts a map on top of the default text field and the field is hidden using css rule 'visibility: hidden'
 
 When map is shown initially it is partially covered with an explanation text about what user should do with it. In the text there is a _Start now_ link that closes the hint overlay and allows map to take interactions.
 
@@ -33,7 +32,8 @@ On last clicked point there is a marker displayed. Clicking on the marker will d
 
 Clicking on the shape it self raises JavaScript confirmation alert asking whether to delete entire shape and start over.
 
-Initially map is centered above New York City. This is hard coded. In top part of the map there is a search text box where user can enter an address and click Search button next to it. Then Google services will do their best to find a match.
+Initially map is centered above location set in admin settings at a zoom level that can also be set there.
+In top part of the map there is a search text box where user can enter an address and click Search button next to it. Then Google services will do their best to find a match.
 When match is found, the map is centered on top of it and an Info window is shown with the address that Google shows and its coordinates.
 
 After every click, the coordinates are saved as value of the original text field. This way we are actually providing value for it and it will be saved easily by Magento built in system without much effort from us. This is especially helpful when the option is required and its presence is verified upon adding product to cart.
