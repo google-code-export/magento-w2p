@@ -151,9 +151,12 @@
   left: 290px;
   top: 112px;
   overflow: hidden;
-        border: 1px solid;
-        color: #898989;
-        cursor: pointer;
+  border: 1px solid;
+  color: #898989;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
 }
 .colorpicker_cancel {
   position: absolute;
@@ -163,9 +166,12 @@
   left: 290px;
   top: 140px;
   overflow: hidden;
-        border: 1px solid;
-        color: #898989;
-        cursor: pointer;
+  border: 1px solid;
+  color: #898989;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: center;
 }
 .colorpicker_focus {
   background-position: center;
