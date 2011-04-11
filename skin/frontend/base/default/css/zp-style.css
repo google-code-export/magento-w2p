@@ -146,6 +146,7 @@ div.images-scroller input {
 div.images-scroller img {
   vertical-align: baseline;
   max-height: 100px;
+  border: none;
 }
 
 div.images-scroller a.edit-dialog {
@@ -323,6 +324,11 @@ div.selector-content ul.tab-buttons {
   overflow: hidden;
   float: left;
   width: 10em;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 div.selector-content ul.tab-buttons li {

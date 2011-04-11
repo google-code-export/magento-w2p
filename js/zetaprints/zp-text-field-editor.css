@@ -6,6 +6,7 @@ div.zp-text-field-editor {
   height: 16px;
   font-size: 10px;
   color: #909090;
+  line-height: 1.55;
 }
 
 div.zp-text-field-editor-handle {
