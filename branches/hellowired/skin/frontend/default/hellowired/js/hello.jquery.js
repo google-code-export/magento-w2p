@@ -10,7 +10,7 @@ var Cufon=(function(){var m=function(){return m.replace.apply(null,arguments)};v
  * The following copyright notice may not be removed under any circumstances.
  *
  * Copyright:
- * � 2008 Microsoft Corporation. All rights reserved.
+ * © 2008 Microsoft Corporation. All rights reserved.
  *
  * Description:
  * Gautami is an OpenType font for the Indic script-Telugu. It is based on
@@ -24,7 +24,7 @@ Cufon.registerFont({"w":184,"face":{"font-family":"Gautami","font-weight":400,"f
  * The following copyright notice may not be removed under any circumstances.
  *
  * Copyright:
- * � 2008 Microsoft Corporation. All rights reserved.
+ * © 2008 Microsoft Corporation. All rights reserved.
  *
  * Description:
  * Gautami is an OpenType font for the Indic script-Telugu. It is based on

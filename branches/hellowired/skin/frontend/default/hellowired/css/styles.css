@@ -652,6 +652,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .mini-products-list .product-details { margin-left:60px; }
 
 /* Block: Account */
+.catalog-listing .product-image img {display:block;overflow:hidden;width:170px;height:170px;}
 .block-account .block-title { border:0; background:#666; }
 .block-account .block-title strong { color:#fff; }
 .block-account .block-content li a { display:block; border-bottom:1px solid #ddd; padding:3px 0; color:#5f5d5c; text-decoration:none !important; }
