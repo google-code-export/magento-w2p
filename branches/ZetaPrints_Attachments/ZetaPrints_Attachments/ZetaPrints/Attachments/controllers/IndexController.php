@@ -44,10 +44,16 @@ class ZetaPrints_Attachments_IndexController extends Mage_Core_Controller_Front_
     }
     /* @var $product Mage_Catalog_Model_Product */
     $buyRequest = new Varien_Object(array ('qty' => 0,  // try not to add product to cart yet
-                                          'product' => $product->getId()
+                                          'product' => $product->getId(),
     ));
     try {
-      $result = $product->getTypeInstance(true)->prepareForCart($buyRequest, $product);
+      /** @var $type Mage_Catalog_Model_Product_Type_Abstract */
+      $type = $product->getTypeInstance(true);
+      if(method_exists($type, 'prepareForCartAdvanced')){
+        $result = $type->prepareForCartAdvanced($buyRequest, $product, Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE);
+      }else{
+        $result = $type->prepareForCart($buyRequest, $product);
+      }
     } catch (Exception $e) {
       $response->setBody(($this->_jsonError($e->getMessage())));
       return;
