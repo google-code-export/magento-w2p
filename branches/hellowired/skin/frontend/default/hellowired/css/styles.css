@@ -1775,3 +1775,12 @@ body.checkout-onepage-success div.col-main a
 {
     color: #ce6000;
 }
+
+.zetaprints-page-stock-images .block, .zetaprints-page-stock-images .block-title
+{
+    background: transparent;
+}
+
+#zetaprints-fake-add-to-cart-button span {
+    background-color: transparent;
+}
