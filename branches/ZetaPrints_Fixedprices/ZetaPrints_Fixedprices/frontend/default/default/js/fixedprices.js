@@ -97,6 +97,33 @@ function setRadioToQty(qty, radio, fixedPrices)
 
     if(undefined !== value && undefined !== fake_qty){
       fake_qty.value = qty.value = value;
+      var subProducts = $$('.super-attribute-select'); // these are configurable products drop-downs,
+      // there can be more than one
+      if(subProducts.size() > 0){
+        subProducts.each(function(element){
+          var subPrice;
+          var origSubPrice;
+          var option;
+          for(var i=0;i<element.options.length;i++){
+            if (element.options[i].config) {
+              option = element.options[i];
+              subPrice = parseFloat(option.config.price);
+              if(option.config.original_price){
+                subPrice = option.config.original_price;
+              }else {
+                option.config.original_price = subPrice;
+              }
+
+              option.config.price = subPrice * value;
+            }
+          }
+
+          if(typeof spConfig != 'undefined') { // spConfig is the object created to handle configurable prducts
+// it is defined in /app/design/frontend/base/default/template/catalog/product/view/type/options/configurable.phtml
+            spConfig.configureElement(element);
+          }
+        });
+      }
     }
 
     if(undefined !== price){

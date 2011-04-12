@@ -94,6 +94,7 @@
       <catalog>
         <rewrite>
           <product_type_price>ZetaPrints_Fixedprices_Model_Fixedprices</product_type_price>
+          <product_type_configurable_price>ZetaPrints_Fixedprices_Model_Configurable_Fixedprices</product_type_configurable_price>
         </rewrite>
       </catalog>
       <sales>
