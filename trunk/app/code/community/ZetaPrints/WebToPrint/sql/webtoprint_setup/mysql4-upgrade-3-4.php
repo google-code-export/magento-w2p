@@ -1,6 +1,6 @@
 <?php
 
-require_once Mage::getRoot() . '/lib/ZetaPrints/zetaprints-api.php'
+require_once Mage::getBaseDir() . '/lib/ZetaPrints/zetaprints-api.php';
 
 $dir_name = zetaprints_generate_guid();
 
