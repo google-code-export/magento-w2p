@@ -11,6 +11,8 @@
         <show_in_website>1</show_in_website>
         <show_in_store>0</show_in_store>
 
+        <sort_order>200</sort_order>
+
         <groups>
           <settings translate="label">
             <label>Settings</label>
