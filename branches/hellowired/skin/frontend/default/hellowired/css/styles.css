@@ -628,6 +628,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Sidebar =============================================================================== */
 .block { background: #fff url(../images/background/block_bg_repeat.gif) repeat-y top left;  margin:0 0 15px; line-height:1.35;padding-right: 0px;}
+.paypal-logo { margin: 0 0 15px;}
 .block .block-title {  background: #1f1f1f url(../images/background/block_title_alt.gif) no-repeat; padding: 10px 8px 8px 10px; margin-right: 0px;}
 .block .block-title strong { display:block; font:bold 12px/1.5 Arial, Helvetica, sans-serif; text-transform:uppercase; color:#fff;text-shadow: 0px -1px #000; }
 .block .block-title strong span {}
@@ -1081,7 +1082,7 @@ f/********** Product Prices > */
 .product-view .box-tags .form-add label { display:block; font-size:12px; font-weight:bold; margin:0 0 3px; }
 .product-view .box-tags .form-add .input-box { float:left; width:305px; margin:0 5px 0 0; }
 .product-view .box-tags .form-add input.input-text { width:299px; }
-.product-view .box-tags .form-add button.button span { height:23px; background-image:url(../images/bkg_btn-small.png); line-height:20px; }
+.product-view .box-tags .form-add button.button span { height:23px; background-image:url(../images/bkg_btn-small.png); line-height:20px; text-shadow: 0 1px #ffffff !important; color: #ce6000;}
 .product-view .box-tags .note { margin:2px 0 0; font-size:10px; }
 
 /* Block: Reviews */
@@ -1605,7 +1606,7 @@ f/********** Product Prices > */
 .footer li { display: block; padding:0 5px 5px 0; margin:0 3px 0 0; }
 .footer .links li.last { background:none !important; padding-right:0 !important; }
 
-.copyright {  -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px;position:relative; clear:both; border-top: 1px solid #ddd;  background: #333; padding: 0px 20px;  height: 40px;  }
+.copyright {  -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px;position:relative; clear:both; border-top: 1px solid #ddd;  background: #333; padding: 0px 20px;  height: auto;  }
 .copyright { color: #CCC; }
 .copyright address,.copyright .f-right {line-height: 40px; }
 .copyright .f-right img { padding-top: 8px;}
@@ -1783,4 +1784,15 @@ body.checkout-onepage-success div.col-main a
 
 #zetaprints-fake-add-to-cart-button span {
     background-color: transparent;
+    background-image: url(../images/bkg_btn_off.png);
+    text-shadow: 0 1px #4F4F4F !important;
 }
+
+.zetaprints-reorder-item-link { text-decoration: underline; }
+
+.zetaprints-order-file-link { color: #ffffff; background-color: #F97A0C; border: 1px solid #E55804; padding: 2px 3px; font-weight: bold;}
+.zetaprints-order-file-link:hover { text-decoration: none;}
+.product-image img { margin: 10px 0;}
+
+div.zetaprints-preview-button { clear: left;}
+
