@@ -1777,10 +1777,7 @@ body.checkout-onepage-success div.col-main a
     color: #ce6000;
 }
 
-.zetaprints-page-stock-images .block, .zetaprints-page-stock-images .block-title
-{
-    background: transparent;
-}
+.zetaprints-page-stock-images .block, .zetaprints-page-stock-images .block-title { background: transparent; }
 
 #zetaprints-fake-add-to-cart-button span {
     background-color: transparent;
@@ -1792,7 +1789,9 @@ body.checkout-onepage-success div.col-main a
 
 .zetaprints-order-file-link { color: #ffffff; background-color: #F97A0C; border: 1px solid #E55804; padding: 2px 3px; font-weight: bold;}
 .zetaprints-order-file-link:hover { text-decoration: none;}
-.product-image img { margin: 10px 0;}
+.product-view .product-image img { margin: 10px 0; border: 1px solid #d4d4d4;}
 
 div.zetaprints-preview-button { clear: left;}
+
+#zetaprints-fake-add-to-cart-warning { clear: none;}
 
