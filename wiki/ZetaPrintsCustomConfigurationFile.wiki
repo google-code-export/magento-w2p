@@ -48,7 +48,7 @@ _custom-options.xml_ should not be added as part of the content of the extension
 == XML scheme ==
 Users who use special XML editors could use XSD file as a helper while editing custom-options.xml file.
 
-Scheme is available at http://magento-w2p.googlecode.com/svn/trunk/app/code/local/ZetaPrints/WebToPrint/etc/custom-options.xsd
+Scheme is available at http://magento-w2p.googlecode.com/svn-history/r1477/trunk/app/code/local/ZetaPrints/WebToPrint/etc/custom-options.xsd
 
 <wiki:comment>
 
