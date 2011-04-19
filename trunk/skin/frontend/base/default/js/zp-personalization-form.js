@@ -243,8 +243,9 @@ function personalization_form ($) {
     add_fake_add_to_cart_button($add_to_cart_button,
                                 this.template_details.pages['2'] != undefined);
 
-  $('div.zetaprints-page-input-fields input.input-text, ' +
-    'div.zetaprints-page-input-fields textarea').text_field_resizer();
+  //Add resizer for text inputs and text areas for the first page
+  $('#input-fields-page-1 .input-text, #input-fields-page-1 textarea')
+    .text_field_resizer();
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
     $('div.zetaprints-image-tabs li').removeClass('selected');
@@ -272,6 +273,10 @@ function personalization_form ($) {
     //and image fields for the selected page
     $('#preview-image-' + page + ', #stock-images-' + page + ', #input-fields-'
       + page + ', #zp-placeholder-for-preview-' + page).removeClass('zp-hidden');
+
+    //Add resizer for text inputs and text areas for the selected page
+    $('#input-fields-' + page + ' .input-text, ' +
+      '#input-fields-' + page + ' textarea').text_field_resizer();
 
     //Remember number of selected page
     event.data.zp.current_page = page.split('-')[1] * 1;
