@@ -54,12 +54,12 @@ img.powercrop-image-top {
 }
 
 /* jQuery UI styles */
-.ui-wrapper {
+div.powercrop-container .ui-wrapper {
   overflow: visible !important;
   border: 1px solid #204a87;
 }
 
-.ui-resizable-handle {
+div.powercrop-container .ui-resizable-handle {
   background-color: #fff;
   position: absolute;
   width: 7px !important;
@@ -74,25 +74,25 @@ div.powercrop-viewport > .ui-resizable-handle {
   border-color: #fff;
 }
 
-.ui-resizable-nw {
+div.powercrop-container .ui-resizable-nw {
   top: -4px;
   left: -4px;
   cursor: nw-resize;
 }
 
-.ui-resizable-ne {
+div.powercrop-container .ui-resizable-ne {
   top: -4px;
   right: -4px;
   cursor: ne-resize;
 }
 
-.ui-resizable-se {
+div.powercrop-container .ui-resizable-se {
   bottom: -4px;
   right: -4px;
   cursor: se-resize;
 }
 
-.ui-resizable-sw {
+div.powercrop-container .ui-resizable-sw {
   bottom: -4px;
   left: -4px;
   cursor: sw-resize;

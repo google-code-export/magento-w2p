@@ -638,28 +638,41 @@ div.thumbCropedAreaToolSet div img {
   opacity: 1;
 }
 
+.zetaprints-page-input-fields .ui-wrapper {
+  position: relative !important;
+  padding: 0 0 1px 0 !important;
+  margin: 0;
+}
+
 /* ZetaPrints text field resizer */
-.zp-resize-handle {
-  background: url('/js/zetaprints/images/zp-text-field-resizer/left-handle.gif') center no-repeat;
-  cursor: sw-resize;
-  position: relative;
+.zetaprints-page-input-fields .ui-resizable-handle {
+  position: absolute;
   width: 10px;
   height: 10px;
-  top: -10px;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  bottom: 1px;
+  *bottom: 0px;
 }
 
-/* Uncomment following CSS rule to switch to right
-   position of a resizing handler */
-/*.zp-resize-handle {
+.zetaprints-page-input-fields .ui-resizable-w,
+.zetaprints-page-input-fields .ui-resizable-sw {
+  background: url('/js/zetaprints/images/zp-text-field-resizer/left-handle.gif') center no-repeat;
+  left: 0px;
+  cursor: sw-resize;
+  /* display: none !important; /* Uncomment it to switch to right
+                                  position of a resizing handler */
+}
+
+.zetaprints-page-input-fields .ui-resizable-e,
+.zetaprints-page-input-fields .ui-resizable-se {
   background: url('/js/zetaprints/images/zp-text-field-resizer/right-handle.gif') center no-repeat;
+  right: 0px;
   cursor: se-resize;
-  margin-left: 100%;
-  left: -4px;
-  cursor: se-resize;
-}*/
+  display: none !important; /* Comment it to switch to right
+                               position of a resizing handler */
+}
 
 /* Common CSS rules for icons */
 div.zetaprints-icon {
