@@ -276,33 +276,34 @@
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" id="{@guid}" />
-                    </a>
-                    <div class="buttons-row">
-                      <a class="button delete" href="javascript:void(0)">
-                        <xsl:attribute name="title">
+                      <img src="{@thumbnail}" id="{@guid}"></img>
+
+                      <div class="buttons-row">
+                        <div class="button delete" rel="{@guid}">
+                          <xsl:attribute name="title">
+                            <xsl:call-template name="trans">
+                              <xsl:with-param name="key">Click to delete</xsl:with-param>
+                            </xsl:call-template>
+                          </xsl:attribute>
+
                           <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Click to delete</xsl:with-param>
+                            <xsl:with-param name="key">Delete</xsl:with-param>
                           </xsl:call-template>
-                        </xsl:attribute>
+                        </div>
 
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Delete</xsl:with-param>
-                        </xsl:call-template>
-                      </a>
+                        <div class="button edit" rel="{@guid}">
+                          <xsl:attribute name="title">
+                            <xsl:call-template name="trans">
+                              <xsl:with-param name="key">Click to edit</xsl:with-param>
+                            </xsl:call-template>
+                          </xsl:attribute>
 
-                      <div class="button edit">
-                        <xsl:attribute name="title">
                           <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Click to edit</xsl:with-param>
+                            <xsl:with-param name="key">Edit</xsl:with-param>
                           </xsl:call-template>
-                        </xsl:attribute>
-
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Edit</xsl:with-param>
-                        </xsl:call-template>
+                        </div>
                       </div>
-                    </div>
+                    </a>
                   </td>
                 </xsl:for-each>
               </tr></table>

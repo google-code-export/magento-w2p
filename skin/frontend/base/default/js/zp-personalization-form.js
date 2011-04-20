@@ -545,14 +545,15 @@ function personalization_form ($) {
               <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
                 title="' + click_to_edit_text + '">\
                 <img id="' + response[0] + '" src="' + response[2] + '" />\
+                <div class="buttons-row">\
+                  <div class="button delete" title="' + click_to_delete_text
+                    + '" rel="' + response[0] +'">' + delete_button_text +
+                  '</div>\
+                  <div class="button edit" title="' + click_to_edit_text +
+                    '" rel="' + response[0] +'">' + edit_button_text +
+                  '</div>\
+                </div>\
               </a>\
-              <div class="buttons-row">\
-                <a class="button delete" href="javascript:void(0)"\
-                  title="' + click_to_delete_text + '">' + delete_button_text
-                  + '</a>\
-                <div class="button edit" title="' + click_to_edit_text + '">'
-                  + edit_button_text + '</div>\
-              </div>\
             </td>').prependTo(this);
 
           $('input:radio', td).change({ zp: zp }, image_field_select_handler);
@@ -586,10 +587,10 @@ function personalization_form ($) {
               return false;
             });
 
-            $('a.button.delete', td).click(function() {
-              var imageId = $(this).parent().prevAll('input').val();
-
+            $('.button.delete', td).click(function() {
               if (confirm(delete_this_image_text)) {
+                var imageId = $(this).attr('rel');
+
                 $.ajax({
                   url: zp.url.image,
                   type: 'POST',
@@ -602,6 +603,8 @@ function personalization_form ($) {
                   }
                 });
               }
+
+              return false;
             });
 
             if (++number_of_loaded_imgs == trs.length) {
@@ -922,10 +925,10 @@ function personalization_form ($) {
     });
   }
 
-  $('a.button.delete').click({ zp: this }, function(event) {
-    var imageId = $(this).parent().prevAll('input').val();
-
+  $('.button.delete').click({ zp: this }, function(event) {
     if (confirm(delete_this_image_text)) {
+      var imageId = $(this).attr('rel');
+
       $.ajax({
         url: event.data.zp.url.image,
         type: 'POST',
@@ -938,6 +941,8 @@ function personalization_form ($) {
         }
       });
     }
+
+    return false;
   });
 
   $('input.zetaprints-images').click({ zp : this }, function (event) {

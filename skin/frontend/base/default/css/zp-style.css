@@ -11,6 +11,9 @@ div.zetaprints-image-tabs {
 div.zetaprints-image-tabs ul {
   overflow:hidden;
   margin-bottom: 5px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
 }
 
 /**/
@@ -125,9 +128,14 @@ div.save-order img.ajax-loader {
 div.images-scroller {
   overflow-x: auto;
   position: relative;
-  height: 130px;
-  *height: 140px;
   overflow-y: hidden;
+}
+
+div.images-scroller table {
+  border: 0;
+  border-spacing: 0;
+  margin-bottom: 2px;
+  *margin-bottom: 19px;
 }
 
 div.images-scroller table tr {
@@ -144,9 +152,7 @@ div.images-scroller input {
 }
 
 div.images-scroller img {
-  vertical-align: baseline;
   max-height: 100px;
-  border: none;
 }
 
 div.images-scroller a.edit-dialog {
@@ -157,29 +163,28 @@ div.images-scroller a.edit-dialog {
 }
 
 div.images-scroller div.buttons-row {
-  position: relative;
-  bottom: 20px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 
 div.images-scroller .button {
   cursor: pointer;
   float: right;
   margin-left: 5px;
-}
-
-div.images-scroller div.button.edit {
+  height: 15px;
+  line-height: 15px;
   background: #5284C2;
   color: #FFFFFF;
   font-weight: bold;
-  line-height: 15px;
-  padding: 0 4px;
-  margin: 0;
 }
 
-div.images-scroller a.button.delete {
-  display: block;
+div.images-scroller .button.edit {
+  padding: 0 4px;
+}
+
+div.images-scroller .button.delete {
   width: 17px;
-  height: 15px;
   color: transparent;
   background: url(../images/images-selector-sprites.png) -222px -22px no-repeat;
   font-size: 0; /* IE do not understand 'color: transparent' rule above */
@@ -194,6 +199,16 @@ div.zetaprints-images-selector {
 div.zetaprints-images-selector.expanded {
   position: relative;
   z-index: 1; /* Used to place expanded box upper than preview image */
+}
+
+div.zetaprints-images-selector input {
+  padding: 0px;
+  margin: 0px;
+}
+
+div.zetaprints-images-selector input[type=radio] {
+  *height: 13px;
+  *width: 13px;
 }
 
 div.zetaprints-images-selector a.image {
@@ -280,8 +295,7 @@ div.zetaprints-images-selector.expanded div.head a.image.collapse-expand:hover {
 }
 
 div.selector-content {
-  height: 140px;
-  *height: 146px;
+  height: 135px;
   background-color: #ffffff;
 }
 
@@ -339,6 +353,7 @@ div.selector-content ul.tab-buttons li {
   height: 20px;
   line-height: 20px;
   font-size: 90%;
+  vertical-align: bottom;
 }
 
 div.selector-content ul.tab-buttons li.hidden {
@@ -367,8 +382,8 @@ div.selector-content ul.tab-buttons li.last label.leave-blank-value {
 }
 
 div.selector-content div.tabs-wrapper {
-  padding: 0px 2px;
   height: 100%;
+  padding: 0px 2px;
   border: 1px solid #b6b6b6;
   border-left: none;
   border-top: none;
@@ -376,7 +391,7 @@ div.selector-content div.tabs-wrapper {
 }
 
 div.selector-content div.tabs-wrapper div.tab {
-  padding: 2px 0px;
+  padding-top: 2px;
   font-size: 90%;
 }
 
@@ -391,19 +406,20 @@ div.selector-content div.tabs-wrapper div.color-picker {
 
 div.selector-content div.tabs-wrapper div.color-picker input {
   margin-bottom: 10px;
+  *margin-bottom: 11px;
 }
 
 div.selector-content div.tabs-wrapper div.color-picker div.color-sample {
   width: 100px;
   height: 70px;
   border: 1px solid #b6b6b6;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 }
 
 div.selector-content div.tabs-wrapper div.upload {
   padding-left: 6px;
   position: relative;
-  height: 100%;
+  *height: 98%;
 }
 
 div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice {
@@ -412,12 +428,13 @@ div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice {
   line-height: 16px;
   white-space: nowrap;
   overflow: hidden;
-  margin: 0px 0px 4px -6px;
   color: #909090;
+  font-size: 90%;
 }
 
 div.selector-content div.tabs-wrapper div.upload div.recommended-size-notice div.zetaprints-icon {
   margin-right: 1px;
+  margin-left: -2px;
 }
 
 div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper div.upload {
@@ -427,7 +444,8 @@ div.zetaprints-images-selector.expanded div.selector-content div.tabs-wrapper di
 div.selector-content div.tabs-wrapper div.upload div.column {
   float: left;
   width: 49%;
-  margin-top: 26px;
+  margin-top: 24px;
+  *margin-top: 23px;
 }
 
 div.selector-content div.tabs-wrapper div.upload input.file-name {
