@@ -28,7 +28,7 @@ div.zp-text-field-editor-panel {
   display: none;
   position: absolute;
   top: 17px;
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   border: 1px solid #b6b6b6;
   padding: 1px 2px 1px 3px;
