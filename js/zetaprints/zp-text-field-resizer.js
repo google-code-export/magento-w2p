@@ -1,7 +1,6 @@
 (function ($) {
 
   function restore_field_style (event) {
-    console.log(this);
     var $field = $(this);
     var data = $field.data('text-field-resizer')
 
