@@ -773,3 +773,8 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.zetaprints-page-input-fields dd {
+  position: relative; /* Workaround for Opera 10 */
+  *z-index: 1; /* Work around for IE7 for line above :-) */
+}
