@@ -68,12 +68,7 @@ function popup_field_by_name (name, position) {
     field = field[0];
     var full_name = 'zetaprints-_'+ name;
 
-    jQuery(field)
-      .css({
-        borderWidth: '0px' })
-      .data('original-value', jQuery(field).val())
-      .parent()
-      .css('position', 'static')
+    jQuery(field).data('original-value', jQuery(field).val())
 
     var width = jQuery(shape).outerWidth();
     if (width <= 150)
@@ -81,13 +76,13 @@ function popup_field_by_name (name, position) {
   } else {
     field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
 
-    //Remember checked radio button for IE7 workaround
-    var $input = field.find(':checked');
-
     if (!field.length)
       return;
 
-    field.data('original-value', field.find('input:checked').val());
+    //Remember checked radio button for IE7 workaround
+    var $input = field.find(':checked');
+
+    field.data('original-value', $input.val());
 
     field = field[0];
 
@@ -104,24 +99,49 @@ function popup_field_by_name (name, position) {
 
   jQuery('<input type="hidden" name="field" value="' + full_name + '" />').appendTo(shape);
 
-  var box = jQuery(field).wrap('<div class="field" />').parent().wrap('<div class="fieldbox-wrapper" />')
-    .parent()
-    .prepend('<div class="fieldbox-head">' +
-                '<a class="button save" href="#" rel="' + full_name + '" />' +
-                '<a class="button close href="#" />' +
-                '<span>' + name + ':</span>' +
-              '</div>')
-    .wrap('<div class="fieldbox" />').parent().css({
-    zIndex: '10000',
-    position: 'absolute',
-    width: width });
+  jQuery(field)
+    .data('in-preview-edit', { 'style': jQuery(field).attr('style'),
+                               'parent': jQuery(field).parent() })
+    .detach()
+    .removeAttr('style')
+    .css('borderWidth', 0);
+
+  var $box = jQuery(
+    '<div class="fieldbox" rel="' + name + '">' +
+      '<div class="fieldbox-wrapper">' +
+        '<div class="fieldbox-head">' +
+          '<a class="button save" href="#" rel="' + full_name + '" />' +
+          '<a class="button close href="#" />' +
+          '<span>' + name + ':</span>' +
+        '</div>' +
+        '<div class="field" />' +
+      '</div>' +
+    '</div>' );
+
+  $box.find('.field').append(field);
+
+  $box.find('.fieldbox-head a').click(function () {
+    popdown_field_by_name(jQuery(this).attr('rel'),
+                          jQuery(this).hasClass('close'));
+
+    dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12),
+                              get_current_shapes_container());
+
+    return false;
+  });
+
+  $box
+    .css({ zIndex: '10000',
+           position: 'absolute',
+           width: width })
+    .appendTo('body');
 
   //!!! Stupid work around for stupid IE7
   if ($input)
     $input.change().attr('checked', 1);
 
-  var height = jQuery(box).outerHeight();
-  var width = jQuery(box).outerWidth();
+  var height = $box.outerHeight();
+  var width = $box.outerWidth();
 
   if (!position) {
     position = jQuery(shape).offset();
@@ -137,62 +157,75 @@ function popup_field_by_name (name, position) {
   if ((position.left + width) > window_width)
     position.left -= position.left + width - window_width;
 
-  jQuery(box).css({
+  $box.css({
     visibility: 'visible',
     left: position.left,
     top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
   //!!! Workaround and temp. solution
   if (jQuery(field).hasClass('selector-content')) {
-    zp.show_user_images(parent);
+    zp.show_user_images(jQuery(field));
 
-    zp.scroll_strip(jQuery(parent
-                            .find('ul.tab-buttons li.ui-tabs-selected a')
-                            .attr('href') ));
+    var $panel = jQuery(jQuery(field)
+                          .find('ul.tab-buttons li.ui-tabs-selected a')
+                          .attr('href') );
+
+    zp.scroll_strip($panel);
+    zp.show_colorpicker($panel);
   }
 
   jQuery(field).focus();
 }
 
-function popdown_field_by_name (name, reset_value) {
+function popdown_field_by_name (full_name, reset_value) {
   if (name)
-    var field = jQuery('*[value="'+ name +'"]', jQuery('div#fancybox-content'));
+    var field = jQuery('*[value="'+ full_name +'"]', jQuery('div#fancybox-content'));
   else
     var field = jQuery(':input', jQuery('div#fancybox-content'));
 
   if (!field.length)
     return;
 
-  if (!name)
-    name = jQuery(field).attr('value').substring(12);
+  if (!full_name)
+    full_name = jQuery(field).attr('value');
 
-  full_name = jQuery(field).attr('value');
+  var name = full_name.substring(12);
 
-  var element = jQuery('div.zetaprints-page-input-fields *[name="' + full_name + '"], div.zetaprints-images-selector[rel="' + full_name + '"] div.selector-content')
+  var $box = jQuery('.fieldbox[rel="' + name + '"]');
+  var $element = $box.find('.field').children();
+  var data = $element.data('in-preview-edit');
 
   //Remember checked radio button for IE7 workaround
-  var $input = element.find(':checked');
+  var $input = $element.find(':checked');
 
-  element.removeAttr('style');
+  $element
+    .detach()
+    .appendTo(data.parent)
+    .attr('style', data.style);
+
+  $box.remove();
 
   //!!! This line checks back initially selected radio button
   //!!! Don't know why it happens
-  element.parents('.fieldbox').replaceWith(element);
+  //element.parents('.fieldbox').replaceWith(element);
 
   //!!! Stupid work around for stupid IE7
   $input.change().attr('checked', 1);
 
-  if (!jQuery(element).parent().hasClass('zetaprints-images-selector')) {
+  if (!data.parent.hasClass('zetaprints-images-selector') && reset_value)
+    $element.val($element.data('original-value')).keyup();
+  else {
     if (reset_value)
-      element.val(element.data('original-value')).keyup();
+      $element.find('*[value="' + $element.data('original-value') +'"]:first')
+        .change()
+        .attr('checked', 1);
 
-    jQuery(element).parent().css('position', 'relative');
-  } else if (reset_value)
-    element.find('*[value="' + element.data('original-value') +'"]')
-      .change()
-      .attr('checked', 1)
+    zp.scroll_strip(jQuery($element
+                            .find('ul.tab-buttons li.ui-tabs-selected a')
+                            .attr('href')) );
+  }
 
-  jQuery(element).data('original-value', undefined);
+  $element.data('original-value', undefined);
 
   jQuery(field).remove();
 
@@ -232,19 +265,11 @@ function mark_shapes_as_edited (template_details) {
 }
 
 function mark_fieldbox_as_edited (name) {
-  jQuery('*[name="zetaprints-_' + name + '"], ' +
-         'div.zetaprints-images-selector[rel="zetaprints-#' + name +
-         '"] div.selector-content')
-    .parents('div.fieldbox')
-    .addClass('fieldbox-changed-state');
+  jQuery('.fieldbox[rel="' + name + '"]').addClass('fieldbox-changed-state');
 }
 
 function unmark_fieldbox_as_edited (name) {
-  jQuery('*[name="zetaprints-_' + name + '"], ' +
-         'div.zetaprints-images-selector[rel="zetaprints-#' + name +
-         '"] div.selector-content')
-    .parents('div.fieldbox')
-    .removeClass('fieldbox-changed-state');
+  jQuery('.fieldbox[rel="' + name + '"]').removeClass('fieldbox-changed-state');
 }
 
 function get_current_shapes_container () {
@@ -288,7 +313,7 @@ function fancy_shape_handler (event) {
 
     shape.addClass("highlighted");
 
-    popdown_field_by_name();
+    popdown_field_by_name(undefined, true);
     popup_field_by_name(jQuery(shape).attr('rel'), { top: event.pageY, left: event.pageX });
 
     return false;
@@ -321,13 +346,8 @@ function add_in_preview_edit_handlers () {
 
   jQuery('img#fancybox-img').live('click', function () {
     jQuery('div.zetaprints-field-shape.bottom', jQuery('div#fancybox-content')).removeClass('highlighted');
-    popdown_field_by_name();
-  });
 
-  jQuery('div.fieldbox-head a').live('click', function () {
-    popdown_field_by_name(jQuery(this).attr('rel'), jQuery(this).hasClass('close'));
-    dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
-    return false;
+    popdown_field_by_name(undefined, true);
   });
 
   var fancybox_center_function = jQuery.fancybox.center;

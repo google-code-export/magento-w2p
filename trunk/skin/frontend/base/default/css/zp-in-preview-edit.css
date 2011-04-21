@@ -54,6 +54,7 @@ div.fieldbox {
   visibility: hidden;
   background-color: white;
   padding: 3px;
+  text-align: left;
 }
 
 div.fieldbox div.fieldbox-wrapper {
@@ -93,10 +94,6 @@ div.fieldbox.fieldbox-changed-state div.fieldbox-head a.button.save {
   display: block;
 }
 
-div.fieldbox div.field {
- padding-bottom: 1px;
-}
-
 div.fieldbox div.field > * {
   width: 100%;
 }
@@ -112,6 +109,14 @@ div.fieldbox div.field > input {
 div.fieldbox div.field div.selector-content {
   position: static;
   left: none;
+}
+
+div.fieldbox div.tabs-wrapper {
+  border-width: 0px;
+}
+
+div.fieldbox ul.tab-buttons li {
+  border-left: none;
 }
 
 div.colorpicker {

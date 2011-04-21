@@ -206,11 +206,6 @@ div.zetaprints-images-selector input {
   margin: 0px;
 }
 
-div.zetaprints-images-selector input[type=radio] {
-  *height: 13px;
-  *width: 13px;
-}
-
 div.zetaprints-images-selector a.image {
   display: block;
   text-decoration: none;
@@ -218,10 +213,6 @@ div.zetaprints-images-selector a.image {
 
 div.zetaprints-images-selector div.icon span, div.selector-content div.icon span {
   display: none;
-}
-
-div.zetaprints-images-selector div.clear {
-  clear: both;
 }
 
 div.zetaprints-images-selector div.head {
@@ -301,6 +292,15 @@ div.selector-content {
 
 div.zetaprints-images-selector.minimized div.selector-content {
   display: none;
+}
+
+div.selector-content div.clear {
+  clear: both;
+}
+
+div.selector-content input[type=radio] {
+  *height: 13px;
+  *width: 13px;
 }
 
 div.selector-content ul.tab-buttons div.icon {

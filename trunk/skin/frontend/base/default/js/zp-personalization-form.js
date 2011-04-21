@@ -637,9 +637,15 @@ function personalization_form ($) {
   })
 
   function image_field_select_handler (event) {
-    $selector = $(event.target)
-                  .parents('div.zetaprints-images-selector')
-                  .removeClass('no-value');
+    var $selector = $(event.target).parents('div.zetaprints-images-selector');
+    var $content = $selector.parents('.selector-content');
+
+    if (!$selector.get(0)) {
+      $content =  $(event.target).parents('.selector-content');
+      $selector = $content.data('in-preview-edit').parent;
+    }
+
+    $selector.removeClass('no-value');
 
     //If ZetaPrints advanced theme is enabled then...
     if (window.mark_shape_as_edited && window.unmark_shape_as_edited
@@ -656,8 +662,7 @@ function personalization_form ($) {
                            .shapes[$(event.target).attr('name').substring(12)]);
 
       //Check that the value of a field was changed...
-      if ($(event.target).val()
-                != $selector.find('.selector-content').data('original-value'))
+      if ($(event.target).val() != $content.data('original-value'))
         //... then mark a field box as edited
         mark_fieldbox_as_edited($(event.target).attr('name').substring(12));
       else
@@ -666,9 +671,15 @@ function personalization_form ($) {
     }
   }
 
-  zp.show_user_images = function ($image_field)  {
-    if ($image_field.find('input.zetaprints-images').length > 0)
-      $image_field.data('tabs').tabs('select', 1);
+  zp.show_user_images = function ($panel)  {
+    if ($panel.find('input.zetaprints-images').length > 0)
+      $panel.tabs('select', 1);
+  }
+
+  zp.show_colorpicker = function ($panel) {
+    if ($panel.hasClass('color-picker')
+        && !$panel.find('input').attr('checked'))
+      $panel.find('.color-sample').click();
   }
 
   $(window).load({ zp: this }, function (event) {
@@ -699,13 +710,10 @@ function personalization_form ($) {
       var tabs = $('div.selector-content', this).tabs({
         selected: tab_number,
         show: function (event, ui) {
-          if ($(ui.panel).hasClass('color-picker') && !$('input', ui.panel).attr('checked'))
-            $('div.color-sample', ui.panel).click();
-            scroll_strip(ui.panel);
-              }
+          zp.show_colorpicker($(ui.panel));
+          scroll_strip(ui.panel);
+        }
       });
-
-      $(top_element).data('tabs', tabs);
 
       $('input', this).change({ zp: zp }, image_field_select_handler);
 
@@ -713,9 +721,8 @@ function personalization_form ($) {
         if ($(top_element).hasClass('minimized')) {
           $(top_element).removeClass('minimized');
           var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
-            $('div.color-sample', panel).click();
-          }
+
+          zp.show_colorpicker(panel);
           scroll_strip(panel)
         }
         else
@@ -737,9 +744,7 @@ function personalization_form ($) {
             .removeClass('minimized');
 
           var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-          if (panel.hasClass('color-picker') && !$('input', panel).attr('checked')) {
-            $('div.color-sample', panel).click();
-          }
+          zp.show_colorpicker(panel);
         }
         scroll_strip(panel);
         return false;
@@ -836,7 +841,7 @@ function personalization_form ($) {
 
       if (zp.has_shapes && window.popdown_field_by_name) {
         $('div.zetaprints-field-shape', $('div#fancybox-content')).removeClass('highlighted');
-        popdown_field_by_name();
+        popdown_field_by_name(undefined, true);
       }
     } });
 
