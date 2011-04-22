@@ -4,37 +4,39 @@
     var $field = $(this);
     var data = $field.data('text-field-resizer')
 
-    $field
-      .unbind(event)
-      .attr('style', data['field-css'])
-      .parent().attr('style', data['wrapper-css'])
+    $field.unbind(event);
+
+    if (data['style'] == undefined)
+      $field.parent().removeAttr('style');
+    else
+      $field.parent().attr('style', data['style']);
   }
 
   $.fn.text_field_resizer = function () {
     return this.each(function () {
-      var $field = $(this);
+      var $wrapper = $(this);
+      var $field = $wrapper.find('.input-text, textarea');
 
-      $field.resizable({
+      $wrapper.resizable({
         handles: $field.attr('tagName').toUpperCase() == 'TEXTAREA'
                    ? 'se, sw' : 'e, w',
 
         create: function () {
-          $field.parent().find('.ui-resizable-handle').mousedown(function () {
+          $wrapper.mousedown(function () {
             $field.focus();
           });
 
           $field.data('text-field-resizer',
-                  { 'field-css': $field.attr('style'),
-                    'wrapper-css': $field.parent().attr('style') }
-          );
+                      { 'style': $wrapper.attr('style') } );
         },
 
         start: function () {
-          $field.parent().css('z-index', 1000);
+          $wrapper.css('z-index', 1000);
+          $field.focus();
         },
 
         stop: function () {
-          $field.bind('blur', restore_field_style);
+          $field.focus().bind('blur', restore_field_style);
         }
       });
     });

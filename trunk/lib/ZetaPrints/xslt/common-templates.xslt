@@ -37,7 +37,8 @@
             <xsl:when test="count(Value)=0">
               <xsl:choose>
                 <xsl:when test="@Multiline">
-                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
+                  <div class="zetaprints-text-field-wrapper">
+                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" rows="3">
                     <xsl:if test="string-length(@Hint)!=0">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
@@ -56,9 +57,11 @@
                       </xsl:otherwise>
                     </xsl:choose>
                   </textarea>
+                  </div>
                 </xsl:when>
 
                 <xsl:otherwise>
+                  <div class="zetaprints-text-field-wrapper">
                   <input type="text" id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" class="input-text">
                     <xsl:if test="@MaxLen">
                       <xsl:attribute name="maxlength"><xsl:value-of select="@MaxLen" /></xsl:attribute>
@@ -76,6 +79,7 @@
                       <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
                     </xsl:if>
                   </input>
+                  </div>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:when>
