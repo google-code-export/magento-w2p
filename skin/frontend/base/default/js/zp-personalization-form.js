@@ -244,8 +244,7 @@ function personalization_form ($) {
                                 this.template_details.pages['2'] != undefined);
 
   //Add resizer for text inputs and text areas for the first page
-  $('#input-fields-page-1 .input-text, #input-fields-page-1 textarea')
-    .text_field_resizer();
+  $('#input-fields-page-1 .zetaprints-text-field-wrapper').text_field_resizer();
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
     $('div.zetaprints-image-tabs li').removeClass('selected');

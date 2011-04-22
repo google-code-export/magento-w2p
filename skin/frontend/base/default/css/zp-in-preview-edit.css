@@ -55,6 +55,8 @@ div.fieldbox {
   background-color: white;
   padding: 3px;
   text-align: left;
+  position: absolute;
+  z-index: 10000;
 }
 
 div.fieldbox div.fieldbox-wrapper {
@@ -94,21 +96,19 @@ div.fieldbox.fieldbox-changed-state div.fieldbox-head a.button.save {
   display: block;
 }
 
-div.fieldbox div.field > * {
-  width: 100%;
+div.fieldbox div.field {
+  padding: 2px 4px;
 }
 
 div.fieldbox div.field > *:focus {
-  background-color: inherit;
+  background: none;
 }
 
-div.fieldbox div.field > input {
-  width: 97%;
-}
-
-div.fieldbox div.field div.selector-content {
-  position: static;
-  left: none;
+div.fieldbox div.field > .input-text,
+div.fieldbox div.field > textarea {
+  padding: 0;
+  vertical-align: baseline;
+  width: 100%;
 }
 
 div.fieldbox div.tabs-wrapper {

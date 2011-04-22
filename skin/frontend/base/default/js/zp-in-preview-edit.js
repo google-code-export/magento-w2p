@@ -52,12 +52,21 @@ function dehighlight_shape_by_name (name, container) {
   jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).removeClass('highlighted');
 }
 
-function highlight_field_by_name (name) {
-  jQuery('*[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').addClass('highlighted');
+  function highlight_field_by_name (name) {
+    var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
+                        'div.zetaprints-images-selector[rel="zetaprints-#' +
+                        name + '"] div.head');
+
+    if ($field.parent().hasClass('zetaprints-text-field-wrapper'))
+      $field = $field.parent();
+
+    $field.addClass('highlighted');
 }
 
 function dehighlight_field_by_name (name) {
-  jQuery('*[name="zetaprints-_'+ name +'"], div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.head').removeClass('highlighted');
+  jQuery('.zetaprints-page-input-fields .highlighted,' +
+         '.zetaprints-page-stock-images .highlighted')
+    .removeClass('highlighted');
 }
 
 function popup_field_by_name (name, position) {
@@ -70,9 +79,11 @@ function popup_field_by_name (name, position) {
 
     jQuery(field).data('original-value', jQuery(field).val())
 
-    var width = jQuery(shape).outerWidth();
-    if (width <= 150)
-      width = 150;
+    var width = 'auto';
+    var min_width = jQuery(shape).outerWidth();
+
+    if (min_width <= 150)
+      min_width = 150;
   } else {
     field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
 
@@ -95,6 +106,7 @@ function popup_field_by_name (name, position) {
     var full_name = 'zetaprints-#' + name;
 
     var width = 400;
+    var min_width = 400;
   }
 
   jQuery('<input type="hidden" name="field" value="' + full_name + '" />').appendTo(shape);
@@ -104,7 +116,7 @@ function popup_field_by_name (name, position) {
                                'parent': jQuery(field).parent() })
     .detach()
     .removeAttr('style')
-    .css('borderWidth', 0);
+    .css('border', 'none');
 
   var $box = jQuery(
     '<div class="fieldbox" rel="' + name + '">' +
@@ -131,10 +143,13 @@ function popup_field_by_name (name, position) {
   });
 
   $box
-    .css({ zIndex: '10000',
-           position: 'absolute',
-           width: width })
+    .css({ width: width,
+           minWidth: min_width })
     .appendTo('body');
+
+  if (jQuery.browser.msie && jQuery.browser.version == '7.0')
+    //Oh God, it's a sad story :-(
+    $box.width(min_width);
 
   //!!! Stupid work around for stupid IE7
   if ($input)
@@ -198,16 +213,19 @@ function popdown_field_by_name (full_name, reset_value) {
   //Remember checked radio button for IE7 workaround
   var $input = $element.find(':checked');
 
+  //!!! Following code checks back initially selected radio button
+  //!!! Don't know why it happens
+
   $element
     .detach()
-    .appendTo(data.parent)
-    .attr('style', data.style);
+    .appendTo(data.parent);
+
+  if (data.style == undefined)
+    $element.removeAttr('style');
+  else
+    $element.attr('style', data.style);
 
   $box.remove();
-
-  //!!! This line checks back initially selected radio button
-  //!!! Don't know why it happens
-  //element.parents('.fieldbox').replaceWith(element);
 
   //!!! Stupid work around for stupid IE7
   $input.change().attr('checked', 1);
