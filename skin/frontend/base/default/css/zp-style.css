@@ -795,3 +795,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   position: relative; /* Workaround for Opera 10 */
   *z-index: 1; /* Work around for IE7 for line above :-) */
 }
+
+.zetaprints-page-stock-images {
+  margin-top: 15px;
+}
