@@ -260,7 +260,7 @@ function zetaprints_parse_template_details ($xml) {
                                                                 = $field_array;
 
     if ($page_number > 1)
-      foreach ($template['pages'][$page_number]['shapes'] as $shape)
+      foreach ($template['pages'][$page_number]['shapes'] as &$shape)
         if ($shape['name'] == $field_array['name'])
           $shape['hidden'] = false;
   }
