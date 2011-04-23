@@ -274,8 +274,8 @@ function personalization_form ($) {
       + page + ', #zp-placeholder-for-preview-' + page).removeClass('zp-hidden');
 
     //Add resizer for text inputs and text areas for the selected page
-    $('#input-fields-' + page + ' .input-text, ' +
-      '#input-fields-' + page + ' textarea').text_field_resizer();
+    $('#input-fields-' + page + ' .zetaprints-text-field-wrapper')
+      .text_field_resizer();
 
     //Remember number of selected page
     event.data.zp.current_page = page.split('-')[1] * 1;
