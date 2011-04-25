@@ -1,0 +1,10 @@
+#summary Release notes for Fixed Prices extension
+
+= Version 0.5.1 =
+
+  * Support for configurable products
+  * added check to see if product actually has FQ before required option is used #457
+  * cart qty box is disabled but not hidden
+  * Changes to account for taxes.Also overall handling of FQ is changed a bit. #477
+  * Change to use new location of fixedprices.phtml file
+  
