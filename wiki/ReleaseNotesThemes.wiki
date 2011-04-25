@@ -1,15 +1,22 @@
 #summary List of themes with comments on their state and compatibility.
 #labels Integration,Development
 
+This page describes the state of themes provided via our [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html Premium Web-to-Print support service]. 
+
+Modified files for *free themes* can be downloaded from [http://code.google.com/p/magento-w2p/downloads/list Downloads section].
+Files for *commercial themes* are provided to legitimate theme owners via [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html Premium Web-to-Print support service]. In other words, you have to purchase the theme, install it on your site and then we will provide you with the modified files. You will still need to [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html place an order].
+
+
 = Hello themes =
 
 
 ==helloglam==
+  * Commercial 
   * Light low contrast theme
   * Uses left sidebar.
   * Does not use button for add to cart but link.
 
-*Release XXXX* works with M. 1.5 and w2p 1.9
+*Release XXXX* (_internal SVN_) works with M. 1.5 and w2p 1.9. 
 
 
 
