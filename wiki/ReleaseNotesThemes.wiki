@@ -5,11 +5,13 @@
 
 
 ==helloglam==
-  * Light low contrast theme, after last changes should work with M. 1.5 and w2p 1.9
+  * Light low contrast theme
   * Uses left sidebar.
   * Does not use button for add to cart but link.
-  * Store switcher on top is not very well positioned and ideally would show flags, currently there are 3 flags US, DE and FR. For this to work, store should be named after the language.
-  * For footer it needs a footerLinks CMS block
+
+*Release XXXX* works with M. 1.5 and w2p 1.9
+
+
 
 ==hellokids==
   * Adapted for 1.8.3.2 and magento 1.4.2
