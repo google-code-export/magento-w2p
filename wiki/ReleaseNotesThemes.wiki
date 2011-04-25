@@ -16,12 +16,11 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Uses left sidebar.
   * Does not use button for add to cart but link.
 
-*Release XXXX* (_internal SVN_) works with M. 1.5 and w2p 1.9. 
+*Release 154* (_internal SVN_) works with M. 1.5 and w2p 1.9. 
 
 
 
 ==hellokids==
-  * Adapted for 1.8.3.2 and magento 1.4.2
   * Does not use horizontal categories menu
   * Uses left sidebar, and vertical categories menu in it.
   * Has issues with store switcher in header (this is in M. 1.5)
@@ -29,21 +28,21 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Uses large previews for products.
   * For footer it needs a footerLinks CMS block
 
+*Release 149* (_internal SVN_) works for 1.8.3.2 and magento 1.4.2
 ==hellococo==
-  * Adapted for w2p 1.8.3.2 and works with magento 1.4.2
   * A theme with very specific style for front page. Will not look good with /magento front page without serious modifications.
   * Uses left sidebar.
   * Store switcher is off place on each page.
   * Footer is designed to be filled with content and push 'Back to top' button at bottom of the page.
-
+*Release 116* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
 ==hellowired==
   * Free theme.
-  * Archive of [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.zip#makechanges changes]
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1(which is used on /magento)
   * Uses 2 sidebars on category page and left sidebar on product page.
   * Does not show store switcher at all.
   * It has been tested on 1.5 and works, which means that some things won't work on 1.4.2 any more.
   * For footer it needs a footerLinks CMS block
+*Release 1571(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc2 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.zip#makechanges changes]
   
 ==hellouno==
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1
@@ -54,14 +53,14 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Uses large previews for images.
   * Uses own copy of zp-styles.css
   * For footer it needs a footerLinks CMS block
-
+*Release 162* (_internal SVN_) works with w2p 1.9.0rc2 and Magento 1.5.0.1
 ==hellosimple==
   * Adapted for 1.8.3.2
   * Uses a copy of zp-styles.css to add space around form items (probably should be removed in latest versions). This is the cause of w2p image bellow product to be visible.
   * Uses left sidebar.
   * Has 3 colors - light blue, green and pink. Blue is default, any changes made to style.css are made only to default color.
   * Uses link for Add to cart btn.
-
+*Release 124* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
 ==hellocanvas==
   * hellocanvas, high contrast theme, one of the last we adapted
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1
@@ -69,7 +68,7 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * In cart page needs table to be adjusted to have right number of columns.
   * It has some css variations of button colors mostly. Default is purple, then blue, green and orange. Never used any other but default.
   * For footer it needs a footerLinks CMS block
-
+*Release 161* (_internal SVN_) works for w2p 1.9.0rc2 and magento 1.5.0.1
 ==hellojynxx==
   * Hellojynxx was adapted in its 1.4.1.1 version (don't know why, probably client store was 1.4.1.1)
   * Adapted to work with w2p 1.8.3.2 only for its 1.4.1.1 version.
@@ -77,3 +76,4 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Uses link not button for Add to cart.
   * For footer it needs a footerLinks CMS block
   * Uses large previews for images.
+*Release 107* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.1.1
