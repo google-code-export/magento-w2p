@@ -9,18 +9,18 @@
   * Uses left sidebar.
   * Does not use button for add to cart but link.
   * Store switcher on top is not very well positioned and ideally would show flags, currently there are 3 flags US, DE and FR. For this to work, store should be named after the language.
+  * For footer it needs a footerLinks CMS block
 
 ==hellokids==
-
   * Adapted for 1.8.3.2 and magento 1.4.2
   * Does not use horizontal categories menu
   * Uses left sidebar, and vertical categories menu in it.
   * Has issues with store switcher in header (this is in M. 1.5)
   * Not very suitable for theme demo site, can't really go to any category/product from home page unless home page is changed to use left sidebar
   * Uses large previews for products.
+  * For footer it needs a footerLinks CMS block
 
 ==hellococo==
-
   * Adapted for w2p 1.8.3.2 and works with magento 1.4.2
   * A theme with very specific style for front page. Will not look good with /magento front page without serious modifications.
   * Uses left sidebar.
@@ -28,19 +28,23 @@
   * Footer is designed to be filled with content and push 'Back to top' button at bottom of the page.
 
 ==hellowired==
-  * Adapted for 1.8.4 (which is used on /magento)
+  * Free theme.
+  * Archive of [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.zip#makechanges changes]
+  * Adapted for 1.9.0rc2 and Magento 1.5.0.1(which is used on /magento)
   * Uses 2 sidebars on category page and left sidebar on product page.
   * Does not show store switcher at all.
   * It has been tested on 1.5 and works, which means that some things won't work on 1.4.2 any more.
+  * For footer it needs a footerLinks CMS block
   
 ==hellouno==
-  * Adapted for 1.8.3.2
+  * Adapted for 1.9.0rc2 and Magento 1.5.0.1
   * Sidebars are narrower then default, this causes some misalignment on home page.
   * For category page uses 2 sidebars.
   * For product page uses left sidebar
   * Uses link for Add to cart btn.
   * Uses large previews for images.
   * Uses own copy of zp-styles.css
+  * For footer it needs a footerLinks CMS block
 
 ==hellosimple==
   * Adapted for 1.8.3.2
@@ -50,14 +54,17 @@
   * Uses link for Add to cart btn.
 
 ==hellocanvas==
-  * hellocanvas, high contrast theme, one of the last we adapted, works with 1.5 with some things to fix.
+  * hellocanvas, high contrast theme, one of the last we adapted
+  * Adapted for 1.9.0rc2 and Magento 1.5.0.1
   * uses right sidebar.
   * In cart page needs table to be adjusted to have right number of columns.
   * It has some css variations of button colors mostly. Default is purple, then blue, green and orange. Never used any other but default.
-  * Adapted for w2p 1.8.3.2 that is why it has some js errors on home page.
+  * For footer it needs a footerLinks CMS block
 
 ==hellojynxx==
   * Hellojynxx was adapted in its 1.4.1.1 version (don't know why, probably client store was 1.4.1.1)
   * Adapted to work with w2p 1.8.3.2 only for its 1.4.1.1 version.
   * Uses right sidebar.
   * Uses link not button for Add to cart.
+  * For footer it needs a footerLinks CMS block
+  * Uses large previews for images.
