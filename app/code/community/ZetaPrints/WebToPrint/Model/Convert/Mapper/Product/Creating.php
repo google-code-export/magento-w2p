@@ -39,10 +39,17 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     unset($products);
 
+    $line = 0;
+
+    $number_of_templates = count($templates);
+    $number_of_created_products = 0;
+
     foreach ($templates as $template) {
+      $line++;
+
       if ($has_products)
         if (array_key_exists($template->getGuid(), $used_templates)) {
-          $this->debug("Product {$template->getGuid()} already exists");
+          $this->debug("{$line}. Product {$template->getGuid()} already exists");
 
           continue;
         }
@@ -68,7 +75,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
       try {
         $product_model->save();
       } catch (Zend_Http_Client_Exception $e) {
-        $this->error("Error creating product from template: {$template->getGuid()}");
+        $this->error("{$line}. Error creating product from template: {$template->getGuid()}");
         $this->error($e->getMessage());
 
         continue;
@@ -81,11 +88,16 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         ->setProduct($product_model)
         ->save();
 
-      $this->debug("Product for template {$template->getGuid()} was created.");
+      $this->debug("{$line}. Product for template {$template->getGuid()} was created.");
+
+      $number_of_created_products++;
 
       unset($product_model);
       unset($stock_item);
     }
+
+    $this->notice("Number of templates: {$number_of_templates}");
+    $this->notice("Number of created products: {$number_of_created_products}");
 
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
   }
