@@ -35,9 +35,8 @@ Default layout, loads most of the pages
     <default>
 
         <reference name="top.links">
-            <block type="wishlist/links" name="wishlist_link">
-                <action method="addWishlistLink"></action>
-            </block>
+            <block type="wishlist/links" name="wishlist_link"/>
+            <action method="addLinkBlock"><blockName>wishlist_link</blockName></action>
         </reference>
 
         <!-- Mage_Wishlist -->
@@ -78,7 +77,9 @@ Wishlist pages
         <!-- Mage_Wishlist -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="wishlist/customer_wishlist" name="customer.wishlist" template="wishlist/view.phtml"/>
+            <block type="wishlist/customer_wishlist" name="customer.wishlist" template="wishlist/view.phtml">
+                <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
+            </block>
         </reference>
         <reference name="right">
             <action method="unsetChild"><name>wishlist_customer_sidebar</name></action>
@@ -97,10 +98,22 @@ Wishlist pages
         </reference>
     </wishlist_index_share>
 
+    <wishlist_index_configure translate="label">
+        <label>Configure Wishlist Item</label>
+        <update handle="catalog_product_view"/>
+        <reference name="product.info">
+            <block type="wishlist/item_configure" name="product.info.addto" as="addto" template="wishlist/item/configure/addto.phtml"/>
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="unsetChild"><name>product.info.addto</name></action>
+            <action method="append"><block>product.info.addto</block></action>
+        </reference>
+    </wishlist_index_configure>
+
     <wishlist_shared_index translate="label">
         <label>Customer Shared Wishlist View</label>
         <!-- Mage_Wishlist -->
-        <reference name="my.account.wrapper">
+        <reference name="content">
             <block type="wishlist/share_wishlist" name="customer.wishlist" template="wishlist/shared.phtml"/>
         </reference>
     </wishlist_shared_index>

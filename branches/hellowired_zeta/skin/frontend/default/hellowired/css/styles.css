@@ -998,9 +998,9 @@ f/********** Product Prices > */
 .product-view .product-shop .price-box { margin:10px 0; }
 .product-view .product-shop .add-to-links { margin:0; }
 .product-view .product-shop .add-to-links { text-align:right; }
-.product-view .product-shop .add-to-links li { display:inline; margin-left:12px; }
+.product-view .product-shop .add-to-links li, .product-options-bottom .add-to-links li { display:inline; margin-left:12px; }
 .product-view .product-shop .add-to-links li .separator { display:none !important; }
-
+.product-options-bottom .add-to-links { clear: both;}
 /* Product Options */
 .product-options { margin:20px 0 0; padding:0 15px 10px; background-color:#f4f9ea; border:1px solid #ddd; }
 .product-options dt { padding:10px 0 0; font-weight:normal; }

@@ -35,9 +35,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_Tag -->
         <reference name="left">
-            <block type="tag/popular" name="tags_popular" template="tag/popular.phtm">
-                <action method="setTemplate"><template>tag/popular.phtml</template></action>
-            </block>
+            <block type="tag/popular" name="tags_popular" template="tag/popular.phtml"/>
         </reference>
 
     </default>
@@ -65,7 +63,8 @@ Customer account home dashboard layout
         </reference>
     </customer_account_index>
 
-    <catalog_product_view>
+    <catalog_product_view translate="label">
+        <label>Catalog Product View</label>
          <!-- Mage_Tag -->
          <reference name="product.info.tabs">
             <action method="addTab" translate="title" module="tag"><alias>product.tags</alias><title>Product Tags</title><block>tag/product_list</block><template>tag/list.phtml</template></action>
@@ -97,7 +96,12 @@ All tags page
         <!-- Mage_Tag -->
         <reference name="content">
             <block type="tag/product_result" name="tag_products" template="catalogsearch/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml"></block>
+                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                </block>
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
