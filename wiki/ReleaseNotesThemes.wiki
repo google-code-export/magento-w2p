@@ -36,6 +36,10 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Footer is designed to be filled with content and push 'Back to top' button at bottom of the page.
 *Release 116* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
 ==hellowired==
+
+  * Updated to 1.9.0rc3 version of w2p
+*Release 1578(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.1578.zip&can=2&q=#makechanges changes]
+
   * Free theme.
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1(which is used on /magento)
   * Uses 2 sidebars on category page and left sidebar on product page.
@@ -43,6 +47,7 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * It has been tested on 1.5 and works, which means that some things won't work on 1.4.2 any more.
   * For footer it needs a footerLinks CMS block
 *Release 1571(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc2 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.zip#makechanges changes]
+
   
 ==hellouno==
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1
