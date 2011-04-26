@@ -21,6 +21,7 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
 
 
 ==hellokids==
+
   * Does not use horizontal categories menu
   * Uses left sidebar, and vertical categories menu in it.
   * Has issues with store switcher in header (this is in M. 1.5)
@@ -29,12 +30,15 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * For footer it needs a footerLinks CMS block
 
 *Release 149* (_internal SVN_) works for 1.8.3.2 and magento 1.4.2
+
 ==hellococo==
+
   * A theme with very specific style for front page. Will not look good with /magento front page without serious modifications.
   * Uses left sidebar.
   * Store switcher is off place on each page.
   * Footer is designed to be filled with content and push 'Back to top' button at bottom of the page.
 *Release 116* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
+
 ==hellowired==
 
   * Updated to 1.9.0rc3 version of w2p
@@ -50,6 +54,10 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
 
   
 ==hellouno==
+
+  * Updated to work with w2p 1.9.0rc3 and M.1.5.0.1 for generic version of the theme.
+*Release 169* (_internal SVN_) works with w2p 1.9.0rc3 and Magento 1.5.0.1
+
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1
   * Sidebars are narrower then default, this causes some misalignment on home page.
   * For category page uses 2 sidebars.
@@ -59,6 +67,7 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
   * Uses own copy of zp-styles.css
   * For footer it needs a footerLinks CMS block
 *Release 162* (_internal SVN_) works with w2p 1.9.0rc2 and Magento 1.5.0.1
+
 ==hellosimple==
   * Adapted for 1.8.3.2
   * Uses a copy of zp-styles.css to add space around form items (probably should be removed in latest versions). This is the cause of w2p image bellow product to be visible.
