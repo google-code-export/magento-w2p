@@ -69,13 +69,19 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
 *Release 162* (_internal SVN_) works with w2p 1.9.0rc2 and Magento 1.5.0.1
 
 ==hellosimple==
+
   * Adapted for 1.8.3.2
   * Uses a copy of zp-styles.css to add space around form items (probably should be removed in latest versions). This is the cause of w2p image bellow product to be visible.
   * Uses left sidebar.
   * Has 3 colors - light blue, green and pink. Blue is default, any changes made to style.css are made only to default color.
   * Uses link for Add to cart btn.
 *Release 124* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
+
 ==hellocanvas==
+
+  * updated to work with w2p 1.9.0rc3 and M.1.5.0.1 for generic version
+*Release 166* (_internal SVN_) works for w2p 1.9.0rc3 and magento 1.5.0.1
+
   * hellocanvas, high contrast theme, one of the last we adapted
   * Adapted for 1.9.0rc2 and Magento 1.5.0.1
   * uses right sidebar.
