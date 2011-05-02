@@ -69,10 +69,10 @@ div.zetaprints-page-input-fields textarea {
   resize: none;
 }
 
-div.zetaprints-page-input-fields .zetaprints-text-field-wrapper {
+.zetaprints-text-field-wrapper {
   border: 1px solid #B6B6B6;
   background-color: white;
-  padding: 2px 4px;
+  padding: 2px 4px 1px 4px;
   zoom: 1;
 }
 
@@ -469,8 +469,12 @@ div.selector-content div.tabs-wrapper div.upload div.column {
 }
 
 div.selector-content div.tabs-wrapper div.upload input.file-name {
-  width: 90%;
-  margin-bottom: 5px;
+  border: none;
+  width: 100%;
+}
+
+div.selector-content div.tabs-wrapper div.upload .zetaprints-text-field-wrapper {
+  margin: 0 4px 5px 0;
 }
 
 div.selector-content div.tabs-wrapper div.upload label {
