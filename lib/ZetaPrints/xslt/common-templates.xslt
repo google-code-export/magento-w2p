@@ -228,7 +228,10 @@
           <xsl:if test="@AllowUpload='1'">
             <div id="page-{$page}-tabs-{position()}-1" class="tab upload">
               <div class="column">
-                <input type="text" class="input-text file-name" disabled="true" />
+                <div class="zetaprints-text-field-wrapper">
+                  <input type="text" class="input-text file-name" disabled="true" />
+                </div>
+
                 <label>
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">Upload new image from your computer</xsl:with-param>
