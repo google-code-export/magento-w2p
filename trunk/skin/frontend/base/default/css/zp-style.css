@@ -69,10 +69,10 @@ div.zetaprints-page-input-fields textarea {
   resize: none;
 }
 
-.zetaprints-text-field-wrapper {
+div.zetaprints-page-input-fields .zetaprints-text-field-wrapper {
   border: 1px solid #B6B6B6;
   background-color: white;
-  padding: 2px 4px 1px 4px;
+  padding: 2px 4px;
   zoom: 1;
 }
 
@@ -469,12 +469,8 @@ div.selector-content div.tabs-wrapper div.upload div.column {
 }
 
 div.selector-content div.tabs-wrapper div.upload input.file-name {
-  border: none;
-  width: 100%;
-}
-
-div.selector-content div.tabs-wrapper div.upload .zetaprints-text-field-wrapper {
-  margin: 0 4px 5px 0;
+  width: 90%;
+  margin-bottom: 5px;
 }
 
 div.selector-content div.tabs-wrapper div.upload label {
@@ -697,7 +693,7 @@ div.thumbCropedAreaToolSet div img {
 
 .zetaprints-page-input-fields .ui-resizable-w,
 .zetaprints-page-input-fields .ui-resizable-sw {
-  background: url('/js/zetaprints/images/zp-text-field-resizer/left-handle.gif') center no-repeat;
+  background: url('../../../../../js/zetaprints/images/zp-text-field-resizer/left-handle.gif') center no-repeat;
   left: -1px;
   cursor: sw-resize;
   /* display: none !important; /* Uncomment it to switch to right
@@ -706,7 +702,7 @@ div.thumbCropedAreaToolSet div img {
 
 .zetaprints-page-input-fields .ui-resizable-e,
 .zetaprints-page-input-fields .ui-resizable-se {
-  background: url('/js/zetaprints/images/zp-text-field-resizer/right-handle.gif') center no-repeat;
+  background: url('../../../../../js/zetaprints/images/zp-text-field-resizer/right-handle.gif') center no-repeat;
   right: -1px;
   cursor: se-resize;
   display: none !important; /* Comment it to switch to right
