@@ -40,7 +40,8 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
 *Release 116* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
 
 ==hellowired==
-
+  * hellowired generic, added right callout and a w2p call out style rule
+*Release 1583(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1
   * Updated to 1.9.0rc3 version of w2p
 *Release 1578(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.1578.zip&can=2&q=#makechanges changes]
 
