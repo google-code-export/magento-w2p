@@ -46,22 +46,18 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
   }
 
   /**
-   * In next version will have to replace
-   * getQuoteItemOption with getConfigurationItemOption
    * @param array $value
    * @return ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
    */
   protected function _setFullValues($value)
   {
-    if ($this->_setFullValues && $this->getQuoteItemOption()) {
-      $this->getQuoteItemOption()->setValue(serialize($value));
+    if ($this->_setFullValues && $this->getConfigurationItemOption()) {
+      $this->getConfigurationItemOption()->setValue(serialize($value));
     }
     return $this;
   }
 
   /**
-   * In next version will have to replace
-   * getQuoteItemOption with getConfigurationItemOption
    * @param array $value
    * @param string $key
    * @param string $route
@@ -69,12 +65,13 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
    */
   protected function _setUrl($value, $key, $route)
   {
-    if(!isset($value[$key]) && $this->getQuoteItemOption()){
+    if(!isset($value[$key]) && $this->getConfigurationItemOption()){
       $value[$key] = array ('route' => $route,
                             'params' => array (
-                            'id' => $this->getQuoteItemOption()->getId(),
-                            'key' => $value['secret_key']
-                           ));
+                              'id' => $this->getConfigurationItemOption()->getId(),
+                              'name'=> rawurlencode($value['title']),
+                              'key' => $value['secret_key'],
+                            ));
       $this->_setFullValues = true;
     }
     return $value;
@@ -140,10 +137,10 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
       $sizes = $this->_sizes($value);
       switch ($format) {
         case self::ADMIN_AREA_TPL:
-          return sprintf($format, $this->_getOptionDownloadUrl($value['url']['route'], $value['url']['params']), Mage::helper('core')->htmlEscape($value['title']), $sizes);
+          return sprintf($format, $this->_getOptionDownloadUrl($value['url']['route'], $value['url']['params']), Mage::helper('core')->escapeHtml($value['title']), $sizes);
         break;
         default:
-          return sprintf($format, Mage::helper('core')->htmlEscape($value['title']), $sizes);
+          return sprintf($format, Mage::helper('core')->escapeHtml($value['title']), $sizes);
         break;
       }
     } catch (Exception $e) {
@@ -211,6 +208,7 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
       }
     }
   }
+
   /**
    * Set process mode
    *
@@ -299,7 +297,7 @@ class ZetaPrints_Attachments_Model_Product_Option_Type_Attachments
      */
     public function copyQuoteToOrder()
     {
-      $quoteOption = $this->getQuoteItemOption();
+      $quoteOption = $this->getConfigurationItemOption();
 //      $quoteOption = $this->getConfigurationItemOption();
       try {
         $files = unserialize($quoteOption->getValue());

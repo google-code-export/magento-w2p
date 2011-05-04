@@ -22,6 +22,7 @@ class ZetaPrints_Attachments_Sales_DownloadController
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         $secretKey = $this->getRequest()->getParam('key');
         $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+        $name = $this->getRequest()->getParam('name');
 
         if ($option->getId()) {
             try {
@@ -30,6 +31,9 @@ class ZetaPrints_Attachments_Sales_DownloadController
                 foreach ($value as $info) { // cycle them all untill we find requested file
                   if ($secretKey != $info['secret_key']) {
                       continue;
+                  }
+                  if($name && $name != $info['title']) {
+                    continue;
                   }
                   $found = true;
                   break;
