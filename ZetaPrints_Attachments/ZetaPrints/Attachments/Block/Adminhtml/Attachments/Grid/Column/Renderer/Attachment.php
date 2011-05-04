@@ -30,10 +30,11 @@ class ZetaPrints_Attachments_Block_Adminhtml_Attachments_Grid_Column_Renderer_At
       }
     }
     $name = $attachments['title'];
-    $type = $attachments['type'];
+//    $type = $attachments['type'];
     $downloadRoute = 'adminhtml/attachments/download';
     $params = array('id' => $row->getData('attachment_id'),
-                    'att' => $attachments['secret_key']
+                    'att' => $attachments['secret_key'],
+                    'name'=> rawurlencode($name)
     );
     $link = Mage::getModel('adminhtml/url')->getUrl($downloadRoute, $params);
 
