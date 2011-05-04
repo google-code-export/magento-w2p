@@ -98,7 +98,7 @@ var attachments = Class.create({
         setTop: false,  //clones source’s top CSS property onto element.
         setWidth: true,  //clones source’s width onto element.
         setHeight: false}
-      ).update('&nbsp;');
+      ).update('<input type="hidden" name="'+ this.settings.fileName.sub('#{id}', this.idx) + '" class="product-custom-option" id="' + originalFileId +'" />');
       var height = $(this.container).getHeight(); // get height from container, so any remaining content is pushed below our form
       height += 5; // make some space
       replDiv.setStyle({height: height + 'px'});
@@ -549,6 +549,12 @@ var attachments = Class.create({
     if(undefined != response.title){
       var loadedText = this.getDeleteLink(response, uploadId);
       this.updateUploadsList(loadedText, this.getListItemId(uploadId)); // if title is set, that is valid response from server
+      var fake_input = this.settings.origFileId.sub('#{id}', this.idx);
+      fake_input = $(fake_input);
+      if(fake_input){
+        fake_input.value += loadedText;
+        opConfig.reloadPrice(); // supposed to add price to total
+      }
       var delLink = $(this.getRemoveLinkId(uploadId));
       delLink.observe('click', function(e){
         Event.stop(e);
@@ -565,6 +571,8 @@ var attachments = Class.create({
             link.hide();
             var content = parent.innerHTML;
             parent.update('<del>' + content + '</del>&nbsp;' + transp.responseText);
+            fake_input.value = fake_input.value.sub(loadedText, ''); // remove 
+            opConfig.reloadPrice();
           },
           onFailure: function(transp){
             var link = $(id);
