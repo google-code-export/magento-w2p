@@ -22,12 +22,12 @@ It's recommended to un-install previous versions of the extension firstly.
 
 *NOTE: Please, remember (write down) your API Key and URL. You have to re-enter them in the extension settings after update*
 
-Please, do following step if you don't use zptheme as default in Magento (e.i. if you previously copied everything from zptheme into the custom theme):
+Please, do following step if you don't use _zptheme_ as default in Magento (e.i. if you previously copied everything from zptheme into the custom theme):
 
-  * *Remove all previously copied files from the custom theme!*
+  * *Remove all previously copied files from your custom theme!*
   * Remove layout/local.xml file or leave only custom theme specific changes there
-  * Please, move any changes you made in copied files to proper files from the custom theme.
-  * Please, try *NOT TO OVERRIDE* theme files from the extension. It will make your further updates easier.
+  * Move any changes you made in copied files to proper files from the custom theme.
+  * Try *NOT TO OVERRIDE* theme files from the extension. It will make your further updates easier.
 
 = Stable release (1.8.3.2) =
 == Issues ==
