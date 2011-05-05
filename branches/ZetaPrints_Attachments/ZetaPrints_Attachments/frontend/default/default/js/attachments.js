@@ -571,7 +571,7 @@ var attachments = Class.create({
             link.hide();
             var content = parent.innerHTML;
             parent.update('<del>' + content + '</del>&nbsp;' + transp.responseText);
-            fake_input.value = fake_input.value.sub(loadedText, ''); // remove 
+            fake_input.value = fake_input.value.sub(loadedText, ''); // remove
             opConfig.reloadPrice();
           },
           onFailure: function(transp){

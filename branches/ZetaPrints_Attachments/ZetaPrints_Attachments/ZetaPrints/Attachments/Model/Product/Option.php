@@ -17,7 +17,7 @@ class ZetaPrints_Attachments_Model_Product_Option extends Mage_Catalog_Model_Pro
   public function getGroupByType($type = null)
   {
     if ($type == self::OPTION_TYPE_ATTACHMENT) {
-      $product_id = $this; // this is debug help only
+//      $product_id = $this; // this is debug help only
 
       // currently we haven't applied our custom option type
       // so we try to get what should we use from product
@@ -29,10 +29,10 @@ class ZetaPrints_Attachments_Model_Product_Option extends Mage_Catalog_Model_Pro
       $product = null;
       if($this->getProduct()){
         $product = $this->getProduct();
-      }elseif (Mage::registry('product')) {
-        $product = Mage::registry('product');
       }elseif ($this->hasData('product_id')) {
         $product = Mage::getModel('catalog/product')->load($this->getData('product_id'));
+      }elseif (Mage::registry('product')) {
+        $product = Mage::registry('product');
       }
       if ($product instanceof Mage_Catalog_Model_Product ){
         if(!Mage::helper('attachments/upload')->getUseAjax($product)) {
