@@ -471,6 +471,7 @@ div.selector-content div.tabs-wrapper div.upload div.column {
 div.selector-content div.tabs-wrapper div.upload input.file-name {
   border: none;
   width: 100%;
+  background-color: #FFFFFF;
 }
 
 div.selector-content div.tabs-wrapper div.upload .zetaprints-text-field-wrapper {
