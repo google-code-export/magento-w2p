@@ -1,5 +1,12 @@
 #summary Release notes for Fixed Prices extension
 
+= Version 0.5.5b =
+
+New beta version
+  * Fixed behavior with product options, now total price is updated by multiplying options price by QTY selected
+  * product options price labels update when new QTY is selected
+  * FQ tab removed for grouped and bundle products 
+
 = Version 0.5.1 =
 
   * Support for configurable products
