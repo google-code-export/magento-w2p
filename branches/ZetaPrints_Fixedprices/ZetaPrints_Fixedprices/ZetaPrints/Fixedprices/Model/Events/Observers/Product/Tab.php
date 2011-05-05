@@ -10,6 +10,13 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Product_Tab
    */
   public function addFixedPrices(Varien_Event_Observer $observer)
   {
+    $product = Mage::registry('product');
+    if(!$product
+       || $product->isGrouped()
+       || $product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
+    {
+      return;
+    }
     $block = $observer->getEvent()->getBlock();
 
     if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs) {

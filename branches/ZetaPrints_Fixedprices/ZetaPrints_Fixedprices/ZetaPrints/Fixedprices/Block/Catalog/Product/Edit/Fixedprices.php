@@ -5,6 +5,7 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Fixedprices
 {
   protected function _prepareForm()
     {
+      /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::registry('product');
         $values = $product->getData();
         $helper = Mage::helper('fixedprices');
