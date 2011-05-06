@@ -1,6 +1,6 @@
 <layout version="0.1.0">
-  <catalog_product_view>
-    <reference name="head">
+  <w2p_product_page>
+      <reference name="head">
       <action method="addJs"><script>jquery/jquery-min.js</script></action>
       <action method="addJs"><script>jquery/jquery-ui-custom-min.js</script></action>
       <action method="addJs"><script>colorpicker/colorpicker.js</script></action>
@@ -24,5 +24,11 @@
       <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-image-edit.css</name></action>
     </reference>
+  </w2p_product_page>
+  <catalog_product_view>
+    <update handle="w2p_product_page"/>
   </catalog_product_view>
+  <review_product_list>
+    <update handle="w2p_product_page"/>
+  </review_product_list>
 </layout>
