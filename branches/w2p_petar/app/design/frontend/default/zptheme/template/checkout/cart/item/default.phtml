@@ -76,11 +76,18 @@ $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
             <?php echo $addtInfoBlock->setItem($_item)->toHtml() ?>
         <?php endif;?>
     </td>
+
+    <?php
+    //Add check for M. release >= 1.5
+    if (method_exists($this, 'getConfigureUrl')):
+    ?>
     <td class="a-center">
         <?php if ($isVisibleProduct): ?>
         <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
         <?php endif ?>
     </td>
+    <?php endif ?>
+
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
         <?php if ($isVisibleProduct): ?>
