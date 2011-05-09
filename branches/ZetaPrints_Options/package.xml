@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+    <name>ZetaPrints_Options</name>
+    <version>1.0.0d</version>
+    <stability>devel</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Copy custom options from one product to selected products.</summary>
+    <description>This extension allows to copy all custom options from one product to a selection of products.&#xD;
+This way you can configure custom options once and reuse them easily.</description>
+    <notes>* Initial release.&#xD;
+* On admin products page select products you want to copy to, then in mass action drop down select 'Copy Custom Options', then chooose source product and click submit.</notes>
+    <authors><author><name>Petar Dzhambazov</name><user>jamby77</user><email>jamby77@gmail.com</email></author></authors>
+    <date>2011-05-09</date>
+    <time>08:33:29</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="ZetaPrints_Options.xml" hash="53d18538efc0c324881c5d9bdd9495d9"/></dir></target><target name="magecommunity"><dir name="ZetaPrints"><dir name="Options"><dir name="Block"><dir name="Adminhtml"><file name="Grid.php" hash="ab453c4c24b7a127565ffed61bba58a4"/></dir></dir><dir name="Helper"><file name="Data.php" hash="0bd926a0f2c422036b85f53b97745746"/></dir><dir name="Model"><file name="Copy.php" hash="5d1afeaee2e785121b769641e3cbecbe"/><file name="Observer.php" hash="779bddcbd142f19a4969bb83152f994a"/></dir><dir name="controllers"><file name="ZpoptionsController.php" hash="3fbb3326bd32b4779ac332289b9b6c30"/></dir><dir name="etc"><file name="config.xml" hash="dc36d3ebc2d06f4c2511d68172e780ee"/></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.6</min><max>5.3.6</max></php></required></dependencies>
+</package>
