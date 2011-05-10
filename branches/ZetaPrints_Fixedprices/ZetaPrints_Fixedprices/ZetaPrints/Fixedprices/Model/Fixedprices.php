@@ -82,4 +82,9 @@ class ZetaPrints_Fixedprices_Model_Fixedprices
     }
     return parent::getTierPriceCount($product);
   }
+    
+  public function isFixedPriceFixed()
+  {
+	return true;
+  }
 }
