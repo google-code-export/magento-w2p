@@ -64,7 +64,12 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     if (!$request->has('zetaprints-previews'))
       return;
 
-    Mage::getSingleton('core/session')->setData('zetaprints-previews', $request->getParam('zetaprints-previews'));
+    //Store preview file names in user's session.
+    $previews = $request->getParam('zetaprints-previews');
+    $previews = serialize(explode(',', $previews));
+
+    Mage::getSingleton('core/session')
+                                    ->setData('zetaprints-previews', $previews);
 
     $user_input = array();
     foreach ($request->getParams() as $key => $value)

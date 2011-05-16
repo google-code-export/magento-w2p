@@ -134,11 +134,10 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     $page_number = 0;
 
     foreach ($template->Pages->Page as $page) {
-      $guid = explode('preview/', $previews[$page_number++]);
+      $guid = $previews[$page_number++];
 
-      $page['PreviewImageUpdated'] = $this->get_preview_url($guid[1]);
-      $page['ThumbImageUpdated']
-                                 = $this->get_thumbnail_url($guid[1], 100, 100);
+      $page['PreviewImageUpdated'] = $this->get_preview_url($guid);
+      $page['ThumbImageUpdated'] = $this->get_thumbnail_url($guid, 100, 100);
     }
   }
 

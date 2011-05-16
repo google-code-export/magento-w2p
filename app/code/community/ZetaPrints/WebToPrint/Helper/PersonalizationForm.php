@@ -836,17 +836,6 @@ jQuery(document).ready(function($) {
     if ($previews_from_session) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
 
-      $previews = unserialize($session->getData('zetaprints-previews'));
-
-      if (is_array($previews))
-        foreach ($template_details['pages'] as $page_number => &$page) {
-          $guid = explode('preview/', $previews[$page_number - 1]);
-
-          $page['updated-preview-image'] = $this->get_preview_url($guid[1]);
-          $page['updated-thumb-image']
-                                 = $this->get_thumbnail_url($guid[1], 100, 100);
-        }
-
       $session->unsetData('zetaprints-previews');
     }
 
