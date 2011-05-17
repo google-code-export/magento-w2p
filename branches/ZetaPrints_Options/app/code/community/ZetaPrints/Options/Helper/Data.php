@@ -34,7 +34,6 @@ class ZetaPrints_Options_Helper_Data
       'image_size_y'
     );
     $multiArgs = array(
-      'option_type_id',
       'is_delete',
       'title',
       'sort_order',
