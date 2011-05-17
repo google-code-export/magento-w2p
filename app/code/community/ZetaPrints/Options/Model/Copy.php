@@ -26,30 +26,42 @@ class ZetaPrints_Options_Model_Copy
    */
   public function copy($srcId, $productIds = array())
   {
+    $db = Mage::getSingleton('core/resource')->getConnection('core_read');
+    $this->_startProfiler($db);
     // get options associated to src product
-
     $options = $this->getOptions($srcId);
 
     // if no options come out, return with message
     if (!count($options)) {
-      $this->_getSession()->addError('Incorrect source product!');
+      $this->_getSession()->addError('Incorrect source product! Product has no custom options or does not exist.');
       return false;
     }
-
+    $start = microtime(true);
+    $processed = 0;
+    $this->addNotice('Started at ' . date('c'));
     $productOptions = $this->getOptionsAsArray($options);
 
     if (!empty($productOptions)) {
+      $this->addNotice('Found ' . count($productOptions) . ' options.');
       try {
         foreach ($productIds as $id) {
+          if ($srcId == $id) {
+            continue;
+          }
           $this->copyOptionsToProduct($id, $productOptions);
+          $processed++;
         }
       } catch (Exception $err) {
         $this->_getSession()->addError($err->getMessage());
         $this->_getSession()->addError('<pre>' . $err->getTraceAsString() . '</pre>');
+        $this->_stopProfiler($db);
         return false;
       }
     }
 
+    $end = microtime(true) - $start;
+    $this->addNotice('Ended at ' . date('c') . ', taking ' . $end . ' seconds for ' . $processed . ' product(s), ' . $end / $processed . ' sec per product.');
+    $this->_stopProfiler($db);
     return true;
   }
 
@@ -83,7 +95,7 @@ class ZetaPrints_Options_Model_Copy
         ->addPriceToResult(Mage::app()->getStore()->getId())
         ->addProductToFilter($srcId)
         ->addValuesToResult();
-    /* @var $options Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection */
+
     return $options;
   }
 
@@ -96,14 +108,15 @@ class ZetaPrints_Options_Model_Copy
    */
   protected function copyOptionsToProduct($id, $productOptions)
   {
-    /* @var $product Mage_Catalog_Model_Product */
-    $product = Mage::getModel('catalog/product')->load($id);
+    $product = Mage::getModel('catalog/product');
+    /* @var Mage_Catalog_Model_Product */
+    $product->reset()->load($id);
     $product->setIsMassupdate(true);
     $product->setExcludeUrlRewrite(true);
 
-    /* @var $product Mage_Catalog_Model_Product */
     $product->setProductOptions($productOptions); // set product options data
     $product->setCanSaveCustomOptions(!$product->getOptionsReadonly()); // make sure product knows that options have to be saved
+    $this->deleteCurrentOptions($product);
     $product->save();
   }
 
@@ -126,5 +139,83 @@ class ZetaPrints_Options_Model_Copy
       $this->helper = Mage::helper('zpoptions');
     }
     return $this->helper;
+  }
+
+  protected function addNotice($notice)
+  {
+    if (Mage::getIsDeveloperMode())
+      $this->_getSession()->addNotice($notice);
+
+    return $this;
+  }
+
+  protected function addError($error)
+  {
+    if (Mage::getIsDeveloperMode())
+      $this->_getSession()->addError($error);
+
+    return $this;
+  }
+
+  /**
+   * @param  Mage_Catalog_Model_Product $product
+   * @return void
+   */
+  protected function deleteCurrentOptions($product)
+  {
+    $option = $product->getOptionInstance();
+    $optionsCollection = $option->getProductOptionCollection($product);
+    $optionsCollection->walk('delete');
+    $option->unsetOptions();
+  }
+
+  /**
+   * @param  Zend_Db_Adapter_Abstract $db
+   * @return void
+   */
+  protected function _startProfiler($db)
+  {
+    if ($db instanceof Zend_Db_Adapter_Abstract && Mage::getIsDeveloperMode()) {
+      $profiler = $db->getProfiler();
+      $profiler->setEnabled(true)
+          ->setFilterQueryType(null);
+
+    }
+  }
+
+  protected function _stopProfiler($db)
+  {
+    if ($db instanceof Zend_Db_Adapter_Abstract && Mage::getIsDeveloperMode()) {
+      /** @var $profiler Zend_Db_Profiler */
+      $profiler = $db->getProfiler();
+      if ($profiler && $profiler->getEnabled()) {
+        $totalTime = $profiler->getTotalElapsedSecs();
+        $queryCount = $profiler->getTotalNumQueries();
+        $insertCount = $profiler->getTotalNumQueries(Zend_Db_Profiler::INSERT);
+        $updateCount = $profiler->getTotalNumQueries(Zend_Db_Profiler::UPDATE);
+        $insertTime = $profiler->getTotalElapsedSecs(Zend_Db_Profiler::INSERT);
+        $updateTime = $profiler->getTotalElapsedSecs(Zend_Db_Profiler::UPDATE);
+        $longestTime = 0;
+        $longestQuery = null;
+
+        foreach ($profiler->getQueryProfiles() as $query) {
+          if ($query->getElapsedSecs() > $longestTime) {
+            $longestTime = $query->getElapsedSecs();
+            $longestQuery = $query->getQuery();
+          }
+        }
+
+        $msg = 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br/>\n";
+        $msg .= 'Executed INSERTs ' . $insertCount . ' queries in ' . $insertTime . ' seconds' . "<br/>\n";
+        $msg .= 'Executed UPDATEs ' . $updateCount . ' queries in ' . $updateTime . ' seconds' . "<br/>\n";
+        $msg .= 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br/>\n";
+        $msg .= 'Queries per second: ' . $queryCount / $totalTime . "<br/>\n";
+        $msg .= 'Longest query length: ' . $longestTime . "<br/>\n";
+        $msg .= "Longest query: \n" . $longestQuery . "\n";
+
+        $this->_getSession()->addNotice($msg);
+        $profiler->setEnabled(false);
+      }
+    }
   }
 }

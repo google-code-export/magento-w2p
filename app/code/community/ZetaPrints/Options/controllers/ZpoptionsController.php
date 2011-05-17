@@ -15,9 +15,14 @@ class ZetaPrints_Options_ZpoptionsController
     $request = $this->getRequest();
     $srcId =  $request->getParam('source'); // source product id
     $productIds = $request->getParam('product'); // affected products IDs
-    if(!is_numeric($srcId) || !(int) $srcId > 0) { // if a dodgy srcId is passed, return
+    if(!is_numeric($srcId)){
+      $this->_getSession()->addError('Product ID should be an integer.');
+      $this->_return();
+      return;
+    }elseif(!(int) $srcId > 0) { // if a dodgy srcId is passed, return
       $this->_getSession()->addError('Source product does not exist.');
       $this->_return();
+      return;
     }
     $copier = Mage::getModel('zpoptions/copy');
     /* @var $copier ZetaPrints_Options_Model_Copy */
