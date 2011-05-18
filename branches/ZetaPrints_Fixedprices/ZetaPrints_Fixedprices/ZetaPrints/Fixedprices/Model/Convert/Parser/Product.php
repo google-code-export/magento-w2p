@@ -20,6 +20,7 @@ class ZetaPrints_Fixedprices_Model_Convert_Parser_Product
       $this->setPosition($position);
       $fixedPrices = $product->getFixedPrice();
       $row['sku'] = $product->getSku();
+      $row['name'] = $product->getName();
       foreach ($fixedPrices as $i => $fp) {
         $row['qty' . $i] = $fp['price_qty'];
         $row['label' . $i] = $fp['units'];

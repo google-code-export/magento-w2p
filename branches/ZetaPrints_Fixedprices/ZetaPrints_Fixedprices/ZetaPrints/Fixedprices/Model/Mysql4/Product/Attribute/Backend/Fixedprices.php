@@ -33,7 +33,7 @@ class ZetaPrints_Fixedprices_Model_Mysql4_Product_Attribute_Backend_Fixedprices
     $select = $adapter->select()
                       ->from($this->getMainTable(), $columns)
                       ->where('entity_id=?', $productId)
-                      ->order('qty');
+                      ->order('price_id');
 
     if (!is_null($websiteId)) {
       if ($websiteId == '0') {
@@ -43,6 +43,8 @@ class ZetaPrints_Fixedprices_Model_Mysql4_Product_Attribute_Backend_Fixedprices
         ));
       }
     }
+
+    Mage::log((string)$select);
 
     return $adapter->fetchAll($select);
   }
