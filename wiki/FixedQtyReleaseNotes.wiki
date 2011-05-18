@@ -1,4 +1,12 @@
 #summary Release notes for Fixed Prices extension
+= Version 0.9.0b =
+
+== New beta == 
+  * added uninstal/uninstall.php to allow for complete removal of extension modifications
+  * changed sort order
+  * restricted FQ to simple, virtual, downloadable, configurable products only
+  * added product names to export file
+  * prevented product loading when checking if product uses FQ
 
 = Version 0.5.5b =
 
