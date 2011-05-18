@@ -14,8 +14,7 @@
   * Add support for creation of virtual products (issue #478)
   * Add support for translation of template's titles, hints and field names (issue #479)
   * Implement custom option to allow users download files regardless of ZP template setting (issue #491)
-  * Bug fixes and improvements (issue #440, issue #436, issue #437, issue #450, issue #188, issue #292, issue #179, issue #483, issue #469 and issue #438)
-  
+  * Bug fixes and improvements (issue #440, issue #436, issue #437, issue #450, issue #188, issue #292, issue #179, issue #483, issue #469, issue #438, issue #489 and issue #88)
 
 == Release comments ==
 
