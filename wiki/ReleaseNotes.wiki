@@ -4,6 +4,7 @@
 == Issues ==
   * Add support for M. 1.5 (issue #458)
   * New fit-to-field feature in image editor dialog (disabled by default because of development state)
+  * Add ability to choose color for text fields (issue 375)
   * Update jQuery to 1.4.4 release and jQuery UI to 1.8.7 release
   * Add support for custom options in separate XML file (issue #259)
   * Fancybox resizing capabilities (issue #251)
