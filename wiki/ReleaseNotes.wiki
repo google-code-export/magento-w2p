@@ -7,7 +7,7 @@
   * Update jQuery to 1.4.4 release and jQuery UI to 1.8.7 release
   * Add support for custom options in separate XML file (issue #259)
   * Fancybox resizing capabilities (issue #251)
-  * Add Spain and Bulgarian localizations
+  * Add Spain, Bulgarian, German and Makedonian localizations
   * Implement fake Add to cart button (issue #374)
   * Hide Update button on static pages (issue #273)
   * Add support for creation of virtual products (issue #478)
