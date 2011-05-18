@@ -9,7 +9,7 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Fixedprices
         $product = Mage::registry('product');
         $values = $product->getData();
         $helper = Mage::helper('fixedprices');
-        /*@var $helper ZetaPrints_Fixedprices_Helper_Data */
+        /* @var $helper ZetaPrints_Fixedprices_Helper_Data */
         $attributes = $helper->getAttributes($product);
 
 

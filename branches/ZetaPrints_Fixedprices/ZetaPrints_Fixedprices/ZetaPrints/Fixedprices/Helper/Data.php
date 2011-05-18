@@ -48,14 +48,16 @@ class ZetaPrints_Fixedprices_Helper_Data extends Mage_Core_Helper_Abstract
   public function getAttributes(Mage_Catalog_Model_Product $product)
   {
     $attributes = array();
-    $productAttributes = $product->getAttributes();
-    foreach ($productAttributes as $attr) {
-      $code = $attr->getAttributeCode();
-      if (in_array($code, $this->_attributes)) {
-        $attributes[$code] = $attr;
+    try {
+      foreach ($this->_attributes as $attr) {
+        $attribute = $product->getResource()->getAttribute($attr);
+        if ($attribute) {
+          $attributes[$attr] = $attribute;
+        }
       }
+    } catch (Exception $e) {
+      return $attributes;
     }
-
     return $attributes;
   }
 
