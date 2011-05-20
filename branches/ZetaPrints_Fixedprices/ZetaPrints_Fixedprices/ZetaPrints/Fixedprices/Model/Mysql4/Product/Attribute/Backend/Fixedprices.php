@@ -28,12 +28,13 @@ class ZetaPrints_Fixedprices_Model_Mysql4_Product_Attribute_Backend_Fixedprices
                       'units' => 'units',
                       'price_qty' => 'qty',
                       'price' => 'value',
-                      'active' => 'is_active'
+                      'active' => 'is_active',
+                      'order' => 'order'
     );
     $select = $adapter->select()
                       ->from($this->getMainTable(), $columns)
                       ->where('entity_id=?', $productId)
-                      ->order('price_id');
+                      ->order('order');
 
     if (!is_null($websiteId)) {
       if ($websiteId == '0') {

@@ -20,8 +20,8 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Price_Fixedprices
    */
   protected function _sortTierPrices($a, $b)
   {
-    if ($a['price_id'] != $b['price_id']) {
-      return $a['price_id'] < $b['price_id'] ? -1 : 1;
+    if ($a['order'] != $b['order']) {
+      return $a['order'] < $b['order'] ? -1 : 1;
     }
 
     return 0;

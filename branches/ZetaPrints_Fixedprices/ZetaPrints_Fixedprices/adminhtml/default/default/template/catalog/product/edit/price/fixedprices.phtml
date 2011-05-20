@@ -30,6 +30,7 @@
                 <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
                 <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
                 <th><?php echo Mage::helper('catalog')->__('Default');?></th>
+                <th><?php echo Mage::helper('catalog')->__('Order');?></th>
                 <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
             </tr>
         </thead>
@@ -58,6 +59,9 @@ var fixedPriceRowTemplate = '<tr>'
     + '<td class="nobr"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="fixed_price_row_{{index}}_qty" /></td>'
     + '<td><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="fixed_price_row_{{index}}_price" /></td>'
     + '<td><input class="<?php echo $_htmlClass ?> default" type="radio" name="<?php echo $_htmlName ?>[active]" value="{{index}}" id="fixed_price_row_{{index}}_default" /></td>'
+    + '<td><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][order]" value="{{order}}" id="fixed_price_row_{{index}}_order" class="fq_order" />'
+    + '<button title="<?php echo Mage::helper("catalog")->__("Up") ?>" type="button" id="move_{{index}}_up" class="icon-btn scalable sort-fq-link fq_up"><span><?php echo Mage::helper("catalog")->__("Up") ?></span></button>&nbsp;'
+    + '<button title="<?php echo Mage::helper("catalog")->__("Down") ?>" type="button"  id="move_{{index}}_down" class="icon-btn scalable sort-fq-link fq_down"><span><?php echo Mage::helper("catalog")->__("Down") ?></span></button></td>'
     + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="fixed_price_row_{{index}}_delete" />'
     + '<button title="<?php echo Mage::helper("catalog")->__("Delete Price") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
     + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
@@ -77,19 +81,21 @@ var fixedPriceControl = {
             units: '',
             qty: '',
             price: '',
+            order: 0,
             readOnly: false,
             index: this.itemsCount++
         };
 
-        if(arguments.length >= 5) {
+        if(arguments.length >= 6) {
             data.website_id = arguments[0];
             data.units      = arguments[1];
             data.qty        = arguments[2];
             data.price      = arguments[3];
             data.active 		= arguments[4];
+            data.order 		  = arguments[5];
         }
-        if (arguments.length == 6) {
-            data.readOnly = arguments[5];
+        if (arguments.length == 7) {
+            data.readOnly = arguments[6];
         }
 
         Element.insert($('<?php echo $_htmlId ?>_container'), {
@@ -140,6 +146,8 @@ var fixedPriceControl = {
         return false;
     }
 };
+
+var fq_order = [];
 <?php foreach ($this->getValues() as $_item): ?>
 fixedPriceControl.addItem(
     '<?php echo $_item['website_id'] ?>',
@@ -147,12 +155,63 @@ fixedPriceControl.addItem(
     '<?php echo $_item['price_qty']*1 ?>',
     '<?php echo sprintf('%.2f', $_item['price']) ?>',
     <?php echo $_item['active']?>,
-    <?php echo (int)!empty($_item['readonly'])?>);
+    <?php echo (int) $_item['order']?>,
+    <?php echo (int) !empty($_item['readonly'])?>);
 <?php endforeach; ?>
 <?php if ($_readonly): ?>
 $('<?php echo $_htmlId ?>_container').up('table').select('button')
     .each(fixedPriceControl.disableElement);
 <?php endif; ?>
+
+Event.observe(window, 'load', function(e){
+//  reorder_rows();
+  var fq_rows = $$('#fixed_price_container tr');
+  fq_rows.each(function(row, idx){
+//    var order = idx + 1;
+    row = $(row);
+    var order_link_up = row.down('.fq_up');
+    var order_link_down = row.down('.fq_down');
+    order_link_up.observe('click', function(e){
+      Event.stop(e);
+      if(row.first) {
+        return;
+      }
+      var prev = row.previous('tr');
+      if(prev) {
+        Element.remove(row);
+        prev.insert({before: row});
+        reorder_rows()
+      }
+    });
+
+    order_link_down.observe('click', function(e){
+      Event.stop(e);
+      if(row.last) {
+        return;
+      }
+      var next = row.next('tr');
+      if(next) {
+        Element.remove(row);
+        next.insert({after: row});
+        reorder_rows();
+      }
+    });
+  });
+
+});
+
+function reorder_rows() {
+  var rows = $$('#fixed_price_container tr');
+  rows.each(function(row, idx){
+    row.fq_idx = idx;
+    var order_input = $(row).down('input.fq_order');
+    order_input.value = idx + 1;
+    row.first = false;
+    row.last = false;
+  });
+  rows.first().first = true;
+  rows.last().last = true;
+}
 //]]>
 </script>
 </td></tr>

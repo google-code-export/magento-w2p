@@ -203,6 +203,7 @@ class ZetaPrints_Fixedprices_Model_Product_Attribute_Backend_Fixedprices
           'qty' => $data['price_qty'],
           'value' => $data['price'],
           'is_active' => ($k == $default_index) ? 1 : 0,
+          'order' => (isset($data['order']) && $data['order'] != 0) ? $data['order']: $k +1, // if no order is set use the order of adding (this will happen only on initial FQ adding
       );
     }
 
@@ -235,11 +236,14 @@ class ZetaPrints_Fixedprices_Model_Product_Attribute_Backend_Fixedprices
 
     if (!empty($update)) {
       foreach ($update as $k => $v) {
-        if ($old[$k]['price'] != $v['value'] || $old[$k]['active'] != $v['is_active']) {
+        if (   $old[$k]['price']  != $v['value']
+            || $old[$k]['active'] != $v['is_active']
+            || $old[$k]['order']  != $v['order']) {
           $price = new Varien_Object(array(
                       'value_id' => $old[$k]['price_id'],
                       'value' => $v['value'],
                       'is_active' => $v['is_active'],
+                      'order' => $v['order'],
                   ));
           $this->_getResource()->savePriceData($price);
           $isChanged = true;
