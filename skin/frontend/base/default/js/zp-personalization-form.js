@@ -501,6 +501,8 @@ function personalization_form ($) {
     return false;
   }
 
+  zp.update_preview = update_preview;
+
   $('button.update-preview').click({zp: this}, update_preview);
 
   var upload_controller_url = this.url.upload;
@@ -658,22 +660,32 @@ function personalization_form ($) {
       $selector = $content.data('in-preview-edit').parent;
     }
 
-    $selector.removeClass('no-value');
+    var zp = event.data.zp;
 
-    //If ZetaPrints advanced theme is enabled then...
-    if (window.mark_shape_as_edited && window.unmark_shape_as_edited
-        && window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
-      var zp = event.data.zp;
+    if ($(event.target).val().length) {
+      $selector.removeClass('no-value');
 
-      if ($(event.target).val().length)
+      $('#fancybox-outer').addClass('modified');
+
+      //If ZetaPrints advanced theme is enabled then...
+      if (window.mark_shape_as_edited)
         //... mark shape as edited then image is seleсted
         mark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
-      else
+    } else {
+      $selector.addClass('no-value');
+
+      $('#fancybox-outer').removeClass('modified');
+
+      //If ZetaPrints advanced theme is enabled then...
+      if (window.unmark_shape_as_edited)
         //or unmark shape then Leave blank is selected
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
+    }
 
+    //If ZetaPrints advanced theme is enabled then...
+    if (window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
       //Check that the value of a field was changed...
       if ($(event.target).val() != $content.data('original-value'))
         //... then mark a field box as edited
@@ -693,6 +705,26 @@ function personalization_form ($) {
     if ($panel.hasClass('color-picker')
         && !$panel.find('input').attr('checked'))
       $panel.find('.color-sample').click();
+  }
+
+  function has_changed_fields_on_page (page_number) {
+    var fields = $('#input-fields-page-' + page_number + ', ' +
+                   '#stock-images-page-' + page_number);
+
+    if (!fields.length)
+      return true;
+
+    var fields = $('input[name^="zetaprints-_"]:text, ' +
+                   'textarea[name^="zetaprints-_"], ' +
+                   'select[name^="zetaprints-_"], ' +
+                   'input[name^="zetaprints-_"]:checked, ' +
+                   'input[name^="zetaprints-#"]:checked', fields);
+
+    for (field in fields)
+      if (fields[field].value)
+        return true;
+
+    return false;
   }
 
   $(window).load({ zp: this }, function (event) {
@@ -826,8 +858,20 @@ function personalization_form ($) {
     'onComplete': function () {
       $('img#fancybox-img').attr('title', click_to_close_text);
 
+      //!!! Needs to be implemented via zp object.
+      //!!! Page state should be saved in page object.
+      if (has_changed_fields_on_page(zp.current_page))
+        $('#fancybox-outer').addClass('modified');
+      else
+        $('#fancybox-outer').removeClass('modified');
+
       if (window.fancybox_resizing_add)
         fancybox_resizing_add(this);
+
+      if (window.fancybox_add_update_preview_button
+          && !zp.template_details.pages[zp.current_page].static) {
+        fancybox_add_update_preview_button($, zp);
+      }
 
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
@@ -856,7 +900,12 @@ function personalization_form ($) {
         $('div.zetaprints-field-shape', $('div#fancybox-content')).removeClass('highlighted');
         popdown_field_by_name(undefined, true);
       }
-    } });
+    },
+    'onClosed': function () {
+      if (window.fancybox_remove_update_preview_button)
+        fancybox_remove_update_preview_button($);
+    }
+    });
 
   $('a.in-dialog').fancybox({
     'opacity': true,
@@ -917,22 +966,30 @@ function personalization_form ($) {
       return false;
   });
 
-  //If ZetaPrints advanced theme is enabled then...
-  if (this.has_shapes && window.mark_shape_as_edited
-      && window.unmark_shape_as_edited && window.mark_fieldbox_as_edited
-      && window.unmark_fieldbox_as_edited) {
-    $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
-      var zp = event.data.zp;
+  $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
+    var zp = event.data.zp;
 
-      if ($(this).val().length)
-        // ... then mark shape as edited if input field was modified and is not empty
+    if ($(this).val().length) {
+      $('#fancybox-outer').addClass('modified');
+
+      if (zp.has_shapes && window.mark_shape_as_edited)
+        // ... then mark shape as edited if input field was modified
+        // and is not empty
         mark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
-      else
+    } else {
+      $('#fancybox-outer').removeClass('modified');
+
+      if (zp.has_shapes && window.unmark_shape_as_edited)
         // or unmark it if input field is empty
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
+    }
 
+    if (zp.has_shapes
+        && window.mark_shape_as_edited
+        && window.mark_fieldbox_as_edited
+        && window.unmark_fieldbox_as_edited) {
       //Check that the value of a field was changed...
       if ($(this).val() != $(this).data('original-value'))
         //... then mark a field box as edited
@@ -940,8 +997,8 @@ function personalization_form ($) {
       else
          //... else unmark the field box as edited
         unmark_fieldbox_as_edited($(this).attr('name').substring(12));
-    });
-  }
+    }
+  });
 
   $('.button.delete').click({ zp: this }, function(event) {
     if (confirm(delete_this_image_text)) {

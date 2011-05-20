@@ -31,3 +31,15 @@
 #fancybox-close.resizer-tweaks {
   background: url("images/fancybox.png") no-repeat transparent -68px -200px;
 }
+
+#fancybox-resize.middle-position a {
+  width: 22px;
+}
+
+#fancybox-resize.middle-position .maximize {
+  background-position: -44px -305px;
+}
+
+#fancybox-resize.middle-position .restore {
+  background-position: -44px -271px;
+}
