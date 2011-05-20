@@ -7,6 +7,7 @@
       <action method="addJs"><script>jquery/jquery-qtip-min.js</script></action>
       <action method="addJs"><script>fancybox/jquery-fancybox.js</script></action>
       <action method="addJs"><script>fancybox/fancybox-resizing.js</script></action>
+      <action method="addJs"><script>fancybox/fancybox-update-preview.js</script></action>
       <action method="addJs"><script>lib/ajaxupload.js</script></action>
       <action method="addJs"><script>zetaprints/zp-text-field-resizer.js</script></action>
       <action method="addJs"><script>zetaprints/zp-text-field-editor.js</script></action>
@@ -19,6 +20,7 @@
       <action method="addItem"><type>js_css</type><name>colorpicker/colorpicker.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/jquery-fancybox.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/fancybox-resizing.css</name></action>
+      <action method="addItem"><type>js_css</type><name>fancybox/fancybox-update-preview.css</name></action>
       <action method="addItem"><type>js_css</type><name>zetaprints/zp-text-field-editor.css</name></action>
       <action method="addItem"><type>js_css</type><name>powercrop/jquery-powercrop.css</name></action>
       <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
