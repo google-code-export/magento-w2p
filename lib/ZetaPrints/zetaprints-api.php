@@ -168,7 +168,9 @@ function zetaprints_parse_template_details ($xml) {
       'thumb-image' => (string) $page['ThumbImage'],
       'static' => isset($page['Static']) ? (bool) $page['Static'] : false,
       'width-in' => (string) $page['WidthIn'],
-      'height-in' => (string) $page['HeightIn'] );
+      'height-in' => (string) $page['HeightIn'],
+      'width-cm' =>  (float) $page['WidthCm'],
+      'height-cm' =>  (float) $page['HeightCm'] );
 
     if ((string) $page['PreviewImageUpdated'])
       $template['pages'][$page_number]['updated-preview-image']
