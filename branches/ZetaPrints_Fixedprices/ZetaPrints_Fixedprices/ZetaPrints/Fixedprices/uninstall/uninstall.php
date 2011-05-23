@@ -24,7 +24,7 @@ $setup->startSetup();
 echo 'Removing attribute';
 
 //Remove installed attributes
-$setup->removeAttribute('catalog_product', ZetaPrints_Fixedprices_Helper_Data::FIXED_PRICE);
+$setup->removeAttribute('catalog_product', 'fixed_price');
 
 echo '[OK]<br />';
 
