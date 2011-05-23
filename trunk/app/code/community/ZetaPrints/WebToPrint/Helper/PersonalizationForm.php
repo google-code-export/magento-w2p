@@ -790,6 +790,19 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function getPageSizeTable ($context, $units = 'in') {
+    $params = array(
+      'page-size-units' => $units,
+      'page-size-icon'
+                => Mage::getDesign()->getSkinUrl('images/page-size-icon.png') );
+
+    $result = $this->get_form_part_html('page-size-table',
+                                        $context->getProduct(),
+                                        $params );
+
+    echo $result ? $result : '';
+  }
+
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;

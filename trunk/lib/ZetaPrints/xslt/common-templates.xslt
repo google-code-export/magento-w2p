@@ -440,6 +440,103 @@
     </div>
   </xsl:template>
 
+  <xsl:template name="page-size">
+    <table>
+      <tbody>
+        <tr class="page-size-table-head">
+          <td class="page-size-table-icon" rowspan="2">
+            <img src="{$page-size-icon}" />
+          </td>
+
+          <xsl:if test="@GeneratePdf=1">
+            <td>PDF</td>
+          </xsl:if>
+
+          <xsl:if test="@GenerateJpg=1">
+            <td>JPEG</td>
+          </xsl:if>
+
+          <xsl:if test="@GenerateGifPng=1">
+            <td>GIF/PNG</td>
+          </xsl:if>
+        </tr>
+
+        <xsl:for-each select="//Pages/Page">
+          <tr id="page-size-page-{position()}" class="page-size-table-body zp-hidden">
+            <xsl:if test="../../@GeneratePdf=1">
+              <td>
+                <xsl:choose>
+                  <xsl:when test="$page-size-units='in'">
+                    <xsl:value-of select="@WidthIn" />
+                    &#215;
+                    <xsl:value-of select="@HeightIn" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">in</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                  <xsl:when test="$page-size-units='cm'">
+                    <xsl:value-of select="@WidthCm" />
+                    &#215;
+                    <xsl:value-of select="@HeightCm" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">cm</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                </xsl:choose>
+              </td>
+            </xsl:if>
+
+            <xsl:if test="../../@GenerateJpg=1">
+              <td>
+                <xsl:choose>
+                  <xsl:when test="$page-size-units='in'">
+                    <xsl:value-of select="@WidthIn" />
+                    &#215;
+                    <xsl:value-of select="@HeightIn" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">in</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                  <xsl:when test="$page-size-units='cm'">
+                    <xsl:value-of select="@WidthCm" />
+                    &#215;
+                    <xsl:value-of select="@HeightCm" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">cm</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                </xsl:choose>
+              </td>
+            </xsl:if>
+
+            <xsl:if test="../../@GenerateGifPng=1">
+              <td>
+                <xsl:choose>
+                  <xsl:when test="$page-size-units='in'">
+                    <xsl:value-of select="@WidthIn" />
+                    &#215;
+                    <xsl:value-of select="@HeightIn" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">in</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                  <xsl:when test="$page-size-units='cm'">
+                    <xsl:value-of select="@WidthCm" />
+                    &#215;
+                    <xsl:value-of select="@HeightCm" />
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">cm</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                </xsl:choose>
+              </td>
+            </xsl:if>
+          </tr>
+        </xsl:for-each>
+      </tbody>
+    </table>
+  </xsl:template>
+
   <!--The translation template-->
   <xsl:template name="trans">
     <!--Key to search for-->
