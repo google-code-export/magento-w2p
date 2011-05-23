@@ -804,3 +804,30 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .zetaprints-page-stock-images {
   margin-top: 15px;
 }
+
+/* Page size tables styles */
+.zetaprints-page-size-table {
+  margin: 10px 0px;
+}
+
+.zetaprints-page-size-table table {
+  border: 1px solid #dfdfdf;
+  border-collapse: collapse;
+}
+
+.zetaprints-page-size-table td {
+  border: 1px solid #dfdfdf;
+  font-size: 8pt;
+  padding: 0 4px;
+  text-align: center;
+}
+
+.zetaprints-page-size-table .page-size-table-head td {
+  color: #636363;
+  font-weight: bold;
+}
+
+.zetaprints-page-size-table .page-size-table-icon {
+  background-color: #f3f8fe;
+  vertical-align: middle;
+}
