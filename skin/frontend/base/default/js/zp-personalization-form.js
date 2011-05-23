@@ -219,6 +219,24 @@ function personalization_form ($) {
       $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
+  $('.zetaprints-page-input-fields select').each(function () {
+    var $self = $(this);
+    var isCombo = false;
+    var $children = $self.children('option');
+
+    $children.each(function () {
+      var $opt = jQuery(this);
+
+      if ($.trim($opt.text()) == '-') {
+        isCombo = true;
+        $opt.remove();
+      }
+    });
+
+    if (isCombo)
+      $self.wrap('<div class="ui-widget" />').combobox();
+  });
+
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
     .removeClass('zp-hidden');
 
