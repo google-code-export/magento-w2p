@@ -31,6 +31,12 @@ echo '[OK]<br />';
 echo 'Removing tables ';
 
 $setup->run("DROP TABLE IF EXISTS {$setup->getTable('zetaprints_product_entity_fixed_price')}");
+echo '[OK]<br />';
+echo 'Remove resource references';
+//Remove record about extension from resource table
+$setup->run("
+  DELETE FROM {$setup->getTable('core/resource')}
+    WHERE code = 'fixedprices_setup'");
 
 echo '[OK]<br />';
 
