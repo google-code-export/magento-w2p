@@ -1,0 +1,195 @@
+/*
+ * Style taken from jquery example in ui demos and added
+ * ui themes css for bandwidth reasons
+ */
+.ui-widget {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1em;
+  text-align: left;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  font-weight: normal ;
+  color: #555555 ;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+  font-weight: normal ;
+  color: #212121 ;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  font-size: 12px;
+}
+
+.ui-widget .ui-widget {
+  font-size: 12px;
+}
+
+.ui-button-icon-only .ui-icon,
+.ui-button-text-icon-primary .ui-icon,
+.ui-button-text-icon-secondary .ui-icon,
+.ui-button-text-icons .ui-icon,
+.ui-button-icons-only .ui-icon {
+  position: absolute;
+  top: 6px;
+}
+
+.ui-widget-content {
+  border: 1px solid #aaaaaa ;
+  background: #ffffff ;
+  color: #222222 ;
+}
+
+.ui-button {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  margin-right: .1em;
+  text-decoration: none !important;
+  cursor: pointer;
+  text-align: center;
+  zoom: 1;
+  overflow: visible;
+  background-color: #f2f2f2;
+  border: 1px solid #d3d3d3 ;
+}
+
+/* to make room for the icon, a width needs to be set here */
+button.ui-button-icon-only {
+  width: 18px;
+}
+
+button.ui-state-hover{
+  border-color: #888888;
+}
+
+.ui-icon {
+  display: block;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  width: 7px;
+  height: 7px;
+  margin: 0;
+}
+
+.ui-icon-triangle-1-s {
+  background-position: 0px 0px
+}
+
+button.ui-state-hover .ui-icon-triangle-1-s {
+  background-position: 0px -10px
+}
+
+.ui-button-icon-only .ui-icon {
+  left: 50%;
+  margin-left: -3px;
+}
+
+.ui-autocomplete-input {
+  margin: 0 -20px 0 0;
+  padding: 2px 20px 3px 3px;
+  width: 305px; /* default magento width */
+}
+
+@-moz-document url-prefix() {
+  .ui-button-icon-only .ui-icon {
+    margin-left: -6px;
+  }
+
+  .ui-autocomplete-input {
+    padding-top: 4px;
+  }
+}
+
+.ui-state-default .ui-icon {
+  background-image: url('images/zp-combobox-field/sprites.gif') ;
+}
+
+.ui-button .ui-button-text {
+  display: block;
+  line-height: 1.3;
+}
+
+.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text {
+  padding: .4em;
+  text-indent: -9999999px;
+}
+
+.ui-button-icon-only .ui-button-text {
+  padding: 0;
+}
+
+.ui-autocomplete {
+  max-height: 100px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+  /* add padding to account for vertical scrollbar */
+  padding-right: 20px;
+  position: absolute;
+  cursor: default;
+}
+
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+  height: 100px;
+  width: 1px;
+}
+
+.ui-menu {
+  list-style:none;
+  padding: 2px;
+  margin: 0;
+  display:block;
+  float: left;
+  border-top: 0 none;
+}
+
+.ui-menu .ui-menu {
+  margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+  margin:0;
+  padding: 0;
+  zoom: 1;
+  float: left;
+  clear: left;
+  width: 100%;
+}
+
+.ui-menu .ui-menu-item a {
+  text-decoration:none;
+  display:block;
+  padding:.2em .4em;
+  font-size: 12px;
+  line-height:1.5;
+  zoom:1;
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+  font-weight: normal;
+  margin: -1px;
+  background-color: #f2f2f2;
+  border: 1px solid #888888;
+}
+
+.ui-menu .ui-menu-item a {
+  text-align: left;
+}
+
+.ui-widget-content a {
+  color: #222222;
+}
