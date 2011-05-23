@@ -247,6 +247,10 @@
           <file>catalog/web-to-print-product.xml</file>
         </catalog-web-to-print-product>
 
+        <review-web-to-print-product>
+          <file>review/web-to-print-product.xml</file>
+        </review-web-to-print-product>
+
         <checkout-web-to-print-cart>
           <file>checkout/web-to-print-cart.xml</file>
         </checkout-web-to-print-cart>
