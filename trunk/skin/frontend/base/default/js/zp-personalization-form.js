@@ -234,7 +234,7 @@ function personalization_form ($) {
     });
 
     if (isCombo)
-      $self.wrap('<div class="ui-widget" />').combobox();
+      $self.wrap('<div class="zetaprints-text-field-wrapper" />').combobox();
   });
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
