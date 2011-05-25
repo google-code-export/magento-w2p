@@ -1,158 +1,67 @@
 (function ($) {
 
-$.widget('ui.combobox', {
-  _create: function () {
-    var self = this;
-    var select = this.element.hide();
-    var selected = select.children(':selected');
-    var value = selected.val() ? selected.text() : '';
-    var title = select.attr('title');
+$.fn.combobox = function () {
+  var $select = $(this);
+  var $selected_option = $select.children(':selected');
 
-    var input = $('<input>')
-      .insertAfter(select)
-      .val(value)
-      .autocomplete({
-        delay: 0,
-        minLength: 0,
+  var options = [];
 
-        source: function (request, response) {
-          var matcher
-                 = new RegExp($.ui.autocomplete.escapeRegex(request.term), 'i');
+  $select.children('option').each(function() {
+    if ($(this).text()) {
+      options.push($(this).text());
+      options.push($(this).text());
+    }
+  });
 
-          response(select.children("option").map(function () {
-            var $opt = $(this);
-            var text = $opt.text();
-            var value = this.value ? this.value : $.trim(text);
+  var $wrapper = $select.parent();
 
-            if (value && (!request.term || matcher.test(text)))
-              return {
-                label: text.replace(
-                        new RegExp('(?![^&;]+;)(?!<[^<>]*)('
-                          + $.ui.autocomplete.escapeRegex(request.term)
-                          + ')(?![^<>]*>)(?![^&;]+;)', 'gi'),
-                        '<strong>$1</strong>'),
-                value: text,
-                option: this };
-            } ) );
-        },
+  setTooltip($wrapper, $select.attr('title'), '(Select or enter a value)');
 
-        select: function (event, ui) {
-          ui.item.option.selected = true;
+  var $field = $('<input class="input-text" />')
+    .attr('id', $select.attr('id'))
+    .attr('name', $select.attr('name'))
+    .insertAfter($select)
+    .val($selected_option.text() ? $selected_option.text() : '')
+    .autocomplete({
+      appendTo: $wrapper,
+      delay: 0,
+      minLength: 0,
+      position: { my: 'left top',
+                  offset: '0',
+                  at: 'left bottom',
+                  of: $wrapper,
+                  collision: 'none' },
+      source: options,
 
-          self._trigger('selected', event, { item: ui.item.option });
-        },
+      open: function (event, ui) {
+        $field.parent().parent().addClass('z-index-1');
+        $button.addClass('opened');
+      },
 
-        change: function (event, ui) {
-          if (!ui.item) {
-            var matcher = new RegExp('^'
-                                  + $.ui.autocomplete.escapeRegex($(this).val())
-                                  + '$', 'i');
-
-            var valid = false;
-
-            select.children('option').each(function () {
-              if ($(this).text().match(matcher)) {
-                this.selected = valid = true;
-
-                return false;
-              }
-            });
-
-            if (!valid) {
-              // remove invalid value, as it didn't match anything
-              // above line is from original implementation,
-              // we however want to add the value to the list instead
-              // and select it.
-
-              var val = $(this).val();
-
-              select.append('<option>' + val + '</option>');
-              select.val(val);
-
-              input.data('autocomplete').term = val;
-            }
-          }
-        }
-      }).addClass('ui-widget ui-widget-content');
-
-    var tooltip = '(Select or enter a value)';
-    setTooltip(input, title, tooltip);
-
-    this.input = input;
-
-    input.data('autocomplete')._renderItem = function (ul, item) {
-      return $('<li></li>')
-               .data('item.autocomplete', item)
-               .append('<a>' + item.label + '</a>')
-               .appendTo(ul); };
-
-    // repeating the check from above because when clicking on a submit button
-    // right after entering new value change event does not fire
-    input.blur(function (event) {
-      var self = jQuery(this);
-      var val = self.val();
-
-      var matcher = new RegExp('^' + $.ui.autocomplete.escapeRegex(val)
-                               + '$', 'i');
-
-      var valid = false;
-
-      select.children('option').each(function () {
-        if ($(this).text().match(matcher)) {
-          this.selected = valid = true;
-
-          return false;
-        }
-      });
-
-      if (!valid) {
-        // remove invalid value, as it didn't match anything
-        // above line is from original implementation,
-        // we however want to add the value to the list instead
-        // and select it.
-
-        select.append('<option>' + val + '</option>');
-        select.val(val);
-
-        input.data('autocomplete').term = val;
+      close: function (event, ui) {
+        $field.parent().parent().removeClass('z-index-1')
+        $button.removeClass('opened');
       }
-    });
+    })
+    .wrap('<div class="zp-combobox-input-wrapper"/>');
 
-    this.button = $('<button type="button">&nbsp;</button>')
-      .attr('tabIndex', -1)
-      .attr('title', 'Show All Items')
-      .insertAfter(input)
-      .button({
-        icons: { primary: 'ui-icon-triangle-1-s' },
-        text: false })
-      .removeClass('ui-corner-all')
-      .addClass('ui-button-icon')
-      .click(function () {
-        // close if already visible
-        if (input.autocomplete('widget').is(':visible')) {
-          input.autocomplete('close');
+  $select.remove();
 
-          return;
-        }
+  var $button = $('<div class="zp-combobox-button">' +
+                    '<div class="zp-combobox-button-icon" />' +
+                  '</div>')
+    .click(function () {
+      if ($field.autocomplete('widget').is(':visible'))
+        $field.autocomplete('close').focus();
+      else
+        $field.autocomplete('search', '').focus();
+    })
+    .appendTo($wrapper);
 
-        // pass empty string as value to search for, displaying all results
-        input.autocomplete('search', '');
-        input.focus();
-      }
-    );
-  },
+  return $field;
+};
 
-  destroy: function(){
-    this.input.remove();
-    this.button.remove();
-    this.element.show();
-
-    $.Widget.prototype.destroy.call(this);
-  }
-
-});
-
-function setTooltip($el, title, tooltip) {
+function setTooltip($element, title, tooltip) {
   var content = '';
 
   if ($.trim(title))
@@ -166,7 +75,7 @@ function setTooltip($el, title, tooltip) {
   }
 
   if (content)
-    $el.qtip({
+    $element.qtip({
       content: content,
       position: { corner: { target: 'topLeft', tooltip: 'bottomLeft' } },
       show: { delay: 1, solo: true, when: { event: 'focus' } },
