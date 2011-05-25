@@ -56,7 +56,6 @@ div.zetaprints-page-input-fields textarea {
   border: none;
   padding: 0;
   width: 100%;
-  vertical-align: baseline;
 }
 
 div.zetaprints-page-input-fields input.input-text:focus,
@@ -72,8 +71,9 @@ div.zetaprints-page-input-fields textarea {
 .zetaprints-text-field-wrapper {
   border: 1px solid #B6B6B6;
   background-color: white;
-  padding: 2px 4px 1px 4px;
+  padding: 1px 4px;
   zoom: 1;
+  line-height: 1.5;
 }
 
 div.zetaprints-page-input-fields .zetaprints-text-field-wrapper:focus {
@@ -682,7 +682,7 @@ div.thumbCropedAreaToolSet div img {
 }
 
 .zetaprints-page-input-fields .ui-resizable {
-  position: relative !important;
+  position: relative;
 }
 
 /* ZetaPrints text field resizer */
@@ -797,8 +797,8 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 }
 
 .zetaprints-page-input-fields dd {
-  position: relative; /* Workaround for Opera 10 */
-  *z-index: 1; /* Work around for IE7 for line above :-) */
+ position: relative; /* Workaround for Opera 10 */
+ *position: static; /* Return back static positioning for IE7 */
 }
 
 .zetaprints-page-stock-images {
@@ -830,4 +830,8 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .zetaprints-page-size-table .page-size-table-icon {
   background-color: #f3f8fe;
   vertical-align: middle;
+}
+
+.z-index-1 {
+  z-index: 1;
 }
