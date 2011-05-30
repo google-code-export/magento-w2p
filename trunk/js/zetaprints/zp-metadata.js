@@ -11,9 +11,9 @@ function zp_set_metadata (field, key, value) {
   }
 }
 
-function zp_get_metadata (field, key, value) {
-  if (!field.metadata)
-    return undefined;
+function zp_get_metadata (field, key, default_value) {
+  if (!field.metadata || !field.metadata[key])
+    return default_value;
 
   return field.metadata[key];
 }
