@@ -955,19 +955,24 @@ function personalization_form ($) {
     var $text_field = $(this);
     var $button_container = $text_field.parents('dl').children('dt');
 
-    $text_field.text_field_editor({
-      button_parent: $button_container,
-
-      change: function (data) {
-        var field = zp.template_details.pages[zp.current_page]
+    var field = zp.template_details.pages[zp.current_page]
                                 .fields[$text_field.attr('name').substring(12)];
 
+    $text_field.text_field_editor({
+      button_parent: $button_container,
+      colour: zp_get_metadata(field, 'col-f', ''),
+
+      change: function (data) {
         var metadata = {
           'col-f': data.color }
 
         zp_set_metadata(field, metadata);
       }
     });
+
+    //Remove metadata values, so they won't be used in update preview requests
+    //by default
+    zp_set_metadata(field, 'col-f', undefined);
   });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({

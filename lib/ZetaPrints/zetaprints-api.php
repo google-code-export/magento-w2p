@@ -253,6 +253,16 @@ function zetaprints_parse_template_details ($xml) {
         $field_array['values'][] = (string) $value;
     }
 
+    if (isset($field['Meta'])) {
+      $field_array['metadata'] = array();
+
+      foreach (explode(';', (string) $field['Meta']) as $token)
+        if ($token) {
+          list($key, $value) = explode('=', $token);
+          $field_array['metadata'][$key] = $value;
+        }
+    }
+
     $page_number = (int) $field['Page'];
 
     if (!isset($template['pages'][$page_number]['fields']))
