@@ -13,6 +13,7 @@
   $.fn.text_field_editor = function (method) {
     var settings = {
       button_parent: null,
+      colour: '',
       change: function (data) {}
     };
 
@@ -53,8 +54,6 @@
     var name = 'zp-text-field-editor-colorpicker-'
                                               + this.attr('name').substring(12);
 
-    var $radio_button = $('<input type="radio" name="' + name + '" value="default" />');
-
     $('<div class="zp-text-field-editor-option">' +
         '<div><input type="radio" name="' + name + '" value="default" checked="checked" /></div>' +
         '<div><span>Default</span></div>' +
@@ -63,6 +62,11 @@
     var $color_picker = $('<div class="zp-text-field-editor-color-example" />');
 
     var $radio_button = $('<input type="radio" name="' + name + '" value="" />');
+
+    if (settings.colour) {
+      $color_picker.css('backgroundColor', settings.colour);
+      $radio_button.val(settings.colour);
+    }
 
     $('<div class="zp-text-field-editor-option" />')
       .append($radio_button.wrap('<div />').parent())
