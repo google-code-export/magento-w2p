@@ -259,10 +259,7 @@ function personalization_form ($) {
 
   for (var number in this.template_details.pages)
     if (this.template_details.pages[number].static) {
-      this.previews[number - 1] = this.template_details
-                                    .pages[number]['preview-image']
-                                    .split('/preview/')[1];
-
+      this.previews[number - 1] = null;
       this.changed_pages[number] = true;
     }
 
@@ -501,8 +498,13 @@ function personalization_form ($) {
           }
 
           if (zp.previews.length == zp.template_details.pages_number) {
-            $('input[name="zetaprints-previews"]')
-              .val(zp.previews.join(','));
+            var previews = '';
+
+            for (var i = 0; i < zp.previews.length; i++)
+              if (zp.previews[i])
+                previews += ',' + zp.previews[i];
+
+            $('input[name="zetaprints-previews"]').val(previews.substring(1));
 
             $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
             remove_fake_add_to_cart_button($add_to_cart_button);

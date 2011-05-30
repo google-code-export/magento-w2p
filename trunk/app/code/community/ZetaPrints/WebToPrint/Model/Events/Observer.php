@@ -45,6 +45,19 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     if (!$order_details)
       Mage::throwException('ZetaPrints error');
 
+    //We have to show all previews (for dynamic and static pages) on
+    //shopping card and order details, so save preview file names for all pages.
+    $previews = '';
+
+    foreach ($order_details['template-details']['pages'] as $page) {
+      if (isset($page['updated-preview-image']))
+        $previews .= ',' . substr($page['updated-preview-image'], 8);
+      else
+        $previews .= ',' . substr($page['preview-image'], 8);
+    }
+
+    $options['zetaprints-previews'] = substr($previews, 1);
+
     //Save order GUID in the item options
     $options['zetaprints-order-id'] = $order_details['guid'];
 
