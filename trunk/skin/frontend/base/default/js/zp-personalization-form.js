@@ -192,7 +192,7 @@ function personalization_form ($) {
         $('div.zetaprints-next-page-button').hide();
 
       //Show Update preview button after preview image has been loaded.
-      $('button.update-preview').show();
+      $('button.update-preview').removeClass('zp-hidden');
 
       //Hide placeholder and spinner after image has loaded
       $('#zp-placeholder-for-preview-' + event.data.page_number)
@@ -405,7 +405,8 @@ function personalization_form ($) {
     $('div.zetaprints-preview-button span.text, ' +
       'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
-    var update_preview_button = $('button.update-preview').hide();
+    var update_preview_button = $('button.update-preview')
+                                                         .addClass('zp-hidden');
 
     $('div.zetaprints-page-input-fields input,' +
       'div.zetaprints-page-input-fields textarea').each(function () {
