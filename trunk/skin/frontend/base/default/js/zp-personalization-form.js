@@ -963,33 +963,35 @@ function personalization_form ($) {
 
     return false; });
 
-  $('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea').each(function () {
-    var $text_field = $(this);
-    var $button_container = $text_field.parents('dl').children('dt');
+  $('.zetaprints-page-input-fields .zetaprints-field')
+    .filter(':input:not([type="hidden"])')
+    .each(function () {
+      var $text_field = $(this);
+      var $button_container = $text_field.parents('dl').children('dt');
 
-    var page = $text_field.parents('.zetaprints-page-input-fields')
-                 .attr('id')
-                 .substring(18);
+      var page = $text_field.parents('.zetaprints-page-input-fields')
+                   .attr('id')
+                   .substring(18);
 
-    var field = zp.template_details.pages[page]
-                  .fields[$text_field.attr('name').substring(12)];
+      var field = zp.template_details.pages[page]
+                    .fields[$text_field.attr('name').substring(12)];
 
-    $text_field.text_field_editor({
-      button_parent: $button_container,
-      colour: zp_get_metadata(field, 'col-f', ''),
+      $text_field.text_field_editor({
+        button_parent: $button_container,
+        colour: zp_get_metadata(field, 'col-f', ''),
 
-      change: function (data) {
-        var metadata = {
-          'col-f': data.color }
+        change: function (data) {
+          var metadata = {
+            'col-f': data.color }
 
-        zp_set_metadata(field, metadata);
-      }
+          zp_set_metadata(field, metadata);
+        }
+      });
+
+      //Remove metadata values, so they won't be used in update preview requests
+      //by default
+      zp_set_metadata(field, 'col-f', undefined);
     });
-
-    //Remove metadata values, so they won't be used in update preview requests
-    //by default
-    zp_set_metadata(field, 'col-f', undefined);
-  });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
