@@ -17,9 +17,10 @@ $.fn.combobox = function () {
 
   setTooltip($wrapper, $select.attr('title'), '(Select or enter a value)');
 
-  var $field = $('<input class="input-text" />')
+  var $field = $('<input />')
     .attr('id', $select.attr('id'))
     .attr('name', $select.attr('name'))
+    .attr('class', 'input-text ' + $select.attr('class'))
     .insertAfter($select)
     .val($selected_option.text() ? $selected_option.text() : '')
     .autocomplete({
