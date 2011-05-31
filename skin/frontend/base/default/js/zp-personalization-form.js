@@ -967,8 +967,12 @@ function personalization_form ($) {
     var $text_field = $(this);
     var $button_container = $text_field.parents('dl').children('dt');
 
-    var field = zp.template_details.pages[zp.current_page]
-                                .fields[$text_field.attr('name').substring(12)];
+    var page = $text_field.parents('.zetaprints-page-input-fields')
+                 .attr('id')
+                 .substring(18);
+
+    var field = zp.template_details.pages[page]
+                  .fields[$text_field.attr('name').substring(12)];
 
     $text_field.text_field_editor({
       button_parent: $button_container,
