@@ -19,8 +19,8 @@
         <dd>
           <xsl:choose>
             <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
-              <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" />
-              <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}">
+              <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" class="zetaprints-field" />
+              <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" class="zetaprints-field">
                 <xsl:if test="@Value=Value[1]">
                   <xsl:attribute name="checked">1</xsl:attribute>
                 </xsl:if>
@@ -38,7 +38,7 @@
               <xsl:choose>
                 <xsl:when test="@Multiline">
                   <div class="zetaprints-text-field-wrapper">
-                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" rows="3">
+                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" rows="3" class="zetaprints-field">
                     <xsl:if test="string-length(@Hint)!=0">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
@@ -62,7 +62,7 @@
 
                 <xsl:otherwise>
                   <div class="zetaprints-text-field-wrapper">
-                  <input type="text" id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" class="input-text">
+                  <input type="text" id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" class="input-text zetaprints-field">
                     <xsl:if test="@MaxLen">
                       <xsl:attribute name="maxlength"><xsl:value-of select="@MaxLen" /></xsl:attribute>
                     </xsl:if>
@@ -85,7 +85,7 @@
             </xsl:when>
 
             <xsl:otherwise>
-              <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}">
+              <select id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" class="zetaprints-field">
                 <xsl:attribute name="title">
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">
@@ -203,7 +203,7 @@
             </xsl:if>
             <li class="last">
               <label class="leave-blank-value">
-                <input id="zetaprints-blank-value" type="radio" name="zetaprints-#{@Name}" value="">
+                <input id="zetaprints-blank-value" type="radio" name="zetaprints-#{@Name}" value="" class="zetaprints-field">
                   <xsl:if test="string-length(@Value)=0">
                     <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:if>
@@ -213,7 +213,7 @@
                 </xsl:call-template>
               </label>
               <label class="leave-default-value">
-                <input type="radio" name="zetaprints-#{@Name}" value="#">
+                <input type="radio" name="zetaprints-#{@Name}" value="#" class="zetaprints-field">
                   <xsl:if test="@Value='#'">
                     <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:if>
@@ -272,7 +272,7 @@
               <table><tr>
                 <xsl:for-each select="user-image">
                   <td>
-                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}" class="zetaprints-images">
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}" class="zetaprints-images zetaprints-field">
                       <xsl:if test="@guid=../@Value">
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
@@ -321,7 +321,7 @@
               <table><tr>
                 <xsl:for-each select="StockImage">
                   <td>
-                    <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}">
+                    <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}" class="zetaprints-field">
                       <xsl:if test="@FileID=../@Value">
                         <xsl:attribute name="checked">1</xsl:attribute>
                       </xsl:if>
@@ -369,7 +369,7 @@
 
           <xsl:if test="@ColourPicker='RGB'">
             <div id="page-{$page}-tabs-{position()}-4" class="tab color-picker">
-              <input type="radio" name="zetaprints-#{@Name}">
+              <input type="radio" name="zetaprints-#{@Name}" class="zetaprints-field">
                 <xsl:choose>
                   <xsl:when test="string-length(@Value)=7 and starts-with(@Value,'#')">
                     <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
