@@ -7,10 +7,8 @@ $.fn.combobox = function () {
   var options = [];
 
   $select.children('option').each(function() {
-    if ($(this).text()) {
+    if ($(this).text())
       options.push($(this).text());
-      options.push($(this).text());
-    }
   });
 
   var $wrapper = $select.parent();
