@@ -190,6 +190,17 @@ function popup_field_by_name (name, position) {
   }
 
   jQuery(field).focus();
+
+  //Workaround for IE browser.
+  //It moves cursor to the end of input field after focus.
+  if (field.createTextRange) {
+    var range = field.createTextRange();
+    var position = jQuery(field).val().length;
+
+    range.collapse(true);
+    range.move('character', position);
+    range.select();
+  }
 }
 
 function popdown_field_by_name (full_name, reset_value) {
