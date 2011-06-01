@@ -7,9 +7,9 @@
     $field.unbind(event);
 
     if (data['style'] == undefined)
-      $field.parent().removeAttr('style');
+      data['wrapper'].removeAttr('style');
     else
-      $field.parent().attr('style', data['style']);
+      data['wrapper'].attr('style', data['style']);
   }
 
   $.fn.text_field_resizer = function () {
@@ -27,7 +27,8 @@
           });
 
           $field.data('text-field-resizer',
-                      { 'style': $wrapper.attr('style') } );
+                      { 'style': $wrapper.attr('style'),
+                        'wrapper': $wrapper } );
         },
 
         start: function () {
@@ -36,9 +37,18 @@
         },
 
         stop: function () {
-          $field.focus().bind('blur', restore_field_style);
+          $field.focus();
         }
-      });
+      })
+
+      $wrapper
+        .mouseenter(function () {
+          $field.unbind('blur', restore_field_style);
+        })
+        .mouseleave(function () {
+          $field.bind('blur', restore_field_style);
+        });
+
     });
   }
 })(jQuery);

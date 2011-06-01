@@ -1,0 +1,50 @@
+#zp-update-preview-button {
+  display: block;
+  position: absolute;
+  right: 36px;
+  top: -15px;
+  color: white;
+  text-decoration: none;
+  cursor: default;
+  z-index: 1103;
+  font: bold 8pt arial;
+}
+
+#zp-update-preview-button.no-middle {
+  right: 15px;
+}
+
+.modified #zp-update-preview-button {
+  cursor: pointer;
+}
+
+#zp-update-preview-button .icon {
+  display: block;
+  float: left;
+  background: url("images/zp-update-preview-button-sprite.png") no-repeat -27px 0px;
+  width: 21px;
+  height: 30px;
+}
+
+.modified #zp-update-preview-button .icon {
+  background-position: 0px 0px;
+}
+
+#zp-update-preview-button .text {
+  display: block;
+  float: right;
+  background: url("images/zp-update-preview-button-x.png") repeat-x 0px -31px;
+  height: 30px;
+  *float: none;
+}
+
+.modified #zp-update-preview-button .text {
+  background-position: 0px 0px;
+}
+
+#zp-update-preview-button .text span {
+  display: block;
+  margin: 4px 4px 0px 5px;
+  height: 18px;
+  line-height: 18px;
+}

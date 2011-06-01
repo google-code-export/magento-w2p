@@ -192,7 +192,7 @@ function personalization_form ($) {
         $('div.zetaprints-next-page-button').hide();
 
       //Show Update preview button after preview image has been loaded.
-      $('button.update-preview').show();
+      $('button.update-preview').removeClass('zp-hidden');
 
       //Hide placeholder and spinner after image has loaded
       $('#zp-placeholder-for-preview-' + event.data.page_number)
@@ -219,7 +219,27 @@ function personalization_form ($) {
       $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
-  $('#stock-images-page-1, #input-fields-page-1').removeClass('zp-hidden');
+  $('.zetaprints-page-input-fields select').each(function () {
+    var $self = $(this);
+    var isCombo = false;
+    var $children = $self.children('option');
+
+    $children.each(function () {
+      var $opt = jQuery(this);
+
+      if ($.trim($opt.text()) == '-') {
+        isCombo = true;
+        $opt.remove();
+      }
+    });
+
+    if (isCombo)
+      $self.wrap('<div class="zetaprints-text-field-wrapper" />').combobox();
+  });
+
+  $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
+    .removeClass('zp-hidden');
+
   $('div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
   $('div.zetaprints-image-tabs li:first').addClass('selected');
@@ -239,10 +259,7 @@ function personalization_form ($) {
 
   for (var number in this.template_details.pages)
     if (this.template_details.pages[number].static) {
-      this.previews[number - 1] = this.template_details
-                                    .pages[number]['preview-image']
-                                    .split('/preview/')[1];
-
+      this.previews[number - 1] = null;
       this.changed_pages[number] = true;
     }
 
@@ -269,7 +286,7 @@ function personalization_form ($) {
 
     //Hide preview image, preview placeholder with spinner, text fields
     //and image fields for the current page
-    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields, div.zetaprints-preview-placeholder').addClass('zp-hidden');
+    $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields, div.zetaprints-preview-placeholder, .page-size-table-body').addClass('zp-hidden');
 
     //Remove shapes for current page
     if (event.data.zp.has_shapes && window.remove_all_shapes)
@@ -289,7 +306,8 @@ function personalization_form ($) {
     //Show preview image, preview placeholder with spinner, text fields
     //and image fields for the selected page
     $('#preview-image-' + page + ', #stock-images-' + page + ', #input-fields-'
-      + page + ', #zp-placeholder-for-preview-' + page).removeClass('zp-hidden');
+      + page + ', #zp-placeholder-for-preview-' + page + ', #page-size-'
+      + page).removeClass('zp-hidden');
 
     //Add resizer for text inputs and text areas for the selected page
     $('#input-fields-' + page + ' .zetaprints-text-field-wrapper')
@@ -383,11 +401,20 @@ function personalization_form ($) {
     return metadata;
   }
 
+  function serialize_fields_for_page (page_number) {
+    return $('#input-fields-page-' + page_number + ', #stock-images-page-'
+                                                                  + page_number)
+      .find('.zetaprints-field')
+      .filter(':text, textarea, :checked, select, [type="hidden"]')
+      .serialize();
+  }
+
   function update_preview (event, preserve_fields) {
     $('div.zetaprints-preview-button span.text, ' +
       'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
 
-    var update_preview_button = $('button.update-preview').hide();
+    var update_preview_button = $('button.update-preview')
+                                                         .addClass('zp-hidden');
 
     $('div.zetaprints-page-input-fields input,' +
       'div.zetaprints-page-input-fields textarea').each(function () {
@@ -412,7 +439,8 @@ function personalization_form ($) {
       url: zp.url.preview,
       type: 'POST',
       dataType: 'json',
-      data: prepare_post_data_for_php($('#product_addtocart_form').serialize())
+      data: prepare_post_data_for_php(serialize_fields_for_page(current_page))
+        + '&zetaprints-TemplateID=' + zp.template_details.guid
         + '&zetaprints-From=' + current_page + preserve_fields + metadata,
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
@@ -480,8 +508,13 @@ function personalization_form ($) {
           }
 
           if (zp.previews.length == zp.template_details.pages_number) {
-            $('input[name="zetaprints-previews"]')
-              .val(zp.previews.join(','));
+            var previews = '';
+
+            for (var i = 0; i < zp.previews.length; i++)
+              if (zp.previews[i])
+                previews += ',' + zp.previews[i];
+
+            $('input[name="zetaprints-previews"]').val(previews.substring(1));
 
             $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
             remove_fake_add_to_cart_button($add_to_cart_button);
@@ -500,6 +533,8 @@ function personalization_form ($) {
 
     return false;
   }
+
+  zp.update_preview = update_preview;
 
   $('button.update-preview').click({zp: this}, update_preview);
 
@@ -658,22 +693,32 @@ function personalization_form ($) {
       $selector = $content.data('in-preview-edit').parent;
     }
 
-    $selector.removeClass('no-value');
+    var zp = event.data.zp;
 
-    //If ZetaPrints advanced theme is enabled then...
-    if (window.mark_shape_as_edited && window.unmark_shape_as_edited
-        && window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
-      var zp = event.data.zp;
+    if ($(event.target).val().length) {
+      $selector.removeClass('no-value');
 
-      if ($(event.target).val().length)
+      $('#fancybox-outer').addClass('modified');
+
+      //If ZetaPrints advanced theme is enabled then...
+      if (window.mark_shape_as_edited)
         //... mark shape as edited then image is seleсted
         mark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
-      else
+    } else {
+      $selector.addClass('no-value');
+
+      $('#fancybox-outer').removeClass('modified');
+
+      //If ZetaPrints advanced theme is enabled then...
+      if (window.unmark_shape_as_edited)
         //or unmark shape then Leave blank is selected
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
+    }
 
+    //If ZetaPrints advanced theme is enabled then...
+    if (window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
       //Check that the value of a field was changed...
       if ($(event.target).val() != $content.data('original-value'))
         //... then mark a field box as edited
@@ -693,6 +738,26 @@ function personalization_form ($) {
     if ($panel.hasClass('color-picker')
         && !$panel.find('input').attr('checked'))
       $panel.find('.color-sample').click();
+  }
+
+  function has_changed_fields_on_page (page_number) {
+    var fields = $('#input-fields-page-' + page_number + ', ' +
+                   '#stock-images-page-' + page_number);
+
+    if (!fields.length)
+      return true;
+
+    var fields = $('input[name^="zetaprints-_"]:text, ' +
+                   'textarea[name^="zetaprints-_"], ' +
+                   'select[name^="zetaprints-_"], ' +
+                   'input[name^="zetaprints-_"]:checked, ' +
+                   'input[name^="zetaprints-#"]:checked', fields);
+
+    for (field in fields)
+      if (fields[field].value)
+        return true;
+
+    return false;
   }
 
   $(window).load({ zp: this }, function (event) {
@@ -826,8 +891,20 @@ function personalization_form ($) {
     'onComplete': function () {
       $('img#fancybox-img').attr('title', click_to_close_text);
 
+      //!!! Needs to be implemented via zp object.
+      //!!! Page state should be saved in page object.
+      if (has_changed_fields_on_page(zp.current_page))
+        $('#fancybox-outer').addClass('modified');
+      else
+        $('#fancybox-outer').removeClass('modified');
+
       if (window.fancybox_resizing_add)
         fancybox_resizing_add(this);
+
+      if (window.fancybox_add_update_preview_button
+          && !zp.template_details.pages[zp.current_page].static) {
+        fancybox_add_update_preview_button($, zp);
+      }
 
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape_by_name && window.popup_field_by_name
@@ -856,7 +933,12 @@ function personalization_form ($) {
         $('div.zetaprints-field-shape', $('div#fancybox-content')).removeClass('highlighted');
         popdown_field_by_name(undefined, true);
       }
-    } });
+    },
+    'onClosed': function () {
+      if (window.fancybox_remove_update_preview_button)
+        fancybox_remove_update_preview_button($);
+    }
+    });
 
   $('a.in-dialog').fancybox({
     'opacity': true,
@@ -881,24 +963,35 @@ function personalization_form ($) {
 
     return false; });
 
-  $('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea').each(function () {
-    var $text_field = $(this);
-    var $button_container = $text_field.parents('dl').children('dt');
+  $('.zetaprints-page-input-fields .zetaprints-field')
+    .filter(':input:not([type="hidden"])')
+    .each(function () {
+      var $text_field = $(this);
+      var $button_container = $text_field.parents('dl').children('dt');
 
-    $text_field.text_field_editor({
-      button_parent: $button_container,
+      var page = $text_field.parents('.zetaprints-page-input-fields')
+                   .attr('id')
+                   .substring(18);
 
-      change: function (data) {
-        var field = zp.template_details.pages[zp.current_page]
-                                .fields[$text_field.attr('name').substring(12)];
+      var field = zp.template_details.pages[page]
+                    .fields[$text_field.attr('name').substring(12)];
 
-        var metadata = {
-          'col-f': data.color }
+      $text_field.text_field_editor({
+        button_parent: $button_container,
+        colour: zp_get_metadata(field, 'col-f', ''),
 
-        zp_set_metadata(field, metadata);
-      }
+        change: function (data) {
+          var metadata = {
+            'col-f': data.color }
+
+          zp_set_metadata(field, metadata);
+        }
+      });
+
+      //Remove metadata values, so they won't be used in update preview requests
+      //by default
+      zp_set_metadata(field, 'col-f', undefined);
     });
-  });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
@@ -917,22 +1010,30 @@ function personalization_form ($) {
       return false;
   });
 
-  //If ZetaPrints advanced theme is enabled then...
-  if (this.has_shapes && window.mark_shape_as_edited
-      && window.unmark_shape_as_edited && window.mark_fieldbox_as_edited
-      && window.unmark_fieldbox_as_edited) {
-    $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
-      var zp = event.data.zp;
+  $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
+    var zp = event.data.zp;
 
-      if ($(this).val().length)
-        // ... then mark shape as edited if input field was modified and is not empty
+    if ($(this).val().length) {
+      $('#fancybox-outer').addClass('modified');
+
+      if (zp.has_shapes && window.mark_shape_as_edited)
+        // ... then mark shape as edited if input field was modified
+        // and is not empty
         mark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
-      else
+    } else {
+      $('#fancybox-outer').removeClass('modified');
+
+      if (zp.has_shapes && window.unmark_shape_as_edited)
         // or unmark it if input field is empty
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
+    }
 
+    if (zp.has_shapes
+        && window.mark_shape_as_edited
+        && window.mark_fieldbox_as_edited
+        && window.unmark_fieldbox_as_edited) {
       //Check that the value of a field was changed...
       if ($(this).val() != $(this).data('original-value'))
         //... then mark a field box as edited
@@ -940,8 +1041,8 @@ function personalization_form ($) {
       else
          //... else unmark the field box as edited
         unmark_fieldbox_as_edited($(this).attr('name').substring(12));
-    });
-  }
+    }
+  });
 
   $('.button.delete').click({ zp: this }, function(event) {
     if (confirm(delete_this_image_text)) {

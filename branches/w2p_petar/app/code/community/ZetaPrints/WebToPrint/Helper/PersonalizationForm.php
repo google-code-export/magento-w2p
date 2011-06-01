@@ -790,6 +790,19 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function getPageSizeTable ($context, $units = 'in') {
+    $params = array(
+      'page-size-units' => $units,
+      'page-size-icon'
+                => Mage::getDesign()->getSkinUrl('images/page-size-icon.png') );
+
+    $result = $this->get_form_part_html('page-size-table',
+                                        $context->getProduct(),
+                                        $params );
+
+    echo $result ? $result : '';
+  }
+
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
@@ -835,17 +848,6 @@ jQuery(document).ready(function($) {
 
     if ($previews_from_session) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
-
-      $previews = unserialize($session->getData('zetaprints-previews'));
-
-      if (is_array($previews))
-        foreach ($template_details['pages'] as $page_number => &$page) {
-          $guid = explode('preview/', $previews[$page_number - 1]);
-
-          $page['updated-preview-image'] = $this->get_preview_url($guid[1]);
-          $page['updated-thumb-image']
-                                 = $this->get_thumbnail_url($guid[1], 100, 100);
-        }
 
       $session->unsetData('zetaprints-previews');
     }
@@ -899,6 +901,7 @@ jQuery(document).ready(function($) {
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
+  update_preview_button_text = "<?php echo $this->__('Update preview'); ?>";
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";

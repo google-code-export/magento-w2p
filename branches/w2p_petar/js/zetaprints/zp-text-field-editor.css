@@ -10,7 +10,6 @@ div.zp-text-field-editor {
 }
 
 div.zp-text-field-editor-handle {
-  position: relative;
   border: 1px solid transparent;
   padding: 3px 0px 0px 3px;
 }

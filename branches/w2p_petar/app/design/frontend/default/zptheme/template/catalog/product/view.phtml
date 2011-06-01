@@ -103,6 +103,13 @@
                 </div>
             <?php endif;?>
 
+            <!-- /****** ZP-CODE:3 Output table with page sizes for product with
+                                   web-to-print feature ******/ -->
+
+            <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
+
+            <!-- /****** ZP-CODE:3 End ******/ -->
+
             <?php echo $this->getChildHtml('other');?>
 
             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
@@ -115,13 +122,13 @@
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <!-- /****** ZP-CODE:3 Printing preview and next page buttons
+        <!-- /****** ZP-CODE:4 Printing preview and next page buttons
                      for products with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
         <?php $this->helper('webtoprint/personalization-form')->get_next_page_button($this); ?>
 
-        <!-- /****** ZP-CODE:3 End ******/ -->
+        <!-- /****** ZP-CODE:4 End ******/ -->
 
         <div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions()):?>
@@ -183,8 +190,8 @@
     </div>
 </div>
 
-<!-- /****** ZP-CODE:4 Printing JavaScript for magento personalization form ******/ -->
+<!-- /****** ZP-CODE:5 Printing JavaScript for magento personalization form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
-<!-- /****** ZP-CODE:4 End ******/ -->
+<!-- /****** ZP-CODE:5 End ******/ -->
