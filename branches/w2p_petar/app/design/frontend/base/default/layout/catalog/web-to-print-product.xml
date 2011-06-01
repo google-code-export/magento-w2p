@@ -33,7 +33,4 @@
   <catalog_product_view>
     <update handle="webtoprint_product_view" />
   </catalog_product_view>
-  <review_product_list>
-    <update handle="webtoprint_product_view"/>
-  </review_product_list>
 </layout>
