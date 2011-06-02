@@ -244,6 +244,8 @@ function zetaprints_parse_template_details ($xml) {
       'max-length' => isset($field['MaxLen']) ? (int) $field['MaxLen'] : null,
       'multiline' => isset($field['Multiline'])
                         ? (bool) $field['Multiline'] : false,
+      'colour-picker' => isset($field['ColourPickerFill'])
+                           ? (string) $field['ColourPickerFill'] : null,
       'value' => (string) $field['FieldValue'] );
 
     if ($field->Value) {
