@@ -967,8 +967,6 @@ function personalization_form ($) {
     .filter(':input:not([type="hidden"])')
     .each(function () {
       var $text_field = $(this);
-      var $button_container = $text_field.parents('dl').children('dt');
-
       var page = $text_field.parents('.zetaprints-page-input-fields')
                    .attr('id')
                    .substring(18);
@@ -976,9 +974,20 @@ function personalization_form ($) {
       var field = zp.template_details.pages[page]
                     .fields[$text_field.attr('name').substring(12)];
 
+      var cached_value = zp_get_metadata(field, 'col-f', '');
+
+      //Remove metadata values, so they won't be used in update preview requests
+      //by default
+      zp_set_metadata(field, 'col-f', undefined);
+
+      if (field['colour-picker'] != 'RGB')
+        return;
+
+      var $button_container = $text_field.parents('dl').children('dt');
+
       $text_field.text_field_editor({
         button_parent: $button_container,
-        colour: zp_get_metadata(field, 'col-f', ''),
+        colour: cached_value,
 
         change: function (data) {
           var metadata = {
@@ -987,10 +996,6 @@ function personalization_form ($) {
           zp_set_metadata(field, metadata);
         }
       });
-
-      //Remove metadata values, so they won't be used in update preview requests
-      //by default
-      zp_set_metadata(field, 'col-f', undefined);
     });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
