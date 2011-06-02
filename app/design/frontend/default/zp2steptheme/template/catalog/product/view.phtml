@@ -158,40 +158,33 @@
 
             <!-- /****** ZP-CODE:6 End ******/ -->
 
-            <!-- /****** ZP-CODE:7 Output table with page sizes for product with
-                                   web-to-print feature ******/ -->
-
-            <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
-
-            <!-- /****** ZP-CODE:7 End ******/ -->
-
         </div>
 
         <div id="zetaprints-preview-image-container" class="product-img-box">
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <!-- /****** ZP-CODE:8 Printing preview and next page buttond
+        <!-- /****** ZP-CODE:7 Printing preview and next page buttond
                      for products with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
         <?php $this->helper('webtoprint/personalization-form')->get_next_page_button($this); ?>
 
-        <!-- /****** ZP-CODE:8 End ******/ -->
+        <!-- /****** ZP-CODE:7 End ******/ -->
 
         <div class="clearer"></div>
 
-        <!-- /****** ZP-CODE:9 Printing JavaScript for magento personalization form ******/ -->
+        <!-- /****** ZP-CODE:8 Printing JavaScript for magento personalization form ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
-        <!-- /****** ZP-CODE:9 End ******/ -->
+        <!-- /****** ZP-CODE:8 End ******/ -->
 
-        <!-- /****** ZP-CODE:10 Close 'if' opened in  ZP-CODE:2 ******/ -->
+        <!-- /****** ZP-CODE:9 Close 'if' opened in  ZP-CODE:2 ******/ -->
 
         <?php endif; ?>
 
-        <!-- /****** ZP-CODE:10 End ******/ -->
+        <!-- /****** ZP-CODE:9 End ******/ -->
 
     </form>
     <script type="text/javascript">
