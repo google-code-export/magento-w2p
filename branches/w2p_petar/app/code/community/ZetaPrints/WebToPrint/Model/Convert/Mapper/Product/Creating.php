@@ -13,6 +13,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     // Get source ID if present and try to load base product
     $srcId = $this->getAction()->getParam('src');
+    $base = null;
     if($srcId) {
       $base = Mage::getModel('catalog/product')->load($srcId);
       /* @var Mage_Catalog_Model_Product $base */
