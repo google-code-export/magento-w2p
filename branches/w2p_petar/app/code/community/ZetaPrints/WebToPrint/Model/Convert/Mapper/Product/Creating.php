@@ -28,6 +28,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         $base = null;
       }
     }
+
     //Get all web-to-print templates
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
@@ -71,8 +72,18 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
           continue;
         }
 
-      if(!$base){
+      if(!$base){ // no base product, then load some defaults
         $product_model = Mage::getModel('catalog/product');
+
+        if (Mage::app()->isSingleStoreMode())
+          $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+        else
+          $this->debug('Not a single store mode');
+
+        $product_model->setAttributeSetId($product_model->getDefaultAttributeSetId())
+          ->setTypeId($this->getAction()->getParam('product-type', 'simple'))
+          ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+          ->setVisibility(0);
       } else {
         $product_model = $base;
         $product_model->setData(array());
@@ -141,3 +152,4 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 }
 
 ?>
+
