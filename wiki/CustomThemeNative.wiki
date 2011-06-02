@@ -61,11 +61,6 @@ The code is divided into 5 sections.
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
   }}}
 
-*Section 3 (optional)*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
-  }}}
-
 The function supports inches and centimetre units. Set second parameter of the function as 'in' to display page size in inches or 'cm' to display in centimetres.
 By default (as in example above) it uses inches to display page size.
 
@@ -75,14 +70,19 @@ Example:
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this, 'cm'); ?>
   }}}
 
-*Section 4*: checking if a product has web-to-print features then printing _Update preview_ button.
+*Section 3*: checking if a product has web-to-print features then printing _Update preview_ button.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
   }}}
 
-*Section 5*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+*Section 4*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
+  }}}
+
+*Optional section*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml template/catalog/product/view/media.phtml] ==
