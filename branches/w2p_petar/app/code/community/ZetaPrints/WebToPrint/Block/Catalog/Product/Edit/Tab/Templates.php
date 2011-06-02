@@ -13,6 +13,12 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tab_Templates extends Mag
     return parent::_prepareCollection();
   }
 
+  public function getMainButtonsHtml()
+  {
+    $html = parent::getMainButtonsHtml();
+    $html .= $this->getChildHtml('web_to_print_source_btn');
+    return $html;
+  }
   protected function _prepareColumns () {
     $this->addColumn('selected', array(
       'header_css_class' => 'a-center',
@@ -42,6 +48,51 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tab_Templates extends Mag
 
   public function getGridUrl() {
     return $this->getData('grid_url') ? $this->getData('grid_url') : $this->getUrl('*/*/templates', array('_current' => true));
+  }
+
+  protected function _prepareLayout()
+  {
+    $product = Mage::registry('product'); // get current product
+    $type = $product->getTypeId(); // get its type
+    $fname = 'ZetaPrints %s products creation';
+    $name = sprintf($fname, $type); // make the name
+    $profileId = $this->_getProfileId($name); // get profile id
+    if($profileId) {
+      $this->_addSourceBtn($profileId);
+    }
+    return parent::_prepareLayout();
+  }
+
+  protected function getUpdateProfileAction($profileId)
+  {
+    $action = 'window.location=\'';
+    $productId = Mage::registry('product')->getId();
+    $url = $this->getUrl('*/*/updateProfile', array('profile' => $profileId, 'src' => $productId));
+    return $action . $url . '\'';
+  }
+
+  protected function _getProfileId($name = 'ZetaPrints simple products creation')
+  {
+    $profile_model = Mage::helper('webtoprint')->getProfileByName($name);
+    if($profile_model instanceof Mage_Dataflow_Model_Profile) {
+      return $profile_model->getId();
+    }
+    return null;
+  }
+
+  protected function _addSourceBtn($profileId)
+  {
+        $this->setChild('web_to_print_source_btn',
+              $this->getLayout()
+                   ->createBlock('adminhtml/widget_button')
+                   ->setData(array(
+                            'label'     => Mage::helper('adminhtml')->__('Use this product as source'),
+                            'onclick'   => $this->getUpdateProfileAction($profileId),
+                            'class'   => 'task'
+                          )
+                        )
+                    );
+    return $this;
   }
 }
 
