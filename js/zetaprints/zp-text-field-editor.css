@@ -23,6 +23,14 @@ div.zp-text-field-editor.opened div.zp-text-field-editor-icon.pen {
   background-position: 0px -18px;
 }
 
+div.zp-text-field-editor.state-changed .zp-text-field-editor-icon.pen {
+  background-position: 0px -56px;
+}
+
+div.zp-text-field-editor.opened.state-changed .zp-text-field-editor-icon.pen {
+  background-position: 0px -73px;
+}
+
 div.zp-text-field-editor-panel {
   display: none;
   position: absolute;
