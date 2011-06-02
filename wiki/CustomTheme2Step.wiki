@@ -58,7 +58,23 @@ This file shows form for ordering on product page. This form contains product im
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
   }}}
 
-*Section 7 (optional)*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
+*Section 7*: checking if a product has web-to-print features then printing _Update preview_ button.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
+  }}}
+
+*Section 8*: display text at the bottom of personalization form to notice customer to update preview (_optional_)
+
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
+  }}}
+
+*Section 9*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
+  }}}
+
+*Optional section*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
   }}}
@@ -70,22 +86,6 @@ Example:
   {{{
 //Display page sizes in centimetres.
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this, 'cm'); ?>
-  }}}
-
-*Section 8*: checking if a product has web-to-print features then printing _Update preview_ button.
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
-  }}}
-
-*Section 9*: display text at the bottom of personalization form to notice customer to update preview (_optional_)
-
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
-  }}}
-
-*Section 10*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
 
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml zp2steptheme/template/catalog/product/view/addtocart.phtml] ===
