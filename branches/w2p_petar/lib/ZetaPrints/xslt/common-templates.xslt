@@ -467,18 +467,16 @@
               <td>
                 <xsl:choose>
                   <xsl:when test="$page-size-units='in'">
-                    <xsl:value-of select="@WidthIn" />
+                    <xsl:value-of select="format-number(@WidthIn, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightIn" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightIn, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">in</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="$page-size-units='cm'">
-                    <xsl:value-of select="@WidthCm" />
+                    <xsl:value-of select="format-number(@WidthCm, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightCm" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightCm, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">cm</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
@@ -490,18 +488,16 @@
               <td>
                 <xsl:choose>
                   <xsl:when test="$page-size-units='in'">
-                    <xsl:value-of select="@WidthIn" />
+                    <xsl:value-of select="format-number(@WidthIn, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightIn" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightIn, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">in</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="$page-size-units='cm'">
-                    <xsl:value-of select="@WidthCm" />
+                    <xsl:value-of select="format-number(@WidthCm, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightCm" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightCm, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">cm</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
@@ -513,18 +509,16 @@
               <td>
                 <xsl:choose>
                   <xsl:when test="$page-size-units='in'">
-                    <xsl:value-of select="@WidthIn" />
+                    <xsl:value-of select="format-number(@WidthIn, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightIn" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightIn, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">in</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="$page-size-units='cm'">
-                    <xsl:value-of select="@WidthCm" />
+                    <xsl:value-of select="format-number(@WidthCm, '0.00')" />
                     &#215;
-                    <xsl:value-of select="@HeightCm" />
-                    <xsl:call-template name="trans">
+                    <xsl:value-of select="format-number(@HeightCm, '0.00')" />&#160;<xsl:call-template name="trans">
                       <xsl:with-param name="key">cm</xsl:with-param>
                     </xsl:call-template>
                   </xsl:when>

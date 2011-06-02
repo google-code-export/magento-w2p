@@ -98,9 +98,9 @@
       if (!value)
         $color_picker.click()
       else if (value == 'default')
-        settings.change({ color: undefined } );
+        _change('color', undefined);
       else
-        settings.change({ color: value } );
+        _change('color', value);
     });
 
     var color_picker_on = false;
@@ -138,7 +138,7 @@
         $radio_button.val('#' + hex).attr('checked', 1);
         $(el).ColorPickerHide();
 
-        settings.change({ color: '#' + hex } );
+        _change('color', '#' + hex);
       }
     });
 
@@ -154,6 +154,18 @@
       if (!((event.target == editor) || (child_parent == editor))) {
         $handle.click();
       }
+    }
+
+    function _change (name, value) {
+      if (value === undefined)
+        $editor.removeClass('state-changed');
+      else
+        $editor.addClass('state-changed');
+
+      var data = {};
+      data[name] = value
+
+      settings.change(data);
     }
 
     return this;
