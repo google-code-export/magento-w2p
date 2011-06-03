@@ -1600,7 +1600,7 @@ f/********** Product Prices > */
 .footer a { color:#444; }
 
 .footer h6 { font-size: 13px;margin-bottom: 10px; }
-.footer .footer-block { width: 161px; float: left;margin-left: 15px;dislay: inline;}
+.footer .footer-block { width: 161px; float: left;margin-left: 15px;display: inline;}
 .footer .footer-block.first { margin-left: 0px; }
 .footer .payment { float: right; width: 210px;padding-right: 20px; }
 .footer li { display: block; padding:0 5px 5px 0; margin:0 3px 0 0; }
@@ -1797,3 +1797,8 @@ div.zetaprints-preview-button { clear: left;}
 #zetaprints-fake-add-to-cart-warning { clear: none;}
 
 .w2p-get-latest { background-image: none;}
+
+.zp-file-button-class { cursor: pointer;}
+.zp-file-button-class .btn-label { background-image: url('../images/auto_upload_bkg_icon.png') !important; background-position: 0 0 !important;} 
+
+.zp-file-button-class:hover .btn-label {background-position: bottom left !important;} 
