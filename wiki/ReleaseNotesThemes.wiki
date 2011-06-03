@@ -42,7 +42,7 @@ Files for *commercial themes* are provided to legitimate theme owners via [http:
 ==hellowired==
   * hellowired generic, added icon for file uploader, default button styles didn't work well with hellowired. 
   * Tested it with M. 1.5.1 and w2p 1.9.0 stable
-*Release 1672(hellowired_zeta)* (_g-code_) works with w2p 1.9.0 stable and Magento 1.5.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired.1672.zip&can=2&q=#makechanges changes]
+*Release r1672(hellowired_zeta)* (_g-code_) works with w2p 1.9.0 stable and Magento 1.5.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired.1672.zip&can=2&q=#makechanges changes]
   * hellowired generic, added right callout and a w2p call out style rule, free, available from the [http://code.google.com/p/magento-w2p/source/browse/#svn%2Fbranches%2Fhellowired_zeta SVN]
 *Release r1583(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1
   * Updated to 1.9.0rc3 version of w2p
