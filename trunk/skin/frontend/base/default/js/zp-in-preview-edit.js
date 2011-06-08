@@ -8,7 +8,7 @@ function precalculate_shapes (template_details) {
     }
 }
 
-function place_shape (shape, container, shape_handler) {
+function place_shape (shape, $container, shape_handler) {
   if (shape.edited)
     var edited_class = ' edited';
   else
@@ -22,10 +22,10 @@ function place_shape (shape, container, shape_handler) {
       width: shape.width + '%',
       height: shape.height + '%' })
     .bind('click mouseover mouseout', shape_handler)
-    .appendTo(container);
+    .appendTo($container);
 }
 
-function place_all_shapes_for_page (shapes, container, shape_handler) {
+function place_all_shapes_for_page (shapes, $container, shape_handler) {
   if (!shapes)
     return;
 
@@ -37,7 +37,7 @@ function place_all_shapes_for_page (shapes, container, shape_handler) {
         width: shapes[name]._x2 - shapes[name]._x1,
         height: shapes[name]._y2 - shapes[name]._y1,
         name: name,
-        edited: shapes[name].edited }, container, shape_handler);
+        edited: shapes[name].edited }, $container, shape_handler);
 }
 
 function remove_all_shapes (container) {
