@@ -115,7 +115,7 @@ function personalization_form ($) {
     return false;
   }
 
-  var product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative')[0];
+  var $product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative');
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
 
@@ -157,7 +157,7 @@ function personalization_form ($) {
     //Add over-image spinner for the first preview
     $('<div id="zetaprints-first-preview-update-spinner" class="' +
       'zetaprints-big-spinner zetaprints-over-image-spinner zp-hidden" />')
-      .appendTo(product_image_box);
+      .appendTo($product_image_box);
 
     //Update preview for the first page
     update_preview({ data: { zp: this } }, true);
@@ -290,7 +290,7 @@ function personalization_form ($) {
 
     //Remove shapes for current page
     if (event.data.zp.has_shapes && window.remove_all_shapes)
-      remove_all_shapes(product_image_box);
+      remove_all_shapes($product_image_box);
 
     $(this).addClass('selected');
     var page = $('img', this).attr('rel');
@@ -333,7 +333,7 @@ function personalization_form ($) {
     if (event.data.zp.has_shapes
         && window.place_all_shapes_for_page
         && window.shape_handler)
-      place_all_shapes_for_page(event.data.zp.template_details.pages[event.data.zp.current_page].shapes, product_image_box, shape_handler);
+      place_all_shapes_for_page(event.data.zp.template_details.pages[event.data.zp.current_page].shapes, $product_image_box, shape_handler);
 
     if (can_show_next_page_button_for_page(event.data.zp.current_page,
                                            event.data.zp))
@@ -503,7 +503,7 @@ function personalization_form ($) {
             if (zp.has_shapes && window.place_all_shapes_for_page
                 && window.shape_handler)
               place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
-                                        product_image_box,
+                                        $product_image_box,
                                         shape_handler);
           }
 
@@ -774,7 +774,7 @@ function personalization_form ($) {
       //Shapes will be added after first preview update then base image exists
       if (!has_image_zoomer)
         place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
-                                  product_image_box,
+                                  $product_image_box,
                                   shape_handler);
     }
 
