@@ -59,18 +59,22 @@
         '<div><span>Default</span></div>' +
       '</div>').appendTo($options);
 
-    var $color_picker = $('<div class="zp-text-field-editor-color-example" />');
+    var $pallet = $('<div class="zp-text-field-editor-icon pallet">' +
+                      '<div class="zp-text-field-editor-color-example" />' +
+                    '</div>');
+
+    var $color_example = $pallet.children();
 
     var $radio_button = $('<input type="radio" name="' + name + '" value="" />');
 
     if (settings.colour) {
-      $color_picker.css('backgroundColor', settings.colour);
+      $color_example.css('backgroundColor', settings.colour);
       $radio_button.val(settings.colour);
     }
 
     $('<div class="zp-text-field-editor-option" />')
       .append($radio_button.wrap('<div />').parent())
-      .append($color_picker).appendTo($options);
+      .append($pallet).appendTo($options);
 
     $handle.click(function () {
       $(document).unbind('click.text-field-editor');
@@ -96,7 +100,7 @@
       var value = $(this).val();
 
       if (!value)
-        $color_picker.click()
+        $color_example.click()
       else if (value == 'default')
         _change('color', undefined);
       else
@@ -105,7 +109,7 @@
 
     var color_picker_on = false;
 
-    $color_picker.ColorPicker({
+    $color_example.ColorPicker({
       color: '#804080',
 
       onBeforeShow: function (colpkr) {
@@ -134,7 +138,7 @@
       },
 
       onSubmit: function (hsb, hex, rgb, el) {
-        $color_picker.css('backgroundColor', '#' + hex);
+        $color_example.css('backgroundColor', '#' + hex);
         $radio_button.val('#' + hex).attr('checked', 1);
         $(el).ColorPickerHide();
 

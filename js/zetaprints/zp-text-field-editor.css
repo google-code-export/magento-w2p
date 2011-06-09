@@ -94,6 +94,13 @@ div.zp-text-field-editor-icon.pen {
   cursor: pointer;
 }
 
+.zp-text-field-editor-icon.pallet {
+  background-position: -79px 0px;
+  width: 19px;
+  height: 15px;
+  margin-top: 0 !important;
+}
+
 div.zp-text-field-editor-options {
   margin-left: 10px;
   float: left;
@@ -113,9 +120,8 @@ div.zp-text-field-editor-option div {
 }
 
 div.zp-text-field-editor-color-example {
-  width: 20px;
-  height: 14px;
-  border: 1px solid #b6b6b6;
-  background-color: white;
-  margin-left: 1px;
+  float: none;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
