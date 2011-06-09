@@ -26,6 +26,12 @@
   left: 50%;
   top: 50%;
   margin: -2px 0 0 -3px;
+  *margin-left: -4px;
+}
+
+.zp-combobox-icon-wrapper {
+  height: 100%;
+  *height: auto;
 }
 
 .zp-combobox-button:hover {

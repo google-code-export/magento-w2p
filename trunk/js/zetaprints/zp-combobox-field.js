@@ -47,7 +47,9 @@ $.fn.combobox = function () {
   $select.remove();
 
   var $button = $('<div class="zp-combobox-button">' +
-                    '<div class="zp-combobox-button-icon" />' +
+                    '<div class="zp-combobox-icon-wrapper">' +
+                      '<div class="zp-combobox-button-icon" />' +
+                    '</div>' +
                   '</div>')
     .click(function () {
       if ($field.autocomplete('widget').is(':visible'))
