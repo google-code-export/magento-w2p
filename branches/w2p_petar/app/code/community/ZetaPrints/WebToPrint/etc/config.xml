@@ -314,6 +314,7 @@
     <webtoprint>
       <settings>
         <templates-removing-behaviour>-1</templates-removing-behaviour>
+        <products-populate-defaults>1</products-populate-defaults>
       </settings>
     </webtoprint>
   </default>
