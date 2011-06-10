@@ -716,17 +716,6 @@ function personalization_form ($) {
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                            .shapes[$(event.target).attr('name').substring(12)]);
     }
-
-    //If ZetaPrints advanced theme is enabled then...
-    if (window.mark_fieldbox_as_edited && window.unmark_fieldbox_as_edited) {
-      //Check that the value of a field was changed...
-      if ($(event.target).val() != $content.data('original-value'))
-        //... then mark a field box as edited
-        mark_fieldbox_as_edited($(event.target).attr('name').substring(12));
-      else
-        //... else unmark the field box as edited
-        unmark_fieldbox_as_edited($(event.target).attr('name').substring(12));
-    }
   }
 
   zp.show_user_images = function ($panel)  {
@@ -1033,19 +1022,6 @@ function personalization_form ($) {
         // or unmark it if input field is empty
         unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
                                    .shapes[$(this).attr('name').substring(12)]);
-    }
-
-    if (zp.has_shapes
-        && window.mark_shape_as_edited
-        && window.mark_fieldbox_as_edited
-        && window.unmark_fieldbox_as_edited) {
-      //Check that the value of a field was changed...
-      if ($(this).val() != $(this).data('original-value'))
-        //... then mark a field box as edited
-        mark_fieldbox_as_edited($(this).attr('name').substring(12));
-      else
-         //... else unmark the field box as edited
-        unmark_fieldbox_as_edited($(this).attr('name').substring(12));
     }
   });
 
