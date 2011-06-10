@@ -33,9 +33,8 @@ class ZetaPrints_WebToPrint_PreviewController
                              array(' ', '.'),
                              substr($_key, $prefix_length) );
 
-      //Add token to the array, convert ending of field value to style
-      //required by HTTP
-      $params[$_key] = str_replace("\n", "\r\n", $value);
+      //Add token to the array
+      $params[$_key] = $value;
     }
 
     if(count($params) == 0)
