@@ -204,7 +204,7 @@ function popup_field_by_name (name, position) {
 }
 
 function popdown_field_by_name (full_name, reset_value) {
-  if (name)
+  if (full_name)
     var field = jQuery('*[value="'+ full_name +'"]', jQuery('div#fancybox-content'));
   else
     var field = jQuery(':input', jQuery('div#fancybox-content'));
