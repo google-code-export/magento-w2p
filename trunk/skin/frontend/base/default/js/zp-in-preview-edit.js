@@ -77,8 +77,6 @@ function popup_field_by_name (name, position) {
     field = field[0];
     var full_name = 'zetaprints-_'+ name;
 
-    jQuery(field).data('original-value', jQuery(field).val())
-
     var width = 'auto';
     var min_width = jQuery(shape).outerWidth();
 
@@ -92,8 +90,6 @@ function popup_field_by_name (name, position) {
 
     //Remember checked radio button for IE7 workaround
     var $input = field.find(':checked');
-
-    field.data('original-value', $input.val());
 
     field = field[0];
 
@@ -241,20 +237,10 @@ function popdown_field_by_name (full_name, reset_value) {
   //!!! Stupid work around for stupid IE7
   $input.change().attr('checked', 1);
 
-  if (!data.parent.hasClass('zetaprints-images-selector') && reset_value)
-    $element.val($element.data('original-value')).keyup();
-  else {
-    if (reset_value)
-      $element.find('*[value="' + $element.data('original-value') +'"]:first')
-        .change()
-        .attr('checked', 1);
-
+  if (data.parent.hasClass('zetaprints-images-selector'))
     zp.scroll_strip(jQuery($element
                             .find('ul.tab-buttons li.ui-tabs-selected a')
                             .attr('href')) );
-  }
-
-  $element.data('original-value', undefined);
 
   jQuery(field).remove();
 
@@ -291,14 +277,6 @@ function mark_shapes_as_edited (template_details) {
         continue;
       }
     }
-}
-
-function mark_fieldbox_as_edited (name) {
-  jQuery('.fieldbox[rel="' + name + '"]').addClass('fieldbox-changed-state');
-}
-
-function unmark_fieldbox_as_edited (name) {
-  jQuery('.fieldbox[rel="' + name + '"]').removeClass('fieldbox-changed-state');
 }
 
 function get_current_shapes_container () {
