@@ -1,4 +1,8 @@
 function fancybox_add_update_preview_button ($, zp) {
+  //Don't add the button if it exists
+  if ($('#zp-update-preview-button').length)
+    return;
+
   var $outer = $('#fancybox-outer');
 
   var $update_preview = $('<a id="zp-update-preview-button">' +
