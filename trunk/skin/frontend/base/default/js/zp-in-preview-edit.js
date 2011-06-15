@@ -388,7 +388,18 @@ function fancy_shape_handler (event) {
     shape.addClass("highlighted");
 
     popdown_field_by_name(undefined, true);
-    popup_field_by_name(jQuery(shape).attr('rel'), { top: event.pageY, left: event.pageX });
+
+    var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
+    var selected_shapes = get_shapes_by_coords(c);
+
+    var selected_shapes_names = [];
+
+    for (var i = 0; i < selected_shapes.length; i++)
+      selected_shapes_names.push(selected_shapes[i].name);
+
+    popup_field_by_name(jQuery(shape).attr('rel'),
+                        { top: event.pageY, left: event.pageX },
+                        selected_shapes_names);
 
     return false;
   }
