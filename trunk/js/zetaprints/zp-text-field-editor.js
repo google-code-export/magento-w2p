@@ -7,6 +7,17 @@
         $editor.removeClass('opened');
         $(document).unbind('click.text-field-editor');
       }
+    },
+
+    move : function (target) {
+      $editor = this.data('text-field-editor');
+
+      if (!$editor)
+        return;
+
+      $editor
+        .detach()
+        .prependTo(target);
     }
   };
 
@@ -84,9 +95,15 @@
       else {
         $('div.zp-text-field-editor').removeClass('opened');
 
+        var offset = $handle.offset();
+        var position = $handle.position();
+
+        var c = offset.top == position.top && offset.left == position.left
+                  ? offset : position;
+
         $panel.css({
-          top: $handle.offset().top + $handle.outerHeight() - 1,
-          left: $handle.offset().left });
+          top: c.top + $handle.outerHeight() - 1,
+          left: c.left });
 
         $editor.addClass('opened');
 
