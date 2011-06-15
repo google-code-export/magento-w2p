@@ -59,41 +59,77 @@ div.fieldbox {
   z-index: 10000;
 }
 
-div.fieldbox div.fieldbox-wrapper {
+div.fieldbox .fieldbox-wrapper {
   border: 1px solid #F18200;
 }
 
-div.fieldbox div.fieldbox-head {
+div.fieldbox .fieldbox-head {
   background-color: #f18200;
   color: white;
-  padding: 1px 3px 1px 3px;
+  padding: 1px 1px 0px 1px;
+  display: block;
 }
 
-div.fieldbox.ui-draggable div.fieldbox-head {
+.fieldbox-head li {
+  display: block;
+  float: left;
+  margin: 0 3px 0 0;
+}
+
+div.fieldbox .fieldbox-head .last {
+  float: none;
+  clear: both;
+}
+
+.fieldbox-head .ui-tabs-selected {
+  background: white;
+}
+
+.fieldbox-head a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  border: 1px solid #de5400;
+  padding: 0 1px;
+  margin: 0 0 1px 0;
+  line-height: 1.5;
+}
+
+.fieldbox-head .ui-tabs-selected a {
+  color: #de5400;
+  font-weight: bold;
+  border-color: white;
+}
+
+div.fieldbox.ui-draggable .fieldbox-head {
   cursor: move;
 }
 
-div.fieldbox div.fieldbox-head a.button {
+div.fieldbox .fieldbox-button {
   display: block;
   background-image: url('../images/in-preview-edit-sprite.png');
   float: right;
   text-decoration: none;
-  margin: 1px 0px 0px 3px;
+  margin: 3px 3px 0px 3px;
   height: 16px;
   width: 16px;
   cursor: pointer;
 }
 
-div.fieldbox div.field {
+.fieldbox .ui-tabs-hide {
+  display: none;
+}
+
+div.fieldbox div.fieldbox-field {
   padding: 2px 4px;
 }
 
-div.fieldbox div.field > *:focus {
+div.fieldbox div.fieldbox-field > *:focus {
   background: none;
 }
 
-div.fieldbox div.field > .input-text,
-div.fieldbox div.field > textarea {
+div.fieldbox div.fieldbox-field > .input-text,
+div.fieldbox div.fieldbox-field > textarea {
   padding: 0;
   vertical-align: baseline;
   width: 100%;
