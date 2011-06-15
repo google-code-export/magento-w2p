@@ -900,17 +900,17 @@ function personalization_form ($) {
         && window.fancy_shape_handler))
         return;
 
-      var fancy_inner = $('div#fancybox-content')[0];
+      var $fancy_inner = $('div#fancybox-content');
 
       place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
-                                fancy_inner, fancy_shape_handler);
+                                $fancy_inner, fancy_shape_handler);
 
       var $current_shape = jQuery('#current-shape');
 
       if ($current_shape.length) {
         var current_shape_name = $current_shape.attr('rel');
 
-        highlight_shape_by_name(current_shape_name, fancy_inner);
+        highlight_shape_by_name(current_shape_name, $fancy_inner);
 
         var $selected_shapes = $product_image_box
                                  .find('.zetaprints-shape-selected');
