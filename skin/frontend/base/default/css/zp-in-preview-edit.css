@@ -81,8 +81,16 @@ div.fieldbox .fieldbox-head .last {
   clear: both;
 }
 
+.fieldbox-head li {
+  cursor: pointer;
+}
+
 .fieldbox-head .ui-tabs-selected {
   background: white;
+}
+
+.fieldbox-head .ui-tabs-selected .zp-text-field-editor {
+  display: block;
 }
 
 .fieldbox-head a {
@@ -93,12 +101,22 @@ div.fieldbox .fieldbox-head .last {
   padding: 0 1px;
   margin: 0 0 1px 0;
   line-height: 1.5;
+  float: left;
 }
 
 .fieldbox-head .ui-tabs-selected a {
   color: #de5400;
   font-weight: bold;
   border-color: white;
+}
+
+.fieldbox-head .zp-text-field-editor {
+  display: none;
+}
+
+.fieldbox-head .zp-text-field-editor-handle {
+  border-top: none;
+  padding-top: 4px;
 }
 
 div.fieldbox.ui-draggable .fieldbox-head {
