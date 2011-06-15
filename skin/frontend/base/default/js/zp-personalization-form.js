@@ -908,8 +908,23 @@ function personalization_form ($) {
       var $current_shape = jQuery('#current-shape');
 
       if ($current_shape.length) {
-        highlight_shape_by_name($current_shape.attr('rel'), fancy_inner);
-        popup_field_by_name($current_shape.attr('rel'));
+        var current_shape_name = $current_shape.attr('rel');
+
+        highlight_shape_by_name(current_shape_name, fancy_inner);
+
+        var $selected_shapes = $product_image_box
+                                 .find('.zetaprints-shape-selected');
+
+        var selected_shapes_names = [];
+
+        for (var i = 0; i < $selected_shapes.length; i++)
+          selected_shapes_names.push($($selected_shapes[i]).attr('rel'));
+
+        popup_field_by_name(current_shape_name,
+                            undefined,
+                            selected_shapes_names.reverse());
+
+        $selected_shapes.removeClass('zetaprints-shape-selected');
       }
 
       zp.current_field_name = null;

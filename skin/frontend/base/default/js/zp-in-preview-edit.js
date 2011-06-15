@@ -21,7 +21,7 @@ function place_shape (shape, $container, shape_handler) {
       left: shape.left + '%',
       width: shape.width + '%',
       height: shape.height + '%' })
-    .bind('click mouseover mouseout', shape_handler)
+    .bind('click mouseover mouseout', { container: $container }, shape_handler)
     .appendTo($container);
 }
 
@@ -69,83 +69,101 @@ function dehighlight_field_by_name (name) {
     .removeClass('highlighted');
 }
 
-function popup_field_by_name (name, position) {
-  var shape = jQuery('div.zetaprints-field-shape[rel="' + name + '"]', jQuery('div#fancybox-content'))[0];
-  var field = jQuery('*[name="zetaprints-_'+ name +'"]');
+function popup_field_by_name (name, position, selected_shapes) {
+  var $tabs = jQuery('<div class="fieldbox-tabs fieldbox-wrapper">' +
+                      '<a class="fieldbox-button" href="#" />' +
+                      '<ul class="fieldbox-head"/>' +
+                    '</div>');
 
-  if (field.length) {
-    field = field[0];
-    var full_name = 'zetaprints-_'+ name;
+  var $ul = $tabs.children('ul');
 
-    var width = 'auto';
-    var min_width = jQuery(shape).outerWidth();
+  var $shape = jQuery('#fancybox-content')
+                 .find('.zetaprints-field-shape[rel="' + name + '"]');
 
-    if (min_width <= 150)
-      min_width = 150;
-  } else {
-    field = jQuery('div.zetaprints-images-selector[rel="zetaprints-#' + name + '"] div.selector-content');
+  var page = zp.template_details.pages[zp.current_page];
 
-    if (!field.length)
-      return;
+  for (var i = 0; i < selected_shapes.length; i++) {
+    var shape_name = selected_shapes[i];
 
-    //Remember checked radio button for IE7 workaround
-    var $input = field.find(':checked');
+    var tab_title = shape_name;
 
-    field = field[0];
+    if (shape_name.length > 5)
+      tab_title = shape_name.substring(0, 5) + '&hellip;';
 
-    var parent = jQuery(field).parents('div.zetaprints-images-selector')
-                   .removeClass('minimized');
+    $ul.append('<li title="' + shape_name + '">' +
+                   '<a href="#fieldbox-tab-' + i + '">' +
+                     tab_title +
+                   '</a>' +
+                 '</li>');
 
-    if (jQuery(parent).hasClass('expanded'))
-      jQuery('a.collapse-expand', parent).click();
+    if (page.fields[shape_name]) {
+      var $field = jQuery('#input-fields-page-' + zp.current_page)
+                     .find('*[name="zetaprints-_'+ shape_name +'"]')
+                     .not(':hidden');
 
-    var full_name = 'zetaprints-#' + name;
+      var width = 'auto';
+      var min_width = $shape.outerWidth();
 
-    var width = 400;
-    var min_width = 400;
+      if (min_width <= 150)
+        min_width = 150;
+
+      var full_name = 'zetaprints-_'+ name;
+    }
+    else if (page.images[shape_name]) {
+      var $parent = jQuery('#stock-images-page-' + zp.current_page)
+                     .find('*[rel="zetaprints-#' + shape_name + '"]')
+                     .removeClass('minimized');
+
+      if ($parent.hasClass('expanded'))
+          $parent.find('.collapse-expand').click();
+
+      var $field = $parent.children('.selector-content');
+
+      var width = 400;
+      var min_width = 400;
+
+      //Remember checked radio button for IE7 workaround
+      var $input = $field.find(':checked');
+
+      var full_name = 'zetaprints-#' + name;
+    }
+
+    $field
+      .data('in-preview-edit', { 'style': $field.attr('style'),
+                                 'parent': $field.parent() })
+      .detach()
+      .removeAttr('style')
+      .css('border', 'none')
+      .wrap('<div id="fieldbox-tab-' + i + '" class="fieldbox-field" />')
+      .parent()
+      .css({ width: width,
+             minWidth: min_width })
+      .appendTo($tabs);
+
+    if (jQuery.browser.msie && jQuery.browser.version == '7.0')
+      //Oh God, it's a sad story :-(
+      $field.width(min_width);
   }
 
-  jQuery('<input type="hidden" name="field" value="' + full_name + '" />').appendTo(shape);
+  $ul.append('<li class="last" />');
 
-  jQuery(field)
-    .data('in-preview-edit', { 'style': jQuery(field).attr('style'),
-                               'parent': jQuery(field).parent() })
-    .detach()
-    .removeAttr('style')
-    .css('border', 'none');
+  $tabs.tabs();
 
-  var $box = jQuery(
-    '<div class="fieldbox" rel="' + name + '">' +
-      '<div class="fieldbox-wrapper">' +
-        '<div class="fieldbox-head">' +
-          '<a class="button save" href="#" rel="' + full_name + '" />' +
-          '<a class="button close href="#" />' +
-          '<span>' + name + ':</span>' +
-        '</div>' +
-        '<div class="field" />' +
-      '</div>' +
-    '</div>' );
+  $shape
+    .append('<input type="hidden" name="field" value="' + full_name + '" />');
 
-  $box.find('.field').append(field);
+  var $box = jQuery('<div class="fieldbox" rel="' + name + '" />')
+               .append($tabs)
+               .appendTo('body');
 
-  $box.find('.fieldbox-head a').click(function () {
-    popdown_field_by_name(jQuery(this).attr('rel'),
-                          jQuery(this).hasClass('close'));
+  $box.find('.fieldbox-button').click(function () {
+    popdown_field_by_name(jQuery(this).attr('rel'));
 
     dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12),
                               get_current_shapes_container());
 
     return false;
   });
-
-  $box
-    .css({ width: width,
-           minWidth: min_width })
-    .appendTo('body');
-
-  if (jQuery.browser.msie && jQuery.browser.version == '7.0')
-    //Oh God, it's a sad story :-(
-    $box.width(min_width);
 
   //!!! Stupid work around for stupid IE7
   if ($input)
@@ -155,8 +173,8 @@ function popup_field_by_name (name, position) {
   var width = $box.outerWidth();
 
   if (!position) {
-    position = jQuery(shape).offset();
-    position.top += jQuery(shape).outerHeight() - 10;
+    position = $shape.offset();
+    position.top += $shape.outerHeight() - 10;
     position.left += 10;
   }
 
@@ -174,10 +192,10 @@ function popup_field_by_name (name, position) {
     top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
   //!!! Workaround and temp. solution
-  if (jQuery(field).hasClass('selector-content')) {
-    zp.show_user_images(jQuery(field));
+  if ($field.hasClass('selector-content')) {
+    zp.show_user_images($field);
 
-    var $panel = jQuery(jQuery(field)
+    var $panel = jQuery($field
                           .find('ul.tab-buttons li.ui-tabs-selected a')
                           .attr('href') );
 
@@ -185,7 +203,9 @@ function popup_field_by_name (name, position) {
     zp.show_colorpicker($panel);
   }
 
-  jQuery(field).focus();
+  $field.focus();
+
+  var field = $field[0];
 
   //Workaround for IE browser.
   //It moves cursor to the end of input field after focus.
@@ -199,7 +219,7 @@ function popup_field_by_name (name, position) {
   }
 }
 
-function popdown_field_by_name (full_name, reset_value) {
+function popdown_field_by_name (full_name) {
   if (full_name)
     var field = jQuery('*[value="'+ full_name +'"]', jQuery('div#fancybox-content'));
   else
@@ -214,33 +234,36 @@ function popdown_field_by_name (full_name, reset_value) {
   var name = full_name.substring(12);
 
   var $box = jQuery('.fieldbox[rel="' + name + '"]');
-  var $element = $box.find('.field').children();
-  var data = $element.data('in-preview-edit');
 
-  //Remember checked radio button for IE7 workaround
-  var $input = $element.find(':checked');
+  $box.find('.fieldbox-field').children().each(function () {
+    var $element = jQuery(this);
 
-  //!!! Following code checks back initially selected radio button
-  //!!! Don't know why it happens
+    var data = $element.data('in-preview-edit');
 
-  $element
-    .detach()
-    .appendTo(data.parent);
+    //Remember checked radio button for IE7 workaround
+    var $input = $element.find(':checked');
 
-  if (data.style == undefined)
-    $element.removeAttr('style');
-  else
-    $element.attr('style', data.style);
+    //!!! Following code checks back initially selected radio button
+    //!!! Don't know why it happens
+    $element
+      .detach()
+      .appendTo(data.parent);
+
+    if (data.style == undefined)
+      $element.removeAttr('style');
+    else
+      $element.attr('style', data.style);
+
+    //!!! Stupid work around for stupid IE7
+    $input.change().attr('checked', 1);
+
+    if (data.parent.hasClass('zetaprints-images-selector'))
+      zp.scroll_strip(jQuery($element
+                              .find('ul.tab-buttons li.ui-tabs-selected a')
+                              .attr('href')) );
+  });
 
   $box.remove();
-
-  //!!! Stupid work around for stupid IE7
-  $input.change().attr('checked', 1);
-
-  if (data.parent.hasClass('zetaprints-images-selector'))
-    zp.scroll_strip(jQuery($element
-                            .find('ul.tab-buttons li.ui-tabs-selected a')
-                            .attr('href')) );
 
   jQuery(field).remove();
 
@@ -287,9 +310,46 @@ function get_current_shapes_container () {
   return jQuery('div.product-img-box');
 }
 
+function _glob_to_rel_coords (x, y, $container) {
+  var container_offset = $container.offset();
+
+  x = x - container_offset.left;
+  y = y - container_offset.top;
+
+  var width = $container.width();
+  var height = $container.height();
+
+  return { x: x / width, y: y / height };
+}
+
+function get_shapes_by_coords (c) {
+  var page = zp.template_details.pages[zp.current_page];
+
+  var shapes = [];
+
+  for (var name in page.shapes) {
+    var shape = page.shapes[name];
+
+    if (shape.x1 <= c.x && c.x <= shape.x2
+        && shape.y1 <= c.y && c.y <= shape.y2)
+      shapes.push(shape);
+  }
+
+  return shapes;
+}
+
 function shape_handler (event) {
   var shape = jQuery(event.target).parent();
+
   if (event.type == 'click') {
+    var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
+    var shapes = get_shapes_by_coords(c);
+
+    for (var i = 0; i < shapes.length; i++)
+      event.data.container
+        .find('.zetaprints-field-shape.bottom[rel="' + shapes[i].name  + '"]')
+        .addClass('zetaprints-shape-selected');
+
     jQuery('#current-shape').attr('id', '');
     jQuery(shape).attr('id', 'current-shape');
 
