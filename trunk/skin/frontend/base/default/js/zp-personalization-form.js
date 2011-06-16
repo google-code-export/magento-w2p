@@ -220,21 +220,21 @@ function personalization_form ($) {
   });
 
   $('.zetaprints-page-input-fields select').each(function () {
-    var $self = $(this);
-    var isCombo = false;
-    var $children = $self.children('option');
+    var $select = $(this);
+    var is_combo = false;
+    var $childrens = $self.children('option');
 
-    $children.each(function () {
-      var $opt = jQuery(this);
+    $childrens.each(function () {
+      var $option = $(this);
 
-      if ($.trim($opt.text()) == '-') {
-        isCombo = true;
-        $opt.remove();
+      if ($.trim($option.text()) == '-') {
+        is_combo = true;
+        $option.remove();
       }
     });
 
-    if (isCombo)
-      $self.wrap('<div class="zetaprints-text-field-wrapper" />').combobox();
+    if (is_combo)
+      $select.wrap('<div class="zetaprints-text-field-wrapper" />').combobox();
   });
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
