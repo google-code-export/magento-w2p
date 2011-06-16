@@ -246,7 +246,7 @@ function zetaprints_parse_template_details ($xml) {
                         ? (bool) $field['Multiline'] : false,
       'colour-picker' => isset($field['ColourPickerFill'])
                            ? (string) $field['ColourPickerFill'] : null,
-      'value' => (string) $field['FieldValue'] );
+      'value' => (string) $field['Value'] );
 
     if ($field->Value) {
       $field_array['values'] = array();
