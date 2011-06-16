@@ -753,11 +753,10 @@ function personalization_form ($) {
   $(window).load({ zp: this }, function (event) {
     var zp = event.data.zp;
 
-    if (zp.has_shapes && window.mark_shapes_as_edited
+    if (zp.has_shapes
         && window.precalculate_shapes
         && window.place_all_shapes_for_page && shape_handler) {
 
-      mark_shapes_as_edited(zp.template_details);
       precalculate_shapes(zp.template_details);
 
       //Add all shapes only then there's no base image.
