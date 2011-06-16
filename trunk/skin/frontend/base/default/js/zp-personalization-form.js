@@ -221,10 +221,11 @@ function personalization_form ($) {
 
   $('.zetaprints-page-input-fields select').each(function () {
     var $select = $(this);
-    var is_combo = false;
-    var $childrens = $self.children('option');
+    var $children = $select.children('option');
 
-    $childrens.each(function () {
+    var is_combo = false;
+
+    $children.each(function () {
       var $option = $(this);
 
       if ($.trim($option.text()) == '-') {
