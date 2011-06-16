@@ -37,7 +37,7 @@ function place_all_shapes_for_page (shapes, $container, shape_handler) {
         width: shapes[name]._x2 - shapes[name]._x1,
         height: shapes[name]._y2 - shapes[name]._y1,
         name: name,
-        edited: shapes[name].edited }, $container, shape_handler);
+        edited: shapes[name]['has-value'] }, $container, shape_handler);
 }
 
 function remove_all_shapes (container) {
@@ -282,31 +282,13 @@ function popdown_field_by_name (full_name) {
 function mark_shape_as_edited (shape) {
   jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').addClass('edited');
 
-  shape.edited = true;
+  shape['has-value'] = true;
 }
 
 function unmark_shape_as_edited (shape) {
   jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').removeClass('edited');
 
-  shape.edited = false;
-}
-
-function mark_shapes_as_edited (template_details) {
-  var fields = jQuery('div.zetaprints-page-input-fields, div.zetaprints-page-stock-images');
-
-  for (var page_number in template_details.pages)
-    for (var name in template_details.pages[page_number].shapes) {
-      var field = jQuery('input[name="zetaprints-_' + name + '"]:text, '
-        + 'textarea[name="zetaprints-_' + name + '"], '
-        + 'select[name="zetaprints-_' + name + '"], '
-        + 'input[name="zetaprints-_' + name + '"]:checked, '
-        + 'input[name="zetaprints-#' + name + '"]:checked', fields);
-
-      if (field.length == 1 && field[0].value) {
-        template_details.pages[page_number].shapes[name].edited = true;
-        continue;
-      }
-    }
+  shape['has-value'] = false;
 }
 
 function get_current_shapes_container () {
