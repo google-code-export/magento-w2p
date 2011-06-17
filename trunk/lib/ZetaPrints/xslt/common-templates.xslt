@@ -95,16 +95,18 @@
                 </xsl:attribute>
 
                 <xsl:for-each select="Value">
-                  <option>
-                    <xsl:if test=".=../@Value">
-                      <xsl:attribute name="selected">1</xsl:attribute>
-                    </xsl:if>
-                    <xsl:call-template name="trans">
-                      <xsl:with-param name="key">
-                        <xsl:value-of select="." />
-                      </xsl:with-param>
-                    </xsl:call-template>
-                  </option>
+                  <xsl:if test=".!=''">
+                    <option>
+                      <xsl:if test=".=../@Value">
+                        <xsl:attribute name="selected">1</xsl:attribute>
+                      </xsl:if>
+                      <xsl:call-template name="trans">
+                        <xsl:with-param name="key">
+                          <xsl:value-of select="." />
+                        </xsl:with-param>
+                      </xsl:call-template>
+                    </option>
+                  </xsl:if>
                 </xsl:for-each>
               </select>
             </xsl:otherwise>
