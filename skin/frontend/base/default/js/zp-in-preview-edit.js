@@ -48,15 +48,15 @@ function dehighlight_shape_by_name (name, container) {
   jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).removeClass('highlighted');
 }
 
-  function highlight_field_by_name (name) {
-    var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
-                        'div.zetaprints-images-selector[rel="zetaprints-#' +
-                        name + '"] div.head');
+function highlight_field_by_name (name) {
+  var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
+                      'div.zetaprints-images-selector[rel="zetaprints-#' +
+                      name + '"] div.head');
 
-    if ($field.parent().hasClass('zetaprints-text-field-wrapper'))
-      $field = $field.parent();
+  if ($field.parent().hasClass('zetaprints-text-field-wrapper'))
+    $field = $field.parent();
 
-    $field.addClass('highlighted');
+  $field.addClass('highlighted');
 }
 
 function dehighlight_field_by_name (name) {
