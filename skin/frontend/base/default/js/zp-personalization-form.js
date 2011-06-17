@@ -741,7 +741,7 @@ function personalization_form ($) {
 
     $fields = $fields
                 .find('*[name^="zetaprints-_"], *[name^="zetaprints-#"]')
-                .filter('textarea, :text, :checked, :selected')
+                .filter('textarea, select, :text, :checked')
                 .filter('*[type!=hidden]');
 
     if (!$fields.length)
