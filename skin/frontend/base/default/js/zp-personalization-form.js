@@ -1023,26 +1023,45 @@ function personalization_form ($) {
       return false;
   });
 
-  $('div.zetaprints-page-input-fields :input').keyup({ zp: this }, function (event) {
+  function text_fields_change_handle (event) {
     var zp = event.data.zp;
 
-    if ($(this).val().length) {
+    var $target = $(this);
+
+    var name = $target.attr('name').substring(12);
+    var shape = zp.template_details.pages[zp.current_page].shapes[name];
+
+    if (!shape)
+      return;
+
+    if ($target.is(':checkbox'))
+      var state = $target.is(':checked');
+    else
+      var state = $(this).val() != '';
+
+    if (state) {
       $('#fancybox-outer').addClass('modified');
 
       if (zp.has_shapes && window.mark_shape_as_edited)
         // ... then mark shape as edited if input field was modified
         // and is not empty
-        mark_shape_as_edited(zp.template_details.pages[zp.current_page]
-                                   .shapes[$(this).attr('name').substring(12)]);
+        mark_shape_as_edited(shape);
     } else {
       $('#fancybox-outer').removeClass('modified');
 
       if (zp.has_shapes && window.unmark_shape_as_edited)
         // or unmark it if input field is empty
-        unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
-                                   .shapes[$(this).attr('name').substring(12)]);
+        unmark_shape_as_edited(shape);
     }
-  });
+  }
+
+  $fields = $('div.zetaprints-page-input-fields')
+    .find('input, textarea, select')
+    .filter('textarea, :text')
+    .keyup({ zp: this }, text_fields_change_handle)
+    .end()
+    .filter('select, :checkbox')
+    .change({ zp: this }, text_fields_change_handle);
 
   $('.button.delete').click({ zp: this }, function(event) {
     if (confirm(delete_this_image_text)) {
