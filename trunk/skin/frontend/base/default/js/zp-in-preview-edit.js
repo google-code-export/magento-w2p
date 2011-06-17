@@ -1,15 +1,17 @@
 function precalculate_shapes (template_details) {
   for (var page in template_details.pages)
     for (var name in template_details.pages[page].shapes) {
-      template_details.pages[page].shapes[name]._x1 = template_details.pages[page].shapes[name].x1 * 100;
-      template_details.pages[page].shapes[name]._y1 = template_details.pages[page].shapes[name].y1 * 100;
-      template_details.pages[page].shapes[name]._x2 = template_details.pages[page].shapes[name].x2 * 100;
-      template_details.pages[page].shapes[name]._y2 = template_details.pages[page].shapes[name].y2 * 100;
+      var shape = template_details.pages[page].shapes[name];
+
+      shape.left = shape.x1 * 100;
+      shape.top = shape.y1 * 100;
+      shape.width = (shape.x2 - shape.x1) * 100;
+      shape.height = (shape.y2 - shape.y1) * 100;
     }
 }
 
 function place_shape (shape, $container, shape_handler) {
-  if (shape.edited)
+  if (shape['has-value'])
     var edited_class = ' edited';
   else
     var edited_class = '';
@@ -31,13 +33,7 @@ function place_all_shapes_for_page (shapes, $container, shape_handler) {
 
   for (name in shapes)
     if (!shapes[name].hidden)
-      place_shape({
-        left: shapes[name]._x1,
-        top: shapes[name]._y1,
-        width: shapes[name]._x2 - shapes[name]._x1,
-        height: shapes[name]._y2 - shapes[name]._y1,
-        name: name,
-        edited: shapes[name]['has-value'] }, $container, shape_handler);
+      place_shape(shapes[name], $container, shape_handler);
 }
 
 function remove_all_shapes (container) {
