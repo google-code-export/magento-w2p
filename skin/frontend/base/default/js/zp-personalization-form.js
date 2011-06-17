@@ -731,20 +731,24 @@ function personalization_form ($) {
   }
 
   function has_changed_fields_on_page (page_number) {
-    var fields = $('#input-fields-page-' + page_number + ', ' +
+    var $fields = $('#input-fields-page-' + page_number + ', ' +
                    '#stock-images-page-' + page_number);
 
-    if (!fields.length)
+    if (!$fields.length)
       return true;
 
-    var fields = $('input[name^="zetaprints-_"]:text, ' +
-                   'textarea[name^="zetaprints-_"], ' +
-                   'select[name^="zetaprints-_"], ' +
-                   'input[name^="zetaprints-_"]:checked, ' +
-                   'input[name^="zetaprints-#"]:checked', fields);
+    var has_value = false;
 
-    for (field in fields)
-      if (fields[field].value)
+    $fields = $fields
+                .find('*[name^="zetaprints-_"], *[name^="zetaprints-#"]')
+                .filter('textarea, :text, :checked, :selected')
+                .filter('*[type!=hidden]');
+
+    if (!$fields.length)
+      return false;
+
+    for (var i = 0; i < $fields.length; i++)
+      if ($($fields[i]).val())
         return true;
 
     return false;
