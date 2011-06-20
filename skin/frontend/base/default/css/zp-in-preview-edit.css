@@ -74,15 +74,12 @@ div.fieldbox .fieldbox-head {
   display: block;
   float: left;
   margin: 0 3px 0 0;
+  padding: 0 0 2px 0;
 }
 
 div.fieldbox .fieldbox-head .last {
   float: none;
   clear: both;
-}
-
-.fieldbox-head li {
-  cursor: pointer;
 }
 
 .fieldbox-head .ui-tabs-selected {
@@ -99,7 +96,6 @@ div.fieldbox .fieldbox-head .last {
   text-decoration: none;
   border: 1px solid #de5400;
   padding: 0 1px;
-  margin: 0 0 1px 0;
   line-height: 1.5;
   float: left;
 }
