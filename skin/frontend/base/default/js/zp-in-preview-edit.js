@@ -23,8 +23,9 @@ function place_shape (shape, $container, shape_handler) {
       left: shape.left + '%',
       width: shape.width + '%',
       height: shape.height + '%' })
-    .bind('click mouseover mouseout', { container: $container }, shape_handler)
-    .appendTo($container);
+    .appendTo($container)
+    .children()
+    .bind('click mouseover mouseout', { container: $container }, shape_handler);
 }
 
 function place_all_shapes_for_page (shapes, $container, shape_handler) {
@@ -109,6 +110,11 @@ function popup_field_by_name (name, position, selected_shapes) {
       var $field = jQuery('#input-fields-page-' + zp.current_page)
                      .find('*[name="zetaprints-_'+ shape_name +'"]')
                      .not(':hidden');
+
+      var $parent = $field.parents('.zetaprints-text-field-wrapper');
+
+      if ($parent.length)
+        $field = $parent;
 
       var width = 'auto';
       var min_width = $shape.outerWidth();
