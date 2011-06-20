@@ -290,7 +290,7 @@ function unmark_shape_as_edited (shape) {
 function get_current_shapes_container () {
   var container = jQuery('div#fancybox-content:visible');
   if (container.length)
-    return container[0];
+    return container;
 
   return jQuery('div.product-img-box');
 }
