@@ -900,7 +900,7 @@ function personalization_form ($) {
       }
 
       if (!(zp.has_shapes && window.place_all_shapes_for_page
-        && window.highlight_shape_by_name && window.popup_field_by_name
+        && window.highlight_shape && window.popup_field_by_name
         && window.fancy_shape_handler))
         return;
 
@@ -914,15 +914,23 @@ function personalization_form ($) {
       if ($current_shape.length) {
         var current_shape_name = $current_shape.attr('rel');
 
-        highlight_shape_by_name(current_shape_name, $fancy_inner);
+        var shape = zp.template_details
+                      .pages[zp.current_page]
+                      .shapes[current_shape_name];
+
+        highlight_shape(shape, $fancy_inner);
 
         var $selected_shapes = $product_image_box
                                  .find('.zetaprints-shape-selected');
 
         var selected_shapes_names = [];
 
-        for (var i = 0; i < $selected_shapes.length; i++)
-          selected_shapes_names.push($($selected_shapes[i]).attr('rel'));
+        for (var i = 0; i < $selected_shapes.length; i++) {
+          var names = $($selected_shapes[i]).attr('rel').split(', ');
+
+          for (var i = 0; i < names.length; i++)
+            selected_shapes_names.push(names[i]);
+        }
 
         popup_field_by_name(current_shape_name,
                             undefined,
@@ -1028,30 +1036,51 @@ function personalization_form ($) {
 
     var $target = $(this);
 
-    var name = $target.attr('name').substring(12);
-    var shape = zp.template_details.pages[zp.current_page].shapes[name];
-
-    if (!shape)
-      return;
-
     if ($target.is(':checkbox'))
       var state = $target.is(':checked');
     else
       var state = $(this).val() != '';
 
-    if (state) {
+    if (state)
       $('#fancybox-outer').addClass('modified');
-
-      if (zp.has_shapes && window.mark_shape_as_edited)
-        // ... then mark shape as edited if input field was modified
-        // and is not empty
-        mark_shape_as_edited(shape);
-    } else {
+    else
       $('#fancybox-outer').removeClass('modified');
 
-      if (zp.has_shapes && window.unmark_shape_as_edited)
-        // or unmark it if input field is empty
+    if (zp.has_shapes
+        && window.mark_shape_as_edited
+        && window.unmark_shape_as_edited) {
+
+      var shape = get_shape_by_name($target.attr('name').substring(12),
+                             zp.template_details.pages[zp.current_page].shapes);
+
+      if (!shape)
+        return;
+
+      if (state)
+        mark_shape_as_edited(shape);
+      else {
+        var names = shape.name.split(', ');
+
+        if (names.length != 1) {
+          $text_fields = $('#input-fields-page-' + zp.current_page)
+                      .find('input, textarea, select')
+                      .filter('textarea, select, :text, :checked');
+
+          $image_fields = $('#stock-images-page-' + zp.current_page)
+                            .find('input')
+                            .filter(':checked');
+
+          for (var i = 0; i < names.length; i++) {
+            var name = names[i];
+
+            if ($text_fields.filter('[name="zetaprints-_' + name +'"]').val() ||
+                $image_fields.filter('[name="zetaprints-#' + name +'"]').length)
+              return;
+          }
+        }
+
         unmark_shape_as_edited(shape);
+      }
     }
   }
 
