@@ -51,19 +51,19 @@ a.zetaprints-template-preview img {
 }
 
 /**/
-div.zetaprints-page-input-fields input.input-text,
-div.zetaprints-page-input-fields textarea {
+.zetaprints-text-field-wrapper .input-text,
+.zetaprints-text-field-wrapper textarea {
   border: none;
   padding: 0;
   width: 100%;
 }
 
-div.zetaprints-page-input-fields input.input-text:focus,
-div.zetaprints-page-input-fields textarea:focus {
+.zetaprints-text-field-wrapper .input-text:focus,
+.zetaprints-text-field-wrapper textarea:focus {
   background: none;
 }
 
-div.zetaprints-page-input-fields textarea {
+.zetaprints-text-field-wrapper textarea {
   height: 100%;
   resize: none;
 }

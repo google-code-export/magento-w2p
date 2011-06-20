@@ -138,19 +138,17 @@ div.fieldbox .fieldbox-button {
   display: none;
 }
 
-div.fieldbox div.fieldbox-field {
-  padding: 2px 4px;
+.fieldbox-field > .zetaprints-text-field-wrapper {
+  border: none;
+  position: relative;
 }
 
-div.fieldbox div.fieldbox-field > *:focus {
-  background: none;
+.fieldbox-field .zp-combobox-button {
+  border-color: #F18200;
 }
 
-div.fieldbox div.fieldbox-field > .input-text,
-div.fieldbox div.fieldbox-field > textarea {
-  padding: 0;
-  vertical-align: baseline;
-  width: 100%;
+.fieldbox-field .ui-menu {
+  border: 1px solid #F18200;
 }
 
 div.fieldbox div.tabs-wrapper {
