@@ -154,16 +154,10 @@ function popup_field_by_name (name, position, selected_shapes) {
       .css('border', 'none')
       .wrap('<div id="fieldbox-tab-' + i + '" class="fieldbox-field" />')
       .parent()
-      .css({ width: width,
-             minWidth: min_width })
       .appendTo($tabs);
-
-    if (jQuery.browser.msie && jQuery.browser.version == '7.0')
-      //Oh God, it's a sad story :-(
-      $field.width(min_width);
   }
 
-  $ul.append('<li class="last" />');
+  $ul.append('<div class="last" />');
 
   $tabs.tabs();
 
@@ -172,7 +166,13 @@ function popup_field_by_name (name, position, selected_shapes) {
 
   var $box = jQuery('<div class="fieldbox" rel="' + name + '" />')
                .append($tabs)
+               .css({ width: width,
+                      minWidth: min_width })
                .appendTo('body');
+
+  if (jQuery.browser.msie && jQuery.browser.version == '7.0')
+      //Oh God, it's a sad story :-(
+      $box.width(min_width);
 
   $box.find('.fieldbox-button').click(function () {
     popdown_field_by_name();
