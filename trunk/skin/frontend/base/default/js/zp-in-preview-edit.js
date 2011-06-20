@@ -40,23 +40,35 @@ function remove_all_shapes (container) {
   jQuery('div.zetaprints-field-shape', container).remove();
 }
 
-function highlight_shape_by_name (name, container) {
-  jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).addClass('highlighted');
+function highlight_shape (shape, $container) {
+  $container
+    .find('.zetaprints-field-shape[rel="' + shape.name +'"]')
+    .addClass('highlighted');
 }
 
-function dehighlight_shape_by_name (name, container) {
-  jQuery('div.zetaprints-field-shape[rel="' + name +'"]', container).removeClass('highlighted');
+function dehighlight_shape (shape, $container) {
+  $container
+    .find('.zetaprints-field-shape[rel="' + shape.name +'"]')
+    .removeClass('highlighted');
 }
 
-function highlight_field_by_name (name) {
-  var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
+function highlight_field_by_name (names) {
+  names = names.split(', ');
+
+  for (var i = 0; i < names.length; i++) {
+    var name = names[i];
+
+    var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
                       'div.zetaprints-images-selector[rel="zetaprints-#' +
                       name + '"] div.head');
 
-  if ($field.parent().hasClass('zetaprints-text-field-wrapper'))
-    $field = $field.parent();
+    var $parent = $field.parents('.zetaprints-text-field-wrapper');
 
-  $field.addClass('highlighted');
+    if ($parent.length)
+      $field = $parent;
+
+    $field.addClass('highlighted');
+  }
 }
 
 function dehighlight_field_by_name (name) {
@@ -369,8 +381,12 @@ function fancy_shape_handler (event) {
 
     var selected_shapes_names = [];
 
-    for (var i = 0; i < selected_shapes.length; i++)
-      selected_shapes_names.push(selected_shapes[i].name);
+    for (var i = 0; i < selected_shapes.length; i++) {
+      var names = selected_shapes[i].name.split(', ');
+
+      for (var i = 0; i < names.length; i++)
+        selected_shapes_names.push(names[i]);
+    }
 
     popup_field_by_name(jQuery(shape).attr('rel'),
                         { top: event.pageY, left: event.pageX },
@@ -391,17 +407,53 @@ function fancy_shape_handler (event) {
 }
 
 function add_in_preview_edit_handlers () {
-  jQuery('div.zetaprints-page-input-fields input, div.zetaprints-page-input-fields textarea, div.zetaprints-page-input-fields select').mouseover(function() {
-    highlight_shape_by_name(jQuery(this).attr('name').substring(12), get_current_shapes_container());
-  }).mouseout(function() {
-    dehighlight_shape_by_name(jQuery(this).attr('name').substring(12), get_current_shapes_container());
-  });
+  jQuery('div.zetaprints-page-input-fields')
+    .find('input, textarea, select')
+    .mouseover(function() {
+      var shapes = zp.template_details
+                     .pages[zp.current_page]
+                     .shapes;
+
+      var name = jQuery(this).attr('name').substring(12);
+
+      var shape = get_shape_by_name(name, shapes);
+
+      highlight_shape(shape, get_current_shapes_container());
+    })
+    .mouseout(function() {
+      var shapes = zp.template_details
+                     .pages[zp.current_page]
+                     .shapes;
+
+      var name = jQuery(this).attr('name').substring(12);
+
+      var shape = get_shape_by_name(name, shapes);
+
+      dehighlight_shape(shape, get_current_shapes_container());
+    });
 
   jQuery('div.zetaprints-images-selector').mouseover(function () {
-    highlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
+    var shapes = zp.template_details
+                   .pages[zp.current_page]
+                   .shapes;
+
+    var name = jQuery(this).attr('rel').substring(12);
+
+    var shape = get_shape_by_name(name, shapes);
+
+    highlight_shape(shape, get_current_shapes_container());
   }).mouseout(function () {
-    if (!jQuery(this).children('div.fieldbox').length)
-      dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12), get_current_shapes_container());
+    if (!jQuery(this).children('div.fieldbox').length) {
+      var shapes = zp.template_details
+                     .pages[zp.current_page]
+                     .shapes;
+
+      var name = jQuery(this).attr('rel').substring(12);
+
+      var shape = get_shape_by_name(name, shapes);
+
+      dehighlight_shape(shape, get_current_shapes_container());
+    }
   });
 
   jQuery('img#fancybox-img').live('click', function () {
@@ -422,4 +474,16 @@ function add_in_preview_edit_handlers () {
       || orig_position.left != new_position.left)
       popup_field_by_name(popdown_field_by_name());
   }
+}
+
+function get_shape_by_name (name, shapes) {
+  for (var _name in shapes) {
+    var names = _name.split(', ');
+
+    for (var i = 0; i < names.length; i++)
+      if (names[i] == name)
+        return shapes[_name];
+  }
+
+  return null;
 }
