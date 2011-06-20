@@ -157,10 +157,7 @@ function popup_field_by_name (name, position, selected_shapes) {
                .appendTo('body');
 
   $box.find('.fieldbox-button').click(function () {
-    popdown_field_by_name(jQuery(this).attr('rel'));
-
-    dehighlight_shape_by_name(jQuery(this).attr('rel').substring(12),
-                              get_current_shapes_container());
+    popdown_field_by_name();
 
     return false;
   });
