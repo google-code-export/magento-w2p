@@ -414,6 +414,7 @@ function fancy_shape_handler (event) {
 
 function add_in_preview_edit_handlers () {
   jQuery('div.zetaprints-page-input-fields')
+    .find('dd')
     .find('input, textarea, select')
     .mouseover(function() {
       var shapes = zp.template_details
