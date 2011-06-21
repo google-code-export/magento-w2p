@@ -390,8 +390,8 @@ function fancy_shape_handler (event) {
     for (var i = 0; i < selected_shapes.length; i++) {
       var names = selected_shapes[i].name.split(', ');
 
-      for (var i = 0; i < names.length; i++)
-        selected_shapes_names.push(names[i]);
+      for (var n = 0; n < names.length; n++)
+        selected_shapes_names.push(names[n]);
     }
 
     popup_field_by_name(jQuery(shape).attr('rel'),
