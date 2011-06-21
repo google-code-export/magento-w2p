@@ -91,6 +91,12 @@ function popup_field_by_name (name, position, selected_shapes) {
 
   var page = zp.template_details.pages[zp.current_page];
 
+  var width = 'auto'
+  var min_width = $shape.outerWidth();
+
+  if (min_width <= 150)
+    min_width = 150;
+
   for (var i = 0; i < selected_shapes.length; i++) {
     var shape_name = selected_shapes[i];
 
@@ -116,12 +122,6 @@ function popup_field_by_name (name, position, selected_shapes) {
       if ($parent.length)
         $field = $parent;
 
-      var width = 'auto';
-      var min_width = $shape.outerWidth();
-
-      if (min_width <= 150)
-        min_width = 150;
-
       var full_name = 'zetaprints-_'+ name;
 
       if (page.fields[shape_name]['colour-picker'] == 'RGB')
@@ -137,8 +137,10 @@ function popup_field_by_name (name, position, selected_shapes) {
 
       var $field = $parent.children('.selector-content');
 
-      var width = 400;
-      var min_width = 400;
+      if (min_width < 400)
+        width = 400;
+      else
+        width = min_width;
 
       //Remember checked radio button for IE7 workaround
       var $input = $field.find(':checked');
