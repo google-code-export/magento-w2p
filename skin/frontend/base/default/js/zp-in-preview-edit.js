@@ -172,10 +172,6 @@ function popup_field_by_name (name, position, selected_shapes) {
                       minWidth: min_width })
                .appendTo('body');
 
-  if (jQuery.browser.msie && jQuery.browser.version == '7.0')
-      //Oh God, it's a sad story :-(
-      $box.width(min_width);
-
   $box.find('.fieldbox-button').click(function () {
     popdown_field_by_name();
 
