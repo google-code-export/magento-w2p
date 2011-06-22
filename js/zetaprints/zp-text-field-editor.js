@@ -16,6 +16,7 @@
         return;
 
       $editor
+        .removeClass('opened')
         .detach()
         .prependTo(target);
     }
