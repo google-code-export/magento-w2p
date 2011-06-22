@@ -106,9 +106,13 @@ function popup_field_by_name (name, position, selected_shapes) {
       tab_title = shape_name.substring(0, 5) + '&hellip;';
 
     var $li = jQuery('<li title="' + shape_name + '">' +
-                       '<a href="#fieldbox-tab-' + i + '">' +
-                         tab_title +
-                       '</a>' +
+                       '<div class="fieldbox-tab-inner">' +
+                         '<a href="#fieldbox-tab-' + i + '">' +
+                           '<div class="fieldbox-tab-icon" />' +
+                           tab_title +
+                         '</a>' +
+                         '<div class="zp-clear" />' +
+                        '</div>' +
                      '</li>')
                 .appendTo($ul);
 
@@ -119,13 +123,33 @@ function popup_field_by_name (name, position, selected_shapes) {
 
       var $parent = $field.parents('.zetaprints-text-field-wrapper');
 
-      if ($parent.length)
+      if ($parent.length) {
+        //var $_field = $field;
         $field = $parent;
+      }
 
       var full_name = 'zetaprints-_'+ name;
 
       if (page.fields[shape_name]['colour-picker'] == 'RGB')
-        $field.text_field_editor('move', $li);
+        $field.text_field_editor('move', $li.find('.fieldbox-tab-inner'));
+
+      $li.addClass('text-field');
+
+      //var field = $field[0];
+
+      //if ($_field) {
+        //Workaround for IE browser.
+        //It moves cursor to the end of input field after focus.
+      //  if (field.createTextRange) {
+      //    alert('here');
+      //    var range = field.createTextRange();
+      //    var position = jQuery(field).val().length;
+
+      //    range.collapse(true);
+      //    range.move('character', position);
+      //    range.select();
+      //  }
+      //}
     }
     else if (page.images && page.images[shape_name]) {
       var $parent = jQuery('#stock-images-page-' + zp.current_page)
@@ -146,6 +170,8 @@ function popup_field_by_name (name, position, selected_shapes) {
       var $input = $field.find(':checked');
 
       var full_name = 'zetaprints-#' + name;
+
+      $li.addClass('image-field');
     }
 
     $field
@@ -214,21 +240,6 @@ function popup_field_by_name (name, position, selected_shapes) {
 
     zp.scroll_strip($panel);
     zp.show_colorpicker($panel);
-  }
-
-  $field.focus();
-
-  var field = $field[0];
-
-  //Workaround for IE browser.
-  //It moves cursor to the end of input field after focus.
-  if (field.createTextRange) {
-    var range = field.createTextRange();
-    var position = jQuery(field).val().length;
-
-    range.collapse(true);
-    range.move('character', position);
-    range.select();
   }
 }
 

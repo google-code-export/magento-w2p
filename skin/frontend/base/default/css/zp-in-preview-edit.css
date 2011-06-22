@@ -75,6 +75,7 @@ div.fieldbox .fieldbox-head {
   float: left;
   margin: 0 3px 0 0;
   padding: 0 0 2px 0;
+  cursor: pointer;
 }
 
 div.fieldbox .fieldbox-head .last {
@@ -94,8 +95,6 @@ div.fieldbox .fieldbox-head .last {
   display: block;
   color: white;
   text-decoration: none;
-  border: 1px solid #de5400;
-  padding: 0 1px;
   line-height: 1.5;
   float: left;
 }
@@ -103,16 +102,19 @@ div.fieldbox .fieldbox-head .last {
 .fieldbox-head .ui-tabs-selected a {
   color: #de5400;
   font-weight: bold;
-  border-color: white;
 }
 
 .fieldbox-head .zp-text-field-editor {
   display: none;
+  margin: 0;
 }
 
 .fieldbox-head .zp-text-field-editor-handle {
-  border-top: none;
-  padding-top: 4px;
+  padding-top: 2px;
+}
+
+.fieldbox-head .zp-text-field-editor.opened .zp-text-field-editor-panel {
+  display: table;
 }
 
 div.fieldbox.ui-draggable .fieldbox-head {
@@ -128,6 +130,36 @@ div.fieldbox .fieldbox-button {
   height: 16px;
   width: 16px;
   cursor: pointer;
+}
+
+.fieldbox-tab-inner {
+  border: 1px solid #de5400;
+  padding-right: 1px;
+}
+
+.fieldbox-head .ui-tabs-selected .fieldbox-tab-inner {
+  border-color: white;
+}
+
+.fieldbox-tab-icon {
+  background: url('../images/images-selector-sprites.png') no-repeat;
+  float: left;
+  width: 15px;
+  height: 13px;
+  margin: 2px 4px 0 4px;
+}
+
+.text-field .fieldbox-tab-icon {
+  background-position: -260px 0px;
+  width: 13px;
+}
+
+.image-field .fieldbox-tab-icon {
+  background-position: -260px -20px;
+}
+
+.ui-tabs-selected.image-field .fieldbox-tab-icon {
+  background-position: -260px -39px;
 }
 
 .fieldbox .ui-tabs-hide {
