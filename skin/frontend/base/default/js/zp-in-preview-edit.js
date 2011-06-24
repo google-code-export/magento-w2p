@@ -186,8 +186,6 @@ function popup_field_by_name (name, position, selected_shapes) {
 
   $ul.append('<div class="last" />');
 
-  $tabs.tabs();
-
   $shape
     .append('<input type="hidden" name="field" value="' + full_name + '" />');
 
@@ -229,17 +227,22 @@ function popup_field_by_name (name, position, selected_shapes) {
     left: position.left,
     top: position.top }).draggable({ handle: 'div.fieldbox-head' });
 
-  //!!! Workaround and temp. solution
-  if ($field.hasClass('selector-content')) {
-    zp.show_user_images($field);
+  $tabs.tabs({
+    show: function (event, ui) {
+      $panel = jQuery(ui.panel);
 
-    var $panel = jQuery($field
-                          .find('ul.tab-buttons li.ui-tabs-selected a')
-                          .attr('href') );
+      var $panel = $panel.find($panel
+                                .find('ul.tab-buttons li.ui-tabs-selected a')
+                                .attr('href') );
 
-    zp.scroll_strip($panel);
-    zp.show_colorpicker($panel);
-  }
+      if (!$panel.length)
+        return;
+
+      zp.show_user_images($panel);
+      zp.scroll_strip($panel);
+      zp.show_colorpicker($panel);
+    }
+  });
 }
 
 function popdown_field_by_name (full_name) {
