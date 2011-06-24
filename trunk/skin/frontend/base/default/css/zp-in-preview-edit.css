@@ -167,8 +167,9 @@ div.fieldbox .fieldbox-button {
 }
 
 .fieldbox-field > .zetaprints-text-field-wrapper {
-  border: none;
+  border-color: #F18200;
   position: relative;
+  margin: 4px;
 }
 
 .fieldbox-field .zp-combobox-button {
