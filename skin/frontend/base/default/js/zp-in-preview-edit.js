@@ -121,17 +121,16 @@ function popup_field_by_name (name, position, selected_shapes) {
                      .find('*[name="zetaprints-_'+ shape_name +'"]')
                      .not(':hidden');
 
+      var $_field = $field;
       var $parent = $field.parents('.zetaprints-text-field-wrapper');
 
-      if ($parent.length) {
-        //var $_field = $field;
+      if ($parent.length)
         $field = $parent;
-      }
 
       var full_name = 'zetaprints-_'+ name;
 
       if (page.fields[shape_name]['colour-picker'] == 'RGB')
-        $field.text_field_editor('move', $li.find('.fieldbox-tab-inner'));
+        $_field.text_field_editor('move', $li.find('.fieldbox-tab-inner'));
 
       $li.addClass('text-field');
 
@@ -261,6 +260,10 @@ function popdown_field_by_name (full_name) {
 
   $box.find('.fieldbox-field').children().each(function () {
     var $element = jQuery(this);
+    var $_element = $element;
+
+    if ($element.hasClass('zetaprints-text-field-wrapper'))
+      $_element = $element.children('.zetaprints-field');
 
     var data = $element.data('in-preview-edit');
 
@@ -281,7 +284,7 @@ function popdown_field_by_name (full_name) {
     //!!! Stupid work around for stupid IE7
     $input.change().attr('checked', 1);
 
-    $element.text_field_editor('move',
+    $_element.text_field_editor('move',
                                data.parent.parents('dl').children('dt'));
 
     if (data.parent.hasClass('zetaprints-images-selector'))
