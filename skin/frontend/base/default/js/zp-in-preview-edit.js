@@ -178,7 +178,6 @@ function popup_field_by_name (name, position, selected_shapes) {
                                  'parent': $field.parent() })
       .detach()
       .removeAttr('style')
-      .css('border', 'none')
       .wrap('<div id="fieldbox-tab-' + i + '" class="fieldbox-field" />')
       .parent()
       .appendTo($tabs);
