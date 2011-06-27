@@ -926,7 +926,7 @@ function personalization_form ($) {
         var selected_shapes_names = [];
 
         for (var i = 0; i < $selected_shapes.length; i++) {
-          var names = $($selected_shapes[i]).attr('rel').split(', ');
+          var names = $($selected_shapes[i]).attr('rel').split('; ');
 
           for (var n = 0; n < names.length; n++)
             selected_shapes_names.push(names[n]);
@@ -1059,7 +1059,7 @@ function personalization_form ($) {
       if (state)
         mark_shape_as_edited(shape);
       else {
-        var names = shape.name.split(', ');
+        var names = shape.name.split('; ');
 
         if (names.length != 1) {
           $text_fields = $('#input-fields-page-' + zp.current_page)

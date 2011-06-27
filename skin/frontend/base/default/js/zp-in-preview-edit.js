@@ -54,7 +54,7 @@ function dehighlight_shape (shape, $container) {
 }
 
 function highlight_field_by_name (names) {
-  names = names.split(', ');
+  names = names.split('; ');
 
   for (var i = 0; i < names.length; i++) {
     var name = names[i];
@@ -402,7 +402,7 @@ function fancy_shape_handler (event) {
     var selected_shapes_names = [];
 
     for (var i = 0; i < selected_shapes.length; i++) {
-      var names = selected_shapes[i].name.split(', ');
+      var names = selected_shapes[i].name.split('; ');
 
       for (var n = 0; n < names.length; n++)
         selected_shapes_names.push(names[n]);
@@ -499,7 +499,7 @@ function add_in_preview_edit_handlers () {
 
 function get_shape_by_name (name, shapes) {
   for (var _name in shapes) {
-    var names = _name.split(', ');
+    var names = _name.split('; ');
 
     for (var i = 0; i < names.length; i++)
       if (names[i] == name)
