@@ -68,6 +68,11 @@ a.zetaprints-template-preview img {
   resize: none;
 }
 
+.zetaprints-text-field-wrapper input[readonly],
+.zetaprints-text-field-wrapper textarea[readonly] {
+  color: gray;
+}
+
 .zetaprints-text-field-wrapper {
   border: 1px solid #B6B6B6;
   background-color: white;
