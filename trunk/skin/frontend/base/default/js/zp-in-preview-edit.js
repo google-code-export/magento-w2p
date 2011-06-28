@@ -410,7 +410,7 @@ function fancy_shape_handler (event) {
 
     popup_field_by_name(jQuery(shape).attr('rel'),
                         { top: event.pageY, left: event.pageX },
-                        selected_shapes_names);
+                        selected_shapes_names.reverse());
 
     return false;
   }
