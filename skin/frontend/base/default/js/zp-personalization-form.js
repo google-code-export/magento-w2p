@@ -1084,10 +1084,20 @@ function personalization_form ($) {
     }
   }
 
+  function readonly_fields_focus_handle (event) {
+    $(this)
+      .removeAttr('readonly')
+      .val('')
+      .unbind(event);
+  }
+
   $('div.zetaprints-page-input-fields')
     .find('.zetaprints-field')
     .filter('textarea, :text')
       .keyup({ zp: this }, text_fields_change_handle)
+      .filter('[readonly]')
+        .focus(readonly_fields_focus_handle)
+      .end()
     .end()
     .filter('select, :checkbox')
       .change({ zp: this }, text_fields_change_handle);

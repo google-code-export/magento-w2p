@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:output method="html"/>
+<xsl:output method="xml"/>
 
   <xsl:template name="fields-for-page">
     <xsl:param name="page" />
@@ -48,9 +48,17 @@
                         </xsl:call-template>
                       </xsl:attribute>
                     </xsl:if>
+
+                    <xsl:if test="@StoryAsDefault=2">
+                      <xsl:attribute name="readonly">readonly</xsl:attribute>
+                    </xsl:if>
+
                     <xsl:choose>
                       <xsl:when test="@Value and string-length(@Value)!=0">
                         <xsl:value-of select="@Value" />
+                      </xsl:when>
+                      <xsl:when test="@Story and @StoryAsDefault">
+                        <xsl:value-of select="@Story" />
                       </xsl:when>
                       <xsl:otherwise>
                         <xsl:text>&#x0A;</xsl:text>
@@ -75,8 +83,22 @@
                         </xsl:call-template>
                       </xsl:attribute>
                     </xsl:if>
-                    <xsl:if test="@Value">
-                      <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
+
+                    <xsl:choose>
+                      <xsl:when test="@Value and string-length(@Value)!=0">
+                        <xsl:attribute name="value">
+                          <xsl:value-of select="@Value" />
+                        </xsl:attribute>
+                      </xsl:when>
+                      <xsl:when test="@Story and @StoryAsDefault">
+                        <xsl:attribute name="value">
+                          <xsl:value-of select="@Story" />
+                        </xsl:attribute>
+                      </xsl:when>
+                    </xsl:choose>
+
+                    <xsl:if test="@StoryAsDefault=2">
+                      <xsl:attribute name="readonly">readonly</xsl:attribute>
                     </xsl:if>
                   </input>
                   </div>
@@ -255,9 +277,10 @@
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
-              <div class="clear"></div>
+              <div class="clear"><span /></div>
+
               <div class="recommended-size-notice">
-                <div class="zetaprints-icon attention" />
+                <div class="zetaprints-icon attention"><span /></div>
                 <span>
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">Recommended size:</xsl:with-param>
@@ -398,7 +421,7 @@
           </xsl:if>
           </div>
 
-          <!--<div class="clear">&#x0A;</div>-->
+          <div class="clear"><span /></div>
         </div>
       </div>
     </xsl:for-each>
