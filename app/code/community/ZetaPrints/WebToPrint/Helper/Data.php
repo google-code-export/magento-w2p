@@ -258,4 +258,19 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
   function getCustomOptions ($path = null) {
     return Mage::getSingleton('webtoprint/config')->getOptions($path);
   }
+
+  public function getProfileByName ($name) {
+    $collection = Mage::getModel('dataflow/profile')
+                    ->getCollection();
+
+    $collection
+      ->getSelect()
+      ->where('name = ?', $name);
+
+    if ($collection->count())
+      return $collection->getFirstItem();
+
+    return null;
+  }
+
 }
