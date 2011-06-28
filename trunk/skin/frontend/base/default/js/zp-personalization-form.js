@@ -1087,10 +1087,10 @@ function personalization_form ($) {
   $('div.zetaprints-page-input-fields')
     .find('.zetaprints-field')
     .filter('textarea, :text')
-    .keyup({ zp: this }, text_fields_change_handle)
+      .keyup({ zp: this }, text_fields_change_handle)
     .end()
     .filter('select, :checkbox')
-    .change({ zp: this }, text_fields_change_handle);
+      .change({ zp: this }, text_fields_change_handle);
 
   $('.button.delete').click({ zp: this }, function(event) {
     if (confirm(delete_this_image_text)) {
