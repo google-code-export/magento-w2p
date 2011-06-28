@@ -1085,7 +1085,7 @@ function personalization_form ($) {
   }
 
   $('div.zetaprints-page-input-fields')
-    .find('input, textarea, select')
+    .find('.zetaprints-field')
     .filter('textarea, :text')
     .keyup({ zp: this }, text_fields_change_handle)
     .end()
