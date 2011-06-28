@@ -26,6 +26,39 @@ class ZetaPrints_WebToPrint_Catalog_ProductController extends Mage_Adminhtml_Cat
     $this->_outputBlocks($radio_block, $grid_block);
   }
 
+  public function updateProfileAction () {
+    $profileId = $this->getRequest()->getParam('profile-id', null);
+    $productId = $this->getRequest()->getParam('product-id');
+
+    if (!$profileId) {
+      $this->_redirect('adminhtml/catalog_product/edit',
+                       array('id' => $productId) );
+      return;
+    }
+
+    $profile = Mage::getModel('dataflow/profile')->load($profileId);
+
+    if (!$profile->getId()) {
+      $this->_redirect('adminhtml/catalog_product/edit',
+                       array('id' => $productId) );
+      return;
+    }
+
+    $actionsXml
+            = simplexml_load_string("<data>{$profile->getActionsXml()}</data>");
+
+    if ($actionsXml) {
+      $actionsXml->action[0]['source-product-id'] = $productId;
+
+      $profile
+        ->setData('actions_xml', $actionsXml->action->asXml())
+        ->save();
+    }
+
+    $this->_redirect('adminhtml/system_convert_profile/edit',
+                     array('id' => $profile->getId()));
+  }
+
 }
 
 ?>

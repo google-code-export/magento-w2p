@@ -101,12 +101,24 @@
                 <show_in_store>0</show_in_store>
               </templates-removing-behaviour>
 
+              <products-populate-defaults>
+                <label>Set Defaults For Created Products</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+
+                <sort_order>5</sort_order>
+
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>0</show_in_store>
+              </products-populate-defaults>
+
               <uploading-length-limit>
                 <label>File Uploading Limit</label>
                 <frontend_type>label</frontend_type>
                 <backend_model>ZetaPrints_WebToPrint_Model_System_Config_Backend_FileUploadingLimit</backend_model>
 
-                <sort_order>5</sort_order>
+                <sort_order>6</sort_order>
 
                 <show_in_default>1</show_in_default>
                 <show_in_website>1</show_in_website>

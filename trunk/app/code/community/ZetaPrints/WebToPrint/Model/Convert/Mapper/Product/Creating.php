@@ -4,6 +4,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
   extends  Mage_Dataflow_Model_Convert_Mapper_Abstract
   implements ZetaPrints_Api {
 
+  protected $_new_products_category_id;
+
   public function map () {
     //Always print debug information. Issue #80
     $this->debug = true;
@@ -39,6 +41,33 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     unset($products);
 
+    // Get ID of source product if present and try to load source product
+    $sourceId = $this->getAction()->getParam('source-product-id');
+    $sourceProduct = null
+
+    if($sourceId) {
+      $sourceProduct = Mage::getModel('catalog/product')->load($sourceId);
+
+      if($sourceProduct->getId()) {
+        $this->warning('Base product: ' . $sourceProduct->getName());
+
+        $sourceProduct->getCategoryIds();
+        $sourceProduct->setId(null);
+
+        $sourceData = $sourceProduct->getData();
+
+        $sourceData['stock_item'] = null;
+        $sourceData['url_key'] = null;
+      }
+      else
+        $sourceProduct = null;
+    }
+
+    $_defaultCategory = null;
+
+    $useProductPopulateDefaults
+       = Mage::getStoreConfig('webtoprint/settings/products-populate-defaults');
+
     $line = 0;
 
     $number_of_templates = count($templates);
@@ -54,21 +83,45 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
           continue;
         }
 
-      $product_model = Mage::getModel('catalog/product');
+      if (!$sourceProduct) {
+        $product_model = Mage::getModel('catalog/product');
 
-      if (Mage::app()->isSingleStoreMode())
-        $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
-      else
-        $this->debug('Not a single store mode');
+        if (Mage::app()->isSingleStoreMode())
+          $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+        else
+          $this->debug('Not a single store mode');
 
-      $product_model->setAttributeSetId($product_model->getDefaultAttributeSetId())
+        $product_model
+          ->setAttributeSetId($product_model->getDefaultAttributeSetId())
+          ->setTypeId($this->getAction()->getParam('product-type', 'simple'))
+          ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+          ->setVisibility(0);
+
+        if ($useProductPopulateDefaults) {
+          $product_model
+            ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setWeight(0)
+            ->setPrice(0)
+            ->setTaxClassId(0);
+
+          if ($defaultCategory)
+            $product_model
+              ->setCategoryIds($this->_getCategoryIdByName('New templates'));
+        }
+      } else {
+        $product_model = $sourceProduct;
+
+        $product_model
+          ->setOrigData();
+          ->setData($sourceData);
+      }
+
+       $product_model
         ->setSku(zetaprints_generate_guid() . '-rename-me')
-        ->setTypeId($this->getAction()->getParam('product-type', 'simple'))
         ->setName($template->getTitle())
         ->setDescription($template->getDescription())
         ->setShortDescription($template->getDescription())
-        ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
-        ->setVisibility(0)
         ->setRequiredOptions(true)
         ->setWebtoprintTemplate($template->getGuid());
 
@@ -100,6 +153,78 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     $this->notice("Number of created products: {$number_of_created_products}");
 
     $this->warning('Warning: products were created with general set of properties. Update other product properties using bulk edit to make them operational.');
+  }
+
+  /**
+   * Try to get category ID by category name
+   *
+   * If category exists return its ID, if not try to create it.
+   * Only create category if there is one root category in the store.
+   *
+   * @param string $name
+   * @return null|int
+   */
+  protected function _getCategoryIdByName ($name) {
+    if (!isset($this->_defaultCategory))
+      $this->_defaultCategory = $this->_createDefaultCategory($name);
+
+    return $this->_defaultCategory;
+  }
+
+  protected function _createDefaultCategory ($name) {
+    $model = Mage::getModel('catalog/category');
+
+    $collection = $model
+                    ->getCollection();
+                    ->addAttributeToFilter('name', $name);
+
+    if ($collection->count())
+      return $collection->getFirstItem()->getId();
+
+
+    $collection
+      ->clear()
+      ->getSelect()
+      ->reset('where');
+
+    $collection->addAttributeToFilter('parent_id', 1);
+
+    if ($collection->count() > 1) {
+      $this->debug('Not a single root category');
+
+      return null;
+    } elseif ($collection->count() == 0) {
+      $this->warning('Couldn\'t find root category.');
+
+      return null;
+    }
+
+    $rootCategory = $collection->getFirstItem();
+
+    if(!$rootCategory->getId()) {
+      $this->warning('Couldn\'t load root category');
+
+      return null;
+    }
+
+    $model
+      ->setStoreId($rootCategory->getStoreId())
+      ->setData(array(
+                  'name' => $name,
+                  'is_active' => 1,
+                  'include_in_menu' => 1 ))
+      ->setPath($rootCategory->getPath())
+      ->setAttributeSetId($model->getDefaultAttributeSetId());
+
+    try {
+      $model->save();
+
+      return $model->getId();
+    } catch (Exception $e) {
+      $this->error($e->getMessage());
+
+      return null;
+    }
   }
 
   private function error ($message) {
