@@ -263,6 +263,8 @@ function zetaprints_parse_template_details ($xml) {
                            ? (string) $field['Story'] : null,
       'story-as-default' => isset($field['StoryAsDefault'])
                            ? (int) $field['StoryAsDefault'] : null,
+      'combobox' => isset($field['Combobox'])
+                           ? (bool) $field['Combobox'] : false,
       'value' => (string) $field['Value'] );
 
     if ($field->Value) {

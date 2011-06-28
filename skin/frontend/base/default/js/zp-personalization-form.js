@@ -219,24 +219,20 @@ function personalization_form ($) {
       $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
   });
 
-  $('.zetaprints-page-input-fields select').each(function () {
-    var $select = $(this);
-    var $children = $select.children('option');
+  //Get all dropdowm text fields
+  $selects = $('.zetaprints-page-input-fields')
+               .find('select.zetaprints-field');
 
-    var is_combo = false;
-
-    $children.each(function () {
-      var $option = $(this);
-
-      if ($.trim($option.text()) == '-') {
-        is_combo = true;
-        $option.remove();
-      }
-    });
-
-    if (is_combo)
-      $select.wrap('<div class="zetaprints-text-field-wrapper" />').combobox();
-  });
+  //Iterate over all text fields in template details...
+  for (var page in this.template_details.pages)
+    for (name in this.template_details.pages[page].fields)
+      //... and if text field has combobox flag then...
+      if (this.template_details.pages[page].fields[name].combobox)
+        //convert relevant DOM element into a combobox
+        $selects
+          .filter('[name="zetaprints-_' + name + '"]')
+          .wrap('<div class="zetaprints-text-field-wrapper" />')
+          .combobox();
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
     .removeClass('zp-hidden');
