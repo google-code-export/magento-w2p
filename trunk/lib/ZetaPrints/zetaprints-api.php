@@ -27,8 +27,8 @@ function zetaprints_generate_user_password_hash ($password) {
   _zetaprints_debug();
   $ip = $_SERVER["SERVER_ADDR"];
 
-  //Enter here your outside ip address
-  //if it doesn't match your server address
+  //Enter the external ip address here
+  //if it doesn't match the server's address (e.g. translated by a router)
   //$ip = 'a.b.c.d';
 
   _zetaprints_debug("Server IP: {$ip}");
