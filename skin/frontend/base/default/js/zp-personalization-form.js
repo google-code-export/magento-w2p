@@ -767,14 +767,20 @@ function personalization_form ($) {
                                   shape_handler);
     }
 
-    $('div.zetaprints-images-selector').each(function () {
-      var top_element = this;
+    $('.zetaprints-images-selector').each(function () {
+      var $field = $(this);
+
+      var $head = $field.children('.head');
+      var $content = $field.children('.selector-content');
+
+      var $tabs = $content.children('.tab-buttons');
 
       var tab_number = 0
-      if ($('li.hidden', this).length == 0)
+
+      if (!$tabs.children('.hidden').length)
         tab_number = 1;
 
-      var tabs = $('div.selector-content', this).tabs({
+      $content.tabs({
         selected: tab_number,
         show: function (event, ui) {
           zp.show_colorpicker($(ui.panel));
@@ -782,77 +788,117 @@ function personalization_form ($) {
         }
       });
 
-      $('input', this).change({ zp: zp }, image_field_select_handler);
+      $content
+        .find('.zetaprints-field')
+        .change({ zp: zp }, image_field_select_handler);
 
-      $('div.head', this).click(function () {
-        if ($(top_element).hasClass('minimized')) {
-          $(top_element).removeClass('minimized');
-          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
+      var $panels = $content.find('> .tabs-wrapper > .tab');
 
-          zp.show_colorpicker(panel);
-          scroll_strip(panel)
+      $head.click(function () {
+        if ($field.hasClass('minimized')) {
+          $field.removeClass('minimized');
+
+          $panel = $panels.not('.ui-tabs-hide');
+
+          zp.show_colorpicker($panel);
+          scroll_strip($panel)
         }
         else
-          $(top_element).addClass('minimized').removeClass('expanded').css('width', '100%');
+          $field
+            .addClass('minimized')
+            .removeClass('expanded')
+            .css('width', '100%');
 
         return false;
       });
 
-      var previews_images = $('div.product-img-box');
+      var shift =
+              $field.position().left - $('div.product-img-box').position().left;
 
-      $('a.image.collapse-expand', this).click(function () {
-        if ($(top_element).hasClass('expanded')) {
-          $(top_element).removeClass('expanded').css('width', '100%');
-          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-        } else {
-          var position = $(top_element).position().left - $(previews_images).position().left;
-          $(top_element).addClass('expanded')
-            .css({ 'left': -position, 'width': position + $(top_element).outerWidth() })
-            .removeClass('minimized');
+      var full_width = shift + $field.outerWidth();
 
-          var panel = $($('a', $('ul.tab-buttons li', top_element)[tabs.tabs('option', 'selected')]).attr('href'));
-          zp.show_colorpicker(panel);
-        }
-        scroll_strip(panel);
-        return false;
-      });
+      $head
+        .children('.collapse-expand')
+        .click(function () {
+          $panel = $panels.not('.ui-tabs-hide');
 
-      var input = $('div.color-picker input', this)[0];
-      var color_sample = $('div.color-sample', this);
+          if ($field.hasClass('expanded'))
+            $field
+              .removeClass('expanded')
+              .removeAttr('style');
+          else {
+            $field
+              .addClass('expanded')
+              .css({ 'left': -shift, 'width': full_width });
 
-      var colour = $(input).val();
+            if ($field.hasClass('minimized')) {
+              $field.removeClass('minimized');
+
+              zp.show_colorpicker($panel);
+            }
+          }
+
+          scroll_strip($panel);
+
+          return false;
+        });
+
+      var $colour_picker_panel = $panels.filter('.color-picker');
+
+      if (!$colour_picker_panel.length)
+        return;
+
+      var $colour_radio_button = $colour_picker_panel
+                                   .children('.zetaprints-field');
+
+      var $colour_sample = $colour_picker_panel.children('.color-sample')
+
+      var colour = $colour_radio_button.val();
+
       if (colour)
-        $(color_sample).css('backgroundColor', colour);
+        $colour_sample.css('backgroundColor', colour);
 
-      $([color_sample, $('div.color-picker a', this)]).ColorPicker({
+      $colour_picker_panel
+        .find('> span > a')
+        .click(function () {
+          $colour_sample.click();
+
+          return false;
+        })
+
+      $colour_sample.ColorPicker({
         color: '#804080',
-        onBeforeShow: function (colpkr) {
-          var colour = $(input).val();
+        onBeforeShow: function (picker) {
+          var colour = $colour_radio_button.val();
+
           if (colour)
             $(this).ColorPickerSetColor(colour);
 
-          $(colpkr).draggable();
-          return false;
-        },
-        onShow: function (colpkr) {
-          $(colpkr).fadeIn(500);
-          return false;
-        },
-        onHide: function (colpkr) {
-          $(colpkr).fadeOut(500);
-          return false;
-        },
-        onSubmit: function (hsb, hex, rgb, el) {
-          $(top_element).removeClass('no-value');
-          $(color_sample).css('backgroundColor', '#' + hex);
+          $(picker).draggable();
 
-          $(input)
+          return false;
+        },
+        onShow: function (picker) {
+          $(picker).fadeIn(500);
+
+          return false;
+        },
+        onHide: function (picker) {
+          $(picker).fadeOut(500);
+
+          return false;
+        },
+        onSubmit: function (hsb, hex, rgb, picker) {
+          $field.removeClass('no-value');
+          $colour_sample.css('backgroundColor', '#' + hex);
+
+          $colour_radio_button
             .attr('disabled', 0)
             .val('#' + hex)
             .change()
             .attr('checked', 1);
 
-          $(el).ColorPickerHide();
+          $(picker).ColorPickerHide();
         }
       });
     });
