@@ -43,7 +43,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     // Get ID of source product if present and try to load source product
     $sourceId = $this->getAction()->getParam('source-product-id');
-    $sourceProduct = null
+    $sourceProduct = null;
 
     if($sourceId) {
       $sourceProduct = Mage::getModel('catalog/product')->load($sourceId);
@@ -105,7 +105,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             ->setPrice(0)
             ->setTaxClassId(0);
 
-          if ($defaultCategory)
+          if ($_defaultCategory)
             $product_model
               ->setCategoryIds($this->_getCategoryIdByName('New templates'));
         }
@@ -113,7 +113,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         $product_model = $sourceProduct;
 
         $product_model
-          ->setOrigData();
+          ->setOrigData()
           ->setData($sourceData);
       }
 
@@ -175,7 +175,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     $model = Mage::getModel('catalog/category');
 
     $collection = $model
-                    ->getCollection();
+                    ->getCollection()
                     ->addAttributeToFilter('name', $name);
 
     if ($collection->count())
