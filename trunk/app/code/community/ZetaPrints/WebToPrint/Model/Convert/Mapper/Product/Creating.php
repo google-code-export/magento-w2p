@@ -117,7 +117,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
           ->setData($sourceData);
       }
 
-       $product_model
+      $product_model
         ->setSku(zetaprints_generate_guid() . '-rename-me')
         ->setName($template->getTitle())
         ->setDescription($template->getDescription())
