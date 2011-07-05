@@ -277,10 +277,10 @@
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
-              <div class="clear"><span /></div>
+              <div class="clear">&#160;</div>
 
               <div class="recommended-size-notice">
-                <div class="zetaprints-icon attention"><span /></div>
+                <div class="zetaprints-icon attention">&#160;</div>
                 <span>
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">Recommended size:</xsl:with-param>
@@ -406,7 +406,7 @@
                   </xsl:otherwise>
                 </xsl:choose>
               </input>
-              <div class="color-sample"><span>&#x0A;</span></div>
+              <div class="color-sample">&#160;</div>
               <span>
                 <a href="#">
                   <xsl:call-template name="trans">
@@ -421,7 +421,7 @@
           </xsl:if>
           </div>
 
-          <div class="clear"><span /></div>
+          <div class="clear">&#160;</div>
         </div>
       </div>
     </xsl:for-each>
