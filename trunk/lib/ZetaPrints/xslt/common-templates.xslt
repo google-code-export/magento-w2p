@@ -49,15 +49,15 @@
                       </xsl:attribute>
                     </xsl:if>
 
-                    <xsl:if test="@StoryAsDefault=2">
-                      <xsl:attribute name="readonly">readonly</xsl:attribute>
-                    </xsl:if>
-
                     <xsl:choose>
                       <xsl:when test="@Value and string-length(@Value)!=0">
                         <xsl:value-of select="@Value" />
                       </xsl:when>
                       <xsl:when test="@Story and @StoryAsDefault">
+                        <xsl:if test="@StoryAsDefault=2">
+                          <xsl:attribute name="readonly">readonly</xsl:attribute>
+                        </xsl:if>
+
                         <xsl:value-of select="@Story" />
                       </xsl:when>
                       <xsl:otherwise>
@@ -91,15 +91,15 @@
                         </xsl:attribute>
                       </xsl:when>
                       <xsl:when test="@Story and @StoryAsDefault">
+                        <xsl:if test="@StoryAsDefault=2">
+                          <xsl:attribute name="readonly">readonly</xsl:attribute>
+                        </xsl:if>
+
                         <xsl:attribute name="value">
                           <xsl:value-of select="@Story" />
                         </xsl:attribute>
                       </xsl:when>
                     </xsl:choose>
-
-                    <xsl:if test="@StoryAsDefault=2">
-                      <xsl:attribute name="readonly">readonly</xsl:attribute>
-                    </xsl:if>
                   </input>
                   </div>
                 </xsl:otherwise>
