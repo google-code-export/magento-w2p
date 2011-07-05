@@ -337,16 +337,9 @@ function get_shapes_by_coords (c) {
 
   var shapes = [];
 
-  console.log(c);
-
   for (var name in page.shapes) {
     var shape = page.shapes[name];
 
-    console.log('name: ', shape.name,
-                ' x1: ', shape.x1,
-                ' x2: ', shape.x2,
-                ' y1: ', shape.y1,
-                ' y2: ', shape.y2);
     if (shape.x1 <= c.x && c.x <= shape.x2
         && shape.y1 <= c.y && c.y <= shape.y2)
       shapes.push(shape);
