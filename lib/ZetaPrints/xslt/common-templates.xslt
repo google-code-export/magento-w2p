@@ -277,19 +277,19 @@
                 <img class="ajax-loader" src="{$ajax-loader-image-url}" />
               </div>
 
-              <div class="clear">&#160;</div>
-
-              <div class="recommended-size-notice">
-                <div class="zetaprints-icon attention">&#160;</div>
-                <span>
-                  <xsl:call-template name="trans">
-                    <xsl:with-param name="key">Recommended size:</xsl:with-param>
-                  </xsl:call-template>&#160;<xsl:value-of select="@Width" />
-                  &#215;
-                  <xsl:value-of select="@Height" />&#160;<xsl:call-template name="trans">
-                    <xsl:with-param name="key">px</xsl:with-param>
-                  </xsl:call-template>
-                </span>
+              <div class="clear">
+                <div class="recommended-size-notice">
+                  <div class="zetaprints-icon attention">&#160;</div>
+                  <span>
+                    <xsl:call-template name="trans">
+                      <xsl:with-param name="key">Recommended size:</xsl:with-param>
+                    </xsl:call-template>&#160;<xsl:value-of select="@Width" />
+                    &#215;
+                    <xsl:value-of select="@Height" />&#160;<xsl:call-template name="trans">
+                      <xsl:with-param name="key">px</xsl:with-param>
+                    </xsl:call-template>
+                  </span>
+                </div>
               </div>
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
