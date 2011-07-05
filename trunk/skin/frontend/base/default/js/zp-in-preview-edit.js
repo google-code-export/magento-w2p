@@ -140,7 +140,6 @@ function popup_field_by_name (name, position, selected_shapes) {
         //Workaround for IE browser.
         //It moves cursor to the end of input field after focus.
       //  if (field.createTextRange) {
-      //    alert('here');
       //    var range = field.createTextRange();
       //    var position = jQuery(field).val().length;
 
@@ -154,9 +153,6 @@ function popup_field_by_name (name, position, selected_shapes) {
       var $parent = jQuery('#stock-images-page-' + zp.current_page)
                      .find('*[rel="zetaprints-#' + shape_name + '"]')
                      .removeClass('minimized');
-
-      if ($parent.hasClass('expanded'))
-          $parent.find('.collapse-expand').click();
 
       var $field = $parent.children('.selector-content');
 
@@ -231,8 +227,8 @@ function popup_field_by_name (name, position, selected_shapes) {
       $panel = jQuery(ui.panel);
 
       var $panel = $panel.find($panel
-                                .find('ul.tab-buttons li.ui-tabs-selected a')
-                                .attr('href') );
+                                 .find('ul.tab-buttons li.ui-tabs-selected a')
+                                 .attr('href') );
 
       if (!$panel.length)
         return;
@@ -341,9 +337,16 @@ function get_shapes_by_coords (c) {
 
   var shapes = [];
 
+  console.log(c);
+
   for (var name in page.shapes) {
     var shape = page.shapes[name];
 
+    console.log('name: ', shape.name,
+                ' x1: ', shape.x1,
+                ' x2: ', shape.x2,
+                ' y1: ', shape.y1,
+                ' y2: ', shape.y2);
     if (shape.x1 <= c.x && c.x <= shape.x2
         && shape.y1 <= c.y && c.y <= shape.y2)
       shapes.push(shape);
@@ -367,8 +370,7 @@ function shape_handler (event) {
     jQuery('#current-shape').attr('id', '');
     jQuery(shape).attr('id', 'current-shape');
 
-    jQuery('a.zetaprints-template-preview:visible', jQuery(shape).parent())
-      .click();
+    jQuery('#preview-image-page-' + zp.current_page).click();
   } else if (event.type == 'mouseover') {
     jQuery('#zetaprints-preview-image-container > div.zetaprints-field-shape.bottom')
       .removeClass('highlighted');
@@ -380,6 +382,8 @@ function shape_handler (event) {
 
       dehighlight_field_by_name (jQuery(shape).attr('rel'));
     }
+
+  return false;
 }
 
 function fancy_shape_handler (event) {
@@ -396,7 +400,10 @@ function fancy_shape_handler (event) {
 
     popdown_field_by_name(undefined, true);
 
-    var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
+    var c = _glob_to_rel_coords(event.pageX,
+                                event.pageY,
+                                event.data.container.children('#fancybox-img'));
+
     var selected_shapes = get_shapes_by_coords(c);
 
     var selected_shapes_names = [];
