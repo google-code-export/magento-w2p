@@ -780,13 +780,12 @@ function personalization_form ($) {
       if (!$tabs.children('.hidden').length)
         tab_number = 1;
 
-      $content.tabs({
-        selected: tab_number,
-        show: function (event, ui) {
+      $content
+        .tabs({ selected: tab_number })
+        .bind('tabsshow', function (event, ui) {
           zp.show_colorpicker($(ui.panel));
           scroll_strip(ui.panel);
-        }
-      });
+        });
 
       $content
         .find('.zetaprints-field')
@@ -859,12 +858,12 @@ function personalization_form ($) {
         $colour_sample.css('backgroundColor', colour);
 
       $colour_picker_panel
-        .find('> span > a')
+        .find('span > a')
         .click(function () {
           $colour_sample.click();
 
           return false;
-        })
+        });
 
       $colour_sample.ColorPicker({
         color: '#804080',
@@ -875,18 +874,6 @@ function personalization_form ($) {
             $(this).ColorPickerSetColor(colour);
 
           $(picker).draggable();
-
-          return false;
-        },
-        onShow: function (picker) {
-          $(picker).fadeIn(500);
-
-          return false;
-        },
-        onHide: function (picker) {
-          $(picker).fadeOut(500);
-
-          return false;
         },
         onSubmit: function (hsb, hex, rgb, picker) {
           $field.removeClass('no-value');
@@ -1126,11 +1113,21 @@ function personalization_form ($) {
     }
   }
 
-  function readonly_fields_focus_handle (event) {
+  function readonly_fields_click_handle (event) {
     $(this)
-      .removeAttr('readonly')
+      .unbind(event)
       .val('')
-      .unbind(event);
+      .removeAttr('readonly');
+
+    //Workaround for IE browser.
+    //It moves cursor to the end of input field after focus.
+    if (this.createTextRange) {
+      var range = this.createTextRange();
+
+      range.collapse(true);
+      range.move('character', 0);
+      range.select();
+    }
   }
 
   $('div.zetaprints-page-input-fields')
@@ -1138,7 +1135,7 @@ function personalization_form ($) {
     .filter('textarea, :text')
       .keyup({ zp: this }, text_fields_change_handle)
       .filter('[readonly]')
-        .focus(readonly_fields_focus_handle)
+        .click(readonly_fields_click_handle)
       .end()
     .end()
     .filter('select, :checkbox')
