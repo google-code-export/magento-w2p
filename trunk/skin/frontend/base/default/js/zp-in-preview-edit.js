@@ -184,6 +184,10 @@ function popup_field_by_name (name, position, selected_shapes) {
   $shape
     .append('<input type="hidden" name="field" value="' + full_name + '" />');
 
+  //Oh God, it's a sad story :-(
+  if (width == 'auto' && jQuery.browser.msie && jQuery.browser.version == '7.0')
+    width = min_width;
+
   var $box = jQuery('<div class="fieldbox" rel="' + name + '" />')
                .append($tabs)
                .css({ width: width,
