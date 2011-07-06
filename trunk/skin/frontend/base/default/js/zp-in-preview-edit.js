@@ -224,7 +224,7 @@ function popup_field_by_name (name, position, selected_shapes) {
   $box.css({
     visibility: 'visible',
     left: position.left,
-    top: position.top }).draggable({ handle: 'div.fieldbox-head' });
+    top: position.top }).draggable({ handle: '.fieldbox-head' });
 
   $tabs.tabs({
     show: function (event, ui) {
