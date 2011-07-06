@@ -950,12 +950,16 @@ function personalization_form ($) {
         highlight_shape(shape, $fancy_inner);
 
         var $selected_shapes = $product_image_box
-                                 .find('.zetaprints-shape-selected');
+                                 .find('.zetaprints-shape-selected')
+
+        var $selected_shapes_array = $selected_shapes
+                                       .toArray()
+                                       .reverse();
 
         var selected_shapes_names = [];
 
-        for (var i = 0; i < $selected_shapes.length; i++) {
-          var names = $($selected_shapes[i]).attr('rel').split('; ');
+        for (var i = 0; i < $selected_shapes_array.length; i++) {
+          var names = $($selected_shapes_array[i]).attr('rel').split('; ');
 
           for (var n = 0; n < names.length; n++)
             selected_shapes_names.push(names[n]);
@@ -963,7 +967,7 @@ function personalization_form ($) {
 
         popup_field_by_name(current_shape_name,
                             undefined,
-                            selected_shapes_names.reverse());
+                            selected_shapes_names);
 
         $selected_shapes.removeClass('zetaprints-shape-selected');
       }

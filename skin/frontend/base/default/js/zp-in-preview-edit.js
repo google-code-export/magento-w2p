@@ -401,7 +401,8 @@ function fancy_shape_handler (event) {
                                 event.pageY,
                                 event.data.container.children('#fancybox-img'));
 
-    var selected_shapes = get_shapes_by_coords(c);
+    var selected_shapes = get_shapes_by_coords(c)
+                            .reverse();
 
     var selected_shapes_names = [];
 
@@ -414,7 +415,7 @@ function fancy_shape_handler (event) {
 
     popup_field_by_name(jQuery(shape).attr('rel'),
                         { top: event.pageY, left: event.pageX },
-                        selected_shapes_names.reverse());
+                        selected_shapes_names);
 
     return false;
   }
