@@ -27,13 +27,23 @@ function fancybox_add_update_preview_button ($, zp) {
     if (!$outer.hasClass('modified'))
       return false;
 
-    $outer.find('#fancybox-img').bind('load.update-preview', function (event) {
-      $(this).unbind('load.update-preview');
+    $outer
+      .find('#fancybox-img')
+      .bind('load.update-preview', function (event) {
+        $(this).unbind('load.update-preview');
 
-       $outer.removeClass('preview-updating');
-    });
+        $outer.removeClass('preview-updating');
 
-    $outer.addClass('preview-updating');
+        $('#fancybox-content')
+          .bind('mousemove.zp-show-shapes', function (event) {
+            $(this).unbind(event);
+
+            $outer.removeClass('zp-hide-shapes');
+        });
+      });
+
+
+    $outer.addClass('preview-updating zp-hide-shapes');
 
     zp.update_preview({ data: { zp: zp } });
   })
@@ -42,7 +52,8 @@ function fancybox_add_update_preview_button ($, zp) {
 function fancybox_remove_update_preview_button ($) {
   $('#zp-update-preview-button').remove();
   $('#fancybox-resize').removeClass('middle-position');
-  $('#fancybox-outer').removeClass('preview-updating');
+  $('#fancybox-outer').removeClass('preview-updating zp-hide-shapes')
+  $('#fancybox-content').unbind('mousemove.zp-show-shapes');
   $('#fancybox-img').unbind('load.update-preview');
 }
 
