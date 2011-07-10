@@ -71,3 +71,7 @@
   height: 18px;
   line-height: 18px;
 }
+
+#fancybox-outer.zp-hide-shapes .zetaprints-field-shape.bottom {
+  visibility: hidden !important;
+}
