@@ -22,11 +22,11 @@ div#zetaprints-preview-image-container:hover div.zetaprints-field-shape.bottom {
   visibility: visible;
 }
 
-div#fancybox-inner div.zetaprints-field-shape.bottom {
+#fancybox-content div.zetaprints-field-shape.bottom {
   visibility: hidden;
 }
 
-div#fancybox-inner:hover div.zetaprints-field-shape.bottom {
+#fancybox-content:hover div.zetaprints-field-shape.bottom {
   visibility: visible;
 }
 
