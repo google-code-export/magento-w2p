@@ -63,10 +63,13 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         $sourceProduct = null;
     }
 
-    $_defaultCategory = null;
-
     $useProductPopulateDefaults
        = Mage::getStoreConfig('webtoprint/settings/products-populate-defaults');
+
+     $_defaultCategory = null;
+
+    if (!$sourceProduct && $useProductPopulateDefaults)
+       $_defaultCategory = $this->_getCategoryIdByName('New templates');
 
     $line = 0;
 
