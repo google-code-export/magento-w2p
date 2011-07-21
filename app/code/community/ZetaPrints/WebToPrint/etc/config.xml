@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_WebToPrint>
-      <version>10</version>
+      <version>11</version>
     </ZetaPrints_WebToPrint>
   </modules>
 
@@ -16,6 +16,7 @@
           <templates-synchronization>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</templates-synchronization>
           <products-creation>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating</products-creation>
           <products-updating>ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating</products-updating>
+          <catalogues-creation>ZetaPrints_WebToPrint_Model_Convert_Parser_Catalogue</catalogues-creation>
         </rewrite>
       </webtoprint>
 

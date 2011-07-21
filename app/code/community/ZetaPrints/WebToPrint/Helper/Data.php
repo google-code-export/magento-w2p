@@ -273,4 +273,59 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     return null;
   }
 
+  public function getCategory ($name, $createIfNotExists = false,
+                               $parent = null) {
+
+    if ($parent && $parent->getId()) {
+      foreach ($parent->getChildrenCategories() as $child)
+        if ($child->getName() == $name)
+          return $child;
+    } else {
+      $collection = Mage::getModel('catalog/category')
+                      ->getCollection()
+                      ->addAttributeToFilter('name', $name);
+
+      if ($collection->count())
+        return $collection->getFirstItem();
+    }
+
+    if (!$createIfNotExists)
+      return;
+
+    if ($parent && $parent->getId())
+      $rootCategory = $parent;
+    else {
+      $collection = Mage::getModel('catalog/category')
+                      ->getCollection()
+                      ->addAttributeToFilter('parent_id', 1);
+
+      if (count($collection) != 1)
+        return null;
+
+      $rootCategory = $collection->getFirstItem();
+
+      if (!$rootCategory->getId())
+        return null;
+    }
+
+    $model = Mage::getModel('catalog/category');
+
+    $model
+      ->setStoreId($rootCategory->getStoreId())
+      ->setData(array(
+                  'name' => $name,
+                  'is_active' => 1,
+                  'include_in_menu' => 1 ))
+      ->setPath($rootCategory->getPath())
+      ->setAttributeSetId($model->getDefaultAttributeSetId());
+
+    try {
+      $model->save();
+    } catch (Exception $e) {
+      return null;
+    }
+
+    return $model;
+  }
+
 }
