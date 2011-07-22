@@ -66,10 +66,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     $useProductPopulateDefaults
        = Mage::getStoreConfig('webtoprint/settings/products-populate-defaults');
 
-     $_defaultCategory = null;
-
-    if (!$sourceProduct && $useProductPopulateDefaults)
-       $_defaultCategory = $this->_getCategoryIdByName('New templates');
+     $_defaultCategory = array();
 
     $line = 0;
 
@@ -108,9 +105,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             ->setPrice(0)
             ->setTaxClassId(0);
 
-          if ($_defaultCategory)
-            $product_model
-              ->setCategoryIds($this->_getCategoryIdByName('New templates'));
+          $product_model->setCategoryIds($this->_getDefaultCategoryId());
         }
       } else {
         $product_model = $sourceProduct;
@@ -167,23 +162,23 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
    * @param string $name
    * @return null|int
    */
-  protected function _getCategoryIdByName ($name) {
+  protected function _getDefaultCategoryId () {
     if (!isset($this->_defaultCategory))
-      $this->_defaultCategory = $this->_createDefaultCategory($name);
+      $this->_defaultCategory = $this->_createDefaultCategory();
 
     return $this->_defaultCategory;
   }
 
-  protected function _createDefaultCategory ($name) {
+  protected function _createDefaultCategory () {
     $model = Mage::getModel('catalog/category');
+    $name = 'New templates';
 
     $collection = $model
                     ->getCollection()
                     ->addAttributeToFilter('name', $name);
 
     if ($collection->count())
-      return $collection->getFirstItem()->getId();
-
+      return array($collection->getFirstItem()->getId());
 
     $collection
       ->clear()
@@ -195,11 +190,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     if ($collection->count() > 1) {
       $this->debug('Not a single root category');
 
-      return null;
+      return array();
     } elseif ($collection->count() == 0) {
       $this->warning('Couldn\'t find root category.');
 
-      return null;
+      return array();
     }
 
     $rootCategory = $collection->getFirstItem();
@@ -207,7 +202,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     if(!$rootCategory->getId()) {
       $this->warning('Couldn\'t load root category');
 
-      return null;
+      return array();
     }
 
     $model
@@ -222,11 +217,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     try {
       $model->save();
 
-      return $model->getId();
+      return array($model->getId());
     } catch (Exception $e) {
       $this->error($e->getMessage());
 
-      return null;
+      return array();
     }
   }
 
