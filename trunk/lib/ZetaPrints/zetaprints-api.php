@@ -313,6 +313,17 @@ function zetaprints_parse_template_details ($xml) {
           $shape['hidden'] = false;
   }
 
+  if ($xml->Tags) {
+    $tags = array();
+
+    foreach ($xml->Tags->Tag as $tag) {
+      $tags[] = (string) $tag;
+    }
+
+    if (count($tags))
+      $template['tags'] = $tags;
+  }
+
   _zetaprints_debug(array('template' => $template));
 
   return $template;
