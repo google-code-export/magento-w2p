@@ -63,10 +63,23 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         $sourceProduct = null;
     }
 
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+    $_catalogues = zetaprints_get_list_of_catalogs($url, $key);
+    $cataloguesMapping = array();
+
+    foreach ($_catalogues as $_catalogue)
+      $cataloguesMapping[$_catalogue['guid']] = $_catalogue['title'];
+
+    $_catalogues = array();
+
     $useProductPopulateDefaults
        = Mage::getStoreConfig('webtoprint/settings/products-populate-defaults');
 
-     $_defaultCategory = array();
+    $_defaultCategory = array();
+
+    $helper = Mage::helper('webtoprint');
 
     $line = 0;
 
@@ -104,9 +117,55 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             ->setWeight(0)
             ->setPrice(0)
             ->setTaxClassId(0);
-
-          $product_model->setCategoryIds($this->_getDefaultCategoryId());
         }
+
+        $categoryName = $cataloguesMapping[$template->getCatalogGuid()];
+
+        if (!array_key_exists($categoryName, $_catalogues)) {
+          $category = $helper->getCategory(
+                               $cataloguesMapping[$template->getCatalogGuid()]);
+
+          if ($category && $category->getId())
+            $_catalogues[$categoryName] = $category;
+          else
+            $_catalogues[$categoryName] = null;
+        }
+
+        if ($category = $_catalogues[$categoryName])
+          try {
+            $templateDetails = zetaprints_parse_template_details(
+                                     new SimpleXMLElement($template->getXml()));
+
+            if ($templateDetails && isset($templateDetails['tags'])) {
+              $subCategories = array();
+
+              foreach ($templateDetails['tags'] as $tag) {
+                $subCategoryName = "{$categoryName}/{$tag}";
+
+                if (!array_key_exists($subCategoryName, $_catalogues)) {
+                  $subCategory = $helper->getCategory($tag, false, $category);
+
+                  if ($subCategory && $subCategory->getId())
+                    $_catalogues[$subCategoryName] = $subCategory;
+                  else
+                    $_catalogues[$subCategoryName] = null;
+                }
+
+                if ($subCategory = $_catalogues[$subCategoryName])
+                  $subCategories[] = $subCategory->getId();
+              }
+
+              if (count($subCategories))
+                $product_model->setCategoryIds($subCategories);
+              else if ($useProductPopulateDefaults)
+                $product_model->setCategoryIds($this->_getDefaultCategoryId());
+            } else
+              $product_model->setCategoryIds(array($category->getId()));
+          } catch (Exception $e) {
+            $product_model->setCategoryIds(array($category->getId()));
+          }
+        else if ($useProductPopulateDefaults)
+          $product_model->setCategoryIds($this->_getDefaultCategoryId());
       } else {
         $product_model = $sourceProduct;
 
