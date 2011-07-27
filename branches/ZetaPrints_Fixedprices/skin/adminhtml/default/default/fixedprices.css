@@ -1,3 +1,4 @@
+<<<<<<< .mine
 @CHARSET "UTF-8";
 
 .fixed .data {
@@ -6,3 +7,13 @@
 
 .fq_up span { background-image: url('images/fq_arrow_up.png')}
 .fq_down span { background-image: url('images/fq_arrow_down.png')}
+=======
+@CHARSET "UTF-8";
+
+.fixed .data {
+	width: 600px;
+}
+
+.fq_up span { background-image: url('images/fq_arrow_up.png')}
+.fq_down span { background-image: url('images/fq_arrow_down.png')}
+>>>>>>> .r1756
