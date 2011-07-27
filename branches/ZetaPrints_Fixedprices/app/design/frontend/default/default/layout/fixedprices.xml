@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <fixedprices_js_css translate="label">
+    <label>Fixed pricing javascript and css updates.</label>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>js/fixedprices.js</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/fixedprices.css</name></action>
+    </reference>
+  </fixedprices_js_css>
+  <catalog_product_view>
+    <update handle="fixedprices_js_css"/>
+    <reference name="content">
+      <reference name="product.info">
+        <reference name="alert.urls">
+          <block type="fixedprices/catalog_product_view_fixedprices" name="fixedprices"
+            as="fixedprice" after="-" template="fixedprices/product/view/fixedprices.phtml" />
+        </reference>
+      </reference>
+    </reference>
+  </catalog_product_view>
+  <checkout_cart_index>
+    <update handle="fixedprices_js_css"/>
+    <reference name="content">
+        <block type="fixedprices/fixedprices" name="fixedprices.qty" as="fixedprices_qty"
+          after="-" template="fixedprices/disableqty.phtml"/>
+    </reference>
+  </checkout_cart_index>
+  <!--
+  <catalog_category_default>
+    <update handle="fixedprices_js_css"/>
+  </catalog_category_default>
+-->
+</layout> 

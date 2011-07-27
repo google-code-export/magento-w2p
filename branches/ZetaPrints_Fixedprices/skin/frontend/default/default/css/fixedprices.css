@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+#fp-edit-forbidden {
+	background-color: #ffffff;
+	border: 1px solid #999999;
+	position: absolute;
+	padding: 2px 4px;
+	text-align: left;
+}

@@ -1,0 +1,8 @@
+<?php
+/* @var $this ZetaPrints_Fixedprices_Block_Fixedprices */
+?>
+<?php if($this->shouldDisableQty()):?>
+<script type="text/javascript">
+  var disabledQtys = [<?php echo $this->getDisabledQtysText();?>];
+</script>
+<?php  endif;?>
