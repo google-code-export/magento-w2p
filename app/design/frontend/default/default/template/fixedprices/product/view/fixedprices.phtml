@@ -1,0 +1,159 @@
+<?php
+/**@var $this ZetaPrints_Fixedprices_Block_Catalog_Product_View_Fixedprices */
+/**@var $_product Mage_Catalog_Model_Product */
+$_product = $this->getProduct();
+$_model = $_product->getPriceModel();
+
+$_coreHelper = $this->helper('core');
+$_weeeHelper = $this->helper('weee');
+$_taxHelper = $this->helper('tax');
+/** @var $_coreHelper Mage_Core_Helper_Data */
+/** @var $_weeeHelper Mage_Weee_Helper_Data */
+/** @var $_taxHelper Mage_Tax_Helper_Data */
+
+if($this->useFixedPrices()){
+  $_fixedPrices = $this->getFixedPrices();
+  $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true);
+
+  $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product);
+  if ($_weeeHelper->typeOfDisplay($_product, array(1,2,4))) {
+      $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product);
+  }
+}
+
+?>
+<?php if(isset($_fixedPrices) && count($_fixedPrices) > 0):?>
+<ul class="fixed-prices">
+    <?php $_weeeHelper->processTierPrices($_product, $_fixedPrices); ?>
+
+    <?php foreach ($_fixedPrices as $_price): ?>
+    <?php $_radio = $this->getInput($_price);?>
+        <?php if ($_taxHelper->displayBothPrices()): ?>
+            <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
+                <li><label><?php echo $_radio, $this->getFixedPriceIdInput($_price);?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price_incl_weee_only'], $_price['formated_price_incl_weee']) ?>
+            <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
+                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s', $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                    <?php if ($_weeeTaxAttributes): ?>
+                    (<small>
+                    <?php echo $this->__('%1$s incl tax.', $_price['formated_price_incl_weee']); ?>
+                    <?php $separator = ' + '; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                        <?php echo $separator; ?>
+                        <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                    <?php endforeach; ?>
+                    </small>)
+                    <?php endif; ?>
+                    <?php echo $this->__('each') ?>
+            <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
+                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                    <?php if ($_weeeTaxAttributes): ?>
+                    (<small>
+                    <?php echo $this->__('%1$s incl tax.', $_price['formated_price_incl_weee']); ?>
+                    <?php $separator = ' + '; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                        <?php echo $separator; ?>
+                        <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()+$_attribute->getTaxAmount()); ?>
+                    <?php endforeach; ?>
+                    </small>)
+                    <?php endif; ?>
+                    <?php echo $this->__('each') ?>
+            <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
+                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
+                    <?php if ($_weeeTaxAttributes): ?>
+                    (<small>
+                    <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
+                        <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                    <?php endforeach; ?>
+                    <?php echo $this->__('Total incl. Tax: %1$s', $_price['formated_price_incl_weee']); ?>
+                    </small>)
+                    <?php endif; ?>
+                    <?php echo $this->__('each') ?>
+            <?php else: ?>
+                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
+            <?php endif; ?>
+        <?php else: ?>
+            <?php if ($_taxHelper->displayPriceIncludingTax()): ?>
+                <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']) ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (<small>
+                        <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $separator; ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                        <?php $separator = ' + '; endforeach; ?>
+                        </small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (</small>
+                        <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $separator; ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()+$_attribute->getTaxAmount()); ?>
+                        <?php $separator = ' + '; endforeach; ?>
+                        <small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (<small>
+                        <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                        <?php endforeach; ?>
+                        <?php echo $this->__('Total incl. Tax: %1$s', $_price['formated_price_incl_weee']); ?>
+                        </small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php else: ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']) ?>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']) ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (<small>
+                        <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $separator; ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                        <?php $separator = ' + '; endforeach; ?>
+                        </small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (<small>
+                        <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $separator; ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()+$_attribute->getTaxAmount()); ?>
+                        <?php $separator = ' + '; endforeach; ?>
+                        </small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
+                        <?php if ($_weeeTaxAttributes): ?>
+                        (<small>
+                        <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
+                            <?php echo $_attribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_attribute->getAmount()); ?>
+                        <?php endforeach; ?>
+                        <?php echo $this->__('Total incl. Tax: %1$s', $_price['formated_price_incl_weee_only']); ?>
+                        </small>)
+                        <?php endif; ?>
+                        <?php echo $this->__('each') ?>
+                <?php else: ?>
+                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']) ?>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+        </li></label>
+    <?php endforeach ?>
+    </ul>
+    <script type="text/javascript">
+    	var fixedPriceData = <?php echo $this->getJsData();?>;
+    </script>
+<?php endif;?>
