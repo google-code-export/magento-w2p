@@ -158,7 +158,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
               if (count($subCategories))
                 $product_model->setCategoryIds($subCategories);
               else if ($useProductPopulateDefaults)
-                $product_model->setCategoryIds($this->_getDefaultCategoryId());
+                //Add to category if sub-categories don't exist
+                $product_model->setCategoryIds(array($category->getId()));
             } else
               $product_model->setCategoryIds(array($category->getId()));
           } catch (Exception $e) {
