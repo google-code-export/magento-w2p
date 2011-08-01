@@ -910,6 +910,12 @@ function personalization_form ($) {
     'titleShow': false,
     'hideOnContentClick': true,
     'showNavArrows': false,
+    'onStart' : function () {
+      if (window.fancybox_add_update_preview_button
+          && !zp.template_details.pages[zp.current_page].static) {
+        fancybox_add_update_preview_button($, zp);
+      }
+    },
     'onComplete': function () {
       $('img#fancybox-img').attr('title', click_to_close_text);
 
@@ -922,11 +928,6 @@ function personalization_form ($) {
 
       if (window.fancybox_resizing_add)
         fancybox_resizing_add(this);
-
-      if (window.fancybox_add_update_preview_button
-          && !zp.template_details.pages[zp.current_page].static) {
-        fancybox_add_update_preview_button($, zp);
-      }
 
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape && window.popup_field_by_name
