@@ -39,6 +39,13 @@
         </observers>
       </checkout_cart_save_after>
     </events>
+    <product>
+        <collection>
+            <attributes>
+                <fixed_price/>
+            </attributes>
+        </collection>
+    </product>
   </frontend>
   <adminhtml>
     <layout>

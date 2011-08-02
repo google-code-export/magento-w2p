@@ -29,7 +29,7 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
   public function getProduct()
   {
     $product = parent::getProduct();
-    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product) && !$product->hasFixedNameSet()){
+    if(Mage::helper('fixedprices')->isFixedPriceEnabled($product)){
       $this->_setName($this->getQty(), $product);
     }
     return $product;
@@ -48,11 +48,13 @@ class ZetaPrints_Fixedprices_Model_Quote_Item extends Mage_Sales_Model_Quote_Ite
 
     if($qty > 0 && $product instanceof Mage_Catalog_Model_Product) {
       $name = Mage::helper('fixedprices')->getFixedUnits($product, $this->getQty());
-      if ($name !== false && !$product->hasFixedNameSet()) {
-        $name = $product->getName() . ' - ' . $name;
+      if ($name !== false) {
+        if(!$product->hasData('orig_name')) {
+            $product->setData('orig_name', $product->getName());
+        }
+        $name = $product->getData('orig_name') . ' - ' . $name;
         $this->setName($name);
         $product->setName($name);
-        $product->setData(self::FIXED_NAME, 1);
         return $this;
       }
     }

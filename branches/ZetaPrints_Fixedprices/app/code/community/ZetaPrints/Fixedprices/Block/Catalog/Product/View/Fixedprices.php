@@ -63,7 +63,7 @@ class ZetaPrints_Fixedprices_Block_Catalog_Product_View_Fixedprices
 
    public function getFixedPriceIdInput($price)
    {
-     return sprintf('<input type="hidden" name="fixed-price-id" id="fixed-price-id" value="%d"/>', $price['price_id']);
+       return sprintf('<input type="hidden" name="fixed-price-id" class="fixed-price-id" value="%1$d" disabled="disabled"/>', $price['price_id']);
    }
 
    public function getInput($price)
