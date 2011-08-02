@@ -26,7 +26,7 @@ class ZetaPrints_Fixedprices_Model_Fixedprices
         }else{
           $price = $fixedPrices;
         }
-      }
+      } 
     }
 
     return $price;

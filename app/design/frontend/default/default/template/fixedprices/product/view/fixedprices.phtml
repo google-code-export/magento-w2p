@@ -27,12 +27,12 @@ if($this->useFixedPrices()){
     <?php $_weeeHelper->processTierPrices($_product, $_fixedPrices); ?>
 
     <?php foreach ($_fixedPrices as $_price): ?>
-    <?php $_radio = $this->getInput($_price);?>
+    <?php $_radio = $this->getInput($_price); $idInput = $this->getFixedPriceIdInput($_price);?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
-                <li><label><?php echo $_radio, $this->getFixedPriceIdInput($_price);?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price_incl_weee_only'], $_price['formated_price_incl_weee']) ?>
+                <li><label><?php echo $_radio, $idInput ;?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price_incl_weee_only'], $_price['formated_price_incl_weee']) ?>
             <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
-                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s', $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s', $_price['units'], $_price['formated_price_incl_weee_only']); ?>
                     <?php if ($_weeeTaxAttributes): ?>
                     (<small>
                     <?php echo $this->__('%1$s incl tax.', $_price['formated_price_incl_weee']); ?>
@@ -44,7 +44,7 @@ if($this->useFixedPrices()){
                     <?php endif; ?>
                     <?php echo $this->__('each') ?>
             <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
-                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
                     <?php if ($_weeeTaxAttributes): ?>
                     (<small>
                     <?php echo $this->__('%1$s incl tax.', $_price['formated_price_incl_weee']); ?>
@@ -56,7 +56,7 @@ if($this->useFixedPrices()){
                     <?php endif; ?>
                     <?php echo $this->__('each') ?>
             <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
-                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
+                <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
                     <?php if ($_weeeTaxAttributes): ?>
                     (<small>
                     <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -67,14 +67,14 @@ if($this->useFixedPrices()){
                     <?php endif; ?>
                     <?php echo $this->__('each') ?>
             <?php else: ?>
-                <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
+                <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax)', $_price['units'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
             <?php endif; ?>
         <?php else: ?>
             <?php if ($_taxHelper->displayPriceIncludingTax()): ?>
                 <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']) ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']) ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (<small>
                         <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -85,7 +85,7 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (</small>
                         <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -96,7 +96,7 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (<small>
                         <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -107,13 +107,13 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php else: ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']) ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_tax']) ?>
                 <?php endif; ?>
             <?php else: ?>
                 <?php if ($_weeeHelper->typeOfDisplay($_product, 0)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']) ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']) ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 1)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (<small>
                         <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -124,7 +124,7 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 4)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price_incl_weee_only']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (<small>
                         <?php $separator = ''; foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -135,7 +135,7 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php elseif($_weeeHelper->typeOfDisplay($_product, 2)): ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']); ?>
                         <?php if ($_weeeTaxAttributes): ?>
                         (<small>
                         <?php foreach ($_weeeTaxAttributes as $_attribute): ?>
@@ -146,7 +146,7 @@ if($this->useFixedPrices()){
                         <?php endif; ?>
                         <?php echo $this->__('each') ?>
                 <?php else: ?>
-                    <li><label><?php echo $_radio;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']) ?>
+                    <li><label><?php echo $_radio, $idInput;?><?php echo $this->__('Buy %1$s for %2$s',  $_price['units'], $_price['formated_price']) ?>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>

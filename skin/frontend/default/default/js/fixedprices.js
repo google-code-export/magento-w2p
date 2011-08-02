@@ -95,6 +95,17 @@ function setRadioToQty(qty, radio, fixedPrices) {
       }
     }.curry(idx));
 
+      var id_input = $(radio).next('input.fixed-price-id');
+      if(id_input) {
+          id_input.enable();
+          $$('input.fixed-price-id').each(function(item){
+              var el = $(item);
+              if(el != id_input && el.disabled == false) {
+                  el.disabled = true;
+              }
+          })
+      }
+
     if (undefined !== value && undefined !== fake_qty) {
       fake_qty.value = qty.value = value;
       updateConfigurable(value);
