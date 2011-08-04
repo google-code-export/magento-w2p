@@ -7,7 +7,6 @@ $.fn.combobox = function () {
   var options = [];
 
   $select.children('option').each(function() {
-    if ($(this).text())
       options.push($(this).text());
   });
 
