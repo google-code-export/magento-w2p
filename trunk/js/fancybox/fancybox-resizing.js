@@ -114,6 +114,7 @@ function fancybox_resizing_add (opts) {
  */
 function fancybox_resizing_hide () {
   jQuery('#fancybox-resize').hide();
+  jQuery('#fancybox-close').removeClass('resizer-tweaks');
 }
 
 /**
