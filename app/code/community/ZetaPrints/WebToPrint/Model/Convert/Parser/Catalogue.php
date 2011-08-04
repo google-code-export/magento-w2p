@@ -36,6 +36,10 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Catalogue
       return;
     }
 
+    $isCreateSubCategories = $this->getAction()
+                                  ->getParam('create-subcategories', 'false')
+                               == 'true';
+
     $total_number_of_catalogs = 0;
     $number_of_ignored_catalogs = 0;
     $number_of_created_catalogues = 0;
@@ -66,26 +70,27 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Catalogue
         continue;
       }
 
-      foreach (explode(',', $catalog['keywords']) as $name) {
-        if (!$name)
-          continue;
+      if ($isCreateSubCategories)
+        foreach (explode(',', $catalog['keywords']) as $name) {
+          if (!$name)
+            continue;
 
-        $total_number_of_catalogs++;
+          $total_number_of_catalogs++;
 
-        $subCategory = $helper->getCategory($name, true, $category);
+          $subCategory = $helper->getCategory($name, true, $category);
 
-        if (!$subCategory && !$subCategory->getId()) {
-          $this->notice("Can't create catalogue '{$catalog['title']}/{$name}'");
+          if (!$subCategory && !$subCategory->getId()) {
+            $this->notice("Can't create catalogue '{$catalog['title']}/{$name}'");
 
-          $number_of_not_created_catalogues++;
+            $number_of_not_created_catalogues++;
 
-          continue;
+            continue;
+          }
+
+          $this->notice("Catalogue '{$catalog['title']}/{$name}' was created sucessfully");
+
+          $number_of_created_catalogues++;
         }
-
-        $this->notice("Catalogue '{$catalog['title']}/{$name}' was created sucessfully");
-
-        $number_of_created_catalogues++;
-      }
 
       $this->notice("Catalogue '{$catalog['title']}' was created sucessfully");
 
