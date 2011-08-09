@@ -356,8 +356,16 @@ function shape_handler (event) {
   var shape = jQuery(event.target).parent();
 
   if (event.type == 'click') {
-    var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
-    var shapes = get_shapes_by_coords(c);
+    if (event.pageX && event.pageY) {
+      var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
+      var shapes = get_shapes_by_coords(c);
+
+      //Remember selected shapes for futher use
+      shape.data('selected-shapes', shapes);
+    } else {
+      var shapes = shape.data('selected-shapes');
+      shape.data('selected-shapes', undefined);
+    }
 
     for (var i = 0; i < shapes.length; i++)
       event.data.container
