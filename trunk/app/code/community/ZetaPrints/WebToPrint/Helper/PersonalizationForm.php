@@ -902,6 +902,8 @@ jQuery(document).ready(function($) {
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
   update_preview_button_text = "<?php echo $this->__('Update preview'); ?>";
+  use_image_button_text = "<?php echo $this->__('Use image'); ?>";
+  selected_image_button_text = "<?php echo $this->__('Selected image'); ?>";
 
   preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
   preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
