@@ -62,8 +62,7 @@ function highlight_field_by_name (names) {
     var name = names[i];
 
     var $field = jQuery('*[name="zetaprints-_'+ name +'"], ' +
-                      'div.zetaprints-images-selector[rel="zetaprints-#' +
-                      name + '"] div.head');
+                      'div.zetaprints-images-selector[title="' + name + '"] div.head');
 
     var $parent = $field.parents('.zetaprints-text-field-wrapper');
 
@@ -153,7 +152,7 @@ function popup_field_by_name (name, position, selected_shapes) {
     }
     else if (page.images && page.images[shape_name]) {
       var $parent = jQuery('#stock-images-page-' + zp.current_page)
-                     .find('*[rel="zetaprints-#' + shape_name + '"]')
+                     .find('*[title="' + shape_name + '"]')
                      .removeClass('minimized');
 
       var $field = $parent.children('.selector-content');
@@ -474,7 +473,7 @@ function add_in_preview_edit_handlers () {
                    .pages[zp.current_page]
                    .shapes;
 
-    var name = jQuery(this).attr('rel').substring(12);
+    var name = jQuery(this).attr('title');
 
     var shape = get_shape_by_name(name, shapes);
 
@@ -485,7 +484,7 @@ function add_in_preview_edit_handlers () {
                      .pages[zp.current_page]
                      .shapes;
 
-      var name = jQuery(this).attr('rel').substring(12);
+      var name = jQuery(this).attr('title');
 
       var shape = get_shape_by_name(name, shapes);
 
