@@ -16,8 +16,10 @@ function place_shape (shape, $container, shape_handler) {
   else
     var edited_class = '';
 
-  jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '" rel="' + shape.name  +
-    '"><div class="zetaprints-field-shape top" /></div>')
+  jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '"' +
+              'rel="' + shape.name  + '">' +
+           '<div class="zetaprints-field-shape top" />' +
+         '</div>')
     .css({
       top: shape.top + '%',
       left: shape.left + '%',
@@ -305,7 +307,8 @@ function popdown_field_by_name (full_name) {
 }
 
 function mark_shape_as_edited (shape) {
-  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').addClass('edited');
+  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]')
+    .addClass('edited');
 
   shape['has-value'] = true;
 }
