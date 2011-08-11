@@ -946,7 +946,7 @@ function personalization_form ($) {
       var $current_shape = jQuery('#current-shape');
 
       if ($current_shape.length) {
-        var current_shape_name = $current_shape.attr('rel');
+        var current_shape_name = $current_shape.attr('title');
 
         var shape = zp.template_details
                       .pages[zp.current_page]
@@ -964,7 +964,7 @@ function personalization_form ($) {
         var selected_shapes_names = [];
 
         for (var i = 0; i < $selected_shapes_array.length; i++) {
-          var names = $($selected_shapes_array[i]).attr('rel').split('; ');
+          var names = $($selected_shapes_array[i]).attr('title').split('; ');
 
           for (var n = 0; n < names.length; n++)
             selected_shapes_names.push(names[n]);
