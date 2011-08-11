@@ -179,7 +179,14 @@ function zetaprints_parse_template_details ($xml) {
       $template['pages'][$page_number]['updated-preview-image']
                                         = (string) $page['PreviewImageUpdated'];
 
-    if ($page->Shapes) {
+    //Check for templates with old shape coordinates system
+    $is_page_2_box_empty = (string) $page['Page2BoxX'] == ''
+                            && (string)$page['Page2BoxY'] == ''
+                            && (string)$page['Page2BoxW'] == ''
+                            && (string)$page['Page2BoxH'] == '';
+
+    //Ignore shapes with old coordinates system
+    if (!$is_page_2_box_empty && $page->Shapes) {
       $template['pages'][$page_number]['shapes'] = array();
 
       foreach ($page->Shapes->Shape as $shape) {
@@ -307,7 +314,7 @@ function zetaprints_parse_template_details ($xml) {
         $shape['has-value'] = true;
     }
 
-    if ($page_number > 1)
+    if ($page_number > 1 && isset($template['pages'][$page_number]['shapes']))
       foreach ($template['pages'][$page_number]['shapes'] as &$shape)
         if ($shape['name'] == $field_array['name'])
           $shape['hidden'] = false;
