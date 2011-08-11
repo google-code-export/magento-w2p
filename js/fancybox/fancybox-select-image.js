@@ -37,7 +37,7 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
               .substring(12);
 
         $('#zetaprints-preview-image-container')
-          .find(' > .zetaprints-field-shape[rel="' + shape_name + '"] > .top')
+          .find(' > .zetaprints-field-shape[title="' + shape_name + '"] > .top')
           .click();
 
         $(this).remove();
@@ -70,7 +70,7 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
       var shape_name = $input.attr('name').substring(12);
 
       $('#zetaprints-preview-image-container')
-        .find(' > .zetaprints-field-shape[rel="' + shape_name + '"] > .top')
+        .find(' > .zetaprints-field-shape[title="' + shape_name + '"] > .top')
         .click();
 
       $('#fancybox-close').remove();

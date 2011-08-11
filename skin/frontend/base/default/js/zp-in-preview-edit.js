@@ -17,7 +17,7 @@ function place_shape (shape, $container, shape_handler) {
     var edited_class = '';
 
   jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '"' +
-              'rel="' + shape.name  + '">' +
+              'title="' + shape.name  + '">' +
            '<div class="zetaprints-field-shape top" />' +
          '</div>')
     .css({
@@ -45,13 +45,13 @@ function remove_all_shapes (container) {
 
 function highlight_shape (shape, $container) {
   $container
-    .find('.zetaprints-field-shape[rel="' + shape.name +'"]')
+    .find('.zetaprints-field-shape[title="' + shape.name +'"]')
     .addClass('highlighted');
 }
 
 function dehighlight_shape (shape, $container) {
   $container
-    .find('.zetaprints-field-shape[rel="' + shape.name +'"]')
+    .find('.zetaprints-field-shape[title="' + shape.name +'"]')
     .removeClass('highlighted');
 }
 
@@ -89,7 +89,7 @@ function popup_field_by_name (name, position, selected_shapes) {
   var $ul = $tabs.children('ul');
 
   var $shape = jQuery('#fancybox-content')
-                 .find('.zetaprints-field-shape[rel="' + name + '"]');
+                 .find('.zetaprints-field-shape[title="' + name + '"]');
 
   var page = zp.template_details.pages[zp.current_page];
 
@@ -190,7 +190,7 @@ function popup_field_by_name (name, position, selected_shapes) {
   if (width == 'auto' && jQuery.browser.msie && jQuery.browser.version == '7.0')
     width = min_width;
 
-  var $box = jQuery('<div class="fieldbox" rel="' + name + '" />')
+  var $box = jQuery('<div class="fieldbox" title="' + name + '" />')
                .append($tabs)
                .css({ width: width,
                       minWidth: min_width })
@@ -260,7 +260,7 @@ function popdown_field_by_name (full_name) {
 
   var name = full_name.substring(12);
 
-  var $box = jQuery('.fieldbox[rel="' + name + '"]');
+  var $box = jQuery('.fieldbox[title="' + name + '"]');
 
   $box.find('.fieldbox-field').children().each(function () {
     var $element = jQuery(this);
@@ -307,14 +307,14 @@ function popdown_field_by_name (full_name) {
 }
 
 function mark_shape_as_edited (shape) {
-  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]')
+  jQuery('div.zetaprints-field-shape[title="' + shape.name + '"]')
     .addClass('edited');
 
   shape['has-value'] = true;
 }
 
 function unmark_shape_as_edited (shape) {
-  jQuery('div.zetaprints-field-shape[rel="' + shape.name + '"]').removeClass('edited');
+  jQuery('div.zetaprints-field-shape[title="' + shape.name + '"]').removeClass('edited');
 
   shape['has-value'] = false;
 }
@@ -372,7 +372,7 @@ function shape_handler (event) {
 
     for (var i = 0; i < shapes.length; i++)
       event.data.container
-        .find('.zetaprints-field-shape.bottom[rel="' + shapes[i].name  + '"]')
+        .find('.zetaprints-field-shape.bottom[title="' + shapes[i].name  + '"]')
         .addClass('zetaprints-shape-selected');
 
     jQuery('#current-shape').attr('id', '');
@@ -384,11 +384,11 @@ function shape_handler (event) {
       .removeClass('highlighted');
     jQuery(shape).addClass('highlighted');
 
-      highlight_field_by_name (jQuery(shape).attr('rel'));
+      highlight_field_by_name (jQuery(shape).attr('title'));
     } else {
       jQuery(shape).removeClass('highlighted');
 
-      dehighlight_field_by_name (jQuery(shape).attr('rel'));
+      dehighlight_field_by_name (jQuery(shape).attr('title'));
     }
 
   return false;
@@ -424,7 +424,7 @@ function fancy_shape_handler (event) {
         selected_shapes_names.push(names[n]);
     }
 
-    popup_field_by_name(jQuery(shape).attr('rel'),
+    popup_field_by_name(jQuery(shape).attr('title'),
                         { top: event.pageY, left: event.pageX },
                         selected_shapes_names);
 
