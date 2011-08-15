@@ -224,7 +224,7 @@ function personalization_form ($) {
           .children('[title="' + name +'"]')
           .removeClass('no-value');
 
-  //Get all dropdowm text fields
+  //Get all dropdown text fields
   $selects = $('.zetaprints-page-input-fields')
                .find('select.zetaprints-field');
 
