@@ -228,7 +228,7 @@
             <li class="last">
               <label class="leave-blank-value">
                 <input id="zetaprints-blank-value" type="radio" name="zetaprints-#{@Name}" value="" class="zetaprints-field">
-                  <xsl:if test="string-length(@Value)=0">
+                  <xsl:if test="@Value and string-length(@Value)=0">
                     <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:if>
                 </input>
@@ -238,7 +238,7 @@
               </label>
               <label class="leave-default-value">
                 <input type="radio" name="zetaprints-#{@Name}" value="#" class="zetaprints-field">
-                  <xsl:if test="@Value='#'">
+                  <xsl:if test="not(@Value) or @Value='#'">
                     <xsl:attribute name="checked">1</xsl:attribute>
                   </xsl:if>
                 </input>

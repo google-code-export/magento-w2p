@@ -214,10 +214,15 @@ function personalization_form ($) {
     }).end().appendTo(product_image_element);
   }
 
-  $('div.zetaprints-page-stock-images input:checked').each(function() {
-    if ($(this).attr('id') != 'zetaprints-blank-value')
-      $(this).parents('div.zetaprints-images-selector').removeClass('no-value');
-  });
+  //Iterate over all image fields in template details...
+  for (var page in this.template_details.pages)
+    for (var name in this.template_details.pages[page].images)
+      //... and if image field has a value then...
+      if (this.template_details.pages[page].images[name].value)
+        //... mark it as EDITED
+        $('#stock-images-page-' + page)
+          .children('[title="' + name +'"]')
+          .removeClass('no-value');
 
   //Get all dropdowm text fields
   $selects = $('.zetaprints-page-input-fields')

@@ -225,7 +225,8 @@ function zetaprints_parse_template_details ($xml) {
                             ? (bool) $image['Clipped'] : false,
       //We get lowercase GUID in value for user images.
       //Convert to uppercase while the issue will be fixed in ZP side
-      'value' => strtoupper((string) $image['Value']) );
+      'value' => isset($image['Value'])
+                   ? strtoupper((string) $image['Value']) : null );
 
     if ($image->StockImage) {
       $image_array['stock-images'] = array();
@@ -275,7 +276,8 @@ function zetaprints_parse_template_details ($xml) {
                            ? (int) $field['StoryAsDefault'] : null,
       'combobox' => isset($field['Combobox'])
                            ? (bool) $field['Combobox'] : false,
-      'value' => (string) $field['Value'] );
+      'value' => isset($field['Value'])
+                   ? (string) $field['Value'] : null );
 
     if ($field->Value) {
       $field_array['values'] = array();
