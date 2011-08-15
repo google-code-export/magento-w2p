@@ -230,7 +230,7 @@ function personalization_form ($) {
 
   //Iterate over all text fields in template details...
   for (var page in this.template_details.pages)
-    for (name in this.template_details.pages[page].fields)
+    for (var name in this.template_details.pages[page].fields)
       //... and if text field has combobox flag then...
       if (this.template_details.pages[page].fields[name].combobox)
         //convert relevant DOM element into a combobox
