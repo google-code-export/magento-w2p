@@ -131,14 +131,14 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             $_catalogues[$categoryName] = null;
         }
 
-        if ($category = $_catalogues[$categoryName])
+        if ($category = $_catalogues[$categoryName]) {
+          $categoryIds = array($category->getId());
+
           try {
             $templateDetails = zetaprints_parse_template_details(
                                      new SimpleXMLElement($template->getXml()));
 
-            if ($templateDetails && isset($templateDetails['tags'])) {
-              $subCategories = array();
-
+            if ($templateDetails && isset($templateDetails['tags']))
               foreach ($templateDetails['tags'] as $tag) {
                 $subCategoryName = "{$categoryName}/{$tag}";
 
@@ -152,20 +152,12 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
                 }
 
                 if ($subCategory = $_catalogues[$subCategoryName])
-                  $subCategories[] = $subCategory->getId();
+                  $categoryIds[] = $subCategory->getId();
               }
+          } catch (Exception $e) {}
 
-              if (count($subCategories))
-                $product_model->setCategoryIds($subCategories);
-              else if ($useProductPopulateDefaults)
-                //Add to category if sub-categories don't exist
-                $product_model->setCategoryIds(array($category->getId()));
-            } else
-              $product_model->setCategoryIds(array($category->getId()));
-          } catch (Exception $e) {
-            $product_model->setCategoryIds(array($category->getId()));
-          }
-        else if ($useProductPopulateDefaults)
+          $product_model->setCategoryIds($categoryIds);
+        } else if ($useProductPopulateDefaults)
           $product_model->setCategoryIds($this->_getDefaultCategoryId());
       } else {
         $product_model = $sourceProduct;
