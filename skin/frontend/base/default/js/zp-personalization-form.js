@@ -25,6 +25,15 @@ function personalization_form ($) {
       'hideOnContentClick': false,
       'centerOnScroll': false,
       'showNavArrows': false,
+      'onStart' : function () {
+        if ($('#zp-update-preview-button').length
+            && window.fancybox_remove_update_preview_button)
+          fancybox_remove_update_preview_button($);
+
+        if ($('#fancybox-resize').length && window.fancybox_resizing_hide)
+          fancybox_resizing_hide();
+
+      },
       'onComplete': function () {
         zp.image_edit = {
           'url': {
