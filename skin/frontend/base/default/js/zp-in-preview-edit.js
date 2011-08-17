@@ -98,6 +98,8 @@ function popup_field_by_name (name, position, selected_shapes) {
   if (min_width <= 150)
     min_width = 150;
 
+  var selected_buttons = {};
+
   for (var i = 0; i < selected_shapes.length; i++) {
     var shape_name = selected_shapes[i];
 
@@ -163,7 +165,9 @@ function popup_field_by_name (name, position, selected_shapes) {
         width = min_width;
 
       //Remember checked radio button for IE7 workaround
-      var $input = $field.find(':checked');
+      selected_buttons[shape_name] = $field
+                                       .find(':checked')
+                                       .val();
 
       var full_name = 'zetaprints-#' + name;
 
@@ -195,15 +199,27 @@ function popup_field_by_name (name, position, selected_shapes) {
                       minWidth: min_width })
                .appendTo('body');
 
+  //!!! Stupid work around for stupid IE7
+  for (var name in selected_buttons) {
+    var id = $ul
+               .children('[title="' + name + '"]')
+               .find(' > .fieldbox-tab-inner > a')
+               .attr('href')
+               //IE7 returns full URL
+               .split('#');
+
+    $tabs
+      .find(' > #' + id[1] + ' > .selector-content')
+      .find('input[value="' + selected_buttons[name] + '"]')
+      .change()
+      .attr('checked', 1);
+  }
+
   $box.find('.fieldbox-button').click(function () {
     popdown_field_by_name();
 
     return false;
   });
-
-  //!!! Stupid work around for stupid IE7
-  if ($input)
-    $input.change().attr('checked', 1);
 
   var height = $box.outerHeight();
   var width = $box.outerWidth();
