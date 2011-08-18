@@ -21,7 +21,7 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
 
   var $close = $('#fancybox-close').addClass('resizer-tweaks');
 
-  if (in_preview)
+  if (in_preview) {
     $close
       .clone()
       .css('display', 'inline')
@@ -43,10 +43,10 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
         $(this).remove();
         $close.attr('id', 'fancybox-close');
       })
-      .appendTo($outer)
-      .end()
-      .end()
-      .attr('id', 'fancybox-close-orig');
+      .appendTo($outer);
+
+    $close.attr('id', 'fancybox-close-orig');
+  }
 
   $button.addClass('no-middle')
 
