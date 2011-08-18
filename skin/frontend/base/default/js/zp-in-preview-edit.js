@@ -282,7 +282,7 @@ function popdown_field_by_name (full_name) {
     var $_element = $element;
 
     if ($element.hasClass('zetaprints-text-field-wrapper'))
-      $_element = $element.children('.zetaprints-field');
+      $_element = $element.find('.zetaprints-field');
 
     var data = $element.data('in-preview-edit');
 
