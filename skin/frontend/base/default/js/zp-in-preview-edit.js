@@ -430,6 +430,11 @@ function fancy_shape_handler (event) {
     var selected_shapes = get_shapes_by_coords(c)
                             .reverse();
 
+    //Remember selected shapes for futher use
+    jQuery('#zetaprints-preview-image-container')
+      .children('.zetaprints-field-shape[title="' + shape.attr('title') + '"]')
+      .data('selected-shapes', selected_shapes);
+
     var selected_shapes_names = [];
 
     for (var i = 0; i < selected_shapes.length; i++) {
