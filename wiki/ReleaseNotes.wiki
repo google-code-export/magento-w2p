@@ -1,10 +1,22 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+<wiki:comment>
+= Future stable release =
+== Issues ==
+  * Add Update preview button to the Fancybox pop-up (issue #541)
+  * Add table with page sizes to a product page (issue #513)
+  * Add combobox for text fields (issue #557)
+  * Update jQuery to 1.5.2 release and jQuery UI to 1.8.13 release
+  * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565)
+
+== Release notes ==
+</wiki:comment>
+
 = Stable release (1.9.0.0) =
 == Issues ==
   * Add support for M. 1.5 (issue #458)
   * New fit-to-field feature in image editor dialog (disabled by default because of development state)
-  * Add ability to choose color for text fields (issue 375)
+  * Add ability to choose color for text fields (issue #375)
   * Update jQuery to 1.4.4 release and jQuery UI to 1.8.7 release
   * Add support for custom options in separate XML file (issue #259)
   * Fancybox resizing capabilities (issue #251)
@@ -17,7 +29,6 @@
   * Bug fixes and improvements (issue #440, issue #436, issue #437, issue #450, issue #188, issue #292, issue #179, issue #483, issue #469, issue #438, issue #489 and issue #88)
 
 == Release comments ==
-
 It's recommended to un-install previous versions of the extension firstly.
 
 *NOTE: Please, remember (write down) your API Key and URL. You have to re-enter them in the extension settings after update*
