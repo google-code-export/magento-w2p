@@ -1,16 +1,19 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
-<wiki:comment>
 = Future stable release =
 == Issues ==
   * Add Update preview button to the Fancybox pop-up (issue #541)
   * Add table with page sizes to a product page (issue #513)
   * Add combobox for text fields (issue #557)
+  * Add support for overlapping fields to in-preview field editor (issue #564)
+  * Add support for shape with multiple fields (issue #593)
+  * Add text field's meta data editor to in-preview field editor (issue #584)
+  * Add default product creation option in admin interface (issue #589)
+  * Add support for story attribute of text fields (issue #587)
+  * Add a profile for catalogues creation (issue #502)
+  * Add Use image button to stock images viewer (issue #617)
   * Update jQuery to 1.5.2 release and jQuery UI to 1.8.13 release
-  * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565)
-
-== Release notes ==
-</wiki:comment>
+  * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565, issue 580, issue 581, issue 577, issue #591, issue #603, issue #606, issue #614, issue 623, issue #628, issue #586)
 
 = Stable release (1.9.0.0) =
 == Issues ==
