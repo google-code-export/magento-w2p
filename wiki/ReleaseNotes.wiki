@@ -13,7 +13,7 @@
   * Add a profile for catalogues creation (issue #502)
   * Add Use image button to stock images viewer (issue #617)
   * Update jQuery to 1.5.2 release and jQuery UI to 1.8.13 release
-  * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565, issue 580, issue 581, issue 577, issue #591, issue #603, issue #606, issue #614, issue 623, issue #628, issue #586)
+  * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565, issue 580, issue 581, issue 577, issue #591, issue #603, issue #606, issue #614, issue 623, issue #628 and issue #586)
 
 = Stable release (1.9.0.0) =
 == Issues ==
