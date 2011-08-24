@@ -29,7 +29,7 @@ function zp_convert_metadata_to_string (field) {
   var s = '';
 
   for (var key in field.metadata)
-    if (field.metadata[key])
+    if (field.metadata[key] !== undefined)
       s += key + '=' + field.metadata[key] + ';';
 
   return s.substring(0, s.length - 1);
