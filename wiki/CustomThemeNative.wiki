@@ -144,7 +144,7 @@ The following ZP code adds re-order link to an order item. After clicking on the
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
-This file needs to be modified only of you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
+This file needs to be modified only if you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
 
 Preview downloading is initiated only then user clicks on text input with URL. All previews downloaded from ZetaPrints are saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically during the extension installation process. Old preview images need to be removed manually from the temp directory.
 
