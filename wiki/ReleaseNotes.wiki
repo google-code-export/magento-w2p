@@ -1,6 +1,6 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
-= Future stable release =
+= Stable release (1.9.1.0) =
 == Issues ==
   * Add Update preview button to the Fancybox pop-up (issue #541)
   * Add table with page sizes to a product page (issue #513)
