@@ -419,6 +419,11 @@
               </span>
             </div>
           </xsl:if>
+
+          <!-- div block needs content even if there're no options
+               for the image field -->
+          &#160;
+
           </div>
 
           <div class="clear">&#160;</div>
