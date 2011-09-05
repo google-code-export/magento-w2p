@@ -164,6 +164,8 @@ function zetaprints_parse_template_details ($xml) {
 
   $page_number = 1;
 
+  $field_to_shape_mapping = array();
+
   foreach ($xml->Pages->Page as $page) {
     $template['pages'][$page_number] = array(
       'name' => (string) $page['Name'],
@@ -189,6 +191,8 @@ function zetaprints_parse_template_details ($xml) {
     if (!$is_page_2_box_empty && $page->Shapes) {
       $template['pages'][$page_number]['shapes'] = array();
 
+      $field_to_shape_mapping[$page_number] = array();
+
       foreach ($page->Shapes->Shape as $shape) {
         $name = (string) $shape['Name'];
         $template['pages'][$page_number]['shapes'][$name] = array(
@@ -201,6 +205,9 @@ function zetaprints_parse_template_details ($xml) {
           'anchor-y' => (float) $shape['AnchorY'],
           'hidden' => $page_number > 1,
           'has-value' => false );
+
+        foreach (explode('; ', $name) as $_name)
+          $field_to_shape_mapping[$page_number][$_name] = $name;
       }
 
       $template['pages'][$page_number]['shapes'] =
@@ -247,22 +254,20 @@ function zetaprints_parse_template_details ($xml) {
     $template['pages'][$page_number]['images'][(string) $image['Name']]
                                                                 = $image_array;
 
-    if (isset($template['pages'][$page_number]['shapes']) &&
-        isset($template['pages'][$page_number]['shapes'][$image_array['name']])) {
+    if (isset($field_to_shape_mapping[$page_number][$image_array['name']])) {
+      $shape_name = $field_to_shape_mapping[$page_number][$image_array['name']];
 
       $shape = & $template['pages']
                           [$page_number]
                           ['shapes']
-                          [$image_array['name']];
+                          [$shape_name];
 
       if ($image_array['value'])
         $shape['has-value'] = true;
-    }
 
-    if ($page_number > 1 && isset($template['pages'][$page_number]['shapes']))
-      foreach ($template['pages'][$page_number]['shapes'] as &$shape)
-        if ($shape['name'] == $image_array['name'])
-          $shape['hidden'] = false;
+      if ($page_number > 1)
+        $shape['hidden'] = false;
+    }
   }
 
   foreach ($xml->Fields->Field as $field) {
@@ -309,22 +314,20 @@ function zetaprints_parse_template_details ($xml) {
     $template['pages'][$page_number]['fields'][(string) $field['FieldName']]
                                                                 = $field_array;
 
-    if (isset($template['pages'][$page_number]['shapes']) &&
-        isset($template['pages'][$page_number]['shapes'][$field_array['name']])) {
+    if (isset($field_to_shape_mapping[$page_number][$field_array['name']])) {
+      $shape_name = $field_to_shape_mapping[$page_number][$field_array['name']];
 
       $shape = & $template['pages']
                           [$page_number]
                           ['shapes']
-                          [$field_array['name']];
+                          [$shape_name];
 
       if ($field_array['value'])
         $shape['has-value'] = true;
-    }
 
-    if ($page_number > 1 && isset($template['pages'][$page_number]['shapes']))
-      foreach ($template['pages'][$page_number]['shapes'] as &$shape)
-        if ($shape['name'] == $field_array['name'])
-          $shape['hidden'] = false;
+      if ($page_number > 1)
+        $shape['hidden'] = false;
+    }
   }
 
   if ($xml->Tags) {
