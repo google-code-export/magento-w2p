@@ -32,7 +32,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     $dynamicImaging = false;
 
     if (! $dynamicImaging = $quote_item->getProduct()->getDynamicImaging())
-      foreach ($context->getProduct()->getCategoryIds() as $categoryId) {
+      foreach ($quote_item->getProduct()->getCategoryIds() as $categoryId) {
         $category = Mage::getModel('catalog/category')->load($categoryId);
 
         if ($category->getId() && $category->getDynamicImaging()) {

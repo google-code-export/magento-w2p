@@ -670,7 +670,7 @@ jQuery(document).ready(function($) {
                   <a href="<?php echo $preview; ?>" target="_blank">
                     <?php echo $this->__('Download image');?>
                   </a>
-
+                  <br />
                   <a class="in-dialog zetaprints-dynamic-imaging"
                      href="<?php echo $preview; ?>"
                      target="_blank"
