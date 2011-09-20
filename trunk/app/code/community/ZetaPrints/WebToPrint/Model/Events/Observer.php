@@ -11,6 +11,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     $option_model = $quote_item->getOptionByCode('info_buyRequest');
     $options = unserialize($option_model->getValue());
 
+    //_zetaprints_debug(array('orig options' => $options));
+
     if (!(isset($options['zetaprints-TemplateID']) || isset($options['zetaprints-previews'])))
       return;
 
@@ -65,6 +67,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     if ($order_details['pdf'] != '')
       //... save it in the item options
       $options['zetaprints-order-lowres-pdf'] = $order_details['pdf'];
+
+    //_zetaprints_debug(array('new options' => $options));
 
     $option_model->setValue(serialize($options));
 
@@ -343,6 +347,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
   public function complete_zetaprints_order ($observer) {
     $order = $observer->getEvent()->getOrder();
 
+    //_zetaprints_debug(array('order ID' => $order->getId()));
+
     foreach ($order->getAllItems() as $item) {
       $options = $item->getProductOptions();
 
@@ -354,6 +360,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
       if (isset($options['info_buyRequest']['zetaprints-reordered'])
           && $options['info_buyRequest']['zetaprints-reordered'] === true)
         continue;
+
+      //_zetaprints_debug(array('item orig options' => $options));
 
       $url = Mage::getStoreConfig('webtoprint/settings/url');
       $key = Mage::getStoreConfig('webtoprint/settings/key');
@@ -367,14 +375,23 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
                                                                  $new_order_id);
 
       if (!$order_details) {
+        //_zetaprints_debug('Order wasn\'t completed '
+        //            . "(old ID: {$current_order_id}, new ID: {$new_order_id})");
+
         //Check if saved order exists on ZetaPrints...
         if (zetaprints_get_order_details($url, $key, $current_order_id)) {
+          //_zetaprints_debug('Order with old ID exists '
+          //          . "(old ID: {$current_order_id}, new ID: {$new_order_id})");
+
           //... then try again to complete the order
           $order_details = zetaprints_complete_order($url, $key,
                                               $current_order_id, $new_order_id);
 
           //If it fails...
           if (!$order_details) {
+            //_zetaprints_debug('Order wasn\'t completed second time '
+            //        . "(old ID: {$current_order_id}, new ID: {$new_order_id})");
+
             //... then set state for order in M. as problems and add comment
             $order->setState('problems', true,
                 'Use the link to ZP order to troubleshoot.')
@@ -386,6 +403,10 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
         //order doesn't exist in ZetaPrints...
         else if (!$order_details =
                        zetaprints_get_order_details($url, $key, $new_order_id)) {
+
+          //_zetaprints_debug('Orders with old and new ID don\'t exist '
+          //          . "(old ID: {$current_order_id}, new ID: {$new_order_id})");
+
           //... then set state for order in M. as problems and add comment about
           //failed order on ZetaPrints side.
           $order->setState('problems', true,
@@ -403,6 +424,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
           $options['info_buyRequest']['zetaprints-file-'.$type] = $url . '/' . $order_details[$type];
 
       $options['info_buyRequest']['zetaprints-order-id'] = $order_details['guid'];
+
+      //_zetaprints_debug(array('item new options' => $options));
 
       $item->setProductOptions($options)->save();
     }
