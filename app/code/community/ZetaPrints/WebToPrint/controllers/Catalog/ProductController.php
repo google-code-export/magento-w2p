@@ -16,6 +16,9 @@ class ZetaPrints_WebToPrint_Catalog_ProductController extends Mage_Adminhtml_Cat
   public function templatesAction () {
     $this->_initProduct();
 
+    $dynamicImaging = $this->getLayout()
+      ->createBlock('webtoprint/catalog_product_edit_tab_templates_dynamicimaging');
+
     $radio_block= $this->getLayout()
       ->createBlock('webtoprint/catalog_product_edit_tab_templates_radiobutton');
 
@@ -23,7 +26,7 @@ class ZetaPrints_WebToPrint_Catalog_ProductController extends Mage_Adminhtml_Cat
       ->createBlock('webtoprint/catalog_product_edit_tab_templates')
       ->setGridUrl($this->getUrl('*/*/templatesGrid', array('_current' => true)));
 
-    $this->_outputBlocks($radio_block, $grid_block);
+    $this->_outputBlocks($dynamicImaging, $radio_block, $grid_block);
   }
 
   public function updateProfileAction () {

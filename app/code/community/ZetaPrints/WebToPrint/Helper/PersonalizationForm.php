@@ -643,10 +643,14 @@ jQuery(document).ready(function($) {
     else
       $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
 
-    if (!isset($options['zetaprints-previews']))
+    if (!(isset($options['zetaprints-previews'])
+          || isset($options['zetaprints-downloaded-previews'])))
       return;
 
-    $previews = explode(',', $options['zetaprints-previews']);
+    $dynamicImaging = $options['zetaprints-dynamic-imaging'];
+
+    $previews = $dynamicImaging ? $options['zetaprints-downloaded-previews']
+                                : explode(',', $options['zetaprints-previews']);
     $group = 'group-' . mt_rand();
 
     $url = Mage::getStoreConfig('webtoprint/settings/url');
@@ -662,9 +666,23 @@ jQuery(document).ready(function($) {
             <ul>
             <?php foreach ($previews as $preview): ?>
               <li>
-                <a class="in-dialog" href="<?php echo $this->get_preview_url($preview); ?>" target="_blank" rel="<?php echo $group; ?>">
-                  <img src="<?php echo $this->get_thumbnail_url($preview); ?>" title="<?php echo $this->__('Click to enlarge image');?>"/>
-                </a>
+                <?php if ($dynamicImaging): ?>
+                  <a href="<?php echo $preview; ?>" target="_blank">
+                    <?php echo $this->__('Download image');?>
+                  </a>
+
+                  <a class="in-dialog zetaprints-dynamic-imaging"
+                     href="<?php echo $preview; ?>"
+                     target="_blank"
+                     rel="<?php echo $group; ?>">
+                    <img src="<?php echo $preview; ?>"
+                         title="<?php echo $this->__('Click to enlarge image'); ?>"/>
+                  </a>
+                <?php else: ?>
+                  <a class="in-dialog" href="<?php echo $this->get_preview_url($preview); ?>" target="_blank" rel="<?php echo $group; ?>">
+                    <img src="<?php echo $this->get_thumbnail_url($preview); ?>" title="<?php echo $this->__('Click to enlarge image');?>"/>
+                  </a>
+                <?php endif ?>
               </li>
             <?php endforeach ?>
             </ul>
