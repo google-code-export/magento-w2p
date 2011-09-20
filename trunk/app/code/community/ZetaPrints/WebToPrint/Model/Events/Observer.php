@@ -29,46 +29,64 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
       return;
     }
 
-    $params = array();
+    $dynamicImaging = false;
 
-    $params['TemplateID'] = $options['zetaprints-TemplateID'];
-    $params['Previews'] = $options['zetaprints-previews'];
+    if (! $dynamicImaging = $quote_item->getProduct()->getDynamicImaging())
+      foreach ($context->getProduct()->getCategoryIds() as $categoryId) {
+        $category = Mage::getModel('catalog/category')->load($categoryId);
 
-    $user_credentials = Mage::helper('webtoprint')
-                          ->get_zetaprints_credentials();
-    $params['ID'] = $user_credentials['id'];
-    $params['Hash'] = zetaprints_generate_user_password_hash($user_credentials['password']);
+        if ($category->getId() && $category->getDynamicImaging()) {
+          $dynamicImaging = true;
 
-    $url = Mage::getStoreConfig('webtoprint/settings/url');
-    $key = Mage::getStoreConfig('webtoprint/settings/key');
+          break;
+        }
+      }
 
-    $order_details = zetaprints_create_order($url, $key, $params);
+    $options['zetaprints-dynamic-imaging'] = $dynamicImaging;
 
-    if (!$order_details)
-      Mage::throwException('ZetaPrints error');
+    if (!$dynamicImaging) {
+      $params = array();
 
-    //We have to show all previews (for dynamic and static pages) on
-    //shopping card and order details, so save preview file names for all pages.
-    $previews = '';
+      $params['TemplateID'] = $options['zetaprints-TemplateID'];
+      $params['Previews'] = $options['zetaprints-previews'];
 
-    foreach ($order_details['template-details']['pages'] as $page) {
-      if (isset($page['updated-preview-image']))
-        $previews .= ',' . substr($page['updated-preview-image'], 8);
-      else
-        $previews .= ',' . substr($page['preview-image'], 8);
+      $user_credentials = Mage::helper('webtoprint')
+                                                 ->get_zetaprints_credentials();
+      $params['ID'] = $user_credentials['id'];
+      $params['Hash']
+        = zetaprints_generate_user_password_hash($user_credentials['password']);
+
+      $url = Mage::getStoreConfig('webtoprint/settings/url');
+      $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+      $order_details = zetaprints_create_order($url, $key, $params);
+
+      if (!$order_details)
+        Mage::throwException('ZetaPrints error');
+
+      //We have to show all previews (for dynamic and static pages) on
+      //shopping card and order details, so save preview file names for all pages.
+      $previews = '';
+
+      foreach ($order_details['template-details']['pages'] as $page) {
+        if (isset($page['updated-preview-image']))
+          $previews .= ',' . substr($page['updated-preview-image'], 8);
+        else
+          $previews .= ',' . substr($page['preview-image'], 8);
+      }
+
+      $options['zetaprints-previews'] = substr($previews, 1);
+
+      //Save order GUID in the item options
+      $options['zetaprints-order-id'] = $order_details['guid'];
+
+      //If order details contain link to low resolution PDF...
+      if ($order_details['pdf'] != '')
+        //... save it in the item options
+        $options['zetaprints-order-lowres-pdf'] = $order_details['pdf'];
+
+      //_zetaprints_debug(array('new options' => $options));
     }
-
-    $options['zetaprints-previews'] = substr($previews, 1);
-
-    //Save order GUID in the item options
-    $options['zetaprints-order-id'] = $order_details['guid'];
-
-    //If order details contain link to low resolution PDF...
-    if ($order_details['pdf'] != '')
-      //... save it in the item options
-      $options['zetaprints-order-lowres-pdf'] = $order_details['pdf'];
-
-    //_zetaprints_debug(array('new options' => $options));
 
     $option_model->setValue(serialize($options));
 
@@ -351,6 +369,41 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
     foreach ($order->getAllItems() as $item) {
       $options = $item->getProductOptions();
+
+      if (isset($options['info_buyRequest']['zetaprints-dynamic-imaging'])
+          && $options['info_buyRequest']['zetaprints-dynamic-imaging']) {
+
+        $previews
+             = explode(',', $options['info_buyRequest']['zetaprints-previews']);
+
+        $mediaConfig = Mage::getModel('catalog/product_media_config');
+
+        $downloadedPreviews = array();
+
+        foreach ($previews as $preview) {
+          $filePath = $mediaConfig->getTmpMediaPath("previews/{$preview}");
+
+          $url = Mage::getStoreConfig('webtoprint/settings/url')
+                 . '/preview/'
+                 . $preview;
+
+          //Download preview image from ZetaPrinrs
+          $response = zetaprints_get_content_from_url($url);
+
+          //Save preview image on M. server
+          if (file_put_contents($filePath, $response['content']['body'])
+                !== false)
+            $downloadedPreviews[] = $mediaConfig
+                                        ->getTmpMediaUrl("previews/{$preview}");
+        }
+
+        $options['info_buyRequest']['zetaprints-downloaded-previews']
+                                                          = $downloadedPreviews;
+
+        $item->setProductOptions($options)->save();
+
+        continue;
+      }
 
       if (!isset($options['info_buyRequest']['zetaprints-order-id']))
         continue;

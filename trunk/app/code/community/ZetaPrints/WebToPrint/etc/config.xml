@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_WebToPrint>
-      <version>11</version>
+      <version>12</version>
     </ZetaPrints_WebToPrint>
   </modules>
 

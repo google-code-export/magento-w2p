@@ -62,6 +62,11 @@ div.zetaprints-previews-box.hide div.title a.show-title {
   display: inline;
 }
 
+.zetaprints-dynamic-imaging img {
+  max-height: 100px;
+  *height: 100px;
+}
+
 /* Fancybox tweaks */
 
 /* Move right arrow area to the right */
