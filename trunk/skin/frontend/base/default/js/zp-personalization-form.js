@@ -234,7 +234,7 @@ function personalization_form ($) {
           .removeClass('no-value');
 
   //Get all dropdown text fields
-  $selects = $('.zetaprints-page-input-fields')
+  var $selects = $('.zetaprints-page-input-fields')
                .find('select.zetaprints-field');
 
   //Iterate over all text fields in template details...
