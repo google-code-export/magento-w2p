@@ -132,7 +132,8 @@ function popup_field_by_name (name, position, selected_shapes) {
 
       var full_name = 'zetaprints-_'+ name;
 
-      if (page.fields[shape_name]['colour-picker'] == 'RGB')
+      if (jQuery.fn.text_field_editor
+          && page.fields[shape_name]['colour-picker'] == 'RGB')
         $_field.text_field_editor('move', $li.find('.fieldbox-tab-inner'));
 
       $li.addClass('text-field');
@@ -303,8 +304,9 @@ function popdown_field_by_name (full_name) {
     //!!! Stupid work around for stupid IE7
     $input.change().attr('checked', 1);
 
-    $_element.text_field_editor('move',
-                               data.parent.parents('dl').children('dt'));
+    if (jQuery.fn.text_field_editor)
+      $_element.text_field_editor('move',
+                                      data.parent.parents('dl').children('dt'));
 
     if (data.parent.hasClass('zetaprints-images-selector'))
       zp.scroll_strip(jQuery($element
@@ -373,7 +375,7 @@ function get_shapes_by_coords (c) {
 function shape_handler (event) {
   var shape = jQuery(event.target).parent();
 
-  if (event.type == 'click') {
+  if (jQuery.fn.draggable && jQuery.fn.tabs && event.type == 'click') {
     if (event.pageX && event.pageY) {
       var c = _glob_to_rel_coords(event.pageX, event.pageY, event.data.container);
       var shapes = get_shapes_by_coords(c);
@@ -412,7 +414,7 @@ function shape_handler (event) {
 function fancy_shape_handler (event) {
   var shape = jQuery(event.target).parent();
 
-  if (event.type == 'click') {
+  if (jQuery.fn.draggable && jQuery.fn.tabs && event.type == 'click') {
     if (jQuery(shape).children().length > 1)
       return false;
 
