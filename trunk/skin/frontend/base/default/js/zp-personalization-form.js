@@ -233,20 +233,22 @@ function personalization_form ($) {
           .children('[title="' + name +'"]')
           .removeClass('no-value');
 
-  //Get all dropdown text fields
-  var $selects = $('.zetaprints-page-input-fields')
-               .find('select.zetaprints-field');
+  if ($.fn.combobox) {
+    //Get all dropdown text fields
+    var $selects = $('.zetaprints-page-input-fields')
+                     .find('select.zetaprints-field');
 
-  //Iterate over all text fields in template details...
-  for (var page in this.template_details.pages)
-    for (var name in this.template_details.pages[page].fields)
-      //... and if text field has combobox flag then...
-      if (this.template_details.pages[page].fields[name].combobox)
-        //convert relevant DOM element into a combobox
-        $selects
-          .filter('[name="zetaprints-_' + name + '"]')
-          .wrap('<div class="zetaprints-text-field-wrapper" />')
-          .combobox();
+    //Iterate over all text fields in template details...
+    for (var page in this.template_details.pages)
+      for (var name in this.template_details.pages[page].fields)
+        //... and if text field has combobox flag then...
+        if (this.template_details.pages[page].fields[name].combobox)
+          //convert relevant DOM element into a combobox
+          $selects
+            .filter('[name="zetaprints-_' + name + '"]')
+            .wrap('<div class="zetaprints-text-field-wrapper" />')
+            .combobox();
+  }
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
     .removeClass('zp-hidden');
@@ -290,7 +292,9 @@ function personalization_form ($) {
                                 this.template_details.pages['2'] != undefined);
 
   //Add resizer for text inputs and text areas for the first page
-  $('#input-fields-page-1 .zetaprints-text-field-wrapper').text_field_resizer();
+  if ($.fn.text_field_resizer)
+    $('#input-fields-page-1 .zetaprints-text-field-wrapper')
+      .text_field_resizer();
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
     $('div.zetaprints-image-tabs li').removeClass('selected');
@@ -321,8 +325,9 @@ function personalization_form ($) {
       + page).removeClass('zp-hidden');
 
     //Add resizer for text inputs and text areas for the selected page
-    $('#input-fields-' + page + ' .zetaprints-text-field-wrapper')
-      .text_field_resizer();
+    if ($.fn.text_field_resizer)
+      $('#input-fields-' + page + ' .zetaprints-text-field-wrapper')
+        .text_field_resizer();
 
     //Remember number of selected page
     event.data.zp.current_page = page.split('-')[1] * 1;
@@ -427,11 +432,12 @@ function personalization_form ($) {
     var update_preview_button = $('button.update-preview')
                                                          .addClass('zp-hidden');
 
-    $('div.zetaprints-page-input-fields input,' +
-      'div.zetaprints-page-input-fields textarea').each(function () {
+    if ($.fn.text_field_editor)
+      $('div.zetaprints-page-input-fields input,' +
+        'div.zetaprints-page-input-fields textarea').each(function () {
 
-      $(this).text_field_editor('hide');
-    });
+        $(this).text_field_editor('hide');
+      });
 
     //Convert preserve_field parameter to query parameter
     var preserve_fields = typeof(preserve_fields) != 'undefined'
@@ -781,128 +787,129 @@ function personalization_form ($) {
                                   shape_handler);
     }
 
-    $('.zetaprints-images-selector').each(function () {
-      var $field = $(this);
+    if ($.fn.tabs && $.fn.draggable && $.fn.ColorPicker)
+      $('.zetaprints-images-selector').each(function () {
+        var $field = $(this);
 
-      var $head = $field.children('.head');
-      var $content = $field.children('.selector-content');
+        var $head = $field.children('.head');
+        var $content = $field.children('.selector-content');
 
-      var $tabs = $content.children('.tab-buttons');
+        var $tabs = $content.children('.tab-buttons');
 
-      var tab_number = 0
+        var tab_number = 0
 
-      if (!$tabs.children('.hidden').length)
-        tab_number = 1;
+        if (!$tabs.children('.hidden').length)
+          tab_number = 1;
 
-      $content
-        .tabs({ selected: tab_number })
-        .bind('tabsshow', function (event, ui) {
-          zp.show_colorpicker($(ui.panel));
-          scroll_strip(ui.panel);
+        $content
+          .tabs({ selected: tab_number })
+          .bind('tabsshow', function (event, ui) {
+            zp.show_colorpicker($(ui.panel));
+            scroll_strip(ui.panel);
+          });
+
+        $content
+          .find('.zetaprints-field')
+          .change({ zp: zp }, image_field_select_handler);
+
+        var $panels = $content.find('> .tabs-wrapper > .tab');
+
+        $head.click(function () {
+          if ($field.hasClass('minimized')) {
+            $field.removeClass('minimized');
+
+            $panel = $panels.not('.ui-tabs-hide');
+
+            zp.show_colorpicker($panel);
+            scroll_strip($panel)
+          }
+          else
+            $field
+              .addClass('minimized')
+              .removeClass('expanded')
+              .css('width', '100%');
+
+          return false;
         });
 
-      $content
-        .find('.zetaprints-field')
-        .change({ zp: zp }, image_field_select_handler);
-
-      var $panels = $content.find('> .tabs-wrapper > .tab');
-
-      $head.click(function () {
-        if ($field.hasClass('minimized')) {
-          $field.removeClass('minimized');
-
-          $panel = $panels.not('.ui-tabs-hide');
-
-          zp.show_colorpicker($panel);
-          scroll_strip($panel)
-        }
-        else
-          $field
-            .addClass('minimized')
-            .removeClass('expanded')
-            .css('width', '100%');
-
-        return false;
-      });
-
-      var shift =
+        var shift =
               $field.position().left - $('div.product-img-box').position().left;
 
-      var full_width = shift + $field.outerWidth();
+        var full_width = shift + $field.outerWidth();
 
-      $head
-        .children('.collapse-expand')
-        .click(function () {
-          $panel = $panels.not('.ui-tabs-hide');
+        $head
+          .children('.collapse-expand')
+          .click(function () {
+            $panel = $panels.not('.ui-tabs-hide');
 
-          if ($field.hasClass('expanded'))
-            $field
-              .removeClass('expanded')
-              .removeAttr('style');
-          else {
-            $field
-              .addClass('expanded')
-              .css({ 'left': -shift, 'width': full_width });
+            if ($field.hasClass('expanded'))
+              $field
+                .removeClass('expanded')
+                .removeAttr('style');
+            else {
+              $field
+                .addClass('expanded')
+                .css({ 'left': -shift, 'width': full_width });
 
-            if ($field.hasClass('minimized')) {
-              $field.removeClass('minimized');
+              if ($field.hasClass('minimized')) {
+                $field.removeClass('minimized');
 
-              zp.show_colorpicker($panel);
+                zp.show_colorpicker($panel);
+              }
             }
-          }
 
-          scroll_strip($panel);
+            scroll_strip($panel);
 
-          return false;
-        });
+            return false;
+          });
 
-      var $colour_picker_panel = $panels.filter('.color-picker');
+        var $colour_picker_panel = $panels.filter('.color-picker');
 
-      if (!$colour_picker_panel.length)
-        return;
+        if (!$colour_picker_panel.length)
+          return;
 
-      var $colour_radio_button = $colour_picker_panel
+        var $colour_radio_button = $colour_picker_panel
                                    .children('.zetaprints-field');
 
-      var $colour_sample = $colour_picker_panel.children('.color-sample')
+        var $colour_sample = $colour_picker_panel.children('.color-sample')
 
-      var colour = $colour_radio_button.val();
+        var colour = $colour_radio_button.val();
 
-      if (colour)
-        $colour_sample.css('backgroundColor', colour);
+        if (colour)
+          $colour_sample.css('backgroundColor', colour);
 
-      $colour_picker_panel
-        .find('span > a')
-        .click(function () {
-          $colour_sample.click();
+        $colour_picker_panel
+          .find('span > a')
+          .click(function () {
+            $colour_sample.click();
 
-          return false;
+            return false;
+          });
+
+        $colour_sample.ColorPicker({
+          color: '#804080',
+          onBeforeShow: function (picker) {
+            var colour = $colour_radio_button.val();
+
+            if (colour)
+              $(this).ColorPickerSetColor(colour);
+
+            $(picker).draggable();
+          },
+          onSubmit: function (hsb, hex, rgb, picker) {
+            $field.removeClass('no-value');
+            $colour_sample.css('backgroundColor', '#' + hex);
+
+            $colour_radio_button
+              .attr('disabled', 0)
+              .val('#' + hex)
+              .change()
+              .attr('checked', 1);
+
+            $(picker).ColorPickerHide();
+          }
         });
-
-      $colour_sample.ColorPicker({
-        color: '#804080',
-        onBeforeShow: function (picker) {
-          var colour = $colour_radio_button.val();
-
-          if (colour)
-            $(this).ColorPickerSetColor(colour);
-
-          $(picker).draggable();
-        },
-        onSubmit: function (hsb, hex, rgb, picker) {
-          $field.removeClass('no-value');
-          $colour_sample.css('backgroundColor', '#' + hex);
-
-          $colour_radio_button
-            .attr('disabled', 0)
-            .val('#' + hex)
-            .change()
-            .attr('checked', 1);
-
-          $(picker).ColorPickerHide();
-        }
       });
-    });
   });
 
   $('div.zetaprints-next-page-button').click({zp: this}, function (event) {
@@ -1056,40 +1063,41 @@ function personalization_form ($) {
 
     return false; });
 
-  $('.zetaprints-page-input-fields .zetaprints-field')
-    .filter(':input:not([type="hidden"])')
-    .each(function () {
-      var $text_field = $(this);
-      var page = $text_field.parents('.zetaprints-page-input-fields')
-                   .attr('id')
-                   .substring(18);
+  if ($.fn.text_field_editor)
+    $('.zetaprints-page-input-fields .zetaprints-field')
+      .filter(':input:not([type="hidden"])')
+      .each(function () {
+        var $text_field = $(this);
+        var page = $text_field.parents('.zetaprints-page-input-fields')
+                     .attr('id')
+                     .substring(18);
 
-      var field = zp.template_details.pages[page]
-                    .fields[$text_field.attr('name').substring(12)];
+        var field = zp.template_details.pages[page]
+                      .fields[$text_field.attr('name').substring(12)];
 
-      var cached_value = zp_get_metadata(field, 'col-f', '');
+        var cached_value = zp_get_metadata(field, 'col-f', '');
 
-      //Remove metadata values, so they won't be used in update preview requests
-      //by default
-      zp_set_metadata(field, 'col-f', undefined);
+        //Remove metadata values, so they won't be used in update preview requests
+        //by default
+        zp_set_metadata(field, 'col-f', undefined);
 
-      if (field['colour-picker'] != 'RGB')
-        return;
+        if (field['colour-picker'] != 'RGB')
+          return;
 
-      var $button_container = $text_field.parents('dl').children('dt');
+        var $button_container = $text_field.parents('dl').children('dt');
 
-      $text_field.text_field_editor({
-        button_parent: $button_container,
-        colour: cached_value,
+        $text_field.text_field_editor({
+          button_parent: $button_container,
+          colour: cached_value,
 
-        change: function (data) {
-          var metadata = {
-            'col-f': data.color }
+          change: function (data) {
+            var metadata = {
+              'col-f': data.color }
 
-          zp_set_metadata(field, metadata);
-        }
+            zp_set_metadata(field, metadata);
+          }
+        });
       });
-    });
 
   $('div.zetaprints-page-input-fields input[title], div.zetaprints-page-input-fields textarea[title]').qtip({
     position: { corner: { target: 'bottomLeft' } },
