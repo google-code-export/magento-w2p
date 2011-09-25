@@ -516,43 +516,21 @@
 
             <xsl:if test="../../@GenerateJpg=1">
               <td>
-                <xsl:choose>
-                  <xsl:when test="$page-size-units='in'">
-                    <xsl:value-of select="format-number(@WidthIn, '0.00')" />
-                    &#215;
-                    <xsl:value-of select="format-number(@HeightIn, '0.00')" />&#160;<xsl:call-template name="trans">
-                      <xsl:with-param name="key">in</xsl:with-param>
-                    </xsl:call-template>
-                  </xsl:when>
-                  <xsl:when test="$page-size-units='cm'">
-                    <xsl:value-of select="format-number(@WidthCm, '0.00')" />
-                    &#215;
-                    <xsl:value-of select="format-number(@HeightCm, '0.00')" />&#160;<xsl:call-template name="trans">
-                      <xsl:with-param name="key">cm</xsl:with-param>
-                    </xsl:call-template>
-                  </xsl:when>
-                </xsl:choose>
+                <xsl:value-of select="@WidthPxJpg" />
+                &#215;
+                <xsl:value-of select="@HeightPxJpg" />&#160;<xsl:call-template name="trans">
+                  <xsl:with-param name="key">px</xsl:with-param>
+                </xsl:call-template>
               </td>
             </xsl:if>
 
             <xsl:if test="../../@GenerateGifPng=1">
               <td>
-                <xsl:choose>
-                  <xsl:when test="$page-size-units='in'">
-                    <xsl:value-of select="format-number(@WidthIn, '0.00')" />
-                    &#215;
-                    <xsl:value-of select="format-number(@HeightIn, '0.00')" />&#160;<xsl:call-template name="trans">
-                      <xsl:with-param name="key">in</xsl:with-param>
-                    </xsl:call-template>
-                  </xsl:when>
-                  <xsl:when test="$page-size-units='cm'">
-                    <xsl:value-of select="format-number(@WidthCm, '0.00')" />
-                    &#215;
-                    <xsl:value-of select="format-number(@HeightCm, '0.00')" />&#160;<xsl:call-template name="trans">
-                      <xsl:with-param name="key">cm</xsl:with-param>
-                    </xsl:call-template>
-                  </xsl:when>
-                </xsl:choose>
+                <xsl:value-of select="@WidthPxGifPng" />
+                &#215;
+                <xsl:value-of select="@HeightPxGifPng" />&#160;<xsl:call-template name="trans">
+                  <xsl:with-param name="key">px</xsl:with-param>
+                </xsl:call-template>  
               </td>
             </xsl:if>
           </tr>
