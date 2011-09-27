@@ -172,8 +172,8 @@ function zetaprints_parse_template_details ($xml) {
       'preview-image' => (string) $page['PreviewImage'],
       'thumb-image' => (string) $page['ThumbImage'],
       'static' => isset($page['Static']) ? (bool) $page['Static'] : false,
-      'width-in' => (string) $page['WidthIn'],
-      'height-in' => (string) $page['HeightIn'],
+      'width-in' => (float) $page['WidthIn'],
+      'height-in' => (float) $page['HeightIn'],
       'width-cm' =>  (float) $page['WidthCm'],
       'height-cm' =>  (float) $page['HeightCm'] );
 
