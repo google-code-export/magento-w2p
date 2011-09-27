@@ -108,6 +108,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       }
     }
 
+    if ($form_part === 'page-size-table'
+        && !isset($xml->Pages->Page[0]['WidthIn']))
+      return false;
+
     $params = array_merge(
       $params,
       array('zetaprints-api-url'
