@@ -263,14 +263,13 @@
     </layout>
   </frontend>
 
-
   <admin>
     <routers>
       <ZetaPrints_WebToPrint>
         <use>admin</use>
           <args>
             <module>ZetaPrints_WebToPrint</module>
-            <frontName>web-to-print</frontName>
+            <frontName>web-to-print-admin</frontName>
           </args>
       </ZetaPrints_WebToPrint>
     </routers>

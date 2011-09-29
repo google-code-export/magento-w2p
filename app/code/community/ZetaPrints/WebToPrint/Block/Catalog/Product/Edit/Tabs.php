@@ -7,7 +7,7 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tabs extends Mage_Adminht
     if ($this->getProduct()->getAttributeSetId() || $this->getRequest()->getParam('set', null))
       $this->addTab('templates', array(
         'label' => Mage::helper('catalog')->__('Web-to-print templates'),
-        'url'       => $this->getUrl('web-to-print/catalog_product/templates', array('_current' => true)),
+        'url'       => $this->getUrl('web-to-print-admin/catalog_product/templates', array('_current' => true)),
         'class'     => 'ajax' ));
 
     return $ret;
