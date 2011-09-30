@@ -22,7 +22,7 @@
               <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" class="zetaprints-field" />
               <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" class="zetaprints-field">
                 <xsl:if test="@Value=Value[1]">
-                  <xsl:attribute name="checked">1</xsl:attribute>
+                  <xsl:attribute name="checked">checked</xsl:attribute>
                 </xsl:if>
                 <xsl:attribute name="title">
                   <xsl:call-template name="trans">
@@ -38,7 +38,7 @@
               <xsl:choose>
                 <xsl:when test="@Multiline">
                   <div class="zetaprints-text-field-wrapper">
-                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" rows="3" class="zetaprints-field">
+                  <textarea id="page-{$page}-field-{position()}" name="zetaprints-_{@FieldName}" cols="100" rows="3" class="zetaprints-field">
                     <xsl:if test="string-length(@Hint)!=0">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
@@ -120,7 +120,7 @@
                   <xsl:if test=".!=''">
                     <option>
                       <xsl:if test=".=../@Value">
-                        <xsl:attribute name="selected">1</xsl:attribute>
+                        <xsl:attribute name="selected">selected</xsl:attribute>
                       </xsl:if>
                       <xsl:call-template name="trans">
                         <xsl:with-param name="key">
@@ -227,9 +227,9 @@
             </xsl:if>
             <li class="last">
               <label class="leave-blank-value">
-                <input id="zetaprints-blank-value" type="radio" name="zetaprints-#{@Name}" value="" class="zetaprints-field">
+                <input type="radio" name="zetaprints-#{@Name}" value="" class="zetaprints-field">
                   <xsl:if test="@Value and string-length(@Value)=0">
-                    <xsl:attribute name="checked">1</xsl:attribute>
+                    <xsl:attribute name="checked">checked</xsl:attribute>
                   </xsl:if>
                 </input>
                 <xsl:call-template name="trans">
@@ -239,7 +239,7 @@
               <label class="leave-default-value">
                 <input type="radio" name="zetaprints-#{@Name}" value="#" class="zetaprints-field">
                   <xsl:if test="not(@Value) or @Value='#'">
-                    <xsl:attribute name="checked">1</xsl:attribute>
+                    <xsl:attribute name="checked">checked</xsl:attribute>
                   </xsl:if>
                 </input>
                 <xsl:call-template name="trans">
@@ -253,7 +253,7 @@
             <div id="page-{$page}-tabs-{position()}-1" class="tab upload">
               <div class="column">
                 <div class="zetaprints-text-field-wrapper">
-                  <input type="text" class="input-text file-name" disabled="true" />
+                  <input type="text" class="input-text file-name" disabled="disabled" />
                 </div>
 
                 <label>
@@ -274,7 +274,7 @@
                     <xsl:with-param name="key">Upload file</xsl:with-param>
                   </xsl:call-template>
                 </span></div>
-                <img class="ajax-loader" src="{$ajax-loader-image-url}" />
+                <img class="ajax-loader" src="{$ajax-loader-image-url}" alt="Loading..." />
               </div>
 
               <div class="clear">
@@ -299,16 +299,16 @@
                   <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}" class="zetaprints-images zetaprints-field">
                       <xsl:if test="@guid=../@Value">
-                        <xsl:attribute name="checked">1</xsl:attribute>
+                        <xsl:attribute name="checked">checked</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog" href="{@edit-link}" target="_blank" name="{../@Name}" rel="{@guid}">
+                    <a class="edit-dialog" href="{@edit-link}" name="{../@Name}" rel="{@guid}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" id="{@guid}"></img>
+                      <img src="{@thumbnail}" id="{@guid}" alt="{@guid}" />
 
                       <div class="buttons-row">
                         <div class="button delete" rel="{@guid}">
@@ -348,10 +348,10 @@
                   <td>
                     <input type="radio" name="zetaprints-#{../@Name}" value="{@FileID}" class="zetaprints-field">
                       <xsl:if test="@FileID=../@Value">
-                        <xsl:attribute name="checked">1</xsl:attribute>
+                        <xsl:attribute name="checked">checked</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="in-dialog" target="_blank" rel="group-{../@Name}">
+                    <a class="in-dialog" rel="group-{../@Name}">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to enlarge</xsl:with-param>
@@ -365,7 +365,7 @@
                       </xsl:attribute>
                       <xsl:choose>
                         <xsl:when test="contains(@Thumb, '.png') or contains(@Thumb, '.gif')">
-                          <img>
+                          <img alt="thumbnail">
                             <xsl:attribute name="src">
                               <xsl:call-template name="produce-url-from-template">
                                 <xsl:with-param name="url-template" select="$photothumbnail-url-template" />
@@ -375,7 +375,7 @@
                           </img>
                         </xsl:when>
                         <xsl:otherwise>
-                          <img src="{$zetaprints-api-url}photothumbs/{substring-before(@Thumb,'.')}_0x100.{substring-after(@Thumb,'.')}">
+                          <img alt="thumbnail">
                             <xsl:attribute name="src">
                               <xsl:call-template name="produce-url-from-template">
                                 <xsl:with-param name="url-template" select="$photothumbnail-url-height-100-template" />
@@ -398,11 +398,11 @@
                 <xsl:choose>
                   <xsl:when test="string-length(@Value)=7 and starts-with(@Value,'#')">
                     <xsl:attribute name="value"><xsl:value-of select="@Value" /></xsl:attribute>
-                    <xsl:attribute name="checked">1</xsl:attribute>
+                    <xsl:attribute name="checked">checked</xsl:attribute>
                   </xsl:when>
                   <xsl:otherwise>
                     <xsl:attribute name="value"></xsl:attribute>
-                    <xsl:attribute name="disabled">1</xsl:attribute>
+                    <xsl:attribute name="disabled">disabled</xsl:attribute>
                   </xsl:otherwise>
                 </xsl:choose>
               </input>
@@ -455,6 +455,13 @@
                   </xsl:attribute>
                 </xsl:otherwise>
               </xsl:choose>
+              <xsl:attribute name="alt">
+                <xsl:call-template name="trans">
+                  <xsl:with-param name="key">
+                    <xsl:value-of select="@Name" />
+                  </xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
             </img>
             <br />
             <span>
@@ -475,7 +482,7 @@
       <tbody>
         <tr class="page-size-table-head">
           <td class="page-size-table-icon" rowspan="2">
-            <img src="{$page-size-icon}" />
+            <img src="{$page-size-icon}" alt="" />
           </td>
 
           <xsl:if test="@GeneratePdf=1">
