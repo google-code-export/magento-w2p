@@ -182,10 +182,13 @@ function personalization_form ($) {
 
     var zp = this;
 
-    $('<a id="preview-image-page-' + page_number +
-      '" class="zetaprints-template-preview zp-hidden" href="' + url +
-      '"><img title="' + click_to_view_in_large_size + '" src="' + url +
-      '" /></a>')
+    $('<a id="preview-image-page-' + page_number + '" ' +
+          'class="zetaprints-template-preview zp-hidden" ' +
+          'href="' + url + '">' +
+        '<img title="' + click_to_view_in_large_size + '" ' +
+              'src="' + url + '"' +
+              'alt="Preview image for page ' + page_number + '" />' +
+      '</a>')
     .children()
     .bind('load', {page_number: page_number}, function (event) {
 
@@ -604,9 +607,10 @@ function personalization_form ($) {
             '<td>\
               <input type="radio" name="zetaprints-#' + image_name + '" value="'
                 + response[0] + '" class="zetaprints-images zetaprints-field" />\
-              <a class="edit-dialog" href="' + response[1] + 'target="_blank"\
-                title="' + click_to_edit_text + '">\
-                <img id="' + response[0] + '" src="' + response[2] + '" />\
+              <a class="edit-dialog" href="' + response[1] + ' title="'
+                + click_to_edit_text + '">\
+                <img id="' + response[0] + '" src="' + response[2] + '" alt="' +
+                  + response[0] + '" />\
                 <div class="buttons-row">\
                   <div class="button delete" title="' + click_to_delete_text
                     + '" rel="' + response[0] +'">' + delete_button_text +
@@ -671,7 +675,7 @@ function personalization_form ($) {
 
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value="' + response[0] + '"]',
-                $(upload_div).parent()).attr('checked', 1).change();
+                $(upload_div).parent()).attr('checked', 'checked').change();
 
               $('img.ajax-loader', upload_div).hide();
 
@@ -901,10 +905,10 @@ function personalization_form ($) {
             $colour_sample.css('backgroundColor', '#' + hex);
 
             $colour_radio_button
-              .attr('disabled', 0)
+              .removeAttr('disabled')
               .val('#' + hex)
               .change()
-              .attr('checked', 1);
+              .attr('checked', 'checked');
 
             $(picker).ColorPickerHide();
           }

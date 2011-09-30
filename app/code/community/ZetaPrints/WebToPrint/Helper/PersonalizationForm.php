@@ -503,7 +503,7 @@ jQuery(document).ready(function($) {
       <button class="update-preview button">
         <span><span><?php echo $this->__('Update preview');?></span></span>
       </button>
-      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spinner.gif'); ?>" class="ajax-loader"/>
+      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spinner.gif'); ?>" class="ajax-loader" alt="" />
       <span class="text"><?php echo $this->__('Updating preview image');?>&hellip;</span>
     </div>
 <?php
