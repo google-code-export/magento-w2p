@@ -55,11 +55,10 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
   public function get_image_editor_url ($guid) {
     if ($this->_getRequest()->getScheme() == Zend_Controller_Request_Http::SCHEME_HTTPS)
       return parent::_getUrl('web-to-print/image/',
-                              array('id' => $guid, 'iframe' => 1,
+                              array('id' => $guid,
                                     '_secure' => true) );
 
-    return parent::_getUrl('web-to-print/image/',
-                            array('id' => $guid, 'iframe' => 1) );
+    return parent::_getUrl('web-to-print/image/', array('id' => $guid) );
   }
 
   public function create_url_for_product ($product, $query_params) {
