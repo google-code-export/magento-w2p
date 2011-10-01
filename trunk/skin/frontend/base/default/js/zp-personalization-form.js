@@ -565,6 +565,7 @@ function personalization_form ($) {
     var uploader = new AjaxUpload(this, {
       name: 'customer-image',
       action: upload_controller_url,
+      responseType: 'json',
       autoSubmit: true,
       onChange: function (file, extension) {
         var upload_div = $(this._button).parents('div.upload');
@@ -1169,12 +1170,14 @@ function personalization_form ($) {
     .filter('select, :checkbox')
       .change({ zp: this }, text_fields_change_handle);
 
-  function delete_image_click_handle () {
+  function delete_image_click_handle (event) {
+    event.stopPropagation();
+
     if (confirm(delete_this_image_text)) {
       var image_id = $(this).parents('td').children('input').attr('value');
 
       $.ajax({
-        url: event.data.zp.url.image,
+        url: zp.url.image,
         type: 'POST',
         data: 'zetaprints-action=img-delete&zetaprints-ImageID=' + image_id,
         error: function (request, status, error) {
