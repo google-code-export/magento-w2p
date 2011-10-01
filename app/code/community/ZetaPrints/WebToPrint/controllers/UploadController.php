@@ -26,8 +26,9 @@ class ZetaPrints_WebToPrint_UploadController
       return;
     }
 
-    $user_credentials = Mage::helper('webtoprint')
-                          ->get_zetaprints_credentials();
+    $helper = Mage::helper('webtoprint');
+
+    $user_credentials = $helper->get_zetaprints_credentials();
 
     //FIXME fast n dirty image upload fix
     $img_url = $media_config->getTmpMediaUrl("{$zp_dir}/{$file_name}");
@@ -57,14 +58,18 @@ class ZetaPrints_WebToPrint_UploadController
       return;
     }
 
-    $edit_link = Mage::helper('webtoprint')->get_image_editor_url($image['guid']);
+    $result = array('guid' => $image['guid']);
 
     if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
-      $thumbnail_url = Mage::helper('webtoprint')->get_photo_thumbnail_url($image['thumbnail'], 0, 100);
+      $result['thumbnail'] = $helper
+                               ->get_photo_thumbnail_url($image['thumbnail'],
+                                                         0,
+                                                         100);
     else
-      $thumbnail_url = Mage::helper('webtoprint')->get_photo_thumbnail_url($image['thumbnail']);
+      $result['thumbnail'] = $helper
+                                 ->get_photo_thumbnail_url($image['thumbnail']);
 
-    echo "{$image['guid']};{$edit_link};{$thumbnail_url}";
+    echo json_encode($result);
   }
 }
 ?>

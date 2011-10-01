@@ -568,12 +568,9 @@ function imageEditorCrop () {
 
   function clearCropMetadata () {
     crop_data = null;
-    context.$input.removeData('metadata');
 
-    $('#' + _cropVisualAssistant.getUserImageThumbGuid()).each(function(){
-      //$(this).data('metadata', null);
-      $(this).prev('div.thumbCropedAreaToolSet').remove();
-    });
+    context.$input.removeData('metadata');
+    context.$selected_thumbnail.prev('div.thumbCropedAreaToolSet').remove();
 
     var image_width_in = _cropVisualAssistant.userImage.widthActualPx
                          / context.placeholder.width

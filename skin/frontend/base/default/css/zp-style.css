@@ -180,11 +180,10 @@ div.images-scroller img {
   max-height: 100px;
 }
 
-div.images-scroller a.edit-dialog {
+div.images-scroller .image-edit-thumb {
   position: relative;
-  display: block;
   min-height: 21px;
-  text-decoration:none;
+  cursor: pointer;
 }
 
 div.images-scroller div.buttons-row {
