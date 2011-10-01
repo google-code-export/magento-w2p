@@ -902,7 +902,8 @@ jQuery(document).ready(function($) {
         'upload' => $this->_getUrl('web-to-print/upload'),
         'image' => $this->_getUrl('web-to-print/image/update'),
         'user-image-template'
-                 => $this->get_photo_thumbnail_url('image-guid.image-ext') ) ));
+                 => $this->get_photo_thumbnail_url('image-guid.image-ext'),
+        'edit-image-template' => $this->get_image_editor_url('')  ) ));
 ?>
 <script type="text/javascript">
 //<![CDATA[

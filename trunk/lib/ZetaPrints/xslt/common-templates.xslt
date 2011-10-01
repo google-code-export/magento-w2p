@@ -302,16 +302,17 @@
                         <xsl:attribute name="checked">checked</xsl:attribute>
                       </xsl:if>
                     </input>
-                    <a class="edit-dialog" href="{@edit-link}" name="{../@Name}" rel="{@guid}">
+                    <div class="image-edit-thumb">
                       <xsl:attribute name="title">
                         <xsl:call-template name="trans">
                           <xsl:with-param name="key">Click to edit</xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
-                      <img src="{@thumbnail}" id="{@guid}" alt="{@guid}" />
+
+                      <img src="{@thumbnail}" alt="{@guid}" />
 
                       <div class="buttons-row">
-                        <div class="button delete" rel="{@guid}">
+                        <div class="button delete">
                           <xsl:attribute name="title">
                             <xsl:call-template name="trans">
                               <xsl:with-param name="key">Click to delete</xsl:with-param>
@@ -323,7 +324,7 @@
                           </xsl:call-template>
                         </div>
 
-                        <div class="button edit" rel="{@guid}">
+                        <div class="button edit">
                           <xsl:attribute name="title">
                             <xsl:call-template name="trans">
                               <xsl:with-param name="key">Click to edit</xsl:with-param>
@@ -335,7 +336,7 @@
                           </xsl:call-template>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </td>
                 </xsl:for-each>
               </tr></table>

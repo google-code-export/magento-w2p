@@ -13,14 +13,14 @@ function personalization_form ($) {
 
   zp.scroll_strip = scroll_strip;
 
-  function show_image_edit_dialog (image_name, src, $thumb) {
+  function show_image_edit_dialog (image_name, image_guid, $thumb) {
     var image_name = unescape(image_name);
 
     $.fancybox({
       'padding': 0,
       'titleShow': false,
       'type': 'ajax',
-      'href': src,
+      'href': zp.url['edit-image-template'] + image_guid,
       'hideOnOverlayClick': false,
       'hideOnContentClick': false,
       'centerOnScroll': false,
@@ -42,7 +42,7 @@ function personalization_form ($) {
           '$selected_thumbnail': $thumb,
            //!!! Temp solution
           '$input': $thumb.parents().children('input.zetaprints-images'),
-          'image_id': $thumb.attr('id'),
+          'image_id': image_guid,
           'page': {
             'width_in': zp.template_details.pages[zp.current_page]['width-in'],
             'height_in': zp.template_details.pages[zp.current_page]['height-in']
@@ -594,8 +594,6 @@ function personalization_form ($) {
 
         var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
 
-        response = response.split(';');
-
         var trs = $('div.selector-content div.tab.user-images table tr');
 
         var number_of_loaded_imgs = 0;
@@ -604,23 +602,25 @@ function personalization_form ($) {
           var image_name = $('input[name="parameter"]', $(this).parents('div.user-images')).val();
 
           var td = $(
-            '<td>\
-              <input type="radio" name="zetaprints-#' + image_name + '" value="'
-                + response[0] + '" class="zetaprints-images zetaprints-field" />\
-              <a class="edit-dialog" href="' + response[1] + ' title="'
-                + click_to_edit_text + '">\
-                <img id="' + response[0] + '" src="' + response[2] + '" alt="' +
-                  + response[0] + '" />\
-                <div class="buttons-row">\
-                  <div class="button delete" title="' + click_to_delete_text
-                    + '" rel="' + response[0] +'">' + delete_button_text +
-                  '</div>\
-                  <div class="button edit" title="' + click_to_edit_text +
-                    '" rel="' + response[0] +'">' + edit_button_text +
-                  '</div>\
-                </div>\
-              </a>\
-            </td>').prependTo(this);
+            '<td>' +
+              '<input type="radio" name="zetaprints-#' + image_name + '" ' +
+                     'value="' + response.guid + '" ' +
+                     'class="zetaprints-images zetaprints-field" />' +
+              '<div class="image-edit-thumb">' +
+                '<img src="' + response.thumbnail + '" ' +
+                     'alt="' + response.guid + '" />' +
+                '<div class="buttons-row">'+
+                  '<div class="button delete" ' +
+                       'title="' + click_to_delete_text + '">' +
+                    delete_button_text +
+                  '</div>' + 
+                  '<div class="button edit" ' +
+                       'title="' + click_to_edit_text + '">' +
+                    edit_button_text +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</td>').prependTo(this);
 
           $('input:radio', td).change({ zp: zp }, image_field_select_handler);
 
@@ -638,40 +638,9 @@ function personalization_form ($) {
 
             var img = this;
 
-            $('a.edit-dialog, div.button.edit', tr).click(function () {
-              var $link = $(this);
+            $('.image-edit-thumb', td).click(thumbnail_edit_click_handler);
 
-              //If customer clicks on Edit button then...
-              if (this.tagName == 'DIV')
-                //... get link to the image edit dialog and use its attributes
-                var $link = $(this).parents('td').children('a');
-
-              show_image_edit_dialog(image_name,
-                                     $link.attr('href'),
-                                     $link.find('img') );
-
-              return false;
-            });
-
-            $('.button.delete', td).click(function() {
-              if (confirm(delete_this_image_text)) {
-                var imageId = $(this).attr('rel');
-
-                $.ajax({
-                  url: zp.url.image,
-                  type: 'POST',
-                  data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
-                  error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(cant_delete_text + ': ' + textStatus);
-                  },
-                  success: function (data, textStatus) {
-                    $('input[value="'+imageId+'"]').parent().remove();
-                  }
-                });
-              }
-
-              return false;
-            });
+            $('.button.delete', td).click(delete_image_click_handle);
 
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value="' + response[0] + '"]',
@@ -1053,19 +1022,18 @@ function personalization_form ($) {
     }
   });
 
-  $('a.edit-dialog, div.button.edit').click(function() {
-    var link = this;
+  function thumbnail_edit_click_handler () {
+    var $target = $(this);
+    var $input = $target.parent().children('input');
 
-    //If customer clicks on Edit button then...
-    if (this.tagName == 'DIV')
-      //... get link to the image edit dialog and use its attributes
-      var link = $(this).parents('td').children('a');
+    show_image_edit_dialog($input.attr('name').substring(12),
+                           $input.attr('value'),
+                           $target.children('img') );
 
-    show_image_edit_dialog($(link).attr('name'),
-                           $(link).attr('href'),
-                           $(link).children('img') );
+    return false; 
+  }
 
-    return false; });
+  $('.image-edit-thumb').click(thumbnail_edit_click_handler);
 
   if ($.fn.text_field_editor)
     $('.zetaprints-page-input-fields .zetaprints-field')
@@ -1201,25 +1169,27 @@ function personalization_form ($) {
     .filter('select, :checkbox')
       .change({ zp: this }, text_fields_change_handle);
 
-  $('.button.delete').click({ zp: this }, function(event) {
+  function delete_image_click_handle () {
     if (confirm(delete_this_image_text)) {
-      var imageId = $(this).attr('rel');
+      var image_id = $(this).parents('td').children('input').attr('value');
 
       $.ajax({
         url: event.data.zp.url.image,
         type: 'POST',
-        data: 'zetaprints-action=img-delete&zetaprints-ImageID='+imageId,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          alert(cant_delete_text + ': ' + textStatus);
+        data: 'zetaprints-action=img-delete&zetaprints-ImageID=' + image_id,
+        error: function (request, status, error) {
+          alert(cant_delete_text + ': ' + status);
         },
-        success: function (data, textStatus) {
-          $('input[value="'+imageId+'"]').parent().remove();
+        success: function (data, status) {
+          $('input[value="'+ image_id +'"]').parent().remove();
         }
       });
     }
 
     return false;
-  });
+  }
+
+  $('.button.delete').click(delete_image_click_handle);
 
   $('input.zetaprints-images').click({ zp : this }, function (event) {
     var $input = $(this);
