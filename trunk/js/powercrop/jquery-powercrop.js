@@ -31,7 +31,6 @@
       .removeAttr('class');
 
     var aspect_ratio = $image.height  () / $image.width();
-    console.log('aspect_ratio', aspect_ratio);
 
     var $image_top = $image.clone()
       .addClass('powercrop-image-top');
