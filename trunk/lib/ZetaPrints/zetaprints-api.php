@@ -220,8 +220,8 @@ function zetaprints_parse_template_details ($xml) {
   foreach ($xml->Images->Image as $image) {
     $image_array = array(
       'name' => (string) $image['Name'],
-      'width' => (string) $image['Width'],
-      'height' => (string) $image['Height'],
+      'width' => (int) $image['Width'],
+      'height' => (int) $image['Height'],
       'color-picker' => isset($image['ColourPicker'])
                             ? (string) $image['ColourPicker'] : null,
       'allow-upload' => isset($image['AllowUpload'])
