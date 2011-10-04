@@ -107,9 +107,9 @@
 
           invoke_on_event(settings.stop); } });
 
-      $container.css({
-        width: $image_wrapper.outerWidth(),
-        height: $image_wrapper.outerHeight() });
+      //$container.css({
+      //  width: $image_wrapper.outerWidth(),
+      //  height: $image_wrapper.outerHeight() });
     } else
       var $image_wrapper = $image;
 
@@ -126,7 +126,7 @@
     $viewport
       .resizable({
         aspectRatio: !settings.simple,
-        containment: $container,
+        //containment: $container,
         handles: 'ne, nw, se, sw',
         start: function (event, ui) {
           $container.removeClass('no-resizing-action'); },
@@ -153,11 +153,11 @@
             top: image_position.top - viewport_position.top - 1,
             left: image_position.left - viewport_position.left - 1 });
 
-          check_viewport_moving();
+          //check_viewport_moving();
 
           invoke_on_event(settings.stop); } })
       .draggable({
-        containment: $container,
+        //containment: $container,
         handle: 'div.powercrop-viewport-handle',
         drag: function (event, ui) {
           $image_top_wrapper.css({
@@ -170,7 +170,7 @@
         stop: function (event, ui) {
           viewport_position = ui.position;
 
-          check_viewport_moving();
+          //check_viewport_moving();
 
           invoke_on_event(settings.stop); } });
 
@@ -237,7 +237,7 @@
 
     update_position(complete_data(settings.data));
 
-    check_viewport_moving();
+    //check_viewport_moving();
 
     function complete_data (data) {
       var default_data = {
@@ -275,11 +275,11 @@
       if (data.container)
         $container.css(data.container);
       else
-        if (!settings.simple)
-          $container.css({
-            width: $viewport.outerWidth(),
-            height: $viewport.outerHeight() });
-        else {
+        if (!settings.simple) {
+          //$container.css({
+          //  width: $viewport.outerWidth(),
+          //  height: $viewport.outerHeight() });
+        } else {
           $container.css({
             width: $viewport.outerWidth() > $image.outerWidth()
                                  ? $viewport.outerWidth() : $image.outerWidth(),
