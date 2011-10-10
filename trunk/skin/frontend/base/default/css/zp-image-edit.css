@@ -20,6 +20,7 @@ ul.zetaprints-image-edit-menu {
   list-style-type: none;
   font-weight: bold;
   color: white;
+  width: 86px;
 }
 
 ul.zetaprints-image-edit-menu li {
