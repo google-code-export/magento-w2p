@@ -296,6 +296,29 @@ function zetaprints_parse_template_details ($xml) {
         $field_array['values'][] = (string) $value;
     }
 
+    if ($field->DataSet) {
+
+      //Mark field as combobox
+      $field_array['combobox'] = true;
+
+      $field_array['data_set'] = array();
+
+      $cell_number = 0;
+
+      foreach ($field->DataSet->Cell as $cell) {
+        $field_array['data_set'][$cell_number] = array();
+
+        foreach ($cell->Para as $para) {
+          $field_array['data_set'][$cell_number][] = (string) $para;
+        }
+
+        $field_array['data_set'][$cell_number]['text']
+                                                       = (string) $cell['text'];
+
+        $cell_number++;
+      }
+    }
+
     if (isset($field['Meta'])) {
       $field_array['metadata'] = array();
 
