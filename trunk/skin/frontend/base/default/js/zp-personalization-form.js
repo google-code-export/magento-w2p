@@ -250,7 +250,17 @@ function personalization_form ($) {
           $selects
             .filter('[name="zetaprints-_' + name + '"]')
             .wrap('<div class="zetaprints-text-field-wrapper" />')
-            .combobox();
+            .combobox({
+              select: function (event, ui) {
+                $('.zetaprints-page-input-fields')
+                  .find(' > dl > dd > div > .zp-combobox-input-wrapper > input')
+                  .filter('[name!="' + $(this).attr('name') + '"]')
+                  .parents('.zetaprints-text-field-wrapper')
+                  .each(function () {
+                    $(this).combobox('select', ui.item.index);
+                  })
+              }
+            });
   }
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
