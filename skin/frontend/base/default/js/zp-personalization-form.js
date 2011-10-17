@@ -26,13 +26,21 @@ function personalization_form ($) {
       'centerOnScroll': false,
       'showNavArrows': false,
       'onStart' : function () {
+        var is_in_preview = false;
+
         if ($('#zp-update-preview-button').length
-            && window.fancybox_remove_update_preview_button)
+            && window.fancybox_remove_update_preview_button) {
           fancybox_remove_update_preview_button($);
+
+          is_in_preview = true;
+        }
 
         if ($('#fancybox-resize').length && window.fancybox_resizing_hide)
           fancybox_resizing_hide();
 
+        if (window.fancybox_add_save_image_button)
+          fancybox_add_save_image_button($,zp, is_in_preview,
+                                         image_name, image_guid);
       },
       'onComplete': function () {
         zp.image_edit = {
@@ -71,6 +79,9 @@ function personalization_form ($) {
           zp_set_metadata(zp.image_edit.placeholder, metadata);
         } else
           zp_clear_metadata(zp.image_edit.placeholder);
+
+        if (window.fancybox_remove_save_image_button)
+          fancybox_remove_save_image_button($);
       } });
   }
 
@@ -920,6 +931,10 @@ function personalization_form ($) {
           && window.fancybox_remove_use_image_button)
         fancybox_remove_use_image_button($);
 
+      if ($('#zp-save-image-button').length
+          && window.fancybox_remove_save_image_button)
+        fancybox_remove_save_image_button($);
+
       if (window.fancybox_add_update_preview_button
           && !zp.template_details.pages[zp.current_page].static) {
         fancybox_add_update_preview_button($, zp);
@@ -985,9 +1000,6 @@ function personalization_form ($) {
       zp.current_field_name = null;
     },
     'onCleanup': function () {
-      if (window.fancybox_resizing_hide)
-        fancybox_resizing_hide();
-
       if (zp.has_shapes && window.popdown_field_by_name) {
         $('div.zetaprints-field-shape', $('div#fancybox-content')).removeClass('highlighted');
         popdown_field_by_name(undefined, true);
@@ -996,6 +1008,9 @@ function personalization_form ($) {
     'onClosed': function () {
       if (window.fancybox_remove_update_preview_button)
         fancybox_remove_update_preview_button($);
+
+      if (window.fancybox_resizing_hide)
+        fancybox_resizing_hide();
     }
     });
 
