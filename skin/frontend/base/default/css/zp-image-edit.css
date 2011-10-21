@@ -6,11 +6,6 @@ div.zetaprints-image-edit {
   zoom: 1;
 }
 
-div.zetaprints-image-edit div.zetaprints-buttons-row {
-  background-color: white;
-  padding: 5px 0px;
-}
-
 ul.zetaprints-image-edit-menu {
   float: left;
   padding: 5px 15px;
@@ -48,14 +43,106 @@ div.zetaprints-image-edit-wrapper {
   float: left;
 }
 
+.zp-image-edit-actions-wrapper {
+  background-color: white;
+  padding: 18px 10px 0 5px;
+}
+
+.zp-image-edit-actions {
+  background-color: #e9f2fd;
+  border: 1px solid #cedef3;
+  font-family: Tahoma;
+  font-size: 95%;
+  padding: 1px 5px 1px 0px;
+}
+
+.zp-image-edit-actions-button {
+  float: left;
+  cursor: pointer;
+  color: #204a87;
+  position: relative;
+  margin-left: 7px;
+}
+
+.zp-image-edit-actions-button span {
+  margin-left: 17px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.zp-image-edit-actions-button-icon {
+  background: transparent url('../images/zp-image-edit-sprite.png') no-repeat;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 50%;
+  margin-top: -7px; /* half of the width */
+}
+
+.zp-image-edit-actions-separator {
+  background: transparent url('../images/zp-image-edit-sprite.png') no-repeat;
+  background-position: -23px -20px;
+  width: 1px;
+  height: 19px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -9px; /* half of the width */
+}
+
+#zp-image-edit-action-fit-image .zp-image-edit-actions-button-icon {
+  background-position: 1px 2px;
+}
+
+#zp-image-edit-action-fill-field .zp-image-edit-actions-button-icon {
+  background-position: -65px 2px;
+}
+
+#zp-image-edit-action-fit-width .zp-image-edit-actions-button-icon {
+  background-position: -21px 2px;
+}
+
+#zp-image-edit-action-fit-height .zp-image-edit-actions-button-icon {
+  background-position: -43px 2px;
+}
+
+#zp-image-edit-action-cancel .zp-image-edit-actions-button-icon {
+  background-position: -87px 1px;
+}
+
+.saved #zp-image-edit-action-cancel {
+  cursor: default;
+  color: #849ec2;
+}
+
+#zp-image-edit-cropping-notice {
+  display: none;
+  float: right;
+  font-weight: bold;
+  color: #d40202;
+}
+
+.crop-mode #zp-image-edit-cropping-notice {
+  display: block;
+}
+
+.crop-mode #zp-image-edit-action-fit-image,
+.crop-mode #zp-image-edit-action-fill-field,
+.crop-mode #zp-image-edit-action-fit-width,
+.crop-mode #zp-image-edit-action-fit-height {
+  display: none;
+}
+
 div.zetaprints-image-edit-container {
   width: 602px;
   height: 452px;
   background-color: white;
-  padding: 5px;
   overflow: hidden;
-  border-top: 10px solid white;
-  border-right: 5px solid white;
+  padding: 3px;
+  border-top: 7px solid white;
+  border-right: 7px solid white;
+  border-left: 3px solid white;
+  border-bottom: 3px solid white;
 }
 
 #zetaprints-image-edit-user-image {

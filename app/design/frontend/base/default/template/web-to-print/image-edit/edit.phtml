@@ -46,7 +46,48 @@ $in_context = Mage::helper('webtoprint')
     </li>
   </ul>
 
-  <div class='zetaprints-image-edit-wrapper'>
+  <div class="zetaprints-image-edit-wrapper">
+    <div class="zp-image-edit-actions-wrapper">
+      <div class="zp-image-edit-actions">
+        <div id="zp-image-edit-action-fit-image" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit image'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div id="zp-image-edit-action-fill-field" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fill field'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div id="zp-image-edit-action-fit-width" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit width'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div id="zp-image-edit-action-fit-height" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit height'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div id="zp-image-edit-action-cancel" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Reset'); ?></span>
+        </div>
+
+        <div id="zp-image-edit-cropping-notice" class="zp-image-edit-actions-button">
+          <span>
+            <?php echo $this->__('Cropping this image will affect all fields it is used for.'); ?>
+          </span>
+        </div>
+
+        <div class="zp-clear" />
+      </div>
+    </div>
+
     <div class="zetaprints-image-edit-container">
       <img id="zetaprints-image-edit-user-image" class="zetaprints-hidden"/>
     </div>
@@ -128,16 +169,6 @@ $in_context = Mage::helper('webtoprint')
       <div class="reset"></div>
     </div>
 
-    <div class="zetaprints-buttons-row">
-      <div class="row-part first">
-        <div id="restore-button" class="zetaprints-button restore-action">
-          <div class="icon"></div>
-          <span><?php echo $this->__('Reset'); ?></span>
-        </div>
-      </div>
-
-      <div class="reset"></div>
-    </div>
   </div>
 
   <div style="clear: both;"></div>
