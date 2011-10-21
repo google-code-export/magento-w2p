@@ -7,6 +7,28 @@
         $container.remove();
         this.show();
       }
+    },
+
+    state : function () {
+      $container = this.data('power-crop-container')
+
+      if ($container) {
+        var $viewport = $container.find('.powercrop-viewport');
+        var $image = $container.find('.powercrop-image');
+
+        return {
+                  image: {
+                    width: $image.width(),
+                    height: $image.height(),
+                    position: $image.position()
+                  },
+                  selection: {
+                    width: $viewport.width(),
+                    height: $viewport.height(),
+                    position: $viewport.position()
+                  }
+                };
+      }
     }
   };
 
