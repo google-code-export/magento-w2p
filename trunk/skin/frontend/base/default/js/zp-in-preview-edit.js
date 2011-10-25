@@ -5,8 +5,8 @@ function precalculate_shapes (template_details) {
 
       shape.left = shape.x1 * 100;
       shape.top = shape.y1 * 100;
-      shape.width = (shape.x2 - shape.x1) * 100;
-      shape.height = (shape.y2 - shape.y1) * 100;
+      shape.visual_width = (shape.x2 - shape.x1) * 100;
+      shape.visual_height = (shape.y2 - shape.y1) * 100;
     }
 }
 
@@ -16,6 +16,8 @@ function place_shape (shape, $container, shape_handler) {
   else
     var edited_class = '';
 
+  console.log(shape);
+
   jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '"' +
               'title="' + shape.name  + '">' +
            '<div class="zetaprints-field-shape top" />' +
@@ -23,8 +25,8 @@ function place_shape (shape, $container, shape_handler) {
     .css({
       top: shape.top + '%',
       left: shape.left + '%',
-      width: shape.width + '%',
-      height: shape.height + '%' })
+      width: shape.visual_width + '%',
+      height: shape.visual_height + '%' })
     .appendTo($container)
     .children()
     .bind('click mouseover mouseout', { container: $container }, shape_handler);
