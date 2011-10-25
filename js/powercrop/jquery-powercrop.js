@@ -20,7 +20,7 @@
                   image: {
                     width: $image.width(),
                     height: $image.height(),
-                    position: $image.position()
+                    position: $image.parent().position()
                   },
                   selection: {
                     width: $viewport.width(),
