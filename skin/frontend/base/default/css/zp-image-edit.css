@@ -8,20 +8,35 @@ div.zetaprints-image-edit {
 
 ul.zetaprints-image-edit-menu {
   float: left;
-  padding: 5px 15px;
+  padding: 0;
   margin: 0;
   text-align: center;
   list-style-image: none;
   list-style-type: none;
   font-weight: bold;
   color: white;
-  width: 86px;
+  width: 116px;
 }
 
 ul.zetaprints-image-edit-menu li {
   background: transparent url(../images/image-edit/line.png) no-repeat bottom;
-  margin-top: 8px;
-  padding: 0px 0px 14px 0px;
+  padding: 15px 14px;
+  position: relative;
+}
+
+.zetaprints-image-edit-menu .fit-to-field-button-wrapper {
+  background: none;
+  border-bottom: 2px solid white;
+  padding-top: 25px;
+}
+
+.zetaprints-image-edit-menu .note {
+  background: none;
+  padding: 10px 0 0;
+  color: #4a78b0;
+  font-family: Tahoma;
+  font-size: 90%;
+  font-weight: normal;
 }
 
 ul.zetaprints-image-edit-menu li.last {
@@ -37,6 +52,26 @@ ul.zetaprints-image-edit-menu div.button {
   cursor: pointer;
   padding: 26px 0px 0px 0px;
   background: transparent no-repeat top;
+}
+
+.zetaprints-image-edit-menu .arrow {
+  background: transparent url('../images/zp-image-edit-sprite.png') no-repeat;
+  background-position: -34px -37px;
+  width: 12px;
+  height: 23px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -11px;
+}
+
+.crop-button-wrapper .arrow,
+.crop-mode .fit-to-field-button-wrapper .arrow {
+  display: none;
+}
+
+.crop-mode .crop-button-wrapper .arrow {
+  display: block;
 }
 
 div.zetaprints-image-edit-wrapper {
