@@ -7,13 +7,16 @@ $in_context = Mage::helper('webtoprint')
 <div class="zetaprints-image-edit">
   <ul class='zetaprints-image-edit-menu'>
     <?php if ($in_context): ?>
-    <li>
+    <li class="note"><?php echo $this->__('Adapt for this field'); ?></li>
+    <li class="fit-to-field-button-wrapper">
       <div id="fit-to-field-button" class="button"
            title="<?php echo $this->__('Fit image in field'); ?>">
         <?php echo $this->__('Fit in field'); ?>
       </div>
+      <div class="arrow" />
     </li>
     <?php endif; ?>
+    <li class="note"><?php echo $this->__('Global changes'); ?></li>
     <li>
       <div id="rotate-right-button" class="button"
            title="<?php echo $this->__('Rotate Image Right'); ?>">
@@ -26,11 +29,12 @@ $in_context = Mage::helper('webtoprint')
         <?php echo $this->__('Rotate left'); ?>
       </div>
     </li>
-    <li>
+    <li class="crop-button-wrapper">
       <div id="crop-button" class="button"
            title="<?php echo $this->__('Crop Image'); ?>">
         <?php echo $this->__('Crop'); ?>
       </div>
+      <div class="arrow" />
     </li>
     <li class="hidden">
       <div id="undo-button" class="button"
