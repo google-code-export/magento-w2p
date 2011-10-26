@@ -61,7 +61,7 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
         .find('a[href="' +  $('#fancybox-img').attr('src') + '"]')
         .parent()
         .children('input')
-        .attr('checked', true)
+        .attr('checked', 'checked')
         .change();
 
     $outer.addClass('selected');

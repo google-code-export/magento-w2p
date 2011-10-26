@@ -45,7 +45,7 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
     zp
       .image_edit
       .$input
-      .attr('checked', true)
+      .attr('checked', 'checked')
       .change();
 
     $outer.addClass('saved');
