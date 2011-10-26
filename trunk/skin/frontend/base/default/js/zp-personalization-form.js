@@ -13,6 +13,20 @@ function personalization_form ($) {
 
   zp.scroll_strip = scroll_strip;
 
+  function save_image_handler (metadata) {
+    var $input = zp.image_edit.$input;
+
+    if (!$input.length)
+      return;
+
+    if (metadata) {
+      metadata['img-id'] = $input.attr('value');
+
+      zp_set_metadata(zp.image_edit.placeholder, metadata);
+    } else
+      zp_clear_metadata(zp.image_edit.placeholder);
+  }
+
   function show_image_edit_dialog (image_name, image_guid, $thumb) {
     var image_name = unescape(image_name);
 
@@ -62,24 +76,11 @@ function personalization_form ($) {
           'options': zp.options['image-edit']
                        ?  zp.options['image-edit'] : {} };
 
-        zetaprint_image_editor.apply(zp.image_edit, [$]);
+        zetaprint_image_editor.apply(zp.image_edit,
+                                     [ $, { save: save_image_handler } ] );
       },
 
       'onClosed': function () {
-        var $input = zp.image_edit.$input;
-
-        if (!$input.length)
-          return;
-
-        var metadata = $input.data('metadata');
-
-        if (metadata) {
-          metadata['img-id'] = $input.attr('value');
-
-          zp_set_metadata(zp.image_edit.placeholder, metadata);
-        } else
-          zp_clear_metadata(zp.image_edit.placeholder);
-
         if (window.fancybox_remove_save_image_button)
           fancybox_remove_save_image_button($);
       } });
