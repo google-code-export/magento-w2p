@@ -35,7 +35,7 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
   $button.addClass('no-middle')
 
   $button.click(function () {
-    if ($outer.hasClass('selected'))
+    if ($outer.hasClass('saved'))
       return;
 
     zp
