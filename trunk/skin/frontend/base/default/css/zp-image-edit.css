@@ -55,6 +55,7 @@ ul.zetaprints-image-edit-menu div.button {
 }
 
 .zetaprints-image-edit-menu .arrow {
+  display: none;
   background: transparent url('../images/zp-image-edit-sprite.png') no-repeat;
   background-position: -34px -37px;
   width: 12px;
@@ -63,13 +64,9 @@ ul.zetaprints-image-edit-menu div.button {
   right: 0;
   top: 50%;
   margin-top: -11px;
-}
+} 
 
-.crop-button-wrapper .arrow,
-.crop-mode .fit-to-field-button-wrapper .arrow {
-  display: none;
-}
-
+.fit-to-field-mode .fit-to-field-button-wrapper .arrow,
 .crop-mode .crop-button-wrapper .arrow {
   display: block;
 }
@@ -79,8 +76,14 @@ div.zetaprints-image-edit-wrapper {
 }
 
 .zp-image-edit-actions-wrapper {
+  display: none;
   background-color: white;
   padding: 18px 10px 0 5px;
+}
+
+.fit-to-field-mode .zp-image-edit-actions-wrapper,
+.crop-mode .zp-image-edit-actions-wrapper {
+  display: block;
 }
 
 .zp-image-edit-actions {
@@ -92,6 +95,7 @@ div.zetaprints-image-edit-wrapper {
 }
 
 .zp-image-edit-actions-button {
+  display: none;
   float: left;
   cursor: pointer;
   color: #204a87;
@@ -157,15 +161,17 @@ div.zetaprints-image-edit-wrapper {
   color: #d40202;
 }
 
-.crop-mode #zp-image-edit-cropping-notice {
+.crop-mode #zp-image-edit-cropping-notice,
+.crop-mode #zp-image-edit-action-cancel {
   display: block;
 }
 
-.crop-mode #zp-image-edit-action-fit-image,
-.crop-mode #zp-image-edit-action-fill-field,
-.crop-mode #zp-image-edit-action-fit-width,
-.crop-mode #zp-image-edit-action-fit-height {
-  display: none;
+.fit-to-field-mode #zp-image-edit-action-fit-image,
+.fit-to-field-mode #zp-image-edit-action-fill-field,
+.fit-to-field-mode #zp-image-edit-action-fit-width,
+.fit-to-field-mode #zp-image-edit-action-fit-height,
+.fit-to-field-mode  #zp-image-edit-action-cancel {
+  display: block;
 }
 
 div.zetaprints-image-edit-container {
