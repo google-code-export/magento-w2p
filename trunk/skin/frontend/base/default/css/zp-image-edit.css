@@ -145,13 +145,18 @@ div.zetaprints-image-edit-wrapper {
   background-position: -43px 2px;
 }
 
-#zp-image-edit-action-cancel .zp-image-edit-actions-button-icon {
-  background-position: -87px 1px;
-}
-
-.saved #zp-image-edit-action-cancel {
+#zp-image-edit-action-cancel {
   cursor: default;
   color: #849ec2;
+}
+
+.changed #zp-image-edit-action-cancel {
+  cursor: pointer;
+  color: #204a87;
+}
+
+#zp-image-edit-action-cancel .zp-image-edit-actions-button-icon {
+  background-position: -87px 1px;
 }
 
 #zp-image-edit-cropping-notice {

@@ -3,13 +3,13 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
   if ($('#zp-save-image-button').length)
     return;
 
-  var $outer = $('#fancybox-outer')
-                 .addClass('saved');
+  var $outer = $('#fancybox-outer');
 
-  var $button = $('<a id="zp-save-image-button">' +
+  var $button = $('<a id="zp-save-image-button" class="disabled">' +
                     '<span class="icon left-part" />' +
                     '<span class="text">' +
-                      '<span>' + save_text + '</span>' +
+                      '<span class="save-image-text">' + save_text + '</span>' +
+                      '<span class="saved-image-text">' + saved_text + '</span>' +
                     '</span>' +
                   '</a>').appendTo($outer);
 
@@ -35,7 +35,7 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
   $button.addClass('no-middle')
 
   $button.click(function () {
-    if ($outer.hasClass('saved'))
+    if ($button.hasClass('disabled'))
       return;
 
     zp
@@ -49,17 +49,29 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
       .change();
 
     $outer.addClass('saved');
+    $button.addClass('disabled');
   })
 }
 
 function fancybox_update_save_image_button ($, changed) {
-  if (changed)
+  if (changed === undefined) {
+    $('#zp-save-image-button').addClass('disabled');
     $('#fancybox-outer').removeClass('saved');
-  else
+
+    return;
+  }
+
+  if (changed) {
+    $('#fancybox-outer').removeClass('saved');
+    $('#zp-save-image-button').removeClass('disabled');
+  }
+  else {
+    $('#zp-save-image-button').addClass('disabled');
     $('#fancybox-outer').addClass('saved');
+  }
 }
 
 function fancybox_remove_save_image_button ($) {
   $('#zp-save-image-button').remove();
+  $('#fancybox-outer').removeClass('saved');
 }
-

@@ -14,7 +14,7 @@
   right: 15px;
 }
 
-.saved #zp-save-image-button {
+#zp-save-image-button.disabled {
   cursor: default;
 }
 
@@ -30,7 +30,7 @@
   height: 30px;
 }
 
-.saved #zp-save-image-button .icon.left-part {
+#zp-save-image-button.disabled .icon.left-part {
   background-position: -21px -2px;
   width: 19px;
 }
@@ -43,7 +43,7 @@
   *float: none;
 }
 
-.saved #zp-save-image-button .text {
+#zp-save-image-button.disabled .text {
   background-position: 0px -31px;
 }
 
@@ -52,4 +52,13 @@
   margin: 4px 4px 0px 0px;
   height: 18px;
   line-height: 18px;
+}
+
+#zp-save-image-button .text .saved-image-text,
+.saved #zp-save-image-button .text .save-image-text {
+  display: none;
+}
+
+.saved #zp-save-image-button .text .saved-image-text {
+  display: block;
 }

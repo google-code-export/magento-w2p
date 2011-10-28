@@ -925,6 +925,7 @@ jQuery(document).ready(function($) {
   edit_button_text = "<?php echo $this->__('Edit');?>";
   delete_button_text = "<?php echo $this->__('Delete'); ?>";
   save_text = "<?php echo $this->__('Save');?>";
+  saved_text = "<?php echo $this->__('Saved');?>";
   update_preview_button_text = "<?php echo $this->__('Update preview'); ?>";
   use_image_button_text = "<?php echo $this->__('Use image'); ?>";
   selected_image_button_text = "<?php echo $this->__('Selected image'); ?>";
