@@ -40,6 +40,8 @@ function personalization_form ($) {
       'centerOnScroll': false,
       'showNavArrows': false,
       'onStart' : function () {
+        $('#fancybox-overlay').css('z-index', 1103);
+
         var is_in_preview = false;
 
         if ($('#zp-update-preview-button').length
