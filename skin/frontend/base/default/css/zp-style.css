@@ -670,24 +670,24 @@ a#fancybox-right span {
   right: 20px;
 }
 
-/* Extracted from js code of image_edit branch */
-div.thumbCropedAreaToolSet {
-  position: relative;
+.thumb-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: black;
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
   opacity: .7;
+  width: 100%;
+  height: 100%;
 }
 
-div.thumbCropedAreaToolSet div {
+.thumb-shadow .top-image-wrapper {
   position: absolute;
   overflow: hidden;
-  opacity: 1;
-  backgroud-color: white;
-  width: 100%;
 }
 
-div.thumbCropedAreaToolSet div img {
+.thumb-shadow .top-image-wrapper img {
   position: absolute;
-  opacity: 1;
 }
 
 .zetaprints-page-input-fields .ui-resizable {
