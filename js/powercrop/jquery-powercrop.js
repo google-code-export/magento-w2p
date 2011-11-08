@@ -148,7 +148,7 @@
     $viewport
       .resizable({
         aspectRatio: !settings.simple,
-        //containment: $container,
+        containment: settings.simple ? $container : false,
         handles: 'ne, nw, se, sw',
         start: function (event, ui) {
           $container.removeClass('no-resizing-action'); },
@@ -175,11 +175,12 @@
             top: image_position.top - viewport_position.top - 1,
             left: image_position.left - viewport_position.left - 1 });
 
-          //check_viewport_moving();
+          if (settings.simple)
+            check_viewport_moving();
 
           invoke_on_event(settings.stop); } })
       .draggable({
-        //containment: $container,
+        containment: settings.simple ? $container : false,
         handle: 'div.powercrop-viewport-handle',
         drag: function (event, ui) {
           $image_top_wrapper.css({
@@ -192,7 +193,8 @@
         stop: function (event, ui) {
           viewport_position = ui.position;
 
-          //check_viewport_moving();
+          if (settings.simple)
+            check_viewport_moving();
 
           invoke_on_event(settings.stop); } });
 
@@ -259,7 +261,8 @@
 
     update_position(complete_data(settings.data));
 
-    //check_viewport_moving();
+    if (settings.simple)
+      check_viewport_moving();
 
     function complete_data (data) {
       var default_data = {
@@ -295,7 +298,12 @@
         left: data.selection.position.left });
 
       if (data.container)
-        $container.css(data.container);
+        $container.css({
+          left: data.container.left,
+          top: data.container.top,
+          width: data.container.width + 2,
+          height: data.container.height + 2
+        });
       else
         if (!settings.simple) {
           //$container.css({
