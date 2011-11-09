@@ -89,7 +89,7 @@ function personalization_form ($) {
   }
 
   function export_previews_to_string (template_details) {
-    var previews = '';
+    var previews = ',,';
 
     for (page_number in template_details.pages)
       if (template_details.pages[page_number]['updated-preview-image'])
@@ -297,8 +297,11 @@ function personalization_form ($) {
   if (!this.previews)
     this.previews = [];
 
+  this.has_static_pages = false;
+
   for (var number in this.template_details.pages)
     if (this.template_details.pages[number].static) {
+      this.has_static_pages = true;
       this.previews[number - 1] = null;
       this.changed_pages[number] = true;
     }
@@ -308,11 +311,13 @@ function personalization_form ($) {
     this.preview_sharing_links
                             = new Array(this.template_details.pages_number + 1);
 
-   $('<input type="hidden" name="zetaprints-previews" value="' +
-      export_previews_to_string(this.template_details) + '" />')
-      .appendTo($('#product_addtocart_form'));
+  $('<input type="hidden" name="zetaprints-previews" value="' +
+                      export_previews_to_string(this.template_details) + '" />')
+    .appendTo($('#product_addtocart_form'));
 
-  if (this.previews_from_session)
+  if (this.previews_from_session
+      || (this.has_static_pages && this.template_details.missed_pages == '')
+      || this.template_details.missed_pages == 'include')
     $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
   else
     add_fake_add_to_cart_button($add_to_cart_button,
@@ -551,7 +556,9 @@ function personalization_form ($) {
                                         shape_handler);
           }
 
-          if (zp.previews.length == zp.template_details.pages_number) {
+          if (zp.previews.length == zp.template_details.pages_number
+              || zp.template_details.missed_pages == 'include'
+              || zp.template_details.missed_pages == '') {
             var previews = '';
 
             for (var i = 0; i < zp.previews.length; i++)
