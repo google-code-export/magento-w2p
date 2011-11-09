@@ -507,9 +507,9 @@
             <img src="{$page-size-icon}" alt="" />
           </td>
 
-          <xsl:if test="@GeneratePdf=1">
+          <!--<xsl:if test="@GeneratePdf=1">-->
             <td>PDF</td>
-          </xsl:if>
+          <!--</xsl:if>-->
 
           <xsl:if test="@GenerateJpg=1">
             <td>JPEG</td>
@@ -522,7 +522,7 @@
 
         <xsl:for-each select="//Pages/Page">
           <tr id="page-size-page-{position()}" class="page-size-table-body zp-hidden">
-            <xsl:if test="../../@GeneratePdf=1">
+            <!--<xsl:if test="../../@GeneratePdf=1">-->
               <td>
                 <xsl:choose>
                   <xsl:when test="$page-size-units='in'">
@@ -541,7 +541,7 @@
                   </xsl:when>
                 </xsl:choose>
               </td>
-            </xsl:if>
+           <!--</xsl:if>-->
 
             <xsl:if test="../../@GenerateJpg=1">
               <td>
