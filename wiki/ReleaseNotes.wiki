@@ -29,6 +29,9 @@
   * Update jQuery to 1.5.2 release and jQuery UI to 1.8.13 release
   * Bug fixes and improvements (issue #566, issue #548, issue #569, issue 565, issue 580, issue 581, issue 577, issue #591, issue #603, issue #606, issue #614, issue 623, issue #628 and issue #586)
 
+== Release comments ==
+Code for the release can be obtained by _web-to-print-1.9.1.0_ tag from project's SVN repo.
+
 = Stable release (1.9.0.0) =
 == Issues ==
   * Add support for M. 1.5 (issue #458)
