@@ -71,7 +71,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
       foreach ($order_details['template-details']['pages'] as $page) {
         if (isset($page['updated-preview-image']))
           $previews .= ',' . substr($page['updated-preview-image'], 8);
-        else
+        else if ($order_details['template-details']['missed_pages'])
           $previews .= ',' . substr($page['preview-image'], 8);
       }
 
