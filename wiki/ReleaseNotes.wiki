@@ -1,5 +1,15 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Future stable release =
+== Issues ==
+  * Add support for M. 1.6.1.0 (issue #678)
+  * Add support for dynamic imaging (issue #654)
+  * Fit-in-field (issue #660, issue #662, issue #666 and issue #682)
+  * Add save button for image edit (issue #663 and issue #664)
+  * Initial support for datasets (issue #669)
+  * Add support for optional pages (issue #688)
+  * Bug fixes and improvements (issue #653, issue #657, issue #644, issue #665, issue #692 and issue #649)
+
 = Stable release (1.9.1.1) =
 == Issues ==
   * Bug fixes (issue #641 and issue #642)
