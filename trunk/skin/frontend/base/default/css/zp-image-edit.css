@@ -246,6 +246,7 @@ div.info-bar div.middle {
 
 div.info-bar.small-image-warning div.numbers div.current,
 div.info-bar.low-cropped-resolution-warning div.numbers div.current,
+.info-bar.low-cropped-resolution-warning .notices .low-cropped-resolution-notice,
 div.info-bar.low-full-resolution-warning div.numbers div.current {
   color: #db0d0d;
 }
@@ -253,7 +254,7 @@ div.info-bar.low-full-resolution-warning div.numbers div.current {
 div.info-bar.low-cropped-resolution-warning div.notice-switchers div.current div.question-sign,
 iv.info-bar.low-full-resolution-warning div.notice-switchers div.current div.question-sign,
 div.info-bar.small-image-warning div.notice-switchers div.current div.question-sign {
-  background-position: -28px 0px;
+  background-position: -28px -34px;
 }
 
 div.info-bar.cropped-state div.titles span.cropped-title,
