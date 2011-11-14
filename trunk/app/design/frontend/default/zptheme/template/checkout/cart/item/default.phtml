@@ -27,7 +27,12 @@
 <?php
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
-$canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+
+//Add check of canApplyMsrp() method for backward compatibility
+//with M. releases < 1.6
+$canApplyMsrp = method_exists(Mage::helper('catalog'), 'canApplyMsrp')
+  ? Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM)
+    : false;
 ?>
 <tr>
     <td>
