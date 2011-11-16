@@ -651,7 +651,8 @@ jQuery(document).ready(function($) {
           || isset($options['zetaprints-downloaded-previews'])))
       return;
 
-    $dynamicImaging = $options['zetaprints-dynamic-imaging'];
+    $dynamicImaging = isset($options['zetaprints-dynamic-imaging'])
+                        ? $options['zetaprints-dynamic-imaging'] : false;
 
     $previews = $dynamicImaging ? $options['zetaprints-downloaded-previews']
                                 : explode(',', $options['zetaprints-previews']);
