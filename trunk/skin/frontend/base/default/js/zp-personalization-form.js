@@ -89,7 +89,7 @@ function personalization_form ($) {
   }
 
   function export_previews_to_string (template_details) {
-    var previews = ',,';
+    var previews = '';
 
     for (page_number in template_details.pages)
       if (template_details.pages[page_number]['updated-preview-image'])
