@@ -288,6 +288,10 @@ div.info-bar div.column.numbers {
   color: white;
 }
 
+#recommended-width, #recommended-height {
+  color: black;
+}
+
 div.info-bar div.column.left-text-position {
   text-align: left;
 }
