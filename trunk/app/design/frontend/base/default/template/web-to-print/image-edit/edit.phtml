@@ -122,16 +122,21 @@ $in_context = !Mage::helper('webtoprint')
       </div>
 
       <div class="column left-text-position">
-        <div class="row current">px at</div>
-        <div class="row recommended">px at</div>
+        <div class="row current">px</div>
+        <div class="row recommended">px</div>
       </div>
 
-      <div class="column numbers">
+      <div id="info-bar-column-at-label" class="column left-text-position">
+        <div class="row current">at</div>
+        <div class="row recommended">at</div>
+      </div>
+
+      <div id="info-bar-column-dpi-value" class="column numbers">
         <div id="current-dpi" class="row current"></div>
         <div id="recommended-dpi" class="row recommended"></div>
       </div>
 
-      <div class="column">
+      <div id="info-bar-column-dpi-label" class="column">
         <div class="row current">dpi</div>
         <div class="row recommended">dpi</div>
       </div>

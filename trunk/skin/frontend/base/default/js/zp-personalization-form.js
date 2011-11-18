@@ -59,6 +59,9 @@ function personalization_form ($) {
                                          image_name, image_guid);
       },
       'onComplete': function () {
+        var page = zp.template_details.pages[zp.current_page];
+
+        //Define image edit context
         zp.image_edit = {
           'url': {
             'image': zp.url.image,
@@ -68,15 +71,32 @@ function personalization_form ($) {
           '$input': $thumb.parents().children('input.zetaprints-images'),
           'image_id': image_guid,
           'page': {
-            'width_in': zp.template_details.pages[zp.current_page]['width-in'],
-            'height_in': zp.template_details.pages[zp.current_page]['height-in']
+            'width_in': page['width-in'],
+            'height_in': page['height-in']
           },
-          'placeholder': zp.template_details.pages[zp.current_page]
-                                                          .images[image_name],
-          'shape': zp.template_details.pages[zp.current_page]
-                                                          .shapes[image_name],
-          'options': zp.options['image-edit']
-                       ?  zp.options['image-edit'] : {} };
+          'placeholder': page.images[image_name]
+        };
+
+        //Check if current page has shapes...
+        if (page.shapes)
+          //...and then add shape info to the image edit context
+          zp.image_edit.shape = page.shapes[image_name];
+
+        //Default values for options
+        zp.image_edit.has_fit_in_field = true;
+
+        //Add options' values
+        if (zp.options['image-edit']) {
+          var options = zp.options['image-edit'];
+
+          zp.image_edit.has_fit_in_field = options['in-context']
+                              ? options['in-context']['@enabled'] != '0' : true;
+        }
+
+        //Disable fit in field functionality if current page doesn't have
+        //shapes
+        zp.image_edit.has_fit_in_field = zp.image_edit.has_fit_in_field
+                                           && zp.image_edit.shape !== undefined;
 
         zetaprint_image_editor.apply(zp.image_edit,
                                      [ $, { save: save_image_handler } ] );

@@ -314,3 +314,9 @@ div.info-bar div.question-sign {
 div.info-bar div.question-sign:hover {
   background-position: -28px 0px;
 }
+
+.no-dpi #info-bar-column-at-label,
+.no-dpi #info-bar-column-dpi-value,
+.no-dpi #info-bar-column-dpi-label {
+  display: none;
+}
