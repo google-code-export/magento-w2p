@@ -1,24 +1,17 @@
-function zetaprint_image_editor ($) {
+function zetaprint_image_editor ($, params) {
+  var settings = {
+    save: function (data) {}
+  };
+
+  $.extend(settings, params);
+
   var context = this;
 
-  //console.log('context: ', context);
-
-  var $container = $('div.zetaprints-image-edit');
-
-  //!!! Temp solutions
-  var imageEditorDelimeter = '&';
+  var $container = $('.zetaprints-image-edit');
 
   load_image();
 
-  var _cropVisualAssistant = new cropVisualAssistant ();
-
-  _cropVisualAssistant.setUserImageThumb(context.$selected_thumbnail);
-  _cropVisualAssistant.setTemplatePreview(context.placeholder, context.shape);
-
   var $info_bar = $container.find('div.info-bar');
-  var $restore_button = $('#restore-button');
-
-  var crop_data = null;
 
   var info_bar_elements = {
     'current': {
@@ -33,586 +26,331 @@ function zetaprint_image_editor ($) {
 
   set_info_bar_value('recommended', 'width', context.placeholder.width);
   set_info_bar_value('recommended', 'height', context.placeholder.height);
-  set_info_bar_value('recommended', 'dpi', _cropVisualAssistant.getPlaceholderInfo().resolution);
+
+  if (context.has_fit_in_field) {
+
+    //Calculate shape dimensions
+    context.shape.width = context.shape.x2 - context.shape.x1;
+    context.shape.height = context.shape.y2 - context.shape.y1;
+
+    context.placeholder.width_in = context.page.width_in * context.shape.width;
+    context.placeholder.dpi
+                     = context.placeholder.width / context.placeholder.width_in;
+
+    //Calculate ratio of the placeholder
+    context.placeholder.ratio =
+                         context.placeholder.width / context.placeholder.height;
+
+    set_info_bar_value('recommended', 'dpi', Math.round(context.placeholder.dpi));
+
+    $('#zp-image-edit-action-fit-image').click(function () {
+      hide_crop();
+
+      var image
+               = fit_image_into_placeholder(context.image, context.placeholder);
+
+      image.ratio = context.image.ratio;
+
+      var data = fit_into_container(image,
+                                    context.placeholder,
+                                    context.container)
+
+      show_crop(data);
+    });
+
+    $('#zp-image-edit-action-fill-field').click(function () {
+      hide_crop();
+
+      var placeholder = fill_placeholder_with_image(context.image,
+                                                    context.placeholder);
+
+      placeholder.ratio = context.placeholder.ratio;
+
+      var data = fit_into_container(context.image,
+                                    placeholder,
+                                    context.container)
+
+      show_crop(data);
+    });
+
+    $('#zp-image-edit-action-fit-width').click(function () {
+      hide_crop();
+
+      var image = fit_image_into_placeholder_by_width(context.image,
+                                                      context.placeholder);
+
+      image.ratio = context.image.ratio;
+
+      var data = fit_into_container(image,
+                                    context.placeholder,
+                                    context.container)
+
+      show_crop(data);
+    });
+
+    $('#zp-image-edit-action-fit-height').click(function () {
+      hide_crop();
+
+      var image = fit_image_into_placeholder_by_height(context.image,
+                                                       context.placeholder);
+
+      image.ratio = context.image.ratio;
+
+      var data = fit_into_container(image,
+                                    context.placeholder,
+                                    context.container)
+
+      show_crop(data);
+    });
+  } else
+    $container
+      .addClass('no-dpi')
+      .children('.zetaprints-image-edit-menu')
+      .children('.fit-to-field-button-wrapper, .note')
+      .hide();
 
   var $user_image_container
                        = $container.find('div.zetaprints-image-edit-container');
 
-  var $user_image = $('#zetaprints-image-edit-user-image');
+  var $user_image= $('#zetaprints-image-edit-user-image')
+    .load(function () {
+      if ($container.hasClass('crop-mode') || !context.has_fit_in_field)
+        crop_button_click_handler();
+      else
+        fit_to_field_button_click_handler();
 
-  var container_size = {
+      $.fancybox.hideActivity();
+
+      $('#fancybox-overlay').css('z-index', 1100);
+    });
+
+  context.container = {
     width: $user_image_container.width() - 2,
     height: $user_image_container.height() - 2
   }
 
-  var $info_bar = $container.find('div.info-bar');
+  $('#crop-button').click(crop_button_click_handler);
+  $('#fit-to-field-button').click(fit_to_field_button_click_handler);
 
-  //Use this factor to convert container's dimension to
-  //original one (multiply by the factor) or vice versa (divide by the factor)
-  var container_to_placeholder_factor
-        = get_factor_a_to_b(context.placeholder.width,
-                            context.placeholder.height,
-                            container_size.width,
-                            container_size.height)
+  $('#undo-button').click(restore_image);
 
-  //Same as container_to_placeholder_factor
-  var container_to_image_factor = null;
-
-  var thumb_to_container_factor = null;
-  var image_dpi = null;
-  var image_width = null;
-  var frame_width = null;
-
-function imageEditorCrop () {
-  set_info_bar_warning();
-  set_info_bar_state();
-
-  //var cropMetadata = _cropVisualAssistant.getInitCroppedArea(0, 0);
-
-  if (isCropFit) {
-    var data = {
-      selection: {
-        position: {
-          top: 0,
-          left: 0 } },
-      image: {
-        position: {
-          top: 0, left: 0 } } };
-
-    //console.log('container_size.width', container_size.width);
-
-    var width_factor
-                  = context.placeholder.width / container_size.width;
-    var height_factor
-                = context.placeholder.height / container_size.height;
-
-    container_to_image_factor
-                  = width_factor > height_factor ? width_factor : height_factor;
-
-    var metadata = context.$input.data('metadata');
-
-    data.selection.width = Math.round(context.placeholder.width
-                                                   / container_to_image_factor);
-    data.selection.height = Math.round(context.placeholder.height
-                                                   / container_to_image_factor);
-
-    //console.log('data.selection.width', data.selection.width);
-
-    //!!! Move to bottom
-    frame_width = data.selection.width;
-
-    //console.log(metadata);
-
-    if (metadata) {
-      var in_image = metadata['sh-x'] == 0 && metadata['sh-y'] == 0
-                     && metadata['sz-x'] == 1 && metadata['sz-y'] == 1;
-
-      //console.log('in_image:', in_image);
-
-      //console.log('cr-x2: ', metadata['cr-x2'], ' cr-x1: ', metadata['cr-x1']);
-
-      data.selection.width = (metadata['cr-x2'] - metadata['cr-x1'])
-                                                         * data.selection.width;
-      data.selection.height = (metadata['cr-y2'] - metadata['cr-y1'])
-                                                        * data.selection.height;
-
-      data.selection.position.left = metadata['cr-x1'] * data.selection.height;
-      data.selection.position.top = metadata['cr-y1'] * data.selection.width;
-
-      data.container = container_size;
-    }
-
-    //console.log('data.selection.width', data.selection.width);
-
-    if (metadata) {
-      data.image.width = data.selection.width / metadata['sz-x'];
-      data.image.height = data.selection.height / metadata['sz-y'];
-    } else {
-      data.image.width = Math.round(_cropVisualAssistant.userImage.widthActualPx
-                                                   / container_to_image_factor);
-      data.image.height = Math.round(
-                            _cropVisualAssistant.userImage.heightActualPx /
-                            container_to_image_factor);
-    }
-
-    //!!! Move to bottom
-    image_width = data.image.width;
-
-    //image_width = Math.round(_cropVisualAssistant.userImage.widthActualPx
-    //                                               / container_to_image_factor);
-    //var image_height = Math.round(_cropVisualAssistant.userImage.heightActualPx
-    //                                               / container_to_image_factor);
-
-    if (metadata) {
-      data.image.position.left = data.selection.position.left +
-                                        data.selection.width / metadata['sh-x'];
-      data.image.position.top = data.selection.position.top +
-                                       data.selection.height / metadata['sh-y'];
-    }
-
-    var width_factor = context.placeholder.width
-                                 / _cropVisualAssistant.userImage.widthActualPx;
-    var height_factor = context.placeholder.height
-                                / _cropVisualAssistant.userImage.heightActualPx;
-
-    var image_to_placeholder_factor
-                  = width_factor < height_factor ? width_factor : height_factor;
-
-    var resized_image_width = data.image.width * image_to_placeholder_factor;
-    var resized_image_height = data.image.height * image_to_placeholder_factor;
-
-    var dpi = Math.round(image_dpi / image_to_placeholder_factor);
-
-    set_info_bar_value('current', 'dpi', dpi);
-
-    if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-      set_info_bar_warning('small-image-warning');
-
-    //var data = {
-    //  selection: {
-    //    width: frame_width,
-    //    height: frame_height,
-    //    position: {
-    //      top: 0,
-    //      left: 0 } },
-    //  image: {
-    //    width: resized_image_width,
-    //    height: resized_image_height,
-    //    position: {
-    //      top: 0,
-    //      left: 0 } } };
-
-    //if (metadata) {
-    //  var cr_x1 = metadata['cr-x1'];
-    //  var cr_y1 = metadata['cr-y1'];
-    //  var cr_x2 = metadata['cr-x2'];
-    //  var cr_y2 = metadata['cr-y2'];
-
-    //  if (cr_x1 && cr_y1 && cr_x2 && cr_y2) {
-    //    data.selection = {
-    //      width: (cr_x2 - cr_x1) * data.selection.width,
-    //      height: (cr_y2 - cr_y1) * data.selection.height,
-    //      position: {
-    //        top: cr_y1 * data.selection.width,
-    //        left: cr_x1 * data.selection.height } };
-
-    //    data.container = user_image_container_size;
-    //  }
-
-    //  var selection_position = data.selection.position;
-    //  var selection_size = {
-    //    width: data.selection.width,
-    //    height: data.selection.height };
-
-    //  var sh_x = metadata['sh-x'];
-    //  var sh_y = metadata['sh-y'];
-
-    //  if (sh_x && sh_y)
-    //    data.image.position = {
-    //      left: selection_position.left + selection_size.width / sh_x,
-    //      top: selection_position.top + selection_size.height / sh_y };
-
-    //  var sz_x = metadata['sz-x'];
-    //  var sz_y = metadata['sz-y'];
-
-    //  if (sz_x && sz_y) {
-    //    data.image.width = selection_size.width / sz_x;
-    //    data.image.height = selection_size.height / sz_y;
-    //  }
-    //}
-  } else {
-    var data = {
-      selection: {
-        width: $user_image.width(),
-        height: $user_image.height() } };
-
-    //!!! Temp solution
-    context.x = 0;
-    context.y = 0;
-    context.x2 = _cropVisualAssistant.userImage.widthActualPx;
-    context.y2 = _cropVisualAssistant.userImage.heightActualPx;
-    context.w = _cropVisualAssistant.userImage.widthActualPx;
-    context.h = _cropVisualAssistant.userImage.heightActualPx;
-  }
-
-  $user_image.power_crop({
-    simple: !isCropFit,
-    data: data,
-    crop: isCropFit ? cropping_callback : function () {},
-    stop: crop_stopped_callback });
-
-  //$('#imageEditorCropForm').show();
-  //$('div.zetaprints-buttons-row').show();
-}
-
-  function imageEditorHideCrop() {
-    $user_image.power_crop('destroy');
-
-    //$('#imageEditorTooltip').hide();
-
-    //$('div.zetaprints-buttons-row').hide();
-
-    //$('#imageEditorCropForm').hide();
-
-    //$('#imageEditorImageInfo').empty();
-  }
-
-  function crop_stopped_callback (data) {
-    crop_data = data;
-
-
-
-    var c = {
-      x: data.selection.position.left,
-      y: data.selection.position.top,
-      x2: data.selection.position.left + data.selection.width,
-      y2: data.selection.position.top + data.selection.height,
-      w: data.selection.width,
-      h: data.selection.height }
-
-    //!!! Temp solution
-    context.x = c.x / thumb_to_container_factor;
-    context.y = c.y / thumb_to_container_factor;
-    context.x2 = c.x2 / thumb_to_container_factor;
-    context.y2 = c.y2 / thumb_to_container_factor;
-    context.w = c.w;
-    context.h = c.h;
-
-    if (isCropFit) {
-      var image_size = {
-        width: data.image.width,
-        height: data.image.height };
-
-      var image_position = data.image.position;
-
-      var mx = Number($user_image.width()) / image_size.width;
-      var my = Number($user_image.height()) / image_size.height;
-
-      var i = {
-        x: image_position.left,
-        y: image_position.top,
-        x2: image_position.left + image_size.width,
-        y2: image_position.top + image_size.height };
-
-      if (c.x < i.x)
-        c.x = 0;
+  $('#zp-image-edit-action-cancel').click(function () {
+    if ($container.hasClass('changed'))
+      if ($container.hasClass('crop-mode'))
+        crop_button_click_handler();
       else
-        c.x = (c.x - image_position.left) * mx;
+        fit_to_field_button_click_handler(true);
+  });
 
-      if (c.y < i.y)
-        c.y = 0;
-      else
-        c.y = (c.y - image_position.top) * my;
+  $('#rotate-right-button').click(function () {
+    server_side_rotation('r');
+  });
 
-      if (c.x2 > i.x2)
-        c.x2 = $user_image.width();
-      else
-        c.x2 = (c.x2 - i.x) * mx;
+  $('#rotate-left-button').click(function () {
+    server_side_rotation('l');
+  });
 
-      if (c.y2 > i.y2)
-        c.y2 = $user_image.height();
-      else
-        c.y2 = (c.y2 - i.y) * my;
-
-      _cropVisualAssistant.updateView([c.x, c.y, c.x2, c.y2]);
-    }
-  }
+  $('#delete-button').click(delete_image);
 
   function cropping_callback (data) {
-    if (isCropFit) {
-      var limited_image_width = limit_a_to_b(data.image.position.left,
-                                           data.image.width,
-                                           data.selection.position.left,
-                                           data.selection.width);
-
-      var limited_image_height = limit_a_to_b(data.image.position.top,
-                                              data.image.height,
-                                              data.selection.position.top,
-                                              data.selection.height);
-
-      if ((limited_image_height != data.image.height
-           || limited_image_width != data.image.width)
-          && limited_image_width != 0 && limited_image_height != 0) {
-
-        var crop_width_factor = limited_image_width / data.image.width;
-        var crop_height_factor = limited_image_height / data.image.height;
-
-        var width = _cropVisualAssistant.userImage.widthActualPx * crop_width_factor;
-        var height = _cropVisualAssistant.userImage.heightActualPx * crop_height_factor;
-
-        var _image_width = width / container_to_image_factor;
-
-        var frame_factor = data.selection.width / frame_width;
-
-        var croped_image_width_factor = data.image.width / _image_width;
-        var croped_factor = croped_image_width_factor / frame_factor;
-
-        //var image_factor = data.image.width / image_width;
-        //var factor = image_factor / frame_factor;
-
-        //var width = croped_actual_width * croped_factor;
-        //var height = croped_actual_height * factor;
-
-        var dpi = Math.round(image_dpi / croped_factor);
-
-        set_info_bar_warning();
-
-        if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-          set_info_bar_warning('low-cropped-resolution-warning');
-
-        set_info_bar_state('cropped', true);
-      } else {
-        var image_factor = data.image.width / image_width;
-        var frame_factor = data.selection.width / frame_width;
-        var factor = image_factor / frame_factor;
-
-        var width = _cropVisualAssistant.userImage.widthActualPx;
-        var height = _cropVisualAssistant.userImage.heightActualPx;
-
-        var dpi = Math.round(image_dpi / factor);
-
-        set_info_bar_warning();
-
-        if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-          set_info_bar_warning('low-full-resolution-warning');
-
-        set_info_bar_state('cropped', false);
-      }
-
-      //if (limited_image_width == 0)
-      //  var limited_image_factor = image_factor
-      //else
-      //  var limited_image_factor = limited_image_width / image_width;
-
-      set_info_bar_value('current', 'width', Math.round(width));
-      set_info_bar_value('current', 'height', Math.round(height));
-
-      //if (image.clipped == true || width > image.width
-      //    || height > image.height) {
-
-      //  var factor = data.selection.width / image_size.width;
-      //  var dpi = Math.round(_cropVisualAssistant.getPlaceholderInfo().resolution * factor);
-
-      //  var dpi = Math.round(width / _cropVisualAssistant.templateImage.widthIn);
-
-      //  if (dpi < _cropVisualAssistant.getPlaceholderInfo().resolution)
-      //    set_info_bar_warning('small-image-warning');
-      //  else
-      //    set_info_bar_warning();
-
-      //} else {
-      //  var dpi =  _cropVisualAssistant.getPlaceholderInfo().resolution;
-      //  set_info_bar_state();
-      //}
-
-      set_info_bar_value('current', 'dpi', dpi);
-    } else {
-      //updateEditAndSaveInfoBar(c.w, c.h);
-      //_cropVisualAssistant.updateInfoBar(c.w, c.h);
-    }
-
-    //setTimeout(imageEditorAdjustSize, 100);
-  }
-
-  /**
-   * Perform crop
-   */
-  function imageEditorApplyCrop () {
-    if (isCropFit) {
-      storeCropMetadata();
-      imageEditorHideCrop();
-      $.fancybox.close();
-    } else {
-      //imageEditorHideCrop();
-      $.fancybox.showActivity();
-      applyCropServer();
-    }
-  }
-
-  /**
-   * Store crop metadata for further usage
-   */
-  function storeCropMetadata() {
-    if (!(isCropFit && crop_data))
-      return;
-
-    var width = Number($user_image.width());
-    var height = Number($user_image.height());
-
-    var image_position = crop_data.image.position;
-    var selection_position = crop_data.selection.position;
-
-    var image_size = {
-      width: crop_data.image.width,
-      height: crop_data.image.height };
-    var selection_size = {
-      width: crop_data.selection.width,
-      height: crop_data.selection.height };
-
-    image_position.right = image_position.left + image_size.width;
-    image_position.bottom = image_position.top + image_size.height;
-
-    selection_position.right = selection_position.left + selection_size.width;
-    selection_position.bottom = selection_position.top + selection_size.height;
-
-    var in_image = image_position.left < selection_position.left &&
-                       image_position.right > selection_position.right &&
-                       image_position.top < selection_position.top &&
-                       image_position.bottom > selection_position.bottom;
-
-    var in_frame = image_position.left >= selection_position.left &&
-                   image_position.right <= selection_position.right &&
-                   image_position.top >= selection_position.top &&
-                   image_position.bottom <= selection_position.bottom;
-
-    //var metadata = {
-    //  'cr-x1': 0,
-    //  'cr-x2': 1,
-    //  'cr-y1': 0,
-    //  'cr-y2': 1 };
-
-    if (in_image)
-      var metadata = {
-        'cr-x1': selection_position.left / image_size.width,
-        'cr-x2': selection_position.right / image_size.width,
-        'cr-y1': selection_position.top / image_size.height,
-        'cr-y2': selection_position.bottom / image_size.height,
-        'sh-x': 0,
-        'sh-y': 0,
-        'sz-x': 1,
-        'sz-y': 1 };
-
-    if (in_frame) {
-      var shift_x = image_position.left - selection_position.left;
-      var shift_x_in_container = shift_x * container_to_placeholder_factor;
-      var shift_x_inch = shift_x_in_container / image_dpi;
-      var shift_x_in_page = shift_x_inch / context.page.width_in;
-
-      var shift_y = image_position.top - selection_position.top;
-      var shift_y_in_container = shift_y * container_to_placeholder_factor;
-      var shift_y_inch = shift_y_in_container / image_dpi;
-      var shift_y_in_page = shift_y_inch / context.page.height_in;
-
-      var metadata = {
-        'cr-x1': 0,
-        'cr-x2': 1,
-        'cr-y1': 0,
-        'cr-y2': 1,
-        'sh-x': context.shape.x1 + shift_x_in_page,
-        'sh-y': context.shape.y1 + shift_y_in_page,
-        'sz-x': image_size.width / selection_size.width,
-        'sz-y': image_size.height / selection_size.height
-      };
-    }
-
-    if (!in_image && !in_frame) {
-      //console.log('here');
-
-      if (selection_position.left > image_position.left
-          && selection_position.left < image_position.right)
-        image_position.left = selection_position.left;
-
-      if (selection_position.right > image_position.left
-          && selection_position.right < image_position.right)
-        image_position.right = selection_position.right;
-
-      if (selection_position.top > image_position.top
-          && selection_position.top < image_position.bottom)
-        image_position.top = selection_position.top;
-
-      if (selection_position.bottom > image_position.top
-          && selection_position.bottom < image_position.bottom)
-        image_position.bottom = selection_position.bottom;
-
-      image_size.width = image_position.right - image_position.left;
-      image_size.height = image_position.bottom - image_position.top;
-
-      var shift_x = image_position.left - selection_position.left;
-      var shift_x_in_container = shift_x * container_to_placeholder_factor;
-      var shift_x_inch = shift_x_in_container / image_dpi;
-      var shift_x_in_page = shift_x_inch / context.page.width_in;
-
-      var shift_y = image_position.top - selection_position.top;
-      var shift_y_in_container = shift_y * container_to_placeholder_factor;
-      var shift_y_inch = shift_y_in_container / image_dpi;
-      var shift_y_in_page = shift_y_inch / context.page.height_in;
-
-      var metadata = {
-        'cr-x1': selection_position.left / image_size.width,
-        'cr-x2': selection_position.right / image_size.width,
-        'cr-y1': selection_position.top / image_size.height,
-        'cr-y2': selection_position.bottom / image_size.height,
-        'sh-x': context.shape.x1 + shift_x_in_page,
-        'sh-y': context.shape.y1 + shift_y_in_page,
-        'sz-x': image_size.width / selection_size.width,
-        'sz-y': image_size.height / selection_size.height
-      }
-    }
-
-    //else {
-
-    //metadata['sh-x'] =
-    //     selection_size.width / (image_position.left - selection_position.left);
-    //metadata['sh-y'] =
-    //      selection_size.height / (image_position.top - selection_position.top);
-
-    //metadata['sz-x'] = selection_size.width / image_size.width;
-    //metadata['sz-y'] =  selection_size.height / image_size.height;
-
-    //}
-
-    //console.log(metadata);
-
-    context.$input.data('metadata', metadata);
-  }
-
-  function clearCropMetadata () {
-    crop_data = null;
-
-    context.$input.removeData('metadata');
-    context.$selected_thumbnail.prev('div.thumbCropedAreaToolSet').remove();
-
-    var image_width_in = _cropVisualAssistant.userImage.widthActualPx
-                         / context.placeholder.width
-                         * _cropVisualAssistant.templateImage.widthIn;
-    image_dpi = Math.round(_cropVisualAssistant.userImage.widthActualPx
-                                                              / image_width_in);
+    var width_factor = data.selection.width / data.image.width;
+    var height_factor = data.selection.height /data.image.height;
 
     set_info_bar_value('current', 'width',
-                                  _cropVisualAssistant.userImage.widthActualPx);
+                                Math.round(context.image.width * width_factor));
     set_info_bar_value('current', 'height',
-                                 _cropVisualAssistant.userImage.heightActualPx);
-    set_info_bar_value('current', 'dpi', image_dpi);
+                              Math.round(context.image.height * height_factor));
+
+    if (width_factor != 1 || height_factor != 1) {
+      set_info_bar_state('cropped', true);
+
+      $container.addClass('changed');
+
+      if (window.fancybox_update_save_image_button)
+        fancybox_update_save_image_button($, true);
+    } else {
+      set_info_bar_state();
+
+      $container.removeClass('changed');
+
+      if (window.fancybox_update_save_image_button)
+        fancybox_update_save_image_button($);
+    }
   }
 
-  /**
-   * Apply image crop using ZetaPrint server
-   */
-  function applyCropServer() {
+  function fit_in_field_callback (data) {
+    if (window.fancybox_update_save_image_button)
+      fancybox_update_save_image_button($, true);
+
+    $container.addClass('changed');
+
+    update_info_bar_values(data);
+  }
+
+  function update_info_bar_values (data) {
+    var factor = data.selection.width / data.image.width;
+
+    var dpi = factor * context.image.dpi / context.placeholder_to_image_factor;
+
+    if (dpi < context.placeholder.dpi)
+      set_info_bar_warning('low-cropped-resolution-warning');
+    else
+      set_info_bar_warning();
+
+    set_info_bar_value('current', 'dpi', Math.round(dpi));
+
+    var limited_image_width = limit_a_to_b(data.selection.position.left,
+                                           data.selection.width,
+                                           data.image.position.left,
+                                           data.image.width);
+
+    var limited_image_height = limit_a_to_b(data.image.position.top,
+                                            data.image.height,
+                                            data.selection.position.top,
+                                            data.selection.height);
+
+    if ((limited_image_height != data.image.height
+         || limited_image_width != data.image.width)
+         && limited_image_width != 0 && limited_image_height != 0) {
+
+      var width_factor = limited_image_width / data.image.width;
+
+      var width = context.image.width * width_factor;
+      var height = width / context.placeholder.ratio;
+
+      set_info_bar_state('cropped', true);
+    } else {
+      var width = context.image.width;
+      var height = context.image.height;
+
+      set_info_bar_state();
+    }
+
+    set_info_bar_value('current', 'width', Math.round(width));
+    set_info_bar_value('current', 'height', Math.round(height));
+  }
+
+  function update_editor_state (data) {
+    if (window.fancybox_update_save_image_button)
+      fancybox_update_save_image_button($, true);
+
+    update_info_bar_values(data);
+  }
+
+  this.save = function () {
+    if ($container.hasClass('crop-mode')) {
+      $.fancybox.showActivity();
+      server_side_cropping($user_image.power_crop('state'));
+    } else
+      save_metadata($user_image.power_crop('state'));
+  }
+
+  function save_metadata (data) {
+    var image = data.image.position;
+    image.width = data.image.width;
+    image.height =  data.image.height;
+    image.right = image.left + image.width;
+    image.bottom = image.top + image.height;
+
+    var selection = data.selection.position;
+    selection.width = data.selection.width;
+    selection.height = data.selection.height;
+    selection.right = selection.left + selection.width;
+    selection.bottom = selection.top + selection.height;
+
+    if (selection.left < image.left) {
+      var shift_x1 = image.left - selection.left;
+      var shift_x1 = shift_x1 / selection.width;
+      var abs_x1 = context.shape.x1 + context.shape.width * shift_x1;
+        
+      selection.left = image.left;
+    } else
+      var abs_x1 = context.shape.x1;
+
+    if (selection.top < image.top) {
+      var shift_y1 = image.top - selection.top;
+      var shift_y1 = shift_y1 / selection.height;
+      var abs_y1 = context.shape.y1 + context.shape.height * shift_y1;
+
+      selection.top = image.top;
+    } else
+      var abs_y1 = context.shape.y1;
+      
+    if (selection.right > image.right) {
+      var shift_x2 = image.right - selection.right;
+      var shift_x2 = shift_x2 / selection.width;
+      var abs_x2 = context.shape.x2 + context.shape.width * shift_x2;
+
+      selection.right = image.right;
+    }
+    else
+      var abs_x2 = context.shape.x2;
+
+    if (selection.bottom > image.bottom) {
+      var shift_y2 = image.bottom - selection.bottom;
+      var shift_y2 = shift_y2 / selection.height;
+      var abs_y2 = context.shape.y2 + context.shape.height * shift_y2;
+
+      selection.bottom = image.bottom;
+    } else
+      var abs_y2 = context.shape.y2;
+
+    var metadata = {
+      'cr-x1': (selection.left - image.left) / image.width,
+      'cr-x2': (selection.right - image.left) / image.width,
+      'cr-y1': (selection.top - image.top) / image.height,
+      'cr-y2': (selection.bottom - image.top) / image.height,
+      'abs-x1': abs_x1,
+      'abs-y1': abs_y1,
+      'abs-x2': abs_x2,
+      'abs-y2': abs_y2
+    };
+
+    context.$input.data('metadata', metadata);
+
+    settings.save(metadata);
+
+    hide_cropped_area_on_thumb();
+    show_cropped_area_on_thumb(metadata);
+  }
+
+  function clear_metadata () {
+    context.$input.removeData('metadata');
+    settings.save();
+
+    hide_cropped_area_on_thumb();
+
+    set_info_bar_value('current', 'width', context.image.width);
+    set_info_bar_value('current', 'height', context.image.height);
+    set_info_bar_value('current', 'dpi', context.image.dpi);
+  }
+
+  function server_side_cropping (data) {
+    $('#fancybox-overlay').css('z-index', 1103);
+
     $.ajax({
-      url: context.url.image
-           + '?CropX1=' + context.x + imageEditorDelimeter
-           + 'CropY1=' + context.y + imageEditorDelimeter
-           + 'CropX2=' + context.x2 + imageEditorDelimeter
-           + 'CropY2=' + context.y2 + imageEditorDelimeter
-           + 'page=img-crop' + imageEditorDelimeter
-           + 'ImageID=' + context.image_id,
+      url: context.url.image,
       type: 'POST',
-      data: 'zetaprints-CropX1=' + context.x + imageEditorDelimeter
-          + 'zetaprints-CropY1=' + context.y  + imageEditorDelimeter
-          + 'zetaprints-CropX2=' + context.x2 + imageEditorDelimeter
-          + 'zetaprints-CropY2=' + context.y2 + imageEditorDelimeter
-          + 'zetaprints-action=img-crop' + imageEditorDelimeter
-          + 'zetaprints-ImageID=' + context.image_id,
+      data: {
+        'zetaprints-CropX1': data.selection.position.left
+                                                     / context.container.factor,
+        'zetaprints-CropY1': data.selection.position.top
+                                                     / context.container.factor,
+        'zetaprints-CropX2': (data.selection.position.left
+                             + data.selection.width) / context.container.factor,
+        'zetaprints-CropY2': (data.selection.position.top
+                            + data.selection.height) / context.container.factor,
+        'zetaprints-action': 'img-crop',
+        'zetaprints-ImageID': context.image_id
+      },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(zetaprints_trans('Can\'t crop image:') + ' ' + textStatus);
+        alert(cant_crop_image_text + ': ' + textStatus);
+        $('#fancybox-overlay').css('z-index', 1100);
       },
       success: function (data, textStatus) {
-        clearCropMetadata();
-        imageEditorHideCrop();
-        imageEditorApplyImage(data);
-        //showImageEditorTooltip('Image Cropped');
-        //$('#userImagePreview').fadeIn();
+        clear_metadata();
+        hide_crop();
+        process_image_details(data);
       }
     });
   }
@@ -620,178 +358,164 @@ function imageEditorCrop () {
   /**
    * Perform image restore
    */
-  function imageEditorRestore() {
-    imageEditorHideCrop();
-    clearCropMetadata();
+  function restore_image () {
+    $('#fancybox-overlay').css('z-index', 1103);
     $.fancybox.showActivity();
 
+    hide_crop();
+    clear_metadata();
+
     $.ajax({
-    url: context.url.image + '?page=img-undo' + imageEditorDelimeter
-         + 'ImageID=' + context.image_id,
+    url: context.url.image,
     type: 'POST',
-    data: 'zetaprints-action=img-restore' + imageEditorDelimeter
-          + 'zetaprints-ImageID=' + context.image_id,
+    data: {
+      'zetaprints-action': 'img-restore',
+      'zetaprints-ImageID': context.image_id
+    },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
-      alert(zetaprints_trans('Can\'t restore image:') + ' ' + textStatus);
+      alert(cant_restore_image_text + ': ' + textStatus);
+      $('#fancybox-overlay').css('z-index', 1100);
     },
     success: function (data, textStatus) {
-      imageEditorApplyImage(data);
-      //showImageEditorTooltip('Image Restored');
-      //$('#userImagePreview').fadeIn();
+      process_image_details(data);
     }
     });
   }
 
   function load_image () {
+    $('#fancybox-overlay').css('z-index', 1103);
     $.fancybox.showActivity();
 
     $.ajax({
-      url: context.url.image + '?page=img-props' + imageEditorDelimeter
-           + 'ImageID=' + context.image_id,
+      url: context.url.image,
       type: 'POST',
       datatype: 'XML',
-      data: 'zetaprints-action=img&zetaprints-ImageID=' + context.image_id,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          alert(zetaprints_trans('Can\'t load image:') + ' ' + textStatus);
-        },
+      data: {
+        'zetaprints-action': 'img',
+        'zetaprints-ImageID': context.image_id
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        alert(cant_load_image_text + ': ' + textStatus);
+        $('#fancybox-overlay').css('z-index', 1100);
+      },
       success: function (data, textStatus) {
-        imageEditorApplyImage(data);
-        //showImageEditorTooltip('Image Loaded');
+        process_image_details(data);
       }
     });
   }
 
-  /**
-   * Perform image rotate
-   */
-  function imageEditorDoRotate(dir) {
-    imageEditorHideCrop();
-    clearCropMetadata();
+  function server_side_rotation (direction) {
+    $('#fancybox-overlay').css('z-index', 1103);
+
+    hide_crop();
+    clear_metadata();
     $.fancybox.showActivity();
 
     $.ajax({
-      url: context.url.image + '?page=img-rot' + imageEditorDelimeter
-           + 'Rotation=' + dir + imageEditorDelimeter
-           + 'ImageID=' + context.image_id,
+      url: context.url.image,
       type: 'POST',
-      data: 'zetaprints-action=img-rotate&zetaprints-Rotation=' + dir
-            + '&zetaprints-ImageID=' + context.image_id,
+      data: {
+        'zetaprints-action': 'img-rotate',
+        'zetaprints-Rotation': direction,
+        'zetaprints-ImageID': context.image_id
+      },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert(zetaprints_trans('Can\'t rotate image:') + ' ' + textStatus);
+        alert(cant_rotate_image_text + ': ' + textStatus);
+        $('#fancybox-overlay').css('z-index', 1100);
       },
       success: function (data, textStatus) {
-        imageEditorApplyImage(data);
-        //showImageEditorTooltip('Image Rotated');
-        //$('#userImagePreview').fadeIn();
+        process_image_details(data);
       }
     });
   }
 
-  /**
-   * Parse XML output and change image
-   */
-  function imageEditorApplyImage (xml) {
-    $.fancybox.showActivity();
+  function process_image_details (xml) {
+    var source = context
+                   .url
+                   .user_image_template
+                   .replace('image-guid.image-ext',
+                                  get_value_by_regexp(xml, /Thumb="([^"]*?)"/));
 
-    var userImageSrc = context.url.user_image_template
-      .replace('image-guid.image-ext', getRegexpValue(xml, /Thumb="([^"]*?)"/));
-    var userImageWidthPreview = getRegexpValue(xml, /ThumbWidth="([^"]*?)"/);
-    var userImageHeightPreview = getRegexpValue(xml, /ThumbHeight="([^"]*?)"/);
-    var userImageWidthActual = getRegexpValue(xml, /ImageWidth="([^"]*?)"/);
-    var userImageHeightActual = getRegexpValue(xml, /ImageHeight="([^"]*?)"/);
-    var userImageWidthUndo = getRegexpValue(xml, /ImageWidthUndo="([^"]*?)"/);
-    var userImageHeightUndo = getRegexpValue(xml, /ImageHeightUndo="([^"]*?)"/);
+    var preview_width = get_value_by_regexp(xml, /ThumbWidth="([^"]*?)"/);
+    var preview_height = get_value_by_regexp(xml, /ThumbHeight="([^"]*?)"/);
+    var width = get_value_by_regexp(xml, /ImageWidth="([^"]*?)"/);
+    var height = get_value_by_regexp(xml, /ImageHeight="([^"]*?)"/);
+    var undo_width = get_value_by_regexp(xml, /ImageWidthUndo="([^"]*?)"/);
+    var undo_height = get_value_by_regexp(xml, /ImageHeightUndo="([^"]*?)"/);
 
-    var $undo_parent = $('#undo-button').parent();
-
-    if (!userImageHeightUndo || !userImageWidthUndo)
-      $undo_parent.addClass('hidden');
+    if (!(undo_width && undo_height))
+      $('#undo-button')
+        .parent()
+        .addClass('hidden');
     else
-      $undo_parent
-        .removeClass('hidden')
+      $('#undo-button')
+        .parent()
+          .removeClass('hidden')
         .end()
-        .attr('title', zetaprints_trans('Undo all changes') + '. '
-              + zetaprints_trans('Original size') + ': ' + userImageWidthUndo
-              + ' x ' + userImageHeightUndo + ' px.');
+        .attr('title', undo_all_changes_text + '. ' + original_size_text + ': '
+          + undo_width + ' x ' + undo_height + ' ' + px_text);
 
-    if (!userImageWidthPreview || !userImageHeightPreview) {
-      alert(zetaprints_trans('Unknown error occured'));
+    if (!(preview_width && preview_height && width && height)) {
+      alert(unknown_error_occured_text);
       return false;
     }
 
-    if (!userImageWidthActual || !userImageHeightActual) {
-      alert(zetaprints_trans('Unknown error occured'));
-      return false;
-    } else {
-      _cropVisualAssistant.setUserImage(userImageWidthActual, userImageHeightActual, userImageWidthPreview, userImageHeightPreview);
+    context.image = {
+      width : width * 1,
+      height: height * 1,
+      ratio: (width * 1) / (height * 1),
+      width_in: (width * 1) / context.placeholder.width
+                  * context.placeholder.width_in,
+      thumb_width: preview_width,
+      thumb_height: preview_height
+    };
 
-      set_info_bar_value('current', 'width', userImageWidthActual);
-      set_info_bar_value('current', 'height', userImageHeightActual);
-    }
+    context.image.dpi
+                     = Math.round(context.image.width / context.image.width_in);
 
-    var image_width_in = userImageWidthActual / context.placeholder.width
-                                   * _cropVisualAssistant.templateImage.widthIn;
+    context.placeholder_to_image_factor
+                              = context.placeholder.width / context.image.width;
 
-    //console.log('image_width_in', image_width_in);
-
-    image_dpi = Math.round(userImageWidthActual / image_width_in);
-
-    //console.log('image dpi', image_dpi);
-
-    set_info_bar_value('current', 'dpi', image_dpi);
-
-    var width_factor = container_size.width / userImageWidthPreview;
-    var height_factor = container_size.height / userImageHeightPreview;
-
-    thumb_to_container_factor
-                  = width_factor < height_factor ? width_factor : height_factor;
+    set_info_bar_value('current', 'width', context.image.width);
+    set_info_bar_value('current', 'height', context.image.height);
+    set_info_bar_value('current', 'dpi', context.image.dpi);
 
     $user_image
       .addClass('zetaprints-hidden')
-      .attr('src', userImageSrc)
-      .css('width', userImageWidthPreview * thumb_to_container_factor)
-      .css('height', userImageHeightPreview * thumb_to_container_factor);
+      .attr('src', source);
 
     var tmp1 = $('input[value="' + context.image_id + '"]').parent().find('img');
     if (tmp1.length == 0)
       tmp1 = $('#img' + context.image_id);
     if (tmp1.length == 0)
       tmp1 = $('input[value="' + context.image_id + '"]').parent().find('img');
-    if (userImageSrc.match(/\.jpg/m))
-      tmp1.attr('src', userImageSrc.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
+    if (source.match(/\.jpg/m))
+      tmp1.attr('src', source.replace(/\.(jpg|gif|png|jpeg|bmp)/i, "_0x100.jpg"));
     else
-      tmp1.attr('src', userImageSrc);
+      tmp1.attr('src', source);
   }
 
-  /**
-   * Perform image delete
-   */
-  function imageEditorDelete() {
-    if (confirm(zetaprints_trans('Delete this image?'))){
+  function delete_image () {
+    if (confirm(delete_this_image_text))
       $.ajax({
-        url: context.url.image + '?page=img-del' + imageEditorDelimeter
-             + 'ImageID=' + context.image_id,
+        url: context.url.image,
         type: 'POST',
-        data: 'zetaprints-action=img-delete&zetaprints-ImageID='
-              + context.image_id,
+        data: {
+          'zetaprints-action': 'img-delete',
+          'zetaprints-ImageID': context.image_id
+        },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-          alert(zetaprints_trans('Can\'t delete image:') + ' ' + textStatus);
+          alert(cant_delete_text + ': ' + textStatus);
         },
         success: function (data, textStatus) {
-          clearCropMetadata();
-          //remove image from strip and close fancybox
+          clear_metadata();
+
           $('input[value="' + context.image_id +'"]').parent().remove();
-          //also try to remove every element with imageEditorId
           $('#' + context.image_id).remove();
 
           $.fancybox.close();
         }
       });
-    }
-  }
-
-  function set_info_message (text) {
-   $('#info-message').html(zetaprints_trans(text));
   }
 
   function set_info_bar_value (type, key, value) {
@@ -844,17 +568,266 @@ function imageEditorCrop () {
     return width_factor < height_factor ? width_factor : height_factor;
   }
 
-  // Check if zetaprints_trans function exists, if not exists create dummy one
-  if (!window.zetaprints_trans) {
-    function zetaprints_trans (msg) {
-      return msg;
+  function fit_image_into_placeholder (image, placeholder) {
+    var factor = get_factor_a_to_b(placeholder.width, placeholder.height,
+                                   image.width, image.height);
+
+    return { width: image.width * factor, height: image.height * factor };
+  }
+
+  function fill_placeholder_with_image (image, placeholder) {
+    var factor = get_factor_a_to_b(image.width, image.height,
+                                   placeholder.width, placeholder.height);
+
+    return { width: placeholder.width * factor,
+             height: placeholder.height * factor };
+  }
+
+  function fit_image_into_placeholder_by_width (image, placeholder) {
+    var factor = placeholder.width / image.width;
+
+    return { width: placeholder.width, height: image.height * factor };
+  }
+
+  function fit_image_into_placeholder_by_height (image, placeholder) {
+    var factor = placeholder.height / image.height;
+
+    return { width: image.width * factor, height: placeholder.height };
+  }
+
+  function fit_into_container (image, placeholder, container) {
+    var data = {
+      selection: {
+        position: {
+          top: 0,
+          left: 0
+        }
+      },
+
+      image: {
+        position: {
+          top: 0,
+          left: 0
+        }
+      }
+    };
+
+    //Use container's factor to convert original dimension to
+    //container's one (multiply by the factor) or vice versa (divide by the factor)
+    if (placeholder.width >= image.width
+        && placeholder.height >= image.height)
+      container.factor = get_factor_a_to_b(container.width,
+                                           container.height,
+                                           placeholder.width,
+                                           placeholder.height);
+
+    else
+      container.factor = get_factor_a_to_b(container.width,
+                                           container.height,
+                                           image.width,
+                                           image.height);
+
+    data.selection.width = Math.round(placeholder.width * container.factor);
+    data.selection.height = data.selection.width / placeholder.ratio;
+
+    data.image.width = Math.round(image.width * container.factor);
+    data.image.height = data.image.width / image.ratio;
+
+    //Centring selection frame and image to centre of the container
+    var width_centre = container.width / 2;
+    var height_centre = container.height / 2;
+
+    data.selection.position.left = (width_centre - data.selection.width / 2);
+    data.selection.position.top = (height_centre - data.selection.height / 2);
+
+    data.image.position.left = (width_centre - data.image.width / 2);
+    data.image.position.top = (height_centre - data.image.height / 2);
+
+    return data;
+  }
+
+  function fit_into_container_using_metadata (image, placeholder, shape,
+                                              container, metadata) {
+    data = {
+      selection: {
+        position: {
+          top: 0,
+          left: 0
+        },
+        width: placeholder.width,
+        height: placeholder.height
+      },
+
+      image: {
+        position: {
+          top: 0,
+          left: 0
+        },
+        width: image.width,
+        height: image.height  
+      }
+    };
+
+    if (metadata['abs-x1'] <= shape.x1 && metadata['abs-x2'] >= shape.x2
+        && metadata['abs-y1'] <= shape.y1 && metadata['abs-y2'] >= shape.y2) {
+      data.selection.position.left = metadata['cr-x1'] * image.width;
+      data.selection.position.top = metadata['cr-y1'] * image.height;
+
+      data.selection.width = (metadata['cr-x2'] - metadata['cr-x1']) * image.width;
+      data.selection.height = data.selection.width / placeholder.ratio;
+    } else {
+      data.image.position.left = placeholder.width
+                                * (metadata['abs-x1'] - shape.x1) / shape.width;
+      data.image.position.top = placeholder.height
+                               * (metadata['abs-y1'] - shape.y1) / shape.height;
+
+      data.image.width = placeholder.width
+                       * (metadata['abs-x2'] - metadata['abs-x1']) / shape.width
+                       * (1 + metadata['cr-x1'] / (1 - metadata['cr-x1'])
+                            + (1 - metadata['cr-x2']) / metadata['cr-x2']);
+      data.image.height = data.image.width / image.ratio;
+
+      data.selection.position.left = data.image.width * metadata['cr-x1'];
+      data.selection.position.top = data.image.height * metadata['cr-y1'];
+    }
+
+    var left = data.selection.position.left < data.image.position.left
+                ? data.selection.position.left : data.image.position.left;
+
+    var top = data.selection.position.top < data.image.position.top
+                ? data.selection.position.top : data.image.position.top
+
+    data.selection.position.right = data.selection.position.left
+                                                         + data.selection.width;
+
+    data.image.position.right = data.image.position.left + data.image.width;
+
+    var right = data.selection.position.right > data.image.position.right
+                  ? data.selection.position.right : data.image.position.right;
+
+    data.selection.position.bottom = data.selection.position.top
+                                                        + data.selection.height;
+
+    data.image.position.bottom = data.image.position.top + data.image.height;
+
+    var bottom = data.selection.position.bottom > data.image.position.bottom
+                   ? data.selection.position.bottom
+                     : data.image.position.bottom;
+
+    var total_width = right - left;
+    var total_height = bottom - top;
+
+    //Use container's factor to convert original dimension to
+    //container's one (multiply by the factor)
+    //or vice versa (divide by the factor)
+    container.factor = get_factor_a_to_b(container.width,
+                                         container.height,
+                                         total_width,
+                                         total_height);
+
+    data.selection.width *= container.factor;
+    data.selection.height *= container.factor;
+    data.selection.position.left *= container.factor;
+    data.selection.position.top *= container.factor;
+
+    data.image.width *= container.factor;
+    data.image.height = data.image.width / image.ratio;
+    data.image.position.left *= container.factor;
+    data.image.position.top *= container.factor;
+
+    var shift_x = (container.width - total_width * container.factor) / 2;
+    var shift_y = (container.height - total_height * container.factor) /2;
+
+    data.selection.position.left += shift_x;
+    data.selection.position.top += shift_y;
+
+    data.image.position.left += shift_x;
+    data.image.position.top += shift_y;
+
+    return data;
+  }
+
+  function fit_into_container_for_crop (image, container) {
+    container.factor = get_factor_a_to_b(container.width,
+                                         container.height,
+                                         image.thumb_width,
+                                         image.thumb_height);
+
+    var factor = get_factor_a_to_b(container.width,
+                                   container.height,
+                                   image.width,
+                                   image.height);
+
+    var width = image.width * factor;
+    var height = width / image.ratio;
+
+    //Centring selection frame and image to centre of the container
+    var width_centre = container.width / 2;
+    var height_centre = container.height / 2;
+
+    var left = (container.width / 2 - width / 2);
+    var top = (container.height / 2 - height / 2);
+
+    data = {
+      selection: {
+        position: {
+          top: 0,
+          left: 0
+        },
+        width: width,
+        height: height
+      },
+
+      image: {
+        position: {
+          top: 0,
+          left: 0
+        },
+        width: width,
+        height: height
+      },
+
+      container: {
+        top: top,
+        left: left,
+        width: width,
+        height: height
+      }
+    };
+
+    return data;
+  }
+
+  function show_crop (data, simple_crop) {
+    if (!$.fn.power_crop)
+      return;
+
+    $user_image.power_crop({
+      simple: simple_crop == true,
+      data: data,
+      crop: simple_crop ? cropping_callback : fit_in_field_callback
+    });
+
+    if (!simple_crop) {
+      data = $user_image.power_crop('state');
+
+      update_editor_state(data);
     }
   }
 
-  /**
-   * Parse regular expression
-   */
-  function getRegexpValue (subject, exp) {
+  function hide_crop () {
+    $user_image.power_crop('destroy');
+
+    $container.removeClass('changed');
+
+    set_info_bar_warning();
+    set_info_bar_state();
+
+    if (window.fancybox_update_save_image_button)
+      fancybox_update_save_image_button($);
+  }
+
+  function get_value_by_regexp (subject, exp) {
     match = subject.match(exp);
     if (match != null) {
       if (match.length > 2)
@@ -866,78 +839,87 @@ function imageEditorCrop () {
       return false;
   }
 
-  var isCropFit = context.options['in-context']
-                   ? context.options['in-context']['@enabled'] == '1' : false;
+  function crop_button_click_handler () {
+    hide_crop();
 
-  //image load handler. Fade in on load, hide loading icon, show image caption
-  $user_image.load(function () {
-    $user_image.removeClass('zetaprints-hidden')
+    $container
+      .removeClass('fit-to-field-mode')
+      .addClass('crop-mode');
 
-    if (!isCropFit) {
-      _cropVisualAssistant.cropedAreaHide();
+    //if (window.fancybox_update_save_image_button)
+    //    fancybox_update_save_image_button($);
 
-      //$('#fancybox-close').click(function() {
-      //  _cropVisualAssistant.cropedAreaShow();
-      //});
+    var data = fit_into_container_for_crop (context.image, context.container);
 
-      //$('#imageEditorImageInfo').empty().append(getEditAndSaveInfoBar());
-      //updateEditAndSaveInfoBar(userImageWidthPreview, userImageHeightPreview);
-    } //else {
-      //imageEditorCrop();
+    show_crop(data, true);
+  }
 
-      //_cropVisualAssistant.getInfoBar().appendTo($('#imageEditorImageInfo'));
-      //_cropVisualAssistant.updateInfoBar(userImageWidthPreview, userImageHeightPreview);
-    //}
+  function fit_to_field_button_click_handler (ignore_metadata) {
+    hide_crop();
 
-    imageEditorCrop();
+    $container
+      .removeClass('crop-mode')
+      .addClass('fit-to-field-mode');
 
-    //$('#userImagePreview').ready(function () {
-     $.fancybox.hideActivity();
-      //$('#imageEditorInfoBar').show();
-    //});
+    var metadata = context.$input.data('metadata');
 
-    //imageEditorAdjustSize();
-  });
+    if (!metadata || ignore_metadata)
+      var data = fit_into_container(context.image,
+                                    context.placeholder,
+                                    context.container);
+    else {
+      var data = fit_into_container_using_metadata (context.image,
+                                                    context.placeholder,
+                                                    context.shape,
+                                                    context.container,
+                                                    metadata);
 
-  //button handlers
-  $('#crop-button').click(function() {
-    imageEditorHideCrop();
-    isCropFit = false;
+      $container.addClass('changed');
+    }
 
-    $info_bar.addClass('hidden');
-    $restore_button.addClass('zetaprints-hidden');
+    show_crop(data);
 
-    clearCropMetadata();
-    imageEditorCrop();
-  });
+    if (window.fancybox_update_save_image_button)
+      fancybox_update_save_image_button($, !metadata || ignore_metadata);
+  }
 
-  $('#fit-to-field-button').click(function(){
-    imageEditorHideCrop();
-    isCropFit = true;
+  function show_cropped_area_on_thumb (data) {
+    var left = data['cr-x1'] * 100;
+    var top = data['cr-y1'] * 100;
+    var width = (data['cr-x2'] - data['cr-x1']) * 100;
+    var height = (data['cr-y2'] - data['cr-y1']) * 100;
 
-    $info_bar.removeClass('hidden');
-    $restore_button.removeClass('zetaprints-hidden');
+    $img = context
+      .$selected_thumbnail
+      .clone();
+    
+    var position = $img
+      .wrap('<div class="top-image-wrapper" />')
+      .parent()
+        .css({
+          left: left + '%',
+          top: top + '%',
+          width: width + '%',
+          height: height + '%'
+        })
+        .wrap('<div class="thumb-shadow" />')
+        .parent()
+          .insertAfter(context.$selected_thumbnail)
+        .end()
+      .end()
+      .position();
 
-    imageEditorCrop();
-  });
+    $img.css({
+      left: -position.left,
+      top: -position.top
+    });
+  }
 
-  $('#save-button').click(imageEditorApplyCrop);
-
-  $('#undo-button').click(imageEditorRestore);
-
-  $restore_button.click(function () {
-    imageEditorHideCrop();
-    clearCropMetadata();
-    imageEditorCrop();
-  });
-
-  $('#rotate-right-button').click( function () {
-    imageEditorDoRotate('r');
-  });
-
-  $('#rotate-left-button').click( function () {
-    imageEditorDoRotate('l');
-  });
-
-  $('#delete-button').click(imageEditorDelete);
+  function hide_cropped_area_on_thumb () {
+    context
+      .$selected_thumbnail
+      .parent()
+      .children('.thumb-shadow')
+      .remove();
+  }
 }
