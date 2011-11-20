@@ -16,7 +16,6 @@
       <action method="addJs"><script>zetaprints/zp-combobox-field.js</script></action>
       <action method="addJs"><script>zetaprints/zp-metadata.js</script></action>
       <action method="addJs"><script>powercrop/jquery-powercrop.js</script></action>
-      <action method="addJs"><script>zetaprints/zp-crop-visual-assistant.js</script></action>
       <action method="addItem"><type>skin_js</type><name>js/zp-image-edit.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/zp-personalization-form.js</name></action>
 
