@@ -5,6 +5,23 @@ $in_context = !Mage::helper('webtoprint')
 
 ?>
 
+<script type="text/javascript">
+//<![CDATA[
+
+cant_crop_image_text = "<?php echo $this->__('Can\'t crop image'); ?>";
+cant_restore_image_text = "<?php echo $this->__('Can\'t restore image'); ?>";
+cant_load_image_text = "<?php echo $this->__('Can\'t load image'); ?>";
+cant_rotate_image_text = "<?php echo $this->__('Can\'t rotate image'); ?>";
+
+undo_all_changes_text = "<?php echo $this->__('Undo all changes'); ?>";
+original_size_text = "<?php echo $this->__('Original size'); ?>";
+px_text = "<?php echo $this->__('px');?>";
+unknown_error_occured_text =
+                            "<?php echo $this->__('Unknown error occured'); ?>";
+
+//]]>
+</script>
+
 <div class="zetaprints-image-edit">
   <ul class='zetaprints-image-edit-menu'>
     <?php if ($in_context): ?>
@@ -100,10 +117,10 @@ $in_context = !Mage::helper('webtoprint')
     <div class="info-bar">
       <div class="column titles">
         <div class="row current">
-          <span class="uploaded-title">Uploaded image</span>
-          <span class="cropped-title">Cropped image</span>
+          <span class="uploaded-title"><?php echo $this->__('Uploaded image'); ?>:</span>
+          <span class="cropped-title"><?php echo $this->__('Cropped image'); ?>:</span>
         </div>
-        <div class="row recommended">Recommended image:</div>
+        <div class="row recommended"><?php echo $this->__('Recommended image'); ?>:</div>
       </div>
 
       <div class="column numbers">
@@ -122,13 +139,13 @@ $in_context = !Mage::helper('webtoprint')
       </div>
 
       <div class="column left-text-position">
-        <div class="row current">px</div>
-        <div class="row recommended">px</div>
+        <div class="row current"><?php echo $this->__('px'); ?></div>
+        <div class="row recommended"><?php echo $this->__('px'); ?></div>
       </div>
 
       <div id="info-bar-column-at-label" class="column left-text-position">
-        <div class="row current">at</div>
-        <div class="row recommended">at</div>
+        <div class="row current"><?php echo $this->__('at'); ?></div>
+        <div class="row recommended"><?php echo $this->__('at'); ?></div>
       </div>
 
       <div id="info-bar-column-dpi-value" class="column numbers">
@@ -137,25 +154,25 @@ $in_context = !Mage::helper('webtoprint')
       </div>
 
       <div id="info-bar-column-dpi-label" class="column">
-        <div class="row current">dpi</div>
-        <div class="row recommended">dpi</div>
+        <div class="row current"><?php echo $this->__('dpi'); ?></div>
+        <div class="row recommended"><?php echo $this->__('dpi'); ?></div>
       </div>
 
       <div class="column notice-switchers">
         <div class="row current outer">
           <div class="middle">
             <div class="icon question-sign inner uploaded-title" rel="current"
-                 title="Size and resolution of the uploaded image as it will be shown in the design.">
+                 title="<?php echo $this->__('Size and resolution of the uploaded image as it will be shown in the design.'); ?>">
             </div>
             <div class="icon question-sign inner cropped-title" rel="current"
-                 title="Size and resolution of the selected image area as it will be shown in the design.">
+                 title="<?php echo $this->__('Size and resolution of the selected image area as it will be shown in the design.'); ?>">
             </div>
           </div>
         </div>
         <div class="row recommended outer">
           <div class="middle">
             <div class="icon question-sign inner" rel="recommended"
-                 title="Best image size for fit and quality.">
+                 title="<?php echo $this->__('Best image size for fit and quality.'); ?>">
             </div>
           </div>
         </div>
@@ -163,16 +180,16 @@ $in_context = !Mage::helper('webtoprint')
 
       <div class="column left-text-position last notices">
         <span class="default-notice">
-          Move, resize and crop the image for the best fit and resolution.
+          <?php echo $this->__('Move, resize and crop the image for the best fit and resolution.'); ?>
         </span>
         <span class="low-cropped-resolution-notice">
-          The selected area is too small for quality output.
+          <?php echo $this->__('The selected area is too small for quality output.'); ?>
         </span>
         <span class="low-full-resolution-notice">
-          The image resolution is too small for quality output. Try resizing here or upload a larger image.
+          <?php echo $this->__('The image resolution is too small for quality output. Try resizing here or upload a larger image.'); ?>
         </span>
         <span class="small-image-notice">
-          The image is too small. Upload a larger image or move, resize and crop this one for the best fit.
+          <?php echo $this->__('The image is too small. Upload a larger image or move, resize and crop this one for the best fit.'); ?>
         </span>
       </div>
 
