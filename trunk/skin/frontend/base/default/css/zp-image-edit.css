@@ -235,11 +235,11 @@ div.info-bar div.icon {
   background: transparent url(../images/image-edit/status-bar-sprite.png) no-repeat;
 }
 
-div.info-bar div.outer {
+div.info-bar .zp-outer {
   display: table;
 }
 
-div.info-bar div.middle {
+div.info-bar .zp-middle {
   display: table-cell;
   vertical-align: middle;
 }
