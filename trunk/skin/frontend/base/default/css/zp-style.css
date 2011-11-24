@@ -192,7 +192,7 @@ div.images-scroller div.buttons-row {
   right: 0px;
 }
 
-div.images-scroller .button {
+div.images-scroller .zp-button {
   cursor: pointer;
   float: right;
   margin-left: 5px;
@@ -203,11 +203,11 @@ div.images-scroller .button {
   font-weight: bold;
 }
 
-div.images-scroller .button.edit {
+div.images-scroller .zp-edit-button {
   padding: 0 4px;
 }
 
-div.images-scroller .button.delete {
+div.images-scroller .zp-delete-button {
   width: 17px;
   color: transparent;
   background: url(../images/images-selector-sprites.png) -222px -22px no-repeat;

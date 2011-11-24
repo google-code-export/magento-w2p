@@ -333,7 +333,7 @@
                       <img src="{@thumbnail}" alt="{@guid}" />
 
                       <div class="buttons-row">
-                        <div class="button delete">
+                        <div class="zp-button zp-delete-button">
                           <xsl:attribute name="title">
                             <xsl:call-template name="trans">
                               <xsl:with-param name="key">Click to delete</xsl:with-param>
@@ -345,7 +345,7 @@
                           </xsl:call-template>
                         </div>
 
-                        <div class="button edit">
+                        <div class="zp-button zp-edit-button">
                           <xsl:attribute name="title">
                             <xsl:call-template name="trans">
                               <xsl:with-param name="key">Click to edit</xsl:with-param>

@@ -662,11 +662,11 @@ function personalization_form ($) {
                 '<img src="' + response.thumbnail + '" ' +
                      'alt="' + response.guid + '" />' +
                 '<div class="buttons-row">'+
-                  '<div class="button delete" ' +
+                  '<div class="zp-button zp-button-delete" ' +
                        'title="' + click_to_delete_text + '">' +
                     delete_button_text +
                   '</div>' + 
-                  '<div class="button edit" ' +
+                  '<div class="zp-button zp-button-edit" ' +
                        'title="' + click_to_edit_text + '">' +
                     edit_button_text +
                   '</div>' +
