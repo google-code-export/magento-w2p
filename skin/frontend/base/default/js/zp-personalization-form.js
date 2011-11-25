@@ -983,6 +983,9 @@ function personalization_form ($) {
       if (window.fancybox_resizing_add)
         fancybox_resizing_add(this);
 
+      if (window.fancybox_update_update_preview_button)
+        fancybox_update_update_preview_button($);
+
       if (!(zp.has_shapes && window.place_all_shapes_for_page
         && window.highlight_shape && window.popup_field_by_name
         && window.fancy_shape_handler))
