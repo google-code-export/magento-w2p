@@ -692,7 +692,7 @@ function personalization_form ($) {
 
             $('.image-edit-thumb', td).click(thumbnail_edit_click_handler);
 
-            $('.button.delete', td).click(delete_image_click_handle);
+            $('.zp-delete-button', td).click(delete_image_click_handle);
 
             if (++number_of_loaded_imgs == trs.length) {
               $('div.tab.user-images input[value="' + response[0] + '"]',
@@ -1250,7 +1250,7 @@ function personalization_form ($) {
     return false;
   }
 
-  $('.button.delete').click(delete_image_click_handle);
+  $('.zp-delete-button').click(delete_image_click_handle);
 
   $('input.zetaprints-images').click({ zp : this }, function (event) {
     var $input = $(this);
