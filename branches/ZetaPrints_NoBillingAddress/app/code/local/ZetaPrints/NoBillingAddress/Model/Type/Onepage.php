@@ -27,19 +27,27 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
   extends Mage_Checkout_Model_Type_Onepage {
 
   /**
-   * Save billing address information to quote
-   * This method is called by One Page Checkout JS (AJAX) while saving the billing information.
-   *
-   * @param   array $data
-   * @param   int $customerAddressId
-   * @return  Mage_Checkout_Model_Type_Onepage
-   */
-  public function saveBilling ($data, $customerAddressId) {
+    * Save billing address information to quote
+    * This method is called by One Page Checkout JS (AJAX) while saving the billing information.
+    *
+    * @param   array $data
+    * @param   int $customerAddressId
+    * @return  Mage_Checkout_Model_Type_Onepage
+    */
+  public function saveBilling($data, $customerAddressId) {
     if (empty($data))
       return array('error' => -1,
                    'message' => $this->_helper->__('Invalid data.'));
 
     $address = $this->getQuote()->getBillingAddress();
+
+    /* @var $addressForm Mage_Customer_Model_Form */
+    $addressForm = Mage::getModel('customer/form');
+
+    $addressForm
+      ->setFormCode('customer_address_edit')
+      ->setEntityType('customer_address')
+      ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
 
     if (!empty($customerAddressId)) {
       $customerAddress = Mage::getModel('customer/address')
@@ -49,38 +57,45 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
         if ($customerAddress->getCustomerId()
                                           != $this->getQuote()->getCustomerId())
           return array('error' => 1,
-                       'message' => $this->_helper
-                                      ->__('Customer Address is not valid.') );
+                       'message' =>
+                          $this->_helper->__('Customer Address is not valid.'));
 
-        $address->importCustomerAddress($customerAddress);
+        $address
+          ->importCustomerAddress($customerAddress)
+          ->setSaveInAddressBook(0);
+
+        $addressForm->setEntity($address);
+        $addressErrors  = $addressForm->validateData($address->getData());
+
+        if ($addressErrors !== true)
+          return array('error' => 1, 'message' => $addressErrors);
       }
     } else {
-      // process billing address and validate form
-      /* @var $addressForm Mage_Customer_Model_Form */
-      $addressForm = Mage::getModel('customer/form');
+      $addressForm->setEntity($address);
 
-      $addressForm->setFormCode('customer_address_edit')
-        ->setEntity($address)
-        ->setEntityType('customer_address')
-        ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
-
-      // emulate request object
-      $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
-
+      //emulate request object
+      $addressData = $addressForm
+                       ->extractData($addressForm->prepareRequest($data));
       $addressErrors  = $addressForm->validateData($addressData);
 
       //Disable checking validation results
-      //if ($addressErrors !== true) {
+      //if ($addressErrors !== true)
       //  return array('error' => 1, 'message' => $addressErrors);
-      //}
 
       $addressForm->compactData($addressData);
 
-      if (!empty($data['save_in_address_book']))
-        $address->setSaveInAddressBook(1);
+      //unset billing address attributes which were not shown in form
+      foreach ($addressForm->getAttributes() as $attribute)
+        if (!isset($data[$attribute->getAttributeCode()]))
+          $address->setData($attribute->getAttributeCode(), NULL);
+
+      //Additional form data,
+      //not fetched by extractData (as it fetches only attributes)
+      $address
+        ->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
     }
 
-    // validate billing address
+    //validate billing address
     $address->validate();
 
     //Disable checking validation results
@@ -95,15 +110,13 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
     if (!$this->getQuote()->getCustomerId()
         && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod())
       if ($this->_customerEmailExists($address->getEmail(),
-                                            Mage::app()->getWebsite()->getId()))
+                                      Mage::app()->getWebsite()->getId()))
         return array('error' => 1,
                      'message' => $this->_customerEmailExistsMessage);
 
-
     if (!$this->getQuote()->isVirtual()) {
-      /**
-       * Billing address using otions
-       */
+
+      //Billing address using otions
       $usingCase = isset($data['use_for_shipping'])
                      ? (int)$data['use_for_shipping'] : 0;
 
@@ -117,11 +130,24 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
           $billing->unsAddressId()->unsAddressType();
           $shipping = $this->getQuote()->getShippingAddress();
           $shippingMethod = $shipping->getShippingMethod();
-          $shipping->addData($billing->getData())
+
+          //don't reset original shipping data,
+          //if it was not changed by customer
+          foreach ($shipping->getData() as $shippingKey => $shippingValue)
+            if (!is_null($shippingValue)
+                && !is_null($billing->getData($shippingKey))
+                && !isset($data[$shippingKey]))
+              $billing->unsetData($shippingKey);
+
+          $shipping
+            ->addData($billing->getData())
             ->setSameAsBilling(1)
+            ->setSaveInAddressBook(0)
             ->setShippingMethod($shippingMethod)
             ->setCollectShippingRates(true);
+
           $this->getCheckout()->setStepData('shipping', 'complete', true);
+
           break;
       }
     }
@@ -129,7 +155,13 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
     $this->getQuote()->collectTotals();
     $this->getQuote()->save();
 
-    $this->getCheckout()
+    if (!$this->getQuote()->isVirtual()
+        && $this->getCheckout()->getStepData('shipping', 'complete') == true)
+      //Recollect Shipping rates for shipping methods
+      $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+
+    $this
+      ->getCheckout()
       ->setStepData('billing', 'allow', true)
       ->setStepData('billing', 'complete', true)
       ->setStepData('shipping', 'allow', true);
