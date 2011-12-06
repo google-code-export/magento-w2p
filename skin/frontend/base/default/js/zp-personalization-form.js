@@ -678,6 +678,9 @@ function personalization_form ($) {
 
           $('input:radio', td).change({ zp: zp }, image_field_select_handler);
 
+          $('.image-edit-thumb', td).click(thumbnail_edit_click_handler);
+          $('.zp-delete-button', td).click(delete_image_click_handle);
+
           var tr = this;
 
           $('img', td).load(function() {
@@ -691,10 +694,6 @@ function personalization_form ($) {
             }
 
             var img = this;
-
-            $('.image-edit-thumb', td).click(thumbnail_edit_click_handler);
-
-            $('.zp-delete-button', td).click(delete_image_click_handle);
 
             if (++number_of_loaded_imgs == trs.length) {
               $user_images
