@@ -638,6 +638,8 @@ function personalization_form ($) {
         $('div.button.cancel-upload', upload_div).addClass('disabled');
         $('input.file-name', upload_div).val('');
 
+        var $user_images = $(upload_div).nextAll('.user-images');
+
         if (response == 'Error') {
           $('img.ajax-loader', upload_div).hide();
           alert(uploading_image_error_text);
@@ -695,14 +697,17 @@ function personalization_form ($) {
             $('.zp-delete-button', td).click(delete_image_click_handle);
 
             if (++number_of_loaded_imgs == trs.length) {
-              $('div.tab.user-images input[value="' + response[0] + '"]',
-                $(upload_div).parent()).attr('checked', 'checked').change();
-
+              $user_images
+                .find('input[value="' + response.guid + '"]')
+                .click();
+  
               $('img.ajax-loader', upload_div).hide();
 
               $('div.selector-content')
                 .find('ul.tab-buttons li.hidden')
                 .removeClass('hidden');
+
+              scroll_strip($user_images);
 
               $(upload_div).parents('div.selector-content').tabs('select', 1);
             }
