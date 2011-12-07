@@ -407,7 +407,9 @@ jQuery(document).ready(function($) {
       'photothumbnail-url-height-100-template'
         => $this->get_photo_thumbnail_url('image-guid.image-ext', 0, 100),
       'photothumbnail-url-template'
-        => $this->get_photo_thumbnail_url('image-guid.image-ext')
+        => $this->get_photo_thumbnail_url('image-guid.image-ext'),
+      'show-image-field'
+        => (bool) $this->getCustomOptions('fields/image@show-on-load=1')
     );
 
     $html = $this->get_form_part_html('stock-images', $context->getProduct(), $params);

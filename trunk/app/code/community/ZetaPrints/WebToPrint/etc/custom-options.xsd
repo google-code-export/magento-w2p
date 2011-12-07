@@ -51,6 +51,28 @@
                   </xsd:sequence>
                 </xsd:complexType>
               </xsd:element>
+
+              <xsd:element name="fields" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>Personalization fields options.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="image" minOccurs="0">
+                      <xsd:annotation>
+                        <xsd:documentation>Image fields options.</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:attribute name="show-on-load" use="optional" fixed="1">
+                          <xsd:annotation>
+                            <xsd:documentation>Image field is opened on page load if set to 1. Otherwise closed, which is the default setting.</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
             </xsd:sequence>
           </xsd:complexType>
         </xsd:element>

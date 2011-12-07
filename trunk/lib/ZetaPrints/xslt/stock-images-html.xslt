@@ -7,6 +7,7 @@
   <xsl:param name="photothumbnail-url-height-100-template" />
   <xsl:param name="ajax-loader-image-url" />
   <xsl:param name="user-image-edit-button" />
+  <xsl:param name="show-image-field" />
 
   <xsl:template match="TemplateDetails">
     <xsl:apply-templates select="Pages" />
