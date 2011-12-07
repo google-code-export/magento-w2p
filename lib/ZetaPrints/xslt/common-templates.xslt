@@ -164,6 +164,10 @@
 
     <xsl:for-each select="//Images/Image[@Page=$page]">
       <div class="zetaprints-images-selector no-value minimized block" title="{@Name}">
+        <xsl:if test="$show-image-field">
+          <xsl:attribute name="class">zetaprints-images-selector no-value block</xsl:attribute>
+        </xsl:if>
+
         <div class="head block-title">
           <a class="image up-down" href="#"><span>
             <xsl:call-template name="trans">
