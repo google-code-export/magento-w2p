@@ -100,7 +100,7 @@
 "The image resolution is too small for quality output. Try resizing here or upload a larger image.","The image resolution is too small for quality output. Try resizing here or upload a larger image."
 "The image is too small. Upload a larger image or move, resize and crop this one for the best fit.","The image is too small. Upload a larger image or move, resize and crop this one for the best fit."
 "Fit the image into the frame without cropping. It may leave white space.","Fit the image into the frame without cropping. It may leave white space."
-"Fit the image into the frame without any white space. It may crop the image.","Fit the image into the frame without any white space. It may crop the image.Fit the image into the frame without any white space. It may crop the image."
+"Fit the image into the frame without any white space. It may crop the image.","Fit the image into the frame without any white space. It may crop the image."
 "Fit the width of the image in the frame. May leave white space above and below.","Fit the width of the image in the frame. May leave white space above and below."
 "Fit the height of the image in the frame. May leave white space on the sides.","Fit the height of the image in the frame. May leave white space on the sides."
 "Return to a default position.","Return to a default position."
