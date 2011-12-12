@@ -106,6 +106,16 @@
         </observers>
       </checkout_cart_product_add_after>
 
+      <checkout_cart_update_item_complete>
+        <observers>
+          <webtoprint-order-creation-observer>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>create_zetaprints_order</method>
+          </webtoprint-order-creation-observer>
+        </observers>
+      </checkout_cart_update_item_complete>
+
       <controller_action_predispatch_checkout_cart_add>
         <observers>
           <webtoprint-template-values-observer>
@@ -183,6 +193,16 @@
         </observers>
       <!--/checkout_onepage_controller_success_action-->
       </checkout_type_onepage_save_order_after>
+
+      <catalog_controller_product_init_before>
+        <observers>
+          <webtoprint-save-order-id>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>saveOrderId</method>
+          </webtoprint-save-order-id>
+        </observers>
+      </catalog_controller_product_init_before>
     </events>
 
     <sales>

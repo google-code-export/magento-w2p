@@ -59,6 +59,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
           'Hash' => zetaprints_generate_user_password_hash(
                                               $user_credentials['password']) );
 
+        if ($product->getConfigureMode()
+            && $orderId = Mage::registry('webtoprint-order-id'))
+          $data['OrderID'] = $orderId;
+
         $template_xml = zetaprints_get_template_details_as_xml($url, $key,
                                                         $template_guid, $data);
       } else
@@ -854,6 +858,8 @@ jQuery(document).ready(function($) {
 
     $product_name = $context->getProduct()->getName();
 
+    $previews = array();
+
     foreach ($template_details['pages'] as $page_number => &$page_details) {
       $preview_guid = explode('preview/', $page_details['preview-image']);
       $thumb_guid = explode('thumb/', $page_details['thumb-image']);
@@ -863,6 +869,15 @@ jQuery(document).ready(function($) {
       $page_details['preview-image'] = $preview_url;
       $page_details['thumb-image']
                            = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
+
+      if (isset($page_details['updated-preview-image'])) {
+        $updated_preview_guid
+                  = explode('preview/', $page_details['updated-preview-image']);
+        $page_details['updated-preview-image']
+                             = $this->get_preview_url($updated_preview_guid[1]);
+
+        $previews[] = $updated_preview_guid[1];
+      }
 
       echo sprintf('<img src="%s" alt="Printable %s" class="zp-hidden" />',
                    $preview_url,
@@ -881,7 +896,8 @@ jQuery(document).ready(function($) {
     //first preview update for cross-sell product) or was
     //requested with for-item parameter.
     $update_first_preview_on_load = $this->_getRequest()->has('for-item')
-      || strpos($session->getData('last_url'), 'checkout/cart') !== false
+      || (strpos($session->getData('last_url'), 'checkout/cart') !== false
+          && !$context->getProduct()->getConfigureMode())
       || (isset($_GET['update-first-preview'])
           && $_GET['update-first-preview'] == '1');
 
@@ -893,6 +909,7 @@ jQuery(document).ready(function($) {
 
     $zp_data = json_encode(array(
       'template_details' => $template_details,
+      'previews' => $previews,
       'previews_from_session' => $previews_from_session,
       'is_personalization_step' => $this->is_personalization_step($context),
       'update_first_preview_on_load' => $update_first_preview_on_load,
