@@ -3,7 +3,11 @@
 class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
   public function create_zetaprints_order ($observer) {
-    $quote_item = $observer->getEvent()->getQuoteItem();
+    $update_mode = $observer->getEvent()->hasQuoteItem() ? false : true;
+
+    $quote_item = $update_mode
+                    ? $observer->getEvent()->getItem()
+                      : $observer->getEvent()->getQuoteItem();
 
     if ($quote_item->getParentItem())
       $quote_item = $quote_item->getParentItem();
@@ -89,6 +93,9 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     }
 
     $option_model->setValue(serialize($options));
+
+    if ($update_mode)
+      $option_model->save();
 
     Mage::getSingleton('core/session')->unsetData('zetaprints-previews');
   }
@@ -484,6 +491,16 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
     }
 
     return $this;
+  }
+
+  public function saveOrderId ($observer) {
+    $params = $observer->getEvent()->getParams();
+
+    if ($params->getConfigureMode()) {
+      $buyRequest = $params->getBuyRequest();
+
+      Mage::register('webtoprint-order-id', $buyRequest['zetaprints-order-id']);
+    }
   }
 }
 

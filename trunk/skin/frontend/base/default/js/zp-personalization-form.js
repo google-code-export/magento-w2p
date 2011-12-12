@@ -113,8 +113,9 @@ function personalization_form ($) {
 
     for (page_number in template_details.pages)
       if (template_details.pages[page_number]['updated-preview-image'])
-        previews += ','
-            + template_details.pages[page_number]['updated-preview-image'];
+        previews += ',' + template_details
+                            .pages[page_number]['updated-preview-image']
+                            .split('/preview/')[1];
 
     return previews.substring(1);
   }
@@ -206,12 +207,17 @@ function personalization_form ($) {
     update_preview({ data: { zp: this } }, true);
   }
 
+  //??? Do we need it anymore?
+  this.changed_pages = new Array(this.template_details.pages_number + 1);
+
   //Add previews to the product page
   for (var page_number in this.template_details.pages) {
-    if (this.previews_from_session)
+    if (this.template_details.pages[page_number]['updated-preview-image']) {
       var url
             = this.template_details.pages[page_number]['updated-preview-image'];
-    else
+
+      this.changed_pages[page_number] = true;
+    } else
       var url = this.template_details.pages[page_number]['preview-image'];
 
     var zp = this;
@@ -310,12 +316,6 @@ function personalization_form ($) {
     if ($('td', this).length > 0)
       $(tab_button).removeClass('hidden');
   });
-
-  //??? Do we need it anymore?
-  this.changed_pages = new Array(this.template_details.pages_number + 1);
-
-  if (!this.previews)
-    this.previews = [];
 
   this.has_static_pages = false;
 
