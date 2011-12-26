@@ -4,11 +4,13 @@
 == Issues ==
   * Add support for M. 1.6.1.0 (issue #678)
   * Add support for dynamic imaging (issue #654)
+  * Add support for shopping cart items editing (issue #701)
   * Fit-in-field (issue #660, issue #662, issue #666 and issue #682)
   * Add save button for image edit (issue #663 and issue #664)
+  * Add option to set default image library state (issue #700)
   * Initial support for datasets (issue #669)
   * Add support for optional pages (issue #688)
-  * Bug fixes and improvements (issue #653, issue #657, issue #644, issue #665, issue #692 and issue #649)
+  * Bug fixes and improvements (issue #653, issue #657, issue #644, issue #665, issue #692, issue #649, issue #717 and issue #676)
 
 = Stable release (1.9.1.1) =
 == Issues ==
