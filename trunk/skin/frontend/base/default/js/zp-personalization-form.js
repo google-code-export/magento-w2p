@@ -410,11 +410,8 @@ function personalization_form ($) {
       $('div.zetaprints-next-page-button').hide();
   });
 
-  function add_preview_sharing_link_for_page (page_number, links, filename) {
+  function update_preview_sharing_link_for_page (page_number, links, filename) {
     links[page_number] = preview_image_sharing_link_template + filename;
-
-    $('span.zetaprints-share-link').removeClass('empty');
-    $('#zetaprints-share-link-input').val(links[page_number]);
   }
 
   function set_preview_sharing_link_for_page (page_number, links) {
@@ -528,35 +525,50 @@ function personalization_form ($) {
           //!!! Use updated-preview-image and updated-thumb-image instead
           //!!! updated-preview-url and updated-preview-url
           //!!! Make urls in controller
-          //Update links to preview image on current page
-          $('#preview-image-page-' + current_page).attr('href',
-                              data.pages[current_page]['updated-preview-url']);
-          $('#preview-image-page-' + current_page + ' img').attr('src',
-                              data.pages[current_page]['updated-preview-url']);
 
-          var preview_filename = data.pages[current_page]['updated-preview-url']
-                                   .split('/preview/')[1];
+          var $thumbs = $('div.zetaprints-image-tabs img');
 
-          //Generate preview sharing link if it was enabled
-          if (window.place_preview_image_sharing_link)
-            add_preview_sharing_link_for_page(current_page,
+          if (!zp.previews)
+            zp.previews = [];
+
+          for (var page_number in data.pages) {
+            var preview_url = data.pages[page_number]['updated-preview-url'];
+
+            if (!preview_url)
+              continue;
+
+            //Update links to preview image on current page
+            $preview = $('#preview-image-page-' + page_number);
+
+            $preview.attr('href', preview_url);
+
+            $preview
+              .find('img')
+              .attr('src', preview_url);
+
+            //Update link to preview thumbnail for current page tab
+            $thumbs
+              .filter('[rel="page-' + page_number + '"]')
+              .attr('src', data.pages[page_number]['updated-thumb-url']);
+
+            var preview_filename = preview_url.split('/preview/')[1];
+
+            //Update preview sharing link if the feature is enabled
+            if (window.place_preview_image_sharing_link)
+              update_preview_sharing_link_for_page(page_number,
                                     zp.preview_sharing_links, preview_filename);
+
+            //Remember file name of preview image
+            zp.previews[page_number - 1] = preview_filename;
+
+            zp.changed_pages[page_number] = true;
+          }
 
           //Update link to preview image in opened fancybox
           var fancy_img = $('#fancybox-img');
           if (fancy_img.length)
             $(fancy_img).attr('src',
                               data.pages[current_page]['updated-preview-url']);
-
-          if (!zp.previews)
-            zp.previews = [];
-
-          //Remember file name of preview image for current page
-          zp.previews[current_page - 1] = preview_filename;
-
-          //Update link to preview thumbnail for current page tab
-          $('div.zetaprints-image-tabs img[rel="page-' + current_page + '"]')
-            .attr('src', data.pages[current_page]['updated-thumb-url']);
 
           //If there's image zoomer on the page
           if (has_image_zoomer) {
@@ -565,16 +577,19 @@ function personalization_form ($) {
             $('#image, #track_hint, div.zoom').remove();
             has_image_zoomer = false;
             //and show preview image for the current page
-            $('#preview-image-page-' + current_page).removeClass('zp-hidden');
+            $('#preview-image-page-1').removeClass('zp-hidden');
 
             //Add all shapes to personalization form after first preview
             //update
             if (zp.has_shapes && window.place_all_shapes_for_page
                 && window.shape_handler)
-              place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
+              place_all_shapes_for_page(zp.template_details.pages[1].shapes,
                                         $product_image_box,
                                         shape_handler);
           }
+
+          set_preview_sharing_link_for_page(current_page,
+                                                      zp.preview_sharing_links);
 
           if (zp.previews.length == zp.template_details.pages_number
               || zp.template_details.missed_pages == 'include'
@@ -592,8 +607,6 @@ function personalization_form ($) {
             $('div.save-order span').css('display', 'none');
           }
         }
-
-        zp.changed_pages[current_page] = true;
 
         //If update_first_preview_on_load parameter was set then...
         if (zp.update_first_preview_on_load)
