@@ -55,6 +55,8 @@ function zetaprint_image_editor ($, params) {
                                     context.placeholder,
                                     context.container)
 
+      $container.addClass('changed');
+
       show_crop(data);
     });
 
@@ -69,6 +71,8 @@ function zetaprint_image_editor ($, params) {
       var data = fit_into_container(context.image,
                                     placeholder,
                                     context.container)
+
+      $container.addClass('changed');
 
       show_crop(data);
     });
@@ -85,6 +89,8 @@ function zetaprint_image_editor ($, params) {
                                     context.placeholder,
                                     context.container)
 
+      $container.addClass('changed');
+
       show_crop(data);
     });
 
@@ -99,6 +105,8 @@ function zetaprint_image_editor ($, params) {
       var data = fit_into_container(image,
                                     context.placeholder,
                                     context.container)
+
+      $container.addClass('changed');
 
       show_crop(data);
     });
