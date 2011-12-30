@@ -192,17 +192,19 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
       if ($item->getParentItem())
         continue;
 
-      if (($children = $item->getChildren()) && $item->isShipSeparately())
+      $children = $item->getChildren();
+
+      if ($children && $item->isShipSeparately())
         foreach ($children as $child)
           if ($child->getProduct()->getIsVirtual())
             $this->setVirtualItemsQty($this->getVirtualItemsQty()
-                                          + $child->getQty()*$item->getQty() );
+                                         + $child->getQty() * $item->getQty() );
 
       if ($item->getProduct()->getIsVirtual())
         $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
 
-      $this->setItemsCount($this->getItemsCount()+1);
-      $this->setItemsQty((float) $this->getItemsQty()+$item->getQty());
+      $this->setItemsCount($this->getItemsCount() + 1);
+      $this->setItemsQty((float) $this->getItemsQty() + $item->getQty());
     }
 
     $this->setData('trigger_recollect', 0);
@@ -259,6 +261,7 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
     $buyRequest = Mage::helper('catalog/product')
                     ->addParamsToBuyRequest($buyRequest, $params);
 
+    $buyRequest->setResetCount(true);
     $resultItem = $this->addProduct($product, $buyRequest);
 
     if (is_string($resultItem))

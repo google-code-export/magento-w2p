@@ -104,9 +104,16 @@ class ZetaPrints_OrderApproval_CartController
       }
     }
 
-    foreach ($cart->getQuote()->getMessages() as $message)
-      if ($message)
-        $cart->getCheckoutSession()->addMessage($message);
+    // Compose array of messages to add
+    $messages = array();
+
+    foreach ($cart->getQuote()->getMessages() as $message) {
+      if ($message) {
+        $messages[] = $message;
+      }
+    }
+
+    $cart->getCheckoutSession()->addUniqueMessages($messages);
 
     /**
      * if customer enteres shopping cart we should mark quote
@@ -139,7 +146,7 @@ class ZetaPrints_OrderApproval_CartController
 
     if (!$quoteItem) {
       $this->_getSession()->addError($this->__('Quote item is not found.'));
-      $this->_goBack();
+      $this->_redirect('checkout/cart');
 
       return;
     }
@@ -190,6 +197,9 @@ class ZetaPrints_OrderApproval_CartController
 
       if (is_string($item))
         Mage::throwException($item);
+
+      if ($item->getHasError())
+        Mage::throwException($item->getMessage());
 
       $related = $this->getRequest()->getParam('related_product');
 

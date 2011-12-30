@@ -2,6 +2,10 @@
 
 class ZetaPrints_OrderApproval_Block_Cart extends Mage_Checkout_Block_Cart {
   public function getItems () {
+    if ($this->getCustomItems()) {
+      return $this->getCustomItems();
+    }
+
     return $this->getQuote()->getAllVisibleItems(true);
   }
 
