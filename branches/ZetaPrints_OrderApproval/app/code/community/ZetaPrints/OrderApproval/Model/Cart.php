@@ -27,9 +27,10 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
   public function init () {
     $this->getQuote()->setCheckoutMethod('');
 
-    //If user try do checkout, reset shipiing and payment data
+    //If user try do checkout, reset shipping and payment data
     if ($this->getCheckoutSession()->getCheckoutState()
           !== Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
+
       $this->getQuote()
         ->removeAllAddresses()
         ->removePayment();
@@ -71,6 +72,9 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
       if ($qty > 0) {
         $item->setQty($qty);
 
+        if ($item->getHasError())
+          Mage::throwException($item->getMessage());
+
         if (isset($itemInfo['before_suggest_qty'])
             && ($itemInfo['before_suggest_qty'] != $qty)) {
           $qtyRecalculatedFlag = true;
@@ -91,10 +95,10 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
           ->__('Some products quantities were recalculated because of quantity increment mismatch') );
 
     Mage::dispatchEvent('checkout_cart_update_items_after',
-                                          array('cart'=>$this, 'info'=>$data));
+                                       array('cart' => $this, 'info' => $data));
 
     return $this;
-    }
+  }
 
   public function removeItem ($itemId) {
     $this->getQuote()->removeItem($itemId, true);
@@ -113,7 +117,7 @@ class ZetaPrints_OrderApproval_Model_Cart extends Mage_Checkout_Model_Cart {
     if (null === $this->_productIds) {
       $this->_productIds = array();
 
-      if ($this->getSummaryQty()>0)
+      if ($this->getSummaryQty() > 0)
         foreach ($this->getQuote()->getAllItems(true) as $item)
           $this->_productIds[] = $item->getProductId();
 
