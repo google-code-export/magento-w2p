@@ -1,37 +1,17 @@
-<<<<<<< .mine
 <?xml version="1.0"?>
-<!-- 
+<!--
 /**
  * @category   ZetaPrints
  * @package    ZetaPrints_Fixedprices
  * @author     PP
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- -->
+-->
 <config>
-    <modules>
-        <ZetaPrints_Fixedprices>
-            <active>true</active>
-            <codePool>community</codePool>
-        </ZetaPrints_Fixedprices>
-    </modules>
-</config> 
-=======
-<?xml version="1.0"?>
-<!-- 
-/**
- * @category   ZetaPrints
- * @package    ZetaPrints_Fixedprices
- * @author     PP
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
- -->
-<config>
-    <modules>
-        <ZetaPrints_Fixedprices>
-            <active>true</active>
-            <codePool>community</codePool>
-        </ZetaPrints_Fixedprices>
-    </modules>
-</config> 
->>>>>>> .r1756
+  <modules>
+    <ZetaPrints_Fixedprices>
+      <active>true</active>
+      <codePool>community</codePool>
+    </ZetaPrints_Fixedprices>
+  </modules>
+</config>
