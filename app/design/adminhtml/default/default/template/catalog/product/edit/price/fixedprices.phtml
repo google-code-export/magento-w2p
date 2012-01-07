@@ -1,11 +1,10 @@
-<<<<<<< .mine
 <?php
 /* @var $this ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Price_Fixedprices */
 ?>
-<?php $_htmlId      = $this->getElement()->getHtmlId() ?>
+<?php $_htmlId    = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
-<?php $_htmlName    = $this->getElement()->getName() ?>
-<?php $_readonly    = $this->getElement()->getReadonly() ?>
+<?php $_htmlName  = $this->getElement()->getName() ?>
+<?php $_readonly  = $this->getElement()->getReadonly() ?>
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
 <?php $_editWebsite = $this->isAllowChangeWebsite(); ?>
 <?php $_priceValueValidation = $this->getPriceValidation('validate-zero-or-greater'); ?>
@@ -14,189 +13,189 @@
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
 <?php $_showWebsite= $this->isMultiWebsites(); ?>
 <tr>
-    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
-    <td colspan="10" class="grid fixed">
-    <table cellspacing="0" class="data border" id="fixed_table">
-        <?php if ($_showWebsite): ?>
-        <col width="135" />
-        <?php endif; ?>
-        <col width="120" />
-        <col width="95" />
-        <col />
-        <col width="1" />
-        <thead>
-            <tr class="headings">
-                <th <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Units') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
-                <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Default');?></th>
-                <th><?php echo Mage::helper('catalog')->__('Order');?></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
-            </tr>
-        </thead>
-        <tbody id="<?php echo $_htmlId ?>_container"></tbody>
-        <tfoot>
-            <tr>
-                <td <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>></td>
-                <td colspan="5" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
-            </tr>
-        </tfoot>
-    </table>
-    <p class="note"><?php echo $this->__('Units: Free text, e.g. 100 cards, 3 months, big box');?></p>
-    <p class="note"><?php echo $this->__('Qty: Base quantity for inventory management, e.g. 100, 3, 1');?></p>
-    <p class="note"><?php echo $this->__('Price: Price for the listed quantity');?></p>
-    <p class="note"><?php echo $this->__('Fixed quantities extension by ZetaPrints. <a href="http://www.zetaprints.com/magentohelp/category/fixed-quantities-plugin/" title="Help and suppot">Help and suppot</a>');?></p>
+  <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
+  <td colspan="10" class="grid fixed">
+  <table cellspacing="0" class="data border" id="fixed_table">
+    <?php if ($_showWebsite): ?>
+    <col width="135" />
+    <?php endif; ?>
+    <col width="120" />
+    <col width="95" />
+    <col />
+    <col width="1" />
+    <thead>
+      <tr class="headings">
+        <th <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
+        <th><?php echo Mage::helper('catalog')->__('Units') ?></th>
+        <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
+        <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
+        <th><?php echo Mage::helper('catalog')->__('Default');?></th>
+        <th><?php echo Mage::helper('catalog')->__('Order');?></th>
+        <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+      </tr>
+    </thead>
+    <tbody id="<?php echo $_htmlId ?>_container"></tbody>
+    <tfoot>
+      <tr>
+        <td <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>></td>
+        <td colspan="5" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+      </tr>
+    </tfoot>
+  </table>
+  <p class="note"><?php echo $this->__('Units: Free text, e.g. 100 cards, 3 months, big box');?></p>
+  <p class="note"><?php echo $this->__('Qty: Base quantity for inventory management, e.g. 100, 3, 1');?></p>
+  <p class="note"><?php echo $this->__('Price: Price for the listed quantity');?></p>
+  <p class="note"><?php echo $this->__('Fixed quantities extension by ZetaPrints. <a href="http://www.zetaprints.com/magentohelp/category/fixed-quantities-plugin/" title="Help and suppot">Help and suppot</a>');?></p>
 <script type="text/javascript">
 //<![CDATA[
 var fixedPriceRowTemplate = '<tr>'
-    + '<td<?php if (!$_showWebsite): ?> style="display:none"<?php endif; ?>>'
-    + '<select class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[{{index}}][website_id]" id="fixed_price_row_{{index}}_website">'
-    <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
-    + '<option value="<?php echo $_websiteId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_info['name'])) ?><?php if (!empty($_info['currency'])): ?> [<?php echo $this->htmlEscape($_info['currency']) ?>]<?php endif; ?></option>'
-    <?php endforeach ?>
-    + '</select></td>'
-    + '<td class="nobr"><input class="<?php echo $_htmlClass ?> units required-entry" type="text" name="<?php echo $_htmlName ?>[{{index}}][units]" value="{{units}}" id="fixed_price_row_{{index}}_units" /></td>'
-    + '<td class="nobr"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="fixed_price_row_{{index}}_qty" /></td>'
-    + '<td><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="fixed_price_row_{{index}}_price" /></td>'
-    + '<td><input class="<?php echo $_htmlClass ?> default" type="radio" name="<?php echo $_htmlName ?>[active]" value="{{index}}" id="fixed_price_row_{{index}}_default" /></td>'
-    + '<td><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][order]" value="{{order}}" id="fixed_price_row_{{index}}_order" class="fq_order" />'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Up") ?>" type="button" id="move_{{index}}_up" class="icon-btn scalable sort-fq-link fq_up"><span><?php echo Mage::helper("catalog")->__("Up") ?></span></button>&nbsp;'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Down") ?>" type="button"  id="move_{{index}}_down" class="icon-btn scalable sort-fq-link fq_down"><span><?php echo Mage::helper("catalog")->__("Down") ?></span></button></td>'
-    + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="fixed_price_row_{{index}}_delete" />'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Delete Price") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
-    + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
-    + '</tr>';
+  + '<td<?php if (!$_showWebsite): ?> style="display:none"<?php endif; ?>>'
+  + '<select class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[{{index}}][website_id]" id="fixed_price_row_{{index}}_website">'
+  <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
+  + '<option value="<?php echo $_websiteId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_info['name'])) ?><?php if (!empty($_info['currency'])): ?> [<?php echo $this->htmlEscape($_info['currency']) ?>]<?php endif; ?></option>'
+  <?php endforeach ?>
+  + '</select></td>'
+  + '<td class="nobr"><input class="<?php echo $_htmlClass ?> units required-entry" type="text" name="<?php echo $_htmlName ?>[{{index}}][units]" value="{{units}}" id="fixed_price_row_{{index}}_units" /></td>'
+  + '<td class="nobr"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="fixed_price_row_{{index}}_qty" /></td>'
+  + '<td><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="fixed_price_row_{{index}}_price" /></td>'
+  + '<td><input class="<?php echo $_htmlClass ?> default" type="radio" name="<?php echo $_htmlName ?>[active]" value="{{index}}" id="fixed_price_row_{{index}}_default" /></td>'
+  + '<td><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][order]" value="{{order}}" id="fixed_price_row_{{index}}_order" class="fq_order" />'
+  + '<button title="<?php echo Mage::helper("catalog")->__("Up") ?>" type="button" id="move_{{index}}_up" class="icon-btn scalable sort-fq-link fq_up"><span><?php echo Mage::helper("catalog")->__("Up") ?></span></button>&nbsp;'
+  + '<button title="<?php echo Mage::helper("catalog")->__("Down") ?>" type="button"  id="move_{{index}}_down" class="icon-btn scalable sort-fq-link fq_down"><span><?php echo Mage::helper("catalog")->__("Down") ?></span></button></td>'
+  + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="fixed_price_row_{{index}}_delete" />'
+  + '<button title="<?php echo Mage::helper("catalog")->__("Delete Price") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
+  + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
+  + '</tr>';
 
 var fixedPriceControl = {
-    template: new Template(fixedPriceRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")),
-    itemsCount: 0,
-    addItem : function () {
-        <?php if ($_readonly): ?>
-        if (arguments.length < 4) {
-            return;
-        }
-        <?php endif; ?>
-        var data = {
-            website_id: '<?php echo $this->getDefaultWebsite() ?>',
-            units: '',
-            qty: '',
-            price: '',
-            order: 0,
-            readOnly: false,
-            index: this.itemsCount++
-        };
-
-        if(arguments.length >= 6) {
-            data.website_id = arguments[0];
-            data.units      = arguments[1];
-            data.qty        = arguments[2];
-            data.price      = arguments[3];
-            data.active 		= arguments[4];
-            data.order 		  = arguments[5];
-        }
-        if (arguments.length == 7) {
-            data.readOnly = arguments[6];
-        }
-
-        Element.insert($('<?php echo $_htmlId ?>_container'), {
-            bottom : this.template.evaluate(data)
-        });
-
-        $('fixed_price_row_' + data.index + '_units').value = data.units;
-        $('fixed_price_row_' + data.index + '_website').value    = data.website_id;
-
-        if(data.active == 1){
-					$('fixed_price_row_' + data.index + '_default').checked = true;
-        }
-
-        <?php if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()):?>
-        var wss = $('fixed_price_row_' + data.index + '_website');
-        var txt = wss.options[wss.selectedIndex].text;
-
-        wss.insert({after:'<span class="website-name">' + txt + '</span>'});
-        wss.hide();
-        <?php endif;?>
-
-        if (data.readOnly == '1') {
-            ['website', 'cust_group', 'qty', 'price', 'delete'].each(function(idx){
-                $('fixed_price_row_'+data.index+'_'+idx).disabled = true;
-            });
-            $('fixed_price_row_'+data.index+'_delete_button').hide();
-        }
-
-        <?php if ($_readonly): ?>
-        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(this.disableElement);
-        $('<?php echo $_htmlId ?>_container').up('table').select('button').each(this.disableElement);
-        <?php else: ?>
-        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(function(el){ Event.observe(el, 'change', el.setHasChanges.bind(el)); });
-        <?php endif; ?>
-    },
-    disableElement: function(el) {
-        el.disabled = true;
-        el.addClassName('disabled');
-    },
-    deleteItem: function(event) {
-        var tr = Event.findElement(event, 'tr');
-        if (tr) {
-            Element.select(tr, '.delete').each(function(elem){elem.value='1'});
-            Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
-            Element.hide(tr);
-            Element.addClassName(tr, 'no-display template');
-        }
-        return false;
+  template: new Template(fixedPriceRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")),
+  itemsCount: 0,
+  addItem : function () {
+    <?php if ($_readonly): ?>
+    if (arguments.length < 4) {
+      return;
     }
+    <?php endif; ?>
+    var data = {
+      website_id: '<?php echo $this->getDefaultWebsite() ?>',
+      units: '',
+      qty: '',
+      price: '',
+      order: 0,
+      readOnly: false,
+      index: this.itemsCount++
+    };
+
+    if(arguments.length >= 6) {
+      data.website_id = arguments[0];
+      data.units    = arguments[1];
+      data.qty    = arguments[2];
+      data.price    = arguments[3];
+      data.active     = arguments[4];
+      data.order      = arguments[5];
+    }
+    if (arguments.length == 7) {
+      data.readOnly = arguments[6];
+    }
+
+    Element.insert($('<?php echo $_htmlId ?>_container'), {
+      bottom : this.template.evaluate(data)
+    });
+
+    $('fixed_price_row_' + data.index + '_units').value = data.units;
+    $('fixed_price_row_' + data.index + '_website').value = data.website_id;
+
+    if(data.active == 1){
+          $('fixed_price_row_' + data.index + '_default').checked = true;
+    }
+
+    <?php if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()):?>
+    var wss = $('fixed_price_row_' + data.index + '_website');
+    var txt = wss.options[wss.selectedIndex].text;
+
+    wss.insert({after:'<span class="website-name">' + txt + '</span>'});
+    wss.hide();
+    <?php endif;?>
+
+    if (data.readOnly == '1') {
+      ['website', 'cust_group', 'qty', 'price', 'delete'].each(function(idx){
+        $('fixed_price_row_'+data.index+'_'+idx).disabled = true;
+      });
+      $('fixed_price_row_'+data.index+'_delete_button').hide();
+    }
+
+    <?php if ($_readonly): ?>
+    $('<?php echo $_htmlId ?>_container').select('input', 'select').each(this.disableElement);
+    $('<?php echo $_htmlId ?>_container').up('table').select('button').each(this.disableElement);
+    <?php else: ?>
+    $('<?php echo $_htmlId ?>_container').select('input', 'select').each(function(el){ Event.observe(el, 'change', el.setHasChanges.bind(el)); });
+    <?php endif; ?>
+  },
+  disableElement: function(el) {
+    el.disabled = true;
+    el.addClassName('disabled');
+  },
+  deleteItem: function(event) {
+    var tr = Event.findElement(event, 'tr');
+    if (tr) {
+      Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+      Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
+      Element.hide(tr);
+      Element.addClassName(tr, 'no-display template');
+    }
+    return false;
+  }
 };
 
 var fq_order = [];
 <?php foreach ($this->getValues() as $_item): ?>
 fixedPriceControl.addItem(
-    '<?php echo $_item['website_id'] ?>',
-    '<?php echo $_item['units'] ?>',
-    '<?php echo $_item['price_qty']*1 ?>',
-    '<?php echo sprintf('%.2f', $_item['price']) ?>',
-    <?php echo $_item['active']?>,
-    <?php echo (int) $_item['order']?>,
-    <?php echo (int) !empty($_item['readonly'])?>);
+  '<?php echo $_item['website_id'] ?>',
+  '<?php echo $_item['units'] ?>',
+  '<?php echo $_item['price_qty']*1 ?>',
+  '<?php echo sprintf('%.2f', $_item['price']) ?>',
+  <?php echo $_item['active']?>,
+  <?php echo (int) $_item['order']?>,
+  <?php echo (int) !empty($_item['readonly'])?>);
 <?php endforeach; ?>
 <?php if ($_readonly): ?>
 $('<?php echo $_htmlId ?>_container').up('table').select('button')
-    .each(fixedPriceControl.disableElement);
+  .each(fixedPriceControl.disableElement);
 <?php endif; ?>
 
 Event.observe(window, 'load', function(e){
 //  reorder_rows();
   var fq_rows = $$('#fixed_price_container tr');
   fq_rows.each(function(row, idx){
-//    var order = idx + 1;
-    row = $(row);
-    var order_link_up = row.down('.fq_up');
-    var order_link_down = row.down('.fq_down');
-    order_link_up.observe('click', function(e){
-      Event.stop(e);
-      if(row.first) {
-        return;
-      }
-      var prev = row.previous('tr');
-      if(prev) {
-        Element.remove(row);
-        prev.insert({before: row});
-        reorder_rows()
-      }
-    });
+//  var order = idx + 1;
+  row = $(row);
+  var order_link_up = row.down('.fq_up');
+  var order_link_down = row.down('.fq_down');
+  order_link_up.observe('click', function(e){
+    Event.stop(e);
+    if(row.first) {
+    return;
+    }
+    var prev = row.previous('tr');
+    if(prev) {
+    Element.remove(row);
+    prev.insert({before: row});
+    reorder_rows()
+    }
+  });
 
-    order_link_down.observe('click', function(e){
-      Event.stop(e);
-      if(row.last) {
-        return;
-      }
-      var next = row.next('tr');
-      if(next) {
-        Element.remove(row);
-        next.insert({after: row});
-        reorder_rows();
-      }
-    });
+  order_link_down.observe('click', function(e){
+    Event.stop(e);
+    if(row.last) {
+    return;
+    }
+    var next = row.next('tr');
+    if(next) {
+    Element.remove(row);
+    next.insert({after: row});
+    reorder_rows();
+    }
+  });
   });
 
 });
@@ -204,11 +203,11 @@ Event.observe(window, 'load', function(e){
 function reorder_rows() {
   var rows = $$('#fixed_price_container tr');
   rows.each(function(row, idx){
-    row.fq_idx = idx;
-    var order_input = $(row).down('input.fq_order');
-    order_input.value = idx + 1;
-    row.first = false;
-    row.last = false;
+  row.fq_idx = idx;
+  var order_input = $(row).down('input.fq_order');
+  order_input.value = idx + 1;
+  row.first = false;
+  row.last = false;
   });
   rows.first().first = true;
   rows.last().last = true;
@@ -216,222 +215,3 @@ function reorder_rows() {
 //]]>
 </script>
 </td></tr>
-=======
-<?php
-/* @var $this ZetaPrints_Fixedprices_Block_Catalog_Product_Edit_Price_Fixedprices */
-?>
-<?php $_htmlId      = $this->getElement()->getHtmlId() ?>
-<?php $_htmlClass   = $this->getElement()->getClass() ?>
-<?php $_htmlName    = $this->getElement()->getName() ?>
-<?php $_readonly    = $this->getElement()->getReadonly() ?>
-<?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
-<?php $_editWebsite = $this->isAllowChangeWebsite(); ?>
-<?php $_priceValueValidation = $this->getPriceValidation('validate-zero-or-greater'); ?>
-
-
-<?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
-<?php $_showWebsite= $this->isMultiWebsites(); ?>
-<tr>
-    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
-    <td colspan="10" class="grid fixed">
-    <table cellspacing="0" class="data border" id="fixed_table">
-        <?php if ($_showWebsite): ?>
-        <col width="135" />
-        <?php endif; ?>
-        <col width="120" />
-        <col width="95" />
-        <col />
-        <col width="1" />
-        <thead>
-            <tr class="headings">
-                <th <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Units') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
-                <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Default');?></th>
-                <th><?php echo Mage::helper('catalog')->__('Order');?></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
-            </tr>
-        </thead>
-        <tbody id="<?php echo $_htmlId ?>_container"></tbody>
-        <tfoot>
-            <tr>
-                <td <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>></td>
-                <td colspan="5" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
-            </tr>
-        </tfoot>
-    </table>
-    <p class="note"><?php echo $this->__('Units: Free text, e.g. 100 cards, 3 months, big box');?></p>
-    <p class="note"><?php echo $this->__('Qty: Base quantity for inventory management, e.g. 100, 3, 1');?></p>
-    <p class="note"><?php echo $this->__('Price: Price for the listed quantity');?></p>
-    <p class="note"><?php echo $this->__('Fixed quantities extension by ZetaPrints. <a href="http://www.zetaprints.com/magentohelp/category/fixed-quantities-plugin/" title="Help and suppot">Help and suppot</a>');?></p>
-<script type="text/javascript">
-//<![CDATA[
-var fixedPriceRowTemplate = '<tr>'
-    + '<td<?php if (!$_showWebsite): ?> style="display:none"<?php endif; ?>>'
-    + '<select class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[{{index}}][website_id]" id="fixed_price_row_{{index}}_website">'
-    <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
-    + '<option value="<?php echo $_websiteId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_info['name'])) ?><?php if (!empty($_info['currency'])): ?> [<?php echo $this->htmlEscape($_info['currency']) ?>]<?php endif; ?></option>'
-    <?php endforeach ?>
-    + '</select></td>'
-    + '<td class="nobr"><input class="<?php echo $_htmlClass ?> units required-entry" type="text" name="<?php echo $_htmlName ?>[{{index}}][units]" value="{{units}}" id="fixed_price_row_{{index}}_units" /></td>'
-    + '<td class="nobr"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="fixed_price_row_{{index}}_qty" /></td>'
-    + '<td><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="fixed_price_row_{{index}}_price" /></td>'
-    + '<td><input class="<?php echo $_htmlClass ?> default" type="radio" name="<?php echo $_htmlName ?>[active]" value="{{index}}" id="fixed_price_row_{{index}}_default" /></td>'
-    + '<td><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][order]" value="{{order}}" id="fixed_price_row_{{index}}_order" class="fq_order" />'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Up") ?>" type="button" id="move_{{index}}_up" class="icon-btn scalable sort-fq-link fq_up"><span><?php echo Mage::helper("catalog")->__("Up") ?></span></button>&nbsp;'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Down") ?>" type="button"  id="move_{{index}}_down" class="icon-btn scalable sort-fq-link fq_down"><span><?php echo Mage::helper("catalog")->__("Down") ?></span></button></td>'
-    + '<td class="last"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="fixed_price_row_{{index}}_delete" />'
-    + '<button title="<?php echo Mage::helper("catalog")->__("Delete Price") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="fixed_price_row_{{index}}_delete_button" onclick="return fixedPriceControl.deleteItem(event);">'
-    + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
-    + '</tr>';
-
-var fixedPriceControl = {
-    template: new Template(fixedPriceRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")),
-    itemsCount: 0,
-    addItem : function () {
-        <?php if ($_readonly): ?>
-        if (arguments.length < 4) {
-            return;
-        }
-        <?php endif; ?>
-        var data = {
-            website_id: '<?php echo $this->getDefaultWebsite() ?>',
-            units: '',
-            qty: '',
-            price: '',
-            order: 0,
-            readOnly: false,
-            index: this.itemsCount++
-        };
-
-        if(arguments.length >= 6) {
-            data.website_id = arguments[0];
-            data.units      = arguments[1];
-            data.qty        = arguments[2];
-            data.price      = arguments[3];
-            data.active 		= arguments[4];
-            data.order 		  = arguments[5];
-        }
-        if (arguments.length == 7) {
-            data.readOnly = arguments[6];
-        }
-
-        Element.insert($('<?php echo $_htmlId ?>_container'), {
-            bottom : this.template.evaluate(data)
-        });
-
-        $('fixed_price_row_' + data.index + '_units').value = data.units;
-        $('fixed_price_row_' + data.index + '_website').value    = data.website_id;
-
-        if(data.active == 1){
-					$('fixed_price_row_' + data.index + '_default').checked = true;
-        }
-
-        <?php if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()):?>
-        var wss = $('fixed_price_row_' + data.index + '_website');
-        var txt = wss.options[wss.selectedIndex].text;
-
-        wss.insert({after:'<span class="website-name">' + txt + '</span>'});
-        wss.hide();
-        <?php endif;?>
-
-        if (data.readOnly == '1') {
-            ['website', 'cust_group', 'qty', 'price', 'delete'].each(function(idx){
-                $('fixed_price_row_'+data.index+'_'+idx).disabled = true;
-            });
-            $('fixed_price_row_'+data.index+'_delete_button').hide();
-        }
-
-        <?php if ($_readonly): ?>
-        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(this.disableElement);
-        $('<?php echo $_htmlId ?>_container').up('table').select('button').each(this.disableElement);
-        <?php else: ?>
-        $('<?php echo $_htmlId ?>_container').select('input', 'select').each(function(el){ Event.observe(el, 'change', el.setHasChanges.bind(el)); });
-        <?php endif; ?>
-    },
-    disableElement: function(el) {
-        el.disabled = true;
-        el.addClassName('disabled');
-    },
-    deleteItem: function(event) {
-        var tr = Event.findElement(event, 'tr');
-        if (tr) {
-            Element.select(tr, '.delete').each(function(elem){elem.value='1'});
-            Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
-            Element.hide(tr);
-            Element.addClassName(tr, 'no-display template');
-        }
-        return false;
-    }
-};
-
-var fq_order = [];
-<?php foreach ($this->getValues() as $_item): ?>
-fixedPriceControl.addItem(
-    '<?php echo $_item['website_id'] ?>',
-    '<?php echo $_item['units'] ?>',
-    '<?php echo $_item['price_qty']*1 ?>',
-    '<?php echo sprintf('%.2f', $_item['price']) ?>',
-    <?php echo $_item['active']?>,
-    <?php echo (int) $_item['order']?>,
-    <?php echo (int) !empty($_item['readonly'])?>);
-<?php endforeach; ?>
-<?php if ($_readonly): ?>
-$('<?php echo $_htmlId ?>_container').up('table').select('button')
-    .each(fixedPriceControl.disableElement);
-<?php endif; ?>
-
-Event.observe(window, 'load', function(e){
-//  reorder_rows();
-  var fq_rows = $$('#fixed_price_container tr');
-  fq_rows.each(function(row, idx){
-//    var order = idx + 1;
-    row = $(row);
-    var order_link_up = row.down('.fq_up');
-    var order_link_down = row.down('.fq_down');
-    order_link_up.observe('click', function(e){
-      Event.stop(e);
-      if(row.first) {
-        return;
-      }
-      var prev = row.previous('tr');
-      if(prev) {
-        Element.remove(row);
-        prev.insert({before: row});
-        reorder_rows()
-      }
-    });
-
-    order_link_down.observe('click', function(e){
-      Event.stop(e);
-      if(row.last) {
-        return;
-      }
-      var next = row.next('tr');
-      if(next) {
-        Element.remove(row);
-        next.insert({after: row});
-        reorder_rows();
-      }
-    });
-  });
-
-});
-
-function reorder_rows() {
-  var rows = $$('#fixed_price_container tr');
-  rows.each(function(row, idx){
-    row.fq_idx = idx;
-    var order_input = $(row).down('input.fq_order');
-    order_input.value = idx + 1;
-    row.first = false;
-    row.last = false;
-  });
-  rows.first().first = true;
-  rows.last().last = true;
-}
-//]]>
-</script>
-</td></tr>
->>>>>>> .r1756
