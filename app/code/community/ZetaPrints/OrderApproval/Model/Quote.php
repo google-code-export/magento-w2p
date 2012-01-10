@@ -274,7 +274,7 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
       //Product configuration didn't stick to original quote item
       //It either has same configuration as some other quote
       //item's product or completely new configuration
-      $this->removeItem($itemId);
+      $this->removeItem($itemId, true);
 
       $items = $this->getAllItems(true);
 
@@ -284,7 +284,7 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
           if ($resultItem->compare($item)) {
             // Product configuration is same as in other quote item
             $resultItem->setQty($resultItem->getQty() + $item->getQty());
-            $this->removeItem($item->getId());
+            $this->removeItem($item->getId(), true);
 
             break;
           }
