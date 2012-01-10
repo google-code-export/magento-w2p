@@ -1,12 +1,12 @@
 <?php
 
-class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
+class ZetaPrints_OrderApproval_Block_CustomerCart_Edit_Grid
   extends Mage_Adminhtml_Block_Widget_Grid {
 
   public function __construct() {
     parent::__construct();
 
-    $this->setId('cart_edit_grid');
+    $this->setId('orderapproval_cart_edit_grid');
 
     $this->_filterVisibility = false;
     $this->_pagerVisibility  = false;
@@ -15,8 +15,9 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
   protected function _prepareCollection () {
     $collection = new Varien_Data_Collection();
 
-    $items = $this->getParentBlock() // I think there's a better way to pass
-              ->getParentBlock()     // data down in a block hierarchy.
+    $items = $this
+              ->getParentBlock()  // I think there's a better way to pass
+              ->getParentBlock()  // data down in a block hierarchy.
               ->getCustomerQuote()
               ->getAllVisibleItems(true);
 
@@ -37,7 +38,8 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
   protected function _prepareColumns() {
     $this->addColumn('thumbnail', array(
-      'renderer' => 'orderapproval/cart_edit_grid_column_renderer_image',
+      'renderer'
+                => 'orderapproval/customercart_edit_grid_column_renderer_image',
       'width'     => '80',
       'align'     => 'center',
       'index'     => 'item',
@@ -46,7 +48,8 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
     $this->addColumn('product-name', array(
       'header' => $this->__('Product Name'),
-      'renderer' => 'orderapproval/cart_edit_grid_column_renderer_productoptions',
+      'renderer' =>
+          'orderapproval/customercart_edit_grid_column_renderer_productoptions',
       'align'     => 'left',
       'index'     => 'item',
       'sortable'  => false,
@@ -54,7 +57,8 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
     $this->addColumn('price', array(
       'header' => $this->__('Unit Price'),
-      'renderer' => 'orderapproval/cart_edit_grid_column_renderer_price',
+      'renderer'
+                => 'orderapproval/customercart_edit_grid_column_renderer_price',
       'width'     => '60',
       'align'     => 'right',
       'index'     => 'item',
@@ -63,7 +67,7 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
     $this->addColumn('qty', array(
       'header' => $this->__('Qty'),
-      'renderer' => 'orderapproval/cart_edit_grid_column_renderer_qty',
+      'renderer' => 'orderapproval/customercart_edit_grid_column_renderer_qty',
       'width'     => '40',
       'align'     => 'center',
       'index'     => 'item',
@@ -72,7 +76,8 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
 
     $this->addColumn('subtotal', array(
       'header' => $this->__('Subtotal'),
-      'renderer' => 'orderapproval/cart_edit_grid_column_renderer_subtotal',
+      'renderer' =>
+                'orderapproval/customercart_edit_grid_column_renderer_subtotal',
       'width'     => '60',
       'align'     => 'right',
       'index'     => 'item',
@@ -88,8 +93,19 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
       'actions'   => array(
         array(
           'caption' => $this->__('Approve'),
-          'url' => array('base' => '*/*/approve'),
-          'field'     => 'item' ), ),
+          'url' => array(
+            'base' => '*/*/updateApprovalState',
+            'params' => array(
+              'state' => ZetaPrints_OrderApproval_Helper_Data::APPROVED)),
+          'field'     => 'item' ),
+        array(
+          'caption' => $this->__('Decline'),
+          'url' => array(
+            'base' => '*/*/updateApprovalState',
+            'params' => array(
+              'state' => ZetaPrints_OrderApproval_Helper_Data::DECLINED)),
+          'field'     => 'item' ),
+      ),
       'filter'    => false,
       'sortable'  => false,
       ));
@@ -101,10 +117,18 @@ class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid
     $this->setMassactionIdField('id');
     $this->getMassactionBlock()->setFormFieldName('items');
 
-    $this->getMassactionBlock()->addItem('approve', array(
-      'label'    => Mage::helper('index')->__('Approve'),
-      'url'      => $this->getUrl('*/*/massApprove'),
-      'selected' => true ));
+    $this
+      ->getMassactionBlock()
+      ->addItem('approve', array(
+        'label' => $this->__('Approve'),
+        'url' => $this->getUrl('*/*/massUpdateApprovalState', array(
+                    'state' => ZetaPrints_OrderApproval_Helper_Data::APPROVED)),
+        'selected' => true ))
+      ->addItem('decline', array(
+        'label' => $this->__('Decline'),
+        'url' => $this->getUrl('*/*/massUpdateApprovalState', array(
+                    'state' => ZetaPrints_OrderApproval_Helper_Data::DECLINED)),
+        'selected' => false ));
 
     return $this;
   }

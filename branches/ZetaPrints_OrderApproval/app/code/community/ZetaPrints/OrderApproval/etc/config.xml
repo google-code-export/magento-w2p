@@ -97,6 +97,16 @@
         </observers>
       </sales_model_service_quote_submit_after>
       <!--</sales_model_service_quote_submit_success>-->
+
+      <!--<controller_action_layout_render_before_customer_account>
+        <observers>
+          <orderapproval-add-menu-item>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>addCartsMenuItem</method>
+          </orderapproval-add-menu-item>
+        </observers>
+      </controller_action_layout_render_before_customer_account>-->
     </events>
 
     <rewrite>
@@ -136,8 +146,12 @@
     <layout>
       <updates>
         <orderapproval>
-          <file>checkout/cart-edit.xml</file>
+          <file>order-approval.xml</file>
         </orderapproval>
+
+        <checkout-cart-edit>
+          <file>checkout/cart-edit.xml</file>
+        </checkout-cart-edit>
       </updates>
     </layout>
   </frontend>

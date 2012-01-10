@@ -84,7 +84,7 @@ class ZetaPrints_OrderApproval_OnepageController
             $email_template  = Mage::getModel('core/email_template');
 
             $approver_fullname = "{$approver->getFirstname()} {$approver->getLastname()}";
-            $cart_url = Mage::getUrl('checkout/cart/edit',
+            $cart_url = Mage::getUrl('orderapproval/customercart/edit',
                                       array('customer' => $customer->getId()));
 
             $template = Mage::getStoreConfig(self::XML_PATH_NEW_ITEMS_TEMPLATE);

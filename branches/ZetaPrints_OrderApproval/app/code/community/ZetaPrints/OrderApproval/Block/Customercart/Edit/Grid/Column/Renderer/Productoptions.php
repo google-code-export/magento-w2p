@@ -1,12 +1,12 @@
 <?php
 
-class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid_Column_Renderer_ProductOptions
-  extends ZetaPrints_OrderApproval_Block_Cart_Edit_Grid_Column_Renderer_Abstract {
+class ZetaPrints_OrderApproval_Block_CustomerCart_Edit_Grid_Column_Renderer_ProductOptions
+  extends ZetaPrints_OrderApproval_Block_Customercart_Edit_Grid_Column_Renderer_Abstract {
 
   public function __construct() {
     parent::__construct();
 
-    $this->setTemplate('checkout/cart/edit/grid/column/renderer/product-options.phtml');
+    $this->setTemplate('order-approval/cart/edit/grid/column/renderer/product-options.phtml');
   }
 
   public function getOptionList () {
