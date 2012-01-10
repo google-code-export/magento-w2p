@@ -1,6 +1,6 @@
 <?php
 
-class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid_Column_Renderer_Abstract
+class ZetaPrints_OrderApproval_Block_CustomerCart_Edit_Grid_Column_Renderer_Abstract
   extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract {
 
   protected $_item = null;

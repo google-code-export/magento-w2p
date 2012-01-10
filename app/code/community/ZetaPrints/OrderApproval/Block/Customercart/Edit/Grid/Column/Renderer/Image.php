@@ -1,12 +1,12 @@
 <?php
 
-class ZetaPrints_OrderApproval_Block_Cart_Edit_Grid_Column_Renderer_Image
-  extends ZetaPrints_OrderApproval_Block_Cart_Edit_Grid_Column_Renderer_Abstract {
+class ZetaPrints_OrderApproval_Block_Customercart_Edit_Grid_Column_Renderer_Image
+  extends ZetaPrints_OrderApproval_Block_Customercart_Edit_Grid_Column_Renderer_Abstract {
 
   public function __construct() {
     parent::__construct();
 
-    $this->setTemplate('checkout/cart/edit/grid/column/renderer/image.phtml');
+    $this->setTemplate('order-approval/cart/edit/grid/column/renderer/image.phtml');
   }
 
   public function getProductThumbnail () {

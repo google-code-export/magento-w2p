@@ -48,7 +48,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
         //...remove it from the cart
         $quote->removeItem($item->getId(), true);
 
-    //Reset toatal collected flag
+    //Reset total collected flag
     $quote->setTotalsCollectedFlag(false);
 
     //Recalculate quote total and save the quote.
@@ -87,6 +87,38 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
       $cart->getCheckoutSession()->addNotice(
         $controller
           ->__('Approval request for all added items will be sent out when you proceed to checkout.') );
+  }
+
+  public function addCartsMenuItem ($observer) {
+    //Get customer session
+    $customer_session = Mage::getSingleton('customer/session');
+
+    //Check if customer is logged
+    if (!$customer_session->isLoggedIn())
+      return;
+
+    //Get customer object from the session
+    $customer = $customer_session->getCustomer();
+
+    //Check if customer object was loaded already
+    if (!$customer->getId())
+      return;
+
+    //Check if customer is approver
+    if (!$customer->getIsApprover())
+      return;
+
+    //Get current controller
+    $controller = Mage::app()
+                    ->getFrontController()
+                    ->getAction();
+
+    //Add link to the list of carts into navigation block
+    $controller
+      ->getLayout()
+      ->getBlock('customer_account_navigation')
+      ->addLink('order-approval', 'order-approval/carts/all',
+                                             $controller->__('Order Approval'));
   }
 }
 
