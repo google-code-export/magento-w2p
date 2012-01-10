@@ -1,6 +1,6 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
-= Future stable release =
+= Stable release (2.0.0.0) =
 == Issues ==
   * Add support for M. 1.6.1.0 (issue #678)
   * Add support for dynamic imaging (issue #654)
