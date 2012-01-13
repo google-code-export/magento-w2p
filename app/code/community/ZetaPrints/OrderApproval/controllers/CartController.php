@@ -20,16 +20,24 @@ class ZetaPrints_OrderApproval_CartController
       }
     }
 
-    // Compose array of messages to add
-    $messages = array();
+    //Check for M. versions <= 1.5.1
+    if (method_exists($cart->getCheckoutSession(), 'addUniqueMessages')) {
 
-    foreach ($cart->getQuote()->getMessages() as $message) {
-      if ($message) {
-        $messages[] = $message;
-      }
+      // Compose array of messages to add
+      $messages = array();
+
+      foreach ($cart->getQuote()->getMessages() as $message)
+        if ($message)
+          $messages[] = $message;
+
+      $cart->getCheckoutSession()->addUniqueMessages($messages);
+    } else {
+      //Code for M <= 1.5.1
+
+      foreach ($cart->getQuote()->getMessages() as $message)
+        if ($message)
+          $cart->getCheckoutSession()->addMessage($message);
     }
-
-    $cart->getCheckoutSession()->addUniqueMessages($messages);
 
     /**
      * if customer enteres shopping cart we should mark quote
