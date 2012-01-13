@@ -129,7 +129,9 @@ class ZetaPrints_OrderApproval_CustomerCartController
       return;
     }
 
-    if (! $approver = Mage::helper('orderapproval')->getApprover()) {
+    $helper = Mage::helper('orderapproval');
+
+    if (! $approver = $helper->getApprover()) {
       $this->_redirect('');
       return;
     }
