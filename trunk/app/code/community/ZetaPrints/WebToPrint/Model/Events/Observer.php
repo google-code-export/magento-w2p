@@ -496,7 +496,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
   public function saveOrderId ($observer) {
     $params = $observer->getEvent()->getParams();
 
-    if ($params->getConfigureMode()) {
+    if ($params && s$params->getConfigureMode()) {
       $buyRequest = $params->getBuyRequest();
 
       Mage::register('webtoprint-order-id', $buyRequest['zetaprints-order-id']);
