@@ -210,6 +210,11 @@ function personalization_form ($) {
   //??? Do we need it anymore?
   this.changed_pages = new Array(this.template_details.pages_number + 1);
 
+  //Create array for preview images sharing links
+  if (window.place_preview_image_sharing_link)
+    this.preview_sharing_links
+                            = new Array(this.template_details.pages_number + 1);
+
   //Add previews to the product page
   for (var page_number in this.template_details.pages) {
     if (this.template_details.pages[page_number]['updated-preview-image']) {
@@ -217,6 +222,10 @@ function personalization_form ($) {
             = this.template_details.pages[page_number]['updated-preview-image'];
 
       this.changed_pages[page_number] = true;
+
+      if (window.place_preview_image_sharing_link)
+        update_preview_sharing_link_for_page(page_number,
+                         this.preview_sharing_links, url.split('/preview/')[1]);
     } else
       var url = this.template_details.pages[page_number]['preview-image'];
 
@@ -326,11 +335,6 @@ function personalization_form ($) {
       this.changed_pages[number] = true;
     }
 
-  //Create array for preview images sharing links
-  if (window.place_preview_image_sharing_link)
-    this.preview_sharing_links
-                            = new Array(this.template_details.pages_number + 1);
-
   $('<input type="hidden" name="zetaprints-previews" value="' +
                       export_previews_to_string(this.template_details) + '" />')
     .appendTo($('#product_addtocart_form'));
@@ -347,6 +351,10 @@ function personalization_form ($) {
   if ($.fn.text_field_resizer)
     $('#input-fields-page-1 .zetaprints-text-field-wrapper')
       .text_field_resizer();
+
+  //Set preview images sharing link for the first page
+  if (window.place_preview_image_sharing_link)
+    set_preview_sharing_link_for_page(1, this.preview_sharing_links);
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
     $('div.zetaprints-image-tabs li').removeClass('selected');
@@ -588,7 +596,9 @@ function personalization_form ($) {
                                         shape_handler);
           }
 
-          set_preview_sharing_link_for_page(current_page,
+          //Show preview sharing link if the feature is enabled
+          if (window.place_preview_image_sharing_link)
+            set_preview_sharing_link_for_page(current_page,
                                                       zp.preview_sharing_links);
 
           if (zp.previews.length == zp.template_details.pages_number
