@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
@@ -17,11 +17,19 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
     //_zetaprints_debug(array('orig options' => $options));
 
-    if (!(isset($options['zetaprints-TemplateID']) || isset($options['zetaprints-previews'])))
+    //Check if quote item is w2p enabled
+    if (!isset($options['zetaprints-TemplateID']))
       return;
 
-    if (!(isset($options['zetaprints-TemplateID']) && isset($options['zetaprints-previews'])))
-      Mage::throwException('Not enough ZetaPrints template parameters');
+    if (!isset($options['zetaprints-previews'])
+         || !$options['zetaprints-previews']) {
+
+      Mage::getSingleton('checkout/session')
+        ->addNotice(Mage::helper('webtoprint')
+            ->__('The product was added in failback mode. We will update it manually with your input data.'));
+
+      return;
+    }
 
     //Use saved order information from the item for M. re-order...
     if (isset($options['zetaprints-order-id'])) {

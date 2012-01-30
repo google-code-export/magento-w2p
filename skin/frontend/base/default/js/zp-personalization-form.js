@@ -482,6 +482,8 @@ function personalization_form ($) {
       .serialize();
   }
 
+  var _number_of_failed_updates = 0;
+
   function update_preview (event, preserve_fields) {
     $('div.zetaprints-preview-button span.text, ' +
       'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
@@ -509,6 +511,24 @@ function personalization_form ($) {
     var metadata =
          prepare_metadata_from_page(zp.template_details.pages[zp.current_page]);
 
+    function update_preview_error () {
+      if (++_number_of_failed_updates >= 2){
+        alert(cannot_update_preview_second_time);
+
+        $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
+        remove_fake_add_to_cart_button($add_to_cart_button);
+        $('div.save-order span').css('display', 'none');
+      }else {
+        alert(cannot_update_preview);
+      }
+
+      $('div.zetaprints-preview-button span.text, ' +
+        'div.zetaprints-preview-button img.ajax-loader')
+        .css('display', 'none');
+
+      update_preview_button.removeClass('zp-hidden');
+    }
+
     $.ajax({
       url: zp.url.preview,
       type: 'POST',
@@ -516,14 +536,15 @@ function personalization_form ($) {
       data: prepare_post_data_for_php(serialize_fields_for_page(current_page))
         + '&zetaprints-TemplateID=' + zp.template_details.guid
         + '&zetaprints-From=' + current_page + preserve_fields + metadata,
+
       error: function (XMLHttpRequest, textStatus, errorThrown) {
-        $('div.zetaprints-preview-button span.text, img.ajax-loader').css('display', 'none');
-        $(update_preview_button).show();
-        alert(preview_generation_response_error_text + textStatus); },
+        update_preview_error();
+      },
+
       success: function (data, textStatus) {
-        if (!data) {
-          alert(preview_generation_error_text);
-        } else {
+        if (!data)
+          update_preview_error();
+        else {
           //!!! Make code in function to not depend on current page number
           //!!! (it's broken way to update preview, user can switch to another
           //!!! page while updating preview)
