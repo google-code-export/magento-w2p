@@ -104,4 +104,4 @@
 "Return to a default position.","Вернуться к позиции по умолчанию."
 "Cannot update the preview. Try again.","Невозможно обновить предпросмотр. Попробуйте еще раз."
 "Cannot update the preview. Try again or add to cart as is and we will update it manually.","Невозможно обновить предпросмотр. Попробуйте еще раз или добавьте продукт в корзину как есть и мы обновим его вручную."
-"The product was added in failback mode. We will update it manually with your input data.","Продукт добавлен после сбоя. Мы обновим его вручную, используя информацию введенную вами."
+"The product was added in fallback mode. We will update it manually with your input data.","Продукт добавлен после сбоя. Мы обновим его вручную, используя информацию введенную вами."

@@ -26,7 +26,7 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
       Mage::getSingleton('checkout/session')
         ->addNotice(Mage::helper('webtoprint')
-            ->__('The product was added in failback mode. We will update it manually with your input data.'));
+            ->__('The product was added in fallback mode. We will update it manually with your input data.'));
 
       return;
     }
