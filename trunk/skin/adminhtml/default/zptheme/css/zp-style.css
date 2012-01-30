@@ -93,3 +93,13 @@ a#fancybox-right span {
   left: auto;
   right: 20px;
 }
+
+#zp-user-input-table {
+  min-width: 300px;
+  *width: 450px;
+}
+
+#zp-user-input-table td,
+#zp-user-input-table th {
+  padding: 4px;
+}

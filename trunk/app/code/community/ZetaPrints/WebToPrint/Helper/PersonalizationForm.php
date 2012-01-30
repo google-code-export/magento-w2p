@@ -108,7 +108,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
         $previews = unserialize($session->getData('zetaprints-previews'));
 
         if (is_array($previews))
-          $this->replace_preview_images($xml, $previews);
+          if(!$this->replace_preview_images($xml, $previews))
+            $session->setData('zetaprints-previews', '');
       }
     }
 
@@ -254,7 +255,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
   public function get_cart_image ($context) {
     $options = unserialize($context->getItem()->getOptionByCode('info_buyRequest')->getValue());
 
-    if (!isset($options['zetaprints-previews']))
+    if (!isset($options['zetaprints-previews'])
+         || !$options['zetaprints-previews'])
       return false;
 
     $images = explode(',', $options['zetaprints-previews']);
@@ -587,6 +589,74 @@ jQuery(document).ready(function($) {
       //... just return from the function.
       return;
 
+    if (!$item && isset($options['zetaprints-previews'])
+        && !$options['zetaprints-previews']) {
+
+      $input = array();
+
+      foreach ($options as $key => $value) {
+        //Ignore key if it doesn't start with 'zetaprints-' prefix
+        if (strpos($key, 'zetaprints-') !== 0)
+          continue;
+
+        //Remove prefix from the key
+        $_key = substr($key, 11);
+
+        if (!(strpos($_key, '_') === 0 || strpos($_key, '#') === 0
+            || strpos($_key, '*') === 0))
+          continue;
+
+        //Text and image template fields distinguish by prefix in its name
+        //Prefix for text fields is '_' sign, for image fields is '#' sign.
+        //Metadata fields for text and image fields prepends prefix
+        //with '*' sign, i.e. '*_' for text fields and '*#' for image fields.
+        //So POST fields have 1- or 2-letter prefixes.
+
+        //Determine length of field prefix
+        $prefix_length = 1;
+        if (strpos($_key, '*') === 0)
+          $prefix_length = 2;
+
+        //Process field name (key), restore original symbols
+        $_key = substr($_key, 0, $prefix_length)
+                  . str_replace( array('_', "\x0A"),
+                                 array(' ', '.'),
+                                 substr($_key, $prefix_length) );
+
+        //Add token to the array
+        $input[$_key] = $value;
+      }
+
+      if (count($input)) {
+?>
+        <div style="display: none;">
+          <table id ="zp-user-input-table">
+            <thead>
+              <tr>
+                <th><?php echo $this->__('Name'); ?></th>
+                <th><?php echo $this->__('Value'); ?></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($input as $name => $value): ?>
+              <tr>
+                <td><?php echo $name; ?></td>
+                <td><?php echo $value; ?></td>
+              </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+        </div>
+
+        <br />
+
+        <a id ="zp-user-input-link" href="#zp-user-input-table">
+          <?php echo $this->__('Show customer\'s input data'); ?>
+        </a>
+<?php
+      }
+    }
+
     //Get value of custom option which allows users download files
     //regardless of ZP template setting
     $is_user_allowed_download = Mage::helper('webtoprint')
@@ -786,6 +856,8 @@ jQuery(document).ready(function($) {
     'speedIn': 500,
     'speedOut' : 500,
     'titleShow': false });
+
+  $('#zp-user-input-link').fancybox();
 });
 //]]>
     </script>
@@ -884,9 +956,9 @@ jQuery(document).ready(function($) {
                    $product_name );
     }
 
-    $previews_from_session = $session->hasData('zetaprints-previews');
+    $previews_from_session = $session->getData('zetaprints-previews') == true;
 
-    if ($previews_from_session) {
+    if ($session->hasData('zetaprints-previews')) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
 
       $session->unsetData('zetaprints-previews');
@@ -937,7 +1009,7 @@ jQuery(document).ready(function($) {
   <?php
   if (isset($user_input) && is_array($user_input))
     foreach ($user_input as $key => $value)
-      echo "$('[name=$key]').val('$value');\n";
+      echo "$('[name=\"$key\"]').val('$value');\n";
   ?>
 
   zp = <?php echo $zp_data ?>;
@@ -950,8 +1022,8 @@ jQuery(document).ready(function($) {
   use_image_button_text = "<?php echo $this->__('Use image'); ?>";
   selected_image_button_text = "<?php echo $this->__('Selected image'); ?>";
 
-  preview_generation_response_error_text = "<?php echo $this->__('Can\'t get preview image:'); ?>";
-  preview_generation_error_text = "<?php echo $this->__('There was an error in generating or receiving preview image.\nPlease try again.'); ?>";
+  cannot_update_preview = "<?php echo $this->__('Cannot update the preview. Try again.'); ?>";
+  cannot_update_preview_second_time = "<?php echo $this->__('Cannot update the preview. Try again or add to cart as is and we will update it manually.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
   uploading_image_error_text = "<?php echo $this->__('Error was occurred while uploading image'); ?>";
   notice_to_update_preview_text = "<?php echo $this->__('Update preview first!'); ?>";
