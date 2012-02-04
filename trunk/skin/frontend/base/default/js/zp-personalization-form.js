@@ -299,17 +299,7 @@ function personalization_form ($) {
           $selects
             .filter('[name="zetaprints-_' + name + '"]')
             .wrap('<div class="zetaprints-text-field-wrapper" />')
-            .combobox({
-              select: function (event, ui) {
-                $('.zetaprints-page-input-fields')
-                  .find(' > dl > dd > div > .zp-combobox-input-wrapper > input')
-                  .filter('[name!="' + $(this).attr('name') + '"]')
-                  .parents('.zetaprints-text-field-wrapper')
-                  .each(function () {
-                    $(this).combobox('select', ui.item.index);
-                  })
-              }
-            });
+            .combobox();
   }
 
   $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
@@ -417,6 +407,9 @@ function personalization_form ($) {
     else
       $('div.zetaprints-next-page-button').hide();
   });
+
+  if (window.zp_dataset_initialise)
+    zp_dataset_initialise(zp);
 
   function update_preview_sharing_link_for_page (page_number, links, filename) {
     links[page_number] = preview_image_sharing_link_template + filename;
@@ -1246,22 +1239,31 @@ function personalization_form ($) {
         unmark_shape_as_edited(shape);
       }
     }
+
+    if (window.zp_dataset_update_state)
+      zp_dataset_update_state(zp, $target.attr('name').substring(12), false);
   }
 
   function readonly_fields_click_handle (event) {
-    $(this)
-      .unbind(event)
-      .val('')
-      .removeAttr('readonly');
+    var name = $(this).attr('name').substring(12);
 
-    //Workaround for IE browser.
-    //It moves cursor to the end of input field after focus.
-    if (this.createTextRange) {
-      var range = this.createTextRange();
+    if (zp.template_details.pages[zp.current_page].fields[name].dataset)
+      $('#zp-dataset-button').click();
+    else {
+      $(this)
+        .unbind(event)
+        .val('')
+        .removeAttr('readonly');
 
-      range.collapse(true);
-      range.move('character', 0);
-      range.select();
+      //Workaround for IE browser.
+      //It moves cursor to the end of input field after focus.
+      if (this.createTextRange) {
+        var range = this.createTextRange();
+
+        range.collapse(true);
+        range.move('character', 0);
+        range.select();
+      }
     }
   }
 

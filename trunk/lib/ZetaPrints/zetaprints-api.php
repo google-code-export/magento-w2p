@@ -153,7 +153,10 @@ function zetaprints_parse_template_details ($xml) {
                      'jpeg' => isset($xml['GenerateJpg'])
                                   ? (bool) $xml['GenerateJpg'] : false,
                      'png' => isset($xml['GenerateGifPng'])
-                                  ? (bool) $xml['GenerateGifPng'] : false );
+                                  ? (bool) $xml['GenerateGifPng'] : false,
+                     'dataset-integrity-enforce'
+                       => isset($xml['DatasetIntegrityEnforce'])
+                            ? (bool) $xml['DatasetIntegrityEnforce'] : false );
 
   if (!$xml->Pages->Page) {
     _zetaprints_debug("No pages in tempalate [{$template['guid']}]");
@@ -298,22 +301,18 @@ function zetaprints_parse_template_details ($xml) {
     }
 
     if ($field->DataSet) {
-
-      //Mark field as combobox
-      $field_array['combobox'] = true;
-
-      $field_array['data_set'] = array();
+      $field_array['dataset'] = array();
 
       $cell_number = 0;
 
       foreach ($field->DataSet->Cell as $cell) {
-        $field_array['data_set'][$cell_number] = array();
+        $field_array['dataset'][$cell_number] = array( 'lines' => array() );
 
         foreach ($cell->Para as $para) {
-          $field_array['data_set'][$cell_number][] = (string) $para;
+          $field_array['dataset'][$cell_number]['lines'][] = (string) $para;
         }
 
-        $field_array['data_set'][$cell_number]['text']
+        $field_array['dataset'][$cell_number]['text']
                                                        = (string) $cell['text'];
 
         $cell_number++;
