@@ -18,12 +18,17 @@
         </dt>
         <dd>
           <xsl:choose>
-            <xsl:when test="count(Value)=2 and string-length(Value[last()])=0 and not(DataSet)">
+            <xsl:when test="count(Value)=2 and string-length(Value[last()])=0">
               <input type="hidden" name="zetaprints-_{@FieldName}" value="&#x2E0F;" class="zetaprints-field" />
               <input id="page-{$page}-field-{position()}" type="checkbox" name="zetaprints-_{@FieldName}" value="{Value[1]}" class="zetaprints-field">
                 <xsl:if test="@Value=Value[1]">
                   <xsl:attribute name="checked">checked</xsl:attribute>
                 </xsl:if>
+
+                <xsl:if test="../../@DatasetIntegrityEnforce=1">
+                  <xsl:attribute name="readonly">readonly</xsl:attribute>
+                </xsl:if>
+
                 <xsl:attribute name="title">
                   <xsl:call-template name="trans">
                     <xsl:with-param name="key">
@@ -34,7 +39,7 @@
               </input>
             </xsl:when>
 
-            <xsl:when test="count(Value)=0 and not(DataSet)">
+            <xsl:when test="count(Value)=0">
               <xsl:choose>
                 <xsl:when test="@Multiline">
                   <div class="zetaprints-text-field-wrapper">
@@ -47,6 +52,10 @@
                           </xsl:with-param>
                         </xsl:call-template>
                       </xsl:attribute>
+                    </xsl:if>
+
+                    <xsl:if test="../../@DatasetIntegrityEnforce=1">
+                      <xsl:attribute name="readonly">readonly</xsl:attribute>
                     </xsl:if>
 
                     <xsl:choose>
@@ -84,6 +93,10 @@
                       </xsl:attribute>
                     </xsl:if>
 
+                    <xsl:if test="../../@DatasetIntegrityEnforce=1">
+                      <xsl:attribute name="readonly">readonly</xsl:attribute>
+                    </xsl:if>
+
                     <xsl:choose>
                       <xsl:when test="@Value and string-length(@Value)!=0">
                         <xsl:attribute name="value">
@@ -116,41 +129,25 @@
                   </xsl:call-template>
                 </xsl:attribute>
 
-                <xsl:choose>
+                <xsl:if test="../../@DatasetIntegrityEnforce=1">
+                  <xsl:attribute name="readonly">readonly</xsl:attribute>
+                </xsl:if>
 
-                  <xsl:when test="DataSet">
-                    <xsl:for-each select="DataSet/Cell">
-                      <option>
-                        <xsl:if test="@text = ../../@Value">
-                          <xsl:attribute name="selected">selected</xsl:attribute>
-                        </xsl:if>
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">
-                            <xsl:value-of select="@text" />
-                          </xsl:with-param>
-                        </xsl:call-template>
-                      </option>
-                    </xsl:for-each>
-                  </xsl:when>
-
-                  <xsl:otherwise>
-                    <xsl:for-each select="Value">
-                      <xsl:if test=".!=''">
-                        <option>
-                          <xsl:if test=".=../@Value">
-                            <xsl:attribute name="selected">selected</xsl:attribute>
-                          </xsl:if>
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">
-                              <xsl:value-of select="." />
-                            </xsl:with-param>
-                          </xsl:call-template>
-                        </option>
+                <xsl:for-each select="Value">
+                  <xsl:if test=".!=''">
+                    <option>
+                      <xsl:if test=".=../@Value">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
                       </xsl:if>
-                    </xsl:for-each>
-                  </xsl:otherwise>
+                      <xsl:call-template name="trans">
+                        <xsl:with-param name="key">
+                          <xsl:value-of select="." />
+                        </xsl:with-param>
+                      </xsl:call-template>
+                    </option>
+                  </xsl:if>
+                </xsl:for-each>
 
-                </xsl:choose>
               </select>
             </xsl:otherwise>
           </xsl:choose>

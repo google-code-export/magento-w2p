@@ -904,6 +904,119 @@ jQuery(document).ready(function($) {
     echo $result ? $result : '';
   }
 
+  public function getDataSetTable ($context) {
+    if (! $templateId = $this->get_template_id($context->getProduct()))
+      return false;
+
+    if (! $xml = Mage::registry('webtoprint-template-xml')) {
+      $template = Mage::getModel('webtoprint/template')->loadById($templateId);
+
+      if ($template->getId())
+        try {
+          $xml = new SimpleXMLElement($xml = $template->getXml());
+        } catch (Exception $e) {
+          Mage::log("Exception: {$e->getMessage()}");
+        }
+    }
+
+    if (!$xml)
+      return false;
+
+    $templateDetails = zetaprints_parse_template_details($xml);
+
+    $dataset = array();
+    $fieldNames = array();
+
+    foreach ($templateDetails['pages'] as $pageNumber => $page) {
+      if (!isset($page['fields']))
+        continue
+
+      $_dataset = array();
+
+      foreach ($page['fields'] as $field)
+        if (isset($field['dataset'])) {
+          foreach ($field['dataset'] as $number => $data) {
+            if (! isset($_dataset[$number]))
+              $_dataset[$number] = array();
+
+            $_dataset[$number][] = $data;
+          }
+
+          $fieldNames[] = $field['name'];
+        }
+
+      if (count($_dataset))
+        $dataset[$pageNumber] = $_dataset;
+    }
+
+    if (!count($dataset))
+      return;
+?>
+  <div class="zp-dataset-wrapper">
+    <?php foreach ($dataset as $pageNumber => $_dataset): ?>
+    <div id="zp-dataset-page-<?php echo $pageNumber; ?>" class="zp-dataset">
+      <table id="zp-dataset-table-page-<?php echo $pageNumber; ?>" class="zp-dataset-table">
+        <thead>
+          <tr>
+            <th></th>
+
+            <?php
+              if (isset($templateDetails['pages'][$pageNumber]['fields'])):
+                $fields = $templateDetails['pages'][$pageNumber]['fields'];
+
+                foreach ($fields as $field):
+                  if (isset($field['dataset'])):
+            ?>
+
+            <th><?php echo $this->__($field['name']); ?></th>
+
+            <?php
+                  endif;
+                endforeach;
+              endif;
+            ?>
+
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($_dataset as $set): ?>
+          <tr>
+            <td class="zp-dataset-checkbox"><input type="checkbox" name="test" /></td>
+
+            <?php foreach ($set as $number => $data): ?>
+
+            <td class="<?php echo $fieldNames[$number]; ?>">
+              <?php foreach ($data['lines'] as $line => $text): ?>
+
+              <p <?php if (!$line): ?>class="zp-dataset-first-line"<?php endif ?>>
+                <?php echo $text; ?>
+              </p>
+
+              <?php endforeach ?>
+            </td>
+
+            <?php endforeach; ?>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+      <p class="zp-dataset-notice">
+        <?php echo $this->__('* Click on a cell to insert the value or click on the first column to insert the entire row.'); ?>
+      </p>
+    </div>
+    <?php endforeach; ?>
+  </div>
+
+  <?php $title = $this->__('Database look-up'); ?>
+
+  <button id="zp-dataset-button" class="button" title="<?php echo $title; ?>" type="button">
+    <span><span><?php echo $title; ?></span></span>
+  </button>
+
+<?php
+  }
+
   public function get_js ($context) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
