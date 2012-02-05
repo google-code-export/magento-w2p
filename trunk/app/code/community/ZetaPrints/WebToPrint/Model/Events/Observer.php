@@ -382,6 +382,14 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
     //_zetaprints_debug(array('order ID' => $order->getId()));
 
+    //Don't complete ZP orders when order's state is Pending payment and
+    //option to ignore uppaid orders is enabled.
+    //This option doesn't allow to complete ZP orders and charger
+    //our customers when user cancels PayPal payments.
+    if ((bool) Mage::getStoreConfig('webtoprint/settings/ignore-unpaid-orders')
+        && $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT)
+      return $this;
+
     foreach ($order->getAllItems() as $item) {
       $options = $item->getProductOptions();
 

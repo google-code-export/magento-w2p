@@ -335,6 +335,7 @@
       <settings>
         <templates-removing-behaviour>-1</templates-removing-behaviour>
         <products-populate-defaults>1</products-populate-defaults>
+        <ignore-unpaid-orders>0</ignore-unpaid-orders>
       </settings>
     </webtoprint>
   </default>
