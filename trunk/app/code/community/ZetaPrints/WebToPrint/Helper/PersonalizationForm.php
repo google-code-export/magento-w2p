@@ -929,7 +929,7 @@ jQuery(document).ready(function($) {
 
     foreach ($templateDetails['pages'] as $pageNumber => $page) {
       if (!isset($page['fields']))
-        continue
+        continue;
 
       $_dataset = array();
 
