@@ -182,7 +182,8 @@
         </observers>
       </customer_save_before>
 
-      <checkout_type_onepage_save_order_after>
+      <sales_model_service_quote_submit_success>
+      <!--<checkout_type_onepage_save_order_after>-->
       <!--checkout_onepage_controller_success_action-->
         <observers>
           <webtoprint-complete-zetaprints-order>
@@ -192,7 +193,8 @@
           </webtoprint-complete-zetaprints-order>
         </observers>
       <!--/checkout_onepage_controller_success_action-->
-      </checkout_type_onepage_save_order_after>
+      <!--</checkout_type_onepage_save_order_after>-->
+      </sales_model_service_quote_submit_success>
 
       <catalog_controller_product_init_before>
         <observers>
