@@ -1,5 +1,12 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Future stable release =
+== Issues ==
+  * Re-implement data sets (issue #737)
+  * Add option to ignore unpaid orders (issue #738)
+  * Add support for PayPal Express Checkout (issue #744)
+  * Bug fixes (issue #725)
+
 = Stable release (2.0.0.1) =
 == Issues ==
   * Add support for M. 1.6.1.0 (issue #678)
