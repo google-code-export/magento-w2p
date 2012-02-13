@@ -48,25 +48,30 @@ This file shows form for ordering on product page. This form contains product im
 
 New code checks for web-to-print features in a product and adds additional options (ajax image preview, colour picker, stock images chooser and support for multipage templates).
 
-The code is divided into 5 sections.
+The code is divided into 6 sections.
 
 *Section 1*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
   }}}
 
-*Section 2*: checking if а product has web-to-print features then printing text fields, stock images choosers, color pickers.
+*Section 2 (optional)*: Display button which shows data sets. Add the function if you need this feature.
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->getDataSetTable($this); ?>
+  }}}
+
+*Section 3*: checking if а product has web-to-print features then printing text fields, stock images choosers, color pickers.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
   }}}
 
-*Section 3*: checking if a product has web-to-print features then printing _Update preview_ button.
+*Section 4*: checking if a product has web-to-print features then printing _Update preview_ button.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
   }}}
 
-*Section 4*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+*Section 5*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
