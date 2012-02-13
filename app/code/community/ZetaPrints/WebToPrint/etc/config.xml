@@ -159,6 +159,12 @@
             <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
             <method>delete_zetaprints_order</method>
           </webtoprint-order-complete>
+
+          <webtoprint-complete-order-on-payment>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>complete_zetaprints_order_on_payment</method>
+          </webtoprint-complete-order-on-payment>
         </observers>
       </sales_order_save_after>
 
