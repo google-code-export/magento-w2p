@@ -131,13 +131,17 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
 
   public function replace_preview_images ($template, $previews) {
     $page_number = 0;
+    $number_of_previews = 0;
 
-    foreach ($template->Pages->Page as $page) {
-      $guid = $previews[$page_number++];
+    foreach ($template->Pages->Page as $page)
+      if (isset($previews[$page_number]) && $guid = $previews[$page_number++]) {
+        $number_of_previews++;
 
-      $page['PreviewImageUpdated'] = $this->get_preview_url($guid);
-      $page['ThumbImageUpdated'] = $this->get_thumbnail_url($guid, 100, 100);
-    }
+        $page['PreviewImageUpdated'] = $this->get_preview_url($guid);
+        $page['ThumbImageUpdated'] = $this->get_thumbnail_url($guid, 100, 100);
+      }
+
+    return $number_of_previews;
   }
 
   public function update_preview_images_urls ($template) {
