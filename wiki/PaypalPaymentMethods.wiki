@@ -1,0 +1,44 @@
+#summary PayPal Payment Methods.
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="2"></th>
+      <th>Order created</th>
+      <th>Payment successful</th>
+      <th>Payment Canceled</th>
+      <th>After shipment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">*Express Checkout*</td>
+      <td>_Simple_</td>
+      <td colspan="2">Processing</td>
+      <td>No order</td>
+      <td>Complete</td>
+    </tr>
+    <tr>
+      <td>_Virtual_</td>
+      <td colspan="2">Complete</td>
+      <td>No order</td>
+      <td>---</td>
+    </tr>
+
+    <tr>
+      <td rowspan="2">*Standard Checkout*</td>
+      <td>_Simple_</td>
+      <td>Pending Payment</td>
+      <td>Processing</td>
+      <td>Cancelled</td>
+      <td>Pending Payment</td>
+    </tr>
+    <tr>
+      <td>_Virtual_</td>
+      <td>Pending Payment</td>
+      <td>Complete</td>
+      <td>Cancelled</td>
+      <td>---</td>
+    </tr>
+  </tbody>
+<table>
