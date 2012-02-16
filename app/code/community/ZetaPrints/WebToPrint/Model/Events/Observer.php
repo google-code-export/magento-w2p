@@ -1,4 +1,4 @@
- <?php
+<?php
 
 class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
