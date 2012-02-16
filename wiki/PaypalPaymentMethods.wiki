@@ -42,3 +42,6 @@
     </tr>
   </tbody>
 <table>
+
+  * *To Save* means that ZP order is _completed_ (final files are generated) and it's placed in To save folder
+  * *To Delete* means that ZP order is _completed_ (final files are generated) and it's placed in To delete folder
