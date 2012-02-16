@@ -1,7 +1,7 @@
 #summary PayPal Payment Methods.
 
-<table>
-  <thead>
+<table border="1" cellspacing="0" cellpadding="5">
+  <thead align="center">
     <tr>
       <th colspan="2"></th>
       <th>Order created</th>
@@ -10,35 +10,35 @@
       <th>After shipment</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody align="center">
     <tr>
       <td rowspan="2">*Express Checkout*</td>
       <td>_Simple_</td>
-      <td colspan="2">Processing</td>
-      <td>No order</td>
-      <td>Complete</td>
+      <td colspan="2">Processing | To Save</td>
+      <td>No order | ---</td>
+      <td>Complete | To Delete</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
-      <td colspan="2">Complete</td>
-      <td>No order</td>
-      <td>---</td>
+      <td colspan="2">Complete | To Delete</td>
+      <td>No order | ---</td>
+      <td>--- | ---</td>
     </tr>
 
     <tr>
       <td rowspan="2">*Standard Checkout*</td>
       <td>_Simple_</td>
-      <td>Pending Payment</td>
-      <td>Processing</td>
-      <td>Cancelled</td>
-      <td>Pending Payment</td>
+      <td>Pending Payment | ---</td>
+      <td>Processing  | To Save</td>
+      <td>Cancelled | To Delete</td>
+      <td>Complete | To Delete</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
-      <td>Pending Payment</td>
-      <td>Complete</td>
-      <td>Cancelled</td>
-      <td>---</td>
+      <td>Pending Payment | ---</td>
+      <td>Complete  | To Delete</td>
+      <td>Cancelled | To Delete</td>
+      <td>--- | ---</td>
     </tr>
   </tbody>
 <table>
