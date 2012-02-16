@@ -14,13 +14,13 @@
     <tr>
       <td rowspan="2">*Express Checkout*</td>
       <td>_Simple_</td>
-      <td colspan="2">Processing | Saved</td>
+      <td colspan="2">Processing | To Print</td>
       <td>No order | Saved</td>
       <td>Complete | Deleted</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
-      <td colspan="2">Complete | Deleted</td>
+      <td colspan="2">Complete | Generated, Deleted</td>
       <td>No order | Saved</td>
       <td>--- | ---</td>
     </tr>
@@ -29,19 +29,19 @@
       <td rowspan="2">*Standard Checkout*</td>
       <td>_Simple_</td>
       <td>Pending Payment | Saved</td>
-      <td>Processing  | Saved</td>
-      <td>Cancelled | Deleted</td>
+      <td>Processing  | To Print</td>
+      <td>Cancelled | Deleted, not generated</td>
       <td>Complete | Delete</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
       <td>Pending Payment | Saved</td>
-      <td>Complete  | Deleted</td>
-      <td>Cancelled | Deleted</td>
+      <td>Complete  | Generated, Deleted</td>
+      <td>Cancelled | Deleted, not generated</td>
       <td>--- | ---</td>
     </tr>
   </tbody>
 <table>
 
-  * *Saved* means that ZP order is _completed_ (final files are generated) and it's placed in To save folder
-  * *To Delete* means that ZP order is _completed_ (final files are generated) and it's placed in To delete folder
+  * *Express checkout* works before any order is created in Mage and is part of the checkout process.
+  * *Standard checkout* sits after the checkout and an order is generated in Mage even before the customer is asked to pay
