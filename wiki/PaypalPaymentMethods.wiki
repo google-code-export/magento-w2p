@@ -6,7 +6,7 @@
       <th colspan="2"></th>
       <th>Order created</th>
       <th>Payment successful</th>
-      <th>Payment Canceled</th>
+      <th>Payment canceled</th>
       <th>After shipment</th>
     </tr>
   </thead>
