@@ -525,22 +525,21 @@ function zetaprints_get_user_images ($url, $key, $data) {
   $images = array();
 
   foreach ($xml->Image as $image)
-    $images[] = array('folder' => (string)$image['Folder'],
-                      'guid' => (string)$image['ImageID'],
-                      'created'
-                               => _zetaprints_string_to_date($image['Created']),
-                      'used' => _zetaprints_string_to_date($image['Used']),
-                      'updated' =>
-                                  _zetaprints_string_to_date($image['Updated']),
-                      'file_guid' => (string)$image['FileID'],
-                      'mime' => (string)$image['MIME'],
-                      'thumbnail' => (string)$image['Thumb'],
-                      'thumbnail_width' => (int)$image['ThumbWidth'],
-                      'thumbnail_height' => (int)$image['ThumbHeight'],
-                      'width' => (int)$image['ImageWidth'],
-                      'height' => (int)$image['ImageHeight'],
-                      'description' => (string)$image['Description'],
-                      'length' => (int)$image['Length'] );
+    $images[(string) $image['ImageID']]
+      = array('folder' => (string) $image['Folder'],
+              'guid' => (string) $image['ImageID'],
+              'created' => _zetaprints_string_to_date($image['Created']),
+              'used' => _zetaprints_string_to_date($image['Used']),
+              'updated' => _zetaprints_string_to_date($image['Updated']),
+              'file_guid' => (string) $image['FileID'],
+              'mime' => (string) $image['MIME'],
+              'thumbnail' => (string) $image['Thumb'],
+              'thumbnail_width' => (int) $image['ThumbWidth'],
+              'thumbnail_height' => (int) $image['ThumbHeight'],
+              'width' => (int) $image['ImageWidth'],
+              'height' => (int) $image['ImageHeight'],
+              'description' => (string) $image['Description'],
+              'length' => (int) $image['Length'] );
 
   _zetaprints_debug(array('images' => $images));
 
