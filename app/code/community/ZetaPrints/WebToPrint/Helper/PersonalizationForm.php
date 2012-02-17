@@ -578,10 +578,15 @@ jQuery(document).ready(function($) {
   }
 
   public function get_order_webtoprint_links ($context, $item = null) {
-    if ($item)
-      $options = $item->getProductOptionByCode('info_buyRequest');
-    else
-      $options = $context->getItem()->getProductOptionByCode('info_buyRequest');
+    $isAdmin = false;
+
+    if (!$item) {
+      $item = $context->getItem();
+
+      $isAdmin = true;
+    }
+
+    $options = $item->getProductOptionByCode('info_buyRequest');
 
     //Check for ZetaPrints Template ID in item options
     //If it doesn't exist or product doesn't have web-to-print features then...
@@ -589,7 +594,7 @@ jQuery(document).ready(function($) {
       //... just return from the function.
       return;
 
-    if (!$item && isset($options['zetaprints-previews'])
+    if ($isAdmin && isset($options['zetaprints-previews'])
         && !$options['zetaprints-previews']) {
 
       $input = array();
@@ -606,22 +611,87 @@ jQuery(document).ready(function($) {
             || strpos($_key, '*') === 0))
           continue;
 
-        //Text and image template fields distinguish by prefix in its name
-        //Prefix for text fields is '_' sign, for image fields is '#' sign.
-        //Metadata fields for text and image fields prepends prefix
-        //with '*' sign, i.e. '*_' for text fields and '*#' for image fields.
-        //So POST fields have 1- or 2-letter prefixes.
+        if (strpos($_key, '#') === 0) {
+          if (! $details = $context->getTemplateDetails()) {
+            $details = $this
+                  ->getTemplateDetailsByGUID($options['zetaprints-TemplateID']);
 
-        //Determine length of field prefix
-        $prefix_length = 1;
-        if (strpos($_key, '*') === 0)
-          $prefix_length = 2;
+            if ($details)
+              $context->setTemplateDetails($details);
+          }
 
-        //Process field name (key), restore original symbols
-        $_key = substr($_key, 0, $prefix_length)
-                  . str_replace( array('_', "\x0A"),
-                                 array(' ', '.'),
-                                 substr($_key, $prefix_length) );
+          if ($details) {
+            if (! $stockImages = $context->getStockImages()) {
+              $stockImages = array();
+
+              foreach ($details['pages'] as $page)
+                foreach ($page['images'] as $imageField)
+                  if (isset($imageField['stock-images']))
+                    foreach ($imageField['stock-images'] as $image)
+                      if (!isset($stockImages[$image['guid']])) {
+                        $tokens = explode('.', $image['thumb']);
+
+                        $stockImages[$image['guid']]
+                          = array('thumb' => $image['thumb'],
+                                  'small-thumb'
+                                       => $tokens[0] . '_0x100.' . $tokens[1] );
+                      }
+
+              $context->setStockImages($stockImages);
+            }
+
+            if (isset($stockImages[$value])) {
+              $url = Mage::getStoreConfig('webtoprint/settings/url')
+                     . 'photothumbs/'
+                     . $stockImages[$value]['thumb'];
+
+              $small_url = Mage::getStoreConfig('webtoprint/settings/url')
+                           . 'photothumbs/'
+                           . $stockImages[$value]['small-thumb'];
+
+              $value = "<a href=\"{$url}\" target=\"_blank\">" .
+                         "<image src=\"{$small_url}\" />" .
+                       "</a>";
+            } else {
+              if (! $userImages = $context->getUserImages()) {
+                $customer = Mage::getModel('customer/customer')
+                              ->load($item->getOrder()->getCustomerId());
+
+                $userImages = array();
+
+                if ($customer->getId()) {
+                  $url = Mage::getStoreConfig('webtoprint/settings/url');
+                  $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+                  $data = array(
+                    'ID' => $customer->getZetaprintsUser(),
+                    'Hash' => zetaprints_generate_user_password_hash(
+                                          $customer->getZetaprintsPassword()) );
+
+                  $userImages = zetaprints_get_user_images($url, $key, $data);
+
+                  $context->setUserImages($userImages);
+                }
+              }
+
+              if (isset($userImages[$value])) {
+                $url = Mage::getStoreConfig('webtoprint/settings/url')
+                     . 'photothumbs/' 
+                     . $userImages[$value]['thumbnail'];
+
+                $tokens = explode('.', $userImages[$value]['thumbnail']);
+
+                $small_url = Mage::getStoreConfig('webtoprint/settings/url')
+                             . 'photothumbs/' 
+                             . $tokens[0] . '_0x100.' . $tokens[1];
+
+                $value = "<a href=\"{$url}\" target=\"_blank\">" .
+                           "<image src=\"{$small_url}\" />" .
+                         "</a>";
+              }
+            }
+          }
+        }
 
         //Add token to the array
         $input[$_key] = $value;
@@ -663,7 +733,7 @@ jQuery(document).ready(function($) {
                               ->getCustomOptions('file-download/users@allow=1');
 
     //Check that downloading generated files is allowed for users
-    if ($item && !$is_user_allowed_download) {
+    if (!$isAdmin && !$is_user_allowed_download) {
       $template = Mage::getModel('webtoprint/template')
                                       ->load($options['zetaprints-TemplateID']);
 
@@ -692,7 +762,7 @@ jQuery(document).ready(function($) {
     $types = array('pdf', 'gif', 'png', 'jpeg');
 
     //If function called from admin template
-    if (!$item)
+    if ($isAdmin)
       //then add CDR file type to list of available types
       array_push($types, 'cdr');
 
@@ -704,7 +774,7 @@ jQuery(document).ready(function($) {
 
     //Check if the item is not null (it means the function was called from admin
     //interface) and ZetaPrints Order ID option is in the item then...
-    if (!$item && isset($options['zetaprints-order-id'])) {
+    if ($isAdmin && isset($options['zetaprints-order-id'])) {
       //... create URL to order details on web-to-print site
       $zp_order_url = Mage::getStoreConfig('webtoprint/settings/url')
                       . '?page=order-details;OrderID='

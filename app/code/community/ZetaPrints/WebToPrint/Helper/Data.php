@@ -334,4 +334,24 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract {
     return $model;
   }
 
+
+  public function getTemplateDetailsByGUID ($guid) {
+    $template = Mage::getModel('webtoprint/template')->load($guid);
+
+    if (!$template->getId())
+      return null;
+
+    try {
+      $xml = new SimpleXMLElement($template->getXml());
+    } catch (Exception $e) {
+      Mage::log("Exception: {$e->getMessage()}");
+
+      return null;
+    }
+
+    if (!$xml)
+      return null;
+
+    return zetaprints_parse_template_details($xml);
+  }
 }
