@@ -67,8 +67,9 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
         $addressForm->setEntity($address);
         $addressErrors  = $addressForm->validateData($address->getData());
 
-        if ($addressErrors !== true)
-          return array('error' => 1, 'message' => $addressErrors);
+        //Disable checking validation results
+        //if ($addressErrors !== true)
+        //  return array('error' => 1, 'message' => $addressErrors);
       }
     } else {
       $addressForm->setEntity($address);
