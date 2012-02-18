@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <td>_Virtual_</td>
-      <td colspan="2">Complete | Generated, Deleted</td>
+      <td colspan="2">Processing | To Print</td>
       <td>No order | Saved</td>
       <td>--- | ---</td>
     </tr>
