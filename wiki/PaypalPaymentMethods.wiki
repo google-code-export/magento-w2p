@@ -18,7 +18,7 @@
       <td colspan="2">Processing | To Print</td>
       <td>No order | Saved</td>
       <td>Processing | To Print</td>
-      <td>Complete | Deleted</td>
+      <td>Complete | Generated, Deleted</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
@@ -35,7 +35,7 @@
       <td>Processing  | To Print</td>
       <td>Cancelled | Deleted, not generated</td>
       <td>Processing  | To Print</td>
-      <td>Complete | Delete</td>
+      <td>Complete | Generated, Deleted</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
