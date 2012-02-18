@@ -7,6 +7,7 @@
       <th>Order created</th>
       <th>Payment successful</th>
       <th>Payment canceled</th>
+      <th>After invoice</th>
       <th>After shipment</th>
     </tr>
   </thead>
@@ -16,12 +17,14 @@
       <td>_Simple_</td>
       <td colspan="2">Processing | To Print</td>
       <td>No order | Saved</td>
+      <td>Processing | To Print</td>
       <td>Complete | Deleted</td>
     </tr>
     <tr>
       <td>_Virtual_</td>
       <td colspan="2">Processing | To Print</td>
       <td>No order | Saved</td>
+      <td>Complete | Deleted</td>
       <td>--- | ---</td>
     </tr>
 
@@ -31,6 +34,7 @@
       <td>Pending Payment | Saved</td>
       <td>Processing  | To Print</td>
       <td>Cancelled | Deleted, not generated</td>
+      <td>Processing  | To Print</td>
       <td>Complete | Delete</td>
     </tr>
     <tr>
@@ -38,6 +42,7 @@
       <td>Pending Payment | Saved</td>
       <td>Complete  | Generated, Deleted</td>
       <td>Cancelled | Deleted, not generated</td>
+      <td>Complete | Delete</td>
       <td>--- | ---</td>
     </tr>
   </tbody>
