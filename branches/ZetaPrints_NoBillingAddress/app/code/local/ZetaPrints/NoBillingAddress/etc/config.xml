@@ -59,6 +59,7 @@
           <onepage_payment>ZetaPrints_NoBillingAddress_Block_Onepage_Payment</onepage_payment>
           <onepage_billing>ZetaPrints_NoBillingAddress_Block_Onepage_Billing</onepage_billing>
           <onepage_review>ZetaPrints_NoBillingAddress_Block_Onepage_Review</onepage_review>
+          <onepage_shipping>ZetaPrints_NoBillingAddress_Block_Onepage_Shipping</onepage_shipping>
         </rewrite>
       </checkout>
     </blocks>

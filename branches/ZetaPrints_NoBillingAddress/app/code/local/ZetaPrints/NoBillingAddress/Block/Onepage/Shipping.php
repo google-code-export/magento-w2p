@@ -25,29 +25,17 @@
  */
 
 /**
- * Onepage checkout block
+ * One page checkout status
  *
- * @category   Mage
- * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class ZetaPrints_NoBillingAddress_Block_Onepage
-  extends Mage_Checkout_Block_Onepage {
+class ZetaPrints_NoBillingAddress_Block_Onepage_Shipping
+  extends Mage_Checkout_Block_Onepage_Shipping {
 
-  public function getActiveStep () {
-    $step = 'billing';
+  protected function _construct () {
+    parent::_construct();
 
     if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
-      $step = 'shipping';
-
-    if ($this->getQuote()->isVirtual()) {
-      if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
-        $step = 'review';
-
-      if (Mage::helper('nobillingaddress')->hasPaymentMethods())
-        $step = 'payment';
-    }
-
-    return $this->isCustomerLoggedIn() ? $step : 'login';
+      $this->getCheckout()->setStepData('shipping', 'allow', true);
   }
 }
