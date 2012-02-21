@@ -35,6 +35,13 @@
 class ZetaPrints_NoBillingAddress_Block_Onepage_Payment
   extends Mage_Checkout_Block_Onepage_Payment {
 
+  protected function _construct () {
+    parent::_construct();
+
+    if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
+      $this->getCheckout()->setStepData('payment', 'allow', true);
+  }
+
   public function isShow () {
     return Mage::helper('nobillingaddress')->hasPaymentMethods();
   }
