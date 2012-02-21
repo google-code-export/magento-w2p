@@ -47,6 +47,38 @@
         </rewrite>
       </sales>
     </models>
+
+    <blocks>
+      <nobillingaddress>
+        <class>ZetaPrints_NoBillingAddress_Block</class>
+      </nobillingaddress>
+
+      <checkout>
+        <rewrite>
+          <onepage_payment>ZetaPrints_NoBillingAddress_Block_Onepage_Payment</onepage_payment>
+          <onepage_billing>ZetaPrints_NoBillingAddress_Block_Onepage_Billing</onepage_billing>
+          <onepage_review>ZetaPrints_NoBillingAddress_Block_Onepage_Review</onepage_review>
+        </rewrite>
+      </checkout>
+    </blocks>
+
+    <helpers>
+      <nobillingaddress>
+        <class>ZetaPrints_NoBillingAddress_Helper</class>
+      </nobillingaddress>
+    </helpers>
+
+    <events>
+      <controller_action_postdispatch_checkout_onepage_saveBilling>
+        <observers>
+          <nobillingaddress-save-billing-observer>
+            <type>singleton</type>
+            <class>ZetaPrints_NoBillingAddress_Model_Events_Observer</class>
+            <method>saveBillingAction</method>
+          </nobillingaddress-save-billing-observer>
+        </observers>
+      </controller_action_postdispatch_checkout_onepage_saveBilling>
+    </events>
   </global>
 
   <frontend>

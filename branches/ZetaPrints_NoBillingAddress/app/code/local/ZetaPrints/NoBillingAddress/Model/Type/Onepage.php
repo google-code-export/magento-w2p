@@ -167,6 +167,13 @@ class ZetaPrints_NoBillingAddress_Model_Type_Onepage
       ->setStepData('billing', 'complete', true)
       ->setStepData('shipping', 'allow', true);
 
+    if (!Mage::helper('nobillingaddress')->hasPaymentMethods())
+      $this
+        ->getCheckout()
+        ->setStepData('payment', 'allow', true)
+        ->setStepData('payment', 'complete', true)
+        ->setStepData('review', 'allow', true);
+
     return array();
   }
 }
