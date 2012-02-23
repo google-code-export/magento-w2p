@@ -36,6 +36,8 @@ class ZetaPrints_NoBillingAddress_Block_Onepage_Billing
   extends Mage_Checkout_Block_Onepage_Billing {
 
   public function isShow () {
-    return !(Mage::helper('nobillingaddress')->hasDefaultBillingAddress());
+    return !$this->getQuote()->isVirtual()
+           && !Mage::helper('nobillingaddress')->hasDefaultBillingAddress()
+           || !$this->isCustomerLoggedIn();
   }
 }

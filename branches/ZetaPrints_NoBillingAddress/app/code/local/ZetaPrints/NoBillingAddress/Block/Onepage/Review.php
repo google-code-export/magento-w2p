@@ -38,8 +38,7 @@ class ZetaPrints_NoBillingAddress_Block_Onepage_Review
   protected function _construct () {
     parent::_construct();
 
-    if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress()
-        && !Mage::helper('nobillingaddress')->hasPaymentMethods())
+    if (!Mage::helper('nobillingaddress')->hasPaymentMethods())
       $this->getCheckout()->setStepData('review', 'allow', true);
   }
 }

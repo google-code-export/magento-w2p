@@ -38,7 +38,8 @@ class ZetaPrints_NoBillingAddress_Block_Onepage_Payment
   protected function _construct () {
     parent::_construct();
 
-    if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
+    if ($this->getQuote()->isVirtual()
+        || Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
       $this->getCheckout()->setStepData('payment', 'allow', true);
   }
 

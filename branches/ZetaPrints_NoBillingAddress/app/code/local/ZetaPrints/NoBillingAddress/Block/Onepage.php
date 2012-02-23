@@ -41,8 +41,7 @@ class ZetaPrints_NoBillingAddress_Block_Onepage
       $step = 'shipping';
 
     if ($this->getQuote()->isVirtual()) {
-      if (Mage::helper('nobillingaddress')->hasDefaultBillingAddress())
-        $step = 'review';
+      $step = 'review';
 
       if (Mage::helper('nobillingaddress')->hasPaymentMethods())
         $step = 'payment';
