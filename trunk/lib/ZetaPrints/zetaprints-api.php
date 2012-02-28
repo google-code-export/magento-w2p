@@ -134,6 +134,9 @@ function zetaprints_get_templates_from_catalog ($url, $key, $catalog_guid) {
 }
 
 function zetaprints_parse_template_details ($xml) {
+  if ($xml->getName() !== 'TemplateDetails')
+    return null;
+
   $download = false;
 
   if (isset($xml['Download']) && ((string)$xml['Download'] == 'allow'
