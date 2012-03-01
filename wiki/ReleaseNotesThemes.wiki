@@ -1,103 +1,104 @@
-#summary List of themes with comments on their state and compatibility.
+#summary List of themes already enabled for web-to-print.
 #labels Integration,Development
-
-This page describes the state of themes provided via our [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html Premium Web-to-Print support service]. 
-
-Modified files for *free themes* can be downloaded from [http://code.google.com/p/magento-w2p/downloads/list Downloads section].
-Files for *commercial themes* are provided to legitimate theme owners via [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html Premium Web-to-Print support service]. In other words, you have to purchase the theme, install it on your site and then we will provide you with the modified files. You will still need to [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html place an order].
-
 
 = Hello themes =
 
+This page describes the state of HelloThemes that we currently have enabled for our [http://www.magentocommerce.com/magento-connect/web-to-print-and-dynamic-imaging.html web-to-print extension for Magento]. The web-to-print enabled theme files are provided via our [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html premium web-to-print support service]. 
 
-==helloglam==
-  * Commercial 
-  * Light low contrast theme
-  * Uses left sidebar.
-  * Does not use button for add to cart but link.
-
-*Release 154* (_internal SVN_) works with M. 1.5 and w2p 1.9. 
+Files for *commercial themes* are provided to legitimate theme owners only. In other words, you have to purchase the theme, install it on your site and then we will provide you with the modified files. You will still need to [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html place an order].
 
 
+==HelloCanvas==
+  * Version: 3.0
+  * Last updated 08 / 2011
+  * Tested compatible with Magento version 1.5.0.1 and web-to-print v. 1.9.0
 
-==hellokids==
 
-  * Does not use horizontal categories menu
-  * Uses left sidebar, and vertical categories menu in it.
-  * Has issues with store switcher in header (this is in M. 1.5)
-  * Not very suitable for theme demo site, can't really go to any category/product from home page unless home page is changed to use left sidebar
-  * Uses large previews for products.
-  * For footer it needs a footerLinks CMS block
+==HelloClean==
+  * Version: 3.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
-*Release 149* (_internal SVN_) works for 1.8.3.2 and magento 1.4.2
 
-==hellococo==
+==HelloCoco==
+  * Version: 2.0
+  * Last updated 10 / 2011
+  * Tested compatible with Magento version 1.6 and web-to-print v. 2.0.1
 
-  * A theme with very specific style for front page. Will not look good with /magento front page without serious modifications.
-  * Uses left sidebar.
-  * Store switcher is off place on each page.
-  * Footer is designed to be filled with content and push 'Back to top' button at bottom of the page.
-*Release 116* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
 
-==hellowired==
-  * hellowired generic, added icon for file uploader, default button styles didn't work well with hellowired. 
-  * Tested it with M. 1.5.1 and w2p 1.9.0 stable
-*Release r1672(hellowired_zeta)* (_g-code_) works with w2p 1.9.0 stable and Magento 1.5.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired.1672.zip&can=2&q=#makechanges changes]
-  * hellowired generic, added right callout and a w2p call out style rule, free, available from the [http://code.google.com/p/magento-w2p/source/browse/#svn%2Fbranches%2Fhellowired_zeta SVN]
-*Release r1583(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1
-  * Updated to 1.9.0rc3 version of w2p
-*Release 1578(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc3 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.1578.zip&can=2&q=#makechanges changes]
+==HelloGlam==
+  * Version: 2.2
+  * Last updated 04 / 2011
+  * Tested compatible with Magento version 1.5 and web-to-print v. 1.9
 
-  * Free theme.
-  * Adapted for 1.9.0rc2 and Magento 1.5.0.1(which is used on /magento)
-  * Uses 2 sidebars on category page and left sidebar on product page.
-  * Does not show store switcher at all.
-  * It has been tested on 1.5 and works, which means that some things won't work on 1.4.2 any more.
-  * For footer it needs a footerLinks CMS block
-*Release 1571(hellowired_zeta)* (_g-code_) works with w2p 1.9.0rc2 and Magento 1.5.0.1, download [http://code.google.com/p/magento-w2p/downloads/detail?name=hellowired_diff.zip#makechanges changes]
+
+==HelloJynxx==
+  * Version: 3.0
+  * Last updated 10 / 2011
+  * Tested compatible with Magento version 1.6.0 and web-to-print v. 1.9.0
+
+
+==HelloKids==
+  * Version: 3.0
+  * Last updated 08 / 2011
+  * Tested compatible with Magento version 1.4.2 and web-to-print v. 1.8.3
+
+
+==HelloMagento==
+  * Version: 2.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+
+
+==HelloMini==
+  * Version: 2.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+
+
+==HelloMinty==
+  * Version: 3.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+
+
+==HelloMix==
+  * Version: 3.0
+  * Last updated 10 / 2011
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+
+
+==HelloPress==
+  * Version: 3.0
+  * Last updated 12 / 2011
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+
+
+==HelloSimple==
+  * Version: 1.9
+  * Last updated 02 / 2011
+  * Tested compatible with Magento version 1.4.2 and web-to-print v. 1.8.3.2
+
+
+==HelloSixty==
+  * Version: 2.0
+  * Last updated 07 / 2011
+  * Tested compatible with Magento version 1.5.0 and web-to-print v. 1.9.1
+
+
+==HelloStyle==
+  * Version: 2.1
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
   
-==hellouno==
+==HelloUno==
+  * Version: 4.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
-  * Updated to work with w2p 1.9.0rc3 and M.1.5.0.1 for generic version of the theme.
-*Release 169* (_internal SVN_) works with w2p 1.9.0rc3 and Magento 1.5.0.1
 
-  * Adapted for 1.9.0rc2 and Magento 1.5.0.1
-  * Sidebars are narrower then default, this causes some misalignment on home page.
-  * For category page uses 2 sidebars.
-  * For product page uses left sidebar
-  * Uses link for Add to cart btn.
-  * Uses large previews for images.
-  * Uses own copy of zp-styles.css
-  * For footer it needs a footerLinks CMS block
-*Release 162* (_internal SVN_) works with w2p 1.9.0rc2 and Magento 1.5.0.1
-
-==hellosimple==
-
-  * Adapted for 1.8.3.2
-  * Uses a copy of zp-styles.css to add space around form items (probably should be removed in latest versions). This is the cause of w2p image bellow product to be visible.
-  * Uses left sidebar.
-  * Has 3 colors - light blue, green and pink. Blue is default, any changes made to style.css are made only to default color.
-  * Uses link for Add to cart btn.
-*Release 124* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.2
-
-==hellocanvas==
-
-  * updated to work with w2p 1.9.0rc3 and M.1.5.0.1 for generic version
-*Release 166* (_internal SVN_) works for w2p 1.9.0rc3 and magento 1.5.0.1
-
-  * hellocanvas, high contrast theme, one of the last we adapted
-  * Adapted for 1.9.0rc2 and Magento 1.5.0.1
-  * uses right sidebar.
-  * In cart page needs table to be adjusted to have right number of columns.
-  * It has some css variations of button colors mostly. Default is purple, then blue, green and orange. Never used any other but default.
-  * For footer it needs a footerLinks CMS block
-*Release 161* (_internal SVN_) works for w2p 1.9.0rc2 and magento 1.5.0.1
-==hellojynxx==
-  * Hellojynxx was adapted in its 1.4.1.1 version (don't know why, probably client store was 1.4.1.1)
-  * Adapted to work with w2p 1.8.3.2 only for its 1.4.1.1 version.
-  * Uses right sidebar.
-  * Uses link not button for Add to cart.
-  * For footer it needs a footerLinks CMS block
-  * Uses large previews for images.
-*Release 107* (_internal SVN_) works for w2p 1.8.3.2 and magento 1.4.1.1
+==HelloWired==
+  * Version: 3.0
+  * Last updated 02 / 2012
+  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
