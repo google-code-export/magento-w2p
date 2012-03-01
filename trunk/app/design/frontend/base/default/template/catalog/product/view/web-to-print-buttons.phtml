@@ -1,0 +1,89 @@
+<?php
+
+$_product = $this->getProduct();
+$_helper = Mage::helper('webtoprint');
+
+if (!$_helper->get_template_id($_product))
+  return;
+
+$templateDetails = $_helper->getTemplateDetailsForCurrentProduct();
+$pages = isset($templateDetails['pages']) ? $templateDetails['pages'] : null;
+
+$isStatic = $pages && $pages[1]['static'];
+$hasShape = $pages && isset($pages[1]['shapes']);
+
+$hideIfStatic = $isStatic ? 'zp-hidden' : '';
+$enlargeCss = $isStatic || !$hasShape ? '' : 'zp-hidden';
+$editorCss = $hasShape && !$isStatic ? '' : 'zp-hidden';
+?>
+
+<div class="zp-buttons-wrapper">
+  <div id="zp-enlarge-button" class="zp-button <?php echo $enlargeCss; ?>">
+    <div class="zp-button-left"></div>
+    <div class="zp-button-right"></div>
+    <div class="zp-button-content">
+      <div class="zp-button-top">
+        <div class="zp-button-icon"></div>
+      </div>
+      <div class="zp-button-bottom">
+        <?php echo $this->__('Enlarge') ?>
+      </div>
+    </div>
+  </div>
+
+  <div id="zp-editor-button" class="zp-button <?php echo $editorCss; ?>">
+    <div class="zp-button-left"></div>
+    <div class="zp-button-right"></div>
+    <div class="zp-button-content">
+      <div class="zp-button-top">
+        <div class="zp-button-icon"></div>
+      </div>
+      <div class="zp-button-bottom">
+        <?php echo $this->__('Editor') ?>
+      </div>
+    </div>
+  </div>
+
+  <div id="zp-form-button" class="zp-button <?php echo $hideIfStatic; ?>">
+    <div class="zp-button-left"></div>
+    <div class="zp-button-right"></div>
+    <div class="zp-button-content">
+      <div class="zp-button-top">
+        <div class="zp-button-icon"></div>
+      </div>
+      <div class="zp-button-bottom">
+        <?php echo $this->__('Form') ?>
+      </div>
+    </div>
+  </div>
+
+  <div id="zp-update-preview-form-button" class="zp-button <?php echo $hideIfStatic; ?>">
+    <div class="zp-button-left"></div>
+    <div class="zp-button-right"></div>
+    <div class="zp-button-content">
+      <div class="zp-button-top">
+        <div class="zp-button-icon"></div>
+      </div>
+      <div class="zp-button-bottom">
+        <?php echo $this->__('Update preview') ?>
+      </div>
+    </div>
+  </div>
+
+  <?php if ($pages && count($pages) > 1): ?>
+
+  <div id="zp-next-page-button" class="zp-button">
+    <div class="zp-button-left"></div>
+    <div class="zp-button-right"></div>
+    <div class="zp-button-content">
+      <div class="zp-button-top">
+        <div class="zp-button-icon"></div>
+      </div>
+      <div class="zp-button-bottom">
+        <?php echo $this->__('Next page') ?>
+      </div>
+    </div>
+  </div>
+
+  <?php endif; ?>
+</div>

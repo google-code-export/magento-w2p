@@ -95,33 +95,6 @@ div.product-shop dl {
   margin-bottom: 5px;
 }
 
-/**/
-div.zetaprints-preview-button {
-  display: none;
-  float: left;
-  margin-top: 25px;
-}
-
-/**/
-div.zetaprints-preview-button span.text {
-  display: none;
-  margin-left: 10px;
-  font-size: 85%;
-}
-
-div.zetaprints-next-page-button {
-  display: none;
-  float: left;
-  margin: 25px 0px 0px 10px;
-}
-
-/**/
-img.ajax-loader {
-  vertical-align: middle;
-  margin-left: 10px;
-  display: none;
-}
-
 div.save-order {
   background: none;
 }
@@ -610,26 +583,6 @@ span.zetaprints-share-link.show input {
   display: inline;
 }
 
-div.zetaprints-preview-placeholder {
-  width: 100%;
-  height: 200px;
-}
-
-div.zetaprints-preview-placeholder.hidden {
-  display: none;
-}
-
-div.zetaprints-big-spinner {
-  background: url('../images/big-spinner.gif') center no-repeat;
-  width: 100%;
-  height: 100%;
-}
-
-div.zetaprints-big-spinner.zetaprints-over-image-spinner {
-  position: absolute;
-  top: 0px;
-}
-
 /* CSS rules for different notices */
 .zetaprints-notice.hidden {
   display: none;
@@ -851,3 +804,141 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .z-index-1 {
   z-index: 1;
 }
+
+.zp-buttons-wrapper {
+  clear: left;
+  width: 267px;
+}
+
+.zp-buttons-wrapper .zp-button {
+  float: left;
+  margin: 10px 5px 0 0;
+}
+
+.zp-button {
+  height: 35px;
+  position: relative;
+  padding: 0 5px;
+  font-size: 95%;
+  cursor: pointer;
+}
+
+.zp-button-left,
+.zp-button-right,
+.zp-button-icon {
+  background: url('../images/web-to-print/zp-button-sprites.png') no-repeat;
+  height: inherit;
+}
+
+.zp-button-left,
+.zp-button-right {
+  background: url('../images/web-to-print/zp-button-sprites.png') no-repeat;
+  width: 5px;
+  top: 0;
+  bottom: 0;
+}
+
+.zp-button-left {
+  position: absolute;
+  left: 0;
+  background-position: 0px -23px;
+}
+
+.zp-button-right {
+  position: absolute;
+  right: 0;
+  background-position: -29px -23px;
+}
+
+.zp-button-top,
+.zp-button-bottom {
+  height: 17px;
+  line-height: 17px;
+}
+
+.zp-button-icon {
+  margin: 0 auto;
+}
+
+#zp-update-preview-form-button .zp-button-icon {
+  background-position: -39px 4px;
+  width: 12px;
+}
+
+#zp-editor-button .zp-button-icon {
+  background-position: 0px 3px;
+  width: 11px;
+}
+
+#zp-enlarge-button .zp-button-icon {
+  background-position: -18px 2px;
+  width: 15px;
+}
+
+#zp-form-button .zp-button-icon {
+  background-position: -61px 2px;
+  width: 12px;
+}
+
+#zp-next-page-button .zp-button-icon {
+  background-position: -83px 4px;
+  width: 10px;
+}
+
+.zp-button-content {
+  height: inherit;
+  background: url('../images/web-to-print/zp-button-background.png') repeat-x;
+  padding-top: 1px;
+}
+
+#zp-next-page-button {
+  display: none;
+  float: right;
+  margin: 10px 0 0 0;
+}
+
+#zp-preview-overlay {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: url('../images/web-to-print/preview-overlay-background.png') repeat;
+  text-align: center;
+}
+
+#zp-preview-overlay.zp-no-preview {
+  background: none;
+}
+
+#zp-preview-overlay span {
+  position: relative;
+  top: 50%;
+  color: white;
+  font-weight: bold;
+}
+
+#zp-preview-overlay.zp-no-preview span {
+  display: none;
+}
+
+.zp-preview-overlay-spinner {
+  width: 34px;
+  height: 34px;
+  background: url('../images/web-to-print/loading-spinner-background.png');
+  position: relative;
+  top: 50%;
+  margin: -22px auto 0 auto;
+  padding: 10px 0 0 10px;
+}
+
+.zp-preview-overlay-spinner div {
+  width: 24px;
+  height: 24px;
+  background: url('../images/web-to-print/loading-spinner.gif');
+}
+
+#zp-preview-placeholder {
+  height: 200px;
+  width: 100%;
+}
+

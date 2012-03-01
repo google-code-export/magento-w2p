@@ -126,11 +126,10 @@
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <!-- /****** ZP-CODE:4 Printing preview and next page buttons
-                     for products with web-to-print feature ******/ -->
+        <!-- /****** ZP-CODE:4 Output web-to-print button for products
+                               with web-to-print feature ******/ -->
 
-        <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
-        <?php $this->helper('webtoprint/personalization-form')->get_next_page_button($this); ?>
+        <?php echo $this->getChildHtml('webtoprint_buttons'); ?>
 
         <!-- /****** ZP-CODE:4 End ******/ -->
 
