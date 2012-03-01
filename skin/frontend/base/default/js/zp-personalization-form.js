@@ -159,35 +159,68 @@ function personalization_form ($) {
     return false;
   }
 
+  function hide_activity () {
+    $preview_overlay.addClass('zp-hidden');
+  }
+
+  function show_activity () {
+    $preview_overlay.removeClass('zp-hidden');
+  }
+
   var $product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative');
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
 
   var $add_to_cart_button = $('#zetaprints-add-to-cart-button');
 
-  //If base image is not set
-  if (!has_image_zoomer)
-    //then remove all original images placed by M.
-    $(product_image_element).empty();
+  var $form_button = $('#zp-form-button').click(function () {
+    var $fields = $('#input-fields-page-' + zp.current_page +
+                    ', #stock-images-page-' + zp.current_page);
 
-  //and it's personalization step (for 2-step theme)
-  if (this.is_personalization_step) {
-    //remove zoomer and base image
+    zp.is_fields_hidden = !$fields.hasClass('zp-hidden');
+
+    if (zp.is_fields_hidden)
+      $fields.addClass('zp-hidden');
+    else
+      $fields.removeClass('zp-hidden');
+
+  })
+
+  var $editor_button = $('#zp-editor-button').click(function () {
+    $('#preview-image-page-' + zp.current_page).click();
+  });
+
+  var $enlarge_button = $('#zp-enlarge-button').click(function () {
+    $('#preview-image-page-' + zp.current_page).click();
+  });
+
+  var $update_preview_button = $('#zp-update-preview-form-button');
+  var $next_page_button = $('#zp-next-page-button');
+
+  //If base image is not set or it's personalization step (for 2-step theme)
+  if (this.is_personalization_step || !has_image_zoomer) {
     $(product_image_element).removeClass('product-image-zoom');
-    $('#image, #track_hint, div.zoom').remove();
+
+    //then remove all original images placed by M., zoomer and base image
+    $(product_image_element)
+      .empty();
+
+    //Add preview image placeholder
+    var $preview_placeholder = $('<div id="zp-preview-placeholder" />')
+                                 .appendTo(product_image_element);
+
     has_image_zoomer = false;
   }
 
-  //Add placeholders with spinners for preview images to the product page
-  for (var page_number in this.template_details.pages)
-    $('<div id="zp-placeholder-for-preview-' + page_number +
-      '" class="zetaprints-preview-placeholder zp-hidden"><div class=' +
-      '"zetaprints-big-spinner" /></div>').appendTo(product_image_element);
-
-  //If no image zoomer on the page
-  if (!has_image_zoomer)
-    //then show placeholder and spinner for the first page
-    $('#zp-placeholder-for-preview-1').removeClass('zp-hidden');
+  var $preview_overlay = $('<div id="zp-preview-overlay" class="zp-no-preview">' +
+                             '<div class="zp-preview-overlay-spinner">' +
+                               '<div />' +
+                             '</div>' +
+                             '<span>' +
+                               updating_preview_image_text + '&hellip;' +
+                             '</span>' +  
+                           '</div>')
+    .appendTo(product_image_element);
 
   //Set current template page to the first (1-based index)
   this.current_page = 1;
@@ -197,15 +230,9 @@ function personalization_form ($) {
     this.template_details.guid +'" />').appendTo('#product_addtocart_form');
 
   //If update_first_preview_on_load parameter was set
-  if (this.update_first_preview_on_load) {
-    //Add over-image spinner for the first preview
-    $('<div id="zetaprints-first-preview-update-spinner" class="' +
-      'zetaprints-big-spinner zetaprints-over-image-spinner zp-hidden" />')
-      .appendTo($product_image_box);
-
+  if (this.update_first_preview_on_load)
     //Update preview for the first page
     update_preview({ data: { zp: this } }, true);
-  }
 
   //??? Do we need it anymore?
   this.changed_pages = new Array(this.template_details.pages_number + 1);
@@ -229,8 +256,6 @@ function personalization_form ($) {
     } else
       var url = this.template_details.pages[page_number]['preview-image'];
 
-    var zp = this;
-
     $('<a id="preview-image-page-' + page_number + '" ' +
           'class="zetaprints-template-preview zp-hidden" ' +
           'href="' + url + '">' +
@@ -240,24 +265,19 @@ function personalization_form ($) {
       '</a>')
     .children()
     .bind('load', {page_number: page_number}, function (event) {
+      //Remove preview image placeholder
+      $preview_placeholder.remove();
 
-      //Hide notice about image loading
-      $('div.zetaprints-preview-button span.text, ' +
-          'div.zetaprints-preview-button img.ajax-loader')
-            .css('display', 'none');
+      $preview_overlay.removeClass('zp-no-preview');
 
       //Show or hide Next page button for the current page
       if (can_show_next_page_button_for_page(zp.current_page, zp))
-        $('div.zetaprints-next-page-button').show();
+        $next_page_button.show();
       else
-        $('div.zetaprints-next-page-button').hide();
+        $next_page_button.hide();
 
-      //Show Update preview button after preview image has been loaded.
-      $('button.update-preview').removeClass('zp-hidden');
-
-      //Hide placeholder and spinner after image has loaded
-      $('#zp-placeholder-for-preview-' + event.data.page_number)
-        .addClass('zp-hidden');
+      //Enable Update preview action
+      $update_preview_button.click({zp: zp}, update_preview);
 
       //If no image zoomer on the page and image is for the first page
       //and first page was opened
@@ -266,12 +286,7 @@ function personalization_form ($) {
         //then show preview for the first page
         $('#preview-image-page-1').removeClass('zp-hidden');
 
-      //If update_first_preview_on_load parameter was set and
-      //first default preview has already been loaded then...
-      if (zp.update_first_preview_on_load && event.data.page_number == 1)
-        //...show over-image spinner
-        $('div#zetaprints-first-preview-update-spinner')
-          .removeClass('zp-hidden');
+      hide_activity();
     }).end().appendTo(product_image_element);
   }
 
@@ -302,8 +317,19 @@ function personalization_form ($) {
             .combobox();
   }
 
-  $('#stock-images-page-1, #input-fields-page-1, #page-size-page-1')
-    .removeClass('zp-hidden');
+  $('#page-size-page-1').removeClass('zp-hidden');
+
+  zp.is_fields_hidden = true;
+
+  if (!this.has_shapes || !window.place_all_shapes_for_page) {
+    $('#stock-images-page-1, #input-fields-page-1')
+      .removeClass('zp-hidden');
+
+    zp.is_fields_hidden = false;
+
+    $editor_button.addClass('zp-hidden');
+    $enlarge_button.removeClass('zp-hidden');
+  }
 
   $('div.zetaprints-image-tabs, div.zetaprints-preview-button').css('display', 'block');
 
@@ -347,6 +373,8 @@ function personalization_form ($) {
     set_preview_sharing_link_for_page(1, this.preview_sharing_links);
 
   $('div.zetaprints-image-tabs li').click({zp: this}, function (event) {
+    var zp = event.data.zp;
+
     $('div.zetaprints-image-tabs li').removeClass('selected');
 
     //Hide preview image, preview placeholder with spinner, text fields
@@ -354,7 +382,7 @@ function personalization_form ($) {
     $('a.zetaprints-template-preview, div.zetaprints-page-stock-images, div.zetaprints-page-input-fields, div.zetaprints-preview-placeholder, .page-size-table-body').addClass('zp-hidden');
 
     //Remove shapes for current page
-    if (event.data.zp.has_shapes && window.remove_all_shapes)
+    if (zp.has_shapes && window.remove_all_shapes)
       remove_all_shapes($product_image_box);
 
     $(this).addClass('selected');
@@ -368,11 +396,17 @@ function personalization_form ($) {
       has_image_zoomer = false;
     }
 
-    //Show preview image, preview placeholder with spinner, text fields
-    //and image fields for the selected page
-    $('#preview-image-' + page + ', #stock-images-' + page + ', #input-fields-'
-      + page + ', #zp-placeholder-for-preview-' + page + ', #page-size-'
-      + page).removeClass('zp-hidden');
+    //Show text fields and image fields for the selected page
+    //if it's enabled
+    if (!zp.is_fields_hidden)
+      $('#stock-images-' + page + ', #input-fields-'+ page)
+        .removeClass('zp-hidden');
+
+    //Show preview image, preview placeholder with spinner for the selected page
+    $('#preview-image-' + page +
+      ', #zp-placeholder-for-preview-' + page +
+      ', #page-size-' + page)
+      .removeClass('zp-hidden');
 
     //Add resizer for text inputs and text areas for the selected page
     if ($.fn.text_field_resizer)
@@ -380,32 +414,54 @@ function personalization_form ($) {
         .text_field_resizer();
 
     //Remember number of selected page
-    event.data.zp.current_page = page.split('-')[1] * 1;
+    zp.current_page = page.split('-')[1] * 1;
 
     //Check if page is static then...
-    if (event.data.zp.template_details.pages[event.data.zp.current_page].static)
-      //... hide Update preview button
-      $('button.update-preview').addClass('zp-hidden');
-    else
-      //... otherwise show it
-      $('button.update-preview').removeClass('zp-hidden');
+    if (zp.template_details.pages[zp.current_page].static) {
+      //... hide Update preview button,
+      $update_preview_button.addClass('zp-hidden');
+
+      //Form button
+      $form_button.addClass('zp-hidden');
+
+      //and Editor button
+      $editor_button.addClass('zp-hidden');
+
+      //Show Enlarge button
+      $enlarge_button.removeClass('zp-hidden');
+    } else {
+      //... otherwise show them
+      $update_preview_button.removeClass('zp-hidden');
+      $form_button.removeClass('zp-hidden');
+
+      //Check if there's shapes and zpadvanced theme is enabled then...
+      if (zp.has_shapes && window.place_all_shapes_for_page) {
+        //... hide Editor button
+        $editor_button.removeClass('zp-hidden');
+
+        //and show Enlarge buton
+        $enlarge_button.addClass('zp-hidden');
+      }
+    }
 
     //Set preview images sharing link for the current page
     if (window.place_preview_image_sharing_link)
-      set_preview_sharing_link_for_page(event.data.zp.current_page,
-                                        event.data.zp.preview_sharing_links);
+      set_preview_sharing_link_for_page(zp.current_page,
+                                        zp.preview_sharing_links);
 
     //Add shapes for selected page
-    if (event.data.zp.has_shapes
-        && window.place_all_shapes_for_page
-        && window.shape_handler)
-      place_all_shapes_for_page(event.data.zp.template_details.pages[event.data.zp.current_page].shapes, $product_image_box, shape_handler);
+    //if (zp.has_shapes
+    //    && window.place_all_shapes_for_page
+    //    && window.shape_handler)
+    //  place_all_shapes_for_page(
+    //                          zp.template_details.pages[zp.current_page].shapes,
+    //                          $product_image_box,
+    //                          shape_handler);
 
-    if (can_show_next_page_button_for_page(event.data.zp.current_page,
-                                           event.data.zp))
-      $('div.zetaprints-next-page-button').show();
+    if (can_show_next_page_button_for_page(zp.current_page, zp))
+      $next_page_button.show();
     else
-      $('div.zetaprints-next-page-button').hide();
+      $next_page_button.hide();
   });
 
   if (window.zp_dataset_initialise)
@@ -478,11 +534,10 @@ function personalization_form ($) {
   var _number_of_failed_updates = 0;
 
   function update_preview (event, preserve_fields) {
-    $('div.zetaprints-preview-button span.text, ' +
-      'div.zetaprints-preview-button img.ajax-loader').css('display', 'inline');
+    //Disable click action
+    $(this).unbind(event);
 
-    var update_preview_button = $('button.update-preview')
-                                                         .addClass('zp-hidden');
+    show_activity();
 
     if ($.fn.text_field_editor)
       $('div.zetaprints-page-input-fields input,' +
@@ -511,15 +566,12 @@ function personalization_form ($) {
         $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
         remove_fake_add_to_cart_button($add_to_cart_button);
         $('div.save-order span').css('display', 'none');
-      }else {
+      } else
         alert(cannot_update_preview);
-      }
 
-      $('div.zetaprints-preview-button span.text, ' +
-        'div.zetaprints-preview-button img.ajax-loader')
-        .css('display', 'none');
+      $update_preview_button.click({zp: zp}, update_preview);
 
-      update_preview_button.removeClass('zp-hidden');
+      hide_activity();
     }
 
     $.ajax({
@@ -603,11 +655,11 @@ function personalization_form ($) {
 
             //Add all shapes to personalization form after first preview
             //update
-            if (zp.has_shapes && window.place_all_shapes_for_page
-                && window.shape_handler)
-              place_all_shapes_for_page(zp.template_details.pages[1].shapes,
-                                        $product_image_box,
-                                        shape_handler);
+            //if (zp.has_shapes && window.place_all_shapes_for_page
+            //    && window.shape_handler)
+            //  place_all_shapes_for_page(zp.template_details.pages[1].shapes,
+            //                            $product_image_box,
+            //                            shape_handler);
           }
 
           //Show preview sharing link if the feature is enabled
@@ -631,11 +683,6 @@ function personalization_form ($) {
             $('div.save-order span').css('display', 'none');
           }
         }
-
-        //If update_first_preview_on_load parameter was set then...
-        if (zp.update_first_preview_on_load)
-          //.. remove over-image spinner
-          $('div#zetaprints-first-preview-update-spinner').remove();
       }
     });
 
@@ -643,8 +690,6 @@ function personalization_form ($) {
   }
 
   zp.update_preview = update_preview;
-
-  $('button.update-preview').click({zp: this}, update_preview);
 
   var upload_controller_url = this.url.upload;
   var image_controller_url = this.url.image;
@@ -841,16 +886,16 @@ function personalization_form ($) {
 
     if (zp.has_shapes
         && window.precalculate_shapes
-        && window.place_all_shapes_for_page && shape_handler) {
+        /*&& window.place_all_shapes_for_page && shape_handler*/) {
 
       precalculate_shapes(zp.template_details);
 
       //Add all shapes only then there's no base image.
       //Shapes will be added after first preview update then base image exists
-      if (!has_image_zoomer)
-        place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
-                                  $product_image_box,
-                                  shape_handler);
+      //if (!has_image_zoomer)
+      //  place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
+      //                            $product_image_box,
+      //                            shape_handler);
     }
 
     if ($.fn.tabs && $.fn.draggable && $.fn.ColorPicker)
@@ -978,7 +1023,7 @@ function personalization_form ($) {
       });
   });
 
-  $('div.zetaprints-next-page-button').click({zp: this}, function (event) {
+  $next_page_button.click({zp: this}, function (event) {
     var next_page_number = event.data.zp.current_page + 1;
 
     $('div.zetaprints-image-tabs li img[rel="page-' + next_page_number +'"]')

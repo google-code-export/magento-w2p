@@ -4,93 +4,14 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
   extends ZetaPrints_WebToPrint_Helper_Data
   implements ZetaPrints_Api {
 
-  private function get_template_guid_from_product ($product) {
-
-    //Get template GUID from webtoprint_template attribute if such attribute exists
-    //and contains value, otherwise use product SKU as template GUID
-    if (!($product->hasWebtoprintTemplate() && $template_guid = $product->getWebtoprintTemplate()))
-      $template_guid = $product->getSku();
-
-    if (strlen($template_guid) != 36)
-      return false;
-
-    return $template_guid;
-  }
-
-  public function get_template_id ($product) {
-    if ($template_guid = $this->get_template_guid_from_product ($product))
-      return Mage::getModel('webtoprint/template')->getResource()->getIdByGuid($template_guid);
-  }
-
   private function get_form_part_html ($form_part = null, $product, $params = array()) {
-    $template_guid = $this->get_template_guid_from_product($product);
-
-    if (!$template_guid)
-      return false;
-
     //$template = Mage::getModel('webtoprint/template')->load($template_guid);
 
     //if (!$template->getId())
     //  return false;
 
-    if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      //This flag shows a status of web-to-print user registration
-      $user_was_registered = true;
-
-      //Check a status of web-to-print user registration on ZetaPrints
-      //and if it's not then set user_was_registered flag to false
-      if (!($user_credentials = $this->get_zetaprints_credentials())) {
-        $template = Mage::getModel('webtoprint/template')->load($template_guid);
-
-        if ($template->getId())
-          $user_was_registered = false;
-      }
-
-      //Remember a status of web-to-print user registrarion for subsequent
-      //function calls
-      Mage::register('webtoprint-user-was-registered', $user_was_registered);
-
-      if ($user_was_registered) {
-        $url = Mage::getStoreConfig('webtoprint/settings/url');
-        $key = Mage::getStoreConfig('webtoprint/settings/key');
-
-        $data = array(
-          'ID' => $user_credentials['id'],
-          'Hash' => zetaprints_generate_user_password_hash(
-                                              $user_credentials['password']) );
-
-        if ($product->getConfigureMode()
-            && $orderId = Mage::registry('webtoprint-order-id'))
-          $data['OrderID'] = $orderId;
-
-        $template_xml = zetaprints_get_template_details_as_xml($url, $key,
-                                                        $template_guid, $data);
-      } else
-        $template_xml = $template->getXml();
-
-      try {
-        $xml = new SimpleXMLElement($template_xml);
-      } catch (Exception $e) {
-        Mage::log("Exception: {$e->getMessage()}");
-
-        return false;
-      }
-
-      //If product page was requested with reorder parameter...
-      if ($this->_getRequest()->has('reorder')
-          && strlen($this->_getRequest()->getParam('reorder')) == 36)
-        //...then replace field values from order details
-        $this->replace_user_input_from_order_details($xml,
-                                    $this->_getRequest()->getParam('reorder'));
-
-      //If product page was requested with for-item parameter...
-      if ($this->_getRequest()->has('for-item'))
-        //...then replace various template values from item's options
-        $this->replace_template_values_from_cart_item($xml,
-                                    $this->_getRequest()->getParam('for-item'));
-
-      Mage::register('webtoprint-template-xml', $xml);
-    }
+    if (! $xml = $this->getTemplateXmlForCurrentProduct())
+      return;
 
     //if ($form_part === 'input-fields' || $form_part === 'stock-images')
     //  $this->add_values_from_cache($xml);
@@ -463,32 +384,6 @@ jQuery(document).ready(function($) {
         }
   }
 
-  private function replace_user_input_from_order_details($template, $order_guid) {
-    $url = Mage::getStoreConfig('webtoprint/settings/url');
-    $key = Mage::getStoreConfig('webtoprint/settings/key');
-
-    $order_details = zetaprints_get_order_details($url, $key, $order_guid);
-
-    if (!$order_details)
-      return;
-
-    //Replace text field values from order details
-    foreach ($template->Fields->Field as $field)
-      foreach ($order_details['template-details']['pages'] as $page)
-        if ($value = $page['fields'][(string) $field['FieldName']]['value']) {
-          $field['Value'] = $value;
-          break;
-        }
-
-    //Replace image field values from order details
-    foreach ($template->Images->Image as $image)
-      foreach ($order_details['template-details']['pages'] as $page)
-        if ($value = $page['images'][(string) $image['Name']]['value']) {
-          $image['Value'] = $value;
-          break;
-        }
-  }
-
   public function get_page_tabs ($context) {
     $params = array(
       'thumbnail-url-template'
@@ -504,29 +399,11 @@ jQuery(document).ready(function($) {
   }
 
   public function get_preview_button ($context) {
-    if (!$this->get_template_id($context->getProduct()))
-      return false;
-?>
-    <div class="zetaprints-preview-button">
-      <button class="update-preview button">
-        <span><span><?php echo $this->__('Update preview');?></span></span>
-      </button>
-      <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spinner.gif'); ?>" class="ajax-loader" alt="" />
-      <span class="text"><?php echo $this->__('Updating preview image');?>&hellip;</span>
-    </div>
-<?php
+    echo $context->getChildHtml('webtoprint_buttons');
   }
 
   public function get_next_page_button ($context) {
-    if (!$this->get_template_id($context->getProduct()))
-      return false;
-?>
-    <div class="zetaprints-next-page-button">
-      <button class="next-page button">
-        <span><span><?php echo $this->__('Next page');?></span></span>
-      </button>
-    </div>
-<?php
+    return false;
   }
 
   public function prepare_gallery_images ($context, $check_for_personalization = false) {
@@ -1091,23 +968,8 @@ jQuery(document).ready(function($) {
     if (! $template_id = $this->get_template_id($context->getProduct()))
       return false;
 
-    $session = Mage::getSingleton('core/session');
-
-    if (! $xml = Mage::registry('webtoprint-template-xml')) {
-      $template = Mage::getModel('webtoprint/template')->loadById($template_id);
-
-      if ($template->getId())
-        try {
-          $xml = new SimpleXMLElement($xml = $template->getXml());
-        } catch (Exception $e) {
-          Mage::log("Exception: {$e->getMessage()}");
-        }
-    }
-
-    if (!$xml)
+    if (! $template_details = $this->getTemplateDetailsForCurrentProduct())
       return false;
-
-    $template_details = zetaprints_parse_template_details($xml);
 
     $template_details['pages_number'] = count( $template_details['pages']);
 
@@ -1138,6 +1000,8 @@ jQuery(document).ready(function($) {
                    $preview_url,
                    $product_name );
     }
+
+    $session = Mage::getSingleton('core/session');
 
     $previews_from_session = $session->getData('zetaprints-previews') == true;
 
@@ -1205,6 +1069,7 @@ jQuery(document).ready(function($) {
   use_image_button_text = "<?php echo $this->__('Use image'); ?>";
   selected_image_button_text = "<?php echo $this->__('Selected image'); ?>";
 
+  updating_preview_image_text = "<?php echo $this->__('Updating preview image'); ?>"
   cannot_update_preview = "<?php echo $this->__('Cannot update the preview. Try again.'); ?>";
   cannot_update_preview_second_time = "<?php echo $this->__('Cannot update the preview. Try again or add to cart as is and we will update it manually.'); ?>";
   preview_sharing_link_error_text = "<?php echo $this->__('Error was occurred while preparing preview image'); ?>";
