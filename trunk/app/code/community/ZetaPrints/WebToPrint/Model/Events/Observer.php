@@ -523,7 +523,8 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
   public function complete_zetaprints_order_on_payment ($observer) {
     $order = $observer->getEvent()->getOrder();
 
-    if ($order->getState() != Mage_Sales_Model_Order::STATE_PROCESSING)
+    if ($order->getState() != Mage_Sales_Model_Order::STATE_PROCESSING
+        || $order->getState() != Mage_Sales_Model_Order::STATE_COMPLETE)
       return $this;
 
     $this->_complete_order($order);
