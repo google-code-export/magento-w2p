@@ -568,31 +568,60 @@ jQuery(document).ready(function($) {
               }
             }
           }
+
+          if ($value === '#')
+            $value = $this->__('Default');
         }
+
+        //Determine length of field prefix
+        $prefix_length = 0;
+        if (strpos($_key, '*') === 0)
+          $prefix_length = 1;
+
+        //Process field name (key), restore original symbols
+        $_key = substr($_key, 0, $prefix_length)
+                . str_replace( array('_', "\x0A"),
+                               array(' ', '.'),
+                               substr($_key, $prefix_length + 1) );
 
         //Add token to the array
         $input[$_key] = $value;
       }
 
       if (count($input)) {
+        $product = Mage::getModel('catalog/product')->load($options['product']);
+
+        if ($product->getId()) {
+          $productUrl = $product->getProductUrl();
+          $productName = $product->getName();
+        }
 ?>
         <div style="display: none;">
-          <table id ="zp-user-input-table">
-            <thead>
-              <tr>
-                <th><?php echo $this->__('Name'); ?></th>
-                <th><?php echo $this->__('Value'); ?></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($input as $name => $value): ?>
-              <tr>
-                <td><?php echo $name; ?></td>
-                <td><?php echo $value; ?></td>
-              </tr>
-              <?php endforeach ?>
-            </tbody>
-          </table>
+          <div id ="zp-user-input-table">
+
+            <?php if (isset($productUrl)): ?>
+              <a href="<?php echo $productUrl; ?>">
+                <?php echo $productName; ?>
+              </a>
+            <?php endif; ?>
+
+            <table id ="zp-user-input-table">
+              <thead>
+                <tr>
+                  <th><?php echo $this->__('Name'); ?></th>
+                  <th><?php echo $this->__('Value'); ?></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($input as $name => $value): ?>
+                <tr>
+                  <td><?php echo $name; ?></td>
+                  <td><?php echo $value; ?></td>
+                </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <br />
