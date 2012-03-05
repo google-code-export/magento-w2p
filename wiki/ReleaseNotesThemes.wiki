@@ -8,7 +8,7 @@ This page describes the state of HelloThemes that we currently have enabled for 
 Files for *commercial themes* are provided to legitimate theme owners only. In other words, you have to purchase the theme, install it on your site and then we will provide you with the modified files. You will still need to [http://www.zetaprints.com/premium/index.php/web-to-print-support/hello-themes-customization.html place an order].
 
 
-==HelloCanvas==
+==[http://www.zetaprints.com/magento/?__theme=default_hellocanvas HelloCanvas]==
   * Version: 3.0
   * Last updated 08 / 2011
   * Tested compatible with Magento version 1.5.0.1 and web-to-print v. 1.9.0
