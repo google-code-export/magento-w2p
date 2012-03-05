@@ -152,8 +152,8 @@ function personalization_form ($) {
 
   function can_show_next_page_button_for_page (page, zp) {
     if (page < zp.template_details.pages_number
-        && (zp.template_details.pages[page].static
-            || zp.changed_pages[page]))
+        /* && (zp.template_details.pages[page].static
+            || zp.changed_pages[page]*/)
       return true;
 
     return false;
@@ -165,6 +165,13 @@ function personalization_form ($) {
 
   function show_activity () {
     $preview_overlay.removeClass('zp-hidden');
+  }
+
+  function enlarge_editor_click_handler () {
+    if ($('#fancybox-wrap').is(':visible'))
+      $.fancybox.close();
+    else
+      $('#preview-image-page-' + zp.current_page).click();
   }
 
   var $product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative');
@@ -179,20 +186,22 @@ function personalization_form ($) {
 
     zp.is_fields_hidden = !$fields.hasClass('zp-hidden');
 
-    if (zp.is_fields_hidden)
-      $fields.addClass('zp-hidden');
-    else
+    if (zp.is_fields_hidden) {
+      $fields.hide(500, function () {
+        $fields.addClass('zp-hidden');
+      });
+    } else {
+      $fields.hide();
       $fields.removeClass('zp-hidden');
-
+      $fields.show(500);
+    }
   })
 
-  var $editor_button = $('#zp-editor-button').click(function () {
-    $('#preview-image-page-' + zp.current_page).click();
-  });
+  var $editor_button = $('#zp-editor-button')
+                         .click(enlarge_editor_click_handler);
 
-  var $enlarge_button = $('#zp-enlarge-button').click(function () {
-    $('#preview-image-page-' + zp.current_page).click();
-  });
+  var $enlarge_button = $('#zp-enlarge-button')
+                          .click(enlarge_editor_click_handler);
 
   var $update_preview_button = $('#zp-update-preview-form-button');
   var $next_page_button = $('#zp-next-page-button');
@@ -271,12 +280,13 @@ function personalization_form ($) {
       $preview_overlay.removeClass('zp-no-preview');
 
       //Show or hide Next page button for the current page
-      if (can_show_next_page_button_for_page(zp.current_page, zp))
-        $next_page_button.show();
-      else
-        $next_page_button.hide();
+      //if (can_show_next_page_button_for_page(zp.current_page, zp))
+      //  $next_page_button.show();
+      //else
+      //  $next_page_button.hide();
 
       //Enable Update preview action
+      $update_preview_button.unbind('click');
       $update_preview_button.click({zp: zp}, update_preview);
 
       //If no image zoomer on the page and image is for the first page
@@ -605,6 +615,12 @@ function personalization_form ($) {
           if (!zp.previews)
             zp.previews = [];
 
+          //Update link to preview image in opened fancybox
+          var fancy_img = $('#fancybox-img');
+          if (fancy_img.length)
+            $(fancy_img).attr('src',
+                              data.pages[current_page]['updated-preview-url']);
+
           for (var page_number in data.pages) {
             var preview_url = data.pages[page_number]['updated-preview-url'];
 
@@ -637,12 +653,6 @@ function personalization_form ($) {
 
             zp.changed_pages[page_number] = true;
           }
-
-          //Update link to preview image in opened fancybox
-          var fancy_img = $('#fancybox-img');
-          if (fancy_img.length)
-            $(fancy_img).attr('src',
-                              data.pages[current_page]['updated-preview-url']);
 
           //If there's image zoomer on the page
           if (has_image_zoomer) {
@@ -862,7 +872,7 @@ function personalization_form ($) {
                    '#stock-images-page-' + page_number);
 
     if (!$fields.length)
-      return true;
+      return false;
 
     var has_value = false;
 

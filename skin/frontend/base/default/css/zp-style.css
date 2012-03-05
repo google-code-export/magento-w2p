@@ -492,6 +492,7 @@ div.selector-content div.tabs-wrapper div.upload div.button.cancel-upload.disabl
 }
 
 div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
+  display: none;
   margin: 2px 0px 0px 0px;
 }
 
@@ -892,7 +893,6 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 }
 
 #zp-next-page-button {
-  display: none;
   float: right;
   margin: 10px 0 0 0;
 }
@@ -902,8 +902,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   position: absolute;
   top: 0;
   bottom: 0;
-  background: url('../images/web-to-print/preview-overlay-background.png') repeat;
-  text-align: center;
+  /*background: url('../images/web-to-print/preview-overlay-background.png') repeat;*/
 }
 
 #zp-preview-overlay.zp-no-preview {
@@ -911,10 +910,13 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 }
 
 #zp-preview-overlay span {
-  position: relative;
+  position: absolute;
   top: 50%;
-  color: white;
+  color: black;
   font-weight: bold;
+  width: 100%;
+  text-align: center;
+  margin: 22px 0 0 0;
 }
 
 #zp-preview-overlay.zp-no-preview span {
@@ -925,9 +927,10 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   width: 34px;
   height: 34px;
   background: url('../images/web-to-print/loading-spinner-background.png');
-  position: relative;
+  position: absolute;
   top: 50%;
-  margin: -22px auto 0 auto;
+  left: 50%;
+  margin: -22px 0 0 -22px;
   padding: 10px 0 0 10px;
 }
 

@@ -16,8 +16,6 @@ function place_shape (shape, $container, shape_handler) {
   else
     var edited_class = '';
 
-  console.log(shape);
-
   jQuery('<div class="zetaprints-field-shape bottom hide' + edited_class + '"' +
               'title="' + shape.name  + '">' +
            '<div class="zetaprints-field-shape top" />' +
@@ -124,7 +122,7 @@ function popup_field_by_name (name, position, selected_shapes) {
     if (page.fields && page.fields[shape_name]) {
       var $field = jQuery('#input-fields-page-' + zp.current_page)
                      .find('*[name="zetaprints-_'+ shape_name +'"]')
-                     .not(':hidden');
+                     .not('[type="hidden"]');
 
       var $_field = $field;
       var $parent = $field.parents('.zetaprints-text-field-wrapper');
