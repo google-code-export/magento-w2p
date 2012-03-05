@@ -92,13 +92,13 @@ Files for *commercial themes* are provided to legitimate theme owners only. In o
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
   
-==HelloUno==
+==[http://www.zetaprints.com/magento/?__theme=default_hellouno HelloUno]==
   * Version: 4.0
   * Last updated 02 / 2012
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
 
-==HelloWired==
+==[http://www.zetaprints.com/magento/?__theme=default_hellowired HelloWired]==
   * Version: 3.0
   * Last updated 02 / 2012
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
