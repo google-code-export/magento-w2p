@@ -571,7 +571,11 @@ jQuery(document).ready(function($) {
 
           if ($value === '#')
             $value = $this->__('Default');
-        }
+
+          if ($value === '')
+            $value = $this->__('Blank');
+        } else
+          $value = "<pre>{$value}</pre>";
 
         //Determine length of field prefix
         $prefix_length = 0;
