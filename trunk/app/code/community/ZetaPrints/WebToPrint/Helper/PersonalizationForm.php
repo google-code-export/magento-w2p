@@ -471,6 +471,19 @@ jQuery(document).ready(function($) {
       //... just return from the function.
       return;
 
+    $isOrderComplete = isset($options['zetaprints-order-completed'])
+                       && $options['zetaprints-order-completed'];
+
+    if ($isAdmin && !$isOrderComplete) {
+      $url = Mage::helper('adminhtml')
+               ->getUrl('web-to-print-admin/order/complete',
+                        array('item' => $item->getId()));
+
+      $title = $this->__('Complete order on ZetaPrints');
+
+      echo "<br /><a href=\"{$url}\">{$title}</a>";
+    }
+
     if ($isAdmin && isset($options['zetaprints-previews'])
         && !$options['zetaprints-previews']) {
 
@@ -667,7 +680,7 @@ jQuery(document).ready(function($) {
         return;
     }
 
-    $webtoprint_links = "";
+    $webtoprint_links = '<br />';
 
     $types = array('pdf', 'gif', 'png', 'jpeg');
 
