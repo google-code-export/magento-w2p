@@ -490,4 +490,119 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
                ->getResource()
                ->getIdByGuid($template_guid);
   }
+
+  public function completeZetaPrintsOrder ($id) {
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+    //New GUID for completed order
+    $newId = zetaprints_generate_guid();
+
+    $details = zetaprints_complete_order($url, $key, $id, $newId);
+
+    if (!$details) {
+      //_zetaprints_debug('Order wasn\'t completed '
+      //                  . "(old ID: {$id}, new ID: {$newId})");
+
+      //Check if saved order exists on ZetaPrints...
+      if (zetaprints_get_order_details($url, $key, $id)) {
+        //_zetaprints_debug('Order with old ID exists '
+        //                  . "(old ID: {$id}, new ID: {$newId})");
+
+        //... then try again to complete the order
+        $details = zetaprints_complete_order($url, $key, $id, $newId);
+
+        //If it fails...
+        if (!$details) {
+          //_zetaprints_debug('Order wasn\'t completed second time '
+          //                  . "(old ID: {$id}, new ID: {$newId})");
+
+          $message = $this->_('Use the link to ZP order to troubleshoot.');
+
+          //... then return error.
+          return array('error' => true,
+                       'message' => $message);
+        }
+      }
+      //... otherwise try to get order details by new GUID and if completed
+      //order doesn't exist in ZetaPrints...
+      else if (!$details = zetaprints_get_order_details($url, $key, $newId)) {
+        //_zetaprints_debug('Orders with old and new ID don\'t exist '
+        //                  . "(old ID: {$id}, new ID: {$newId})");
+
+        $message = $this
+             ->__('Failed order. Contact admin@zetaprints.com ASAP to resolve.');
+
+        //... then return error.
+        return array('error' => true,
+                     'message' => $message);
+      }
+    }
+
+    $data = array('error' => false,
+                  'files' => array());
+
+    $types = array('pdf', 'gif', 'png', 'jpeg', 'cdr');
+
+    foreach ($types as $type)
+      if (strlen($details[$type]))
+          $data['files'][$type] = $url . '/' . $details[$type];
+
+    $data['id'] = $details['guid'];
+
+    return $data;
+  }
+
+  public function completeOrderItem ($item) {
+    $options = $item->getProductOptions();
+
+    if (isset($options['info_buyRequest']['zetaprints-order-completed']))
+      return;
+
+    if (isset($options['info_buyRequest']['zetaprints-dynamic-imaging'])
+        && $options['info_buyRequest']['zetaprints-dynamic-imaging'])
+      return;
+
+    if (!isset($options['info_buyRequest']['zetaprints-order-id']))
+      return;
+
+    
+    //If the item was reordered skip it (we can't complete already completed
+    //order on ZetaPrints)
+    if (isset($options['info_buyRequest']['zetaprints-reordered'])
+        && $options['info_buyRequest']['zetaprints-reordered'])
+      return;
+
+    //GUID for ZetaPrints order which was saved on Add to cart step
+    $id = $options['info_buyRequest']['zetaprints-order-id'];
+
+    //Complete order on ZetaPrints
+    $result = $this->completeZetaPrintsOrder($id);
+
+    //If error then...
+    if ($result['error']) {
+      //... set state for order in M. as problems and add comment
+      $item
+        ->getOrder()
+        ->setState('problems', true, $result['message'])
+        ->save();
+
+      return;
+    }
+
+    //Mark order item as completed on ZP
+    $options['info_buyRequest']['zetaprints-order-completed'] = true;
+
+    //Remember GUID of completed order
+    $options['info_buyRequest']['zetaprints-order-id'] = $result['id'];
+
+    //Save links to generated files
+    foreach ($result['files'] as $type => $link)
+      $options['info_buyRequest']['zetaprints-file-'.$type] = $link;
+
+    //Update options and save the order item
+    $item
+      ->setProductOptions($options)
+      ->save();
+  }
 }
