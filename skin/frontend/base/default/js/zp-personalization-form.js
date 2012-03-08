@@ -225,9 +225,17 @@ function personalization_form ($) {
                              '<div class="zp-preview-overlay-spinner">' +
                                '<div />' +
                              '</div>' +
-                             '<span>' +
-                               updating_preview_image_text + '&hellip;' +
-                             '</span>' +  
+                             '<div class="zp-preview-overlay-text-wrapper">' +
+                               '<span class="zp-preview-overlay-text-left">' +
+                                 '&nbsp;' +
+                               '</span>' +
+                               '<span class="zp-preview-overlay-text-middle">' +
+                                 updating_preview_image_text + '&hellip;' +
+                               '</span>' +
+                               '<span class="zp-preview-overlay-text-right">' +
+                                 '&nbsp;' +
+                               '</span>' +
+                             '</div>' +
                            '</div>')
     .appendTo(product_image_element);
 
