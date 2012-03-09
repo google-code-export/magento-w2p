@@ -67,6 +67,44 @@ div.zetaprints-previews-box.hide div.title a.show-title {
   *height: 100px;
 }
 
+.zp-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: -100%;
+  background: url('../../../../frontend/base/default/images/web-to-print/preview-overlay-background.png') repeat;
+  z-index: 1000;
+}
+
+.zp-overlay-spinner {
+  width: 32px;
+  height: 32px;
+  background: url('../../../../frontend/base/default/images/web-to-print/zp-button-sprites.png') no-repeat 0 -90px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+  padding: 8px 0 0 8px;
+}
+
+.zp-overlay-spinner div {
+  width: 24px;
+  height: 24px;
+  background: url('../../../../frontend/base/default/images/web-to-print/loading-spinner.gif');
+}
+
+.zp-overlay-text {
+  position: fixed;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  margin: 30px 0 0 0;
+  color: white;
+  font-weight: bold;
+}
+
 /* Fancybox tweaks */
 
 /* Move right arrow area to the right */

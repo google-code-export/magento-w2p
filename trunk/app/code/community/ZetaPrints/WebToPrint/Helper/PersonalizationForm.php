@@ -481,7 +481,8 @@ jQuery(document).ready(function($) {
 
       $title = $this->__('Complete order on ZetaPrints');
 
-      echo "<br /><a href=\"{$url}\">{$title}</a>";
+      echo '<br />'
+           . "<a id=\"zp-complete-order-link\" href=\"{$url}\">{$title}</a>";
     }
 
     if ($isAdmin && isset($options['zetaprints-previews'])
@@ -851,6 +852,18 @@ jQuery(document).ready(function($) {
     'titleShow': false });
 
   $('#zp-user-input-link').fancybox();
+
+  $('#zp-complete-order-link').click(function () {
+    $('<div class="zp-overlay">' +
+        '<div class="zp-overlay-spinner">' +
+          '<div />' +
+        '</div>' +
+        '<span class="zp-overlay-text">' +
+          '<?php echo $this->__('Completing order on ZetaPrints'); ?> &hellip;' +
+        '</span>' +
+      '</div>')
+      .appendTo('body');
+  });
 });
 //]]>
     </script>
