@@ -68,12 +68,11 @@ div.zetaprints-previews-box.hide div.title a.show-title {
 }
 
 .zp-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  margin-bottom: -100%;
   background: url('../../../../frontend/base/default/images/web-to-print/preview-overlay-background.png') repeat;
   z-index: 1000;
 }
