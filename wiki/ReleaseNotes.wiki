@@ -5,6 +5,9 @@
   * Re-implement data sets (issue #737)
   * Add option to ignore unpaid orders (issue #738)
   * Add support for PayPal Express Checkout (issue #744)
+  * Add link to finalise order on ZP in admin interface (issue #739)
+  * Implement new form buttons (issue #652)
+  * Implement fallback scenario to preserver user's input (issue #539)
   * Complete ZP order on Processing status (issue #750)
   * Bug fixes (issue #725)
 
