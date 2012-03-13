@@ -6,15 +6,16 @@
  * Time: 3:15 PM
  */
 
-class ZetaPrints_Theme_Block_Switcher
-  extends ZetaPrints_Theme_Block_Abstract
-{
+class ZetaPrints_Theme_Block_Switcher extends Mage_Core_Block_Template {
 
+  protected $helper = null;
 
-  public function _construct()
-  {
+  public function _construct () {
     parent::_construct();
-    $this->setTemplate('theme/switcher.phtml');
+
+    $this->setTemplate('themeswitch/switcher.phtml');
+
+    $this->helper = Mage::helper('themeswitch');
   }
 
   /**
