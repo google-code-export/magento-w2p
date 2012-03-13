@@ -26,6 +26,12 @@ Files for *commercial themes* are provided to legitimate theme owners only. In o
   * Tested compatible with Magento version 1.6 and web-to-print v. 2.0.1
 
 
+==HelloDisplay==
+  * Version: 2.1
+  * Last updated 03 / 2012
+  * Tested compatible with Magento version 1.6 and web-to-print v. 2.0.1
+
+
 ==HelloGlam==
   * Version: 2.2
   * Last updated 04 / 2011
