@@ -677,6 +677,10 @@ a#fancybox-right span {
                                position of a resizing handler */
 }
 
+.product-img-box .more-views {
+  margin-top: 5px;
+}
+
 /* Common CSS rules for icons */
 div.zetaprints-icon {
   display: block;
