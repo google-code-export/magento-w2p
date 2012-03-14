@@ -283,7 +283,8 @@ function personalization_form ($) {
     .children()
     .bind('load', {page_number: page_number}, function (event) {
       //Remove preview image placeholder
-      $preview_placeholder.remove();
+      if ($preview_placeholder)
+        $preview_placeholder.remove();
 
       $preview_overlay.removeClass('zp-no-preview');
 
