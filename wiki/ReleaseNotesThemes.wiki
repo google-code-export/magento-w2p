@@ -56,25 +56,25 @@ Files for *commercial themes* are provided to legitimate theme owners only. In o
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
 
-==HelloMini==
+==[http://www.zetaprints.com/magento/index.php/?__theme=default_hellomini HelloMini]==
   * Version: 2.0
   * Last updated 02 / 2012
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
 
-==HelloMinty==
+==[http://www.zetaprints.com/magento/index.php/?__theme=default_hellominty HelloMinty]==
   * Version: 3.0
   * Last updated 02 / 2012
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
 
-==HelloMix==
+==[http://www.zetaprints.com/magento/index.php/?__theme=default_hellomix HelloMix]==
   * Version: 3.0
   * Last updated 10 / 2011
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
 
 
-==HelloPress==
+==[http://www.zetaprints.com/magento/index.php/?__theme=default_hellopress HelloPress]==
   * Version: 3.0
   * Last updated 12 / 2011
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
@@ -92,7 +92,7 @@ Files for *commercial themes* are provided to legitimate theme owners only. In o
   * Tested compatible with Magento version 1.5.0 and web-to-print v. 1.9.1
 
 
-==HelloStyle==
+==[http://www.zetaprints.com/magento/index.php/?__theme=default_hellostyle HelloStyle]==
   * Version: 2.1
   * Last updated 02 / 2012
   * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
