@@ -517,7 +517,7 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
           //_zetaprints_debug('Order wasn\'t completed second time '
           //                  . "(old ID: {$id}, new ID: {$newId})");
 
-          $message = $this->_('Use the link to ZP order to troubleshoot.');
+          $message = $this->__('Use the link to ZP order to troubleshoot.');
 
           //... then return error.
           return array('error' => true,
