@@ -46,7 +46,7 @@ div.zetaprints-image-tabs ul li img {
 }
 
 a.zetaprints-template-preview img {
-  max-width: 265px;
+  max-width: 267px;
   cursor: pointer;
 }
 
@@ -864,9 +864,18 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   margin: 0 auto;
 }
 
+.zp-not-modified #zp-update-preview-form-button {
+  color: #9b9b9b;
+  cursor: default;
+}
+
 #zp-update-preview-form-button .zp-button-icon {
   background-position: -39px 4px;
   width: 12px;
+}
+
+.zp-not-modified #zp-update-preview-form-button .zp-button-icon {
+  background-position: -39px -14px;
 }
 
 #zp-editor-button .zp-button-icon {

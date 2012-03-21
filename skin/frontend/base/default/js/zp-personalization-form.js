@@ -152,8 +152,8 @@ function personalization_form ($) {
 
   function can_show_next_page_button_for_page (page, zp) {
     if (page < zp.template_details.pages_number
-        /* && (zp.template_details.pages[page].static
-            || zp.changed_pages[page]*/)
+        && (zp.template_details.pages[page].static
+            || zp.changed_pages[page]))
       return true;
 
     return false;
@@ -174,9 +174,18 @@ function personalization_form ($) {
       $('#preview-image-page-' + zp.current_page).click();
   }
 
+  //Set current template page to the first (1-based index)
+  this.current_page = 1;
+
+  var $product_form = $('#product_addtocart_form');
   var $product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative');
   var product_image_element = $('#image').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
+
+  if (has_changed_fields_on_page(this.current_page))
+    $product_form.removeClass('zp-not-modified');
+  else
+    $product_form.addClass('zp-not-modified');
 
   var $add_to_cart_button = $('#zetaprints-add-to-cart-button');
 
@@ -239,9 +248,6 @@ function personalization_form ($) {
                            '</div>')
     .appendTo(product_image_element);
 
-  //Set current template page to the first (1-based index)
-  this.current_page = 1;
-
   //Add TemplateID parameter to the form
   $('<input type="hidden" name="zetaprints-TemplateID" value="' +
     this.template_details.guid +'" />').appendTo('#product_addtocart_form');
@@ -280,6 +286,7 @@ function personalization_form ($) {
               'src="' + url + '"' +
               'alt="Preview image for page ' + page_number + '" />' +
       '</a>')
+    .appendTo(product_image_element)
     .children()
     .bind('load', {page_number: page_number}, function (event) {
       //Remove preview image placeholder
@@ -289,10 +296,10 @@ function personalization_form ($) {
       $preview_overlay.removeClass('zp-no-preview');
 
       //Show or hide Next page button for the current page
-      //if (can_show_next_page_button_for_page(zp.current_page, zp))
-      //  $next_page_button.show();
-      //else
-      //  $next_page_button.hide();
+      if (can_show_next_page_button_for_page(zp.current_page, zp))
+        $next_page_button.show();
+      else
+        $next_page_button.hide();
 
       //Enable Update preview action
       $update_preview_button.unbind('click');
@@ -300,13 +307,23 @@ function personalization_form ($) {
 
       //If no image zoomer on the page and image is for the first page
       //and first page was opened
-      if (!has_image_zoomer && event.data.page_number == 1
-          && zp.current_page == 1)
-        //then show preview for the first page
-        $('#preview-image-page-1').removeClass('zp-hidden');
+      if (!has_image_zoomer) {
+        if (event.data.page_number == 1 && zp.current_page == 1) {
+          //then show preview for the first page
+          $('#preview-image-page-1').removeClass('zp-hidden');
+        }
+
+        if (event.data.page_number == zp.current_page) {
+          var image_box_width = $product_image_box.width();
+          var image_width = $(this).outerWidth();
+
+          if (image_width < image_box_width)
+            $enlarge_button.addClass('zp-hidden');
+        }
+      }
 
       hide_activity();
-    }).end().appendTo(product_image_element);
+    });
   }
 
   //Iterate over all image fields in template details...
@@ -347,6 +364,7 @@ function personalization_form ($) {
     zp.is_fields_hidden = false;
 
     $editor_button.addClass('zp-hidden');
+    $form_button.addClass('zp-hidden');
     $enlarge_button.removeClass('zp-hidden');
   }
 
@@ -435,6 +453,24 @@ function personalization_form ($) {
     //Remember number of selected page
     zp.current_page = page.split('-')[1] * 1;
 
+    if (has_changed_fields_on_page(zp.current_page))
+      $product_form.removeClass('zp-not-modified');
+    else
+      $product_form.addClass('zp-not-modified');
+
+    var has_shapes = zp.has_shapes && window.place_all_shapes_for_page;
+
+    var image_box_width = $product_image_box.width();
+    var image_width = $('#preview-image-' + page)
+                        .children('img')
+                        .outerWidth();
+
+    if (image_width == image_box_width || has_shapes)
+      $enlarge_button.addClass('zp-hidden');
+    else
+      //Show Enlarge button
+      $enlarge_button.removeClass('zp-hidden');
+
     //Check if page is static then...
     if (zp.template_details.pages[zp.current_page].static) {
       //... hide Update preview button,
@@ -445,21 +481,19 @@ function personalization_form ($) {
 
       //and Editor button
       $editor_button.addClass('zp-hidden');
-
-      //Show Enlarge button
-      $enlarge_button.removeClass('zp-hidden');
     } else {
       //... otherwise show them
       $update_preview_button.removeClass('zp-hidden');
-      $form_button.removeClass('zp-hidden');
+
+      //!!! Check if page is passive
 
       //Check if there's shapes and zpadvanced theme is enabled then...
-      if (zp.has_shapes && window.place_all_shapes_for_page) {
+      if (has_shapes) {
         //... hide Editor button
         $editor_button.removeClass('zp-hidden');
 
-        //and show Enlarge buton
-        $enlarge_button.addClass('zp-hidden');
+        //Show Form button
+        $form_button.removeClass('zp-hidden');
       }
     }
 
@@ -846,6 +880,7 @@ function personalization_form ($) {
       $selector.removeClass('no-value');
 
       $('#fancybox-outer').addClass('modified');
+      $product_form.removeClass('zp-not-modified');
 
       //If ZetaPrints advanced theme is enabled then...
       if (window.mark_shape_as_edited)
@@ -1262,9 +1297,10 @@ function personalization_form ($) {
     else
       var state = $(this).val() != '';
 
-    if (state)
+    if (state) {
       $('#fancybox-outer').addClass('modified');
-    else
+      $product_form.removeClass('zp-not-modified');
+    } else
       $('#fancybox-outer').removeClass('modified');
 
     if (zp.has_shapes
