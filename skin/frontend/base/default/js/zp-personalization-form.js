@@ -671,7 +671,7 @@ function personalization_form ($) {
               continue;
 
             //Update links to preview image on current page
-            $preview = $('#preview-image-page-' + page_number);
+            var $preview = $('#preview-image-page-' + page_number);
 
             $preview.attr('href', preview_url);
 
@@ -684,15 +684,16 @@ function personalization_form ($) {
               .filter('[rel="page-' + page_number + '"]')
               .attr('src', data.pages[page_number]['updated-thumb-url']);
 
-            var preview_filename = preview_url.split('/preview/')[1];
+            var preview = data.pages[page_number]['updated-preview-image'];
+            preview = preview.split('preview/')[1];
 
             //Update preview sharing link if the feature is enabled
             if (window.place_preview_image_sharing_link)
               update_preview_sharing_link_for_page(page_number,
-                                    zp.preview_sharing_links, preview_filename);
+                                    zp.preview_sharing_links, preview);
 
             //Remember file name of preview image
-            zp.previews[page_number - 1] = preview_filename;
+            zp.previews[page_number - 1] = preview;
 
             zp.changed_pages[page_number] = true;
           }
