@@ -14,6 +14,7 @@ $hasShape = $pages && isset($pages[1]['shapes']);
 
 $hideIfStatic = $isStatic ? 'zp-hidden' : '';
 $enlargeCss = $isStatic || !$hasShape ? '' : 'zp-hidden';
+$formCss = $isStatic || !$hasShape ? 'zp-hidden' : '';
 $editorCss = $hasShape && !$isStatic ? '' : 'zp-hidden';
 ?>
 
@@ -44,7 +45,7 @@ $editorCss = $hasShape && !$isStatic ? '' : 'zp-hidden';
     </div>
   </div>
 
-  <div id="zp-form-button" class="zp-button <?php echo $hideIfStatic; ?>">
+  <div id="zp-form-button" class="zp-button <?php echo $formCss; ?>">
     <div class="zp-button-left"></div>
     <div class="zp-button-right"></div>
     <div class="zp-button-content">
