@@ -99,6 +99,8 @@ window.zp_dataset_initialise = function (zp) {
         .filter('.' + name.replace(/ /g, '.'))
         .removeClass('zp-dataset-selected');
 
+      $('#product_addtocart_form').removeClass('zp-not-modified');
+
       $this.addClass('zp-dataset-selected');
     });
 
@@ -138,6 +140,8 @@ window.zp_dataset_initialise = function (zp) {
             .find('[name="zetaprints-_' + name + '"]')
             .val(page.fields[name].dataset[index].text);
         }
+
+      $('#product_addtocart_form').removeClass('zp-not-modified');
 
       $tr.addClass('zp-dataset-selected');
     });
