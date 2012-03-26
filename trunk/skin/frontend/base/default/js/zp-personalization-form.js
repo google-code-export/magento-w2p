@@ -196,13 +196,14 @@ function personalization_form ($) {
     zp.is_fields_hidden = !$fields.hasClass('zp-hidden');
 
     if (zp.is_fields_hidden) {
-      $fields.hide(500, function () {
+      $fields.animate({ opacity: 0 }, 500, function () {
         $fields.addClass('zp-hidden');
+        $fields.css('opacity', 1);
       });
     } else {
-      $fields.hide();
+      $fields.css('opacity', 0);
       $fields.removeClass('zp-hidden');
-      $fields.show(500);
+      $fields.animate({ opacity: 1 }, 500);
     }
   })
 
