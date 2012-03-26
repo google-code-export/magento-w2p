@@ -305,6 +305,24 @@ function personalization_form ($) {
       $update_preview_button.unbind('click');
       $update_preview_button.click({zp: zp}, update_preview);
 
+      var page = zp
+                   .template_details
+                   .pages[event.data.page_number];
+
+      if (page.preview_is_scaled === undefined) {
+        var $_img = $(this)
+                      .clone()
+                      .css({
+                        position: 'absolute',
+                        left: '-10000px'
+                      })
+                      .appendTo('body');
+
+        page.preview_is_scaled = $_img.width() > $product_image_box.width()
+
+        $_img.remove();
+      }
+
       //If no image zoomer on the page and image is for the first page
       //and first page was opened
       if (!has_image_zoomer) {
@@ -313,13 +331,13 @@ function personalization_form ($) {
           $('#preview-image-page-1').removeClass('zp-hidden');
         }
 
-        if (event.data.page_number == zp.current_page) {
-          var image_box_width = $product_image_box.width();
-          var image_width = $(this).outerWidth();
+        var current_page = zp
+                             .template_details
+                             .pages[zp.current_page]
 
-          if (image_width < image_box_width)
-            $enlarge_button.addClass('zp-hidden');
-        }
+        if (event.data.page_number == zp.current_page
+            && !current_page.preview_is_scaled)
+          $enlarge_button.addClass('zp-hidden');
       }
 
       hide_activity();
@@ -465,14 +483,18 @@ function personalization_form ($) {
                         .children('img')
                         .outerWidth();
 
-    if (image_width == image_box_width || has_shapes)
+    var page = zp
+                 .template_details
+                 .pages[zp.current_page];
+
+    if (!page.preview_is_scaled || has_shapes)
       $enlarge_button.addClass('zp-hidden');
     else
       //Show Enlarge button
       $enlarge_button.removeClass('zp-hidden');
 
     //Check if page is static then...
-    if (zp.template_details.pages[zp.current_page].static) {
+    if (page.static) {
       //... hide Update preview button,
       $update_preview_button.addClass('zp-hidden');
 
