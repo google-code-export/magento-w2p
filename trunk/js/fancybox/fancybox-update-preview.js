@@ -9,8 +9,8 @@ function fancybox_add_update_preview_button ($, zp) {
                             '<span class="icon left-part">' +
                               '<span class="icon arrows" />' +
                             '</span>' +
-                            '<span class="text">' +
-                              '<span>' + update_preview_button_text + '</span>' +
+                            '<span class="title">'
+                              + update_preview_button_text +
                             '</span>' +
                           '</a>').appendTo($outer);
 

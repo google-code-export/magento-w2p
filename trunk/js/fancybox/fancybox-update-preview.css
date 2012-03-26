@@ -8,6 +8,9 @@
   cursor: default;
   z-index: 1103;
   font: bold 8pt arial;
+  background: url("images/zp-update-preview-button-x.png") repeat-x 0px -31px;
+  height: 30px;
+  white-space: nowrap;
 }
 
 #zp-update-preview-button.no-middle {
@@ -16,6 +19,7 @@
 
 .modified #zp-update-preview-button {
   cursor: pointer;
+  background-position: 0px 0px;
 }
 
 #zp-update-preview-button .icon {
@@ -23,15 +27,16 @@
   background: url("images/zp-update-preview-button-sprite.png") no-repeat;
 }
 
-#zp-update-preview-button .icon.left-part {
-  float: left;
+#zp-update-preview-button .left-part {
   background-position: -27px -2px;
   width: 21px;
   height: 30px;
   position: relative; /* For absolute positioning of arrows icon*/
+  margin-left: -21px;
+  float: left;
 }
 
-.modified #zp-update-preview-button .icon.left-part {
+.modified #zp-update-preview-button .left-part {
   background-position: 0px -2px;
 }
 
@@ -53,19 +58,7 @@
   margin-top: -10px;
 }
 
-#zp-update-preview-button .text {
-  display: block;
-  float: right;
-  background: url("images/zp-update-preview-button-x.png") repeat-x 0px -31px;
-  height: 30px;
-  *float: none;
-}
-
-.modified #zp-update-preview-button .text {
-  background-position: 0px 0px;
-}
-
-#zp-update-preview-button .text span {
+#zp-update-preview-button .title {
   display: block;
   margin: 4px 4px 0px 5px;
   height: 18px;
