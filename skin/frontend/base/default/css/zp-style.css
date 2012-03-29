@@ -875,7 +875,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 }
 
 .zp-not-modified #zp-update-preview-form-button .zp-button-icon {
-  background-position: -39px -14px;
+  background-position: -39px -13px;
 }
 
 #zp-editor-button .zp-button-icon {
@@ -980,4 +980,3 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   height: 200px;
   width: 100%;
 }
-
