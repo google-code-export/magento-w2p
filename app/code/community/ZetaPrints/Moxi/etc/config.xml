@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <ZetaPrints_Moxi>
+      <version>0</version>
+    </ZetaPrints_Moxi>
+  </modules>
+
+  <global>
+    <models>
+      <moxi>
+        <class>ZetaPrints_Moxi_Model</class>
+      </moxi>
+    </models>
+
+    <helpers>
+      <moxi>
+        <class>ZetaPrints_Moxi_Helper</class>
+      </moxi>
+    </helpers>
+  </global>
+
+  <adminhtml>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <moxi>
+                      <title>ZetaPrints OpenX Integration</title>
+                    </moxi>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+</config>
