@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<config>
+  <tabs>
+    <moxi translate="label" module="moxi">
+      <label>ZetaPrints OpenX Integration</label>
+      <sort_order>200</sort_order>
+    </moxi>
+  </tabs>
+
+  <sections>
+    <moxi translate="label" module="moxi">
+      <class>separator-top</class>
+      <label>ZetaPrints OpenX Integration</label>
+      <tab>moxi</tab>
+      <frontend_type>text</frontend_type>
+
+      <show_in_default>1</show_in_default>
+      <show_in_website>1</show_in_website>
+      <show_in_store>1</show_in_store>
+
+      <sort_order>40</sort_order>
+
+      <groups>
+        <settings translate="label">
+          <label>Settings</label>
+          <frontend_type>text</frontend_type>
+
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+
+          <comment>
+            <![CDATA[Link to the help post]]>
+          </comment>
+
+          <fields>
+            <url translate="label">
+              <label>OpenX Server URL</label>
+              <frontend_type>text</frontend_type>
+              <backend_model>ZetaPrints_Moxi_Model_System_Config_Backend_Url</backend_model>-->
+
+              <sort_order>1</sort_order>
+
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-url</validate>
+
+              <comment>
+                <![CDATA[Example: <b>http://your-openx.com/</b>]]>
+              </comment>
+            </url>
+
+            <login translate="label">
+              <label>Account</label>
+              <frontend_type>text</frontend_type>
+
+              <sort_order>2</sort_order>
+
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+
+              <comment>
+              </comment>
+            </login>
+
+            <password translate="label">
+              <label>Password</label>
+              <frontend_type>text</frontend_type>
+
+              <sort_order>3</sort_order>
+
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+
+              <comment>
+              </comment>
+            </password>
+          </fields>
+        </settings>
+      </groups>
+    </moxi>
+  </sections>
+</config>

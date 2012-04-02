@@ -23,7 +23,11 @@ $hint = $this->getHint();
 <script type="text/javascript" src="<?php echo $_url;?>"></script>
 <script type="text/javascript">
     Event.observe(window, 'load', function(e) {
-        var wrapper = $('product-options-wrapper');
+        var wrapper = $('.product-options-wrapper');
+
+        if (!wrapper)
+          return;
+
         var labels = wrapper.select('dl dt'); // option label is here
         var options = [];
         var regex = new RegExp('\\*\\*\\*kml\\*\\*\\*\s*$', 'i');
