@@ -465,6 +465,21 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
       Mage::register('webtoprint-order-id', $buyRequest['zetaprints-order-id']);
     }
   }
+
+  public function addWebToPrintTab ($observer) {
+    $block =  $observer->getEvent()->getBlock();
+
+    if (! $block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs)
+      return;
+
+    if ($block->getProduct()->getAttributeSetId()
+        || $block->getRequest()->getParam('set', null))
+      $block->addTab('templates', array(
+        'label' => Mage::helper('webtoprint')->__('Web-to-print templates'),
+        'url' => $block->getUrl('web-to-print-admin/catalog_product/templates',
+                                array('_current' => true) ),
+        'class' => 'ajax' ) );
+  }
 }
 
 ?>

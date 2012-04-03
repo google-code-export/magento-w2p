@@ -48,12 +48,6 @@
         <class>ZetaPrints_WebToPrint_Block</class>
       </webtoprint>
 
-      <adminhtml>
-        <rewrite>
-          <catalog_product_edit_tabs>ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>
-        </rewrite>
-      </adminhtml>
-
       <page>
         <rewrite>
           <html_footer>ZetaPrints_WebToPrint_Block_Html_Footer</html_footer>
@@ -323,6 +317,18 @@
         </admin>
       </resources>
     </acl>
+
+    <events>
+      <core_block_abstract_prepare_layout_after>
+        <observers>
+          <webtoprint-add-tab>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>addWebToPrintTab</method>
+          </webtoprint-add-tab>
+        </observers>
+      </core_block_abstract_prepare_layout_after>
+    </events>
   </adminhtml>
 
   <stores>
