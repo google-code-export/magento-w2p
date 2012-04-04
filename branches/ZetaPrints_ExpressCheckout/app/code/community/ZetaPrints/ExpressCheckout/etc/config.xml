@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+
+<!--
+/**
+ * ExpressCheckout
+ *
+ * Copyright (c) 2011-2012 ZetaPrints Ltd.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @category  ZetaPrints
+ * @package   ZetaPrints_ExpressCheckout
+ * @copyright Copyright (c) 2011-2012 ZetaPrints Ltd. (http://www.zetaprints.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php  The MIT License (MIT)
+ */
+-->
+
+<config>
+  <modules>
+    <ZetaPrints_ExpressCheckout>
+      <version>0</version>
+    </ZetaPrints_ExpressCheckout>
+  </modules>
+
+  <global>
+    <models>
+      <expresscheckout>
+        <class>ZetaPrints_ExpressCheckout_Model</class>
+      </expresscheckout>
+
+      <checkout>
+        <rewrite>
+          <type_onepage>ZetaPrints_ExpressCheckout_Model_Type_Onepage</type_onepage>
+        </rewrite>
+      </checkout>
+
+      <sales>
+        <rewrite>
+          <service_quote>ZetaPrints_ExpressCheckout_Model_Service_Quote</service_quote>
+        </rewrite>
+      </sales>
+    </models>
+
+    <blocks>
+      <expresscheckout>
+        <class>ZetaPrints_ExpressCheckout_Block</class>
+      </expresscheckout>
+
+      <checkout>
+        <rewrite>
+          <onepage>ZetaPrints_ExpressCheckout_Block_Onepage</onepage>
+          <onepage_payment>ZetaPrints_ExpressCheckout_Block_Onepage_Payment</onepage_payment>
+          <onepage_billing>ZetaPrints_ExpressCheckout_Block_Onepage_Billing</onepage_billing>
+          <onepage_review>ZetaPrints_ExpressCheckout_Block_Onepage_Review</onepage_review>
+          <onepage_shipping>ZetaPrints_ExpressCheckout_Block_Onepage_Shipping</onepage_shipping>
+        </rewrite>
+      </checkout>
+    </blocks>
+
+    <helpers>
+      <expresscheckout>
+        <class>ZetaPrints_ExpressCheckout_Helper</class>
+      </expresscheckout>
+    </helpers>
+
+    <events>
+      <controller_action_postdispatch_checkout_onepage_saveBilling>
+        <observers>
+          <expresscheckout-save-billing-observer>
+            <type>singleton</type>
+            <class>ZetaPrints_ExpressCheckout_Model_Events_Observer</class>
+            <method>saveBillingAction</method>
+          </expresscheckout-save-billing-observer>
+        </observers>
+      </controller_action_postdispatch_checkout_onepage_saveBilling>
+    </events>
+  </global>
+
+  <frontend>
+    <layout>
+      <updates>
+        <expresscheckout>
+          <file>checkout/express-checkout.xml</file>
+        </expresscheckout>
+      </updates>
+    </layout>
+  </frontend>
+</config>

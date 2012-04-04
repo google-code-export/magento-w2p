@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * ExpressCheckout
+ *
+ * Copyright (c) 2011-2012 ZetaPrints Ltd.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * @category  ZetaPrints
+ * @package   ZetaPrints_ExpressCheckout
+ * @copyright Copyright (c) 2011-2012 ZetaPrints Ltd. (http://www.zetaprints.com)
+ * @license   http://www.opensource.org/licenses/mit-license.php  The MIT License (MIT)
+ */
+-->
+
+<layout version="0.1.0">
+
+  <checkout_onepage_index>
+
+    <reference name="checkout.onepage.billing">
+      <action method="setTemplate">
+        <template>checkout/onepage/billing-no-address.phtml</template>
+      </action>
+    </reference>
+
+    <reference name="checkout.onepage.review">
+      <block type="checkout/onepage_review_info" name="checkout.onepage.review.info" as="info" template="checkout/onepage/review/info.phtml">
+        <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+        <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+        <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+        <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+        <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+          <label>Items Before</label>
+        </block>
+        <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+          <label>Items After</label>
+          <block type="core/template" name="checkout.onepage.review.info.payment" as="payment" template="checkout/onepage/review/info/payment.phtml"/>
+        </block>
+        <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+        <block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
+      </block>
+    </reference>
+  </checkout_onepage_index>
+
+  <checkout_onepage_review>
+    <reference name="checkout.onepage.review.info.items.after">
+      <block type="core/template" name="checkout.onepage.review.info.payment" as="payment" template="checkout/onepage/review/info/payment.phtml"/>
+    </reference>
+  </checkout_onepage_review>
+
+</layout>
