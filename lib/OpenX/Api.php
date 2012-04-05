@@ -89,7 +89,7 @@ class OpenX_Api
      * @param int    $timeout   The timeout period to wait for a response.
      */
     //function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
-    function __construct ($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15) 
+    public function __construct ($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15) 
     {
         $this->host = $host;
         $this->basepath = $basepath;
@@ -108,7 +108,7 @@ class OpenX_Api
      */
     function &_getClient()
     {
-        $oClient = &new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
+        $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
         return $oClient;
     }
 
