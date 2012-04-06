@@ -89,7 +89,17 @@
             <method>saveBillingAction</method>
           </expresscheckout-save-billing-observer>
         </observers>
-      </controller_action_postdispatch_checkout_onepage_saveBilling>
+      </controller_action_postdispatch_checkout_onepage_saveBilling>\
+
+      <controller_action_postdispatch_checkout_onepage_saveShippingMethod>
+        <observers>
+          <expresscheckout-save-shipping-method-observer>
+            <type>singleton</type>
+            <class>ZetaPrints_ExpressCheckout_Model_Events_Observer</class>
+            <method>saveShippingMethodAction</method>
+          </expresscheckout-save-shipping-method-observer>
+        </observers>
+      </controller_action_postdispatch_checkout_onepage_saveShippingMethod>
     </events>
   </global>
 
