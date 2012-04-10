@@ -10,6 +10,10 @@
     <models>
       <moxi>
         <class>ZetaPrints_Moxi_Model</class>
+
+        <rewrite>
+          <advertising-plans-creation>ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating</advertising-plans-creation>
+        </rewrite>
       </moxi>
     </models>
 
