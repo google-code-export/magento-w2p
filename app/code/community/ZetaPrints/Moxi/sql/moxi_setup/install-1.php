@@ -46,13 +46,12 @@ $set
 
 $setId = $set->getId();
 
-$this->addAttributeGroup($entityTypeId, $setId, $groupName);
-$groupId = $this->getAttributeGroupId($entityTypeId, $setId, $groupName);
+$groupId = $this->getDefaultAttributeGroupId($entityTypeId, $setId);
 
 $siteAttr = array(
   //Global settings
   'type' => 'int',
-  'input' => null,
+  'input' => '',
   'label' => 'OpenX Website ID',
   'required' => false,
   'user_defined' => true,
@@ -70,7 +69,7 @@ $siteAttrId = $this->getAttributeId($entityTypeId, 'openx_website_id');
 $zoneAttr = array(
   //Global settings
   'type' => 'int',
-  'input' => null,
+  'input' => '',
   'label' => 'OpenX Zone ID',
   'required' => false,
   'user_defined' => true,
