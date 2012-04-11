@@ -22,7 +22,6 @@
 
       <webtoprint_resource>
         <class>ZetaPrints_WebToPrint_Model_Resource</class>
-        <deprecatedNode>webtoprint_resource_eav_mysql4</deprecatedNode>
 
         <entities>
           <template>
