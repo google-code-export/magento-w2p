@@ -1,4 +1,0 @@
-<?php
-
-class ZetaPrints_WebToPrint_Model_Resource_Eav_Mysql4_Template
-  extends ZetaPrints_WebToPrint_Model_Resource_Template {}
