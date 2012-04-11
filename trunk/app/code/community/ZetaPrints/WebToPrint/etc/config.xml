@@ -10,7 +10,7 @@
     <models>
       <webtoprint>
         <class>ZetaPrints_WebToPrint_Model</class>
-        <resourceModel>webtoprint_mysql4</resourceModel>
+        <resourceModel>webtoprint_resource</resourceModel>
 
         <rewrite>
           <templates-synchronization>ZetaPrints_WebToPrint_Model_Convert_Parser_Template</templates-synchronization>
@@ -20,15 +20,16 @@
         </rewrite>
       </webtoprint>
 
-      <webtoprint_mysql4>
-        <class>ZetaPrints_WebToPrint_Model_Mysql4</class>
+      <webtoprint_resource>
+        <class>ZetaPrints_WebToPrint_Model_Resource</class>
+        <deprecatedNode>webtoprint_resource_eav_mysql4</deprecatedNode>
 
         <entities>
           <template>
             <table>zetaprints_templates</table>
           </template>
         </entities>
-      </webtoprint_mysql4>
+      </webtoprint_resource>
 
       <dataflow>
         <rewrite>
@@ -69,24 +70,9 @@
       <webtoprint_setup>
         <setup>
           <module>ZetaPrints_WebToPrint</module>
-          <class>ZetaPrints_WebToPrint_Model_Resource_Mysql4_Setup</class>
+          <class>ZetaPrints_WebToPrint_Model_Resource_Setup</class>
         </setup>
-        <connection>
-          <use>core_setup</use>
-        </connection>
       </webtoprint_setup>
-
-      <webtoprint_write>
-        <connection>
-          <use>core_write</use>
-        </connection>
-      </webtoprint_write>
-
-      <webtoprint_read>
-        <connection>
-          <use>core_read</use>
-        </connection>
-      </webtoprint_read>
     </resources>
 
     <events>
