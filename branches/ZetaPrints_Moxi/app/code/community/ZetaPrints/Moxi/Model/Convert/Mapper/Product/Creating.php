@@ -5,6 +5,37 @@ class ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating
 
   const PRODUCT_TYPE = 'virtual';
 
+  protected $_options = array(
+                          array(
+                            'title' => 'Banner image',
+                            'type' => 'file',
+                            'is_require' => '1',
+                            'price_type' => 'fixed',
+                            'sort_order' => '1'
+                          ),
+                          array(
+                            'title' => 'Destination URL (incl. http://)',
+                            'type' => 'field',
+                            'is_require' => '1',
+                            'price_type' => 'fixed',
+                            'sort_order' => '2'
+                          ),
+                          array(
+                            'title' => 'Start date',
+                            'type' => 'date',
+                            'is_require' => '1',
+                            'price_type' => 'fixed',
+                            'sort_order' => '3'
+                          ),
+                          array(
+                            'title' => 'End date',
+                            'type' => 'date',
+                            'is_require' => '1',
+                            'price_type' => 'fixed',
+                            'sort_order' => '4'
+                          )
+                        );
+
   public function map () {
     //Always print debug information.
     $this->debug = true;
@@ -15,8 +46,6 @@ class ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating
     $manager = new Varien_Object(array('id' => $managerId));
 
     $helper = Mage::helper('moxi');
-
-    $shift = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
     $entityTypeId = Mage::getModel('catalog/product')
                       ->getResource()
@@ -47,7 +76,14 @@ class ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating
       foreach (Mage::helper('moxi')->getZonesBySite($site) as $zone) {
         $numberOfZones++;
 
+        $this->_options[0]['image_size_x'] = $zone->getWidth();
+        $this->_options[0]['image_size_y'] = $zone->getHeight();
+
         $productModel = Mage::getModel('catalog/product');
+
+        $productModel
+          ->getOptionInstance()
+          ->unsetOptions();
 
         if (Mage::app()->isSingleStoreMode())
           $productModel
@@ -66,7 +102,9 @@ class ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating
           ->setSku($site->getName() . ' - ' . $zone->getName())
           ->setName($site->getName() . ' - ' . $zone->getName())
           ->setOpenxWebsiteId($site->getId())
-          ->setOpenxZoneId($zone->getId());
+          ->setOpenxZoneId($zone->getId())
+          ->setProductOptions($this->_options)
+          ->setCanSaveCustomOptions(true);
 
         try {
           $productModel->save();
