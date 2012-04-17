@@ -35,6 +35,18 @@
         </setup>
       </moxi_setup>
     </resources>
+
+    <events>
+      <sales_model_service_quote_submit_success>
+        <observers>
+          <moxi-create-campaigns>
+            <type>singleton</type>
+            <class>ZetaPrints_Moxi_Model_Events_Observer</class>
+            <method>createCampaigns</method>
+          </moxi-create-campaigns>
+        </observers>
+      </sales_model_service_quote_submit_success>
+    </events>
   </global>
 
   <adminhtml>
