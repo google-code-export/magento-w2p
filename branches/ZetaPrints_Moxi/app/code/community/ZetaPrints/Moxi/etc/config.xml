@@ -23,6 +23,12 @@
       </moxi>
     </helpers>
 
+    <blocks>
+      <moxi>
+        <class>ZetaPrints_Moxi_Block</class>
+      </moxi>
+    </blocks>
+
     <moxi_resource>
       <class>ZetaPrints_Moxi_Model_Resource</class>
     </moxi_resource>
@@ -49,6 +55,18 @@
     </events>
   </global>
 
+  <admin>
+    <routers>
+      <ZetaPrints_Moxi>
+        <use>admin</use>
+          <args>
+            <module>ZetaPrints_Moxi</module>
+            <frontName>moxi-admin</frontName>
+          </args>
+      </ZetaPrints_Moxi>
+    </routers>
+  </admin>
+
   <adminhtml>
     <acl>
       <resources>
@@ -69,5 +87,17 @@
         </admin>
       </resources>
     </acl>
+
+    <events>
+      <core_block_abstract_prepare_layout_after>
+        <observers>
+          <moxi-add-campaign-settings-tab>
+            <type>singleton</type>
+            <class>ZetaPrints_Moxi_Model_Events_Observer</class>
+            <method>addCampaignSettingTab</method>
+          </moxi-add-campaign-settings-tab>
+        </observers>
+      </core_block_abstract_prepare_layout_after>
+    </events>
   </adminhtml>
 </config>
