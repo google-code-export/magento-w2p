@@ -54,8 +54,6 @@ class OpenX_Api
 {
     var $host;
     var $basepath;
-    var $port;
-    var $ssl;
     var $timeout;
     var $username;
     var $password;
@@ -65,16 +63,6 @@ class OpenX_Api
      * @var string The remote session ID is used in all subsequent transactions.
      */
     var $sessionId;
-    /**
-     * Purely for my own use, this parameter lets me pass debug querystring parameters into
-     * the remote call to trigger my Zend debugger on the server-side
-     *
-     * This will be removed before release
-     *
-     * @var string The querystring parameters required to trigger my remote debugger
-     *             or empty for no remote debugging
-     */
-    var $debug = '';
 
     /**
      * PHP4 style constructor
@@ -83,18 +71,13 @@ class OpenX_Api
      * @param string $basepath  The base path to XML-RPC services.
      * @param string $username  The username to authenticate to the web services API.
      * @param string $password  The password for this user.
-     * @param int    $port      The port number. Use 0 to use standard ports which
-     *                          are port 80 for HTTP and port 443 for HTTPS.
-     * @param bool   $ssl       Set to true to connect using an SSL connection.
      * @param int    $timeout   The timeout period to wait for a response.
      */
-    //function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
-    public function __construct ($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15) 
+    //function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $timeout = 15)
+    public function __construct ($host, $basepath, $username, $password, $timeout = 15) 
     {
         $this->host = $host;
         $this->basepath = $basepath;
-        $this->port = $port;
-        $this->ssl  = $ssl;
         $this->timeout = $timeout;
         $this->username = $username;
         $this->password = $password;
@@ -108,7 +91,7 @@ class OpenX_Api
      */
     function &_getClient()
     {
-        $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
+        $oClient = new XML_RPC_Client($this->basepath, $this->host);
         return $oClient;
     }
 
@@ -147,16 +130,24 @@ class OpenX_Api
         $client = &$this->_getClient();
 
         // Send the XML-RPC message to the server.
-        $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
+        $response = $client->send($message, $this->timeout);
 
         // Check for an error response.
-        if ($response && $response->faultCode() == 0) {
-            $result = XML_RPC_decode($response->value());
-        } else {
-            trigger_error('XML-RPC Error (' . $response->faultCode() . '): ' . $response->faultString() .
-                ' in method ' . $method . '()', E_USER_ERROR);
+        if (is_object($response) && $response->faultCode() == 0)
+          return XML_RPC_decode($response->value());
+
+        if ($response == 0) {
+          trigger_error('IO Error (' . $client->errno . '): '
+                        . $client-> errstring . ' in method ' . $method
+                        . '()', E_USER_ERROR );
+          return null;
         }
-        return $result;
+        
+        trigger_error('XML-RPC Error (' . $response->faultCode() . '): '
+                      . $response->faultString() . ' in method ' . $method
+                      . '()', E_USER_ERROR );
+
+        return $response;
     }
 
     /**
