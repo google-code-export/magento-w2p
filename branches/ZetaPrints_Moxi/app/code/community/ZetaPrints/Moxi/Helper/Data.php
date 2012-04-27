@@ -3,6 +3,11 @@
 class ZetaPrints_Moxi_Helper_Data extends Mage_Core_Helper_Abstract {
   const API_PATH = 'www/api/v2/xmlrpc/';
 
+  const CPM_PRICING_MODEL = 1;
+  const CPC_PRICING_MODEL = 2;
+  const CPA_PRICING_MODEL = 3;
+  const MT_PRICING_MODEL = 4;
+
   private $_api = null;
 
   public function _getApi () {

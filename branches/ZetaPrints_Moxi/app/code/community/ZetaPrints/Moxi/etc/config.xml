@@ -99,5 +99,13 @@
         </observers>
       </core_block_abstract_prepare_layout_after>
     </events>
+
+    <layout>
+      <updates>
+        <catalog-openx-campaign>
+          <file>catalog/openx-campaign.xml</file>
+        </catalog-openx-campaign>
+      </updates>
+    </layout>
   </adminhtml>
 </config>

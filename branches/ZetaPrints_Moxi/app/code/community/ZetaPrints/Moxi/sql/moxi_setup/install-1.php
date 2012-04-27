@@ -48,44 +48,139 @@ $setId = $set->getId();
 
 $groupId = $this->getDefaultAttributeGroupId($entityTypeId, $setId);
 
-$siteAttr = array(
-  //Global settings
-  'type' => 'int',
-  'input' => '',
-  'label' => 'OpenX Website ID',
-  'required' => false,
-  'user_defined' => true,
-  'default' => 0,
-  'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+$attributes = array(
+  'openx_website_id' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => '',
+    'label' => 'OpenX Website ID',
+    'required' => false,
+    'user_defined' => true,
+    'default' => 0,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
 
-  //Catalogue setting
-  'visible' => false,
-  'is_configurable' => false
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_zone_id' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => '',
+    'label' => 'OpenX Zone ID',
+    'required' => false,
+    'user_defined' => true,
+    'default' => 0,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_pricing_model' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => 'select',
+    'source' => 'moxi/entity_attribute_source_pricingmodels',
+    'label' => 'Pricing Model',
+    'required' => false,
+    'user_defined' => true,
+    'default' => ZetaPrints_Moxi_Helper_Data::MT_PRICING_MODEL,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_rate_price' => array(
+    //Global settings
+    'type' => 'decimal',
+    'input' => 'text',
+    'label' => 'Rate/Price',
+    'required' => false,
+    'user_defined' => true,
+    'default' => 0,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_impressions' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => 'text',
+    'label' => 'Impressions',
+    'required' => false,
+    'user_defined' => true,
+    'default' => -1,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_clicks' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => 'text',
+    'label' => 'Clicks',
+    'required' => false,
+    'user_defined' => true,
+    'default' => -1,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_conversions' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => 'text',
+    'label' => 'Conversions',
+    'required' => false,
+    'user_defined' => true,
+    'default' => -1,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
+
+  'openx_campaign_weight' => array(
+    //Global settings
+    'type' => 'int',
+    'input' => 'text',
+    'label' => 'Campaign weight',
+    'required' => false,
+    'user_defined' => true,
+    'default' => 0,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+
+    //Catalogue setting
+    'visible' => false,
+    'is_configurable' => false
+  ),
 );
 
-$this->addAttribute($entityTypeId, 'openx_website_id', $siteAttr);
-$siteAttrId = $this->getAttributeId($entityTypeId, 'openx_website_id');
+foreach ($attributes as $name => $attribute) {
+  $id = $this
+          ->addAttribute($entityTypeId, $name, $attribute)
+          ->getAttributeId($entityTypeId, $name);
 
-$zoneAttr = array(
-  //Global settings
-  'type' => 'int',
-  'input' => '',
-  'label' => 'OpenX Zone ID',
-  'required' => false,
-  'user_defined' => true,
-  'default' => 0,
-  'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+  $this
+    ->addAttributeToSet($entityTypeId, $setId, $groupId, $id)
+    ->updateAttribute($entityTypeId, $id, 'is_user_defined', 0);
+}
+}
 
-  //Catalogue setting
-  'visible' => false,
-  'is_configurable' => false
-);
-
-$this->addAttribute($entityTypeId, 'openx_zone_id', $zoneAttr);
-$zoneAttrId = $this->getAttributeId($entityTypeId, 'openx_zone_id');
-
-$this->addAttributeToSet($entityTypeId, $setId, $groupId, $siteAttrId);
-$this->addAttributeToSet($entityTypeId, $setId, $groupId, $zoneAttrId);
-
-$this->updateAttribute($entityTypeId, $siteAttrId, 'is_user_defined', 0);
-$this->updateAttribute($entityTypeId, $zoneAttrId, 'is_user_defined', 0);
+foreach ($attributes as $name => $attribute)
+  $this->removeAttribute('catalog_product', $name);

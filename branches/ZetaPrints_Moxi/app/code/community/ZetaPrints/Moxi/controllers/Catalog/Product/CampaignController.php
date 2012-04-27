@@ -5,40 +5,47 @@ require_once 'Mage/Adminhtml/controllers/Catalog/ProductController.php';
 class ZetaPrints_Moxi_Catalog_Product_CampaignController
   extends Mage_Adminhtml_Catalog_ProductController {
 
-  public function campaignAction () {
+  public function indexAction () {
     $this->_initProduct();
 
-    $this->getResponse()->setBody(
-        $this->getLayout()
-          ->createBlock('moxi/catalog_product_edit_tab_campaign')
-          ->toHtml() );
-  }
-
-  public function templatesGridAction() {
-    $this->_initProduct();
     $this->loadLayout();
-
-    $this->getResponse()->setBody(
-        $this->getLayout()
-          ->createBlock('webtoprint/catalog_product_edit_tab_templates')
-          ->toHtml() );
+    $this->renderLayout();
   }
 
-  public function templatesAction () {
-    $this->_initProduct();
+  //public function campaignAction () {
+  //  $this->_initProduct();
 
-    $dynamicImaging = $this->getLayout()
-      ->createBlock('webtoprint/catalog_product_edit_tab_templates_dynamicimaging');
+  //  $this->getResponse()->setBody(
+  //      $this->getLayout()
+  //        ->createBlock('moxi/catalog_product_edit_tab_campaign')
+  //        ->toHtml() );
+  //}
 
-    $radio_block= $this->getLayout()
-      ->createBlock('webtoprint/catalog_product_edit_tab_templates_radiobutton');
+  //public function templatesGridAction() {
+  //  $this->_initProduct();
+  //  $this->loadLayout();
 
-    $grid_block = $this->getLayout()
-      ->createBlock('webtoprint/catalog_product_edit_tab_templates')
-      ->setGridUrl($this->getUrl('*/*/templatesGrid', array('_current' => true)));
+  // $this->getResponse()->setBody(
+  //      $this->getLayout()
+  //        ->createBlock('webtoprint/catalog_product_edit_tab_templates')
+  //        ->toHtml() );
+  //}
 
-    $this->_outputBlocks($dynamicImaging, $radio_block, $grid_block);
-  }
+  //public function templatesAction () {
+  //  $this->_initProduct();
+
+  //  $dynamicImaging = $this->getLayout()
+  //    ->createBlock('webtoprint/catalog_product_edit_tab_templates_dynamicimaging');
+
+  //  $radio_block= $this->getLayout()
+  //    ->createBlock('webtoprint/catalog_product_edit_tab_templates_radiobutton');
+
+  //  $grid_block = $this->getLayout()
+  //    ->createBlock('webtoprint/catalog_product_edit_tab_templates')
+  //    ->setGridUrl($this->getUrl('*/*/templatesGrid', array('_current' => true)));
+
+  //  $this->_outputBlocks($dynamicImaging, $radio_block, $grid_block);
+  //}
 }
 
 ?>
