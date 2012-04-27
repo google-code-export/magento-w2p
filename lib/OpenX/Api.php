@@ -138,7 +138,7 @@ class OpenX_Api
 
         if ($response == 0) {
           trigger_error('IO Error (' . $client->errno . '): '
-                        . $client-> errstring . ' in method ' . $method
+                        . $client->errstring . ' in method ' . $method
                         . '()', E_USER_ERROR );
           return null;
         }
