@@ -12,7 +12,7 @@ class ZetaPrints_Moxi_Model_Events_Observer {
         || $block->getRequest()->getParam('set', null))
       $block->addTab('campaign', array(
         'label' => Mage::helper('moxi')->__('Advertising campaign settings'),
-        'url' => $block->getUrl('moxi-admin/catalog_product_campaign/campaign',
+        'url' => $block->getUrl('moxi-admin/catalog_product_campaign/',
                                 array('_current' => true) ),
         'class' => 'ajax' ) );
   }

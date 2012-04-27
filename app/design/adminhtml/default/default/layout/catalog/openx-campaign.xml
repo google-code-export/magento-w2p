@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<layout>
+  <zetaprints_moxi_catalog_product_campaign_index>
+    <block type="core/text_list" name="root" output="toHtml">
+      <block type="moxi/catalog_product_edit_tab_campaign_settings"
+             name="moxi.product.edit.tab.campaign.settings" />
+    </block>
+  </zetaprints_moxi_catalog_product_campaign_index>
+</layout>

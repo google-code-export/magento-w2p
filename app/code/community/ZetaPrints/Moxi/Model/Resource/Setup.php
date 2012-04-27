@@ -32,5 +32,5 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class ZetaPrints_Moxi_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup {
-}
+class ZetaPrints_Moxi_Model_Resource_Setup
+  extends Mage_Catalog_Model_Resource_Setup {}
