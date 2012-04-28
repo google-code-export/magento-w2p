@@ -136,16 +136,20 @@ class OpenX_Api
         if (is_object($response) && $response->faultCode() == 0)
           return XML_RPC_decode($response->value());
 
+        if (is_object($response) && $response->faultCode() != 0) {
+          trigger_error('XML-RPC Error (' . $response->faultCode() . '): '
+                        . $response->faultString() . ' in method ' . $method
+                        . '()', E_USER_ERROR );
+
+          return null;
+        }
+
         if ($response == 0) {
           trigger_error('IO Error (' . $client->errno . '): '
                         . $client->errstring . ' in method ' . $method
                         . '()', E_USER_ERROR );
           return null;
         }
-        
-        trigger_error('XML-RPC Error (' . $response->faultCode() . '): '
-                      . $response->faultString() . ' in method ' . $method
-                      . '()', E_USER_ERROR );
 
         return $response;
     }
