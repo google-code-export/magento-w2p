@@ -170,30 +170,29 @@ class ZetaPrints_Moxi_Helper_Data extends Mage_Core_Helper_Abstract {
                                    'comments' => '' ));
   }
 
-  public function addCampaign ($advertiser, $name, $begin, $end) {
+  public function addCampaign ($campaign) {
     $api = $this->_getApi();
 
-    $campaign = new OA_Dll_CampaignInfo();
+    $_campaign = new OA_Dll_CampaignInfo();
 
-    $name = "{$advertiser->getName()} - {$name}";
-    $begin = new DateTime($begin);
-    $end = new DateTime($end);
+    $_campaign->advertiserId = $campaign->getAdvertiser()->getId();
+    $_campaign->campaignName = $campaign->getName();
+    $_campaign->startDate = $campaign->getBegin();
+    $_campaign->endDate = $campaign->getEnd();
+    $_campaign->impressions = $campaign->getImpressions();
+    $_campaign->clicks = $campaign->getClicks();
+    $_campaign->weight = $campaign->getWeight();
+    $_campaign->revenue = $campaign->getRate();
+    $_campaign->revenueType = $campaign->getPricingModel();
 
-    $campaign->advertiserId = $advertiser->getId();
-    $campaign->campaignName = $name;
-    $campaign->startDate = $begin;
-    $campaign->endDate = $end;
-
-    $result = $api->addCampaign($campaign);
+    $result = $api->addCampaign($_campaign);
 
     if (!$result)
       return false;
 
-    return new Varien_Object(array('id' => $result,
-                                   'advertiser' => $advertiser,
-                                   'name' => $name,
-                                   'begin' => $begin,
-                                   'end' => $end ));
+    $campaign->setId($result);
+
+    return $campaign;
   }
 
   public function addBanner ($campaign, $name, $url, $content) {
