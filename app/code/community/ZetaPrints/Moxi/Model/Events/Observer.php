@@ -35,14 +35,15 @@ class ZetaPrints_Moxi_Model_Events_Observer {
       return;
 
     foreach ($order->getAllItems() as $item) {
-
-      if (! $item->getProductId())
+      if (! $productId = $item->getProductId())
         continue;
 
-      $zoneId = Mage::getResourceModel('catalog/product')
-                  ->getAttributeRawValue($item->getProductId(),
-                                         'openx_zone_id',
-                                         $item->getStoreId());
+      $resource = Mage::getResourceModel('catalog/product');
+
+      $storeId = $item->getStoreId();
+
+      $zoneId = $resource
+                  ->getAttributeRawValue($productId, 'openx_zone_id', $storeId);
 
       $zone = $helper->getZone($zoneId);
 
@@ -85,8 +86,51 @@ class ZetaPrints_Moxi_Model_Events_Observer {
       if (!$image)
         continue;
 
-      $campaign = $helper
-                    ->addCampaign($advertiser, $zone->getName(), $begin, $end);
+      $qty = $item->getQtyOrdered();
+
+      $pricingModel = $resource->getAttributeRawValue($productId,
+                                                      'openx_pricing_model',
+                                                      $storeId);
+
+      $rate = $resource->getAttributeRawValue($productId,
+                                              'openx_rate_price',
+                                              $storeId);
+
+      $impressions = $resource->getAttributeRawValue($productId,
+                                                     'openx_impressions',
+                                                     $storeId);
+
+      $clicks = $resource->getAttributeRawValue($productId,
+                                                'openx_clicks',
+                                                $storeId);
+
+      $conversions = $resource->getAttributeRawValue($productId,
+                                                     'openx_conversions',
+                                                     $storeId);
+
+      $weight = $resource->getAttributeRawValue($productId,
+                                                'openx_campaign_weight',
+                                                $storeId);
+
+      $name = "{$advertiser->getName()} - {$name}";
+      $begin = new DateTime($begin);
+      $end = new DateTime($end);
+
+      $campaign = new Varien_Object();
+
+      $campaign
+        ->setName($name)
+        ->setBegin($begin)
+        ->setEnd($end)
+        ->setAdvertiser($advertiser)
+        ->setPricingModel((int) $pricingModel)
+        ->setRate((float) $rate)
+        ->setImpressions($impressions * $qty)
+        ->setClicks($clicks * $qty)
+        ->setConversions($conversions * $qty)
+        ->setWeight((int) $weight);
+
+      $campaign = $helper->addCampaign($campaign);
 
       if (! $campaign->getId())
         continue;
