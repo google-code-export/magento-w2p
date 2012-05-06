@@ -2,6 +2,8 @@
 
 class ZetaPrints_Moxi_Model_Events_Observer {
 
+  private $_advertiser = null;
+
   public function addCampaignSettingTab ($observer) {
     $block =  $observer->getEvent()->getBlock();
 
@@ -22,18 +24,6 @@ class ZetaPrints_Moxi_Model_Events_Observer {
 
     $helper = Mage::helper('moxi');
 
-    $customer = Mage::getSingleton('customer/session')
-                  ->getCustomer();
-
-    $name = $customer->getName();
-    $email = $customer->getEmail();
-
-    $advertiser = $helper
-                    ->addAdvertiser($name, $email);
-
-    if (!$advertiser)
-      return;
-
     foreach ($order->getAllItems() as $item) {
       if (! $productId = $item->getProductId())
         continue;
@@ -44,6 +34,9 @@ class ZetaPrints_Moxi_Model_Events_Observer {
 
       $zoneId = $resource
                   ->getAttributeRawValue($productId, 'openx_zone_id', $storeId);
+
+      if (! $zoneId)
+        continue;
 
       $zone = $helper->getZone($zoneId);
 
@@ -85,6 +78,19 @@ class ZetaPrints_Moxi_Model_Events_Observer {
 
       if (!$image)
         continue;
+
+      if (! $this->_advertiser) {
+        $customer = Mage::getSingleton('customer/session')
+                      ->getCustomer();
+
+        $this->_advertiser
+          = $helper->addAdvertiser($customer->getName(), $customer->getEmail());
+
+        if (! $this->_advertiser)
+          continue;
+      }
+
+      $advertiser = $this->_advertiser;
 
       $qty = $item->getQtyOrdered();
 
