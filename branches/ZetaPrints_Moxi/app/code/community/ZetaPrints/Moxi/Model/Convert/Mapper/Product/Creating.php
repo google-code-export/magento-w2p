@@ -30,7 +30,7 @@ class ZetaPrints_Moxi_Model_Convert_Mapper_Product_Creating
                           array(
                             'title' => 'End date',
                             'type' => 'date',
-                            'is_require' => '1',
+                            'is_require' => '0',
                             'price_type' => 'fixed',
                             'sort_order' => '4'
                           )
