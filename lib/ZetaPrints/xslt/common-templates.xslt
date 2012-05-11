@@ -134,7 +134,7 @@
                 </xsl:if>
 
                 <xsl:for-each select="Value">
-                  <xsl:if test=".!=''">
+                  <!--<xsl:if test=".!=''">-->
                     <option>
                       <xsl:if test=".=../@Value">
                         <xsl:attribute name="selected">selected</xsl:attribute>
@@ -145,7 +145,7 @@
                         </xsl:with-param>
                       </xsl:call-template>
                     </option>
-                  </xsl:if>
+                  <!--</xsl:if>-->
                 </xsl:for-each>
 
               </select>
