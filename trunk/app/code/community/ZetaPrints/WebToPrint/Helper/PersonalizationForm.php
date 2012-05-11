@@ -13,10 +13,10 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
     if (! $xml = $this->getTemplateXmlForCurrentProduct())
       return;
 
-    //if ($form_part === 'input-fields' || $form_part === 'stock-images')
+    //if ($form_part === 'text-fields' || $form_part === 'image-fields')
     //  $this->add_values_from_cache($xml);
 
-    if ($form_part === 'stock-images'
+    if ($form_part === 'image-fields'
         && Mage::registry('webtoprint-user-was-registered'))
       $this->add_user_images($xml);
 
@@ -316,7 +316,7 @@ jQuery(document).ready(function($) {
   }
 
   public function get_text_fields ($context) {
-    $html = $this->get_form_part_html('input-fields', $context->getProduct());
+    $html = $this->get_form_part_html('text-fields', $context->getProduct());
 
     if ($html === false)
       return false;
@@ -339,7 +339,7 @@ jQuery(document).ready(function($) {
         => (bool) $this->getCustomOptions('fields/image@show-on-load=1')
     );
 
-    $html = $this->get_form_part_html('stock-images', $context->getProduct(), $params);
+    $html = $this->get_form_part_html('image-fields', $context->getProduct(), $params);
 
     if ($html === false)
       return false;
