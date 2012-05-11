@@ -57,7 +57,7 @@ function zetaprints_get_html_from_xml ($xml, $xslt, $params) {
     $xml_dom = $xml;
 
   $xslt_dom = new DOMDocument();
-  $xslt_dom->load(dirname(__FILE__).'/xslt/' . $xslt . '-html.xslt');
+  $xslt_dom->load(dirname(__FILE__) . '/xslt/' . $xslt . '.xslt');
 
   $proc = new XSLTProcessor();
   $proc->importStylesheet($xslt_dom);
