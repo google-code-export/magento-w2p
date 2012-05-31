@@ -1030,7 +1030,7 @@ jQuery(document).ready(function($) {
     if (! $template_details = $this->getTemplateDetailsForCurrentProduct())
       return false;
 
-    $template_details['pages_number'] = count( $template_details['pages']);
+    $template_details['pages_number'] = count($template_details['pages']);
 
     $product_name = $context->getProduct()->getName();
 
