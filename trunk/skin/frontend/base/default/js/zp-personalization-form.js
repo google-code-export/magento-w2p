@@ -151,10 +151,11 @@ function personalization_form ($) {
     $original_button.removeClass('no-display');
   }
 
-  function can_show_next_page_button_for_page (page, zp) {
-    if (page < zp.template_details.pages_number
-        && (zp.template_details.pages[page].static
-            || zp.changed_pages[page]))
+  function can_show_next_page_button_for_page (page_number, zp) {
+    var page = zp.template_details.pages[page_number];
+
+    if (page_number < zp.template_details.pages_number
+        && (page.static || page['updated-preview-image']))
       return true;
 
     return false;
@@ -267,9 +268,6 @@ function personalization_form ($) {
     //Update preview for the first page
     update_preview({ data: { zp: this } }, true);
 
-  //??? Do we need it anymore?
-  this.changed_pages = new Array(this.template_details.pages_number + 1);
-
   //Create array for preview images sharing links
   if (window.place_preview_image_sharing_link)
     this.preview_sharing_links
@@ -280,8 +278,6 @@ function personalization_form ($) {
     if (this.template_details.pages[page_number]['updated-preview-url']) {
       var url
             = this.template_details.pages[page_number]['updated-preview-url'];
-
-      this.changed_pages[page_number] = true;
 
       if (window.place_preview_image_sharing_link)
         update_preview_sharing_link_for_page(page_number,
@@ -410,10 +406,8 @@ function personalization_form ($) {
   this.has_static_pages = false;
 
   for (var number in this.template_details.pages)
-    if (this.template_details.pages[number].static) {
+    if (this.template_details.pages[number].static)
       this.has_static_pages = true;
-      this.changed_pages[number] = true;
-    }
 
   $('<input type="hidden" name="zetaprints-previews" value="' +
                       export_previews_to_string(this.template_details) + '" />')
@@ -732,8 +726,6 @@ function personalization_form ($) {
             if (window.place_preview_image_sharing_link)
               update_preview_sharing_link_for_page(page_number,
                                     zp.preview_sharing_links, preview);
-
-            zp.changed_pages[page_number] = true;
           }
 
           //If there's image zoomer on the page
