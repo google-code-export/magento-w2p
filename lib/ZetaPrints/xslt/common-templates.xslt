@@ -465,16 +465,16 @@
                 <xsl:with-param name="key">Click to show page</xsl:with-param>
               </xsl:call-template>
             </xsl:attribute>
-            <img rel="page-{position()}" src="{@ThumbImageUpdated}">
+            <img rel="page-{position()}">
               <xsl:choose>
-                <xsl:when test="@ThumbImageUpdated">
+                <xsl:when test="@ThumbUrlUpdated">
                   <xsl:attribute name="src">
-                    <xsl:value-of select="@ThumbImageUpdated" />
+                    <xsl:value-of select="@ThumbUrlUpdated" />
                   </xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:attribute name="src">
-                    <xsl:value-of select="@ThumbImage" />
+                    <xsl:value-of select="@ThumbUrl" />
                   </xsl:attribute>
                 </xsl:otherwise>
               </xsl:choose>
