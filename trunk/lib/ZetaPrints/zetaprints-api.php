@@ -184,9 +184,48 @@ function zetaprints_parse_template_details ($xml) {
       'width-cm' =>  (float) $page['WidthCm'],
       'height-cm' =>  (float) $page['HeightCm'] );
 
-    if ((string) $page['PreviewImageUpdated'])
-      $template['pages'][$page_number]['updated-preview-image']
-                                        = (string) $page['PreviewImageUpdated'];
+    if (isset($page['PreviewUrl']))
+      $template
+        ['pages']
+        [$page_number]
+        ['preview-url'] = (string) $page['PreviewUrl'];
+
+    if (isset($page['ThumbUrl']))
+      $template
+        ['pages']
+        [$page_number]
+        ['thumb-url'] = (string) $page['ThumbUrl'];
+
+    if (isset($page['PreviewImageUpdated'])) {
+      $updated_preview = (string) $page['PreviewImageUpdated'];
+
+      $template
+        ['pages']
+        [$page_number]
+        ['updated-preview-image'] = $updated_preview;
+
+      if (isset($page['ThumbImageUpdated']))
+        $updated_thumb = (string) $page['ThumbImageUpdated'];
+      else
+        $updated_thumb = 'thumb' . substr($updated_preview, 7);
+
+      $template
+        ['pages']
+        [$page_number]
+        ['updated-thumb-image'] = $updated_thumb;
+    }
+
+    if (isset($page['PreviewUrlUpdated']))
+      $template
+        ['pages']
+        [$page_number]
+        ['updated-preview-url'] = (string) $page['PreviewUrlUpdated'];
+
+    if (isset($page['ThumbUrlUpdated']))
+      $template
+        ['pages']
+        [$page_number]
+        ['updated-thumb-url'] = (string) $page['ThumbUrlUpdated'];
 
     //Check for templates with old shape coordinates system
     $is_page_2_box_empty = (string) $page['Page2BoxX'] == ''

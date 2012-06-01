@@ -130,31 +130,41 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
     }
   }
 
-  public function replace_preview_images ($template, $previews) {
-    $page_number = 0;
-    $number_of_previews = 0;
+  public function replacePreviewImages ($template, $previews) {
+    $pageNumber = 0;
+    $numberOfPreviews = 0;
 
     foreach ($template->Pages->Page as $page)
-      if (isset($previews[$page_number]) && $guid = $previews[$page_number++]) {
-        $number_of_previews++;
+      if (isset($previews[$pageNumber]) && $guid = $previews[$pageNumber++]) {
+        $numberOfPreviews++;
 
-        $page['PreviewImageUpdated'] = $this->get_preview_url($guid);
-        $page['ThumbImageUpdated'] = $this->get_thumbnail_url($guid, 100, 100);
+        $page['PreviewImageUpdated'] = 'preview/' . $guid;
       }
 
-    return $number_of_previews;
+    return $numberOfPreviews;
   }
 
-  public function update_preview_images_urls ($template) {
+  public function generateImageUrls ($template) {
     foreach ($template->Pages->Page as $page) {
-      $preview_guid = explode('preview/', (string) $page['PreviewImage']);
-      $thumb_guid = explode('/',
-                            isset($page['PreviewImageUpdated'])
-                              ? (string) $page['PreviewImageUpdated']
-                                : (string) $page['ThumbImage']);
+      $preview = explode('preview/', (string) $page['PreviewImage']);
+      $thumb = explode('thumb/', (string) $page['ThumbImage']);
 
-      $page['PreviewImage'] = $this->get_preview_url($preview_guid[1]);
-      $page['ThumbImage'] = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
+      $page['PreviewUrl'] = $this->get_preview_url($preview[1]);
+      $page['ThumbUrl'] = $this->get_thumbnail_url($thumb[1], 100, 100);
+
+      if (isset($page['Static']) && (bool) $page['Static']
+          && !isset($page['PreviewImageUpdated']))
+        $page['PreviewImageUpdated'] = (string) $page['PreviewImage'];
+
+      if (isset($page['PreviewImageUpdated'])) {
+        $preview = explode('preview/', (string) $page['PreviewImageUpdated']);
+
+        $page['ThumbImageUpdated'] = 'thumb/' . $preview[1];
+
+        $page['PreviewUrlUpdated'] = $this->get_preview_url($preview[1]);
+        $page['ThumbUrlUpdated'] = $this
+                                     ->get_thumbnail_url($preview[1], 100, 100);
+      }
     }
   }
 
@@ -451,6 +461,18 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
 
         return false;
       }
+
+      $session = Mage::getSingleton('core/session');
+
+      if ($session->hasData('zetaprints-previews')) {
+        $previews = unserialize($session->getData('zetaprints-previews'));
+
+        if (is_array($previews)
+            && !$this->replacePreviewImages($xml, $previews))
+          $session->setData('zetaprints-previews', '');
+      }
+
+      $this->generateImageUrls($xml);
 
       //If product page was requested with reorder parameter...
       if ($this->_getRequest()->has('reorder')

@@ -20,20 +20,6 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
         && Mage::registry('webtoprint-user-was-registered'))
       $this->add_user_images($xml);
 
-    if ($form_part === 'page-tabs') {
-      $this->update_preview_images_urls($xml);
-
-      $session = Mage::getSingleton('core/session');
-
-      if ($session->hasData('zetaprints-previews')) {
-        $previews = unserialize($session->getData('zetaprints-previews'));
-
-        if (is_array($previews))
-          if(!$this->replace_preview_images($xml, $previews))
-            $session->setData('zetaprints-previews', '');
-      }
-    }
-
     if ($form_part === 'page-size-table'
         && !isset($xml->Pages->Page[0]['WidthIn']))
       return false;
@@ -385,16 +371,13 @@ jQuery(document).ready(function($) {
   }
 
   public function get_page_tabs ($context) {
-    $params = array(
-      'thumbnail-url-template'
-        => $this->get_thumbnail_url('image-guid.image-ext', 100, 100) );
-
-    $html = $this->get_form_part_html('page-tabs', $context->getProduct(), $params);
+    $html = $this->get_form_part_html('page-tabs', $context->getProduct());
 
     if ($html === false)
       return false;
 
     echo $html;
+
     return true;
   }
 
@@ -1036,28 +1019,12 @@ jQuery(document).ready(function($) {
 
     $previews = array();
 
-    foreach ($template_details['pages'] as $page_number => &$page_details) {
-      $preview_guid = explode('preview/', $page_details['preview-image']);
-      $thumb_guid = explode('thumb/', $page_details['thumb-image']);
+    foreach ($template_details['pages'] as $details) {
+      $guid = explode('preview/', $details['preview-image']);
+      $url = $this->get_preview_url($guid[1]);
 
-      $preview_url = $this->get_preview_url($preview_guid[1]);
-
-      $page_details['preview-image'] = $preview_url;
-      $page_details['thumb-image']
-                           = $this->get_thumbnail_url($thumb_guid[1], 100, 100);
-
-      if (isset($page_details['updated-preview-image'])) {
-        $updated_preview_guid
-                  = explode('preview/', $page_details['updated-preview-image']);
-        $page_details['updated-preview-image']
-                             = $this->get_preview_url($updated_preview_guid[1]);
-
-        $previews[] = $updated_preview_guid[1];
-      }
-
-      echo sprintf('<img src="%s" alt="Printable %s" class="zp-hidden" />',
-                   $preview_url,
-                   $product_name );
+      echo '<img src="', $url, '" alt="Printable ', $product_name,
+           '" class="zp-hidden" />';
     }
 
     $session = Mage::getSingleton('core/session');
@@ -1087,7 +1054,6 @@ jQuery(document).ready(function($) {
 
     $zp_data = json_encode(array(
       'template_details' => $template_details,
-      'previews' => $previews,
       'previews_from_session' => $previews_from_session,
       'is_personalization_step' => $this->is_personalization_step($context),
       'update_first_preview_on_load' => $update_first_preview_on_load,
