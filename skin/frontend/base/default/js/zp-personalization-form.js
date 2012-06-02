@@ -1199,8 +1199,6 @@ function personalization_form ($) {
 
         $selected_shapes.removeClass('zetaprints-shape-selected');
       }
-
-      zp.current_field_name = null;
     },
     'onCleanup': function () {
       if (zp.has_shapes && window.popdown_field_by_name) {
