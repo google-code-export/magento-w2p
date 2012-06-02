@@ -1166,38 +1166,18 @@ function personalization_form ($) {
       place_all_shapes_for_page(zp.template_details.pages[zp.current_page].shapes,
                                 $fancy_inner, fancy_shape_handler);
 
-      var $current_shape = jQuery('#current-shape');
-
-      if ($current_shape.length) {
-        var current_shape_name = $current_shape.attr('title');
-
+      if (zp._shape_to_show) {
         var shape = zp.template_details
                       .pages[zp.current_page]
-                      .shapes[current_shape_name];
+                      .shapes[zp._shape_to_show];
+
+        zp._shape_to_show = undefined;
 
         highlight_shape(shape, $fancy_inner);
 
-        var $selected_shapes = $product_image_box
-                                 .find('.zetaprints-shape-selected')
-
-        var $selected_shapes_array = $selected_shapes
-                                       .toArray()
-                                       .reverse();
-
-        var selected_shapes_names = [];
-
-        for (var i = 0; i < $selected_shapes_array.length; i++) {
-          var names = $($selected_shapes_array[i]).attr('title').split('; ');
-
-          for (var n = 0; n < names.length; n++)
-            selected_shapes_names.push(names[n]);
-        }
-
-        popup_field_by_name(current_shape_name,
+        popup_field_by_name(shape.name,
                             undefined,
-                            selected_shapes_names);
-
-        $selected_shapes.removeClass('zetaprints-shape-selected');
+                            shape._fields ? shape._fields : shape.name);
       }
     },
     'onCleanup': function () {

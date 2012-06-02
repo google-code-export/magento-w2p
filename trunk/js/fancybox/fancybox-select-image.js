@@ -36,9 +36,9 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
               .attr('name')
               .substring(12);
 
-        $('#zetaprints-preview-image-container')
-          .find(' > .zetaprints-field-shape[title="' + shape_name + '"] > .top')
-          .click();
+        zp._shape_to_show = shape_name;
+
+        $('#preview-image-page-' + zp.current_page).click();
 
         $(this).remove();
         $close.attr('id', 'fancybox-close');

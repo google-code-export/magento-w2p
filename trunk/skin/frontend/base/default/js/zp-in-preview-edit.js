@@ -100,6 +100,10 @@ function popup_field_by_name (name, position, selected_shapes) {
 
   var selected_buttons = {};
 
+  // selected_shapes can be a string
+  // wrap it into array
+  selected_shapes = [].concat(selected_shapes);
+
   for (var i = 0; i < selected_shapes.length; i++) {
     var shape_name = selected_shapes[i];
 
@@ -425,30 +429,31 @@ function fancy_shape_handler (event) {
 
     popdown_field_by_name(undefined, true);
 
-    var c = _glob_to_rel_coords(event.pageX,
-                                event.pageY,
-                                event.data.container.children('#fancybox-img'));
+    var name = shape.attr('title')
 
-    var selected_shapes = get_shapes_by_coords(c)
-                            .reverse();
+    var _shape = zp
+                   .template_details.pages[zp.current_page]
+                   .shapes[name];
 
-    //Remember selected shapes for futher use
-    jQuery('#zetaprints-preview-image-container')
-      .children('.zetaprints-field-shape[title="' + shape.attr('title') + '"]')
-      .data('selected-shapes', selected_shapes);
+    if (!_shape._selected_shape_names) {
+      var c = _glob_to_rel_coords(event.pageX,
+                                  event.pageY,
+                                  event
+                                    .data
+                                    .container
+                                    .children('#fancybox-img') );
 
-    var selected_shapes_names = [];
+      var shapes = get_shapes_by_coords(c).reverse();
 
-    for (var i = 0; i < selected_shapes.length; i++) {
-      var names = selected_shapes[i].name.split('; ');
+      var fields = [];
 
-      for (var n = 0; n < names.length; n++)
-        selected_shapes_names.push(names[n]);
+      for (var i = 0; i < shapes.length; i++)
+        fields = fields.concat(shapes[i].name.split('; '))
+
+      _shape._fields = fields;
     }
 
-    popup_field_by_name(jQuery(shape).attr('title'),
-                        { top: event.pageY, left: event.pageX },
-                        selected_shapes_names);
+    popup_field_by_name(name, { top: event.pageY, left: event.pageX }, fields);
 
     return false;
   }

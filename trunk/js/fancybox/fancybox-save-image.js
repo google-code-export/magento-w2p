@@ -20,9 +20,9 @@ function fancybox_add_save_image_button ($, zp, in_preview, name, guid) {
       .clone()
       .css('display', 'inline')
       .click(function () {
-        $('#zetaprints-preview-image-container')
-          .find(' > .zetaprints-field-shape[title="' + name + '"] > .top')
-          .click();
+        zp._shape_to_show = name;
+
+        $('#preview-image-page-' + zp.current_page).click();
 
         $(this).remove();
         $close.attr('id', 'fancybox-close');
