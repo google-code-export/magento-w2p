@@ -1029,8 +1029,6 @@ jQuery(document).ready(function($) {
 
     $session = Mage::getSingleton('core/session');
 
-    $previews_from_session = $session->getData('zetaprints-previews') == true;
-
     if ($session->hasData('zetaprints-previews')) {
       $user_input = unserialize($session->getData('zetaprints-user-input'));
 
@@ -1054,7 +1052,6 @@ jQuery(document).ready(function($) {
 
     $zp_data = json_encode(array(
       'template_details' => $template_details,
-      'previews_from_session' => $previews_from_session,
       'is_personalization_step' => $this->is_personalization_step($context),
       'update_first_preview_on_load' => $update_first_preview_on_load,
       'has_shapes' => $has_shapes,

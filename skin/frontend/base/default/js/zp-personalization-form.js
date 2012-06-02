@@ -155,7 +155,7 @@ function personalization_form ($) {
     var page = zp.template_details.pages[page_number];
 
     if (page_number < zp.template_details.pages_number
-        && (page.static || page['updated-preview-image']))
+        && page['updated-preview-image'])
       return true;
 
     return false;
@@ -182,6 +182,14 @@ function personalization_form ($) {
         return false;
 
     return true;
+  }
+
+  function has_updated_pages (details) {
+    for (page_number in details.pages)
+      if (details.pages[page_number]['updated-preview-image'])
+        return true;
+
+    return false;
   }
 
   //Set current template page to the first (1-based index)
@@ -403,18 +411,13 @@ function personalization_form ($) {
       $(tab_button).removeClass('hidden');
   });
 
-  this.has_static_pages = false;
-
-  for (var number in this.template_details.pages)
-    if (this.template_details.pages[number].static)
-      this.has_static_pages = true;
-
   $('<input type="hidden" name="zetaprints-previews" value="' +
                       export_previews_to_string(this.template_details) + '" />')
     .appendTo($('#product_addtocart_form'));
 
-  if (this.previews_from_session
-      || (this.has_static_pages && this.template_details.missed_pages == '')
+  if (is_all_pages_updated(this.template_details)
+      || (has_updated_pages(this.template_details)
+          && this.template_details.missed_pages == '')
       || this.template_details.missed_pages == 'include')
     $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
   else
