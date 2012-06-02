@@ -178,7 +178,7 @@ function personalization_form ($) {
 
   function is_all_pages_updated (details) {
     for (page_number in details.pages)
-      if (!details.pages[page_number]['updated-preview-image']/*)*/)
+      if (!details.pages[page_number]['updated-preview-image'])
         return false;
 
     return true;
