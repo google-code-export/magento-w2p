@@ -1,4 +1,3 @@
-/**/
 div.zetaprints-image-tabs {
   display: none;
   overflow-x: auto;
@@ -7,7 +6,6 @@ div.zetaprints-image-tabs {
   padding-bottom: 20px;
 }
 
-/**/
 div.zetaprints-image-tabs ul {
   overflow:hidden;
   margin-bottom: 5px;
@@ -16,7 +14,6 @@ div.zetaprints-image-tabs ul {
   list-style-type: none;
 }
 
-/**/
 div.zetaprints-image-tabs ul li {
   width: 100px;
   float: left;
@@ -28,18 +25,15 @@ div.zetaprints-image-tabs ul li {
   min-height: 100px;
 }
 
-/**/
 div.zetaprints-image-tabs ul li.selected {
   border-color: #F18200 !important;
   cursor: default;
 }
 
-/**/
 div.zetaprints-image-tabs ul li:hover {
   border-color: #C4C6C8;
 }
 
-/**/
 div.zetaprints-image-tabs ul li img {
   max-height: 100px;
   max-width: 100px;
@@ -50,7 +44,6 @@ a.zetaprints-template-preview img {
   cursor: pointer;
 }
 
-/**/
 .zetaprints-text-field-wrapper .input-text,
 .zetaprints-text-field-wrapper textarea {
   border: none;
@@ -85,12 +78,10 @@ div.zetaprints-page-input-fields .zetaprints-text-field-wrapper:focus {
   background-color: #EDF7FD;
 }
 
-/**/
 div.zetaprints-page-color-pickers {
   display: none;
 }
 
-/**/
 div.product-shop dl {
   margin-bottom: 5px;
 }
