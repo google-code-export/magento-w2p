@@ -166,7 +166,6 @@ div.images-scroller div.buttons-row {
 }
 
 div.images-scroller .zp-button {
-  cursor: pointer;
   float: right;
   margin-left: 5px;
   height: 15px;
@@ -818,13 +817,13 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .zp-buttons-wrapper .zp-button {
   float: left;
   margin: 10px 5px 0 0;
+  padding: 0 5px;
+  font-size: 95%;
+  height: 35px;
+  position: relative;
 }
 
 .zp-button {
-  height: 35px;
-  position: relative;
-  padding: 0 5px;
-  font-size: 95%;
   cursor: pointer;
 }
 
