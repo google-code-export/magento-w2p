@@ -751,6 +751,40 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  public function getOrderPreviewImagesForEmail ($context, $item) {
+    $options = $item->getProductOptionByCode('info_buyRequest');
+
+    if (!(isset($options['zetaprints-previews'])
+          || isset($options['zetaprints-downloaded-previews'])))
+      return;
+
+    $dynamicImaging = isset($options['zetaprints-dynamic-imaging'])
+                        ? $options['zetaprints-dynamic-imaging'] : false;
+
+    $previews = $dynamicImaging ? $options['zetaprints-downloaded-previews']
+                                : explode(',', $options['zetaprints-previews']);
+?>
+    <tr>
+      <td colspan="4"
+          style=" border-bottom:2px solid #CCCCCC; padding:3px 9px;">
+      <?php foreach ($previews as $preview): ?>
+
+      <?php
+        $url = $dynamicImaging ? $preview : $this->get_preview_url($preview);
+        $thumb = $dynamicImaging ? $preview : $this->get_thumbnail_url($preview);
+      ?>
+        <a href="<?php echo $this->get_preview_url($preview); ?>"
+           style="text-decoration: none"
+           target="_blank">
+          <img src="<?php echo $this->get_thumbnail_url($preview); ?>"
+               title="<?php echo $this->__('Click to enlarge image');?>" />
+        </a>
+      <?php endforeach ?>
+      </td>
+    </tr>
+<?php
+  }
+
   public function get_reorder_button ($context, $item) {
     $options = $item->getProductOptionByCode('info_buyRequest');
 

@@ -10,4 +10,11 @@
       <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
     </reference>
   </sales_order_view>
+
+  <sales_email_order_items>
+    <reference name="items">
+      <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>email/order/items/order/webtoprint-default.phtml</template></action>
+      <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/order/webtoprint-default.phtml</template></action>
+    </reference>
+  </sales_email_order_items>
 </layout>
