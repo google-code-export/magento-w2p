@@ -28,24 +28,31 @@
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 
-//Add check of canApplyMsrp() method for backward compatibility
-//with M. releases < 1.6
-$canApplyMsrp = method_exists(Mage::helper('catalog'), 'canApplyMsrp')
-  ? Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM)
-    : false;
+/****** ZP-CHANGE:1 Check for 'canApplyMsrp()' method before using it.
+                    It doesn't exist in Magento prior 1.6 release. ******/
+
+if (method_exists(Mage::helper('catalog'), 'canApplyMsrp'))
+  $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+else
+  $canApplyMsrp = false;
+
+/****** ZP-CHANGE:1 End ******/
+
 ?>
 <tr>
     <td>
 
-    <!-- /****** ZP-CODE:1 Outputs link and slightly modified <img> tag to prevent image resizing
-                           with correct image url and returns true for products
-                           with web-to-print features ******/ -->
+    <!-- /****** ZP-CODE:1 Outputs link and slightly modified <img> tag to
+                           prevent image resizing with correct image url
+                           and returns true for products with web-to-print
+                           features ******/ -->
 
     <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
       <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?>
     <?php endif; ?>
 
     <!-- /****** ZP-CODE:1 End ******/ -->
+
     </td>
 
     <td>
@@ -85,10 +92,11 @@ $canApplyMsrp = method_exists(Mage::helper('catalog'), 'canApplyMsrp')
         <?php endif;?>
     </td>
 
-    <?php
-    //Add check for M. release >= 1.5
-    if (method_exists($this, 'getConfigureUrl')):
-    ?>
+    <?php /****** ZP-CHANGE:2 Check for 'getConfigureUrl' method before
+                              using it. It doesn't exist in Magento
+                              prior 1.5 release. ******/ ?>
+
+    <?php if (method_exists($this, 'getConfigureUrl')): ?>
 
     <td class="a-center">
         <?php if ($isVisibleProduct): ?>
@@ -98,10 +106,24 @@ $canApplyMsrp = method_exists(Mage::helper('catalog'), 'canApplyMsrp')
 
     <?php endif ?>
 
+    <?php /****** ZP-CHANGE:2 End ******/  ?>
+
     <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
     <td class="a-center">
         <?php if ($isVisibleProduct): ?>
-            <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move'); ?></a>
+        
+            <?php /****** ZP-CHANGE:3 Check for 'getMoveFromCartUrl' method
+                                      before using it. It doesn't exist in
+                                      Magento prior 1.7 release. ******/ ?>
+
+            <?php if (method_exists($this->helper('wishlist'), 'getMoveFromCartUrl')): ?>
+                <a href="<?php echo $this->helper('wishlist')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move'); ?></a>
+            <?php else: ?>
+                <input type="checkbox" value="1" name="cart[<?php echo $_item->getId() ?>][wishlist]" title="<?php echo $this->__('Move to Wishlist') ?>" class="checkbox" />
+            <?php endif; ?>
+
+            <?php /****** ZP-CHANGE:3 End ******/ ?>
+
         <?php endif ?>
     </td>
     <?php endif ?>
