@@ -1,5 +1,16 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.1.2.0) =
+  * Add support for Magento 1.7
+  * Add Dutch translation (issue #788)
+  * Display preview images in order's notification emails (issue #798)
+  * Do not ignore empty lines in drop-down text fields(issue #795)
+  * Better handling of template's previews (issue #797)
+  * Other bug fixes and improvements (issue #772, issue #794, issue 797, issue #749)
+
+== Release comments ==
+Code for the release can be obtained by _web-to-print-2.1.2.0_ tag from the project's SVN repo.
+
 = Stable release (2.1.1.0) =
   * Add default ZetaPrints account settings (issue #770)
   * Bug fixes and improvements (issue #773, issue #774 and issue #776)
