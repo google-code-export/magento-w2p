@@ -970,3 +970,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   height: 200px;
   width: 100%;
 }
+
+.zp-html-template {
+  display: none;
+}

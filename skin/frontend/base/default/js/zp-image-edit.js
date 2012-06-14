@@ -44,7 +44,7 @@ function zetaprint_image_editor ($, params) {
     set_info_bar_value('recommended', 'dpi', Math.round(context.placeholder.dpi));
 
     $('#zp-image-edit-action-fit-image').click(function () {
-      hide_crop();
+      clear_editor();
 
       var image
                = fit_image_into_placeholder(context.image, context.placeholder);
@@ -61,7 +61,7 @@ function zetaprint_image_editor ($, params) {
     });
 
     $('#zp-image-edit-action-fill-field').click(function () {
-      hide_crop();
+      clear_editor();
 
       var placeholder = fill_placeholder_with_image(context.image,
                                                     context.placeholder);
@@ -78,7 +78,7 @@ function zetaprint_image_editor ($, params) {
     });
 
     $('#zp-image-edit-action-fit-width').click(function () {
-      hide_crop();
+      clear_editor();
 
       var image = fit_image_into_placeholder_by_width(context.image,
                                                       context.placeholder);
@@ -95,7 +95,7 @@ function zetaprint_image_editor ($, params) {
     });
 
     $('#zp-image-edit-action-fit-height').click(function () {
-      hide_crop();
+      clear_editor();
 
       var image = fit_image_into_placeholder_by_height(context.image,
                                                        context.placeholder);
@@ -117,15 +117,17 @@ function zetaprint_image_editor ($, params) {
       .children('.fit-to-field-button-wrapper, .note')
       .hide();
 
-  var $user_image_container
-                       = $container.find('div.zetaprints-image-edit-container');
+  var $user_image_container = $('#zetaprints-image-edit-container');
 
   var $user_image= $('#zetaprints-image-edit-user-image')
     .load(function () {
       if ($container.hasClass('crop-mode') || !context.has_fit_in_field)
         crop_button_click_handler();
-      else
+      else if ($container.hasClass('fit-to-field-mode'))
         fit_to_field_button_click_handler();
+      else if ($container.hasClass('editor-mode')) {
+        show_image_editor();
+      }
 
       $.fancybox.hideActivity();
 
@@ -159,6 +161,8 @@ function zetaprint_image_editor ($, params) {
   });
 
   $('#delete-button').click(delete_image);
+
+  $('#image-editor-button').click(image_editor_button_handler);
 
   function cropping_callback (data) {
     var width_factor = data.selection.width / data.image.width;
@@ -249,8 +253,19 @@ function zetaprint_image_editor ($, params) {
     if ($container.hasClass('crop-mode')) {
       $.fancybox.showActivity();
       server_side_cropping($user_image.power_crop('state'));
-    } else
+
+      return;
+    }
+
+    if ($container.hasClass('fit-to-field-mode')) {
       save_metadata($user_image.power_crop('state'));
+
+      return;
+    }
+
+    if ($container.hasClass('editor-mode') && window._zp_image_editor) {
+      window._zp_image_editor.save();
+    }
   }
 
   function save_metadata (data) {
@@ -357,7 +372,7 @@ function zetaprint_image_editor ($, params) {
       },
       success: function (data, textStatus) {
         clear_metadata();
-        hide_crop();
+        clear_editor();
         process_image_details(data);
       }
     });
@@ -370,7 +385,7 @@ function zetaprint_image_editor ($, params) {
     $('#fancybox-overlay').css('z-index', 1103);
     $.fancybox.showActivity();
 
-    hide_crop();
+    clear_editor();
     clear_metadata();
 
     $.ajax({
@@ -390,32 +405,40 @@ function zetaprint_image_editor ($, params) {
     });
   }
 
-  function load_image () {
-    $('#fancybox-overlay').css('z-index', 1103);
-    $.fancybox.showActivity();
-
+  function reload_image (id) {
     $.ajax({
       url: context.url.image,
       type: 'POST',
       datatype: 'XML',
       data: {
         'zetaprints-action': 'img',
-        'zetaprints-ImageID': context.image_id
+        'zetaprints-ImageID': id
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         alert(cant_load_image_text + ': ' + textStatus);
         $('#fancybox-overlay').css('z-index', 1100);
       },
       success: function (data, textStatus) {
+        context.image_id = id;
+
         process_image_details(data);
       }
     });
   }
 
+  this.reload_image = reload_image;
+
+  function load_image () {
+    $('#fancybox-overlay').css('z-index', 1103);
+    $.fancybox.showActivity();
+
+    reload_image(context.image_id);
+  }
+
   function server_side_rotation (direction) {
     $('#fancybox-overlay').css('z-index', 1103);
 
-    hide_crop();
+    clear_editor();
     clear_metadata();
     $.fancybox.showActivity();
 
@@ -516,6 +539,7 @@ function zetaprint_image_editor ($, params) {
           alert(cant_delete_text + ': ' + textStatus);
         },
         success: function (data, textStatus) {
+          clear_editor();
           clear_metadata();
 
           $('input[value="' + context.image_id +'"]').parent().remove();
@@ -823,8 +847,14 @@ function zetaprint_image_editor ($, params) {
     }
   }
 
-  function hide_crop () {
-    $user_image.power_crop('destroy');
+  function clear_editor () {
+    if ($container.hasClass('crop-mode')
+        || $container.hasClass('fit-to-field-mode'))
+      $user_image.power_crop('destroy');
+
+    if ($container.hasClass('editor-mode') && window._zp_image_editor) {
+      window._zp_image_editor.close();
+    }
 
     $container.removeClass('changed');
 
@@ -848,10 +878,10 @@ function zetaprint_image_editor ($, params) {
   }
 
   function crop_button_click_handler () {
-    hide_crop();
+    clear_editor();
 
     $container
-      .removeClass('fit-to-field-mode')
+      .removeClass('fit-to-field-mode editor-mode')
       .addClass('crop-mode');
 
     //if (window.fancybox_update_save_image_button)
@@ -863,10 +893,10 @@ function zetaprint_image_editor ($, params) {
   }
 
   function fit_to_field_button_click_handler (ignore_metadata) {
-    hide_crop();
+    clear_editor();
 
     $container
-      .removeClass('crop-mode')
+      .removeClass('crop-mode editor-mode')
       .addClass('fit-to-field-mode');
 
     var metadata = context.$input.data('metadata');
@@ -889,6 +919,102 @@ function zetaprint_image_editor ($, params) {
 
     if (window.fancybox_update_save_image_button)
       fancybox_update_save_image_button($, !metadata || ignore_metadata);
+  }
+
+  function image_editor_button_handler () {
+    if ($container.hasClass('editor-mode'))
+      return;
+
+    clear_editor();
+    clear_metadata();
+
+    $container
+      .removeClass('crop-mode fit-to-field-mode')
+      .addClass('editor-mode');
+
+    show_image_editor();
+  }
+
+  function show_image_editor () {
+    var $edit_container = $('#zetaprints-image-edit-container');
+
+    var fancybox_center_function = $.fancybox.center;
+
+    $.fancybox.center = function () {
+      fancybox_center_function();
+
+      var offset = $edit_container.offset();
+
+      window
+        ._zp_image_editor_wrapper
+        .css({
+          top: offset.top,
+          left: offset.left
+        });
+  }
+
+    if (!window._zp_image_editor) {
+      $('#fancybox-overlay').css('z-index', 1103);
+      $.fancybox.showActivity();
+
+      _zp_image_editor_wrapper = $('<div id="zp-image-edit-editor-wrapper" />')
+                                 .appendTo('body');
+
+      _zp_image_editor_wrapper
+        .css({
+          top: $edit_container.offset().top,
+          left: $edit_container.offset().left,
+          width: $edit_container.outerWidth(),
+          height: $edit_container.outerHeight()
+        });
+
+      _zp_image_editor = new Aviary.Feather({
+        image: 'zetaprints-image-edit-user-image',
+        apiVersion: 2,
+        appendTo: 'zp-image-edit-editor-wrapper',
+        language: $('html').attr('lang'),
+        url: $user_image.attr('src'),
+        minimumStyling: true,
+        noCloseButton: true,
+        jpgQuality: 100,
+        maxSize: 600,
+        onSave: function(image_id, url) {
+          context.upload_image_by_url(url);
+
+          return false;
+        },
+        onLoad: function () {
+          window._zp_image_editor.launch();
+
+          $.fancybox.hideActivity();
+          $('#fancybox-overlay').css('z-index', 1100);
+        },
+        onReady: function () {
+          $container.addClass('changed');
+
+          if (window.fancybox_update_save_image_button)
+            fancybox_update_save_image_button($, true);
+        },
+        onClose: function () {
+          window
+            ._zp_image_editor_wrapper
+            .css('display', 'none');
+        }
+      });
+    } else {
+      var offset = $edit_container.offset();
+
+      window
+        ._zp_image_editor_wrapper
+        .css({
+          display: 'block',
+          top: offset.top,
+          left: offset.left
+        });
+
+      window._zp_image_editor.launch({image: 'zetaprints-image-edit-user-image',
+                                    url: $user_image.attr('src')});
+    }
   }
 
   function show_cropped_area_on_thumb (data) {

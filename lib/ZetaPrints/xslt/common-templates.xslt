@@ -316,52 +316,17 @@
             </div>
             <div id="page-{$page}-tabs-{position()}-2" class="tab user-images images-scroller">
               <input type="hidden" name="parameter" value="{@Name}" />
-              <table><tr>
-                <xsl:for-each select="user-image">
-                  <td>
-                    <input type="radio" name="zetaprints-#{../@Name}" value="{@guid}" class="zetaprints-images zetaprints-field">
-                      <xsl:if test="@guid=../@Value">
-                        <xsl:attribute name="checked">checked</xsl:attribute>
-                      </xsl:if>
-                    </input>
-                    <div class="image-edit-thumb">
-                      <xsl:attribute name="title">
-                        <xsl:call-template name="trans">
-                          <xsl:with-param name="key">Click to edit</xsl:with-param>
-                        </xsl:call-template>
-                      </xsl:attribute>
+              <table>
+                <tr>
+                  <xsl:call-template name="user-image-template">
+                    <xsl:with-param name="stub">1</xsl:with-param>
+                  </xsl:call-template>
 
-                      <img src="{@thumbnail}" alt="{@guid}" />
-
-                      <div class="buttons-row">
-                        <div class="zp-button zp-delete-button">
-                          <xsl:attribute name="title">
-                            <xsl:call-template name="trans">
-                              <xsl:with-param name="key">Click to delete</xsl:with-param>
-                            </xsl:call-template>
-                          </xsl:attribute>
-
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Delete</xsl:with-param>
-                          </xsl:call-template>
-                        </div>
-
-                        <div class="zp-button zp-edit-button">
-                          <xsl:attribute name="title">
-                            <xsl:call-template name="trans">
-                              <xsl:with-param name="key">Click to edit</xsl:with-param>
-                            </xsl:call-template>
-                          </xsl:attribute>
-
-                          <xsl:call-template name="trans">
-                            <xsl:with-param name="key">Edit</xsl:with-param>
-                          </xsl:call-template>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </xsl:for-each>
-              </tr></table>
+                  <xsl:for-each select="user-image">
+                    <xsl:call-template name="user-image-template" />
+                  </xsl:for-each>
+                </tr>
+              </table>
             </div>
           </xsl:if>
           <xsl:if test="StockImage">
@@ -567,6 +532,68 @@
         </xsl:for-each>
       </tbody>
     </table>
+  </xsl:template>
+
+  <xsl:template name="user-image-template">
+    <xsl:param name="stub" />
+
+    <xsl:variable name="name">
+      <xsl:choose>
+        <xsl:when test="$stub">
+          <xsl:value-of select="@Name"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="../@Name"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <td>
+      <xsl:if test="$stub">
+        <xsl:attribute name="class">zp-html-template</xsl:attribute>
+      </xsl:if>
+
+      <input type="radio" name="zetaprints-#{$name}" value="{@guid}" class="zetaprints-images zetaprints-field">
+        <xsl:if test="@guid=../@Value">
+          <xsl:attribute name="checked">checked</xsl:attribute>
+        </xsl:if>
+      </input>
+      <div class="image-edit-thumb">
+        <xsl:attribute name="title">
+          <xsl:call-template name="trans">
+            <xsl:with-param name="key">Click to edit</xsl:with-param>
+          </xsl:call-template>
+        </xsl:attribute>
+
+        <img src="{@thumbnail}" alt="{@guid}" />
+
+        <div class="buttons-row">
+          <div class="zp-button zp-delete-button">
+            <xsl:attribute name="title">
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">Click to delete</xsl:with-param>
+              </xsl:call-template>
+            </xsl:attribute>
+
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Delete</xsl:with-param>
+            </xsl:call-template>
+          </div>
+
+          <div class="zp-button zp-edit-button">
+            <xsl:attribute name="title">
+              <xsl:call-template name="trans">
+                <xsl:with-param name="key">Click to edit</xsl:with-param>
+              </xsl:call-template>
+            </xsl:attribute>
+
+            <xsl:call-template name="trans">
+              <xsl:with-param name="key">Edit</xsl:with-param>
+            </xsl:call-template>
+          </div>
+        </div>
+      </div>
+    </td>
   </xsl:template>
 
   <!--The translation template-->
