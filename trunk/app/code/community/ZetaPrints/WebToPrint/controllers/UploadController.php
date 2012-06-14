@@ -71,5 +71,46 @@ class ZetaPrints_WebToPrint_UploadController
 
     echo json_encode($result);
   }
+
+  public function byUrlAction () {
+    $request = $this->getRequest();
+
+    if (!($request->has('url') && $url = $request->get('url')))
+      return;
+
+    $helper = Mage::helper('webtoprint');
+
+    $credentials = $helper->get_zetaprints_credentials();
+
+    $params = array(
+      'ID' => $credentials['id'],
+      'Hash'
+        => zetaprints_generate_user_password_hash($credentials['password']),
+      'URL' => $url
+    );
+
+    $url = Mage::getStoreConfig('webtoprint/settings/url');
+    $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+    $image = zetaprints_download_customer_image($url, $key, $params);
+
+    if (is_array($image) && count($image) == 1)
+      $image = $image[0];
+    else {
+      echo 'Error';
+      return;
+    }
+
+    if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
+      $image['thumbnail_url'] = $helper
+                                  ->get_photo_thumbnail_url($image['thumbnail'],
+                                                            0,
+                                                            100);
+    else
+      $image['thumbnail_url'] = $helper
+                                 ->get_photo_thumbnail_url($image['thumbnail']);
+
+    echo json_encode($image);
+  }
 }
 ?>

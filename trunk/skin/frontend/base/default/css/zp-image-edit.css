@@ -179,9 +179,9 @@ div.zetaprints-image-edit-wrapper {
   display: block;
 }
 
-div.zetaprints-image-edit-container {
-  width: 602px;
-  height: 452px;
+#zetaprints-image-edit-container {
+  width: 732px;
+  height: 482px;
   background-color: white;
   overflow: hidden;
   padding: 3px;
@@ -322,5 +322,25 @@ div.info-bar div.question-sign:hover {
 .no-dpi #info-bar-column-at-label,
 .no-dpi #info-bar-column-dpi-value,
 .no-dpi #info-bar-column-dpi-label {
+  display: none;
+}
+
+#zp-image-edit-editor-wrapper {
+  position: absolute;
+}
+
+#zp-image-edit-editor-wrapper .avpw {
+  background: none;
+  border: none;
+}
+
+#zp-image-edit-editor-wrapper .avpw .avpw_primary_button,
+#zp-image-edit-editor-wrapper .avpw .avpw_primary_button:link,
+#zp-image-edit-editor-wrapper .avpw .avpw_primary_button:visited,
+#zp-image-edit-editor-wrapper .avpw .avpw_primary_button:active {
+  background-color: #93B4DF;
+}
+
+#zp-image-edit-editor-wrapper #avpw_tool_main_container .avpw_mode_action {
   display: none;
 }

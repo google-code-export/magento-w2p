@@ -74,7 +74,8 @@ function personalization_form ($) {
             'width_in': page['width-in'],
             'height_in': page['height-in']
           },
-          'placeholder': page.images[image_name]
+          'placeholder': page.images[image_name],
+          'upload_image_by_url': upload_image_by_url
         };
 
         //Check if current page has shapes...
@@ -100,6 +101,10 @@ function personalization_form ($) {
 
         zetaprint_image_editor.apply(zp.image_edit,
                                      [ $, { save: save_image_handler } ] );
+      },
+
+      'onCleanup' : function () {
+        window._zp_image_editor && window._zp_image_editor.close();
       },
 
       'onClosed': function () {
@@ -784,98 +789,83 @@ function personalization_form ($) {
       responseType: 'json',
       autoSubmit: true,
       onChange: function (file, extension) {
-        var upload_div = $(this._button).parents('div.upload');
-        $('input.file-name', upload_div).val(file);
+        $(this._button)
+          .parents('.upload')
+          .find('input.file-name')
+          .val(file);
       },
       onSubmit: function (file, extension) {
-        var upload_div = $(this._button).parents('div.upload');
-        $('div.button.choose-file', upload_div).addClass('disabled');
-        $('div.button.cancel-upload', upload_div).removeClass('disabled');
-        $('img.ajax-loader', upload_div).show();
+        $(this._button) //Choose button
+          .addClass('disabled')
+          .next() //Cancel button
+          .addClass('disabled')
+          .next() //Spinner
+          .show();
 
         this.disable();
       },
       onComplete: function (file, response) {
         this.enable();
 
-        var upload_div = $(this._button).parents('div.upload');
-        $('div.button.choose-file', upload_div).removeClass('disabled');
-        $('div.button.cancel-upload', upload_div).addClass('disabled');
-        $('input.file-name', upload_div).val('');
+        var $spinner = $(this._button) //Choose button
+                         .removeClass('disabled')
+                         .next() //Cancel button
+                         .addClass('disabled')
+                         .next();
+                         
+        var $upload_div = $spinner.parents('.upload');
 
-        var $user_images = $(upload_div).nextAll('.user-images');
+        $upload_div
+          .find('input.file-name')
+          .val('');
 
         if (response == 'Error') {
-          $('img.ajax-loader', upload_div).hide();
+          $spinner.hide();
+
           alert(uploading_image_error_text);
+
           return;
         }
 
-        var upload_field_id = $(upload_div).parents('div.selector-content').attr('id');
+        var $selector = $upload_div.parents('.selector-content');
 
-        var trs = $('div.selector-content div.tab.user-images table tr');
+        var upload_field_id = $selector.attr('id');
+
+        var trs = $selector.find('.tab.user-images table tr');
 
         var number_of_loaded_imgs = 0;
 
-        $(trs).each(function () {
-          var image_name = $('input[name="parameter"]', $(this).parents('div.user-images')).val();
+        add_image_to_gallery(guid, url, function() {
+          var $img = $(this);
+          var $td = $(img).parent('td');
 
-          var td = $(
-            '<td>' +
-              '<input type="radio" name="zetaprints-#' + image_name + '" ' +
-                     'value="' + response.guid + '" ' +
-                     'class="zetaprints-images zetaprints-field" />' +
-              '<div class="image-edit-thumb">' +
-                '<img src="' + response.thumbnail + '" ' +
-                     'alt="' + response.guid + '" />' +
-                '<div class="buttons-row">'+
-                  '<div class="zp-button zp-delete-button" ' +
-                       'title="' + click_to_delete_text + '">' +
-                    delete_button_text +
-                  '</div>' + 
-                  '<div class="zp-button zp-edit-button" ' +
-                       'title="' + click_to_edit_text + '">' +
-                    edit_button_text +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-            '</td>').prependTo(this);
+          var field_id = $img
+                           .parents('.selector-content')
+                           .attr('id');
 
-          $('input:radio', td).change({ zp: zp }, image_field_select_handler);
+          //If a field the image was uploaded into is not current image field
+          if (field_id != upload_field_id) {
+            var $scroll = $td.parents('.images-scroller');
 
-          $('.image-edit-thumb', td).click(thumbnail_edit_click_handler);
-          $('.zp-delete-button', td).click(delete_image_click_handle);
+            //Scroll stripper to save position of visible images
+            $scroll.scrollLeft($scroll.scrollLeft() + $td.outerWidth());
+          }
 
-          var tr = this;
+          if (++number_of_loaded_imgs == trs.length) {
+            var $images_div = $upload_div.next();
 
-          $('img', td).load(function() {
+            $td.children('zetaprints-images').click();
 
-            //If a field the image was uploaded into is not current image field
-            if ($(this).parents('div.selector-content').attr('id') != upload_field_id) {
-              var scroll = $(td).parents('div.images-scroller');
+            $spinner.hide();
 
-              //Scroll stripper to save position of visible images
-              $(scroll).scrollLeft($(scroll).scrollLeft() + $(td).outerWidth());
-            }
+            $selector
+              .find('> .tab-buttons > .hidden')
+              .removeClass('hidden');
 
-            var img = this;
+            scroll_strip($images_div);
 
-            if (++number_of_loaded_imgs == trs.length) {
-              $user_images
-                .find('input[value="' + response.guid + '"]')
-                .click();
-  
-              $('img.ajax-loader', upload_div).hide();
-
-              $('div.selector-content')
-                .find('ul.tab-buttons li.hidden')
-                .removeClass('hidden');
-
-              scroll_strip($user_images);
-
-              $(upload_div).parents('div.selector-content').tabs('select', 1);
-            }
-          });
+            $selector.tabs('select', 1);
+          }
         });
       }
     });
@@ -885,12 +875,15 @@ function personalization_form ($) {
         uploader.cancel();
         uploader.enable();
 
-        var upload_div = $(uploader._button).parents('div.upload');
-
-        $('img.ajax-loader', upload_div).hide();
-        $('div.button.choose-file', upload_div).removeClass('disabled');
-        $('div.button.cancel-upload', upload_div).addClass('disabled');
-        $('input.file-name', upload_div).val('');
+        $(uploader._button) //Choose button
+          .removeClass('disabled')
+          .next() //Cancel button
+          .addClass('disabled')
+          .next() //Spinner
+          .hide()
+          .parents('.upload')
+          .find('input.file-name')
+          .val('');
       }
     });
   })
@@ -1406,6 +1399,63 @@ function personalization_form ($) {
     }
 
     return false;
+  }
+
+  function upload_image_by_url (url) {
+    var options = {
+      type: 'POST',
+      dataType: 'json',
+      data: { 'url': url },
+      error: function (request, status, error) {
+        alert(status + ' ' + error);
+      },
+      success: function (data, status) {
+        console.log(data);
+        add_image_to_gallery(data.guid, data.thumbnail_url);
+
+        zp.image_edit.reload_image(data.guid);
+      }
+    };
+
+    $.ajax(zp.url.upload_by_url, options);
+  }
+
+  function add_image_to_gallery (guid, url, on_image_load) {
+    var trs = $('.tabs-wrapper > .user-images > table > tbody > tr');
+
+    $(trs).each(function () {
+      var $tr = $(this);
+      var $template = $tr.children('.zp-html-template');
+
+      var $td = $template
+                  .clone()
+                  .removeClass('zp-html-template')
+                  .insertAfter($template);
+
+      $td
+        .children('.zetaprints-field')
+        .attr('value', guid)
+        .change({ zp: zp }, image_field_select_handler)
+        .click();
+
+      $td
+        .children('.image-edit-thumb')
+        .click(thumbnail_edit_click_handler);
+
+      var $thumb = $td.children('.image-edit-thumb');
+
+      $thumb
+        .find('> .buttons-row > .zp-delete-button')
+        .click(delete_image_click_handle);
+
+      var $img = $thumb
+                   .children('img')
+                   .attr('alt', guid)
+                   .attr('src', url);
+
+      if (on_image_load)
+        $img.load(on_image_load);
+    });
   }
 
   $('.zp-delete-button').click(delete_image_click_handle);

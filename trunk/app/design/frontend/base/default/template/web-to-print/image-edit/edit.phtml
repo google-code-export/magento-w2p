@@ -22,7 +22,7 @@ unknown_error_occured_text =
 //]]>
 </script>
 
-<div class="zetaprints-image-edit">
+<div class="zetaprints-image-edit fit-to-field-mode">
   <ul class='zetaprints-image-edit-menu'>
     <?php if ($in_context): ?>
     <li class="note"><?php echo $this->__('Adapt for this field'); ?></li>
@@ -53,6 +53,12 @@ unknown_error_occured_text =
         <?php echo $this->__('Crop'); ?>
       </div>
       <div class="arrow" />
+    </li>
+    <li>
+      <div id="image-editor-button" class="button"
+           title="<?php echo $this->__('Image editor'); ?>">
+        <?php echo $this->__('Image editor'); ?>
+      </div>
     </li>
     <li class="hidden">
       <div id="undo-button" class="button"
@@ -110,7 +116,7 @@ unknown_error_occured_text =
       </div>
     </div>
 
-    <div class="zetaprints-image-edit-container">
+    <div id="zetaprints-image-edit-container">
       <img id="zetaprints-image-edit-user-image" class="zetaprints-hidden"/>
     </div>
 
