@@ -765,14 +765,8 @@ function zetaprints_get_content_from_url ($url, $data = null) {
                    CURLOPT_RETURNTRANSFER => true,
                    CURLOPT_HTTPHEADER => array('Expect:') );
 
-  if ($data) {
-    $data_encoded = array();
-
-    while (list($key, $value) = each($data))
-      $data_encoded[] = urlencode($key).'='.urlencode($value);
-
-    $options[CURLOPT_POSTFIELDS] = implode('&', $data_encoded);
-  }
+  if ($data)
+    $options[CURLOPT_POSTFIELDS] = $data;
 
   _zetaprints_debug(array('curl options' => $options));
 
