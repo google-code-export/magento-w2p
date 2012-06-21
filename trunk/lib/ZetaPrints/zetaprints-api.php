@@ -2,6 +2,13 @@
 
 define("ZP_API_VER", '2.0.0');
 
+//ZP errors
+
+define('ZP_ERR_UKNOWN', 0);
+define('ZP_ERR_WRONG_ID_HASH_COMBO', 1);
+
+$_zp_error_handlers = null;
+
 require_once 'mage-logging.php';
 
 function zetaprints_generate_guid () {
@@ -765,6 +772,15 @@ function zetaprints_has_error ($response) {
   return !is_array($response) || !isset($response['error']) || !isset($response['content']) || $response['error'];
 }
 
+function zp_register_error_handler ($code, $handler) {
+  global $_zp_error_handlers;
+
+  if (!$_zp_error_handlers)
+    $_zp_error_handlers = array();
+
+  $_zp_error_handlers[$code] = $handler;
+}
+
 function _zp_curl_retrieve_data ($url, $data = null) {
   _zetaprints_debug();
 
@@ -808,29 +824,86 @@ function _zp_curl_retrieve_data ($url, $data = null) {
   return _zetaprints_ok(compact('info', 'headers', 'body'));
 }
 
-function zetaprints_get_content_from_url ($url, $data = null) {
+function _zp_invoke_error_handler ($message, $error) {
+  $error = array(
+    'code' => ZP_ERR_UKNOWN,
+    'message' => $message,
+    'repeate_request' => false,
+    'previous' => $error
+  );
+
+  if (strpos($message, 'Wrong ID/Hash combo.') === 0)
+    $error['code'] = ZP_ERR_WRONG_ID_HASH_COMBO;
+
+  global $_zp_error_handlers;
+
+  if (!($_zp_error_handlers && isset($_zp_error_handlers[$error['code']])))
+    return $error;
+
+  $handler = $_zp_error_handlers[$error['code']];
+
+  if (!(function_exists($handler) && is_callable($handler)))
+    return $error;
+
+  $result = call_user_func($handler, $error);
+
+  if (is_array($result)) {
+    $error['update_request'] = $result;
+
+    $result = true;
+  }
+
+  $error['repeate_request'] = $result;
+
+  return $error;
+}
+
+function _zp_process_error ($info, $headers, $previous) {
+  if ($info['http_code'] == 200)
+    return false;
+
+  if (!isset($headers['X-ZP-API-Error-Msg']))
+    return array('code' => null,
+                 'message' => 'Unknown error',
+                 'previous' => $previous);
+
+  return _zp_invoke_error_handler($headers['X-ZP-API-Error-Msg'], $previous);
+}
+
+function _zp_repeat ($error) {
+  return isset($error['repeate_request']) && $error['repeate_request'];
+}
+
+function zetaprints_get_content_from_url ($url, $post = null) {
   _zetaprints_debug();
 
-  $data = _zp_curl_retrieve_data($url, $data);
+  $error = null;
 
-  if (zetaprints_has_error($data))
-    return $data;
+  do {
+    $_data = _zp_curl_retrieve_data($url, $post);
 
-  //Extract $info, $headers and $content variables
-  extract($data['content']);
+    if (zetaprints_has_error($_data))
+      return $_data;
 
-  $headers = function_exists('http_parse_headers')
-               ? http_parse_headers($headers)
-                 : _zetaprints_parse_http_headers($headers);
+    //Extract $info, $headers and $body variables
+    extract($_data['content']);
 
-  if ($info['http_code'] != 200) {
-    $error = isset($headers['X-ZP-API-Error-Msg'])
-               ? $headers['X-ZP-API-Error-Msg'] : '';
+    $headers = function_exists('http_parse_headers')
+                 ? http_parse_headers($headers)
+                   : _zetaprints_parse_http_headers($headers);
 
-    _zetaprints_debug(compact('error', 'headers', 'body'));
+    $error = _zp_process_error($info, $headers, $error);
 
-    return _zetaprints_error($error);
-  }
+    if ($error) {
+      _zetaprints_debug(compact('error', 'info', 'headers', 'body'));
+
+      if (isset($error['update_request']))
+        extract($error['update_request']);
+    }
+  } while ($error && _zp_repeat($error));
+
+  if ($error)
+    return _zetaprints_error($error['message']);
 
   //Do not output images to logs
   $_body = $body;
