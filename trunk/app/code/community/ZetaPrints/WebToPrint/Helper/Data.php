@@ -632,7 +632,11 @@ function wrong_id_hash_combo_handler ($error) {
       && $error['previous']['code'] == ZP_ERR_WRONG_ID_HASH_COMBO)
     return false;
 
-  $id = zetaprints_generate_guid();
+  $helper = Mage::helper('webtoprint');
+
+  //Extract $id and $password variables
+  extract($helper->get_zetaprints_credentials());
+
   $password = zetaprints_generate_password();
 
   $url = Mage::getStoreConfig('webtoprint/settings/url');
@@ -641,8 +645,7 @@ function wrong_id_hash_combo_handler ($error) {
   if (!zetaprints_register_user($url, $key, $id, $password))
     return false;
 
-  Mage::helper('webtoprint')
-    ->set_credentials_to_zp_cookie(compact('id', 'password'));
+  $helper->set_credentials_to_zp_cookie(compact('id', 'password'));
 
   $session = Mage::getSingleton('customer/session');
 
