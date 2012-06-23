@@ -260,10 +260,19 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
 
     //connecting to DB
     $db = Mage::getSingleton('core/resource')->getConnection('core_write');
+
+    //Extract $id and $password vars
+    extract($credentials);
+
     //adding password to DB
-    $db->insert('zetaprints_cookies',
-                array('user_id' => $credentials['id'],
-                      'pass'=> $credentials['password']) );
+    $updated_rows = $db->update('zetaprints_cookies',
+                                array('pass' => $password),
+                                array('user_id = ?' => $id));
+
+    if ($updated_rows = 0)
+      $db->insert('zetaprints_cookies',
+                  array('user_id' => $id,
+                        'pass'=> $password) );
   }
 
   function restore_zp_cookie ($id) {
