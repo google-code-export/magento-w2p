@@ -1,5 +1,8 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.1.3.0) =
+  * Restore removed user on ZetaPrints side (issue #804)
+
 = Stable release (2.1.2.0) =
   * Add support for Magento 1.7
   * Add Dutch translation (issue #788)
