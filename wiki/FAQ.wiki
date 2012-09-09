@@ -31,8 +31,8 @@ Check that the catalog exists in your ZetaPrints portal.
 
 = Import profiles disappeared after M. upgrade =
 
-You need to re-create ZetaPrints profiles by hands.
-Go to M.'s admin inteface, then System -> Import/Export -> Dataflow - Advanced Profiles and add following profiles (first line is profile's name, code block is profile's action XML):
+You need to re-create ZetaPrints profiles by hand.
+In M.'s admin interface, go to System -> Import/Export -> Dataflow - Advanced Profiles and add the following profiles (first line is the name of the profile followed by a code block for the action XML):
 
 ZetaPrints templates synchronization
 {{{
