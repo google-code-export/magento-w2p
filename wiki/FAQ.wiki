@@ -28,3 +28,29 @@ Check that the template exists in your ZetaPrints portal.
 Check that the catalog exists in your ZetaPrints portal.
 
 [http://www.zetaprints.com/magento-web-to-print/magento-partners http://www.zetaprints.com/help/img/magento_w2p_images/magento_support_text.png]
+
+= Import profiles disappeared after M. upgrade =
+
+You need to re-create ZetaPrints profiles by hands.
+Go to M.'s admin inteface, then System -> Import/Export -> Dataflow - Advanced Profiles and add following profiles (first line is profile's name, code block is profile's action XML):
+
+ZetaPrints templates synchronization
+{{{
+<action type="webtoprint/templates-synchronization" method="parse" />
+<action type="webtoprint/products-updating" method="map" />
+}}}
+
+ZetaPrints catalogues creation
+{{{
+<action type="webtoprint/catalogues-creation" method="parse" />
+}}}
+
+ZetaPrints virtual products creation
+{{{
+<action type="webtoprint/products-creation" method="map" product-type="virtual" />
+}}}
+
+ZetaPrints simple products creation
+{{{
+<action type="webtoprint/products-creation" method="map" product-type="simple" />
+}}}
