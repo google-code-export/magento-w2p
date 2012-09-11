@@ -794,7 +794,7 @@ function _zp_curl_retrieve_data ($url, $data = null) {
 
   if ($data && is_array($data))
     $options[CURLOPT_POSTFIELDS] = function_exists('http_request_body_encode')
-                                     ? http_request_body_encode($data)
+                                     ? http_request_body_encode($data, null)
                                        : _zp_http_request_body_encode($data);
 
   _zetaprints_debug(compact('options'));
