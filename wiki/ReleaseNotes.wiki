@@ -1,5 +1,11 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.1.4.0) =
+  * Fix the case when API code doesn't send data to the Zetaprints (issue #808)
+
+== Release comments ==
+Code for the release can be obtained by _web-to-print-2.1.4.0_ tag from the project's SVN repo.
+
 = Stable release (2.1.3.0) =
   * Restore removed user on ZetaPrints side (issue #804)
 
