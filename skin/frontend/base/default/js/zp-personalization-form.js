@@ -837,7 +837,7 @@ function personalization_form ($) {
 
         add_image_to_gallery(response.guid, response.thumbnail, function() {
           var $img = $(this);
-          var $td = $img.parent('td');
+          var $td = $img.parents('td');
 
           var field_id = $img
                            .parents('.selector-content')
