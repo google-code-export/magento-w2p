@@ -1,5 +1,8 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.1.4.1) =
+  * Fix error when image was selected in every field after uploading it.
+
 = Stable release (2.1.4.0) =
   * Fix the case when API code doesn't send data to the Zetaprints (issue #808)
 
