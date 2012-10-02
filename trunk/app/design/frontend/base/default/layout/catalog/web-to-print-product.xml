@@ -34,11 +34,11 @@
       <action method="addItem"><type>skin_css</type><name>css/zp-image-edit.css</name></action>
     </reference>
 
-    <reference name="before_body_end">
+    <!--<reference name="before_body_end">
       <block type="core/text" name="aviary-js">
         <action method="setText"><text><![CDATA[<script type="text/javascript" src="http://feather.aviary.com/js/feather.js"></script>]]></text></action>
       </block>
-    </reference>
+    </reference>-->
   </webtoprint_product_view>
 
   <catalog_product_view>
