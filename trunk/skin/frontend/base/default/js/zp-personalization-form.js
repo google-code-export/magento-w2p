@@ -849,12 +849,13 @@ function personalization_form ($) {
 
             //Scroll stripper to save position of visible images
             $scroll.scrollLeft($scroll.scrollLeft() + $td.outerWidth());
-          }
+          } else
+            $td
+              .children('.zetaprints-images')
+              .click();
 
           if (++number_of_loaded_imgs == trs.length) {
             var $images_div = $upload_div.next();
-
-            $td.children('zetaprints-images').click();
 
             $spinner.hide();
 
@@ -1435,8 +1436,7 @@ function personalization_form ($) {
       $td
         .children('.zetaprints-field')
         .attr('value', guid)
-        .change({ zp: zp }, image_field_select_handler)
-        .click();
+        .change({ zp: zp }, image_field_select_handler);
 
       $td
         .children('.image-edit-thumb')
