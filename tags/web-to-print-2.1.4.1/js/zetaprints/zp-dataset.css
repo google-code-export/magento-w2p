@@ -1,0 +1,84 @@
+.zp-dataset-wrapper {
+  display: none;
+}
+
+#zp-dataset-button {
+  margin-bottom: 15px;
+}
+
+.zp-dataset-table {
+  border-collapse: collapse;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.zp-dataset-table thead {
+  color: #a7c6dd;
+  background-color: #0a263c;
+}
+
+.zp-dataset-table th {
+  font-weight: bold;
+}
+
+.zp-dataset-table td,
+.zp-dataset-table th,
+.zp-dataset-table tr {
+  border: 1px solid #c6c4c5;
+}
+
+.zp-dataset-table td,
+.zp-dataset-table th {
+  padding: 4px;
+  vertical-align: middle;
+}
+
+.zp-dataset-active,
+.zp-dataset-selected,
+.zp-dataset-table td:hover {
+  background-color: #e2e9eb;
+}
+
+.zp-dataset-table td:hover {
+  cursor: pointer;
+}
+
+.zp-dataset-table .zp-dataset-selected p {
+  display: block;
+}
+
+.zp-dataset-table p {
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+.zp-dataset-table .zp-dataset-first-line {
+  display: block;
+}
+
+.zp-dataset-checkbox {
+  background-color: transparent !important;
+}
+
+.zp-dataset-popup {
+  position: absolute;
+  border: 1px solid #c6c4c5;
+  padding: 4px;
+  background-color: #e2e9eb;
+  z-index: 10000;
+  white-space: nowrap;
+}
+
+.zp-dataset-popup p {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.zp-dataset-notice {
+  text-align: left;
+  font-size: 80%;
+  margin: 10px 0 0 0;
+  color: #858585;
+}
