@@ -260,11 +260,15 @@ jQuery(document).ready(function($) {
     }).click(function () {
       $(this).select();
     }).select(function () {
+      var guid = zp
+                   .template_details
+                   .pages[zp.current_page]['updated-preview-image'];
+
       $.ajax({
         url: zp.url.preview_download,
         type: 'POST',
         dataType: 'json',
-        data: 'guid=' + zp.previews[zp.current_page - 1],
+        data: 'guid=' + guid,
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert(preview_sharing_link_error_text + ': ' + textStatus);
         },

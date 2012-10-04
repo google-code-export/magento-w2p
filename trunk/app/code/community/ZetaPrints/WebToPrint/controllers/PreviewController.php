@@ -161,7 +161,8 @@ class ZetaPrints_WebToPrint_PreviewController
 
     $mediaConfig = Mage::getModel('catalog/product_media_config');
 
-    $path = $mediaConfig->getTmpMediaPath("previews/{$guid}");
+    $path = str_replace('preview/', 'previews/', $guid);
+    $path = $mediaConfig->getTmpMediaPath($path);
 
     //Check that preview was already downloaded
     //to prevent subsequent downloads
@@ -171,7 +172,6 @@ class ZetaPrints_WebToPrint_PreviewController
     }
 
     $url = Mage::getStoreConfig('webtoprint/settings/url')
-           . '/preview/'
            . $guid;
 
     //Download preview image from ZetaPrinrs
