@@ -152,36 +152,41 @@ class ZetaPrints_WebToPrint_PreviewController
   }
 
   public function downloadAction () {
-    if (!$this->getRequest()->has('guid'))
+    $request = $this->getRequest();
+
+    if (!$request->has('guid'))
         return;
 
-    $guid = $this->getRequest()->get('guid');
+    $guid = $request->get('guid');
 
-    $media_config = Mage::getModel('catalog/product_media_config');
+    $mediaConfig = Mage::getModel('catalog/product_media_config');
 
-    $file_path = $media_config->getTmpMediaPath("previews/{$guid}");
+    $path = $mediaConfig->getTmpMediaPath("previews/{$guid}");
 
     //Check that preview was already downloaded
     //to prevent subsequent downloads
-    if (file_exists($file_path)) {
+    if (file_exists($path)) {
       echo json_encode('OK');
       return;
     }
 
-    $url = Mage::getStoreConfig('webtoprint/settings/url') . '/preview/'
+    $url = Mage::getStoreConfig('webtoprint/settings/url')
+           . '/preview/'
            . $guid;
 
     //Download preview image from ZetaPrinrs
     $response = zetaprints_get_content_from_url($url);
 
+    $errorMsg = 'Error was occurred while preparing preview image';
+
     if (zetaprints_has_error($response)) {
-      echo json_encode($this->__('Error was occurred while preparing preview image'));
+      echo json_encode($this->__($errorMsg));
       return;
     }
 
     //Save preview image on M. server
-    if (file_put_contents($file_path, $response['content']['body']) === false) {
-      echo json_encode($this->__('Error was occurred while preparing preview image'));
+    if (file_put_contents($path, $response['content']['body']) === false) {
+      echo json_encode($this->__($errorMsg));
       return;
     }
 

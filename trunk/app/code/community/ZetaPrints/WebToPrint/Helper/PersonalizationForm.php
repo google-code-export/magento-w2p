@@ -233,13 +233,14 @@ jQuery(document).ready(function($) {
   }
 
   public function get_preview_image_sharing_link ($context = null) {
-    $media_url = Mage::getModel('catalog/product_media_config')
-                    ->getTmpMediaUrl('previews/');
+    $url = Mage::getModel('catalog/product_media_config')
+             ->getTmpMediaUrl('previews/');
 
-    if(substr($media_url, 0, 1) == '/') {
-      $scheme = $this->_getRequest()->getScheme()
-              == Zend_Controller_Request_Http::SCHEME_HTTPS ? 'https' : 'http';
-      $media_url = $scheme . '://' . $_SERVER['SERVER_NAME'] . $media_url;
+    if(substr($url, 0, 1) == '/') {
+      $url = $this->_getRequest()->getScheme()
+             . '://'
+             . $_SERVER['SERVER_NAME']
+             . $url;
     }
  ?>
 
@@ -251,7 +252,7 @@ jQuery(document).ready(function($) {
 <script type="text/javascript">
 //<![CDATA[
   var place_preview_image_sharing_link = true;
-  var preview_image_sharing_link_template = '<?php echo $media_url; ?>';
+  var preview_image_sharing_link_template = '<?php echo $url; ?>';
 
   jQuery(document).ready(function($) {
     $('#zetaprints-share-link-input').focusout(function() {
