@@ -166,6 +166,28 @@
     </layout>
   </frontend>
 
+  <adminhtml>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <orderapproval>
+                      <title>Order Approval</title>
+                    </orderapproval>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+
   <default>
     <sales_email>
       <orderapproval>
