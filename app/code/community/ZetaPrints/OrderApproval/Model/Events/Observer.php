@@ -74,18 +74,17 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     if (!($customer->hasApprover() && $customer->getApprover()))
       return;
 
-    //Get cart contoller
-    $controller = $observer->getEvent()->getControllerAction();
+    $helper = Mage::helper('orderapproval');
 
     //Get cart object
     $cart = Mage::getSingleton('checkout/cart');
 
     //If shopping cart contains items that were not mentioned in approval
     //e-mails then...
-    if ($controller->_has_not_sent_items($cart->getQuote()->getAllItemsCollection()))
+    if ($helper->hasNotSentItems($cart->getQuote()->getAllItemsCollection()))
       //show notice to cautomer
       $cart->getCheckoutSession()->addNotice(
-        $controller
+        $helper
           ->__('Approval request for all added items will be sent out when you proceed to checkout.') );
   }
 
