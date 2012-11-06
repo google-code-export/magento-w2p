@@ -79,13 +79,12 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     //Get cart object
     $cart = Mage::getSingleton('checkout/cart');
 
-    //If shopping cart contains items that were not mentioned in approval
-    //e-mails then...
+    //If shopping cart contains items that were not sent to approver then ...
     if ($helper->hasNotSentItems($cart->getQuote()->getAllItemsCollection())) {
       $msg = 'Approval request for all added items will be sent out when you '
              . 'proceed to checkout.';
 
-      //show notice to cautomer
+      //... show notice to the customer
       $cart
         ->getCheckoutSession()
         ->addNotice($helper->__($msg));
