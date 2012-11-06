@@ -81,11 +81,15 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
 
     //If shopping cart contains items that were not mentioned in approval
     //e-mails then...
-    if ($helper->hasNotSentItems($cart->getQuote()->getAllItemsCollection()))
+    if ($helper->hasNotSentItems($cart->getQuote()->getAllItemsCollection())) {
+      $msg = 'Approval request for all added items will be sent out when you '
+             . 'proceed to checkout.';
+
       //show notice to cautomer
-      $cart->getCheckoutSession()->addNotice(
-        $helper
-          ->__('Approval request for all added items will be sent out when you proceed to checkout.') );
+      $cart
+        ->getCheckoutSession()
+        ->addNotice($helper->__($msg));
+    }
   }
 
   public function addCartsMenuItem ($observer) {
