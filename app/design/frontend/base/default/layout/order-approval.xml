@@ -55,4 +55,37 @@
       <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
     </reference>
   </orderapproval_customercart_edit>
+
+  <orderapproval_customercart_item translate="label">
+    <label>Product preview</label>
+
+    <update handle="customer_account"/>
+
+    <reference name="head">
+      <action method="addJs">
+        <script>jquery/jquery-min.js</script>
+      </action>
+
+      <action method="addCss">
+        <name>css/order-approval/styles.css</name>
+      </action>
+    </reference>
+
+    <reference name="my.account.wrapper">
+      <block type="orderapproval/customercart_item"
+             name="order-approval.cart.item"
+             template="order-approval/cart/item.phtml">
+
+        <block type="core/template"
+               name="order-approval.cart.item.customer-info"
+               as="customer_info"
+               template="order-approval/cart/item/customer_info.phtml" />
+
+      </block>
+
+      <block type="customer/account_dashboard"
+             name="customer.account.link.back"
+             template="customer/account/link/back.phtml" />
+    </reference>
+  </orderapproval_customercart_item>
 </layout>
