@@ -1,0 +1,51 @@
+<?php
+/**
+ * OrderApproval
+ *
+ * @category design
+ * @package base_default
+ */
+?>
+
+<?php
+
+$_images = $this->getImages();
+$_pdfProof = $this->getPdfProof();
+
+?>
+
+<?php if ($_images): ?>
+<tr>
+  <td colspan="4" style="padding:3px 9px;">
+
+  <?php foreach ($_images as $_image): ?>
+    <a href="<?php echo $_image; ?>" style="text-decoration: none" target="_blank">
+      <img src="<?php echo $_image ?>" style="max-height: 100px" title="<?php echo $this->__('Click to enlarge image');?>" />
+    </a>
+  <?php endforeach ?>
+
+  </td>
+</tr>
+<?php endif; ?>
+
+<tr>
+
+  <?php if ($_pdfProof): ?>
+  <td>
+    <a href="<?php echo $_pdfProof; ?>"><?php echo $this->__('PDF Proof'); ?></a>
+  </td>
+  <?php endif; ?>
+
+  <td>
+    <a href="<?php echo $this->getApproveUrl(); ?>">
+      <?php echo $this->__('Approve'); ?>
+    </a>
+  </td>
+
+  <td>
+    <a href="<?php echo $this->getDeclineUrl(true); ?>">
+      <?php echo $this->__('Decline'); ?>
+    </a>
+  </td>
+
+</tr>

@@ -88,4 +88,16 @@
              template="customer/account/link/back.phtml" />
     </reference>
   </orderapproval_customercart_item>
+
+  <orderapproval_email_new_items>
+    <block type="core/template"
+           name="items"
+           template="email/orderapproval/new_items.phtml">
+
+      <block type="orderapproval/customercart_item"
+             name="order-approval.cart.item"
+             as="item"
+             template="email/orderapproval/item.phtml" />
+    </block>
+  </orderapproval_email_new_items>
 </layout>

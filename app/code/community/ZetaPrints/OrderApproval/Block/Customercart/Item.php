@@ -41,6 +41,8 @@ class ZetaPrints_OrderApproval_Block_CustomerCart_Item
   }
 
   public function getApproveUrl () {
+    $path = 'orderapproval/customercart/updateApprovalState';
+
     $params = array(
       'item' => $this
                   ->getQuoteItem()
@@ -48,18 +50,26 @@ class ZetaPrints_OrderApproval_Block_CustomerCart_Item
       'state' => ZetaPrints_OrderApproval_Helper_Data::APPROVED
     );
 
-    return $this->getUrl('*/*/updateApprovalState', $params);
+    return $this->getUrl($path, $params);
   }
 
-  public function getDeclineUrl () {
+  public function getDeclineUrl ($external = false) {
+    $itemId = $this
+                ->getQuoteItem()
+                ->getId();
+
+    if ($external)
+      return $this->getUrl('orderapproval/customercart/item',
+                           array('id' => $itemId));
+
+    $path = 'orderapproval/customercart/updateApprovalState';
+
     $params = array(
-      'item' => $this
-                  ->getQuoteItem()
-                  ->getId(),
+      'item' => $itemId,
       'state' => ZetaPrints_OrderApproval_Helper_Data::DECLINED
     );
 
-    return $this->getUrl('*/*/updateApprovalState', $params);
+    return $this->getUrl($path, $params);
   }
 }
 ?>
