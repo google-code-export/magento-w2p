@@ -1,5 +1,7 @@
 <h2 class="product-name">
-  <?php echo $this->htmlEscape($this->getProductName()) ?>
+  <a href="<?php echo $this->getUrl('*/*/item', array('id' => $this->getItem()->getId())); ?>">
+    <?php echo $this->htmlEscape($this->getProductName()) ?>
+  </a>
 </h2>
 
 <?php if ($_options = $this->getOptionList()):?>

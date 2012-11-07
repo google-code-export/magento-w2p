@@ -86,3 +86,32 @@ button {
   text-align: center !important;
   white-space: nowrap;
 }
+
+.orderapproval-item-images {
+  margin: 0 0 20px;
+}
+
+.orderapproval-item-images a {
+  text-decoration: none;
+}
+
+.orderapproval-item-images a img {
+  max-width: 300px;
+  margin: 0 15px 15px 0;
+}
+
+.orderapproval-item-actions {
+  margin: 20px 0 0 0;
+}
+
+.orderapproval-item-actions form.orderapproval-hidden {
+  display: none;
+}
+
+.orderapproval-item-actions form input[type=text] {
+  width: 50%;
+}
+
+.orderapproval-item-actions form input.orderapproval-disabled {
+  color: gray;
+}

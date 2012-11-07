@@ -47,7 +47,7 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
     return false;
   }
 
-  public function addNoticeToApprovedItem ($item, $state) {
+  public function addNoticeToApprovedItem ($item, $state, $message = null) {
     //Load options for the item
     $optionModels = Mage::getModel('sales/quote_item_option')
       ->getCollection()
@@ -69,7 +69,8 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
     if ($state == self::APPROVED)
       $option['value'] = $this->__('Approved');
     else
-      $option['value'] = $this->__('Declined');
+      $option['value'] = $this->__('Declined')
+                         . ($message ? ' (' . $message . ')' : '');
 
     //If additional options exist...
     if ($optionModel) {
@@ -91,6 +92,11 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
         'value' => serialize(
           array('approval_status' => $option) )) );
     }
+  }
+
+  public function isWebToPrintInstalled () {
+    return Mage::getConfig()->getHelperClassName('webtoprint')
+             === 'ZetaPrints_WebToPrint_Helper_Data';
   }
 }
 

@@ -62,6 +62,62 @@ class ZetaPrints_OrderApproval_CustomerCartController
     $this->renderLayout();
   }
 
+  public function itemAction () {
+    $helper = Mage::helper('orderapproval');
+
+    if (!(($id = $this->getRequest()->getParam('id'))
+          && ($approver = $helper->getApprover()))) {
+      $this->_redirect('');
+      return;
+    }
+
+    $item = Mage::getModel('sales/quote_item')->load($id);
+
+    if(!$item->getId()) {
+      $this->_redirect('');
+      return;
+    }
+
+    $quote = Mage::getModel('sales/quote')->load($item->getQuoteId());
+
+    if (!$quote->getId()) {
+      $this->_redirect('');
+      return;
+    }
+
+    $customer = $helper
+                  ->getCustomerWithApprover($quote->getCustomerId(), $approver);
+
+    if (!$customer) {
+      $this->_redirect('');
+      return;
+    }
+
+    $optionCollection = Mage::getModel('sales/quote_item_option')
+                          ->getCollection()
+                          ->addItemFilter($item);
+
+    $item->setOptions($optionCollection->getOptionsByItem($item));
+
+    $this->loadLayout();
+
+    $layout = $this->getLayout();
+
+    $layout
+      ->getBlock('order-approval.cart.item')
+      ->setQuoteItem($item)
+      ->setCustomer($customer);
+
+    $layout
+      ->getBlock('order-approval.cart.item.customer-info')
+      ->setCustomer($customer);
+
+    if ($block = $this->getLayout()->getBlock('customer.account.link.back'))
+      $block->setRefererUrl($this->_getRefererUrl());
+
+    $this->renderLayout();
+  }
+
   public function updateApprovalStateAction () {
     $helper = Mage::helper('orderapproval');
 
@@ -99,8 +155,10 @@ class ZetaPrints_OrderApproval_CustomerCartController
       return;
     }
 
+    $message = $this->getRequest()->getParam('message');
+
     //Update or add approval status notice to the item
-    $helper->addNoticeToApprovedItem($item, $state);
+    $helper->addNoticeToApprovedItem($item, $state, $message);
 
     $item->setQuote($quote)->setApproved($state)->save();
 
