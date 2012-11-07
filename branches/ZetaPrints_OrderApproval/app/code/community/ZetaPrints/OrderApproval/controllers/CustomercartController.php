@@ -9,7 +9,7 @@ class ZetaPrints_OrderApproval_CustomerCartController
 
       return;
     }
-    
+
     $this->loadLayout();
 
     $this
