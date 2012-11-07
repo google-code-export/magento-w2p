@@ -133,11 +133,11 @@
 
     <template>
       <email>
-        <sales_email_orderapproval_new_items_template translate="label" module="orderapproval">
-          <label>New Items To Approve</label>
-          <file>sales/new-items-to-approve.txt</file>
-          <type>txt</type>
-        </sales_email_orderapproval_new_items_template>
+        <orderapproval_email_new_items_template translate="label">
+          <label>New Items</label>
+          <file>orderapproval/new_items.html</file>
+          <type>html</type>
+        </orderapproval_email_new_items_template>
       </email>
     </template>
   </global>
@@ -189,10 +189,10 @@
   </adminhtml>
 
   <default>
-    <sales_email>
-      <orderapproval>
-        <new_items_template>sales_email_orderapproval_new_items_template</new_items_template>
-      </orderapproval>
-    </sales_email>
+    <orderapproval>
+      <email>
+        <new_items_template>orderapproval_email_new_items_template</new_items_template>
+      </email>
+    </orderapproval>
   </default>
 </config>
