@@ -15,10 +15,17 @@ These options are displayed in Product name column on shopping cart page.
 
 See '_add_notice_to_approved_item' method code in [http://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php app/code/community/ZetaPrints/OrderApproval/controllers/CartController.php] file and code in [https://code.google.com/p/magento-w2p/source/browse/branches/ZetaPrints_OrderApproval/app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php app/code/community/ZetaPrints/OrderApproval/controllers/OnepageController.php] file.
 
-= How to create a custom notification email =
+= Notification emails =
+The extension sends e-mails on following events:
+
+ * *On checkout* it sends _Items to Approve_ email to a customer's approver
+ * *On approve* it sends _Approved Items_ email to a customer and Magento's Custom Email 1 (see _Admin -> System -> Configure -> Store Email Addresses -> Custom Email 1_ tab)
+ * *On decline* it sends _Declined Items_ email to a customer
+
+== How to create a custom notification email ==
 There's an e-mail template editor in M. admin interface (System -> Transactional Emails). Administrators can create new e-mail templates based on original M. templates.
 
-Step 1: Press Add New Template button. Select one of Order Approval's templates such as _tems to Approve_, _Approved Items_ and _Declined Items_. Select a locale you want to use the new template in. Press Load Template button to load content of the template for further editing.
+Step 1: Press Add New Template button. Select one of Order Approval's templates such as _Items to Approve_, _Approved Items_ and _Declined Items_. Select a locale you want to use the new template in. Press Load Template button to load content of the template for further editing.
 
 Step 2: Input a name for the new template. Edit its subject and content. 
 <wiki:comment>
