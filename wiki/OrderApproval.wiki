@@ -6,7 +6,9 @@ Approval process sits between customer's shopping cart and the checkout process.
 
 When customers try to checkout their shopping cart, the customer's approver receives a notification about unapproved products in the customer's shopping cart. Approver can use the link from the e-mail to reach order approval UI and approve customer's products. Customers can check approval status for every product in their shopping cart and are allowed to checkout items that have already been approved.
 
-== Approval process workflow ==
+<wiki:toc />
+
+= Approval process workflow =
 http://create.ly/gbvkju1s1?a=b.png
 
 = Approval status for cart item =
