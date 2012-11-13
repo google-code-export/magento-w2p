@@ -139,6 +139,22 @@
           <type>html</type>
         </orderapproval_email_items_to_approve_template>
       </email>
+
+      <email>
+        <orderapproval_email_approved_items_template translate="label">
+          <label>Approved Items</label>
+          <file>orderapproval/approved_items.html</file>
+          <type>html</type>
+        </orderapproval_email_approved_items_template>
+      </email>
+
+      <email>
+        <orderapproval_email_declined_items_template translate="label">
+          <label>Declined Items</label>
+          <file>orderapproval/declined_items.html</file>
+          <type>html</type>
+        </orderapproval_email_declined_items_template>
+      </email>
     </template>
   </global>
 
@@ -192,6 +208,8 @@
     <orderapproval>
       <email>
         <items_to_approve_template>orderapproval_email_items_to_approve_template</items_to_approve_template>
+        <approved_items_template>orderapproval_email_approved_items_template</approved_items_template>
+        <declined_items_template>orderapproval_email_declined_items_template</declined_items_template>
       </email>
     </orderapproval>
   </default>

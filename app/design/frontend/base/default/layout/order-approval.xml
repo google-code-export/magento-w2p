@@ -97,7 +97,25 @@
       <block type="orderapproval/customercart_item"
              name="order-approval.cart.item"
              as="item"
-             template="email/orderapproval/item.phtml" />
+             template="email/orderapproval/item.phtml">
+
+        <action method="setIsEmailForApprover">
+          <value>true</value>
+        </action>
+
+      </block>
     </block>
   </orderapproval_email_items_to_approve>
+
+  <orderapproval_email_items>
+    <block type="core/template"
+           name="items"
+           template="email/orderapproval/items.phtml">
+
+      <block type="orderapproval/customercart_item"
+             name="order-approval.cart.item"
+             as="item"
+             template="email/orderapproval/item.phtml" />
+    </block>
+  </orderapproval_email_items>
 </layout>

@@ -9,10 +9,16 @@
 
 <?php
 
+$_item = $this->getQuoteItem();
 $_images = $this->getImages();
-$_pdfProof = $this->getPdfProof();
 
 ?>
+
+<tr>
+  <td>
+    <h2 style="font-size:18px; font-weight:normal; line-height:18px; margin:0 0 5px 0;"><?php echo $_item->getName(); ?></h2>
+  </td>
+</tr>
 
 <?php if ($_images): ?>
 <tr>
@@ -30,22 +36,34 @@ $_pdfProof = $this->getPdfProof();
 
 <tr>
 
+  <?php $_pdfProof = $this->getPdfProof(); ?>
+
   <?php if ($_pdfProof): ?>
   <td>
-    <a href="<?php echo $_pdfProof; ?>"><?php echo $this->__('PDF Proof'); ?></a>
+    <a style="font-size:14px; font-weight:normal; line-height:14px;" href="<?php echo $_pdfProof; ?>"><?php echo $this->__('PDF Proof'); ?></a>
   </td>
   <?php endif; ?>
 
+  <?php if ($this->getIsEmailForApprover()): ?>
   <td>
-    <a href="<?php echo $this->getApproveUrl(); ?>">
+    <a style="font-size:14px; font-weight:normal; line-height:14px;" href="<?php echo $this->getApproveUrl(); ?>">
       <?php echo $this->__('Approve'); ?>
     </a>
   </td>
 
   <td>
-    <a href="<?php echo $this->getDeclineUrl(true); ?>">
+    <a style="font-size:14px; font-weight:normal; line-height:14px;" href="<?php echo $this->getDeclineUrl(true); ?>">
       <?php echo $this->__('Decline'); ?>
     </a>
   </td>
+  <?php endif; ?>
 
 </tr>
+
+<?php if ($_item->getApproved() == ZetaPrints_OrderApproval_Helper_Data::DECLINED): ?>
+<tr>
+  <td>
+    <p style="font-size:14px; font-weight:bold; line-height:14px; margin:0;"><?php echo Mage::helper('orderapproval')->getNoticeFromItem($_item); ?></p>
+  </td>
+</tr>
+<?php endif; ?>

@@ -94,6 +94,19 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
     }
   }
 
+  public function getNoticeFromItem ($item) {
+    $option = $item->getOptionByCode('additional_options');
+
+    if (!$option)
+       return '';
+
+    $value = unserialize($option->getValue());
+
+    return isset($value['approval_status'])
+             ? $value['approval_status']['value']
+               : '';
+  }
+
   public function isWebToPrintInstalled () {
     return Mage::getConfig()->getHelperClassName('webtoprint')
              === 'ZetaPrints_WebToPrint_Helper_Data';
