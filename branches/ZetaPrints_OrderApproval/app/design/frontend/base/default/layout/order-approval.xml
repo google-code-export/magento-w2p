@@ -92,7 +92,7 @@
   <orderapproval_email_new_items>
     <block type="core/template"
            name="items"
-           template="email/orderapproval/new_items.phtml">
+           template="email/orderapproval/items.phtml">
 
       <block type="orderapproval/customercart_item"
              name="order-approval.cart.item"
