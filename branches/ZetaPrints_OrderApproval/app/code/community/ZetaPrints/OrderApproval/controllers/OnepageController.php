@@ -5,7 +5,8 @@ require_once 'Mage/Checkout/controllers/OnepageController.php';
 class ZetaPrints_OrderApproval_OnepageController
   extends Mage_Checkout_OnepageController {
 
-  const XML_PATH_NEW_ITEMS_TEMPLATE = 'orderapproval/email/new_items_template';
+  const XML_PATH_NEW_ITEMS_TEMPLATE
+    = 'orderapproval/email/items_to_approve_template';
 
   public function indexAction () {
     $customer_session = Mage::getSingleton('customer/session');
