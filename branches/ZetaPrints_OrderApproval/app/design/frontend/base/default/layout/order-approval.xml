@@ -89,7 +89,7 @@
     </reference>
   </orderapproval_customercart_item>
 
-  <orderapproval_email_new_items>
+  <orderapproval_email_items_to_approve>
     <block type="core/template"
            name="items"
            template="email/orderapproval/items.phtml">
@@ -99,5 +99,5 @@
              as="item"
              template="email/orderapproval/item.phtml" />
     </block>
-  </orderapproval_email_new_items>
+  </orderapproval_email_items_to_approve>
 </layout>
