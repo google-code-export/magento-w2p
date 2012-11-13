@@ -3,6 +3,9 @@
 class ZetaPrints_OrderApproval_CustomerCartController
   extends Mage_Core_Controller_Front_Action {
 
+  const XML_APPROVED_TEMPLATE = 'orderapproval/email/approved_items_template';
+  const XML_DECLINED_TEMPLATE = 'orderapproval/email/declined_items_template';
+
   public function allAction () {
     if (!Mage::helper('orderapproval')->getApprover()) {
       $this->_redirect('404');
@@ -150,7 +153,9 @@ class ZetaPrints_OrderApproval_CustomerCartController
       return;
     }
 
-    if (!$helper->getCustomerWithApprover($quote->getCustomerId(), $approver)) {
+    $customerId = $quote->getCustomerId();
+
+    if (!$customer = $helper->getCustomerWithApprover($customerId, $approver)) {
       $this->_redirect('');
       return;
     }
@@ -162,12 +167,42 @@ class ZetaPrints_OrderApproval_CustomerCartController
 
     $item->setQuote($quote)->setApproved($state)->save();
 
-    if ($state == ZetaPrints_OrderApproval_Helper_Data::APPROVED)
+    $optionCollection = Mage::getModel('sales/quote_item_option')
+                          ->getCollection()
+                          ->addItemFilter($item);
+
+    $item->setOptions($optionCollection->getOptionsByItem($item));
+
+    $emails = array($customer->getEmail());
+    $names = array($customer->getName());
+
+    if ($state == ZetaPrints_OrderApproval_Helper_Data::APPROVED) {
+      $template = Mage::getStoreConfig(self::XML_APPROVED_TEMPLATE);
+
+      $emails[] = Mage::getStoreConfig('trans_email/ident_custom1/email');
+      $names[] = Mage::getStoreConfig('trans_email/ident_custom1/name');
+
       Mage::getSingleton('core/session')
         ->addNotice($this->__('Product was succesfully approved'));
-    else
+    } else {
+      $template = Mage::getStoreConfig(self::XML_DECLINED_TEMPLATE);
+
       Mage::getSingleton('core/session')
         ->addNotice($this->__('Product was declined'));
+    }
+
+    Mage::getModel('core/email_template')
+      ->sendTransactional(
+        $template,
+        'sales',
+        $emails,
+        $names,
+        array(
+          'items' => array($item),
+          'number_of_items' => 1,
+          'customer' => $customer,
+        )
+      );
 
     $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
   }
@@ -205,6 +240,12 @@ class ZetaPrints_OrderApproval_CustomerCartController
     //$this->_redirect('*/*/edit');
 
     $quote = null;
+    $customer = null;
+
+    $emails = array();
+    $names = array();
+
+    $items = array();
 
     foreach ($item_ids as $item_id) {
       $item = Mage::getModel('sales/quote_item')->load($item_id);
@@ -218,25 +259,59 @@ class ZetaPrints_OrderApproval_CustomerCartController
         if (!$quote->getId())
           break;
 
-        if (!$helper->getCustomerWithApprover($quote->getCustomerId(),
-                                                                   $approver)) {
+        $customerId = $quote->getCustomerId();
+        $customer = $helper->getCustomerWithApprover($customerId, $approver);
+
+        if (!$customer) {
           $this->_redirect('');
           return;
         }
+
+        $emails[] = $customer->getEmail();
+        $names[] = $customer->getName();
       }
 
       //Update or add approval status notice to the item
       $helper->addNoticeToApprovedItem($item, $state);
 
       $item->setQuote($quote)->setApproved($state)->save();
+
+      $optionCollection = Mage::getModel('sales/quote_item_option')
+                          ->getCollection()
+                          ->addItemFilter($item);
+
+      $item->setOptions($optionCollection->getOptionsByItem($item));
+
+      $items[] = $item;
     }
 
-    if ($state == ZetaPrints_OrderApproval_Helper_Data::APPROVED)
+    if ($state == ZetaPrints_OrderApproval_Helper_Data::APPROVED) {
+      $template = Mage::getStoreConfig(self::XML_APPROVED_TEMPLATE);
+
+      $emails[] = Mage::getStoreConfig('trans_email/ident_custom1/email');
+      $names[] = Mage::getStoreConfig('trans_email/ident_custom1/name');
+
       Mage::getSingleton('core/session')
         ->addNotice($this->__('Selected products were succesfully approved'));
-    else
+    } else {
+      $template = Mage::getStoreConfig(self::XML_DECLINED_TEMPLATE);
+
       Mage::getSingleton('core/session')
         ->addNotice($this->__('Selected products were declined'));
+    }
+
+    Mage::getModel('core/email_template')
+      ->sendTransactional(
+        $template,
+        'sales',
+        $emails,
+        $names,
+        array(
+          'items' => $items,
+          'number_of_items' => count($items),
+          'customer' => $customer,
+        )
+      );
 
     $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
   }
