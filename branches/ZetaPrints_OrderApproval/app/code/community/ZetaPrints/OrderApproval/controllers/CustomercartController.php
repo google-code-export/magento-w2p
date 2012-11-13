@@ -6,6 +6,19 @@ class ZetaPrints_OrderApproval_CustomerCartController
   const XML_APPROVED_TEMPLATE = 'orderapproval/email/approved_items_template';
   const XML_DECLINED_TEMPLATE = 'orderapproval/email/declined_items_template';
 
+  /**
+   * Check customer authentication for some actions
+   */
+  public function preDispatch () {
+    parent::preDispatch();
+
+    if (!$this->getRequest()->isDispatched())
+      return;
+
+    if (!Mage::getSingleton('customer/session')->authenticate($this))
+      $this->setFlag('', 'no-dispatch', true);
+  }
+
   public function allAction () {
     if (!Mage::helper('orderapproval')->getApprover()) {
       $this->_redirect('404');
