@@ -133,11 +133,11 @@
 
     <template>
       <email>
-        <orderapproval_email_new_items_template translate="label">
-          <label>New Items</label>
-          <file>orderapproval/new_items.html</file>
+        <orderapproval_email_items_to_approve_template translate="label">
+          <label>Items to Approve</label>
+          <file>orderapproval/items_to_approve.html</file>
           <type>html</type>
-        </orderapproval_email_new_items_template>
+        </orderapproval_email_items_to_approve_template>
       </email>
     </template>
   </global>
@@ -191,7 +191,7 @@
   <default>
     <orderapproval>
       <email>
-        <new_items_template>orderapproval_email_new_items_template</new_items_template>
+        <items_to_approve_template>orderapproval_email_items_to_approve_template</items_to_approve_template>
       </email>
     </orderapproval>
   </default>
