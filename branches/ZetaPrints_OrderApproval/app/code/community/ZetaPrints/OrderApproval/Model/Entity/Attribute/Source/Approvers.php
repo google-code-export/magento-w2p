@@ -21,11 +21,17 @@
 class ZetaPrints_OrderApproval_Model_Entity_Attribute_Source_Approvers
   extends Mage_Eav_Model_Entity_Attribute_Source_Boolean {
 
-  public function getAllOptions () {
+  public function getAllOptions ($includeDefault = true) {
     if (!is_null($this->_options))
       return $this->_options;
 
     $this->_options = array(array('label' => '', 'value' => null));
+
+    if ($includeDefault)
+      $this->_options[] = array(
+        'label' => Mage::helper('orderapproval')->__('Default approver'),
+        'value' => ZetaPrints_OrderApproval_Helper_Data::DEFAULT_APPROVER
+      );
 
     $approvers = Mage::getResourceModel('customer/customer_collection')
       ->addAttributeToFilter('is_approver', 1)
