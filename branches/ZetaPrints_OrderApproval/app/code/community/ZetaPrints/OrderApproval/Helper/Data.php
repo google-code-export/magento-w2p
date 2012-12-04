@@ -1,6 +1,8 @@
 <?php
 
 class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
+  //const XML_PATH_STORE_APPROVER = 'orderapproval/settings/store_approver';
+
   const DEFAULT_APPROVER = -1;
 
   const APPROVED = 1;
@@ -20,11 +22,38 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
     return false;
   }
 
+  public function getApproverForCustomer ($customer) {
+    $approverId = (int) $customer->getApprover();
+
+    if ($approverId == self::DEFAULT_APPROVER) {
+      $group = Mage::getModel('customer/group')->load($customer->getGroupId());
+
+      $approverId = $group->getApproverId();
+    }
+
+    if (!$approverId)
+      return null;
+
+    $approver = Mage::getModel('customer/customer')->load($approverId);
+
+    if ($approver->getId())
+      return $approver;
+
+    return null;
+  }
+
   public function getCustomerWithApprover ($customerId, $approver) {
     $customer = Mage::getModel('customer/customer')->load($customerId);
 
-    if ($customer->getId() && $customer->hasApprover()
-        && $customer->getApprover() == $approver->getId())
+    if (!$customer->getId())
+      return false;
+
+    $customersApprover = $this->getApproverForCustomer($customer);
+
+    if (!($customersApprover && ($approverId = $customersApprover->getId()))
+      return false;
+
+    if ($approverId == $approver->getId())
       return $customer;
 
     return false;
