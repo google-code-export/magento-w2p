@@ -13,7 +13,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     if (!$customer->getId())
       return;
 
-    if (!($customer->hasApprover() && $customer->getApprover()))
+    if (!Mage::helper('orderapproval')->getApproverForCustomer($customer))
       return;
 
     $item = $observer->getEvent()->getQuoteItem();
@@ -71,7 +71,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
       return;
 
     //Check if customer has approver
-    if (!($customer->hasApprover() && $customer->getApprover()))
+    if (!Mage::helper('orderapproval')->getApproverForCustomer($customer))
       return;
 
     $helper = Mage::helper('orderapproval');
