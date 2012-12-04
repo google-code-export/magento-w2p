@@ -44,9 +44,22 @@ class ZetaPrints_OrderApproval_Block_CustomerCart
                     ->getCustomer()
                     ->getId();
 
-    $_customers = Mage::getResourceModel('customer/customer_collection')
-                   ->addAttributeToFilter('approver', $approverId)
-                   ->addNameToSelect();
+    $groups = Mage::getResourceModel('customer/group_collection')
+                ->addFieldToFilter('approver_id', $approverId)
+                ->load();
+
+    $_customers = array();
+
+    foreach ($groups as $group)
+      $_customers += Mage::getResourceModel('customer/customer_collection')
+                       ->addNameToSelect()
+                       ->addAttributeToFilter('group_id', $group->getId())
+                       ->getItems();
+
+    $_customers += Mage::getResourceModel('customer/customer_collection')
+                     ->addNameToSelect()
+                     ->addAttributeToFilter('approver', $approverId)
+                     ->getItems();
 
     $customers = new Varien_Data_Collection();
 
