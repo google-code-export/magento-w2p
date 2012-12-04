@@ -2,7 +2,7 @@
 <config>
   <modules>
     <ZetaPrints_OrderApproval>
-      <version>2</version>
+      <version>3</version>
     </ZetaPrints_OrderApproval>
   </modules>
 
@@ -202,6 +202,38 @@
         </admin>
       </resources>
     </acl>
+
+    <events>
+      <adminhtml_block_html_before>
+        <observers>
+          <orderapproval_add_approver_field_to_group>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>addApproverToGroup</method>
+          </orderapproval_add_approver_field_to_group>
+        </observers>
+      </adminhtml_block_html_before>
+
+      <controller_action_predispatch_adminhtml_customer_group_save>
+        <observers>
+          <orderapproval_remember_approver_for_group>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>rememberApproverForGroup</method>
+          </orderapproval_remember_approver_for_group>
+        </observers>
+      </controller_action_predispatch_adminhtml_customer_group_save>
+
+      <customer_group_save_before>
+        <observers>
+          <orderapproval_save_approver_for_group>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>saveApproverForGroup</method>
+          </orderapproval_save_approver_for_group>
+        </observers>
+      </customer_group_save_before>
+    </events>
   </adminhtml>
 
   <default>
