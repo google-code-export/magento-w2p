@@ -1,8 +1,6 @@
 <?php
 
 class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
-  //const XML_PATH_STORE_APPROVER = 'orderapproval/settings/store_approver';
-
   const DEFAULT_APPROVER = -1;
 
   const APPROVED = 1;
@@ -50,7 +48,7 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
 
     $customersApprover = $this->getApproverForCustomer($customer);
 
-    if (!($customersApprover && ($approverId = $customersApprover->getId()))
+    if (!($customersApprover && ($approverId = $customersApprover->getId())))
       return false;
 
     if ($approverId == $approver->getId())
