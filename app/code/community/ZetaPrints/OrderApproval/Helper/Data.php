@@ -1,6 +1,8 @@
 <?php
 
 class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
+  const DEFAULT_APPROVER = -1;
+
   const APPROVED = 1;
   const DECLINED = 2;
 

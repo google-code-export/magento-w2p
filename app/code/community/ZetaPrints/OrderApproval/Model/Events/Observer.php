@@ -140,7 +140,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
 
     $approvers
       = Mage::getModel('orderapproval/entity_attribute_source_approvers')
-          ->getAllOptions();
+          ->getAllOptions(false);
 
     $label = $helper->__('Default approver');
 
