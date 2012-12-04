@@ -122,6 +122,58 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
       ->addLink('order-approval', 'order-approval/carts/all',
                                              $controller->__('Order Approval'));
   }
+
+  public function addApproverToGroup ($observer) {
+    $block = $observer->getBlock();
+
+    if (!($block instanceof Mage_Adminhtml_Block_Customer_Group_Edit_Form))
+      return;
+
+    $form = $block->getForm();
+
+    $helper = Mage::helper('orderapproval');
+
+    $legend = $helper->__('Order Approval');
+
+    $fieldset = $form->addFieldset('orderapproval_fieldset',
+                                   array('legend' => $legend));
+
+    $approvers
+      = Mage::getModel('orderapproval/entity_attribute_source_approvers')
+          ->getAllOptions();
+
+    $label = $helper->__('Default approver');
+
+    $field = array(
+      'name' => 'approver_id',
+      'label' => $label,
+      'title' => $label,
+      'values' => $approvers,
+      'value' => Mage::registry('current_group')->getApproverId()
+    );
+
+    $fieldset->addField('approver_id', 'select', $field);
+  }
+
+  public function rememberApproverForGroup ($observer) {
+    $controller = $observer->getControllerAction();
+
+    $approverId = (int) $controller
+                          ->getRequest()
+                          ->getParam('approver_id');
+
+    Mage::register('orderapproval_approver_id_for_group', $approverId);
+  }
+
+  public function saveApproverForGroup ($observer) {
+    $approverId = Mage::registry('orderapproval_approver_id_for_group');
+
+    if ($approverId !== null)
+      $observer
+        ->getEvent()
+        ->getObject()
+        ->setApproverId($approverId);
+  }
 }
 
 ?>
