@@ -239,10 +239,17 @@ function personalization_form ($) {
   var $update_preview_button = $('#zp-update-preview-form-button');
   var $next_page_button = $('#zp-next-page-button');
 
-  //If base image is not set or it's personalization step (for 2-step theme)
-  if (this.is_personalization_step || !has_image_zoomer) {
+  //If personalization step (for 2-step theme) and base image is set...
+  if (zp.is_personalization_step && has_image_zoomer) {
+    //... then remove zoomer functionality
     $(product_image_element).removeClass('product-image-zoom');
+    $('#image, #track_hint, div.zoom').remove();
 
+    has_image_zoomer = false;
+  }
+
+  //If base image is not set...
+  if (!has_image_zoomer) {
     //then remove all original images placed by M., zoomer and base image
     $(product_image_element)
       .empty();
@@ -250,8 +257,6 @@ function personalization_form ($) {
     //Add preview image placeholder
     var $preview_placeholder = $('<div id="zp-preview-placeholder" />')
                                  .appendTo(product_image_element);
-
-    has_image_zoomer = false;
   }
 
   var $preview_overlay = $('<div id="zp-preview-overlay" class="zp-no-preview">' +
