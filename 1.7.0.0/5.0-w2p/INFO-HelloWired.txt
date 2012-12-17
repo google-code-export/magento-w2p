@@ -1,0 +1,57 @@
+﻿CHANGELOG
+¯¯¯¯¯¯¯¯¯
+A Add
+U Update
+D Delete
+
+Theme - HelloWired
+
+Version: 2.0
+
+<b>DEFAULT:</b>
+	->A skin/frontend/default/hellowired/css/*
+	->A skin/frontend/default/hellowired/image/*
+	->A skin/frontend/default/hellowired/js/*
+	->A app/design/frontend/default/hellowired/layout/*
+	->A app/design/frontend/default/hellowired/locale/*
+	->A app/design/frontend/default/hellowired/template/*
+	->A app/code/local/Mage/Cms/etc/config.xml
+	->A app/etc/modules/Mage_Local.xml
+	->A /install.xml
+	->A /staticblock/*
+	
+Version: 2.1 - [Upgrade to Magento 1.4.1.1 & clean phtml/xml]
+
+<b>CHANGES:</b>
+	->D app/design/frontend/default/hellowired/etc/
+	->U app/design/frontend/default/hellowired/layout/sendfriend.xml
+	->U app/design/frontend/default/hellowired/template/sendfriend/send.phtml
+
+Version: 2.2 - [Upgrade to Magento 1.2.4.0]
+
+<b>CHANGES:</b>
+	->D app/design/frontend/default/hellowired/layout/wishlist.xml
+	->U app/design/frontend/default/hellowired/layout/catalog.xml
+	->U app/design/frontend/default/hellowired/template/catalog/product/view.phtml
+	->Added "prices" in product page, change catalog.xml
+	->D app/design/frontend/default/hellowired/template/checkout
+	
+Version: 2.3 - [Clean PHTML & XML]
+
+<b>CHANGES:</b>
+
+	->U app/design/frontend/default/hellowired/layout/catalog.xml
+	->U app/design/frontend/default/hellowired/template/catalog/product/view.phtml/xml
+	->U app/design/frontend/default/hellowired/template/catalog/product/featured.phtml
+	->U	app/design/frontend/default/hellowired/template/checkout/cart.phtml  
+	->U	app/design/frontend/default/hellowired/layout/checkout.xml
+	->U	app/design/frontend/default/hellowired/template/catalog/product/list.phtml
+
+Version: 3.0 - [Upgrade to Magento 1.5.0.1]
+
+Version: 4.0 - [Upgrade to Magento 1.6]
+
+Version: 5.0 - [Upgrade to Magento 1.7.0.0]
+	CHANGES:
+	->U	app\design\frontend\default\hellowired\template\page\html\header.phtml  
+	->U	app\design\frontend\default\hellowired\layout\page.xml  
