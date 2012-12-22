@@ -106,7 +106,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
   }
 
   public function is_personalization_step ($context) {
-    return $context->getRequest()->getParam('personalization') == '1';
+    return !$this->getTemplateGuidFromProduct($context->getProduct())
+           || $context->getRequest()->getParam('personalization') == '1';
   }
 
   public function get_next_step_url ($context) {
