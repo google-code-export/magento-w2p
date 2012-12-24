@@ -18,7 +18,7 @@
       var $field = $wrapper.find('.input-text, textarea');
 
       $wrapper.resizable({
-        handles: $field.attr('tagName').toUpperCase() == 'TEXTAREA'
+        handles: $field.prop('tagName').toUpperCase() == 'TEXTAREA'
                    ? 'se, sw' : 'e, w',
 
         create: function () {

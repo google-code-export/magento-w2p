@@ -20,7 +20,7 @@ function personalization_form ($) {
       return;
 
     if (metadata) {
-      metadata['img-id'] = $input.attr('value');
+      metadata['img-id'] = $input.val();
 
       zp_set_metadata(zp.image_edit.placeholder, metadata);
     } else
@@ -935,7 +935,7 @@ function personalization_form ($) {
 
   zp.show_colorpicker = function ($panel) {
     if ($panel.hasClass('color-picker')
-        && !$panel.find('input').attr('checked'))
+        && !$panel.find('input').prop('checked'))
       $panel.find('.color-sample').click();
   }
 
@@ -1094,10 +1094,10 @@ function personalization_form ($) {
             $colour_sample.css('backgroundColor', '#' + hex);
 
             $colour_radio_button
-              .removeAttr('disabled')
+              .prop('disabled', false)
               .val('#' + hex)
               .change()
-              .attr('checked', 'checked');
+              .prop('checked', true);
 
             $(picker).ColorPickerHide();
           }
@@ -1232,7 +1232,7 @@ function personalization_form ($) {
     var $input = $target.parent().children('input');
 
     show_image_edit_dialog($input.attr('name').substring(12),
-                           $input.attr('value'),
+                           $input.val(),
                            $target.children('img') );
 
     return false; 
@@ -1359,7 +1359,7 @@ function personalization_form ($) {
       $(this)
         .unbind(event)
         .val('')
-        .removeAttr('readonly');
+        .prop('readonly', false);
 
       //Workaround for IE browser.
       //It moves cursor to the end of input field after focus.
@@ -1388,7 +1388,7 @@ function personalization_form ($) {
     event.stopPropagation();
 
     if (confirm(delete_this_image_text)) {
-      var image_id = $(this).parents('td').children('input').attr('value');
+      var image_id = $(this).parents('td').children('input').val();
 
       $.ajax({
         url: zp.url.image,
@@ -1439,7 +1439,7 @@ function personalization_form ($) {
 
       $td
         .children('.zetaprints-field')
-        .attr('value', guid)
+        .val(guid)
         .change({ zp: zp }, image_field_select_handler);
 
       $td
@@ -1473,7 +1473,7 @@ function personalization_form ($) {
     var metadata = $input.data('metadata');
 
     if (metadata) {
-      metadata['img-id'] = $input.attr('value');
+      metadata['img-id'] = $input.val();
 
       zp_set_metadata(field, metadata);
     } else

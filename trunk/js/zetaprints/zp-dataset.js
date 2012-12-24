@@ -80,7 +80,7 @@ window.zp_dataset_initialise = function (zp) {
         .children('.zp-dataset-selected')
         .removeClass('zp-dataset-selected')
         .find('input')
-          .attr('checked', '')
+          .prop('checked', false)
         .end()
         .children()
         .slice(1)
@@ -110,7 +110,7 @@ window.zp_dataset_initialise = function (zp) {
     .mousedown(function () {
       $inputs
         .filter(':checked')
-        .attr('checked', '');
+        .prop('checked', false);
     })
     .click(function () {
       var page = zp.template_details.pages[zp.current_page];
@@ -161,7 +161,7 @@ window.zp_dataset_update_state = function (zp, name, state) {
     .find('tr.zp-dataset-selected')
     .removeClass('zp-dataset-selected')
     .find('input')
-      .attr('checked', '')
+      .prop('checked', false)
     .end()
     .children()
     .slice(1)
