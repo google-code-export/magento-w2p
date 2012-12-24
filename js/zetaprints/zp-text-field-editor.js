@@ -157,7 +157,7 @@
 
       onSubmit: function (hsb, hex, rgb, el) {
         $color_example.css('backgroundColor', '#' + hex);
-        $radio_button.val('#' + hex).attr('checked', 'checked');
+        $radio_button.val('#' + hex).prop('checked', true);
         $(el).ColorPickerHide();
 
         _change('color', '#' + hex);

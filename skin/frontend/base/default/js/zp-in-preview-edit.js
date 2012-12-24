@@ -217,7 +217,7 @@ function popup_field_by_name (name, position, selected_shapes) {
       .find(' > #' + id[1] + ' > .selector-content')
       .find('input[value="' + selected_buttons[name] + '"]')
       .change()
-      .attr('checked', 'checked');
+      .prop('checked', true);
   }
 
   $box.find('.fieldbox-button').click(function () {
@@ -276,7 +276,7 @@ function popdown_field_by_name (full_name) {
     return;
 
   if (!full_name)
-    full_name = jQuery(field).attr('value');
+    full_name = jQuery(field).val();
 
   var name = full_name.substring(12);
 
@@ -306,7 +306,7 @@ function popdown_field_by_name (full_name) {
       $element.attr('style', data.style);
 
     //!!! Stupid work around for stupid IE7
-    $input.change().attr('checked', 'checked');
+    $input.change().prop('checked', true);
 
     if (jQuery.fn.text_field_editor)
       $_element.text_field_editor('move',

@@ -61,7 +61,7 @@ function fancybox_add_use_image_button ($, zp, in_preview) {
         .find('a[href="' +  $('#fancybox-img').attr('src') + '"]')
         .parent()
         .children('input')
-        .attr('checked', 'checked')
+        .prop('checked', true)
         .change();
 
     $outer.addClass('selected');
@@ -89,7 +89,7 @@ function fancybox_update_preview_button ($) {
         .find('a[href="' + $('#fancybox-img').attr('src') + '"]')
         .parent()
         .children('input')
-        .attr('checked');
+        .prop('checked');
 
   if (is_checked)
     $('#fancybox-outer').addClass('selected');
