@@ -20,8 +20,7 @@ You may want to check the contents of the email templates and add necessary emai
 
 An admin can change any user to be an approver by setting _Is approver_ attribute to _Yes_ on customer details page in the admin.
 
-Any other user can be assigned an approver by selecting one from a dropdown on customer details page in the admin.
-
+Any other user can be assigned an approver by selecting one from a dropdown on customer details page in the admin. Also approver can be assigned to all users from certain customer group.
 
 == Notification emails ==
 The extension sends e-mails on following events:
