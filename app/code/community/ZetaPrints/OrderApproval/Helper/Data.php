@@ -60,6 +60,11 @@ class ZetaPrints_OrderApproval_Helper_Data extends Mage_Core_Helper_Abstract {
   public function hasNotSentItems ($items) {
     //For every item in the collection...
     foreach ($items as $item) {
+
+      //Ignore approved or declined items
+      if ($item->getApproved())
+        continue;
+
       //... get info options model
       $optionModel = $item->getOptionByCode('info_buyRequest');
 
