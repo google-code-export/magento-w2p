@@ -8,6 +8,16 @@ class ZetaPrints_OrderApproval_OnepageController
   const XML_PATH_NEW_ITEMS_TEMPLATE
     = 'orderapproval/email/items_to_approve_template';
 
+  public function preDispatch () {
+    parent::preDispatch();
+
+    if ($this->getRequest()->getActionName() != 'index')
+      $this
+        ->getOnepage()
+        ->getQuote()
+        ->useOnlyApprovedItems();
+  }
+
   protected function _getApprovedItems ($quote) {
     return Mage::getModel('sales/quote_item')
              ->getCollection()
@@ -203,6 +213,11 @@ class ZetaPrints_OrderApproval_OnepageController
         $quote->getItemsCollection()->save();
       }
     }
+
+    $this
+      ->getOnepage()
+      ->getQuote()
+      ->useOnlyApprovedItems();
 
     parent::indexAction();
   }
