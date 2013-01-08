@@ -73,8 +73,13 @@ class ZetaPrints_OrderApproval_Block_CustomerCart
         ->addFieldToFilter('approved', 2)
         ->setQuote($quote);
 
-      $unapprovedItemsNumber = count($quote->getAllItemsCollection())
-                                 - count($quote->getItemsCollection())
+      $approvedItems = Mage::getModel('sales/quote_item')
+                         ->getCollection()
+                         ->addFieldToFilter('approved', 1)
+                         ->setQuote($quote);
+
+      $unapprovedItemsNumber = count($quote->getItemsCollection())
+                                 - count($approvedItems)
                                  - count($declinedItems);
 
       if ($unapprovedItemsNumber) {

@@ -19,7 +19,7 @@ class ZetaPrints_OrderApproval_Block_CustomerCart_Edit_Grid
               ->getParentBlock()  // I think there's a better way to pass
               ->getParentBlock()  // data down in a block hierarchy.
               ->getCustomerQuote()
-              ->getAllVisibleItems(true);
+              ->getAllVisibleItems();
 
     foreach ($items as $item) {
       if ($item->getApproved())
