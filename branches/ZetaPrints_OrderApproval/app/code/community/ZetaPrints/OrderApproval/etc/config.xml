@@ -12,16 +12,9 @@
         <class>ZetaPrints_OrderApproval_Model</class>
       </orderapproval>
 
-      <checkout>
-        <rewrite>
-          <cart>ZetaPrints_OrderApproval_Model_Cart</cart>
-        </rewrite>
-      </checkout>
-
       <sales>
         <rewrite>
           <quote>ZetaPrints_OrderApproval_Model_Quote</quote>
-          <quote_address>ZetaPrints_OrderApproval_Model_Quote_Address</quote_address>
         </rewrite>
       </sales>
     </models>
@@ -30,12 +23,6 @@
       <orderapproval>
         <class>ZetaPrints_OrderApproval_Block</class>
       </orderapproval>
-
-      <checkout>
-        <rewrite>
-          <cart>ZetaPrints_OrderApproval_Block_Cart</cart>
-        </rewrite>
-      </checkout>
     </blocks>
 
     <helpers>
@@ -114,11 +101,6 @@
         <from><![CDATA[#^/checkout/onepage/#]]></from>
         <to>/order-approval/onepage/</to>
       </ZetaPrints_OrderApproval_Onepage>
-
-      <ZetaPrints_OrderApproval_Cart>
-        <from><![CDATA[#^/checkout/cart/#]]></from>
-        <to>/order-approval/cart/</to>
-      </ZetaPrints_OrderApproval_Cart>
     </rewrite>
 
     <template>
