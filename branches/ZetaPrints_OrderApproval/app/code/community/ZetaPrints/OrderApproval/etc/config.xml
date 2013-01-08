@@ -65,7 +65,7 @@
     </resources>
 
     <events>
-      <checkout_cart_product_add_after>
+      <sales_quote_add_item>
         <observers>
           <orderapproval-mark-quote-item>
             <type>singleton</type>
@@ -73,17 +73,7 @@
             <method>mark_quote_item</method>
           </orderapproval-mark-quote-item>
         </observers>
-      </checkout_cart_product_add_after>
-
-      <checkout_cart_product_update_after>
-        <observers>
-          <orderapproval-mark-quote-item>
-            <type>singleton</type>
-            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
-            <method>mark_quote_item</method>
-          </orderapproval-mark-quote-item>
-        </observers>
-      </checkout_cart_product_update_after>
+      </sales_quote_add_item>
 
       <controller_action_predispatch_checkout_cart_index>
         <observers>

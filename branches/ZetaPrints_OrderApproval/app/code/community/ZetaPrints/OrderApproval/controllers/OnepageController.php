@@ -8,6 +8,13 @@ class ZetaPrints_OrderApproval_OnepageController
   const XML_PATH_NEW_ITEMS_TEMPLATE
     = 'orderapproval/email/items_to_approve_template';
 
+  protected function _getApprovedItems ($quote) {
+    return Mage::getModel('sales/quote_item')
+             ->getCollection()
+             ->addFieldToFilter('approved', 1)
+             ->setQuote($quote);
+  } 
+
   public function indexAction () {
     $customer_session = Mage::getSingleton('customer/session');
 
@@ -27,7 +34,7 @@ class ZetaPrints_OrderApproval_OnepageController
 
         //Filter unapproved items which were not mentioned in previous e-mails
         //For every item in the quote...
-        foreach ($quote->getAllItemsCollection() as $item)
+        foreach ($quote->getItemsCollection() as $item)
           //... check that it is not approved alred then...
           if (!$item->getApproved()) {
             //... get info options model
@@ -121,12 +128,14 @@ class ZetaPrints_OrderApproval_OnepageController
                           . ' '
                           . $approver->getEmail() );
 
+            $approvedItems = $this->_getApprovedItems($quote);
+
             //If there're both approved and not approved items in the cart
             //then...
-            if (count($quote->getItemsCollection())
+            if (count($approvedItems)
                 && $unapproved_items_number =
-                    count($quote->getAllItemsCollection())
-                      - count($quote->getItemsCollection()))
+                    count($quote->getItemsCollection())
+                      - count($approvedItems))
               //...display notice about number of unapproved items
               //in customer's cart
               Mage::getSingleton('checkout/session')->addNotice(
@@ -134,7 +143,7 @@ class ZetaPrints_OrderApproval_OnepageController
                     ->__(' unapproved item(s) remain in your shopping cart.') );
 
             //If there's only unapproved items in the cart then...
-            if (count($quote->getAllItemsCollection())
+            if (count($quote->getItemsCollection())
                                                   == count($items_to_approve)) {
               //... redirect to shopping cart page
               $this->_redirect('checkout/cart');
@@ -142,10 +151,12 @@ class ZetaPrints_OrderApproval_OnepageController
               return;
             }
           }
-        } else
+        } else {
+          $approvedItems = $this->_getApprovedItems($quote);
+
           //else if there's no items to approve without sent emails and
           //shopping cart is empty then...
-          if (!count($quote->getItemsCollection()))
+          if (!count($approvedItems))
             //... show notice for customer
             Mage::getSingleton('checkout/session')
               ->addNotice($this
@@ -153,13 +164,14 @@ class ZetaPrints_OrderApproval_OnepageController
           else
             // else if there's unapproved items then...
             if ($unapproved_items_number =
-                  count($quote->getAllItemsCollection())
-                    - count($quote->getItemsCollection()))
+                  count($quote->getItemsCollection())
+                    - count($approvedItems))
               //...display notice about number of unapproved items
               //in customer's cart
               Mage::getSingleton('checkout/session')
                 ->addNotice($unapproved_items_number . $this
                   ->__(' unapproved item(s) remain in your shopping cart.') );
+        }
       } else {
         //... else mark all items as approved and remove approval statuses
         //from them
@@ -168,7 +180,7 @@ class ZetaPrints_OrderApproval_OnepageController
         $quote = $this->getOnepage()->getQuote();
 
         //For every item from the quote check...
-        foreach ($quote->getAllItemsCollection() as $item)
+        foreach ($quote->getItemsCollection() as $item)
           //... if it's not approved then ...
           if (!$item->getApproved()) {
             //... if it has additional options...
@@ -188,7 +200,7 @@ class ZetaPrints_OrderApproval_OnepageController
           }
 
         //Save items from the quote
-        $quote->getAllItemsCollection()->save();
+        $quote->getItemsCollection()->save();
       }
     }
 

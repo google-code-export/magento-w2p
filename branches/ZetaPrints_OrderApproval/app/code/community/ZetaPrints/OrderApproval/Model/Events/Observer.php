@@ -3,8 +3,18 @@
 class ZetaPrints_OrderApproval_Model_Events_Observer {
 
   public function mark_quote_item ($observer) {
+
+    //Mark item as approved by default
+    $item = $observer
+              ->getEvent()
+              ->getQuoteItem()
+              ->setApproved(true);
+
     $customer_session = Mage::getSingleton('customer/session');
 
+    //NOTE: customer is never logged in admin area, so the item will stay marked
+    //as approved when order is created in admin interface and order approval
+    //won't be applied
     if (!$customer_session->isLoggedIn())
       return;
 
@@ -15,15 +25,6 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
 
     if (!Mage::helper('orderapproval')->getApproverForCustomer($customer))
       return;
-
-    $item = $observer->getEvent()->getQuoteItem();
-
-    //$option_model = $item->getOptionByCode('info_buyRequest');
-    //$options = unserialize($option_model->getValue());
-
-    //$options['orderapprove-need-approve'] = true;
-
-    //$option_model->setValue(serialize($options));
 
     $item->setApproved(false);
   }
@@ -48,11 +49,9 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
         //...remove it from the cart
         $quote->removeItem($item->getId(), true);
 
-    //Reset total collected flag
-    $quote->setTotalsCollectedFlag(false);
-
-    //Recalculate quote total and save the quote.
-    $quote->collectTotals()->save();
+    $quote
+      ->getItemsCollection()
+      ->save();
   }
 
   public function check_for_not_sent_items ($observer) {
@@ -80,7 +79,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     $cart = Mage::getSingleton('checkout/cart');
 
     //If shopping cart contains items that were not sent to approver then ...
-    if ($helper->hasNotSentItems($cart->getQuote()->getAllItemsCollection())) {
+    if ($helper->hasNotSentItems($cart->getQuote()->getItemsCollection())) {
       $msg = 'Approval request for all added items will be sent out when you '
              . 'proceed to checkout.';
 
