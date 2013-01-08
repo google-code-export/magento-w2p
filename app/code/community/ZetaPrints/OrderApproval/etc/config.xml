@@ -146,10 +146,6 @@
         <orderapproval>
           <file>order-approval.xml</file>
         </orderapproval>
-
-        <checkout-cart-edit>
-          <file>checkout/cart-edit.xml</file>
-        </checkout-cart-edit>
       </updates>
     </layout>
   </frontend>
