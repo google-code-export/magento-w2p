@@ -96,13 +96,6 @@
       </controller_action_layout_render_before_customer_account>-->
     </events>
 
-    <rewrite>
-      <ZetaPrints_OrderApproval_Onepage>
-        <from><![CDATA[#^/checkout/onepage/#]]></from>
-        <to>/order-approval/onepage/</to>
-      </ZetaPrints_OrderApproval_Onepage>
-    </rewrite>
-
     <template>
       <email>
         <orderapproval_email_items_to_approve_template translate="label">
@@ -131,6 +124,28 @@
   </global>
 
   <frontend>
+    <events>
+      <controller_action_predispatch_checkout>
+        <observers>
+          <orderapproval_use_only_approved_items_on_checkout>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>useOnlyApprovedItemsOnCheckout</method>
+          </orderapproval_use_only_approved_items_on_checkout>
+        </observers>
+      </controller_action_predispatch_checkout>
+
+      <controller_action_predispatch_checkout_onepage_index>
+        <observers>
+          <orderapproval_process_items_before_checkout>
+            <type>singleton</type>
+            <class>ZetaPrints_OrderApproval_Model_Events_Observer</class>
+            <method>processItemsBeforeCheckout</method>
+          </orderapproval_process_items_before_checkout>
+        </observers>
+      </controller_action_predispatch_checkout_onepage_index>
+    </events>
+
     <routers>
       <orderapproval>
         <use>standard</use>
