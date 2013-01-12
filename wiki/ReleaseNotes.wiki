@@ -2,6 +2,9 @@
 
 = Future stable release =
   * Fix error in getting link of preview image for sharing
+  * Fix removing Magento's zoomer on personalisation step in 2-step theme
+  * Update jQuery to 1.8.3 and jQuery UI to 1.8.24
+  * Update JS code to work correctly with jQuery 1.8
 
 = Stable release (2.1.4.1) =
   * Fix error when image was selected in every field after uploading it.
