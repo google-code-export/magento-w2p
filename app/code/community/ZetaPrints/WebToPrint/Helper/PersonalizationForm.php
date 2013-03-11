@@ -1091,6 +1091,9 @@ jQuery(document).ready(function($) {
     //with 'update-first-preview' parameter
     $hasUpdateFirstPreview = $request->getParam('update-first-preview') == '1';
 
+    //Check if the product page is requested with 'reorder' parameter
+    $hasReorder = strlen($request->getParam('reorder')) == 36;
+
     $lastUrl = $session->getData('last_url');
 
     //Check if the product page is opened from the shopping cart
@@ -1099,6 +1102,7 @@ jQuery(document).ready(function($) {
                           && !$product->getConfigureMode();
 
     $updateFirstPreview = $hasForItem
+                          || $hasReorder
                           || $hasUpdateFirstPreview
                           || $isFromShoppingCart;
 
