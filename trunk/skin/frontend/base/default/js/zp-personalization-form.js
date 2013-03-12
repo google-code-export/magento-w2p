@@ -174,6 +174,20 @@ function personalization_form ($) {
     $preview_overlay.removeClass('zp-hidden');
   }
 
+  var $_preview_placeholder = null;
+
+  function add_preview_placeholder () {
+    $_preview_placeholder = $('<div id="zp-preview-placeholder" />')
+                              .appendTo(product_image_element);
+  }
+
+  function remove_preview_placeholder () {
+    if ($_preview_placeholder)
+      $_preview_placeholder.remove();
+
+    $_preview_placeholder = null;
+  }
+
   function enlarge_editor_click_handler () {
     if ($('#fancybox-wrap').is(':visible'))
       $.fancybox.close();
@@ -255,8 +269,7 @@ function personalization_form ($) {
       .empty();
 
     //Add preview image placeholder
-    var $preview_placeholder = $('<div id="zp-preview-placeholder" />')
-                                 .appendTo(product_image_element);
+    add_preview_placeholder();
   }
 
   var $preview_overlay = $('<div id="zp-preview-overlay" class="zp-no-preview">' +
@@ -293,7 +306,12 @@ function personalization_form ($) {
 
   //Add previews to the product page
   for (var page_number in this.template_details.pages) {
-    if (this.template_details.pages[page_number]['updated-preview-url']) {
+    //Don't load default image for the first page when updating it
+    //on page loading. Otherwise the activity disappers after the default image
+    //is loaded but before the image is updated.
+    if (page_number == 1 && this.update_first_preview_on_load)
+      var url = '';
+    else if (this.template_details.pages[page_number]['updated-preview-url']) {
       var url
             = this.template_details.pages[page_number]['updated-preview-url'];
 
@@ -314,8 +332,7 @@ function personalization_form ($) {
     .children()
     .bind('load', {page_number: page_number}, function (event) {
       //Remove preview image placeholder
-      if ($preview_placeholder)
-        $preview_placeholder.remove();
+      remove_preview_placeholder();
 
       $preview_overlay.removeClass('zp-no-preview');
 
@@ -747,8 +764,9 @@ function personalization_form ($) {
             $(product_image_element).removeClass('product-image-zoom');
             $('#image, #track_hint, div.zoom').remove();
             has_image_zoomer = false;
-            //and show preview image for the current page
-            $('#preview-image-page-1').removeClass('zp-hidden');
+
+            //Add preview placeholder
+            add_preview_placeholder();
 
             //Add all shapes to personalization form after first preview
             //update
@@ -1415,7 +1433,6 @@ function personalization_form ($) {
         alert(status + ' ' + error);
       },
       success: function (data, status) {
-        console.log(data);
         add_image_to_gallery(data.guid, data.thumbnail_url);
 
         zp.image_edit.reload_image(data.guid);
