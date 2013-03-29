@@ -329,7 +329,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
           if (count($quote->getItemsCollection())
                                                 == count($items_to_approve)) {
             //... redirect to shopping cart page
-            $controller->_redirect('checkout/cart');
+            $controller->setRedirectWithCookieCheck('checkout/cart');
 
             return;
           }
