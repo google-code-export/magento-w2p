@@ -434,7 +434,9 @@ function personalization_form ($) {
   $('div.tab.user-images').each(function() {
     var tab_button = $('ul.tab-buttons li.hidden', $(this).parents('div.selector-content'));
 
-    if ($('td', this).length > 0)
+    //It's not empty when it has more than 1 child
+    //because first child is template element
+    if ($('td', this).length > 1)
       $(tab_button).removeClass('hidden');
   });
 
