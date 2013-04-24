@@ -6,15 +6,15 @@ class ZetaPrints_WebToPrint_Model_System_Config_Backend_ZetaPrintsUrl
   protected function _beforeSave () {
     $value = $this->getValue();
 
-    //Search for slash at the end of domain name...
-    if (($position = strpos($value, '/', 9)) === false)
-      //... if no such add one to the end
-      $this->setValue($value . '/');
-    else
-      //... if such exists then trim everything after domain name
-      $this->setValue(substr($value, 0, $position + 1));
+    //Add slash at the end of URL of there's no one,
+    //otherwise remove everything after domain name
+    $value = ($position = strpos($value, '/', 9)) === false
+               ? $value .= '/'
+                 : substr($value, 0, $position + 1);
 
-    return $this;
+    $this->setValue(trim($value));
+
+    return parent::_beforeSave();;
   }
 }
 
