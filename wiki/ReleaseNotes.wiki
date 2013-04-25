@@ -153,16 +153,16 @@ Please, do following step if you don't use zptheme as default in Magento (e.i. i
 = Stable release (1.8.2.4) =
   * Bug fixes (issue #270, issue #262)
 
-= Stable release 1.8.2.3 =
+= Stable release (1.8.2.3) =
   * Fix bug in product's images update (issue #274)
 
-= Stable release 1.8.2.2 =
+= Stable release (1.8.2.2) =
   * Fix regression in session handling (introduced in 1.8.2.0)
 
-= Stable release 1.8.2.1 =
+= Stable release (1.8.2.1) =
   * Fix regression in preview share link functionality (introduced in 1.8.2.0)
 
-= Stable release 1.8.2.0 =
+= Stable release (1.8.2.0) =
 == Issues ==
   * Loading indicator for preview images on product page (Issue #202)
   * Show up-sell product with prepared preview (Issue #222)
@@ -187,7 +187,7 @@ Please, do following steps if you don't use zptheme as default in Magento (e.i. 
   * Update _zp-in-preview-edit.js_ file in your custom theme (_skin/frontend/default/zptheme/js/zp-in-preview-edit.js_)
   See [https://code.google.com/p/magento-w2p/source/diff?old=789&r=883&format=side&path=%2Ftrunk%2Fskin%2Ffrontend%2Fdefault%2Fzptheme%2Fjs%2Fzp-in-preview-edit.js changes] for the file in this release if you changed _zp-in-preview-edit.js_ file.
 
-= 1.8.1.0 release =
+= Stable release (1.8.1.0) =
 == Issues ==
   * User image deletion (Issue #164)
   * Fix error with product's base image (Issue #141)
