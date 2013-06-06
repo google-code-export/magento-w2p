@@ -22,7 +22,7 @@ window.zp_dataset_initialise = function (zp) {
               .filter(':not(.zp-dataset-checkbox)');
 
   $td
-    .mouseenter(function (event) {
+    /*.mouseenter(function (event) {
       $popup = $(this).children('.zp-dataset-popup');
 
       if (!$popup.length)
@@ -53,7 +53,7 @@ window.zp_dataset_initialise = function (zp) {
         .css({
           top: event.pageY + 15,
           left: event.pageX + 15 });
-    })
+    })*/
     .click(function () {
       var $this = $(this);
 
