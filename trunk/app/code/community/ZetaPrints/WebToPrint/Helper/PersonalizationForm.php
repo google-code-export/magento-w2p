@@ -1016,9 +1016,7 @@ jQuery(document).ready(function($) {
             <td class="<?php echo $fieldNames[$number]; ?>">
               <?php foreach ($data['lines'] as $line => $text): ?>
 
-              <p <?php if (!$line): ?>class="zp-dataset-first-line"<?php endif ?>>
-                <?php echo $text; ?>
-              </p>
+              <p <?php if (!$line): ?>class="zp-dataset-first-line"<?php endif ?>><?php echo $text; ?></p>
 
               <?php endforeach ?>
             </td>
