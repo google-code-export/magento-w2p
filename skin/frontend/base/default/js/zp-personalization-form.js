@@ -571,6 +571,11 @@ function personalization_form ($) {
     //                          $product_image_box,
     //                          shape_handler);
 
+    if ($('#zp-dataset-page-' + zp.current_page).length)
+      $('#zp-dataset-button').removeClass('hidden');
+    else
+      $('#zp-dataset-button').addClass('hidden');
+
     if (can_show_next_page_button_for_page(zp.current_page, zp))
       $next_page_button.show();
     else
