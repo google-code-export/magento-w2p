@@ -8,8 +8,7 @@
 
 .zp-dataset-table {
   border-collapse: collapse;
-  width: 100%;
-  white-space: nowrap;
+  width: 200%;
 }
 
 .zp-dataset-table thead {
