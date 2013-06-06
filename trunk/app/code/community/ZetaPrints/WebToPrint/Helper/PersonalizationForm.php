@@ -1038,7 +1038,7 @@ jQuery(document).ready(function($) {
 
   <?php $title = $this->__('Database look-up'); ?>
 
-  <button id="zp-dataset-button" class="button" title="<?php echo $title; ?>" type="button">
+  <button id="zp-dataset-button" class="button hidden" title="<?php echo $title; ?>" type="button">
     <span><span><?php echo $title; ?></span></span>
   </button>
 
