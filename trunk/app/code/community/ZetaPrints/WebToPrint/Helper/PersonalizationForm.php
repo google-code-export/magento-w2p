@@ -1096,13 +1096,20 @@ jQuery(document).ready(function($) {
 
     //Check if the product page is opened from the shopping cart
     //to update first preview image for cross-sell products)
-    $isFromShoppingCart = strpos($lastUrl, 'checkout/cart') !== false
-                          && !$product->getConfigureMode();
+    $isFromShoppingCart = strpos($lastUrl, 'checkout/cart') !== false;
 
     $updateFirstPreview = $hasForItem
                           || $hasReorder
                           || $hasUpdateFirstPreview
-                          || $isFromShoppingCart;
+                          || $isFromShoppingCart
+                          || $product->getConfigureMode();
+
+    $preserveFields = $product->getConfigureMode()
+                      || $hasReorder
+                      || $hasUpdateFirstPreview
+                      || $hasForItem;
+
+    $preserveFields = !$preserveFields;
 
     $hasShapes = false;
 
@@ -1117,6 +1124,7 @@ jQuery(document).ready(function($) {
       'template_details' => $details,
       'is_personalization_step' => $this->is_personalization_step($context),
       'update_first_preview_on_load' => $updateFirstPreview,
+      'preserve_fields' => $preserveFields,
       'has_shapes' => $hasShapes,
       'w2p_url' => Mage::getStoreConfig('webtoprint/settings/url'),
       'options' => $this->getCustomOptions(),

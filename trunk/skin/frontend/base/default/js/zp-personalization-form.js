@@ -297,7 +297,7 @@ function personalization_form ($) {
   //If update_first_preview_on_load parameter was set
   if (this.update_first_preview_on_load)
     //Update preview for the first page
-    update_preview({ data: { zp: this } }, true);
+    update_preview({ data: { zp: this } }, zp.preserve_fields);
 
   //Create array for preview images sharing links
   if (window.place_preview_image_sharing_link)
