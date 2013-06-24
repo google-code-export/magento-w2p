@@ -105,6 +105,6 @@ Files for *commercial themes* are provided to legitimate theme owners only. In o
 
 
 ==[http://www.zetaprints.com/magento/?__theme=default_hellowired HelloWired]==
-  * Version: 3.0
-  * Last updated 02 / 2012
-  * Tested compatible with Magento version 1.6.2 and web-to-print v. 2.0.1
+  * Version: [https://magento-w2p.googlecode.com/files/hellowired-5.0-w2p.zip 5.0], [https://magento-w2p.googlecode.com/files/hellowired-6.0-w2p.zip 6.0]
+  * Last updated 06 / 2013
+  * Tested compatible with Magento version 1.7.0.2 and web-to-print v. 2.1.5.0
