@@ -62,7 +62,7 @@ class ZetaPrints_OrderApproval_CustomerCartController
               ->loadByCustomer($customer_id);
 
     if (!$quote->getId()) {
-      $this->_redirect('');
+      $this->_redirect('orderapproval/customercart/all');
 
       return;
     }
