@@ -186,6 +186,14 @@ class ZetaPrints_OrderApproval_CustomerCartController
 
     $item->setOptions($optionCollection->getOptionsByItem($item));
 
+    Mage::dispatchEvent(
+      'orderapproval_quote_state_updated',
+      array(
+        'quote' => $quote,
+        'state' => $state
+      )
+    );
+
     $emails = array($customer->getEmail());
     $names = array($customer->getName());
 
@@ -297,6 +305,14 @@ class ZetaPrints_OrderApproval_CustomerCartController
 
       $items[] = $item;
     }
+
+    Mage::dispatchEvent(
+      'orderapproval_quote_state_updated',
+      array(
+        'quote' => $quote,
+        'state' => $state
+      )
+    );
 
     if ($state == ZetaPrints_OrderApproval_Helper_Data::APPROVED) {
       $template = Mage::getStoreConfig(self::XML_APPROVED_TEMPLATE);
