@@ -46,7 +46,7 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
     //only not approved items for futher processing.
 
     //For every item from the quote check...
-    foreach ($quote->getAllVisibleItems(true) as $item)
+    foreach ($quote->getAllVisibleItems() as $item)
       //... if it's approved then...
       if ($item->getApproved())
         //...remove it from the cart
