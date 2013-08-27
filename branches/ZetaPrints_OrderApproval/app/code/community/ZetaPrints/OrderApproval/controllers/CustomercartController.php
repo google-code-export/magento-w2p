@@ -186,11 +186,16 @@ class ZetaPrints_OrderApproval_CustomerCartController
 
     $item->setOptions($optionCollection->getOptionsByItem($item));
 
+    $settings = new Varien_Object(array(
+      'email_notification' => true
+    ));
+
     Mage::dispatchEvent(
       'orderapproval_quote_state_updated',
       array(
         'quote' => $quote,
-        'state' => $state
+        'state' => $state,
+        'settings' => $settings
       )
     );
 
@@ -212,18 +217,19 @@ class ZetaPrints_OrderApproval_CustomerCartController
         ->addNotice($this->__('Product was declined'));
     }
 
-    Mage::getModel('core/email_template')
-      ->sendTransactional(
-        $template,
-        'sales',
-        $emails,
-        $names,
-        array(
-          'items' => array($item),
-          'number_of_items' => 1,
-          'customer' => $customer,
-        )
-      );
+    if ($settings->getData('email_notification'))
+      Mage::getModel('core/email_template')
+        ->sendTransactional(
+          $template,
+          'sales',
+          $emails,
+          $names,
+          array(
+            'items' => array($item),
+            'number_of_items' => 1,
+            'customer' => $customer,
+          )
+        );
 
     $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
   }
@@ -306,11 +312,16 @@ class ZetaPrints_OrderApproval_CustomerCartController
       $items[] = $item;
     }
 
+    $settings = new Varien_Object(array(
+      'email_notification' => true
+    ));
+
     Mage::dispatchEvent(
       'orderapproval_quote_state_updated',
       array(
         'quote' => $quote,
-        'state' => $state
+        'state' => $state,
+        'settings' => $settings
       )
     );
 
@@ -329,18 +340,19 @@ class ZetaPrints_OrderApproval_CustomerCartController
         ->addNotice($this->__('Selected products were declined'));
     }
 
-    Mage::getModel('core/email_template')
-      ->sendTransactional(
-        $template,
-        'sales',
-        $emails,
-        $names,
-        array(
-          'items' => $items,
-          'number_of_items' => count($items),
-          'customer' => $customer,
-        )
-      );
+    if ($settings->getData('email_notification'))
+      Mage::getModel('core/email_template')
+        ->sendTransactional(
+          $template,
+          'sales',
+          $emails,
+          $names,
+          array(
+            'items' => $items,
+            'number_of_items' => count($items),
+            'customer' => $customer,
+          )
+        );
 
     $this->_redirect('*/*/edit', array('customer' => $quote->getCustomerId()));
   }
