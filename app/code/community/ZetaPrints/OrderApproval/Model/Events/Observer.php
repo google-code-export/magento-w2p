@@ -329,7 +329,14 @@ class ZetaPrints_OrderApproval_Model_Events_Observer {
           if (count($quote->getItemsCollection())
                                                 == count($items_to_approve)) {
             //... redirect to shopping cart page
-            $controller->setRedirectWithCookieCheck('checkout/cart');
+
+            //Add support for Magento < 1.7
+            if (method_exists($controller, 'setRedirectWithCookieCheck'))
+              $controller->setRedirectWithCookieCheck('checkout/cart');
+            else
+              $controller
+                ->getResponse()
+                ->setRedirect(Mage::getUrl('checkout/cart'));
 
             return;
           }

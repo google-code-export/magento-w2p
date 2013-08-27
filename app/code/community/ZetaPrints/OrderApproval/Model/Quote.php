@@ -53,6 +53,22 @@ class ZetaPrints_OrderApproval_Model_Quote extends Mage_Sales_Model_Quote {
              ? parent::setIsActive($active)
                : $this;
   }
+
+  /**
+   * Retrieve quote items collection
+   *
+   * NOTE: the method adds backward compatibility
+   *       with Magento < 1.7
+   *
+   * @param   bool $useCache
+   * @return  Mage_Eav_Model_Entity_Collection_Abstract
+   */
+  public function getItemsCollection($useCache = true) {
+    if ($this->hasItemsCollection())
+      return $this->getData('items_collection');
+
+    return parent::getItemsCollection($useCache);
+  }
 }
 
 ?>
