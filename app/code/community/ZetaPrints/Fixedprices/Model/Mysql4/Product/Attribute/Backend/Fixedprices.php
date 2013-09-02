@@ -45,8 +45,6 @@ class ZetaPrints_Fixedprices_Model_Mysql4_Product_Attribute_Backend_Fixedprices
       }
     }
 
-    Mage::log((string)$select);
-
     return $adapter->fetchAll($select);
   }
 }
