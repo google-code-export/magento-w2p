@@ -109,7 +109,7 @@ function setRadioToQty(qty, radio, fixedPrices) {
     if (undefined !== value && undefined !== fake_qty) {
       fake_qty.value = qty.value = value;
       updateConfigurable(value);
-      updateCustomOptions(value);
+      updateCustomOptions(value, price);
     }
 
     if (undefined !== price) {
@@ -118,7 +118,7 @@ function setRadioToQty(qty, radio, fixedPrices) {
   }
 }
 
-function updateCustomOptions(value) {
+function updateCustomOptions(value, price) {
   if (typeof opConfig != 'undefined') {
     var config = opConfig.config;
     if (!opConfig.original) {
@@ -144,17 +144,32 @@ function updateCustomOptions(value) {
             if (!opConfig.original[optionId][idx]) {
               opConfig.original[optionId][idx] = config[optionId][idx];
             }
-            original = opConfig.original[optionId][idx];
-            updateLabelRadio(element, original * value);
-            config[optionId][idx] = original * value;
+
+            original = fqUpdateOption(
+              opConfig.original[optionId][idx],
+              price,
+              value
+            );
+
+            updateLabelRadio(element, original.price);
+
+            config[optionId] = original;
           }
         } else if (element.hasClassName('datetime-picker') && !skipIds.include(optionId)) {
           if (!opConfig.original[optionId]) {
             opConfig.original[optionId] = config[optionId];
           }
-          original = opConfig.original[optionId];
-          updateLabelDefault(element, original * value);
-          config[optionId] = original * value;
+
+          original = fqUpdateOption(
+            opConfig.original[optionId],
+            price,
+            value
+          );
+
+          updateLabelDefault(element, original.price);
+
+          config[optionId] = original;
+
           skipIds[optionId] = optionId;
         } else if ((element.type == 'select-one' || element.type == 'select-multiple') && !skipIds.include(optionId)) {
           if (element.options) {
@@ -167,9 +182,16 @@ function updateCustomOptions(value) {
                 if (!opConfig.original[optionId][idx]) {
                   opConfig.original[optionId][idx] = config[optionId][idx];
                 }
-                original = opConfig.original[optionId][idx];
-                updateLabelSelect(selectOption, original * value, config[optionId][idx])
-                config[optionId][idx] = original * value;
+
+                original = fqUpdateOption(
+                  opConfig.original[optionId][idx],
+                  price,
+                  value
+                );
+
+                updateLabelSelect(selectOption, original.price, config[optionId][idx].price);
+
+                config[optionId][idx] = original;
               }
             });
           }
@@ -177,14 +199,36 @@ function updateCustomOptions(value) {
           if (!opConfig.original[optionId]) {
             opConfig.original[optionId] = config[optionId];
           }
-          original = opConfig.original[optionId];
-          updateLabelDefault(element, original * value);
-          config[optionId] = original * value;
+
+          original = fqUpdateOption(
+            opConfig.original[optionId],
+            price,
+            value
+          );
+
+          updateLabelDefault(element, original.price);
+
+          config[optionId] = original;
         }
       }
     });
     opConfig.reloadPrice();
   }
+}
+
+function fqUpdateOption (option, price, qty) {
+  var _option = Object.clone(option);
+
+  //We don't support tax at the moment
+  delete _option.excludeTax;
+  delete _option.includeTax;
+
+  if (_option.type == 'percent')
+    _option.price = price * (parseFloat(_option.priceValue) / 100) * qty;
+  else
+    _option.price *= qty;
+
+  return _option;
 }
 
 function updateLabelDefault(element, newer) {
