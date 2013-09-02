@@ -224,7 +224,7 @@ function fqUpdateOption (option, price, qty) {
   delete _option.includeTax;
 
   if (_option.type == 'percent')
-    _option.price = price * (parseFloat(_option.priceValue) / 100) * qty;
+    _option.price = price * (parseFloat(_option.priceValue) / 100);
   else
     _option.price *= qty;
 
