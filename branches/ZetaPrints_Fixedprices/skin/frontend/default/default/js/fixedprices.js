@@ -235,8 +235,13 @@ function updateLabelDefault(element, newer) {
   if(typeof optionsPrice != 'undefined'){
     newer = optionsPrice.formatPrice(newer);
   }
-  var lbl = $(element).up('dd').previous('dt').down('.price'); // price label
-  lbl.innerHTML = newer;
+
+  var label = $(element)
+                .up('dl')
+                .down('> dt .price');
+
+  if (label)
+    label.update(newer);
 }
 
 function updateLabelRadio(element, newer) {
