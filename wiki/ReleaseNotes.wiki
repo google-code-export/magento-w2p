@@ -1,5 +1,12 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.1.6.0) =
+  * Fix several bugs in Dataset feature (issue #820)
+  * Fix error with pre-filled w2p fields on product page (issue #821)
+
+== Release comments ==
+Code for the release can be obtained by _web-to-print-2.1.6.0_ tag from the project's SVN repo.
+
 = Stable release (2.1.5.0) =
   * Fix error in getting link of preview image for sharing
   * Fix removing Magento's zoomer on personalisation step in 2-step theme
