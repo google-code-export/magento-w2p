@@ -160,6 +160,19 @@ The following ZP code adds link to show text field with sharing url for a genera
 <?php $this->helper('webtoprint/personalization-form')->get_preview_image_sharing_link(); ?>
   }}}
 
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/wishlist/item/column/image.phtml template/wishlist/item/column/image.phtml] ==
+This file shows image for product on wishlist page.
+
+New code checks for web-to-print in a product and puts correct images urls for whislist item, also it adds link to PDF proofs.
+
+Second and third parameters of the helper function are width and height of image.
+Choose values according your custom theme.
+
+*Section 1*: check if product has web-to-print features then output `img` tag with correct url; add link to PDF proof for the template.
+  {{{
+<?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this, 113, 113)): ?>
+  }}}
+
 = Functions =
 Most of the extension code is encapsulated in functions. The functions make all necessary checks of the context and return values only if needed. E.g. `get_text_fields ($context)` function returns nothing if the product has no web-to-print features. This way they do not affect products that have nothing to do with web-to-print.
 
@@ -173,7 +186,7 @@ Most of the extension code is encapsulated in functions. The functions make all 
   * ` get_preview_images ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * ` get_gallery_thumb ($context, $product, $image)` - Outputs nothing, always returns _false_. (*Deprecated*)
   * ` get_gallery_image ($context)` - Outputs nothing, always returns _false_. (*Deprecated*)
-  * ` get_cart_image ($context)` - outputs a slightly modified `<img>` tag to prevent image resizing with correct image url and returns _true_ for products with web-to-print features
+  * ` get_cart_image ($context, $width = 0, $height = )` - outputs a slightly modified `<img>` tag to prevent image resizing with correct image url and returns _true_ for products with web-to-print features
   * ` get_order_preview_images ($context)` - outputs previews images for order.
   * ` get_reorder_button ($context, $item)` - outputs A tag with link to re-order web-to-print product page.
   * ` getPageSizeTable ($this, $units = 'in')` - displays table with template's page sizes.
