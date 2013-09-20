@@ -240,8 +240,8 @@ if ($image['mime'] === 'image/jpeg' || $image['mime'] === 'image/jpg')
 = Spinners for progress of AJAX requests =
 There's two types of spinners: big and normal. Big spinner is used for preview loading progress. Normal spinner is used for different AJAX requests to M.
 
-  * Image for big spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/base/default/images/big-spinner.gif skin/frontend/default/zptheme/images/big-spinner.gif]
-  * Image for normal spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/base/default/images/spinner.gif skin/frontend/default/zptheme/images/spinner.gif]
+  * Image for big spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/base/default/images/big-spinner.gif skin/frontend/base/default/images/big-spinner.gif]
+  * Image for normal spinner is [http://magento-w2p.googlecode.com/svn/trunk/skin/frontend/base/default/images/spinner.gif skin/frontend/base/default/images/spinner.gif]
 
 = Styling links added by the extension =
 Here is list of CSS class name selectors for links added by the extension:
