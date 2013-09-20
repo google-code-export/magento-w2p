@@ -159,7 +159,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
     return false;
   }
 
-  public function get_cart_image ($context) {
+  public function get_cart_image ($context, $width = 0, $height = 0) {
     $options = unserialize($context->getItem()->getOptionByCode('info_buyRequest')->getValue());
 
     if (!isset($options['zetaprints-previews'])
@@ -187,7 +187,11 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       } else
         echo "<a class=\"in-dialog product-image\" href=\"$href\" rel=\"{$group}\" style=\"display: none\">";
 
-      echo "<img src=\"$src\" style=\"max-width: 75px;\" />";
+      $style = $width
+                 ? 'style="max-width: ' . $width . 'px;"'
+                   : 'style="max-width: 75px;"';
+
+      echo '<img src="', $src, '" ', $style, ' />';
       echo "</a>";
     }
 

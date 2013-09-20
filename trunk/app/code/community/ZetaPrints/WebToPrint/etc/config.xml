@@ -41,6 +41,12 @@
           <quote_item>ZetaPrints_WebToPrint_Model_Quote_Item</quote_item>
         </rewrite>
       </sales>
+
+      <wishlist>
+        <rewrite>
+          <item>ZetaPrints_WebToPrint_Model_Item</item>
+        </rewrite>
+      </wishlist>
     </models>
 
     <blocks>
@@ -266,6 +272,10 @@
         <sales-web-to-print-order>
           <file>sales/web-to-print-order.xml</file>
         </sales-web-to-print-order>
+
+        <wishlist-web-to-print>
+          <file>wishlist/web-to-print.xml</file>
+        </wishlist-web-to-print>
       </updates>
     </layout>
   </frontend>

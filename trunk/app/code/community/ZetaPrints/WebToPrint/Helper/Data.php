@@ -481,23 +481,84 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
 
       $this->generateImageUrls($xml);
 
+      $request = $this->_getRequest();
+
       //If product page was requested with reorder parameter...
-      if ($this->_getRequest()->has('reorder')
-          && strlen($this->_getRequest()->getParam('reorder')) == 36)
+      if ($request->has('reorder')
+          && strlen($request->getParam('reorder')) == 36)
         //...then replace field values from order details
         $this->replace_user_input_from_order_details($xml,
                                     $this->_getRequest()->getParam('reorder'));
 
       //If product page was requested with for-item parameter...
-      if ($this->_getRequest()->has('for-item'))
+      else if ($request->has('for-item'))
         //...then replace various template values from item's options
         $this->replace_template_values_from_cart_item($xml,
-                                    $this->_getRequest()->getParam('for-item'));
+                                    $request->getParam('for-item'));
+      else if ($product->getConfigureMode()) {
+        if ($item = Mage::registry('wishlist_item'))
+          $xml = $this->updateTemplate(
+            $xml,
+            $this->extractUserInput($item->getBuyRequest())
+          );
+      }
 
       Mage::register('webtoprint-template-xml', $xml);
     }
 
     return $xml;
+  }
+
+  public function extractUserInput ($data) {
+    $fields = array();
+
+    if ($data instanceof Varien_Object)
+      $data = $data->getData();
+
+    if (!$data)
+      return $fields;
+
+    foreach ($data as $key => $value) {
+      if (strpos($key, 'zetaprints-') === false)
+        continue;
+
+      $key = substr($key, 11);
+
+      if (strpos($key, '#') === 0 || strpos($key, '_') === 0) {
+        $key = str_replace(
+          array('_', "\x0A"),
+          array(' ', '.'),
+          substr($key, 1)
+        );
+
+        $fields[$key] = $value;
+      }
+    }
+
+    return $fields;
+  }
+
+  public function updateTemplate ($template, $data) {
+    if (!$data)
+      return $template;
+
+    //Replace text field values in XML
+    foreach ($template->Fields->Field as $field) {
+      $name = (string) $field['FieldName'];
+
+      if (isset($data[$name]))
+        $field['Value'] = $data[$name];
+    }
+
+    //Replace image field values in XML
+    foreach ($template->Images->Image as $image) {
+      $name = (string) $image['Name'];
+
+      if (isset($data[$name]))
+        $image['Value'] = $data[$name];
+    }
+
+    return $template;
   }
 
   public function getTemplateDetailsForCurrentProduct () {
