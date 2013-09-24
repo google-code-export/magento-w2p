@@ -59,6 +59,13 @@
           <html_footer>ZetaPrints_WebToPrint_Block_Html_Footer</html_footer>
         </rewrite>
       </page>
+
+      <wishlist>
+        <rewrite>
+          <customer_sidebar>ZetaPrints_WebToPrint_Block_Customer_Sidebar</customer_sidebar>
+          <customer_wishlist_item_column_comment>ZetaPrints_WebToPrint_Block_Customer_Wishlist_Item_Column_Comment</customer_wishlist_item_column_comment>
+        </rewrite>
+      </wishlist>
     </blocks>
 
     <helpers>
