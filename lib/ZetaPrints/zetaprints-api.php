@@ -278,9 +278,9 @@ function zetaprints_parse_template_details ($xml) {
       'color-picker' => isset($image['ColourPicker'])
                             ? (string) $image['ColourPicker'] : null,
       'allow-upload' => isset($image['AllowUpload'])
-                            ? (bool) $image['AllowUpload'] : false,
+                            ? (bool)(string) $image['AllowUpload'] : false,
       'allow-url' => isset($image['AllowUrl'])
-                            ? (bool) $image['AllowUrl'] : false,
+                            ? (bool)(string) $image['AllowUrl'] : false,
       'clipped' => isset($image['Clipped'])
                             ? (bool) $image['Clipped'] : false,
       //We get lowercase GUID in value for user images.
