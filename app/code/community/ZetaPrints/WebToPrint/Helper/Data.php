@@ -297,21 +297,42 @@ class ZetaPrints_WebToPrint_Helper_Data extends Mage_Core_Helper_Abstract
     return null;
   }
 
-  public function getCategory ($name, $createIfNotExists = false,
-                               $parent = null) {
+  /**
+   * Search category by the name from root category or specified one.
+   * Create category when it doesn't exist if $createIfNotExists
+   * parameteris is set.
+   * Search category by store-specific name if $store parameter is set.
+   *
+   * @param string $name
+   * @param bool $createIfNotExists
+   * @param Mage_Catalog_Model_Category $parent
+   * @param null|Mage_Core_Model_Store $store
+   *
+   * @return Mage_Catalog_Model_Category|null
+   */
+  public function getCategory ($name,
+                               $createIfNotExists = false,
+                               $parent = null,
+                               $store = null) {
 
-    if ($parent && $parent->getId()) {
-      foreach ($parent->getChildrenCategories() as $child)
-        if ($child->getName() == $name)
-          return $child;
-    } else {
-      $collection = Mage::getModel('catalog/category')
-                      ->getCollection()
-                      ->addAttributeToFilter('name', $name);
+    $store = $store instanceof Mage_Core_Model_Store
+               ? $store
+                 : Mage::app()->getStore();
 
-      if ($collection->count())
-        return $collection->getFirstItem();
-    }
+    $collection = ($parent && $parentId = $parent->getId())
+                    ? $parent
+                        ->setStoreId($store->getId())
+                        ->getCollection()
+                        ->addFieldToFilter('parent_id', $parentId)
+                      : Mage::getModel('catalog/category')
+                        ->setStoreId($store->getId())
+                        ->load($store->getRootCategoryId())
+                        ->getCollection();
+
+    $collection->addAttributeToFilter('name', $name);
+
+    if ($collection->count())
+      return $collection->getFirstItem();
 
     if (!$createIfNotExists)
       return;
