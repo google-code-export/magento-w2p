@@ -13,6 +13,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     $this->warning('Product type: ' .
                        $this->getAction()->getParam('product-type', 'simple') );
 
+    if (!$assignToWebsites = $this->_getWebsitesForAssign())
+      return;
+
     //Get all web-to-print templates
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
@@ -112,12 +115,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
       if (!$sourceProduct) {
         $product_model = Mage::getModel('catalog/product');
 
-        if (Mage::app()->isSingleStoreMode())
-          $product_model->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
-        else
-          $this->debug('Not a single store mode');
-
         $product_model
+          ->setWebsiteIds($assignToWebsites)
           ->setAttributeSetId($product_model->getDefaultAttributeSetId())
           ->setTypeId($this->getAction()->getParam('product-type', 'simple'))
           ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
@@ -298,6 +297,33 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
       return array();
     }
+  }
+
+  protected function _getWebsitesForAssign () {
+    if (count(Mage::app()->getWebsites()) < 2)
+      return array(Mage::app()->getWebsite(true)->getId());
+
+    $websites = Mage::getStoreConfig('webtoprint/settings/assign-to-websites');
+
+    if (!$websites) {
+      $url = Mage::getModel('adminhtml/url')->getUrl(
+        'adminhtml/system_config/edit',
+        array(
+          'section' => 'webtoprint',
+          '_fragment' => 'row_webtoprint_settings_assign-to-stores')
+      );
+
+      $msg = 'Magento installation has multiple websites. Please select '
+             . 'website(s) in Assign new products to website(s) setting on '
+             . '<a href="' . $url . '">web-to-print settings page.</a> '
+             . 'Newly created products will be assigned to selected website(s)';
+
+      $this->error($msg);
+
+      return;
+    }
+
+    return explode(',', $websites);
   }
 
   private function error ($message) {
