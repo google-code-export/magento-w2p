@@ -199,7 +199,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
       try {
         $product_model->save();
-      } catch (Zend_Http_Client_Exception $e) {
+      } catch (Exception $e) {
         $this->error("{$line}. Error creating product from template: {$template->getGuid()}");
         $this->error($e->getMessage());
 
