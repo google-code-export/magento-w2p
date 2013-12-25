@@ -74,6 +74,15 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     $_catalogues = array();
 
+    $categoryMappingStore = $this
+                              ->getAction()
+                              ->getParam('category-mapping-store');
+
+    $categoryMappingStore = Mage::app()->getStore($categoryMappingStore);
+
+    if (!$categoryMappingStore->getId())
+      $categoryMappingStore = null;
+
     $useProductPopulateDefaults
        = Mage::getStoreConfig('webtoprint/settings/products-populate-defaults');
 
@@ -123,7 +132,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
         if (!array_key_exists($categoryName, $_catalogues)) {
           $category = $helper->getCategory(
-                               $cataloguesMapping[$template->getCatalogGuid()]);
+            $cataloguesMapping[$template->getCatalogGuid()],
+            true,
+            null,
+            $categoryMappingStore
+          );
 
           if ($category && $category->getId())
             $_catalogues[$categoryName] = $category;
@@ -143,7 +156,11 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
                 $subCategoryName = "{$categoryName}/{$tag}";
 
                 if (!array_key_exists($subCategoryName, $_catalogues)) {
-                  $subCategory = $helper->getCategory($tag, false, $category);
+                  $subCategory = $helper->getCategory(
+                    $tag,
+                    false,
+                    $category,
+                    $categoryMappingStore);
 
                   if ($subCategory && $subCategory->getId())
                     $_catalogues[$subCategoryName] = $subCategory;
