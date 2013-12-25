@@ -80,6 +80,10 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     $categoryMappingStore = Mage::app()->getStore($categoryMappingStore);
 
+    $assignToParents = (bool) $this
+                                ->getAction()
+                                ->getParam('assign-to-parents');
+
     if (!$categoryMappingStore->getId())
       $categoryMappingStore = null;
 
@@ -145,7 +149,9 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         }
 
         if ($category = $_catalogues[$categoryName]) {
-          $categoryIds = array($category->getId());
+          $categoryIds = $assignToParents
+                           ? $category->getPathIds()
+                             : array($category->getId());
 
           try {
             $templateDetails = zetaprints_parse_template_details(
