@@ -58,9 +58,24 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
 
               Mage::register('webtoprint-template-changed', true);
-              $full_product->setRequiredOptions(false)
-                ->setWebtoprintTemplate('')
-                ->save();
+              $full_product
+                ->setRequiredOptions(false)
+                ->setWebtoprintTemplate('');
+
+              Mage::dispatchEvent(
+                'webtoprint_product_update',
+                array(
+                  'product' => $full_product,
+                  'template' => zetaprints_parse_template_details(
+                    new SimpleXMLElement($template->getXml())
+                  ),
+                  'params' => array(
+                    'process-quantities' => $this->_isProcessQuantities()
+                  )
+                )
+              );
+
+              $full_product->save();
               Mage::unregister('webtoprint-template-changed');
 
               $this->debug("Product {$full_product->getSku()} was unlinked from the template");
@@ -95,10 +110,25 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               $this->debug("Template for product {$full_product->getWebtoprintTemplate()} was removed");
 
               Mage::register('webtoprint-template-changed', true);
-              $full_product->setCategoryIds(array($behaviour))
+              $full_product
+                ->setCategoryIds(array($behaviour))
                 ->setRequiredOptions(false)
-                ->setWebtoprintTemplate('')
-                ->save();
+                ->setWebtoprintTemplate('');
+
+              Mage::dispatchEvent(
+                'webtoprint_product_update',
+                array(
+                  'product' => $full_product,
+                  'template' => zetaprints_parse_template_details(
+                    new SimpleXMLElement($template->getXml())
+                  ),
+                  'params' => array(
+                    'process-quantities' => $this->_isProcessQuantities()
+                  )
+                )
+              );
+
+              $full_product->save();
               Mage::unregister('webtoprint-template-changed');
 
               $this->debug("Product {$product->getSku()} was moved to category {$category->getName()}");
@@ -117,7 +147,22 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               Mage::register('webtoprint-template-changed', true);
 
               //Mark product as changed and then save it.
-              $full_product->setDataChanges(true)->save();
+              $full_product->setDataChanges(true);
+
+              Mage::dispatchEvent(
+                'webtoprint_product_update',
+                array(
+                  'product' => $full_product,
+                  'template' => zetaprints_parse_template_details(
+                    new SimpleXMLElement($template->getXml())
+                  ),
+                  'params' => array(
+                    'process-quantities' => $this->_isProcessQuantities()
+                  )
+                )
+              );
+
+              $full_product->save();
 
               Mage::unregister('webtoprint-template-changed');
 
@@ -126,6 +171,19 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
         }
       }
     }
+  }
+
+  protected function _isProcessQuantities () {
+    $value = $this
+      ->getAction()
+      ->getParam('process-quantities', false);
+
+    if ($value === false)
+      return false;
+
+    $value = trim($value);
+
+    return $value == 'true' || $value == 'yes' || $value == '1';
   }
 
   private function notice ($message) {
