@@ -147,15 +147,16 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             $_catalogues[$categoryName] = null;
         }
 
+        $templateDetails = zetaprints_parse_template_details(
+          new SimpleXMLElement($template->getXml())
+        );
+
         if ($category = $_catalogues[$categoryName]) {
           $categoryIds = $assignToParents
                            ? $category->getPathIds()
                              : array($category->getId());
 
           try {
-            $templateDetails = zetaprints_parse_template_details(
-                                     new SimpleXMLElement($template->getXml()));
-
             if ($templateDetails && isset($templateDetails['tags']))
               foreach ($templateDetails['tags'] as $tag) {
                 $subCategoryName = "{$categoryName}/{$tag}";
@@ -196,6 +197,17 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
         ->setShortDescription($template->getDescription())
         ->setRequiredOptions(true)
         ->setWebtoprintTemplate($template->getGuid());
+
+      Mage::dispatchEvent(
+        'webtoprint_product_create',
+        array(
+          'product' => $product_model,
+          'template' => $templateDetails,
+          'params' => array(
+            'process-quantities' => $this->_isProcessQuantities()
+          )
+        )
+      );
 
       try {
         $product_model->save();
@@ -324,6 +336,19 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
     }
 
     return explode(',', $websites);
+  }
+
+  protected function _isProcessQuantities () {
+    $value = $this
+      ->getAction()
+      ->getParam('process-quantities', false);
+
+    if ($value === false)
+      return false;
+
+    $value = trim($value);
+
+    return $value == 'true' || $value == 'yes' || $value == '1';
   }
 
   private function error ($message) {
