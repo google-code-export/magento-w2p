@@ -413,6 +413,12 @@ function zetaprints_parse_template_details ($xml) {
       $template['tags'] = $tags;
   }
 
+  if ($xml->Quantities) foreach ($xml->Quantities->Quantity as $quantity)
+    $template['quantities'][] = array(
+      'price' => (float) $quantity['Price'],
+      'title' => (string) $quantity['Title'],
+    );
+
   _zetaprints_debug(array('template' => $template));
 
   return $template;
