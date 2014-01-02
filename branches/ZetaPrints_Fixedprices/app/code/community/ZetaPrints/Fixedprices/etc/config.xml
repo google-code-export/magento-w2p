@@ -82,6 +82,25 @@
           </zetaprints_fixedprices_add_required>
         </observers>
       </catalog_product_save_before>
+
+      <webtoprint_product_create>
+        <observers>
+          <zetaprints_fixedprices_process_quantities>
+            <class>fixedprices/events_observers_webtoprint</class>
+            <method>processQuantities</method>
+          </zetaprints_fixedprices_process_quantities>
+        </observers>
+      </webtoprint_product_create>
+
+      <webtoprint_product_update>
+        <observers>
+          <zetaprints_fixedprices_process_quantities>
+            <class>fixedprices/events_observers_webtoprint</class>
+            <method>processQuantities</method>
+          </zetaprints_fixedprices_process_quantities>
+        </observers>
+      </webtoprint_product_update>
+
     </events>
   </adminhtml>
   <global>
