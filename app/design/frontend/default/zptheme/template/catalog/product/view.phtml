@@ -100,11 +100,13 @@
             <!-- /****** ZP-CODE:2 End ******/ -->
 
 
-            <!-- /****** ZP-CODE:3 Printing input fields, stock images choosers and color pickers for products
-                         with web-to-print feature ******/ -->
+            <!-- /****** ZP-CODE:3 Display input fields, images, stock images,
+                                   colour pickers and palettes for products
+                                   with web-to-print feature ******/ -->
 
             <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
             <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
+            <?php echo $this->getChildHtml('webtoprint_palettes'); ?>
 
             <!-- /****** ZP-CODE:3 End ******/ -->
 

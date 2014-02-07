@@ -39,6 +39,10 @@
         <action method="setText"><text><![CDATA[<script type="text/javascript" src="http://feather.aviary.com/js/feather.js"></script>]]></text></action>
       </block>
     </reference>-->
+
+    <reference name="product.info">
+      <block type="catalog/product_view" name="webtoprint.product.palettes" as="webtoprint_palettes" template="catalog/product/view/web-to-print-palettes.phtml"/>
+    </reference>
   </webtoprint_product_view>
 
   <catalog_product_view>

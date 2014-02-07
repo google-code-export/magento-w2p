@@ -962,7 +962,7 @@ function personalization_form ($) {
   }
 
   zp.show_colorpicker = function ($panel) {
-    if ($panel.hasClass('color-picker')
+    if (($panel.hasClass('color-picker') || $panel.hasClass('colour-picker'))
         && !$panel.find('input').prop('checked'))
       $panel.find('.color-sample').click();
   }
@@ -1039,7 +1039,9 @@ function personalization_form ($) {
           if ($field.hasClass('minimized')) {
             $field.removeClass('minimized');
 
-            $panel = $panels.not('.ui-tabs-hide');
+            var $panel = $field.hasClass('zetaprints-palette')
+                           ?  $content
+                             : $panels.not('.ui-tabs-hide');
 
             zp.show_colorpicker($panel);
             scroll_strip($panel)
@@ -1084,13 +1086,15 @@ function personalization_form ($) {
             return false;
           });
 
-        var $colour_picker_panel = $panels.filter('.color-picker');
+        var $colour_picker_panel = $panels
+                                     .filter('.color-picker')
+                                     .add($field.find('.colour-picker'));
 
         if (!$colour_picker_panel.length)
           return;
 
         var $colour_radio_button = $colour_picker_panel
-                                   .children('.zetaprints-field');
+                                   .find('.zetaprints-field');
 
         var $colour_sample = $colour_picker_panel.children('.color-sample')
 
@@ -1505,6 +1509,32 @@ function personalization_form ($) {
       zp_set_metadata(field, metadata);
     } else
       zp_clear_metadata(field);
+  });
+
+  $('.zetaprints-palettes .zetaprints-field').change(function () {
+    var $this = $(this);
+
+    var id = $this
+               .attr('name')
+               .substring(12);
+
+    var colour = $this.val();
+
+    for (var page in zp.template_details.pages) {
+      for (var field in zp.template_details.pages[page].fields) {
+        var field = zp.template_details.pages[page].fields[field];
+
+        if (field.palette == id)
+          zp_set_metadata(field, { 'col-f': colour });
+      }
+
+      for (var image in zp.template_details.pages[page].images) {
+        var image = zp.template_details.pages[page].images[image];
+
+        if (image.palette == id)
+          zp_set_metadata(image, { 'col-f': colour });
+      }
+    }
   });
 
   if (this.has_shapes && window.add_in_preview_edit_handlers)

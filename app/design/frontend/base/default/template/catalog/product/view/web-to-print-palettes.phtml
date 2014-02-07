@@ -1,0 +1,80 @@
+<?php
+
+$_product = $this->getProduct();
+$_helper = Mage::helper('webtoprint');
+
+?>
+
+<?php if ($_helper->get_template_id($_product)): ?>
+
+<?php $template = $_helper->getTemplateDetailsForCurrentProduct(); ?>
+
+<?php if (isset($template['palettes'])): ?>
+<div class="zetaprints-palettes zetaprints-page-stock-images">
+
+  <?php
+
+  $__upDown = $this->__('Up/Down');
+  $__collapseExpand = $this->__('Collapse/Expand');
+  $__title = $this->__('Title');
+  $__coloursFor = $this->__('Colours for');
+  $__chooseAColour = $this->__('Choose a colour');
+  $__andClick = $this->__('and click Select to fill the place of the photo.');
+
+  ?>
+
+  <?php foreach ($template['palettes'] as $paletteId => $palette): ?>
+
+  <?php $_title = $__coloursFor . ': ' .  $palette['title']; ?>
+
+  <div class="zetaprints-palette no-value minimized block zetaprints-images-selector" title="<?php echo $_title; ?>">
+    <div class="head block-title">
+      <a class="image up-down" href="#">
+        <span><?php echo $__upDown; ?></span>
+      </a>
+      <a class="image collapse-expand" href="#">
+        <span><?php echo $__collapseExpand; ?></span>
+      </a>
+      <div class="icon">
+        <span><?php echo $__title; ?>:</span>
+      </div>
+      <div class="title">
+        <label><?php echo $_title; ?></label>
+      </div>
+    </div>
+
+    <div id="zp-palette-<?php echo $paletteId; ?>" class="selector-content <?php if ($palette['any_colour']) echo 'colour-picker'; ?>">
+
+    <?php if ($palette['any_colour']): ?>
+
+      <div class="zp-palette-colour color-sample">
+        <input type="radio" name="_zp_palette_<?php echo $paletteId; ?>" disabled="disabled" class="zetaprints-field" />
+        <div class="zp-palette-fill"></div>
+        <div class="zp-palette-outline"></div>
+      </div>
+
+      <span>
+        <a href="#"><?php echo $__chooseAColour; ?></a> <?php echo $__andClick; ?>
+      </span>
+
+    <?php else: ?>
+
+      <?php foreach ($palette['colours'] as $colourId => $colour): ?>
+      <div class="zp-palette-colour">
+        <input type="radio" class="zetaprints-field" name="_zp_palette_<?php echo $paletteId; ?>" value="<?php echo $colour['fill_rgb']; ?>" />
+        <div class="zp-palette-fill" style="background-color: <?php echo $colour['fill_rgb']; ?>"></div>
+        <div class="zp-palette-outline" style="background-color: <?php echo $colour['fill_rgb']; ?>"></div>
+      </div>
+      <?php endforeach; ?>
+
+    <?php endif; ?>
+
+    </div>
+  </div>
+  <?php endforeach; ?>
+
+</div>
+<?php endif; ?>
+
+
+<?php endif; ?>
