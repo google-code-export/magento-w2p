@@ -486,6 +486,50 @@ div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
   margin: 2px 0px 0px 0px;
 }
 
+.zetaprints-palette .selector-content {
+  padding: 3px 4px;
+  border: 1px solid #b6b6b6;
+  border-top: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 62px;
+  white-space: nowrap;
+}
+
+.zp-palette-colour {
+  display: inline-block;
+  width: 47px;
+  height: 47px;
+  position: relative;
+}
+
+.zp-palette-colour input {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+}
+
+.zp-palette-fill,
+.zp-palette-outline {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+
+.zetaprints-palette .colour-picker {
+  white-space: normal;
+  height: 49px;
+  overflow: hidden;
+  padding: 3px 10px 3px 4px;
+}
+
+.colour-picker .zp-palette-colour {
+  display: block;
+  float: left;
+  border: 1px solid #b6b6b6;
+  margin: 0 10px 0 0;
+}
+
 a.all-order-previews {
   float: right;
   margin-top: -2em;
