@@ -7,6 +7,25 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
     //Always print debug information. Issue #80
     $this->debug = true;
 
+    $updateAll
+      = (bool) Mage::getStoreConfig('webtoprint/settings/refresh-templates');
+
+    $action = $this->getAction();
+
+    $assignToParents = (bool) $action->getParam('assign-to-parents');
+    $categoryMappingStore = $action->getParam('category-mapping-store');
+
+    unset($action);
+
+    $categoryMappingStore = Mage::app()->getStore($categoryMappingStore);
+
+    if (!$categoryMappingStore->getId())
+      $categoryMappingStore = null;
+
+    $cataloguesMapping = null;
+
+    $helper = Mage::helper('webtoprint/category');
+
     $templates = Mage::getModel('webtoprint/template')->getCollection()->load();
 
     foreach ($templates as $template) {
@@ -139,7 +158,8 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
 
         } else {
           foreach ($products as $product)
-            if (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate())) {
+            if ($updateAll
+                || (strtotime($product->getUpdatedAt()) <= strtotime($template->getDate()))) {
               $full_product = $product_model->load($product->getId());
 
               $this->debug("Template for product {$full_product->getWebtoprintTemplate()} changed");
@@ -149,13 +169,42 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Updating extends  Mage_
               //Mark product as changed and then save it.
               $full_product->setDataChanges(true);
 
+              $templateDetails = zetaprints_parse_template_details(
+                new SimpleXMLElement($template->getXml())
+              );
+
+              if ($cataloguesMapping === null) {
+                $cataloguesMapping = array();
+
+                $url = Mage::getStoreConfig('webtoprint/settings/url');
+                $key = Mage::getStoreConfig('webtoprint/settings/key');
+
+                $catalogues = zetaprints_get_list_of_catalogs($url, $key);
+
+                foreach ($catalogues as $catalogue)
+                  $cataloguesMapping[$catalogue['guid']]
+                    = $catalogue['title'];
+
+                unset($catalogues, $catalogue, $url, $key);
+              }
+
+              $templateDetails['catalogue']
+                = $cataloguesMapping[$template->getCatalogGuid()];
+
+              $categoryIds = $helper->getCategoriesIds(
+                $templateDetails,
+                $assignToParents,
+                $categoryMappingStore
+              );
+
+              if ($categoryIds)
+                $full_product->setCategoryIds($categoryIds);
+
               Mage::dispatchEvent(
                 'webtoprint_product_update',
                 array(
                   'product' => $full_product,
-                  'template' => zetaprints_parse_template_details(
-                    new SimpleXMLElement($template->getXml())
-                  ),
+                  'template' => $templateDetails,
                   'params' => array(
                     'process-quantities' => $this->_isProcessQuantities()
                   )
