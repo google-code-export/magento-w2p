@@ -95,7 +95,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
 
     $_defaultCategory = array();
 
-    $helper = Mage::helper('webtoprint');
+    $helper = Mage::helper('webtoprint/category');
 
     $line = 0;
 
@@ -131,57 +131,23 @@ class ZetaPrints_WebToPrint_Model_Convert_Mapper_Product_Creating
             ->setTaxClassId(0);
         }
 
-        $categoryName = $cataloguesMapping[$template->getCatalogGuid()];
-
-        if (!array_key_exists($categoryName, $_catalogues)) {
-          $category = $helper->getCategory(
-            $cataloguesMapping[$template->getCatalogGuid()],
-            true,
-            null,
-            $categoryMappingStore
-          );
-
-          if ($category && $category->getId())
-            $_catalogues[$categoryName] = $category;
-          else
-            $_catalogues[$categoryName] = null;
-        }
-
         $templateDetails = zetaprints_parse_template_details(
           new SimpleXMLElement($template->getXml())
         );
 
-        if ($category = $_catalogues[$categoryName]) {
-          $categoryIds = $assignToParents
-                           ? $category->getPathIds()
-                             : array($category->getId());
+        $templateDetails['catalogue']
+          = $cataloguesMapping[$template->getCatalogGuid()];
 
-          try {
-            if ($templateDetails && isset($templateDetails['tags']))
-              foreach ($templateDetails['tags'] as $tag) {
-                $subCategoryName = "{$categoryName}/{$tag}";
+        $categoryIds = $helper->getCategoriesIds(
+          $templateDetails,
+          $assignToParents,
+          $categoryMappingStore
+        );
 
-                if (!array_key_exists($subCategoryName, $_catalogues)) {
-                  $subCategory = $helper->getCategory(
-                    $tag,
-                    false,
-                    $category,
-                    $categoryMappingStore);
+        if (!$categoryIds && $useProductPopulateDefaults)
+          $categoryIds = $this->_getDefaultCategoryId();
 
-                  if ($subCategory && $subCategory->getId())
-                    $_catalogues[$subCategoryName] = $subCategory;
-                  else
-                    $_catalogues[$subCategoryName] = null;
-                }
-
-                if ($subCategory = $_catalogues[$subCategoryName])
-                  $categoryIds[] = $subCategory->getId();
-              }
-          } catch (Exception $e) {}
-
-          $product_model->setCategoryIds($categoryIds);
-        } else if ($useProductPopulateDefaults)
-          $product_model->setCategoryIds($this->_getDefaultCategoryId());
+        $product_model->setCategoryIds($categoryIds);
       } else {
         $product_model = $sourceProduct;
 
