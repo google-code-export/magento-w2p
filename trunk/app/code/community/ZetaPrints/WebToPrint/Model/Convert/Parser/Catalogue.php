@@ -47,7 +47,7 @@ class ZetaPrints_WebToPrint_Model_Convert_Parser_Catalogue
 
     $line = 0;
 
-    $helper = Mage::helper('webtoprint');
+    $helper = Mage::helper('webtoprint/category');
 
     foreach ($catalogs as $catalog) {
       $total_number_of_catalogs++;
