@@ -1325,9 +1325,36 @@ function personalization_form ($) {
       return false;
   });
 
-  function text_fields_change_handle (event) {
-    var zp = event.data.zp;
+  function shape_update_state (shape, state) {
+    if (state)
+      return mark_shape_as_edited(shape);
 
+    var names = shape.name.split('; ');
+
+    if (names.length == 1)
+      return unmark_shape_as_edited(shape);
+
+    $fields = $('#input-fields-page-' + zp.current_page)
+      .find('input, textarea, select')
+      .filter('textarea, select, :text, :checked');
+
+    $images = $('#stock-images-page-' + zp.current_page)
+      .find('input')
+      .filter(':checked');
+
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+
+      if ($fields.filter('[name="zetaprints-_' + name +'"]').val()
+          || $images.filter('[name="zetaprints-#' + name +'"]').length)
+        return;
+    }
+
+
+    unmark_shape_as_edited(shape);
+  }
+
+  function text_fields_change_handle (event) {
     var $this = $(this);
 
     if ($this.is(':checkbox'))
@@ -1341,6 +1368,8 @@ function personalization_form ($) {
     } else
       $('#fancybox-outer').removeClass('modified');
 
+    var zp = event.data.zp;
+
     if (zp.has_shapes
         && window.mark_shape_as_edited
         && window.unmark_shape_as_edited) {
@@ -1350,34 +1379,8 @@ function personalization_form ($) {
         zp.template_details.pages[zp.current_page].shapes
       );
 
-      if (!shape)
-        return;
-
-      if (state)
-        mark_shape_as_edited(shape);
-      else {
-        var names = shape.name.split('; ');
-
-        if (names.length != 1) {
-          $text_fields = $('#input-fields-page-' + zp.current_page)
-            .find('input, textarea, select')
-            .filter('textarea, select, :text, :checked');
-
-          $image_fields = $('#stock-images-page-' + zp.current_page)
-            .find('input')
-            .filter(':checked');
-
-          for (var i = 0; i < names.length; i++) {
-            var name = names[i];
-
-            if ($text_fields.filter('[name="zetaprints-_' + name +'"]').val() ||
-                $image_fields.filter('[name="zetaprints-#' + name +'"]').length)
-              return;
-          }
-        }
-
-        unmark_shape_as_edited(shape);
-      }
+      if (shape)
+        shape_update_state(shape, state);
     }
 
     if (window.zp_dataset_update_state)
