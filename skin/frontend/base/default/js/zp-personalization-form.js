@@ -604,41 +604,31 @@ function personalization_form ($) {
   }
 
   function prepare_post_data_for_php (data) {
-    var _data = '';
+    for (var i = 0, l = data.length; i < l; i++)
+      data[i].name = prepare_string_for_php(data[i].name);
 
-    data = data.split('&');
-    for (var i = 0; i < data.length; i++) {
-      var token = data[i].split('=');
-      _data += '&' + prepare_string_for_php(token[0]) + '=' + token[1];
-    }
-
-    return _data.substring(1);
+    return data;
   }
 
-  function prepare_metadata_from_page (page) {
-    var metadata = '';
+  function prepare_metadata_from_page (page, data) {
+    var metadata,
+        l = data.length;
 
-    for (name in page.images) {
-      var field_metadata = zp_convert_metadata_to_string(page.images[name]);
+    for (var name in page.images)
+      if (metadata = zp_convert_metadata_to_string(page.images[name]))
+        data[l++] = {
+          name: 'zetaprints-*#' + prepare_string_for_php(name),
+          value: metadata
+        };
 
-      if (!field_metadata)
-        continue;
+    for (var name in page.fields)
+      if (metadata = zp_convert_metadata_to_string(page.fields[name]))
+        data[l++] = {
+          name: 'zetaprints-*_' + prepare_string_for_php(name),
+          value: metadata
+        };
 
-      metadata += '&zetaprints-*#' + prepare_string_for_php(name) + '='
-                  + field_metadata + '&';
-    }
-
-    for (var name in page.fields) {
-      var field_metadata = zp_convert_metadata_to_string(page.fields[name]);
-
-      if (!field_metadata)
-        continue;
-
-      metadata += '&zetaprints-*_' + prepare_string_for_php(name) + '='
-                  + field_metadata + '&';
-    }
-
-    return metadata;
+    return data;
   }
 
   function serialize_fields_for_page (page_number) {
@@ -646,7 +636,7 @@ function personalization_form ($) {
                                                                   + page_number)
       .find('.zetaprints-field')
       .filter(':text, textarea, :checked, select, [type="hidden"]')
-      .serialize();
+      .serializeArray();
   }
 
   var _number_of_failed_updates = 0;
@@ -664,18 +654,11 @@ function personalization_form ($) {
         $(this).text_field_editor('hide');
       });
 
-    //Convert preserve_field parameter to query parameter
-    var preserve_fields = typeof(preserve_fields) != 'undefined'
-      && preserve_fields ? '&zetaprints-Preserve=yes' : preserve_fields = '';
-
     var zp = event.data.zp;
 
     //!!! Workaround
     //Remember page number
     var current_page = zp.current_page;
-
-    var metadata =
-         prepare_metadata_from_page(zp.template_details.pages[zp.current_page]);
 
     function update_preview_error () {
       if (++_number_of_failed_updates >= 2){
@@ -692,13 +675,26 @@ function personalization_form ($) {
       hide_activity();
     }
 
+    var data = prepare_metadata_from_page(
+      zp.template_details.pages[zp.current_page],
+      prepare_post_data_for_php(serialize_fields_for_page(current_page))
+    );
+
+    data[data.length] = {
+      name: 'zetaprints-TemplateID',
+      value: zp.template_details.guid
+    };
+
+    data[data.length] = { name: 'zetaprints-From', value: current_page };
+
+    if (preserve_fields)
+      data[data.length] = { name: 'zetaprints-Preserve', value: 'yes'};
+
     $.ajax({
       url: zp.url.preview,
       type: 'POST',
       dataType: 'json',
-      data: prepare_post_data_for_php(serialize_fields_for_page(current_page))
-        + '&zetaprints-TemplateID=' + zp.template_details.guid
-        + '&zetaprints-From=' + current_page + preserve_fields + metadata,
+      data: $.param(data),
 
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         update_preview_error();
