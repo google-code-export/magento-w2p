@@ -1345,8 +1345,10 @@ function personalization_form ($) {
         && window.mark_shape_as_edited
         && window.unmark_shape_as_edited) {
 
-      var shape = get_shape_by_name($this.attr('name').substring(12),
-                             zp.template_details.pages[zp.current_page].shapes);
+      var shape = get_shape_by_name(
+        $this.attr('name').substring(12),
+        zp.template_details.pages[zp.current_page].shapes
+      );
 
       if (!shape)
         return;
@@ -1358,12 +1360,12 @@ function personalization_form ($) {
 
         if (names.length != 1) {
           $text_fields = $('#input-fields-page-' + zp.current_page)
-                      .find('input, textarea, select')
-                      .filter('textarea, select, :text, :checked');
+            .find('input, textarea, select')
+            .filter('textarea, select, :text, :checked');
 
           $image_fields = $('#stock-images-page-' + zp.current_page)
-                            .find('input')
-                            .filter(':checked');
+            .find('input')
+            .filter(':checked');
 
           for (var i = 0; i < names.length; i++) {
             var name = names[i];
