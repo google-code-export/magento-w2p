@@ -1328,10 +1328,10 @@ function personalization_form ($) {
   function text_fields_change_handle (event) {
     var zp = event.data.zp;
 
-    var $target = $(this);
+    var $this = $(this);
 
-    if ($target.is(':checkbox'))
-      var state = $target.is(':checked');
+    if ($this.is(':checkbox'))
+      var state = $this.is(':checked');
     else
       var state = $(this).val() != '';
 
@@ -1345,7 +1345,7 @@ function personalization_form ($) {
         && window.mark_shape_as_edited
         && window.unmark_shape_as_edited) {
 
-      var shape = get_shape_by_name($target.attr('name').substring(12),
+      var shape = get_shape_by_name($this.attr('name').substring(12),
                              zp.template_details.pages[zp.current_page].shapes);
 
       if (!shape)
@@ -1379,7 +1379,7 @@ function personalization_form ($) {
     }
 
     if (window.zp_dataset_update_state)
-      zp_dataset_update_state(zp, $target.attr('name').substring(12), false);
+      zp_dataset_update_state(zp, $this.attr('name').substring(12), false);
   }
 
   function readonly_fields_click_handle (event) {
