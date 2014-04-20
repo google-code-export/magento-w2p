@@ -405,10 +405,6 @@ function personalization_form ($) {
       else
         $next_page_button.hide();
 
-      //Enable Update preview action
-      $update_preview_button.unbind('click');
-      $update_preview_button.click({zp: zp}, update_preview);
-
       var pages = zp.template_details.pages,
           page_number = event.data.page_number,
           page = pages[page_number];
@@ -443,8 +439,13 @@ function personalization_form ($) {
 
       page.is_updating = false;
 
-      if (!page_has_updating(pages))
+      if (!page_has_updating(pages)) {
+        //Enable Update preview action
+        $update_preview_button.unbind('click');
+        $update_preview_button.click({zp: zp}, update_preview);
+
         hide_activity();
+      }
     });
   }
 
@@ -745,7 +746,7 @@ function personalization_form ($) {
       return;
 
     //Disable click action
-    $(this).unbind(event);
+    $update_preview_button.unbind('click');;
 
     show_activity();
 
