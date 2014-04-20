@@ -211,6 +211,48 @@ function personalization_form ($) {
     return false;
   }
 
+  function store_user_data (page) {
+    var name,
+        fields = page.fields,
+        images = page.images;
+
+    for (name in fields)
+      if (fields.hasOwnProperty(name)) {
+        if (!fields[name].value)
+          fields[name].value = '';
+
+        fields[name].previous_value = fields[name].value;
+      }
+
+    for (name in images)
+      if (images.hasOwnProperty(name)) {
+        if (!images[name].value)
+          images[name].value = '#';
+
+        images[name].previous_value = images[name].value;
+      }
+  }
+
+  function is_user_data_changed (page) {
+    var name,
+        fields = page.fields,
+        images = page.images;
+
+    for (name in fields)
+      if (fields.hasOwnProperty(name))
+        if (typeof fields[name].previous_value != 'undefined')
+          if (fields[name].previous_value != fields[name].value)
+            return true;
+
+    for (name in images)
+      if (images.hasOwnProperty(name))
+        if (typeof images[name].previous_value != 'undefined')
+          if (images[name].previous_value != images[name].value)
+            return true;
+
+    return false;
+  }
+
   //Set current template page to the first (1-based index)
   this.current_page = 1;
 
@@ -447,6 +489,12 @@ function personalization_form ($) {
                       export_previews_to_string(this.template_details) + '" />')
     .appendTo($('#product_addtocart_form'));
 
+  $add_to_cart_button.parent().before(
+    '<div id="zp-warning-user-data-changed" class="zetaprints-notice">' +
+      window.warning_user_data_changed +
+    '</div>'
+  );
+
   if (is_all_pages_updated(this.template_details)
       || (has_updated_pages(this.template_details)
           && this.template_details.missed_pages == '')
@@ -576,6 +624,11 @@ function personalization_form ($) {
     else
       $('#zp-dataset-button').addClass('hidden');
 
+    if (is_user_data_changed(page))
+      $product_form.addClass('zp-user-data-changed');
+    else
+      $product_form.removeClass('zp-user-data-changed');
+
     if (can_show_next_page_button_for_page(zp.current_page, zp))
       $next_page_button.show();
     else
@@ -658,7 +711,9 @@ function personalization_form ($) {
 
     //!!! Workaround
     //Remember page number
-    var current_page = zp.current_page;
+    var current_page = zp.current_page,
+        //!!!TODO: Variable name should be fixed
+        page_ = zp.template_details.pages[zp.current_page];
 
     function update_preview_error () {
       if (++_number_of_failed_updates >= 2){
@@ -676,7 +731,7 @@ function personalization_form ($) {
     }
 
     var data = prepare_metadata_from_page(
-      zp.template_details.pages[zp.current_page],
+      page_,
       prepare_post_data_for_php(serialize_fields_for_page(current_page))
     );
 
@@ -788,6 +843,8 @@ function personalization_form ($) {
             set_preview_sharing_link_for_page(current_page,
                                                       zp.preview_sharing_links);
 
+          $product_form.removeClass('zp-user-data-changed');
+
           if (is_all_pages_updated(zp.template_details)
               || zp.template_details.missed_pages == 'include'
               || zp.template_details.missed_pages == '') {
@@ -798,7 +855,15 @@ function personalization_form ($) {
             $('div.zetaprints-notice.to-update-preview').addClass('zp-hidden');
             remove_fake_add_to_cart_button($add_to_cart_button);
             $('div.save-order span').css('display', 'none');
-          }
+
+            var n,
+                pages = zp.template_details.pages;
+
+            for (n in pages)
+              if (pages.hasOwnProperty(n))
+                store_user_data(pages[n]);
+          } else
+            store_user_data(page_);
         }
       }
     });
@@ -926,9 +991,28 @@ function personalization_form ($) {
       $selector = $content.data('in-preview-edit').parent;
     }
 
-    var zp = event.data.zp;
+    var $this = $(event.target),
 
-    if ($(event.target).val().length) {
+        name = $this.attr('name').substring(12),
+        value = $this.val(),
+        has_value = !!value.length,
+
+        zp = event.data.zp,
+        page = zp.template_details.pages[zp.current_page],
+        image = page.images[name];
+
+    if (image) {
+      image.value = value;
+
+      if (typeof image.previous_value != 'undefined') {
+        if (image.previous_value != value)
+          $product_form.addClass('zp-user-data-changed');
+        else
+          $product_form.removeClass('zp-user-data-changed');
+      }
+    }
+
+    if (has_value) {
       $selector.removeClass('no-value');
 
       $('#fancybox-outer').addClass('modified');
@@ -937,8 +1021,7 @@ function personalization_form ($) {
       //If ZetaPrints advanced theme is enabled then...
       if (window.mark_shape_as_edited)
         //... mark shape as edited then image is seleсted
-        mark_shape_as_edited(zp.template_details.pages[zp.current_page]
-                           .shapes[$(event.target).attr('name').substring(12)]);
+        mark_shape_as_edited(page.shapes[name]);
     } else {
       $selector.addClass('no-value');
 
@@ -947,8 +1030,7 @@ function personalization_form ($) {
       //If ZetaPrints advanced theme is enabled then...
       if (window.unmark_shape_as_edited)
         //or unmark shape then Leave blank is selected
-        unmark_shape_as_edited(zp.template_details.pages[zp.current_page]
-                           .shapes[$(event.target).attr('name').substring(12)]);
+        unmark_shape_as_edited(page.shapes[name]);
     }
   }
 
@@ -1351,12 +1433,26 @@ function personalization_form ($) {
   }
 
   function text_fields_change_handle (event) {
-    var $this = $(this);
+    var $this = $(this),
 
-    if ($this.is(':checkbox'))
-      var state = $this.is(':checked');
-    else
-      var state = $(this).val() != '';
+        name = $this.attr('name').substring(12),
+        value = $this.is(':checkbox') ? $this.is(':checked') : $this.val(),
+        state = !!value,
+
+        zp = event.data.zp,
+        page = zp.template_details.pages[zp.current_page],
+        field = page.fields[name];
+
+    if (field) {
+      field.value = value;
+
+      if (typeof field.previous_value != 'undefined') {
+        if (field.previous_value != value)
+          $product_form.addClass('zp-user-data-changed');
+        else
+          $product_form.removeClass('zp-user-data-changed');
+      }
+    }
 
     if (state) {
       $('#fancybox-outer').addClass('modified');
@@ -1364,23 +1460,18 @@ function personalization_form ($) {
     } else
       $('#fancybox-outer').removeClass('modified');
 
-    var zp = event.data.zp;
-
     if (zp.has_shapes
         && window.mark_shape_as_edited
         && window.unmark_shape_as_edited) {
 
-      var shape = get_shape_by_name(
-        $this.attr('name').substring(12),
-        zp.template_details.pages[zp.current_page].shapes
-      );
+      var shape = get_shape_by_name(name, page.shapes);
 
       if (shape)
         shape_update_state(shape, state);
     }
 
     if (window.zp_dataset_update_state)
-      zp_dataset_update_state(zp, $this.attr('name').substring(12), false);
+      zp_dataset_update_state(zp, name, false);
   }
 
   function readonly_fields_click_handle (event) {
