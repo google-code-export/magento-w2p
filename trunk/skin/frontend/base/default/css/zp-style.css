@@ -619,16 +619,29 @@ span.zetaprints-share-link.show input {
 }
 
 /* CSS rules for different notices */
+.zetaprints-notice {
+  color: #fd0039;
+}
+
 .zetaprints-notice.hidden {
   display: none;
 }
 
 /* Warning for fake Add to cart button */
 .zetaprints-notice.to-update-preview {
-  color: #fd0039;
   clear: both;
   float: right;
   *float: left;
+}
+
+/* Warning that previews need to be updated to include latest changes */
+#zp-warning-user-data-changed {
+  display: none;
+  margin: 10px 0;
+}
+
+.zp-user-data-changed #zp-warning-user-data-changed {
+  display: block;
 }
 
 /* Fancybox tweaks */
