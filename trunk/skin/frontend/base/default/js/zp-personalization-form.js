@@ -253,6 +253,27 @@ function personalization_form ($) {
     return false;
   }
 
+  function page_get_changed (pages) {
+    var n,
+        changed_pages = [];
+
+    for (n in pages)
+      if (pages.hasOwnProperty(n))
+        if (is_user_data_changed(pages[n]))
+          changed_pages[changed_pages.length] = n;
+
+    return changed_pages;
+  }
+
+  function page_has_updating (pages) {
+    for (var n in pages)
+      if (pages.hasOwnProperty(n))
+        if (typeof pages[n].is_updating != 'undefined' && pages[n].is_updating)
+          return true;
+
+    return false;
+  }
+
   //Set current template page to the first (1-based index)
   this.current_page = 1;
 
@@ -339,7 +360,7 @@ function personalization_form ($) {
   //If update_first_preview_on_load parameter was set
   if (this.update_first_preview_on_load)
     //Update preview for the first page
-    update_preview({ data: { zp: this } }, zp.preserve_fields);
+    update_preview({ data: { zp: this } }, undefined, zp.preserve_fields);
 
   //Create array for preview images sharing links
   if (window.place_preview_image_sharing_link)
@@ -388,9 +409,9 @@ function personalization_form ($) {
       $update_preview_button.unbind('click');
       $update_preview_button.click({zp: zp}, update_preview);
 
-      var page = zp
-                   .template_details
-                   .pages[event.data.page_number];
+      var pages = zp.template_details.pages,
+          page_number = event.data.page_number,
+          page = pages[page_number];
 
       if (page.preview_is_scaled === undefined) {
         var $_img = $(this)
@@ -409,21 +430,21 @@ function personalization_form ($) {
       //If no image zoomer on the page and image is for the first page
       //and first page was opened
       if (!has_image_zoomer) {
-        if (event.data.page_number == 1 && zp.current_page == 1) {
+        if (page_number == 1 && zp.current_page == 1) {
           //then show preview for the first page
           $('#preview-image-page-1').removeClass('zp-hidden');
         }
 
-        var current_page = zp
-                             .template_details
-                             .pages[zp.current_page]
+        var current_page = pages[zp.current_page]
 
-        if (event.data.page_number == zp.current_page
-            && !current_page.preview_is_scaled)
+        if (page_number == zp.current_page && !current_page.preview_is_scaled)
           $enlarge_button.addClass('zp-hidden');
       }
 
-      hide_activity();
+      page.is_updating = false;
+
+      if (!page_has_updating(pages))
+        hide_activity();
     });
   }
 
@@ -638,6 +659,22 @@ function personalization_form ($) {
   if (window.zp_dataset_initialise)
     zp_dataset_initialise(zp);
 
+  if (typeof window.productAddToCartForm == 'object')
+    if (typeof window.productAddToCartForm.submit == 'function') {
+      var func = window.productAddToCartForm.submit;
+
+      window.productAddToCartForm.submit = function (button, url) {
+        var text = window.notice_update_preview_after_data_changed,
+            pages = zp.template_details.pages,
+            changed_pages = page_get_changed(pages);
+
+        if (changed_pages.length > 0 && confirm(text))
+          return update_preview({ data: { zp: zp } }, changed_pages);
+
+        func(button, url);
+      };
+    }
+
   function update_preview_sharing_link_for_page (page_number, links, filename) {
     links[page_number] = preview_image_sharing_link_template + filename;
   }
@@ -694,7 +731,19 @@ function personalization_form ($) {
 
   var _number_of_failed_updates = 0;
 
-  function update_preview (event, preserve_fields) {
+  function update_preview (event, update_pages, preserve_fields) {
+    var zp = event.data.zp,
+        current_page;
+
+    //!!!TODO: workaround
+    //Remember page number
+    current_page = typeof update_pages == 'undefined'
+                     ? zp.current_page
+                       : update_pages.shift();
+
+    if (typeof current_page == 'undefined')
+      return;
+
     //Disable click action
     $(this).unbind(event);
 
@@ -706,14 +755,6 @@ function personalization_form ($) {
 
         $(this).text_field_editor('hide');
       });
-
-    var zp = event.data.zp;
-
-    //!!! Workaround
-    //Remember page number
-    var current_page = zp.current_page,
-        //!!!TODO: Variable name should be fixed
-        page_ = zp.template_details.pages[zp.current_page];
 
     function update_preview_error () {
       if (++_number_of_failed_updates >= 2){
@@ -727,13 +768,19 @@ function personalization_form ($) {
 
       $update_preview_button.click({zp: zp}, update_preview);
 
+      page_.is_updating = false;
+
       hide_activity();
     }
 
-    var data = prepare_metadata_from_page(
-      page_,
-      prepare_post_data_for_php(serialize_fields_for_page(current_page))
-    );
+        //!!!TODO: Variable name should be fixed
+    var page_ = zp.template_details.pages[current_page],
+        data = prepare_metadata_from_page(
+          page_,
+          prepare_post_data_for_php(serialize_fields_for_page(current_page))
+        );
+
+    page_.is_updating = true;
 
     data[data.length] = {
       name: 'zetaprints-TemplateID',
@@ -864,6 +911,9 @@ function personalization_form ($) {
                 store_user_data(pages[n]);
           } else
             store_user_data(page_);
+
+          if (typeof update_pages != 'undefined' && update_pages.length > 0)
+            update_preview(event, update_pages, preserve_fields);
         }
       }
     });
