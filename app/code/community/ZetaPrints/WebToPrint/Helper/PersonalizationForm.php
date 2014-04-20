@@ -1177,6 +1177,7 @@ jQuery(document).ready(function($) {
   notice_to_update_preview_text = "<?php echo $this->__('Update preview first!'); ?>";
   notice_to_update_preview_text_for_multipage_template = "<?php echo $this->__('Update all previews first!'); ?>";
   warning_user_data_changed = "<?php echo $this->__('Press Update Preview before adding to cart to include your latest changes'); ?>";
+  notice_update_preview_after_data_changed = "<?php echo $this->__('Do you want to update the preview with your latest changes?'); ?>";
 
   click_to_close_text = "<?php echo $this->__('Click to close'); ?>";
   click_to_view_in_large_size = "<?php echo $this->__('Click to view in large size');?>";
