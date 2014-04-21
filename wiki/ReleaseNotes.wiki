@@ -1,5 +1,17 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Future stable release =
+  * Synchronise with Magento 1.8.0.0 and 1.8.1.0 versions
+  * Add support for quantities in ZetaPrints templates (needs documentation)
+  * Add support for colour palettes in ZetaPrints templates
+  * Add support for storing w2p product (previews and user input) in wishlist (issue #823)
+  * Allow to use dummy store for category name mapping (needs documentation)
+  * Add parameter to enable assigning of created product to parent categories in profile for product creation (needs documentation)
+  * Add an option to select websites for assiging of newly created products (needs documentation)
+  * Re-assigned product to category on update (needs documentation)
+  * Show warning when user changed data in fields but has not updated previews yet
+  * Other small bug fixes and improvements
+
 = Stable release (2.1.6.0) =
   * Fix several bugs in Dataset feature (issue #820)
   * Fix error with pre-filled w2p fields on product page (issue #821)
