@@ -38,6 +38,26 @@
           </zetaprints_fixedprices_hide_qty>
         </observers>
       </checkout_cart_save_after>
+
+      <sales_quote_add_item>
+        <observers>
+          <orderapproval-mark-quote-item>
+            <type>singleton</type>
+            <class>fixedprices/events_observers_fixedprices</class>
+            <method>addNotice</method>
+          </orderapproval-mark-quote-item>
+        </observers>
+      </sales_quote_add_item>
+
+      <sales_convert_quote_item_to_order_item>
+        <observers>
+          <orderapproval-mark-quote-item>
+            <type>singleton</type>
+            <class>fixedprices/events_observers_fixedprices</class>
+            <method>copyNoticeToOrderItem</method>
+          </orderapproval-mark-quote-item>
+        </observers>
+      </sales_convert_quote_item_to_order_item>
     </events>
     <product>
         <collection>

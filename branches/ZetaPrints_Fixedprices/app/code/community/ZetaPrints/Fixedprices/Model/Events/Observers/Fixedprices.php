@@ -47,4 +47,72 @@ class ZetaPrints_Fixedprices_Model_Events_Observers_Fixedprices
       $product->setRequiredOprions(TRUE);
     }
   }
+
+  public function addNotice ($observer) {
+    $item = $observer
+      ->getEvent()
+      ->getQuoteItem();
+
+    $helper = Mage::helper('fixedprices');
+
+    $unit = $helper->getFixedUnits(
+      $item->getProduct(),
+      $item->getQty()
+    );
+
+    if ($unit === false)
+      return;
+
+    $option = array(
+      'label' => '',
+      'value' => $unit
+    );
+
+    $optionModels = Mage::getModel('sales/quote_item_option')
+      ->getCollection()
+      ->addItemFilter($item);
+
+    foreach ($optionModels as $_optionModel)
+      if ($_optionModel['code'] == 'additional_options') {
+        $optionModel = $_optionModel;
+
+        break;
+      }
+
+    if (isset($optionModel)) {
+      $options = unserialize($optionModel->getValue());
+
+      $options['fixedqtys_option'] = $option;
+
+      $optionModel
+        ->setValue(serialize($options))
+        ->save();
+    } else {
+      $item->addOption(array(
+        'code' => 'additional_options',
+        'value' => serialize(array('fixedqtys_option' => $option))
+      ));
+    }
+  }
+
+  public function copyNoticeToOrderItem ($observer) {
+    $option = $observer
+      ->getItem()
+      ->getOptionByCode('additional_options');
+
+    if (!$option)
+      return;
+
+    $value = unserialize($option->getValue());
+
+    if (!isset($value['fixedqtys_option']))
+      return;
+
+    $orderItem = $observer->getOrderItem();
+    $options = $orderItem->getProductOptions();
+
+    $options['options'][] = $value['fixedqtys_option'];
+
+    $orderItem->setProductOptions($options);
+  }
 }
