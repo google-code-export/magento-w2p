@@ -1091,9 +1091,22 @@ function personalization_form ($) {
   }
 
   zp.show_colorpicker = function ($panel) {
-    if (($panel.hasClass('color-picker') || $panel.hasClass('colour-picker'))
-        && !$panel.find('input').prop('checked'))
-      $panel.find('.color-sample').click();
+    var $input;
+
+    if (!($panel.hasClass('color-picker') || $panel.hasClass('colour-picker')))
+      return
+
+    $input = $panel.find('input');
+
+    if (!$input.prop('checked'))
+      $input.colorpicker('open');
+  }
+
+  zp.hide_colorpicker = function ($panel) {
+    if ($panel.hasClass('color-picker') || $panel.hasClass('colour-picker'))
+      $panel
+        .find('input')
+        .colorpicker('close', true);
   }
 
   function has_changed_fields_on_page (page_number) {
@@ -1137,7 +1150,7 @@ function personalization_form ($) {
       //                            shape_handler);
     }
 
-    if ($.fn.tabs && $.fn.draggable && $.fn.ColorPicker)
+    if ($.fn.tabs && $.fn.draggable && $.fn.colorpicker)
       $('.zetaprints-images-selector').each(function () {
         var $field = $(this);
 
@@ -1165,21 +1178,23 @@ function personalization_form ($) {
         var $panels = $content.find('> .tabs-wrapper > .tab');
 
         $head.click(function () {
+          var $panel = $field.hasClass('zetaprints-palette')
+                         ?  $content
+                           : $panels.not('.ui-tabs-hide');
+
           if ($field.hasClass('minimized')) {
             $field.removeClass('minimized');
 
-            var $panel = $field.hasClass('zetaprints-palette')
-                           ?  $content
-                             : $panels.not('.ui-tabs-hide');
-
             zp.show_colorpicker($panel);
             scroll_strip($panel)
-          }
-          else
+          } else {
+            zp.hide_colorpicker($panel);
+
             $field
               .addClass('minimized')
               .removeClass('expanded')
               .css('width', '100%');
+          }
 
           return false;
         });
@@ -1235,32 +1250,46 @@ function personalization_form ($) {
         $colour_picker_panel
           .find('span > a')
           .click(function () {
-            $colour_sample.click();
+            $colour_radio_button.colorpicker('open');
 
             return false;
           });
 
-        $colour_sample.ColorPicker({
-          color: '#804080',
-          onBeforeShow: function (picker) {
-            var colour = $colour_radio_button.val();
-
-            if (colour)
-              $(this).ColorPickerSetColor(colour);
-
-            $(picker).draggable();
+        $colour_radio_button.colorpicker({
+          color: '804080',
+          inline: false,
+          layout: {
+            //Left, Top, Width, Height (in table cells)
+            map:     [0, 0, 1, 5],
+            bar:     [1, 0, 1, 5],
+            preview: [2, 0, 1, 1],
+            rgb:     [2, 2, 1, 1],
+            hex:     [2, 3, 1, 1],
+            cmyk:    [3, 2, 1, 2],
           },
-          onSubmit: function (hsb, hex, rgb, picker) {
-            $field.removeClass('no-value');
-            $colour_sample.css('backgroundColor', '#' + hex);
+          parts: [
+            'switcher', 'header', 'map', 'bar', 'hex', 'rgb', 'cmyk', 'preview',
+            'footer'
+          ],
+          part: {
+            map:  { size: 128 },
+            bar:  { size: 128 }
+          },
+          altField: $colour_sample,
+          showOn: 'alt',
+          title: ' ',
+          revert: true,
+          showCloseButton: false,
+          colorFormat: ('#HEX'),
+          ok: function (e, data) {
+            if ($colour_radio_button.val()) {
+              $field.removeClass('no-value');
 
-            $colour_radio_button
-              .prop('disabled', false)
-              .val('#' + hex)
-              .change()
-              .prop('checked', true);
-
-            $(picker).ColorPickerHide();
+              $colour_radio_button
+                .prop('disabled', false)
+                .change()
+                .prop('checked', true);
+            }
           }
         });
       });
