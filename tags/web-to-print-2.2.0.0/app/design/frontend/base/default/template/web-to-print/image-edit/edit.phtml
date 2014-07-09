@@ -1,0 +1,208 @@
+<?php
+
+$in_context = !Mage::helper('webtoprint')
+                 ->getCustomOptions('image-edit/in-context@enabled=0');
+
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+cant_crop_image_text = "<?php echo $this->__('Can\'t crop image'); ?>";
+cant_restore_image_text = "<?php echo $this->__('Can\'t restore image'); ?>";
+cant_load_image_text = "<?php echo $this->__('Can\'t load image'); ?>";
+cant_rotate_image_text = "<?php echo $this->__('Can\'t rotate image'); ?>";
+
+undo_all_changes_text = "<?php echo $this->__('Undo all changes'); ?>";
+original_size_text = "<?php echo $this->__('Original size'); ?>";
+px_text = "<?php echo $this->__('px');?>";
+unknown_error_occured_text =
+                            "<?php echo $this->__('Unknown error occured'); ?>";
+
+//]]>
+</script>
+
+<div class="zetaprints-image-edit fit-to-field-mode">
+  <ul class='zetaprints-image-edit-menu'>
+    <?php if ($in_context): ?>
+    <li class="note"><?php echo $this->__('Adapt for this field'); ?></li>
+    <li class="fit-to-field-button-wrapper">
+      <div id="fit-to-field-button" class="button"
+           title="<?php echo $this->__('Fit image in field'); ?>">
+        <?php echo $this->__('Fit in field'); ?>
+      </div>
+      <div class="arrow" />
+    </li>
+    <li class="note"><?php echo $this->__('Global changes'); ?></li>
+    <?php endif; ?>
+    <li>
+      <div id="rotate-right-button" class="button"
+           title="<?php echo $this->__('Rotate Image Right'); ?>">
+        <?php echo $this->__('Rotate right'); ?>
+      </div>
+    </li>
+    <li>
+      <div id="rotate-left-button" class="button"
+           title="<?php echo $this->__('Rotate Image Left'); ?>">
+        <?php echo $this->__('Rotate left'); ?>
+      </div>
+    </li>
+    <li class="crop-button-wrapper">
+      <div id="crop-button" class="button"
+           title="<?php echo $this->__('Crop Image'); ?>">
+        <?php echo $this->__('Crop'); ?>
+      </div>
+      <div class="arrow" />
+    </li>
+    <!--<li>
+      <div id="image-editor-button" class="button"
+           title="<?php echo $this->__('Image editor'); ?>">
+        <?php echo $this->__('Image editor'); ?>
+      </div>
+    </li>-->
+    <li class="hidden">
+      <div id="undo-button" class="button"
+           title="<?php echo $this->__('Undo all changes'); ?>">
+        <?php echo $this->__('Restore'); ?>
+      </div>
+    </li>
+    <li class="last">
+      <div id="delete-button" class="button"
+           title="<?php echo $this->__('Delete Image'); ?>">
+        <?php echo $this->__('Delete'); ?>
+      </div>
+    </li>
+  </ul>
+
+  <div class="zetaprints-image-edit-wrapper">
+    <div class="zp-image-edit-actions-wrapper">
+      <div class="zp-image-edit-actions">
+        <div title="<?php echo $this->__('Fit the image into the frame without cropping. It may leave white space.'); ?>" id="zp-image-edit-action-fit-image" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit image'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div title="<?php echo $this->__('Fit the image into the frame without any white space. It may crop the image.'); ?>" id="zp-image-edit-action-fill-field" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fill frame'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div title="<?php echo $this->__('Fit the width of the image in the frame. May leave white space above and below.'); ?>" id="zp-image-edit-action-fit-width" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit width'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div title="<?php echo $this->__('Fit the height of the image in the frame. May leave white space on the sides.'); ?>" id="zp-image-edit-action-fit-height" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Fit height'); ?></span>
+          <div class="zp-image-edit-actions-separator" />
+        </div>
+
+        <div title="<?php echo $this->__('Return to a default position.'); ?>" id="zp-image-edit-action-cancel" class="zp-image-edit-actions-button">
+          <div class="zp-image-edit-actions-button-icon" />
+          <span><?php echo $this->__('Reset'); ?></span>
+        </div>
+
+        <div id="zp-image-edit-cropping-notice" class="zp-image-edit-actions-button">
+          <span>
+            <?php echo $this->__('Cropping this image will affect all fields it is used for.'); ?>
+          </span>
+        </div>
+
+        <div class="zp-clear" />
+      </div>
+    </div>
+
+    <div id="zetaprints-image-edit-container">
+      <img id="zetaprints-image-edit-user-image" class="zetaprints-hidden"/>
+    </div>
+
+    <div class="info-bar">
+      <div class="column titles">
+        <div class="row current">
+          <span class="uploaded-title"><?php echo $this->__('Uploaded image'); ?>:</span>
+          <span class="cropped-title"><?php echo $this->__('Cropped image'); ?>:</span>
+        </div>
+        <div class="row recommended"><?php echo $this->__('Recommended image'); ?>:</div>
+      </div>
+
+      <div class="column numbers">
+        <div id="current-width" class="row current"></div>
+        <div id="recommended-width" class="row recommended"></div>
+      </div>
+
+      <div class="column">
+        <div class="row current">&times;</div>
+        <div class="row recommended">&times;</div>
+      </div>
+
+      <div class="column numbers">
+        <div id="current-height" class="row current"></div>
+        <div id="recommended-height" class="row recommended"></div>
+      </div>
+
+      <div class="column left-text-position">
+        <div class="row current"><?php echo $this->__('px'); ?></div>
+        <div class="row recommended"><?php echo $this->__('px'); ?></div>
+      </div>
+
+      <div id="info-bar-column-at-label" class="column left-text-position">
+        <div class="row current"><?php echo $this->__('at'); ?></div>
+        <div class="row recommended"><?php echo $this->__('at'); ?></div>
+      </div>
+
+      <div id="info-bar-column-dpi-value" class="column numbers">
+        <div id="current-dpi" class="row current"></div>
+        <div id="recommended-dpi" class="row recommended"></div>
+      </div>
+
+      <div id="info-bar-column-dpi-label" class="column">
+        <div class="row current"><?php echo $this->__('dpi'); ?></div>
+        <div class="row recommended"><?php echo $this->__('dpi'); ?></div>
+      </div>
+
+      <div class="column notice-switchers">
+        <div class="row current zp-outer">
+          <div class="zp-middle">
+            <div class="icon question-sign zp-inner uploaded-title" rel="current"
+                 title="<?php echo $this->__('Size and resolution of the uploaded image as it will be shown in the design.'); ?>">
+            </div>
+            <div class="icon question-sign zp-inner cropped-title" rel="current"
+                 title="<?php echo $this->__('Size and resolution of the selected image area as it will be shown in the design.'); ?>">
+            </div>
+          </div>
+        </div>
+        <div class="row recommended zp-outer">
+          <div class="zp-middle">
+            <div class="icon question-sign zp-inner" rel="recommended"
+                 title="<?php echo $this->__('Best image size for fit and quality.'); ?>">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column left-text-position last notices">
+        <span class="default-notice">
+          <?php echo $this->__('Move, resize and crop the image for the best fit and resolution.'); ?>
+        </span>
+        <span class="low-cropped-resolution-notice">
+          <?php echo $this->__('The selected area is too small for quality output.'); ?>
+        </span>
+        <span class="low-full-resolution-notice">
+          <?php echo $this->__('The image resolution is too small for quality output. Try resizing here or upload a larger image.'); ?>
+        </span>
+        <span class="small-image-notice">
+          <?php echo $this->__('The image is too small. Upload a larger image or move, resize and crop this one for the best fit.'); ?>
+        </span>
+      </div>
+
+      <div class="reset"></div>
+    </div>
+
+  </div>
+
+  <div style="clear: both;"></div>
+</div>
