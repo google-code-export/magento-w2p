@@ -252,10 +252,6 @@ function popup_field_by_name (name, position, selected_shapes) {
     show: function (event, ui) {
       $panel = jQuery(ui.panel);
 
-      //Generate click event on panel to hide opened colorpicker
-      //!!!TODO: rework it after upgrading to jQuery UI 1.9+
-      $panel.click();
-
       var $panel = $panel.find($panel
                                  .find('ul.tab-buttons li.ui-tabs-selected a')
                                  .attr('href') );
@@ -266,7 +262,7 @@ function popup_field_by_name (name, position, selected_shapes) {
       zp.show_user_images($panel);
       zp.scroll_strip($panel);
       zp.show_colorpicker($panel);
-    },
+    }
   });
 }
 
@@ -292,14 +288,6 @@ function popdown_field_by_name (full_name) {
 
     if ($element.hasClass('zetaprints-text-field-wrapper'))
       $_element = $element.find('.zetaprints-field');
-
-    if (jQuery.fn.colorpicker && $element.hasClass('selector-content'))
-      $element
-        .find('> .tabs-wrapper > .tab')
-        .filter('.colour-picker, .color-picker')
-        .each(function () {
-          zp.hide_colorpicker(jQuery(this));
-        });
 
     var data = $element.data('in-preview-edit');
 

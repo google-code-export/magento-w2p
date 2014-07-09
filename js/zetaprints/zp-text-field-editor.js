@@ -118,7 +118,7 @@
       var value = $(this).val();
 
       if (!value)
-        $radio_button.colorpicker('open');
+        $color_example.click()
       else if (value == 'default')
         _change('color', undefined);
       else
@@ -127,43 +127,40 @@
 
     var color_picker_on = false;
 
-    $radio_button.colorpicker({
-      color: '804080',
-      inline: false,
-      layout: {
-        //Left, Top, Width, Height (in table cells)
-        map:     [0, 0, 1, 5],
-        bar:     [1, 0, 1, 5],
-        preview: [2, 0, 1, 1],
-        rgb:     [2, 2, 1, 1],
-        hex:     [2, 3, 1, 1],
-        cmyk:    [3, 2, 1, 2],
-      },
-      parts: [
-        'switcher', 'header', 'map', 'bar', 'hex', 'rgb', 'cmyk', 'preview',
-        'footer'
-      ],
-      part: {
-        map:  { size: 128 },
-        bar:  { size: 128 }
-      },
-      altField: $color_example,
-      showOn: 'alt',
-      title: ' ',
-      revert: true,
-      showCloseButton: false,
-      colorFormat: ('#HEX'),
+    $color_example.ColorPicker({
+      color: '#804080',
 
-      open: function () {
+      onBeforeShow: function (colpkr) {
         color_picker_on = true;
+
+        var colour = $radio_button.val();
+        if (colour)
+          $(this).ColorPickerSetColor(colour);
+
+        $(colpkr).draggable();
+        return false;
       },
 
-      close: function (colpkr) {
+      onShow: function (colpkr) {
+        $(colpkr).fadeIn(500);
+
+        return false;
+      },
+
+      onHide: function (colpkr) {
+        $(colpkr).fadeOut(500);
+
         color_picker_on = false;
+
+        return false;
       },
 
-      ok: function (e, data) {
-        _change('color', data.formatted);
+      onSubmit: function (hsb, hex, rgb, el) {
+        $color_example.css('backgroundColor', '#' + hex);
+        $radio_button.val('#' + hex).prop('checked', true);
+        $(el).ColorPickerHide();
+
+        _change('color', '#' + hex);
       }
     });
 

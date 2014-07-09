@@ -3,6 +3,7 @@
     <reference name="head">
       <action method="addJs"><script>jquery/jquery-min.js</script></action>
       <action method="addJs"><script>jquery/jquery-ui-custom-min.js</script></action>
+      <action method="addJs"><script>colorpicker/colorpicker.js</script></action>
       <action method="addJs"><script>jquery/jquery-qtip-min.js</script></action>
       <action method="addJs"><script>fancybox/jquery-fancybox.js</script></action>
       <action method="addJs"><script>fancybox/fancybox-resizing.js</script></action>
@@ -10,8 +11,6 @@
       <action method="addJs"><script>fancybox/fancybox-select-image.js</script></action>
       <action method="addJs"><script>fancybox/fancybox-save-image.js</script></action>
       <action method="addJs"><script>lib/ajaxupload.js</script></action>
-      <action method="addJs"><script>zetaprints/colorpicker/colorpicker.js</script></action>
-      <action method="addJs"><script>zetaprints/colorpicker/switcher.js</script></action>
       <action method="addJs"><script>zetaprints/zp-text-field-resizer.js</script></action>
       <action method="addJs"><script>zetaprints/zp-text-field-editor.js</script></action>
       <action method="addJs"><script>zetaprints/zp-combobox-field.js</script></action>
@@ -21,12 +20,12 @@
       <action method="addItem"><type>skin_js</type><name>js/zp-image-edit.js</name></action>
       <action method="addItem"><type>skin_js</type><name>js/zp-personalization-form.js</name></action>
 
+      <action method="addItem"><type>js_css</type><name>colorpicker/colorpicker.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/jquery-fancybox.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/fancybox-resizing.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/fancybox-update-preview.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/fancybox-select-image.css</name></action>
       <action method="addItem"><type>js_css</type><name>fancybox/fancybox-save-image.css</name></action>
-      <action method="addItem"><type>js_css</type><name>zetaprints/colorpicker/colorpicker.css</name></action>
       <action method="addItem"><type>js_css</type><name>zetaprints/zp-text-field-editor.css</name></action>
       <action method="addItem"><type>js_css</type><name>zetaprints/zp-combobox-field.css</name></action>
       <action method="addItem"><type>js_css</type><name>zetaprints/zp-dataset.css</name></action>
