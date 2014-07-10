@@ -30,12 +30,6 @@
         </entities>
       </webtoprint_resource>
 
-      <dataflow>
-        <rewrite>
-          <profile_history>ZetaPrints_WebToPrint_Model_Profile_History</profile_history>
-        </rewrite>
-      </dataflow>
-
       <sales>
         <rewrite>
           <quote_item>ZetaPrints_WebToPrint_Model_Quote_Item</quote_item>
