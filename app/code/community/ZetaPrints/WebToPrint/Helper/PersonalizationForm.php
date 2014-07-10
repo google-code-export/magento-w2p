@@ -1076,14 +1076,6 @@ jQuery(document).ready(function($) {
            $name, '" class="zp-hidden" />';
     }
 
-    $session = Mage::getSingleton('core/session');
-
-    if ($session->hasData('zetaprints-previews')) {
-      $userInput = unserialize($session->getData('zetaprints-user-input'));
-
-      $session->unsetData('zetaprints-previews');
-    }
-
     $request = $this->_getRequest();
 
     //Check if the product page is requested with 'for-item' parameter
@@ -1096,7 +1088,7 @@ jQuery(document).ready(function($) {
     //Check if the product page is requested with 'reorder' parameter
     $hasReorder = strlen($request->getParam('reorder')) == 36;
 
-    $lastUrl = $session->getData('last_url');
+    $lastUrl = Mage::getSingleton('core/session')->getData('last_url');
 
     //Check if the product page is opened from the shopping cart
     //to update first preview image for cross-sell products)
@@ -1153,12 +1145,6 @@ var userImageThumbSelected = null;  //user selected image to edit
 // Global vars end
 
 jQuery(document).ready(function($) {
-  <?php
-  if (isset($userInput) && is_array($userInput))
-    foreach ($userInput as $key => $value)
-      echo '$(\'[name="' . $key . '"]\').val(\'' . $value . '\');\n';
-  ?>
-
   zp = <?php echo $data ?>;
 
   edit_button_text = "<?php echo $this->__('Edit');?>";
