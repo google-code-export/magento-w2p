@@ -120,16 +120,6 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
     Mage::getSingleton('core/session')
                                     ->setData('zetaprints-previews', $previews);
-
-    $user_input = array();
-    foreach ($request->getParams() as $key => $value)
-      if (strpos($key, 'zetaprints-') !== false) {
-        $_key = substr($key, 11);
-        $_key = substr($_key, 0, 1).str_replace('_', ' ', substr($_key, 1));
-        $user_input['zetaprints-' . $_key] = str_replace("\r\n", "\\r\\n", $value);
-      }
-
-    Mage::getSingleton('core/session')->setData('zetaprints-user-input', serialize($user_input));
   }
 
   public function set_required_options ($observer) {
