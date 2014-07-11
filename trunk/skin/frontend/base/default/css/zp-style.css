@@ -1158,3 +1158,8 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .ui-colorpicker-mode-cmyk .ui-colorpicker-hex-container {
   display: none;
 }
+
+/* Wishlist (default/zptheme specific) */
+.my-wishlist .product-image.in-dialog {
+  height: auto;
+}

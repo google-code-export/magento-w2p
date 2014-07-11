@@ -287,7 +287,11 @@ function personalization_form ($) {
   else
     $product_form.addClass('zp-not-modified');
 
-  var $add_to_cart_button = $('#zetaprints-add-to-cart-button');
+  //Magento 1.9 and greater adds its own ID
+  //Zetaprint's ID is left for compatibility with old installations
+  var $add_to_cart_button = $(
+    '#product-addtocart-button, #zetaprints-add-to-cart-button'
+  );
 
   var $form_button = $('#zp-form-button').click(function () {
     var $fields = $('#input-fields-page-' + zp.current_page +
