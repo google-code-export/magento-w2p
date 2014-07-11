@@ -20,44 +20,52 @@
  *
  * @category    design
  * @package     base_default
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-
 <?php $_product = $this->getProduct(); ?>
 <?php $buttonTitle = $this->__('Add to Cart'); ?>
 <?php if($_product->isSaleable()): ?>
 
-    <!-- /****** ZP-CODE:1 Check if current step is step 1 (options)
-                 then show "Personalize" button... ******/ -->
+    <!-- /****** ZP-CODE:1 Show Add to cart button if current step is
+                           personalisation (step 2)... ******/ -->
 
-    <?php if(!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
+    <?php if ($this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
 
     <!-- /****** ZP-CODE:1 End ******/ -->
 
     <div class="add-to-cart">
-        <?php if(!$_product->isGrouped()): ?>
-        <label for="qty"><?php echo $this->__('Qty:') ?></label>
-        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
-        <?php endif; ?>
-        <button type="button" title="<?php echo $this->__('Personalize') ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__('Personalize') ?></span></span></button>
+        <button type="button" title="<?php echo $buttonTitle ?>" id="<?php echo $this->helper('webtoprint/theme')->getAddtocartButtonId(); ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
     </div>
 
-    <!-- /****** ZP-CODE:2 ... otherwise show "Add to cart" button ******/ -->
+    <!-- /****** ZP-CODE:2 ... otherwise show default HTML with Personalise
+                           button ******/ -->
 
     <?php else: ?>
 
     <!-- /****** ZP-CODE:2 End ******/ -->
 
     <div class="add-to-cart">
-        <button id="zetaprints-add-to-cart-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php if(!$_product->isGrouped()): ?>
+        <label for="qty"><?php echo $this->__('Qty:') ?></label>
+        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+        <?php endif; ?>
+
+        <!-- /****** ZP-CODE:3 Change button title to "Personalise" ******/ -->
+
+        <?php $buttonTitle = $this->helper('webtoprint')->__('Personalise'); ?>
+
+        <!-- /****** ZP-CODE:3 End ******/ -->
+
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
     </div>
 
-    <!-- /****** ZP-CODE:3 Close 'if' opened in ZP-CODE:1 ******/ -->
+    <!-- /****** ZP-CODE:4 Close 'if' opened in ZP-CODE:1 ******/ -->
 
     <?php endif; ?>
 
-    <!-- /****** ZP-CODE:3 End ******/ -->
+    <!-- /****** ZP-CODE:4 End ******/ -->
 
 <?php endif; ?>
