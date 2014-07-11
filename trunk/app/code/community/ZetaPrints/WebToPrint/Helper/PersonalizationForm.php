@@ -105,12 +105,18 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
       }
   }
 
+  /**
+   * @since 2.3.0.0
+   * @deprecated Replaced with
+   *             ZetaPrints_WebToPrint_Helper_2step::isPersonalisationStep
+   *             function
+   */
   public function is_personalization_step ($context) {
-    return $context->getRequest()->getParam('personalization') == '1';
+    return Mage::registry('webtoprint_is_personalisation_step');
   }
 
   public function get_next_step_url ($context) {
-    if (!$this->is_personalization_step($context)) {
+    if (!Mage::registry('webtoprint_is_personalisation_step')) {
       //Add personalization parameter to URL
       $params = array('personalization' => '1');
 
@@ -143,7 +149,7 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
   }
 
   public function get_params_from_previous_step ($context) {
-    if (!$this->is_personalization_step($context))
+    if (!Mage::registry('webtoprint_is_personalisation_step'))
       return;
 
     foreach ($_POST as $key => $value) {
@@ -402,7 +408,8 @@ jQuery(document).ready(function($) {
     if (!$this->get_template_id($context->getProduct()))
       return false;
 
-    if ($check_for_personalization && !$this->is_personalization_step($context))
+    if ($check_for_personalization
+        && !Mage::registry('webtoprint_is_personalisation_step'))
       return false;
 
     $images = $context->getProduct()->getMediaGalleryImages();
@@ -1118,7 +1125,8 @@ jQuery(document).ready(function($) {
 
     $data = json_encode(array(
       'template_details' => $details,
-      'is_personalization_step' => $this->is_personalization_step($context),
+      'is_personalization_step'
+        => Mage::registry('webtoprint_is_personalisation_step'),
       'update_first_preview_on_load' => $updateFirstPreview,
       'preserve_fields' => $preserveFields,
       'has_shapes' => $hasShapes,

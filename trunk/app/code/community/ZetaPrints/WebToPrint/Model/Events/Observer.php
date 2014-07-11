@@ -470,6 +470,17 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
                                 array('_current' => true) ),
         'class' => 'ajax' ) );
   }
+
+  public function registerFormStep ($observer) {
+    Mage::unregister('webtoprint_is_personalisation_step');
+    Mage::register(
+      'webtoprint_is_personalisation_step',
+      Mage::app()->getRequest()->getParam('personalization') == '1',
+      true
+    );
+
+    return $this;
+  }
 }
 
 ?>

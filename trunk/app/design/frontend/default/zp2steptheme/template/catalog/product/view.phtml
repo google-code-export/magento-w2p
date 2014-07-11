@@ -57,7 +57,7 @@
         <!-- /****** ZP-CODE:2 Check if this step is not personalization
                      then show standard magento product page... ******/ -->
 
-        <?php if(!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
+        <?php if(!$this->helper('webtoprint/2step')->isPersonalisationStep()): ?>
 
         <!-- /****** ZP-CODE:2 End ******/ -->
 

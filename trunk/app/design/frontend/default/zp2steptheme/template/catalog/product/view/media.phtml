@@ -71,7 +71,7 @@
                             web-to-print products on first step
                             (non-personalisation step) ******/
 
-        if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($this))
+        if (!$this->helper('webtoprint/2step')->isPersonalisationStep())
             $this->helper('webtoprint/personalization-form')->get_preview_image($this);
         else
             echo $_helper->productAttribute($_product, $_img, 'image');
