@@ -279,6 +279,18 @@
         </wishlist-web-to-print>
       </updates>
     </layout>
+
+    <events>
+      <catalog_controller_product_view>
+        <observers>
+          <webtoprint_register_form_step>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>registerFormStep</method>
+          </webtoprint_register_form_step>
+        </observers>
+      </catalog_controller_product_view>
+    </events>
   </frontend>
 
   <admin>

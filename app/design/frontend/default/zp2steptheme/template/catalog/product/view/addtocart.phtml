@@ -31,7 +31,7 @@
     <!-- /****** ZP-CODE:1 Show Add to cart button if current step is
                            personalisation (step 2)... ******/ -->
 
-    <?php if ($this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
+    <?php if ($this->helper('webtoprint/2step')->isPersonalisationStep()): ?>
 
     <!-- /****** ZP-CODE:1 End ******/ -->
 
