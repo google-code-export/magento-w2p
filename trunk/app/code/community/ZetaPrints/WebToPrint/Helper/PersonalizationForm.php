@@ -288,13 +288,31 @@ jQuery(document).ready(function($) {
 <?php
   }
 
+  /**
+   * @deprecated after 2.3.0.0
+   * @see ZetaPrints_WebToPrint_Model_Events_Observer::getImageType()
+   * @see ZetaPrints_WebToPrint_Model_Events_Observer::getImageLabel()
+   */
   public function get_preview_image ($context) {
-    if (!$context->getProduct()->getSmallImage())
+    $product = $context->getProduct();
+
+    if (!$product->getSmallImage())
       return false;
 
-    $img = '<img src="' . $context->helper('catalog/image')->init($context->getProduct(), 'small_image')->resize(265) . '" alt="'.$context->htmlEscape($context->getProduct()->getSmallImageLabel()).'" />';
+    $url = $context->helper('catalog/image')
+      ->init($product, 'small_image')
+      ->resize(265);
 
-    echo $context->helper('catalog/output')->productAttribute($context->getProduct(), $img, 'small_image');
+    $label = $this->escapeHtml($context->getImageLabel(null, 'small_image'));
+
+    echo $context->helper('catalog/output')->productAttribute(
+      $product,
+      '<img id="image" src="' . $url
+        . '" alt="' . $label
+        . '" title="' . $label
+        . '" />',
+      'small_image'
+    );
 
     return true;
   }

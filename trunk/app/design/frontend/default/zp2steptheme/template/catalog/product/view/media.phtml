@@ -60,21 +60,23 @@
 <p class="product-image">
     <?php
 
-        /****** ZP-CHANGE: 1 Add ID attribute to the element.
-                             Required by web-to-print JS code ******/
+        /****** ZP-CODE: 1 Set correct image type and image label ******/
 
-        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        $_imageType = $this->helper('webtoprint/2step')->getImageType('image');
+        $_imageLabel = $this->helper('webtoprint/2step')->getImageLabel($this);
+
+        /****** ZP-CODE: 1 End ******/
+
+        /****** ZP-CHANGE: 1 Add ID attribute to the element.
+                             Replace image type and image label ******/
+
+        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, $_imageType)->resize(265).'" alt="'.$this->escapeHtml($_imageLabel).'" title="'.$this->escapeHtml($_imageLabel).'" />';
 
         /****** ZP-CHANGE: 1 End ******/
 
-        /****** ZP-CHANGE:2 Output small image instead of base image for
-                            web-to-print products on first step
-                            (non-personalisation step) ******/
+        /****** ZP-CHANGE:2 Replace image type ******/
 
-        if (!$this->helper('webtoprint/2step')->isPersonalisationStep())
-            $this->helper('webtoprint/personalization-form')->get_preview_image($this);
-        else
-            echo $_helper->productAttribute($_product, $_img, 'image');
+        echo $_helper->productAttribute($_product, $_img, $_imageType);
 
         /****** ZP-CHANGE:2 End ******/
 
@@ -82,12 +84,12 @@
 </p>
 <?php endif; ?>
 
-<!-- /****** ZP-CODE:1 Remove web-to-print images from the gallery
+<!-- /****** ZP-CODE:2 Remove web-to-print images from the gallery
              on personalization form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
 
-<!-- /****** ZP-CODE:1 End ******/ -->
+<!-- /****** ZP-CODE:2 End ******/ -->
 
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
