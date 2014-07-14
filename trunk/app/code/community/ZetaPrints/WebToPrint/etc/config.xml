@@ -290,6 +290,16 @@
           </webtoprint_register_form_step>
         </observers>
       </catalog_controller_product_view>
+
+      <core_block_abstract_to_html_before>
+        <observers>
+          <webtoprint_set_url_for_next_step>
+            <type>singleton</type>
+            <class>ZetaPrints_WebToPrint_Model_Events_Observer</class>
+            <method>setUrlForNextStep</method>
+          </webtoprint_set_url_for_next_step>
+        </observers>
+      </core_block_abstract_to_html_before>
     </events>
   </frontend>
 

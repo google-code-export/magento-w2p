@@ -115,37 +115,22 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
     return Mage::registry('webtoprint_is_personalisation_step');
   }
 
+  /**
+   * @deprecated after 2.3.0.0
+   * @see ZetaPrints_WebToPrint_Model_Events_Observer::setUrlForNextStep()
+   */
   public function get_next_step_url ($context) {
-    if (!Mage::registry('webtoprint_is_personalisation_step')) {
-      //Add personalization parameter to URL
-      $params = array('personalization' => '1');
+    $product = $context->getProduct();
 
-      //Check if the product page was requested with reorder parameter
-      //then proxy the parameter to personalization step
-      if ($this->_getRequest()->has('reorder'))
-        $params['reorder'] = $this->_getRequest()->getParam('reorder');
+    if (!Mage::registry('webtoprint_is_personalisation_step'))
+      $context->setData(
+        'submit_route_data',
+        Mage::helper('webtoprint/2step')->getNextStepRoute($product)
+      );
 
-      //Check if the product page was requested with for-item parameter
-      //then proxy the parameter to personalization step and ignore last
-      //visited page (need it to distinguish cross-sell product and already
-      //personalized product)
-      if ($this->_getRequest()->has('for-item'))
-        $params['for-item'] = $this->_getRequest()->getParam('for-item');
-      else
-        //Check that the product page was opened from cart page (need for
-        //automatic first preview update for cross-sell product)
-        if (strpos(Mage::getSingleton('core/session')->getData('last_url'),
-              'checkout/cart') !== false)
-          //Send update-first-preview query parameter to personalization step
-          $params['update-first-preview'] = 1;
+    echo $context->getSubmitUrl($product);
 
-      //Print out url for the product
-      echo $this->create_url_for_product($context->getProduct(), $params);
-
-      return true;
-    }
-    else
-      return false;
+    return true;
   }
 
   public function get_params_from_previous_step ($context) {

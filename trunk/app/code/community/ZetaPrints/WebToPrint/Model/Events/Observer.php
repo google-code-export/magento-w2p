@@ -481,6 +481,41 @@ class ZetaPrints_WebToPrint_Model_Events_Observer implements ZetaPrints_Api {
 
     return $this;
   }
+
+  public function setUrlForNextStep ($observer) {
+    $block = $observer->getBlock();
+
+    if (!($block instanceof Mage_Catalog_Block_Product_View))
+      return $this;
+
+    if (Mage::registry('webtoprint_is_personalisation_step'))
+      return $this;
+
+    $is2step = (bool) $block
+      ->getLayout()
+      ->getBlock('root')
+      ->getData('webtoprint_2step');
+
+    if (!$is2step)
+      return $this;
+
+    if ($route = Mage::registry('webtoprint_next_step_route')) {
+      $block->setData('submit_route_data', $route);
+
+      return $this;
+    }
+
+    $route = Mage::helper('webtoprint/2step')->getNextStepRoute(
+      $block->getProduct()
+    );
+
+    Mage::unregister('webtoprint_next_step_route');
+
+    Mage::register('webtoprint_next_step_route', $route, true);
+    $block->setData('submit_route_data', $route);
+
+    return $this;
+  }
 }
 
 ?>
