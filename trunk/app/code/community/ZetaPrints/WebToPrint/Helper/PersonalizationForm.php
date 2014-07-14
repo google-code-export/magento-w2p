@@ -106,10 +106,8 @@ class ZetaPrints_WebToPrint_Helper_PersonalizationForm
   }
 
   /**
-   * @since 2.3.0.0
-   * @deprecated Replaced with
-   *             ZetaPrints_WebToPrint_Helper_2step::isPersonalisationStep
-   *             function
+   * @deprecated after 2.3.0.0
+   * @see ZetaPrints_WebToPrint_Helper_2step::isPersonalisationStep()
    */
   public function is_personalization_step ($context) {
     return Mage::registry('webtoprint_is_personalisation_step');
