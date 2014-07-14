@@ -22,59 +22,56 @@ Both steps (options, personalization) use the same page. The code in the theme m
   # Include params from _step 1_ into _Add to cart_ request at _step 2_
 
 == Functions ==
-  * ` is_personalization_step ($context)` - Returns _true_ if a request to a page contains _personalization_ parameter.
+  * `ZetaPrints_WebToPrint_Helper_2step::isPersonalisationStep()` - Returns _true_ if current stop is _personalisation_
   * ` get_params_from_previous_step ($context)` - Returns list of `<input>` tags for params from _step 1_. All params are taken from a request to a page.
-  * ` get_next_step_url ($context)` - Returns _true_ if next step is _step 2_ (personalization) and prints url for the product with additional _personalization_ param, otherwise it returns _false_.
 
 == Affected files ==
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view.phtml zp2steptheme/template/catalog/product/view.phtml] ===
 This file shows form for ordering on product page. This form contains product images, product name, product description, product price, etc.
 
-*Section 1*: checking for current step and printing link for a next step. For _step 2_ (personalization) the link is the product page url with additional _personalization_ param. Otherwise it prints link for _add to cart_ action if the next is not a personalization.
+*Section 1*: сheck if current step is not _step 2_ (personalisation) then show standard M. product page, otherwise it jumps into next section.
   {{{
-<?php if (!$this->helper('webtoprint/personalization-form')->get_next_step_url($this)) echo $this->getAddToCartUrl($_product) ?>
+<?php if(!$this->helper('webtoprint/2step')->isPersonalisationStep()): ?>
   }}}
 
-*Section 2*: сhecking if the step is not _step 2_ (personalization) then show standard magento product page, otherwise it jumps into next section.
+*Section 2*: show web-to-print personalisation form
   {{{
-<?php if(!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
+<?php else: ?>
   }}}
 
-*Section 3*: showing web-to-print personalization form if current step is _step 2_ (personalization).
-
-*Section 4*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
+*Section 3*: Output image tabs for multipage products with web-to-print feature
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
   }}}
 
-*Section 5*: printing list of `input` tags for params from step 1 (options).
+*Section 4*: output list of `<input>` tags for params from step 1 (options)
   {{{
 <?php echo $this->helper('webtoprint/personalization-form')->get_params_from_previous_step($this); ?>
    }}}
 
-*Section 6*: checking if а product has web-to-print features then printing text fields, stock images choosers, color pickers.
+*Section 5*: output button for showing data sets
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->getDataSetTable($this); ?>
+  }}}
+
+*Section 6*: output input fields, images, stock images, colour pickers and palettes for products with web-to-print feature
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
+<?php echo $this->getChildHtml('webtoprint_palettes'); ?>
   }}}
 
-*Section 7*: checking if a product has web-to-print features then printing _Update preview_ button.
+*Section 7*: output web-to-print buttons for products with web-to-print feature
   {{{
-<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
+<?php echo $this->getChildHtml('webtoprint_buttons'); ?>
   }}}
 
-*Section 8*: display text at the bottom of personalization form to notice customer to update preview (_optional_)
-
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->addNoticeToUpdatePreview($this, '* Click Update Preview button at the top of the page to personalize the product.'); ?>
-  }}}
-
-*Section 9*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+*Section 8*: output JavaScript for personalisation form
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
 
-*Optional section*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
+*Optional section*: output a table with page sizes for products with web-to-print feature. Add the function if you need this feature. 
   {{{
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
   }}}
@@ -91,22 +88,52 @@ Example:
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/addtocart.phtml zp2steptheme/template/catalog/product/view/addtocart.phtml] ===
 This file show _Add to cart_ button, qty input fields and some other information.
 
-*Section 1*: checking if current step is _step 1_ (options) then show "Personalize" button, otherwise show "Add to cart" button.
+*Section 1*: show Add to cart button if current step is personalisation (step 2), otherwise jump to next section
   {{{
-<?php if(!$this->helper('webtoprint/personalization-form')->is_personalization_step($this)): ?>
+<?php if ($this->helper('webtoprint/2step')->isPersonalisationStep()): ?>
   }}}
 
-*Section 2*: printing "Add to cart" button if current step is _step 2_ (personalization). 
+*Section 2*: show default HTML with Personalise button if current step is personalisation (step 2)
+  {{{
+<?php else: ?>
+  }}}
+
+*Section 3*: change button title to "Personalise"
+  {{{
+<?php $buttonTitle = $this->helper('webtoprint')->__('Personalise'); ?>
+  }}}
+
+*Section 4*: close 'if' opened in Section 1
+  {{{
+<?php endif; ?>
+  }}}
 
 === [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zp2steptheme/template/catalog/product/view/media.phtml zp2steptheme/template/catalog/product/view/media.phtml] ===
 This file shows product image, additional images and image zoomer on product page.
 
-*Section 1*: checking for personalization step and disabling image resizing for products with web-to-print feature.
+*Section 1*: set correct image type and image label
   {{{
-if (!$this->helper('webtoprint/personalization-form')->is_personalization_step($this))
-  $this->helper('webtoprint/personalization-form')->get_preview_image($this);
-else
-  echo $_helper->productAttribute($_product, $_img, 'image');
+$_imageType = $this->helper('webtoprint/2step')->getImageType('image');
+$_imageLabel = $this->helper('webtoprint/2step')->getImageLabel($this);
+  }}}
+
+*Section 2*: add ID attribute to the element. Replace image type and image label
+
+Replace `'image'` with `$_imageType` and `$this->getImageLabel()` with `$_imageLabel`
+  {{{
+$_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, $_imageType)->resize(265).'" alt="'.$this->escapeHtml($_imageLabel).'" title="'.$this->escapeHtml($_imageLabel).'" />';
+  }}}
+
+*Section 3*: replace image type
+
+Replace `'image'` with `$_imageType`
+  {{{
+echo $_helper->productAttribute($_product, $_img, $_imageType);
+  }}}
+
+*Section 4*: remove web-to-print images from the gallery on personalisation form
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
   }}}
 
 == Application of 1- or 2-Step process ==
