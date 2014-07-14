@@ -62,6 +62,7 @@ The code is divided into 6 sections.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
+<?php echo $this->getChildHtml('webtoprint_palettes'); ?>
   }}}
 
 *Section 4*: output web-to-print buttons for products with web-to-print feature
