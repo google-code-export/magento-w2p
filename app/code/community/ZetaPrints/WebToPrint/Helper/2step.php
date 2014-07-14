@@ -52,4 +52,17 @@ class ZetaPrints_WebToPrint_Helper_2step
 
     return $data;
   }
+
+  public function getImageType ($default = 'image') {
+    return $this->isPersonalisationStep()
+             ? $default
+               : 'small_image';
+  }
+
+  public function getImageLabel ($context, $default = null) {
+    if ($this->isPersonalisationStep())
+      return $default ? $default : $context->getImageLabel();
+
+    return $context->getImageLabel(null, 'small_image');
+  }
 }
