@@ -61,13 +61,13 @@
             <a href="#" id="order-item-gift-message-link-<?php echo $_item->getId() ?>" class="gift-message-link" onclick="return giftMessageToogle('<?php echo $_item->getId() ?>')"><?php echo $this->__('Gift Message') ?></a>
         <?php endif; ?>
 
-        <!-- /****** ZP-CODE:1  Inserting links to web-to-print generated files *****/ -->
+        <!-- /****** ZP-CODE:1 Output links to web-to-print generated files *****/ -->
 
         <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
 
         <!-- /****** ZP-CODE:1 End ******/ -->
 
-        <!-- /****** ZP-CODE:2  Inserting link for re-order *****/ -->
+        <!-- /****** ZP-CODE:2 Output link for re-ordering *****/ -->
 
         <?php echo $this->helper('webtoprint/personalization-form')->get_reorder_button($this, $_item); ?>
 
