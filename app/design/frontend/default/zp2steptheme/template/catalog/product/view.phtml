@@ -48,7 +48,7 @@
                        : $this->getAddToCartUrl($_product);
     ?>
 
-    <form action="<?php zecho $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+    <form action="<?php echo $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
         <!-- /****** ZP-CODE:1 Check if this step is not personalization
                      then show standard magento product page... ******/ -->
