@@ -33,11 +33,9 @@ http://www.zetaprints.com/magento-docs/theme-configuration.png
 The web-to-print extension has several requirements to HTML code of the custom theme.
 
   * _app/design/frontend/default/`<`your_custom_theme_name`>`/template/catalog/product/view.phtml_
-  Set *id* attribute of preview image container (can be a parent, but not immediate one) to *zetaprints-preview-image-container* value. Search for _zetaprints-preview-image-container_ string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view.phtml view.phtml] file from _zptheme_ theme for example.
-  * _app/design/frontend/default/`<`your_custom_theme`>`/template/catalog/product/view/addtocart.phtml_
-  Set *id* attribute of _Add to cart_ button to *zetaprints-add-to-cart-button* value. Search for _zetaprints-add-to-cart-button_ string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addtocart.phtml addtocart.phtml] file from _zptheme_ theme for example.
+  Set *id* attribute of preview image container (can be a parent, but not immediate one) to *zetaprints-preview-image-container* value. Search for _ZP-CHANGE:1_ string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view.phtml view.phtml] file from _zptheme_ theme for example.
   * _app/design/frontend/default/`<`your_custom_theme`>`/template/catalog/product/view/media.phtml_
-  Set *id* attribute of product image tag to *image* value. Search for _image_ string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml media.phtml] file from _zptheme_ theme for example
+  Set *id* attribute of product image tag to *image* value. Search for _ZP-CHANGE:1_ string in [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml media.phtml] file from _zptheme_ theme for example
 
 = Files in `app/design/frontend/default/<your_theme_name>/` =
 
@@ -50,33 +48,33 @@ New code checks for web-to-print features in a product and adds additional optio
 
 The code is divided into 6 sections.
 
-*Section 1*: checking if a product has web-to-print features then printing tabs component for switching pages in multipage templates.
+*Section 1*: output image tabs for multi-page products with web-to-print feature
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
   }}}
 
-*Section 2 (optional)*: Display button which shows data sets. Add the function if you need this feature.
+*Section 2 (optional)*: output button for showing data sets. Add the function if you need this feature.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->getDataSetTable($this); ?>
   }}}
 
-*Section 3*: checking if а product has web-to-print features then printing text fields, stock images choosers, color pickers.
+*Section 3*: output input fields, images, stock images, colour pickers and palettes for products with web-to-print feature
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
 <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
   }}}
 
-*Section 4*: checking if a product has web-to-print features then printing _Update preview_ button.
+*Section 4*: output web-to-print buttons for products with web-to-print feature
   {{{
-<?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
+<?php echo $this->getChildHtml('webtoprint_buttons'); ?>
   }}}
 
-*Section 5*: checking if a product has web-to-print features then printing javascript code for web-to-print personalization form.
+*Section 5*: output JavaScript for the personalisation form
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
   }}}
 
-*Optional section*: checks if а product has web-to-print features then outputs a table with page sizes. Add the function if you need this feature.
+*Optional section*: output a table with page sizes for products with web-to-print feature. Add the function if you need this feature.
   {{{
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this); ?>
   }}}
@@ -90,12 +88,24 @@ Example:
 <?php $this->helper('webtoprint/personalization-form')->getPageSizeTable($this, 'cm'); ?>
   }}}
 
+== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
+This file needs to be modified only if you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
+
+Preview downloading is initiated only then user clicks on text input with URL. All previews downloaded from ZetaPrints are saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically during the extension installation process. Old preview images need to be removed manually from the temp directory.
+
+The following ZP code adds link to show text field with sharing url for a generated preview. You can insert this function into any other place in the layout, which may be in a different file.
+
+*Section 1*: add preview sharing link
+  {{{
+<?php $this->helper('webtoprint/personalization-form')->get_preview_image_sharing_link(); ?>
+  }}}
+
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/media.phtml template/catalog/product/view/media.phtml] ==
 This file shows product image, additional images and image zoomer on product page.
 
 New code checks for web-to-print in a product and puts correct images urls additional images.
 
-*Section 1*: remove web-to-print images for multi-page templates from the gallery thumbs.
+*Section 1*: remove web-to-print images from the gallery on personalisation form
   {{{
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
   }}}
@@ -106,7 +116,7 @@ This file shows various information for cart item on shopping cart page.
 New code checks for web-to-print in a product and puts correct images urls for cart item,
 also it adds link to PDF proofs.
 
-*Section 1*: checking if product has web-to-print features and then printing `img` tag with correct url; add link to PDF proof for the template.
+*Section 1*: output link and slightly modified <img> tag with correct image url, add link to PDF proof for the template and returns true for products with web-to-print features
   {{{
 <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
   }}}
@@ -116,17 +126,17 @@ This file show various information for order item on user orders page.
 
 New code checks for web-to-print in a product and shows preview images for order items.
 
-*Section 1*: add link to hide/show all previews one time
+*Section 1*: insert link to hide/show all previews
   {{{
 <?php echo $this->helper('webtoprint/personalization-form')->show_hide_all_order_previews($this); ?>
   }}}
 
-*Section 2*: add preview images for web-to-print products from the order.
+*Section 2*: insert preview images from the order for web-to-print products
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_order_preview_images($this, $_item); ?>
   }}}
 
-*Section 3*: add JavaScript code for preview images.
+*Section 3*: inserting javascript code for previews images
   {{{
 <?php $this->helper('webtoprint/personalization-form')->get_js_for_order_preview_images($this); ?>
   }}}
@@ -136,28 +146,16 @@ This file shows various information for particular order item on user orders pag
 
 The following ZP code shows links to generated output files (PDF/PNG/JPG/GIF) in order details. The links appear if the files were generated and the template config (in ZP) has _download by customer_ setting set to either _allow_ (a user can download files) or _only_ (the order is for downloading only, nothing gets printed). The function returns nothing if the conditions above are not met.
 
-*Section 1*: inserting links to web-to-print generated files.
+*Section 1*: output links to web-to-print generated files
   {{{
 <?php echo $this->helper('webtoprint/personalization-form')->get_order_webtoprint_links($this, $_item); ?>
   }}}
 
 The following ZP code adds re-order link to an order item. After clicking on the link the corresponding product page will be opened and fields from personalization form will be filled with values from the order.
 
-*Section 2*: insert re-order link.
+*Section 2*: output link for re-ordering
   {{{
 <?php echo $this->helper('webtoprint/personalization-form')->get_reorder_button($this, $_item); ?>
-  }}}
-
-== [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/catalog/product/view/addto.phtml template/catalog/product/view/addto.phtml] ==
-This file needs to be modified only if you want to show _Share preview_ link so that users can grab the URL of the image and share it with someone else. In this case the image is downloaded from ZP to your Magento site for keeping (ZP deletes unused images quickly). The download happens asynchronously when the user clicks on the sharing text box.
-
-Preview downloading is initiated only then user clicks on text input with URL. All previews downloaded from ZetaPrints are saved in _media/tmp/catalog/product/previews/_ directory. The directory is created automatically during the extension installation process. Old preview images need to be removed manually from the temp directory.
-
-The following ZP code adds link to show text field with sharing url for a generated preview. You can insert this function into any other place in the layout, which may be in a different file.
-
-*Section 1*: add preview sharing link.
-  {{{
-<?php $this->helper('webtoprint/personalization-form')->get_preview_image_sharing_link(); ?>
   }}}
 
 == [http://code.google.com/p/magento-w2p/source/browse/trunk/app/design/frontend/default/zptheme/template/wishlist/item/column/image.phtml template/wishlist/item/column/image.phtml] ==
@@ -168,7 +166,7 @@ New code checks for web-to-print in the product, puts correct image urls for the
 Second and third parameters of the helper function are width and height of the image.
 Choose values according your custom theme.
 
-*Section 1*: check if the product has web-to-print features and output `img` tag with the correct url; add a link to the PDF proof for the saved template, if any.
+*Section 1*: output link and slightly modified <img> tag with correct image url, add link to PDF proof for the template and returns true for products with web-to-print features
   {{{
 <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this, 113, 113)): ?>
   }}}
