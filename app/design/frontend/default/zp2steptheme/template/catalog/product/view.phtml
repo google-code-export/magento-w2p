@@ -48,18 +48,14 @@
                        : $this->getAddToCartUrl($_product);
     ?>
 
-    <!-- /****** ZP-CODE:1 Checking for current step and outputting link for a next step ******/ -->
+    <form action="<?php zecho $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
-    <form action="<?php if (!$this->helper('webtoprint/personalization-form')->get_next_step_url($this)) echo $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
-
-    <!-- /****** ZP-CODE:1 End ******/ -->
-
-        <!-- /****** ZP-CODE:2 Check if this step is not personalization
+        <!-- /****** ZP-CODE:1 Check if this step is not personalization
                      then show standard magento product page... ******/ -->
 
         <?php if(!$this->helper('webtoprint/2step')->isPersonalisationStep()): ?>
 
-        <!-- /****** ZP-CODE:2 End ******/ -->
+        <!-- /****** ZP-CODE:1 End ******/ -->
 
         <?php echo $this->getBlockHtml('formkey') ?>
         <div class="no-display">
@@ -122,27 +118,27 @@
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
 
-        <!-- /****** ZP-CODE:3 ... otherwise show web-to-print personalization form ******/ -->
+        <!-- /****** ZP-CODE:2 ... otherwise show web-to-print personalization form ******/ -->
 
         <?php else: ?>
 
-        <!-- /****** ZP-CODE:3 End ******/ -->
+        <!-- /****** ZP-CODE:2 End ******/ -->
 
-        <!-- /****** ZP-CODE:4 Printing image tabs for multipage products with web-to-print feature ******/ -->
+        <!-- /****** ZP-CODE:3 Printing image tabs for multipage products with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
 
-        <!-- /****** ZP-CODE:4 End ******/ -->
+        <!-- /****** ZP-CODE:3 End ******/ -->
 
         <div class="no-display">
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
             <input type="hidden" name="related_product" id="related-products-field" value="" />
 
-            <!-- /****** ZP-CODE:5 Printing list <input> tags for params from step 1 (options)  ******/ -->
+            <!-- /****** ZP-CODE:4 Printing list <input> tags for params from step 1 (options)  ******/ -->
 
             <?php echo $this->helper('webtoprint/personalization-form')->get_params_from_previous_step($this); ?>
 
-            <!-- /****** ZP-CODE:5 End ******/ -->
+            <!-- /****** ZP-CODE:4 End ******/ -->
 
         </div>
 
@@ -155,13 +151,13 @@
                 <?php echo $this->getChildHtml('addtocart') ?>
             </div>
 
-            <!-- /****** ZP-CODE:6 Printing input fields, stock images choosers and color pickers for products
+            <!-- /****** ZP-CODE:5 Printing input fields, stock images choosers and color pickers for products
                          with web-to-print feature ******/ -->
 
             <?php $this->helper('webtoprint/personalization-form')->get_text_fields($this); ?>
             <?php $this->helper('webtoprint/personalization-form')->get_image_fields($this); ?>
 
-            <!-- /****** ZP-CODE:6 End ******/ -->
+            <!-- /****** ZP-CODE:5 End ******/ -->
 
         </div>
 
@@ -169,27 +165,27 @@
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <!-- /****** ZP-CODE:7 Printing preview and next page buttond
+        <!-- /****** ZP-CODE:6 Printing preview and next page buttond
                      for products with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_preview_button($this); ?>
         <?php $this->helper('webtoprint/personalization-form')->get_next_page_button($this); ?>
 
-        <!-- /****** ZP-CODE:7 End ******/ -->
+        <!-- /****** ZP-CODE:6 End ******/ -->
 
         <div class="clearer"></div>
 
-        <!-- /****** ZP-CODE:8 Printing JavaScript for magento personalization form ******/ -->
+        <!-- /****** ZP-CODE:7 Printing JavaScript for magento personalization form ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 
-        <!-- /****** ZP-CODE:8 End ******/ -->
+        <!-- /****** ZP-CODE:7 End ******/ -->
 
-        <!-- /****** ZP-CODE:9 Close 'if' opened in  ZP-CODE:2 ******/ -->
+        <!-- /****** ZP-CODE:8 Close 'if' opened in  ZP-CODE:2 ******/ -->
 
         <?php endif; ?>
 
-        <!-- /****** ZP-CODE:9 End ******/ -->
+        <!-- /****** ZP-CODE:8 End ******/ -->
 
     </form>
     <script type="text/javascript">
