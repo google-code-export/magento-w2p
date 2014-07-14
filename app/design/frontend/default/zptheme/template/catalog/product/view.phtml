@@ -50,7 +50,8 @@
 
     <form action="<?php echo $actionUrl; ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
-        <!-- /****** ZP-CODE:1 Printing image tabs for multipage products with web-to-print feature ******/ -->
+        <!-- /****** ZP-CODE:1 Output image tabs for multipage products
+                               with web-to-print feature ******/ -->
 
         <?php $this->helper('webtoprint/personalization-form')->get_page_tabs($this); ?>
 
@@ -93,14 +94,14 @@
                 </div>
             <?php endif; ?>
 
-            <!-- /****** ZP-CODE:2 Display button which shows data sets ******/ -->
+            <!-- /****** ZP-CODE:2 Output button for showing data sets ******/ -->
 
             <?php $this->helper('webtoprint/personalization-form')->getDataSetTable($this); ?>
 
             <!-- /****** ZP-CODE:2 End ******/ -->
 
 
-            <!-- /****** ZP-CODE:3 Display input fields, images, stock images,
+            <!-- /****** ZP-CODE:3 Output input fields, images, stock images,
                                    colour pickers and palettes for products
                                    with web-to-print feature ******/ -->
 
@@ -125,17 +126,17 @@
 
         </div>
 
-        <!-- /****** ZP-CHANGE: 1 Add ID attribute to the element.
-                                  Required by web-to-print JS code ******/ -->
+        <!-- /****** ZP-CHANGE:1 Add ID attribute to the element.
+                                 Required by web-to-print JS code ******/ -->
 
         <div id="zetaprints-preview-image-container" class="product-img-box">
 
-        <!-- /****** ZP-CHANGE: 1 End ******/ -->
+        <!-- /****** ZP-CHANGE:1 End ******/ -->
 
             <?php echo $this->getChildHtml('media') ?>
         </div>
 
-        <!-- /****** ZP-CODE:4 Output web-to-print button for products
+        <!-- /****** ZP-CODE:4 Output web-to-print buttons for products
                                with web-to-print feature ******/ -->
 
         <?php echo $this->getChildHtml('webtoprint_buttons'); ?>
@@ -209,7 +210,7 @@
     </div>
 </div>
 
-<!-- /****** ZP-CODE:5 Printing JavaScript for magento personalization form ******/ -->
+<!-- /****** ZP-CODE:5 Output JavaScript for personalisation form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->get_js($this); ?>
 

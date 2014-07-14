@@ -60,12 +60,12 @@
 <p class="product-image">
     <?php
 
-        /****** ZP-CHANGE: 1 Add ID attribute to the element.
-                             Required by web-to-print JS code ******/
+        /****** ZP-CHANGE:1 Add ID attribute to the element.
+                            Required by web-to-print JS code ******/
 
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
 
-        /****** ZP-CHANGE: 1 End ******/
+        /****** ZP-CHANGE:1 End ******/
 
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
@@ -73,7 +73,7 @@
 <?php endif; ?>
 
 <!-- /****** ZP-CODE:1 Remove web-to-print images from the gallery
-             on personalization form ******/ -->
+             on personalisation form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
 

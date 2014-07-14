@@ -42,10 +42,10 @@ else
 <tr>
     <td>
 
-    <!-- /****** ZP-CODE:1 Outputs link and slightly modified <img> tag to
-                           prevent image resizing with correct image url
-                           and returns true for products with web-to-print
-                           features ******/ -->
+    <!-- /****** ZP-CODE:1 Output link and slightly modified <img> tag with
+                           correct image url, add link to PDF proof
+                           for the template and returns true for products
+                           with web-to-print features ******/ -->
 
     <?php if(!$this->helper('webtoprint/personalization-form')->get_cart_image($this)): ?>
         <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" width="75" height="75" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?>
