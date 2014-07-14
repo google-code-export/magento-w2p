@@ -60,36 +60,36 @@
 <p class="product-image">
     <?php
 
-        /****** ZP-CODE: 1 Set correct image type and image label ******/
+        /****** ZP-CODE:1 Set correct image type and image label ******/
 
         $_imageType = $this->helper('webtoprint/2step')->getImageType('image');
         $_imageLabel = $this->helper('webtoprint/2step')->getImageLabel($this);
 
-        /****** ZP-CODE: 1 End ******/
+        /****** ZP-CODE:1 End ******/
 
-        /****** ZP-CHANGE: 1 Add ID attribute to the element.
-                             Replace image type and image label ******/
+        /****** ZP-CODE:2 Add ID attribute to the element.
+                          Replace image type and image label ******/
 
         $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, $_imageType)->resize(265).'" alt="'.$this->escapeHtml($_imageLabel).'" title="'.$this->escapeHtml($_imageLabel).'" />';
 
-        /****** ZP-CHANGE: 1 End ******/
+        /****** ZP-CODE:2 End ******/
 
-        /****** ZP-CHANGE:2 Replace image type ******/
+        /****** ZP-CODE:3 Replace image type ******/
 
         echo $_helper->productAttribute($_product, $_img, $_imageType);
 
-        /****** ZP-CHANGE:2 End ******/
+        /****** ZP-CODE:3 End ******/
 
     ?>
 </p>
 <?php endif; ?>
 
-<!-- /****** ZP-CODE:2 Remove web-to-print images from the gallery
-             on personalization form ******/ -->
+<!-- /****** ZP-CODE:4 Remove web-to-print images from the gallery
+                       on personalisation form ******/ -->
 
 <?php $this->helper('webtoprint/personalization-form')->prepare_gallery_images($this) ?>
 
-<!-- /****** ZP-CODE:2 End ******/ -->
+<!-- /****** ZP-CODE:4 End ******/ -->
 
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
