@@ -1,5 +1,5 @@
 <_>
-   <form_key>qcQVoz12nEdI0WHP</form_key>
+   <form_key>sYa42ReNSHqLQ2Jj</form_key>
    <name>web_to_print_store_incl_theme</name>
    <channel>community</channel>
    <version_ids>
@@ -22,18 +22,14 @@ Technical support: admin@zetaprints.com
 Extension developed by http://www.zetaprints.com/</description>
    <license>mixed</license>
    <license_uri/>
-   <version>2.2.0.0</version>
+   <version>2.3.0.0</version>
    <stability>stable</stability>
-   <notes>* Synchronise with Magento 1.8.0.0 and 1.8.1.0 versions
-* Add support for quantities in ZetaPrints templates (needs documentation)
-* Add support for colour palettes in ZetaPrints templates
-* Add support for storing w2p product (previews and user input) in wishlist (issue #823)
-* Allow to use dummy store for category name mapping (needs documentation)
-* Add parameter to enable assigning of created product to parent categories in profile for product creation (needs documentation)
-* Add an option to select websites for assiging of newly created products (needs documentation)
-* Re-assigned product to category on update (needs documentation)
-* Show warning when user changed data in fields but has not updated previews yet
-* Other small bug fixes and improvements</notes>
+   <notes>* Synchronise with Magento 1.9.0.2
+* Remove support for Magento releases older than 1.6
+* Improvements in 2-step theme
+* Other small bug fixes and improvements
+
+NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
    <authors>
       <name>
          <name>Anatoly A. Kazantsev</name>
@@ -51,18 +47,23 @@ Extension developed by http://www.zetaprints.com/</description>
       <package>
          <name>
             <name/>
+            <name>Mage_Core_Modules</name>
          </name>
          <channel>
             <channel/>
+            <channel>community</channel>
          </channel>
          <min>
             <min/>
+            <min>1.6.0.0</min>
          </min>
          <max>
             <max/>
+            <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                                                 </files>
+            <files>                                                                                                                                                                                                                    </files>
+            <files>                                                                                                                                                                                                                    </files>
          </files>
       </package>
       <extension>
@@ -335,8 +336,4 @@ Extension developed by http://www.zetaprints.com/</description>
          <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>
