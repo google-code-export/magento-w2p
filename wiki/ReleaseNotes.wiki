@@ -1,6 +1,18 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
 = Stable release (2.2.0.0) =
+  * Synchronise with Magento 1.9.0.2
+  * Remove support for Magento releases older than 1.6
+  * Improvements in 2-step theme
+  * Other small bug fixes and improvements
+
+== Release comments ==
+*NOTE:* this release doesn't support new RWD theme out of the box
+
+Code for the release can be obtained by _web-to-print-2.3.0.0_ tag from the project's SVN repo.
+
+
+= Stable release (2.2.0.0) =
   * Synchronise with Magento 1.8.0.0 and 1.8.1.0 versions
   * Add support for quantities in ZetaPrints templates (needs documentation)
   * Add support for colour palettes in ZetaPrints templates
