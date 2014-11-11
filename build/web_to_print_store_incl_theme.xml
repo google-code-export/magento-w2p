@@ -1,5 +1,5 @@
 <_>
-   <form_key>sYa42ReNSHqLQ2Jj</form_key>
+   <form_key>34hOc7vjnC9yJCV4</form_key>
    <name>web_to_print_store_incl_theme</name>
    <channel>community</channel>
    <version_ids>
@@ -22,12 +22,9 @@ Technical support: admin@zetaprints.com
 Extension developed by http://www.zetaprints.com/</description>
    <license>mixed</license>
    <license_uri/>
-   <version>2.3.0.0</version>
+   <version>2.3.0.1</version>
    <stability>stable</stability>
-   <notes>* Synchronise with Magento 1.9.0.2
-* Remove support for Magento releases older than 1.6
-* Improvements in 2-step theme
-* Other small bug fixes and improvements
+   <notes>* Fix regression which made assigning web-to-print template to product in product editor broken
 
 NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
    <authors>
@@ -62,8 +59,8 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                                                    </files>
-            <files>                                                                                                                                                                                                                    </files>
+            <files>                                                                                                                                                                                                                     </files>
+            <files>                                                                                                                                                                                                                     </files>
          </files>
       </package>
       <extension>
