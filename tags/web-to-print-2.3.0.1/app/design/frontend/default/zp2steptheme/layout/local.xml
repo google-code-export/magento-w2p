@@ -1,0 +1,10 @@
+<layout version="0.1.0">
+  <default>
+    <reference name="root">
+      <action method="setData">
+        <key>webtoprint_2step</key>
+        <value>true</value>
+      </action>
+    </reference>
+  </default>
+</layout>
