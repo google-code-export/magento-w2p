@@ -27,8 +27,6 @@ class ZetaPrints_WebToPrint_Block_Catalog_Product_Edit_Tab_Templates extends Mag
   }
 
   protected function _prepareColumns () {
-    Mage::log($this->get_template_guid ());
-
     $this->addColumn('selected', array(
       'header_css_class' => 'a-center',
       'type'      => 'radio',
