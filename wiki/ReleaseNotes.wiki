@@ -1,5 +1,13 @@
 #summary Release notes for stable releases. It may or may not include changes for beta releases.
 
+= Stable release (2.3.0.1) =
+  * Fix regression which made assigning web-to-print template to product in product editor broken
+
+== Release comments ==
+*NOTE:* this release doesn't support new RWD theme out of the box
+
+Code for the release can be obtained by _web-to-print-2.3.0.1_ tag from the project's SVN repo.
+
 = Stable release (2.3.0.0) =
   * Synchronise with Magento 1.9.0.2
   * Remove support for Magento releases older than 1.6
