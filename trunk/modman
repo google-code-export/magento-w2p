@@ -3,13 +3,7 @@ app/etc/modules/*                                                    app/etc/mod
 
 app/design/adminhtml/default/zptheme/                                app/design/adminhtml/default/zptheme/
 
-app/design/frontend/base/default/layout/catalog/*                    app/design/frontend/base/default/layout/catalog/
-app/design/frontend/base/default/layout/checkout/*                   app/design/frontend/base/default/layout/checkout/
-app/design/frontend/base/default/layout/review/*                     app/design/frontend/base/default/layout/review/
-app/design/frontend/base/default/layout/sales/*                      app/design/frontend/base/default/layout/sales/
-app/design/frontend/base/default/layout/wishlist/*                   app/design/frontend/base/default/layout/wishlist/
-app/design/frontend/base/default/layout/web-to-print.xml             app/design/frontend/base/default/layout/web-to-print.xml
-
+app/design/frontend/base/default/layout/*                            app/design/frontend/base/default/layout/
 app/design/frontend/base/default/template/catalog/product/view/*     app/design/frontend/base/default/template/catalog/product/view/
 app/design/frontend/base/default/template/email/order/items/order/*  app/design/frontend/base/default/template/email/order/items/order/
 app/design/frontend/base/default/template/web-to-print               app/design/frontend/base/default/template/web-to-print
