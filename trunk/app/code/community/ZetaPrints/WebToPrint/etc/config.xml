@@ -257,26 +257,6 @@
         <webtoprint>
           <file>web-to-print.xml</file>
         </webtoprint>
-
-        <catalog-web-to-print-product>
-          <file>catalog/web-to-print-product.xml</file>
-        </catalog-web-to-print-product>
-
-        <review-web-to-print-product>
-          <file>review/web-to-print-product.xml</file>
-        </review-web-to-print-product>
-
-        <checkout-web-to-print-cart>
-          <file>checkout/web-to-print-cart.xml</file>
-        </checkout-web-to-print-cart>
-
-        <sales-web-to-print-order>
-          <file>sales/web-to-print-order.xml</file>
-        </sales-web-to-print-order>
-
-        <wishlist-web-to-print>
-          <file>wishlist/web-to-print.xml</file>
-        </wishlist-web-to-print>
       </updates>
     </layout>
 
@@ -371,6 +351,9 @@
         <products-populate-defaults>1</products-populate-defaults>
         <ignore-unpaid-orders>0</ignore-unpaid-orders>
       </settings>
+      <compat>
+        <old_theme>no</old_theme>
+      </compat>
     </webtoprint>
   </default>
 </config>
