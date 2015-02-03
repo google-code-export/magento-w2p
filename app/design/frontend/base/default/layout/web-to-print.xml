@@ -1,4 +1,107 @@
 <layout version="0.1.0">
+  <webtoprint_common>
+    <reference name="head">
+      <action method="addJs"><script>jquery/jquery-min.js</script></action>
+      <action method="addJs"><script>fancybox/jquery-fancybox.js</script></action>
+    </reference>
+  </webtoprint_common>
+
+  <webtoprint>
+    <update handle="webtoprint_common" />
+
+    <reference name="head">
+      <action method="addJs"><script>jquery/jquery-ui-custom-min.js</script></action>
+      <action method="addJs"><script>jquery/jquery-qtip-min.js</script></action>
+      <action method="addJs"><script>zetaprints/colorpicker/colorpicker.js</script></action>
+      <action method="addJs"><script>zetaprints/colorpicker/switcher.js</script></action>
+      <action method="addJs"><script>zetaprints/zp-text-field-resizer.js</script></action>
+      <action method="addJs"><script>zetaprints/zp-text-field-editor.js</script></action>
+      <action method="addJs"><script>zetaprints/zp-combobox-field.js</script></action>
+      <action method="addJs"><script>zetaprints/zp-dataset.js</script></action>
+      <action method="addJs"><script>powercrop/jquery-powercrop.js</script></action>
+    </reference>
+  </webtoprint>
+
+  <_webtoprint_common>
+    <reference name="head">
+      <action method="addJs"><script>fancybox/fancybox-resizing.js</script></action>
+
+      <action method="addItem"><type>js_css</type><name>fancybox/jquery-fancybox.css</name></action>
+      <action method="addItem"><type>js_css</type><name>fancybox/fancybox-resizing.css</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/zp-style.css</name></action>
+    </reference>
+  </_webtoprint_common>
+
+  <_webtoprint>
+    <update handle="_webtoprint_common" />
+
+    <reference name="head">
+      <action method="addJs"><script>fancybox/fancybox-update-preview.js</script></action>
+      <action method="addJs"><script>fancybox/fancybox-select-image.js</script></action>
+      <action method="addJs"><script>fancybox/fancybox-save-image.js</script></action>
+      <action method="addJs"><script>lib/ajaxupload.js</script></action>
+      <action method="addJs"><script>zetaprints/zp-metadata.js</script></action>
+      <action method="addItem"><type>skin_js</type><name>js/zp-image-edit.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>js/zp-personalization-form.js</name></action>
+
+      <action method="addItem"><type>js_css</type><name>fancybox/fancybox-update-preview.css</name></action>
+      <action method="addItem"><type>js_css</type><name>fancybox/fancybox-select-image.css</name></action>
+      <action method="addItem"><type>js_css</type><name>fancybox/fancybox-save-image.css</name></action>
+      <action method="addItem"><type>js_css</type><name>zetaprints/colorpicker/colorpicker.css</name></action>
+      <action method="addItem"><type>js_css</type><name>zetaprints/zp-text-field-editor.css</name></action>
+      <action method="addItem"><type>js_css</type><name>zetaprints/zp-combobox-field.css</name></action>
+      <action method="addItem"><type>js_css</type><name>zetaprints/zp-dataset.css</name></action>
+      <action method="addItem"><type>js_css</type><name>powercrop/jquery-powercrop.css</name></action>
+      <action method="addItem"><type>skin_css</type><name>css/zp-image-edit.css</name></action>
+    </reference>
+  </_webtoprint>
+
+  <catalog_product_view>
+    <update handle="_webtoprint" />
+
+    <reference name="product.info">
+      <block type="catalog/product_view" name="product.webtoprint.buttons" as="webtoprint_buttons" template="catalog/product/view/web-to-print-buttons.phtml"/>
+      <block type="catalog/product_view" name="webtoprint.product.palettes" as="webtoprint_palettes" template="catalog/product/view/web-to-print-palettes.phtml"/>
+    </reference>
+
+    <!--
+    <reference name="before_body_end">
+      <block type="core/text" name="aviary-js">
+        <action method="setText"><text><![CDATA[<script type="text/javascript" src="http://feather.aviary.com/js/feather.js"></script>]]></text></action>
+      </block>
+    </reference>
+    -->
+  </catalog_product_view>
+
+  <checkout_cart_index>
+    <update handle="_webtoprint_common" />
+  </checkout_cart_index>
+
+  <!-- Add support for ZetaPrints Order Approval extension -->
+  <checkout_cart_edit>
+    <update handle="_webtoprint_common" />
+  </checkout_cart_edit>
+
+  <review_product_list>
+    <update handle="_webtoprint" />
+
+    <reference name="product.info">
+      <block type="catalog/product_view" name="product.webtoprint.buttons" as="webtoprint_buttons" template="catalog/product/view/web-to-print-buttons.phtml"/>
+      <block type="catalog/product_view" name="webtoprint.product.palettes" as="webtoprint_palettes" template="catalog/product/view/web-to-print-palettes.phtml"/>
+    </reference>
+  </review_product_list>
+
+  <sales_order_view>
+    <update handle="_webtoprint_common" />
+  </sales_order_view>
+
+  <sales_email_order_items>
+    <reference name="items">
+      <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>email/order/items/order/webtoprint-default.phtml</template></action>
+      <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>email/order/items/order/webtoprint-default.phtml</template></action>
+    </reference>
+  </sales_email_order_items>
+
   <zetaprints_webtoprint_image_index>
     <reference name="root">
       <block type="page/html" name="root" output="toHtml" template="web-to-print/image-edit/edit.phtml" />
