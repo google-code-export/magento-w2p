@@ -1,0 +1,42 @@
+app/code/community/ZetaPrints/*                                      app/code/community/ZetaPrints/
+app/etc/modules/*                                                    app/etc/modules/
+
+app/design/adminhtml/default/zptheme/                                app/design/adminhtml/default/zptheme/
+
+app/design/frontend/base/default/layout/catalog/*                    app/design/frontend/base/default/layout/catalog/
+app/design/frontend/base/default/layout/checkout/*                   app/design/frontend/base/default/layout/checkout/
+app/design/frontend/base/default/layout/review/*                     app/design/frontend/base/default/layout/review/
+app/design/frontend/base/default/layout/sales/*                      app/design/frontend/base/default/layout/sales/
+app/design/frontend/base/default/layout/wishlist/*                   app/design/frontend/base/default/layout/wishlist/
+app/design/frontend/base/default/layout/web-to-print.xml             app/design/frontend/base/default/layout/web-to-print.xml
+
+app/design/frontend/base/default/template/catalog/product/view/*     app/design/frontend/base/default/template/catalog/product/view/
+app/design/frontend/base/default/template/email/order/items/order/*  app/design/frontend/base/default/template/email/order/items/order/
+app/design/frontend/base/default/template/web-to-print               app/design/frontend/base/default/template/web-to-print
+
+app/design/frontend/default/*                                        app/design/frontend/default/
+
+app/locale/bg_BG/*                                                   app/locale/bg_BG/
+app/locale/de_DE/*                                                   app/locale/de_DE/
+app/locale/en_US/*                                                   app/locale/en_US/
+app/locale/es_ES/*                                                   app/locale/es_ES/
+app/locale/mk_MK/*                                                   app/locale/mk_MK/
+app/locale/nl_NL/*                                                   app/locale/nl_NL/
+app/locale/ru_RU/*                                                   app/locale/ru_RU/
+app/locale/tr_TR/*                                                   app/locale/tr_TR/
+
+js/fancybox/*                                                        js/fancybox/
+js/jquery/*                                                          js/jquery/
+js/lib/*                                                             js/lib/
+js/powercrop/*                                                       js/powercrop/
+js/zetaprints/*                                                      js/zetaprints/
+
+lib/*                                                                lib/
+
+skin/adminhtml/default/*                                             skin/adminhtml/default/
+
+skin/frontend/base/default/css/*                                     skin/frontend/base/default/css/
+skin/frontend/base/default/images/*                                  skin/frontend/base/default/images/
+skin/frontend/base/default/js/*                                      skin/frontend/base/default/js/
+
+skin/frontend/default/*                                              skin/frontend/default/
