@@ -328,11 +328,13 @@ jQuery(document).ready(function($) {
   }
 
   public function get_image_fields ($context) {
+    $design = Mage::getDesign();
+
     $params = array(
       'ajax-loader-image-url'
-        => Mage::getDesign()->getSkinUrl('images/spinner.gif'),
+        => $design->getSkinUrl('webtoprint/images/spinner.gif'),
       'user-image-edit-button'
-        => Mage::getDesign()->getSkinUrl('images/image-edit/edit.png'),
+        => $design->getSkinUrl('webtoprint/images/image-edit/edit.png'),
       'photothumbnail-url-height-100-template'
         => $this->get_photo_thumbnail_url('image-guid.image-ext', 0, 100),
       'photothumbnail-url-template'
@@ -934,8 +936,10 @@ jQuery(document).ready(function($) {
   public function getPageSizeTable ($context, $units = 'in') {
     $params = array(
       'page-size-units' => $units,
-      'page-size-icon'
-                => Mage::getDesign()->getSkinUrl('images/page-size-icon.png') );
+      'page-size-icon' => Mage::getDesign()->getSkinUrl(
+        'webtoprint/images/page-size-icon.png'
+      )
+    );
 
     $result = $this->get_form_part_html('page-size-table',
                                         $context->getProduct(),

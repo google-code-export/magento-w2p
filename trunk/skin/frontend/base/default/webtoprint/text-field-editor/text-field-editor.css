@@ -80,7 +80,7 @@ div.zp-text-field-editor-row div.zp-text-field-editor-icon {
 }
 
 div.zp-text-field-editor-icon {
-  background: url('images/zp-text-field-editor/sprites.png') no-repeat;
+  background: url('sprites.png') no-repeat;
   height: 13px;
   width: 13px;
 }
