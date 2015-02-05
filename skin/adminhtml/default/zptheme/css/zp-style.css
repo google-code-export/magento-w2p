@@ -73,14 +73,14 @@ div.zetaprints-previews-box.hide div.title a.show-title {
   bottom: 0;
   left: 0;
   right: 0;
-  background: url('../../../../frontend/base/default/images/web-to-print/preview-overlay-background.png') repeat;
+  background: url('../../../../frontend/base/default/webtoprint/images/preview-overlay-background.png') repeat;
   z-index: 1000;
 }
 
 .zp-overlay-spinner {
   width: 32px;
   height: 32px;
-  background: url('../../../../frontend/base/default/images/web-to-print/zp-button-sprites.png') no-repeat 0 -90px;
+  background: url('../../../../frontend/base/default/webtoprint/images/button-sprites.png') no-repeat 0 -90px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -91,7 +91,7 @@ div.zetaprints-previews-box.hide div.title a.show-title {
 .zp-overlay-spinner div {
   width: 24px;
   height: 24px;
-  background: url('../../../../frontend/base/default/images/web-to-print/loading-spinner.gif');
+  background: url('../../../../frontend/base/default/webtoprint/images/loading-spinner.gif');
 }
 
 .zp-overlay-text {
