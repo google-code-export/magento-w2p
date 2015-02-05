@@ -1,7 +1,7 @@
 <layout version="0.1.0">
   <webtoprint_common>
     <reference name="head">
-      <action method="addJs"><script>jquery/jquery-min.js</script></action>
+      <action method="addJs" ifconfig="webtoprint/compat/jquery"><script>jquery/jquery-min.js</script></action>
       <action method="addJs"><script>fancybox/jquery-fancybox.js</script></action>
     </reference>
   </webtoprint_common>
