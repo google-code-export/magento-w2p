@@ -352,6 +352,9 @@
         <ignore-unpaid-orders>0</ignore-unpaid-orders>
       </settings>
       <compat>
+
+        <!-- 1 = Yes -->
+        <jquery>1</jquery>
         <old_theme>no</old_theme>
       </compat>
     </webtoprint>
