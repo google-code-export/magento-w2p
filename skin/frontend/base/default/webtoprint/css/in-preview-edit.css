@@ -83,11 +83,11 @@ div.fieldbox .fieldbox-head .last {
   clear: both;
 }
 
-.fieldbox-head .ui-tabs-selected {
+.fieldbox-head .ui-tabs-active {
   background: white;
 }
 
-.fieldbox-head .ui-tabs-selected .zp-text-field-editor {
+.fieldbox-head .ui-tabs-active .zp-text-field-editor {
   display: block;
 }
 
@@ -99,7 +99,7 @@ div.fieldbox .fieldbox-head .last {
   float: left;
 }
 
-.fieldbox-head .ui-tabs-selected a {
+.fieldbox-head .ui-tabs-active a {
   color: #de5400;
   font-weight: bold;
 }
@@ -137,7 +137,7 @@ div.fieldbox .fieldbox-button {
   padding-right: 1px;
 }
 
-.fieldbox-head .ui-tabs-selected .fieldbox-tab-inner {
+.fieldbox-head .ui-tabs-active .fieldbox-tab-inner {
   border-color: white;
 }
 
@@ -158,7 +158,7 @@ div.fieldbox .fieldbox-button {
   background-position: -260px -20px;
 }
 
-.ui-tabs-selected.image-field .fieldbox-tab-icon {
+.ui-tabs-active.image-field .fieldbox-tab-icon {
   background-position: -260px -39px;
 }
 

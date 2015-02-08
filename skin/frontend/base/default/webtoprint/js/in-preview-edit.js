@@ -249,8 +249,8 @@ function popup_field_by_name (name, position, selected_shapes) {
     top: position.top }).draggable({ handle: '.fieldbox-head' });
 
   $tabs.tabs({
-    show: function (event, ui) {
-      $panel = jQuery(ui.panel);
+    activate: function (event, ui) {
+      $panel = jQuery(ui.newPanel);
 
       //Generate click event on panel to hide opened colorpicker
       //!!!TODO: rework it after upgrading to jQuery UI 1.9+
