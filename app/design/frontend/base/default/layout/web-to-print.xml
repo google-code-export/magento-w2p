@@ -1,174 +1,67 @@
 <layout version="0.1.0">
-  <webtoprint_common>
-    <reference name="head">
-      <action method="addItem" ifconfig="webtoprint/compat/jquery">
-        <type>skin_js</type>
-        <name>webtoprint/js/jquery-1.11.2.min.js</name>
-      </action>
-
-      <action method="addItem" ifconfig="webtoprint/compat/jquery">
-        <type>skin_js</type>
-        <name>webtoprint/js/jquery-migrate-1.2.1.min.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/fancybox/jquery-fancybox.js</name>
-      </action>
-    </reference>
-  </webtoprint_common>
-
   <webtoprint>
-    <update handle="webtoprint_common" />
-
     <reference name="head">
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/jquery-ui-1.11.2.custom.min.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/jquery-qtip-min.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/colorpicker/colorpicker.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/colorpicker/switcher.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/text-field-resizer/text-field-resizer.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/text-field-editor/text-field-editor.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/combobox-field/combobox-field.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/dataset/dataset.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/powercrop/jquery-powercrop.js</name>
-      </action>
+      <action method="addItem" ifconfig="webtoprint/compat/jquery"><type>skin_js</type><name>webtoprint/js/jquery-1.11.2.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/jquery-migrate-1.2.1.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/jquery-fancybox.js</name></action>
     </reference>
   </webtoprint>
 
-  <_webtoprint_common>
+  <webtoprint_form>
     <reference name="head">
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/fancybox/fancybox-resizing.js</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/fancybox/jquery-fancybox.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/fancybox/fancybox-resizing.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/css/styles.css</name>
-      </action>
+      <action method="addItem" ifconfig="webtoprint/compat/jquery"><type>skin_js</type><name>webtoprint/js/jquery-1.11.2.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/jquery-migrate-1.2.1.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/jquery-ui-1.11.2.custom.min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/jquery-fancybox.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/jquery-qtip-min.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/colorpicker/colorpicker.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/colorpicker/switcher.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/text-field-resizer/text-field-resizer.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/text-field-editor/text-field-editor.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/combobox-field/combobox-field.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/dataset/dataset.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/powercrop/jquery-powercrop.js</name></action>
     </reference>
-  </_webtoprint_common>
+  </webtoprint_form>
 
   <_webtoprint>
-    <update handle="_webtoprint_common" />
-
     <reference name="head">
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/fancybox/fancybox-update-preview.js</name>
-      </action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/fancybox-resizing.js</name></action>
 
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/fancybox/fancybox-select-image.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/fancybox/fancybox-save-image.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/ajaxupload.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/metadata.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/image-edit.js</name>
-      </action>
-
-      <action method="addItem">
-        <type>skin_js</type>
-        <name>webtoprint/js/personalization-form.js</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/fancybox/fancybox-update-preview.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/fancybox/fancybox-select-image.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/fancybox/fancybox-save-image.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/colorpicker/colorpicker.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/text-field-editor/text-field-editor.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/combobox-field/combobox-field.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/dataset/dataset.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/powercrop/jquery-powercrop.css</name>
-      </action>
-
-      <action method="addCss">
-        <name>webtoprint/css/image-edit.css</name>
-      </action>
+      <action method="addCss"><name>webtoprint/fancybox/jquery-fancybox.css</name></action>
+      <action method="addCss"><name>webtoprint/fancybox/fancybox-resizing.css</name></action>
+      <action method="addCss"><name>webtoprint/css/styles.css</name></action>
     </reference>
   </_webtoprint>
 
+  <_webtoprint_form>
+    <reference name="head">
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/fancybox-resizing.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/fancybox-update-preview.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/fancybox-select-image.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/fancybox/fancybox-save-image.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/ajaxupload.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/metadata.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/image-edit.js</name></action>
+      <action method="addItem"><type>skin_js</type><name>webtoprint/js/personalization-form.js</name></action>
+
+      <action method="addCss"><name>webtoprint/fancybox/jquery-fancybox.css</name></action>
+      <action method="addCss"><name>webtoprint/fancybox/fancybox-resizing.css</name></action>
+      <action method="addCss"><name>webtoprint/fancybox/fancybox-update-preview.css</name></action>
+      <action method="addCss"><name>webtoprint/fancybox/fancybox-select-image.css</name></action>
+      <action method="addCss"><name>webtoprint/fancybox/fancybox-save-image.css</name></action>
+      <action method="addCss"><name>webtoprint/colorpicker/colorpicker.css</name></action>
+      <action method="addCss"><name>webtoprint/text-field-editor/text-field-editor.css</name></action>
+      <action method="addCss"><name>webtoprint/combobox-field/combobox-field.css</name></action>
+      <action method="addCss"><name>webtoprint/dataset/dataset.css</name></action>
+      <action method="addCss"><name>webtoprint/powercrop/jquery-powercrop.css</name></action>
+      <action method="addCss"><name>webtoprint/css/image-edit.css</name></action>
+      <action method="addCss"><name>webtoprint/css/styles.css</name></action>
+    </reference>
+  </_webtoprint_form>
+
   <catalog_product_view>
-    <update handle="_webtoprint" />
+    <update handle="_webtoprint_form" />
 
     <reference name="product.info">
       <block type="catalog/product_view" name="product.webtoprint.buttons" as="webtoprint_buttons" template="catalog/product/view/web-to-print-buttons.phtml"/>
@@ -185,16 +78,16 @@
   </catalog_product_view>
 
   <checkout_cart_index>
-    <update handle="_webtoprint_common" />
+    <update handle="_webtoprint" />
   </checkout_cart_index>
 
   <!-- Add support for ZetaPrints Order Approval extension -->
   <checkout_cart_edit>
-    <update handle="_webtoprint_common" />
+    <update handle="_webtoprint" />
   </checkout_cart_edit>
 
   <review_product_list>
-    <update handle="_webtoprint" />
+    <update handle="_webtoprint_form" />
 
     <reference name="product.info">
       <block type="catalog/product_view" name="product.webtoprint.buttons" as="webtoprint_buttons" template="catalog/product/view/web-to-print-buttons.phtml"/>
@@ -203,7 +96,7 @@
   </review_product_list>
 
   <sales_order_view>
-    <update handle="_webtoprint_common" />
+    <update handle="_webtoprint" />
   </sales_order_view>
 
   <sales_email_order_items>
