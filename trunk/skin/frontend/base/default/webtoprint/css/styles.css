@@ -347,7 +347,7 @@ div.selector-content ul.tab-buttons li.hidden {
   display: none;
 }
 
-div.selector-content ul.tab-buttons li.ui-tabs-selected {
+div.selector-content ul.tab-buttons li.ui-tabs-active {
   background-color: transparent;
   border-right: none;
 }

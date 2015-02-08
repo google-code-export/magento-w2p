@@ -3,7 +3,12 @@
     <reference name="head">
       <action method="addItem" ifconfig="webtoprint/compat/jquery">
         <type>skin_js</type>
-        <name>webtoprint/js/jquery-min.js</name>
+        <name>webtoprint/js/jquery-1.11.2.min.js</name>
+      </action>
+
+      <action method="addItem" ifconfig="webtoprint/compat/jquery">
+        <type>skin_js</type>
+        <name>webtoprint/js/jquery-migrate-1.2.1.min.js</name>
       </action>
 
       <action method="addItem">
@@ -19,7 +24,7 @@
     <reference name="head">
       <action method="addItem">
         <type>skin_js</type>
-        <name>webtoprint/js/jquery-ui-custom-min.js</name>
+        <name>webtoprint/js/jquery-ui-1.11.2.custom.min.js</name>
       </action>
 
       <action method="addItem">

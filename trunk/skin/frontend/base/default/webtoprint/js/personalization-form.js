@@ -1013,7 +1013,7 @@ function personalization_form ($) {
 
             scroll_strip($images_div);
 
-            $selector.tabs('select', 1);
+            $selector.tabs('option', 'active', 1);
           }
         });
       }
@@ -1091,7 +1091,7 @@ function personalization_form ($) {
 
   zp.show_user_images = function ($panel)  {
     if ($panel.find('input.zetaprints-images').length > 0)
-      $panel.tabs('select', 1);
+      $panel.tabs('option', 'active', 1);
   }
 
   zp.show_colorpicker = function ($panel) {
@@ -1169,7 +1169,7 @@ function personalization_form ($) {
           tab_number = 1;
 
         $content
-          .tabs({ selected: tab_number })
+          .tabs({ active: tab_number })
           .bind('tabsshow', function (event, ui) {
             zp.show_colorpicker($(ui.panel));
             scroll_strip(ui.panel);
