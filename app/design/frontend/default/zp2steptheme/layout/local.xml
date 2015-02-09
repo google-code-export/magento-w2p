@@ -27,4 +27,8 @@
   <sales_order_view>
     <update handle="webtoprint" />
   </sales_order_view>
+
+  <wishlist_index_index>
+    <update handle="_webtoprint" />
+  </wishlist_index_index>
 </layout>

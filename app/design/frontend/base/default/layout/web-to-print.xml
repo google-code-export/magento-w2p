@@ -106,6 +106,10 @@
     </reference>
   </sales_email_order_items>
 
+  <wishlist_index_index>
+    <update handle="_webtoprint" />
+  </wishlist_index_index>
+
   <zetaprints_webtoprint_image_index>
     <reference name="root">
       <block type="page/html" name="root" output="toHtml" template="web-to-print/image-edit/edit.phtml" />
