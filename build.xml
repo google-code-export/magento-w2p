@@ -1,5 +1,5 @@
 <_>
-   <form_key>34hOc7vjnC9yJCV4</form_key>
+   <form_key>ZSCbY2qrUZygT3Sp</form_key>
    <name>web_to_print_store_incl_theme</name>
    <channel>community</channel>
    <version_ids>
@@ -22,11 +22,9 @@ Technical support: admin@zetaprints.com
 Extension developed by http://www.zetaprints.com/</description>
    <license>mixed</license>
    <license_uri/>
-   <version>2.3.0.1</version>
-   <stability>stable</stability>
-   <notes>* Fix regression which made assigning web-to-print template to product in product editor broken
-
-NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
+   <version>2.4.0.0</version>
+   <stability>beta</stability>
+   <notes>* Add initial support for RWD-based themes</notes>
    <authors>
       <name>
          <name>Anatoly A. Kazantsev</name>
@@ -59,8 +57,8 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                                                     </files>
-            <files>                                                                                                                                                                                                                     </files>
+            <files/>
+            <files/>
          </files>
       </package>
       <extension>
@@ -88,12 +86,8 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
          <target>magecommunity</target>
          <target>magedesign</target>
          <target>magedesign</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>magelocale</target>
-         <target>magelocale</target>
-         <target>magelocale</target>
-         <target>magelocale</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
          <target>magedesign</target>
          <target>magedesign</target>
          <target>magedesign</target>
@@ -104,120 +98,60 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
          <target>mageskin</target>
          <target>mageskin</target>
          <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
-         <target>mageweb</target>
          <target>magelib</target>
          <target>magelocale</target>
          <target>magelocale</target>
-         <target>magedesign</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>mageskin</target>
-         <target>magedesign</target>
          <target>magelocale</target>
-         <target>magedesign</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
          <target>magelocale</target>
       </target>
       <path>
          <path/>
          <path>modules/ZetaPrints_WebToPrint.xml</path>
          <path>ZetaPrints/WebToPrint</path>
-         <path>adminhtml/default/zptheme</path>
-         <path>frontend/default/zptheme</path>
-         <path>adminhtml/default/zptheme</path>
-         <path>frontend/default/zptheme</path>
-         <path>bg_BG/ZetaPrints_WebToPrint.csv</path>
-         <path>en_US/ZetaPrints_WebToPrint.csv</path>
-         <path>es_ES/ZetaPrints_WebToPrint.csv</path>
-         <path>ru_RU/ZetaPrints_WebToPrint.csv</path>
-         <path>frontend/default/zp2steptheme</path>
-         <path>frontend/default/zpadvancedtheme</path>
-         <path>frontend/base/default/layout/catalog/web-to-print-product.xml</path>
-         <path>frontend/base/default/layout/checkout/web-to-print-cart.xml</path>
-         <path>frontend/base/default/layout/sales/web-to-print-order.xml</path>
          <path>frontend/base/default/layout/web-to-print.xml</path>
          <path>frontend/base/default/template/web-to-print/</path>
-         <path>frontend/base/default/css/zp-image-edit.css</path>
-         <path>frontend/base/default/css/zp-in-preview-edit.css</path>
-         <path>frontend/base/default/css/zp-style.css</path>
-         <path>frontend/base/default/images/image-edit</path>
-         <path>frontend/base/default/images/big-spinner.gif</path>
-         <path>frontend/base/default/images/edited-shape-background.png</path>
-         <path>frontend/base/default/images/images-selector-sprites.png</path>
-         <path>frontend/base/default/images/in-preview-edit-sprite.png</path>
-         <path>frontend/base/default/images/spinner.gif</path>
-         <path>frontend/base/default/images/transparent-background.gif</path>
-         <path>frontend/base/default/js/zp-image-edit.js</path>
-         <path>frontend/base/default/js/zp-in-preview-edit.js</path>
-         <path>frontend/base/default/js/zp-personalization-form.js</path>
-         <path>js/colorpicker</path>
-         <path>js/fancybox</path>
-         <path>js/jquery</path>
-         <path>js/lib/ajaxupload.js</path>
-         <path>js/powercrop</path>
-         <path>js/zetaprints</path>
-         <path>ZetaPrints</path>
-         <path>de_DE/ZetaPrints_WebToPrint.csv</path>
-         <path>mk_MK/ZetaPrints_WebToPrint.csv</path>
-         <path>frontend/base/default/layout/review/web-to-print-product.xml</path>
-         <path>frontend/base/default/images/page-size-icon.png</path>
-         <path>frontend/base/default/images/zp-image-edit-sprite.png</path>
-         <path>frontend/base/default/images/web-to-print/</path>
          <path>frontend/base/default/template/catalog/product/view/web-to-print-buttons.phtml</path>
-         <path>nl_NL/ZetaPrints_WebToPrint.csv</path>
+         <path>frontend/base/default/template/catalog/product/view/web-to-print-palettes.phtml</path>
          <path>frontend/base/default/template/email/order/items/order/webtoprint-default.phtml</path>
+         <path>adminhtml/default/zptheme</path>
+         <path>frontend/default/zptheme</path>
+         <path>frontend/default/zp2steptheme</path>
+         <path>frontend/default/zpadvancedtheme</path>
+         <path>frontend/rwd/zptheme</path>
+         <path>frontend/rwd/zpadvancedtheme</path>
+         <path>frontend/base/default/webtoprint</path>
+         <path>adminhtml/default/zptheme</path>
+         <path>frontend/default/zptheme</path>
+         <path>ZetaPrints</path>
+         <path>bg_BG/ZetaPrints_WebToPrint.csv</path>
+         <path>de_DE/ZetaPrints_WebToPrint.csv</path>
+         <path>en_US/ZetaPrints_WebToPrint.csv</path>
+         <path>es_ES/ZetaPrints_WebToPrint.csv</path>
+         <path>mk_MK/ZetaPrints_WebToPrint.csv</path>
+         <path>nl_NL/ZetaPrints_WebToPrint.csv</path>
+         <path>ru_RU/ZetaPrints_WebToPrint.csv</path>
          <path>tr_TR/ZetaPrints_WebToPrint.csv</path>
       </path>
       <type>
          <type>file</type>
          <type>file</type>
          <type>dir</type>
-         <type>dir</type>
-         <type>dir</type>
-         <type>dir</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>dir</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
          <type>file</type>
          <type>dir</type>
          <type>file</type>
          <type>file</type>
          <type>file</type>
          <type>dir</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
-         <type>file</type>
          <type>dir</type>
          <type>dir</type>
          <type>dir</type>
-         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
          <type>dir</type>
          <type>dir</type>
          <type>dir</type>
@@ -225,8 +159,6 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
          <type>file</type>
          <type>file</type>
          <type>file</type>
-         <type>file</type>
-         <type>dir</type>
          <type>file</type>
          <type>file</type>
          <type>file</type>
@@ -259,52 +191,8 @@ NOTE: this release doesn&apos;t support new RWD theme out of the box</notes>
          <include/>
          <include/>
          <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
       </include>
       <ignore>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
          <ignore/>
          <ignore/>
          <ignore/>
