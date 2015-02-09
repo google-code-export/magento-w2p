@@ -9,6 +9,7 @@ app/design/frontend/base/default/template/email/order/items/order/*  app/design/
 app/design/frontend/base/default/template/web-to-print               app/design/frontend/base/default/template/web-to-print
 
 app/design/frontend/default/*                                        app/design/frontend/default/
+app/design/frontend/rwd/*                                            app/design/frontend/rwd/
 
 app/locale/bg_BG/*                                                   app/locale/bg_BG/
 app/locale/de_DE/*                                                   app/locale/de_DE/

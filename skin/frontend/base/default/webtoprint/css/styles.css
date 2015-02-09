@@ -35,8 +35,10 @@ div.zetaprints-image-tabs ul li:hover {
 }
 
 div.zetaprints-image-tabs ul li img {
+  display: block;
   max-height: 100px;
   max-width: 100px;
+  margin: 0 auto;
 }
 
 a.zetaprints-template-preview img {
@@ -54,6 +56,7 @@ a.zetaprints-template-preview img {
 .zetaprints-text-field-wrapper .input-text:focus,
 .zetaprints-text-field-wrapper textarea:focus {
   background: none;
+  border: none;
 }
 
 .zetaprints-text-field-wrapper textarea {
@@ -337,7 +340,6 @@ div.selector-content ul.tab-buttons li {
   border-top: none;
   padding: 3px 4px 3px 8px;
   background-color: #f8f9fa;
-  height: 20px;
   line-height: 20px;
   font-size: 90%;
   vertical-align: bottom;
@@ -532,6 +534,7 @@ div.selector-content div.tabs-wrapper div.upload img.ajax-loader {
 
 a.all-order-previews {
   float: right;
+  position: relative;
   margin-top: -2em;
 }
 
@@ -691,6 +694,10 @@ a#fancybox-right span {
   position: absolute;
 }
 
+.zetaprints-page-input-fields {
+  clear: both;
+}
+
 .zetaprints-page-input-fields .ui-resizable {
   position: relative;
 }
@@ -824,6 +831,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 
 .zetaprints-page-stock-images {
   margin-top: 15px;
+  clear: both;
 }
 
 /* Page size tables styles */
@@ -981,20 +989,18 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 }
 
 .zp-preview-overlay-spinner {
-  width: 32px;
-  height: 32px;
   background: url('../images/button-sprites.png') no-repeat 0 -90px;
   position: absolute;
   top: 50%;
   left: 50%;
   margin: -20px 0 0 -20px;
-  padding: 8px 0 0 8px;
 }
 
 .zp-preview-overlay-spinner div {
   width: 24px;
   height: 24px;
   background: url('../images/loading-spinner.gif');
+  margin: 8px;
 }
 
 .zp-preview-overlay-text-wrapper {
@@ -1040,6 +1046,13 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   padding: 0px 5px 5px;
   position: absolute;
   z-index: 11000 !important;
+  font: 12px/15px Arial,Helvetica,sans-serif;
+}
+
+.ui-colorpicker *,
+.ui-colorpicker *:before,
+.ui-colorpicker *:after {
+  box-sizing: border-box;
 }
 
 .ui-dialog-titlebar {
@@ -1055,6 +1068,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 
 .ui-colorpicker-preview {
   background: #fff;
+  height: 24px;
 }
 
 .ui-colorpicker-preview-initial,
@@ -1062,16 +1076,43 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
   width: 44px;
 }
 
+.ui-colorpicker-map {
+  width: 260px;
+  height: 260px;
+}
+
+.ui-colorpicker-map-128 {
+  width: 132px;
+  height: 132px;
+}
+
+.ui-colorpicker-bar {
+  width: 20px;
+  height: 256px;
+}
+
+.ui-colorpicker-bar-128 {
+  height: 132px;
+}
+
 .ui-colorpicker-hex-container {
   float: right;
   padding: 1px 1px 0 0;
 }
 
-.ui-colorpicker-number,
-.ui-colorpicker-hex-input {
+.ui-colorpicker .ui-colorpicker-number,
+.ui-colorpicker .ui-colorpicker-hex-input {
   border: 2px solid #484848;
   border-radius: 2px;
   padding: 1px 2px;
+  margin: 0.1em;
+  width: auto;
+  height: auto;
+  font: 12px/15px Arial,Helvetica,sans-serif;
+}
+
+.ui-colorpicker .ui-colorpicker-number {
+  width: 5em;
 }
 
 .ui-colorpicker-number:focus,
@@ -1091,6 +1132,7 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 .ui-colorpicker-cancel,
 .ui-colorpicker-switcher-rgb,
 .ui-colorpicker-switcher-cmyk {
+  font: 12px/15px Arial,Helvetica,sans-serif;
   background: transparent;
   border: 1px solid transparent;
   color: #BFBFBF;
@@ -1137,10 +1179,10 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 
 .ui-colorpicker-switcher {
   border-radius: 4px 4px 0 0;
-  height: 18px;
+  height: 22px;
   left: -5px;
   overflow: hidden;
-  padding: 4px 0px 0px 12px;
+  padding: 6px 0px 0px 12px;
   position: absolute;
   top: 0px;
 }
@@ -1162,4 +1204,9 @@ div.zetaprints-buttons-row div.row-part.first .zetaprints-button {
 /* Wishlist (default/zptheme specific) */
 .my-wishlist .product-image.in-dialog {
   height: auto;
+}
+
+/* Fake Add to cart button (default/zptheme specific) */
+#zetaprints-fake-add-to-cart-button {
+  cursor: not-allowed;
 }
