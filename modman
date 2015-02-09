@@ -25,3 +25,5 @@ lib/*                                                                lib/
 skin/adminhtml/default/*                                             skin/adminhtml/default/
 skin/frontend/base/default/webtoprint/                              skin/frontend/base/default/webtoprint/
 skin/frontend/default/*                                              skin/frontend/default/
+
+build.xml                                                            var/connect/web_to_print_store_incl_theme.xml
