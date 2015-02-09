@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<theme>
+  <parent>rwd/zptheme</parent>
+
+  <layout>
+    <updates>
+      <zptheme>
+        <file>zptheme.xml</file>
+      </zptheme>
+      <zpthemeadvanced>
+        <file>zpthemeadvanced.xml</file>
+      </zpthemeadvanced>
+    </updates>
+  </layout>
+</theme>

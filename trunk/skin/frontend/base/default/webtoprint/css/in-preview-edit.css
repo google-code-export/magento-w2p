@@ -99,6 +99,11 @@ div.fieldbox .fieldbox-head .last {
   float: left;
 }
 
+.fieldbox-head a:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .fieldbox-head .ui-tabs-active a {
   color: #de5400;
   font-weight: bold;

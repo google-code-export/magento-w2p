@@ -138,7 +138,7 @@ function personalization_form ($) {
 
     var $fake_button_with_notice = $(
         '<button id="zetaprints-fake-add-to-cart-button"' +
-                'class="button disable" type="button"' +
+                'class="button disabled" type="button"' +
                 'title="' + title + '">' +
           '<span><span>' + title + '</span></span>' +
         '</button>' +
@@ -279,7 +279,7 @@ function personalization_form ($) {
 
   var $product_form = $('#product_addtocart_form');
   var $product_image_box = $('#zetaprints-preview-image-container').css('position', 'relative');
-  var product_image_element = $('#image').parent()[0];
+  var product_image_element = $('#image, #image-main').parent()[0];
   var has_image_zoomer = $(product_image_element).hasClass('product-image-zoom');
 
   if (has_changed_fields_on_page(this.current_page))
@@ -287,8 +287,9 @@ function personalization_form ($) {
   else
     $product_form.addClass('zp-not-modified');
 
-  //Magento 1.9 and greater adds its own ID
+  //Magento 1.9 and greater adds its own ID (but not in RWD theme)
   //Zetaprint's ID is left for compatibility with old installations
+  //and RWD-based themes
   var $add_to_cart_button = $(
     '#product-addtocart-button, #zetaprints-add-to-cart-button'
   );
