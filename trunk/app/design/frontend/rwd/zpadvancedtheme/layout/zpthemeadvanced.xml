@@ -12,11 +12,4 @@
       <action method="addCss"><name>webtoprint/css/in-preview-edit.css</name></action>
     </reference>
   </review_product_list>
-
-  <wishlist_index_index>
-    <reference name="head">
-      <action method="addItem"><type>skin_js</type><name>webtoprint/js/in-preview-edit.js</name></action>
-      <action method="addCss"><name>webtoprint/css/in-preview-edit.css</name></action>
-    </reference>
-  </wishlist_index_index>
 </layout>
