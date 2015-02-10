@@ -15,7 +15,7 @@ div.zetaprints-image-tabs ul {
 }
 
 div.zetaprints-image-tabs ul li {
-  width: 100px;
+  width: 120px;
   float: left;
   margin-right: 15px;
   border: 1px solid transparent;
@@ -23,6 +23,7 @@ div.zetaprints-image-tabs ul li {
   cursor: pointer;
   text-align: center;
   min-height: 100px;
+  box-sizing: border-box;
 }
 
 div.zetaprints-image-tabs ul li.selected {
